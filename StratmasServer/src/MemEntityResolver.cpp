@@ -7,7 +7,7 @@
 
 // Own
 #include "MemEntityResolver.h"
-#include "schemas/schemas.h"
+#include "schemas.h"
 #include "StrX.h"
 
 /**

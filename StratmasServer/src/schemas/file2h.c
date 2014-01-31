@@ -22,6 +22,7 @@ int main(int argc, char** argv)
      char* preamble;
      char* postamble;
 
+
      if (argc > 0) { 
 	  progname = argv[0];
      }
@@ -32,16 +33,18 @@ int main(int argc, char** argv)
 		  progname);
 	  exit(1);
      }
-  
+
      coutfile = fopen(argv[1], "wb");
      if (coutfile == NULL) {
 	  perror(progname);
+	  printf("Unable to find %s\n", argv[1]);
 	  exit(1);
      }
 
      houtfile = fopen(argv[2], "wb");
      if (houtfile == NULL) {
 	  perror(progname);
+	  printf("Unable to find %s\n", argv[2]);
 	  exit(1);
      }
 
@@ -74,10 +77,12 @@ int main(int argc, char** argv)
      }
   
      for (i = 3; i < argc; i++) {
+	  printf("Processing file %s\n", argv[i]);
 	  bytecount = 0;
 	  cur_infile = fopen(argv[i], "rb");
 	  if (cur_infile == NULL) {
 	       perror(progname);	
+		   printf("Unable to find %s\n", argv[i]);
 	       exit(1);
 	  } else {
 	       if (fprintf(coutfile, 

@@ -1,4 +1,6 @@
 FILE (GLOB_RECURSE project_SRCS *.cpp *.cxx *.cc *.C *.c *.h *.hpp)
+list(REMOVE_ITEM project_SRCS "schemas/file2h.c" "GridCellPV.cpp")
+#list(REMOVE_ITEM project_SRCS "GridCellPV.cpp")
 SET (project_LIBS ${Boost_LIBRARIES} ${Xerces_LIBRARIES} ${Log4Cxx_LIBRARIES})
 SET (project_BIN ${PROJECT_NAME})
 
@@ -37,8 +39,18 @@ ENDIF()
 IF(${CMAKE_COMPILER_IS_GNUCXX})
 ENDIF()
 
+#Generate schema header from .xsd files
+ADD_EXECUTABLE(file2h schemas/file2h.c)
+FILE (GLOB_RECURSE project_schemas *.xsd)
+ADD_CUSTOM_COMMAND(
+  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/schemas.h ${CMAKE_CURRENT_BINARY_DIR}/schemas.cpp
+  COMMAND file2h ${CMAKE_CURRENT_BINARY_DIR}/schemas.cpp ${CMAKE_CURRENT_BINARY_DIR}/schemas.h ${project_schemas}
+  DEPENDS file2h
+)
+include_directories(${project_BIN} ${CMAKE_CURRENT_BINARY_DIR})
 
-ADD_EXECUTABLE(${project_BIN} ${project_SRCS})
+
+ADD_EXECUTABLE(${project_BIN} ${project_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/schemas.h ${CMAKE_CURRENT_BINARY_DIR}/schemas.cpp)
 TARGET_LINK_LIBRARIES(${project_BIN} ${project_LIBS} ${project_OS_SPECIFIC})
 SET_TARGET_PROPERTIES(${project_BIN} PROPERTIES VERSION "${APPLICATION_VERSION_MAJOR}.${APPLICATION_VERSION_MINOR}" OUTPUT_NAME ${project_BIN} CLEAN_DIRECT_OUTPUT 1)
 

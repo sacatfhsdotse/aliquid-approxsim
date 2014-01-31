@@ -118,7 +118,7 @@ LayerSubscription::LayerSubscription(DOMElement* n, Buffer& buf, bool sbe)
 
      DOMElement* elem = XMLHelper::getFirstChildByTag(*n, "index");
      if (elem) {
-	  XMLCh* data = Base64::decode(XMLHelper::getXMLChString(*n, "index"), &mLength);
+	  XMLByte* data = Base64::decodeToXMLByte(XMLHelper::getXMLChString(*n, "index"), (XMLSize_t*)&mLength);
 	  mIndex = reinterpret_cast<int32_t*>(data);
      }
      else {

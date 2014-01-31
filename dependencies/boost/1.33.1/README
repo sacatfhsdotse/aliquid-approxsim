@@ -1,0 +1,7 @@
+These archives contains only the parts of boost required to build stratmas.
+
+Notice that when updating the libraries for OS X the modification date
+for static libraries should not be changed after the libraries have
+been built since this makes Apple's linker confused. Eihter use for
+example cp -p to preserve modification date or run ranlib on the
+libraries before checking in.

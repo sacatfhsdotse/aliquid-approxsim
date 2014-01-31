@@ -1,0 +1,89 @@
+SOCKETSRCS =					\
+	Socket.cpp				\
+	StratmasServerSocket.cpp		\
+	StratmasSocket.cpp
+
+SCHEMASRCS =					\
+	Declaration.cpp				\
+	Type.cpp				\
+	TypeAttribute.cpp			\
+	TypeDefinition.cpp			\
+	TypeFactory.cpp				\
+	XSDContent.cpp
+
+XMLSCHEMAS =					\
+	schemas/stratmasProtocol.xsd		\
+	schemas/taclan2sim.xsd			\
+	schemas/processVariables.xsd		\
+	schemas/subscription.xsd		\
+	schemas/substrateXML.xsd		\
+	schemas/xml.xsd				
+
+# PLATFORMSSRCS defined in GNUmakefile and Makefile.nmake
+SERVERSRCS =					\
+	$(PLATFORMSRCS)				\
+	$(SOCKETSRCS)				\
+	$(SCHEMASRCS)				\
+	AccessRightHandler.cpp			\
+	Activity.cpp				\
+	Agency.cpp				\
+	AgencyFactory.cpp			\
+	AgencyTeam.cpp				\
+	AreaHandler.cpp				\
+	BasicGrid.cpp				\
+	Buffer.cpp				\
+	CellGroup.cpp				\
+	ChangeTrackerAdapter.cpp		\
+	City.cpp				\
+	ClusterSet.cpp				\
+	CombatGrid.cpp				\
+	DataObjectImpl.cpp			\
+	Disease.cpp				\
+	Distribution.cpp			\
+	Element.cpp				\
+	Ellipse.cpp				\
+	Engine.cpp				\
+	Environment.cpp				\
+	Error.cpp				\
+	Faction.cpp				\
+	Grid.cpp				\
+	GridCell.cpp				\
+	GridDataHandler.cpp			\
+	GridPartitioner.cpp			\
+	IOHandler.cpp				\
+	IPAddress.cpp				\
+	IPValidator.cpp				\
+	LogStream.cpp				\
+	Map.cpp					\
+	MemEntityResolver.cpp			\
+	ModelParameters.cpp			\
+	ProcessVariables.cpp			\
+	PVInfo.cpp				\
+	PVRegion.cpp				\
+	PresenceObject.cpp			\
+	PresenceObjectAllocator.cpp		\
+	ProjCoord.cpp				\
+	Projection.cpp				\
+	PropertyHandler.cpp			\
+	Referencable.cpp			\
+	Reference.cpp				\
+	Region.cpp				\
+	Registrator.cpp				\
+	SOFactory.cpp				\
+	SOMapper.cpp				\
+	Scenario.cpp				\
+	Server.cpp				\
+	Session.cpp				\
+	Shape.cpp				\
+	Simulation.cpp				\
+	SimulationObject.cpp			\
+	StratmasMessage.cpp			\
+	Subscription.cpp			\
+	TimeStepper.cpp				\
+	Unit.cpp				\
+	UpdatableSOAdapter.cpp			\
+	Update.cpp				\
+	XMLHandler.cpp				\
+	gpc.cpp					\
+	schemas/schemas.cpp			\
+	stratmas.cpp

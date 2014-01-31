@@ -1,0 +1,10 @@
+/.depend
+/PosixSocket.o
+/Socket.o
+/StratmasServerSocket.o
+/StratmasSocket.o
+/SyslogSink.o
+/file2h
+/optionsPosix.o
+/schemas/schemas.cpp
+/schemas/schemas.h

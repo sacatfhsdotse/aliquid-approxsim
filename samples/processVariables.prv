@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<processvariables xmlns:sp="http://pdc.kth.se/stratmasNamespace"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      xsi:type="sp:ProcessVariableDescriptionSet">
+   <pv xsi:type="sp:ProcessVariableDescription">
+      <name>Population</name>
+      <category>Environmental</category>
+      <factions>false</factions>
+      <range xsi:type="sp:DoubleRange">
+	 <min>0</min>
+	 <max>10000000000</max>
+      </range>	
+   </pv>
+   <pv xsi:type="sp:ProcessVariableDescription">
+      <name>Displaced</name>
+      <category>Social</category>
+      <factions>false</factions>
+      <range xsi:type="sp:DoubleRange">
+	 <min>0</min>
+	 <max>10000000000</max>
+      </range>	
+   </pv>
+   <pv xsi:type="sp:ProcessVariableDescription">
+      <name>Disaffection</name>
+      <category>Political</category>
+      <factions>true</factions>
+      <range xsi:type="sp:DoubleRange">
+	 <min>0</min>
+	 <max>100</max>
+      </range>	
+   </pv>
+</processvariables>

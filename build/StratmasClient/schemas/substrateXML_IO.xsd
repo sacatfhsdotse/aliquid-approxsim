@@ -1,0 +1,15 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	    xmlns:sp="http://pdc.kth.se/stratmasNamespace"
+	    targetNamespace="http://pdc.kth.se/stratmasNamespace">
+
+  <xsd:annotation>
+    <xsd:documentation xml:lang="en">
+      Schema for the substrate editor. Used to read and write xml files.
+    </xsd:documentation>
+  </xsd:annotation>
+
+  <xsd:include schemaLocation="taclan2sim.xsd"/> 
+  <xsd:include schemaLocation="processVariables.xsd"/> 
+  <xsd:include schemaLocation="substrateXML.xsd"/> 	
+
+</xsd:schema>

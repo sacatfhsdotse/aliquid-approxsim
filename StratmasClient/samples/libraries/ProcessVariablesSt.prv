@@ -1,0 +1,223 @@
+<?xml version="1.0"?>
+<processvariables xmlns:sp="http://pdc.kth.se/stratmasNamespace"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      xsi:type="sp:ProcessVariableDescriptionSet">
+   <pv xsi:type="sp:ProcessVariableDescription">
+      <name>Population</name>
+      <category>Environmental</category>
+      <factions>false</factions>
+      <range xsi:type="sp:DoubleRange">
+	 <min>0</min>
+	 <max>10000000000</max>
+      </range>	
+   </pv>
+   <pv xsi:type="sp:ProcessVariableDescription">
+      <name>Daily Dead</name>
+      <category>Environment</category>
+      <factions>false</factions>
+      <range xsi:type="sp:DoubleRange">
+	 <min>0</min>
+	 <max>10000000000</max>
+      </range>	
+   </pv>
+   <pv xsi:type="sp:ProcessVariableDescription">
+      <name>Casualties</name>
+      <category>Environment</category>
+      <factions>true</factions>
+      <range xsi:type="sp:DoubleRange">
+	 <min>0</min>
+	 <max>10000000000</max>
+      </range>	
+   </pv>
+   <pv xsi:type="sp:ProcessVariableDescription">
+      <name>Insurgents Casualties</name>
+      <category>Environment</category>
+      <factions>false</factions>
+      <range xsi:type="sp:DoubleRange">
+	 <min>0</min>
+	 <max>10000000000</max>
+      </range>	
+   </pv>
+   <pv xsi:type="sp:ProcessVariableDescription">
+      <name>Fraction No Water</name>
+      <category>Quality of Life</category>
+      <factions>false</factions>
+      <range xsi:type="sp:DoubleRange">
+	 <min>0</min>
+	 <max>100</max>
+      </range>	
+   </pv>
+   <pv xsi:type="sp:ProcessVariableDescription">
+      <name>Fraction No Food</name>
+      <category>Quality of Life</category>
+      <factions>false</factions>
+      <range xsi:type="sp:DoubleRange">
+	 <min>0</min>
+	 <max>10000000000</max>
+      </range>	
+   </pv>
+   <pv xsi:type="sp:ProcessVariableDescription">
+      <name>Sheltered</name>
+      <category>Quality of Life</category>
+      <factions>false</factions>
+      <range xsi:type="sp:DoubleRange">
+	 <min>0</min>
+	 <max>10000000000</max>
+      </range>	
+   </pv>
+   <pv xsi:type="sp:ProcessVariableDescription">
+      <name>Fraction no medical</name>
+      <category>Quality of Life</category>
+      <factions>false</factions>
+      <range xsi:type="sp:DoubleRange">
+	 <min>0</min>
+	 <max>100</max>
+      </range>	
+   </pv>
+   <pv xsi:type="sp:ProcessVariableDescription">
+      <name>Perceived Threat</name>
+      <category>Quality of Life</category>
+      <factions>false</factions>
+      <range xsi:type="sp:DoubleRange">
+	 <min>0</min>
+	 <max>100</max>
+      </range>	
+   </pv>
+
+   <pv xsi:type="sp:ProcessVariableDescription">
+      <name>Displaced</name>
+      <category>Social</category>
+      <factions>false</factions>
+      <range xsi:type="sp:DoubleRange">
+	 <min>0</min>
+	 <max>10000000000</max>
+      </range>	
+   </pv>
+   <pv xsi:type="sp:ProcessVariableDescription">
+      <name>Etnic Tension</name>
+      <category>Social</category>
+      <factions>false</factions>
+      <range xsi:type="sp:DoubleRange">
+	 <min>0</min>
+	 <max>100</max>
+      </range>	
+   </pv>
+   <pv xsi:type="sp:ProcessVariableDescription">
+      <name>Fraction Crime Victimes</name>
+      <category>Social</category>
+      <factions>false</factions>
+      <range xsi:type="sp:DoubleRange">
+	 <min>0</min>
+	 <max>100</max>
+      </range>	
+   </pv>
+   <pv xsi:type="sp:ProcessVariableDescription">
+      <name>Fraction Infected</name>
+      <category>Social</category>
+      <factions>false</factions>
+      <range xsi:type="sp:DoubleRange">
+	 <min>0</min>
+	 <max>100</max>
+      </range>	
+   </pv>
+   <pv xsi:type="sp:ProcessVariableDescription">
+      <name>Fraction Recovered</name>
+      <category>Social</category>
+      <factions>false</factions>
+      <range xsi:type="sp:DoubleRange">
+	 <min>0</min>
+	 <max>100</max>
+      </range>	
+   </pv>
+   <pv xsi:type="sp:ProcessVariableDescription">
+      <name>Protected</name>
+      <category>Social</category>
+      <factions>false</factions>
+      <range xsi:type="sp:DoubleRange">
+	 <min>0</min>
+	 <max>10000000000</max>
+      </range>	
+   </pv>
+   <pv xsi:type="sp:ProcessVariableDescription">
+      <name>Violance</name>
+      <category>Social</category>
+      <factions>false</factions>
+      <range xsi:type="sp:DoubleRange">
+	 <min>0</min>
+	 <max>100</max>
+      </range>	
+   </pv>   
+   <pv xsi:type="sp:ProcessVariableDescription">
+      <name>Total Dead</name>
+      <category>Social</category>
+      <factions>false</factions>
+      <range xsi:type="sp:DoubleRange">
+	 <min>0</min>
+	 <max>10000000000</max>
+      </range>	
+   </pv>
+   <pv xsi:type="sp:ProcessVariableDescription">
+      <name>Water Days</name>
+      <category>Economical</category>
+      <factions>false</factions>
+      <range xsi:type="sp:DoubleRange">
+	 <min>0</min>
+	 <max>100</max>
+      </range>	
+   </pv>
+  <pv xsi:type="sp:ProcessVariableDescription">
+      <name>Food Days</name>
+      <category>Economical</category>
+      <factions>true</factions>
+      <range xsi:type="sp:DoubleRange">
+	 <min>0</min>
+	 <max>100</max>
+      </range>	
+   </pv>
+  <pv xsi:type="sp:ProcessVariableDescription">
+      <name>Fraction No Work</name>
+      <category>Economical</category>
+      <factions>true</factions>
+      <range xsi:type="sp:DoubleRange">
+	 <min>0</min>
+	 <max>100</max>
+      </range>	
+   </pv>
+  <pv xsi:type="sp:ProcessVariableDescription">
+      <name>Supplied Water</name>
+      <category>Economical</category>
+      <factions>true</factions>
+      <range xsi:type="sp:DoubleRange">
+	 <min>0</min>
+	 <max>100</max>
+      </range>	
+   </pv>
+  <pv xsi:type="sp:ProcessVariableDescription">
+      <name>Infrastructuren</name>
+      <category>Governance</category>
+      <factions>true</factions>
+      <range xsi:type="sp:DoubleRange">
+	 <min>0</min>
+	 <max>100</max>
+      </range>	
+   </pv>
+   <pv xsi:type="sp:ProcessVariableDescription">
+      <name>Disaffection</name>
+      <category>Political</category>
+      <factions>true</factions>
+      <range xsi:type="sp:DoubleRange">
+	 <min>0</min>
+	 <max>100</max>
+      </range>	
+   </pv>
+   <pv xsi:type="sp:ProcessVariableDescription">
+      <name>Polarizationn</name>
+      <category>Political</category>
+      <factions>true</factions>
+      <range xsi:type="sp:DoubleRange">
+	 <min>0</min>
+	 <max>100</max>
+      </range>	
+   </pv>
+</processvariables>

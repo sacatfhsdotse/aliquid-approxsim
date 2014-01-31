@@ -1,2 +1,0 @@
-aliquid-stratmas-server
-=======================

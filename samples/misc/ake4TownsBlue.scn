@@ -1,0 +1,1058 @@
+<?xml version="1.0"?>
+<root xmlns:sp="http://pdc.kth.se/stratmasNamespace"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      xsi:type="sp:Root">
+  <identifiables xsi:type="sp:CommonSimulation" identifier="IRAQ 2005">
+    <timeStepper xsi:type="sp:ConstantStepper">
+      <dt xsi:type="sp:Duration">
+        <value>86400000</value>
+      </dt>
+    </timeStepper>
+    <gridPartitioner xsi:type="sp:SquarePartitioner">
+      <cellSizeMeters xsi:type="sp:Double">
+        <value>10000</value>
+      </cellSizeMeters>
+    </gridPartitioner>
+    <scenario xsi:type="sp:CommonScenario">
+      <activities xsi:type="sp:CustomPVModification" identifier="Insurgents">
+        <active xsi:type="sp:Boolean">
+          <value>0</value>
+        </active>
+        <start xsi:type="sp:Timestamp">
+          <value>2005-03-28T19:52:54Z</value>
+        </start>
+        <end xsi:type="sp:Timestamp">
+          <value>2005-03-29T19:52:54Z</value>
+        </end>
+        <location xsi:type="sp:Circle">
+          <radius><value>2e+06</value></radius>
+          <center>
+            <lat>32</lat><lon>42</lon>
+          </center>
+        </location>
+        <insurgents xsi:type="sp:Double">
+          <value>1667</value>
+        </insurgents>
+      </activities>
+      <map xsi:type="sp:Polygon">
+        <curves xsi:type="sp:Line" identifier="0">
+          <p1><lat>30</lat><lon>40</lon></p1>
+          <p2><lat>34</lat><lon>40</lon></p2>
+        </curves>
+        <curves xsi:type="sp:Line" identifier="1">
+          <p1><lat>34</lat><lon>40</lon></p1>
+          <p2><lat>34</lat><lon>44</lon></p2>
+        </curves>
+        <curves xsi:type="sp:Line" identifier="2">
+          <p1><lat>34</lat><lon>44</lon></p1>
+          <p2><lat>30</lat><lon>44</lon></p2>
+        </curves>
+        <curves xsi:type="sp:Line" identifier="3">
+          <p1><lat>30</lat><lon>44</lon></p1>
+          <p2><lat>30</lat><lon>40</lon></p2>
+        </curves>
+      </map>
+      <disease xsi:type="sp:Disease">
+        <description xsi:type="sp:String">
+          <value>Cholera</value>
+        </description>
+        <infectionRate xsi:type="sp:Double">
+          <value>0.2</value>
+        </infectionRate>
+        <recoveryRate xsi:type="sp:Double">
+          <value>0.2</value>
+        </recoveryRate>
+        <mortalityRate xsi:type="sp:Double">
+          <value>0.01</value>
+        </mortalityRate>
+      </disease>
+      <populationCenters xsi:type="sp:Population" identifier="Town 1">
+        <present xsi:type="sp:Boolean">
+          <value>1</value>
+        </present>
+        <location xsi:type="sp:Circle">
+          <radius><value>48000</value></radius>
+          <center>
+            <lat>31</lat><lon>43</lon>
+          </center>
+        </location>
+        <deployment xsi:type="sp:StratmasCityDistribution">
+          <sigmaMeters xsi:type="sp:Double">
+            <value>8000</value>
+          </sigmaMeters>
+        </deployment>
+        <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Shia">
+          <ethnicity xsi:type="sp:EthnicFactionReference">
+            <name>Shia</name>
+            <scope>
+              <name>factions</name>
+              <scope>
+                <name>scenario</name>
+                <scope>
+                  <name>IRAQ 2005</name>
+                </scope>
+              </scope>
+            </scope>
+          </ethnicity>
+          <inhabitants xsi:type="sp:Double">
+            <value>346554</value>
+          </inhabitants>
+        </ethnicGroups>
+        <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Sunni">
+          <ethnicity xsi:type="sp:EthnicFactionReference">
+            <name>Sunni</name>
+            <scope>
+              <name>factions</name>
+              <scope>
+                <name>scenario</name>
+                <scope>
+                  <name>IRAQ 2005</name>
+                </scope>
+              </scope>
+            </scope>
+          </ethnicity>
+          <inhabitants xsi:type="sp:Double">
+            <value>86638.6</value>
+          </inhabitants>
+        </ethnicGroups>
+        <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kurd">
+          <ethnicity xsi:type="sp:EthnicFactionReference">
+            <name>Kurd</name>
+            <scope>
+              <name>factions</name>
+              <scope>
+                <name>scenario</name>
+                <scope>
+                  <name>IRAQ 2005</name>
+                </scope>
+              </scope>
+            </scope>
+          </ethnicity>
+          <inhabitants xsi:type="sp:Double">
+            <value>0</value>
+          </inhabitants>
+        </ethnicGroups>
+      </populationCenters>
+      <populationCenters xsi:type="sp:Population" identifier="Town 2">
+        <present xsi:type="sp:Boolean">
+          <value>1</value>
+        </present>
+        <location xsi:type="sp:Circle">
+          <radius><value>48000</value></radius>
+          <center>
+            <lat>31</lat><lon>42</lon>
+          </center>
+        </location>
+        <deployment xsi:type="sp:StratmasCityDistribution">
+          <sigmaMeters xsi:type="sp:Double">
+            <value>8000</value>
+          </sigmaMeters>
+        </deployment>
+        <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Shia">
+          <ethnicity xsi:type="sp:EthnicFactionReference">
+            <name>Shia</name>
+            <scope>
+              <name>factions</name>
+              <scope>
+                <name>scenario</name>
+                <scope>
+                  <name>IRAQ 2005</name>
+                </scope>
+              </scope>
+            </scope>
+          </ethnicity>
+          <inhabitants xsi:type="sp:Double">
+            <value>325037</value>
+          </inhabitants>
+        </ethnicGroups>
+        <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Sunni">
+          <ethnicity xsi:type="sp:EthnicFactionReference">
+            <name>Sunni</name>
+            <scope>
+              <name>factions</name>
+              <scope>
+                <name>scenario</name>
+                <scope>
+                  <name>IRAQ 2005</name>
+                </scope>
+              </scope>
+            </scope>
+          </ethnicity>
+          <inhabitants xsi:type="sp:Double">
+            <value>81259.2</value>
+          </inhabitants>
+        </ethnicGroups>
+        <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kurd">
+          <ethnicity xsi:type="sp:EthnicFactionReference">
+            <name>Kurd</name>
+            <scope>
+              <name>factions</name>
+              <scope>
+                <name>scenario</name>
+                <scope>
+                  <name>IRAQ 2005</name>
+                </scope>
+              </scope>
+            </scope>
+          </ethnicity>
+          <inhabitants xsi:type="sp:Double">
+            <value>103040</value>
+          </inhabitants>
+        </ethnicGroups>
+      </populationCenters>
+      <populationCenters xsi:type="sp:Population" identifier="Town 3">
+        <present xsi:type="sp:Boolean">
+          <value>1</value>
+        </present>
+        <location xsi:type="sp:Circle">
+          <radius><value>48000</value></radius>
+          <center>
+            <lat>31</lat><lon>43</lon>
+          </center>
+        </location>
+        <deployment xsi:type="sp:StratmasCityDistribution">
+          <sigmaMeters xsi:type="sp:Double">
+            <value>8000</value>
+          </sigmaMeters>
+        </deployment>
+        <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Shia">
+          <ethnicity xsi:type="sp:EthnicFactionReference">
+            <name>Shia</name>
+            <scope>
+              <name>factions</name>
+              <scope>
+                <name>scenario</name>
+                <scope>
+                  <name>IRAQ 2005</name>
+                </scope>
+              </scope>
+            </scope>
+          </ethnicity>
+          <inhabitants xsi:type="sp:Double">
+            <value>80940.8</value>
+          </inhabitants>
+        </ethnicGroups>
+        <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Sunni">
+          <ethnicity xsi:type="sp:EthnicFactionReference">
+            <name>Sunni</name>
+            <scope>
+              <name>factions</name>
+              <scope>
+                <name>scenario</name>
+                <scope>
+                  <name>IRAQ 2005</name>
+                </scope>
+              </scope>
+            </scope>
+          </ethnicity>
+          <inhabitants xsi:type="sp:Double">
+            <value>20235.2</value>
+          </inhabitants>
+        </ethnicGroups>
+        <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kurd">
+          <ethnicity xsi:type="sp:EthnicFactionReference">
+            <name>Kurd</name>
+            <scope>
+              <name>factions</name>
+              <scope>
+                <name>scenario</name>
+                <scope>
+                  <name>IRAQ 2005</name>
+                </scope>
+              </scope>
+            </scope>
+          </ethnicity>
+          <inhabitants xsi:type="sp:Double">
+            <value>10000</value>
+          </inhabitants>
+        </ethnicGroups>
+      </populationCenters>
+      <populationCenters xsi:type="sp:Population" identifier="Town 4">
+        <present xsi:type="sp:Boolean">
+          <value>1</value>
+        </present>
+        <location xsi:type="sp:Circle">
+          <radius><value>48000</value></radius>
+          <center>
+            <lat>33</lat><lon>41</lon>
+          </center>
+        </location>
+        <deployment xsi:type="sp:StratmasCityDistribution">
+          <sigmaMeters xsi:type="sp:Double">
+            <value>8000</value>
+          </sigmaMeters>
+        </deployment>
+        <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Shia">
+          <ethnicity xsi:type="sp:EthnicFactionReference">
+            <name>Shia</name>
+            <scope>
+              <name>factions</name>
+              <scope>
+                <name>scenario</name>
+                <scope>
+                  <name>IRAQ 2005</name>
+                </scope>
+              </scope>
+            </scope>
+          </ethnicity>
+          <inhabitants xsi:type="sp:Double">
+            <value>132711</value>
+          </inhabitants>
+        </ethnicGroups>
+        <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Sunni">
+          <ethnicity xsi:type="sp:EthnicFactionReference">
+            <name>Sunni</name>
+            <scope>
+              <name>factions</name>
+              <scope>
+                <name>scenario</name>
+                <scope>
+                  <name>IRAQ 2005</name>
+                </scope>
+              </scope>
+            </scope>
+          </ethnicity>
+          <inhabitants xsi:type="sp:Double">
+            <value>33177.8</value>
+          </inhabitants>
+        </ethnicGroups>
+        <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kurd">
+          <ethnicity xsi:type="sp:EthnicFactionReference">
+            <name>Kurd</name>
+            <scope>
+              <name>factions</name>
+              <scope>
+                <name>scenario</name>
+                <scope>
+                  <name>IRAQ 2005</name>
+                </scope>
+              </scope>
+            </scope>
+          </ethnicity>
+          <inhabitants xsi:type="sp:Double">
+            <value>150000</value>
+          </inhabitants>
+        </ethnicGroups>
+      </populationCenters>
+      <populationCenters xsi:type="sp:Population" identifier="Town 5">
+        <present xsi:type="sp:Boolean">
+          <value>1</value>
+        </present>
+        <location xsi:type="sp:Circle">
+          <radius><value>48000</value></radius>
+          <center>
+            <lat>32</lat><lon>42</lon>
+          </center>
+        </location>
+        <deployment xsi:type="sp:StratmasCityDistribution">
+          <sigmaMeters xsi:type="sp:Double">
+            <value>8000</value>
+          </sigmaMeters>
+        </deployment>
+        <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Shia">
+          <ethnicity xsi:type="sp:EthnicFactionReference">
+            <name>Shia</name>
+            <scope>
+              <name>factions</name>
+              <scope>
+                <name>scenario</name>
+                <scope>
+                  <name>IRAQ 2005</name>
+                </scope>
+              </scope>
+            </scope>
+          </ethnicity>
+          <inhabitants xsi:type="sp:Double">
+            <value>10180</value>
+          </inhabitants>
+        </ethnicGroups>
+        <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Sunni">
+          <ethnicity xsi:type="sp:EthnicFactionReference">
+            <name>Sunni</name>
+            <scope>
+              <name>factions</name>
+              <scope>
+                <name>scenario</name>
+                <scope>
+                  <name>IRAQ 2005</name>
+                </scope>
+              </scope>
+            </scope>
+          </ethnicity>
+          <inhabitants xsi:type="sp:Double">
+            <value>0</value>
+          </inhabitants>
+        </ethnicGroups>
+        <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kurd">
+          <ethnicity xsi:type="sp:EthnicFactionReference">
+            <name>Kurd</name>
+            <scope>
+              <name>factions</name>
+              <scope>
+                <name>scenario</name>
+                <scope>
+                  <name>IRAQ 2005</name>
+                </scope>
+              </scope>
+            </scope>
+          </ethnicity>
+          <inhabitants xsi:type="sp:Double">
+            <value>0</value>
+          </inhabitants>
+        </ethnicGroups>
+      </populationCenters>
+      <militaryUnits xsi:type="sp:MilitaryUnit" identifier="BlueForce">
+        <present xsi:type="sp:Boolean">
+          <value>1</value>
+        </present>
+        <activities xsi:type="sp:PresenceOrder" identifier="Maintain Presence">
+          <active xsi:type="sp:Boolean">
+            <value>0</value>
+          </active>
+          <start xsi:type="sp:Timestamp">
+            <value>2005-03-28T19:52:54Z</value>
+          </start>
+          <carriedOut xsi:type="sp:Boolean">
+            <value>0</value>
+          </carriedOut>
+          <end xsi:type="sp:Timestamp">
+            <value>2007-04-28T19:52:54Z</value>
+          </end>
+          <protected xsi:type="sp:Double">
+            <value>1</value>
+          </protected>
+          <perceivedThreat xsi:type="sp:Double">
+            <value>-1</value>
+          </perceivedThreat>
+          <violence xsi:type="sp:Double">
+            <value>-1</value>
+          </violence>
+          <fractionCrimeVictims xsi:type="sp:Double">
+            <value>-1</value>
+          </fractionCrimeVictims>
+          <fractionNoWork xsi:type="sp:Double">
+            <value>-1</value>
+          </fractionNoWork>
+        </activities>
+        <location xsi:type="sp:Circle">
+          <radius><value>25000</value></radius>
+          <center>
+            <lat>30.9</lat><lon>41.9</lon>
+          </center>
+        </location>
+        <deployment xsi:type="sp:NormalDistribution">
+          <sigmaMeters xsi:type="sp:Double">
+            <value>20000</value>
+          </sigmaMeters>
+        </deployment>
+        <symbolIDCode xsi:type="sp:SymbolIDCode">
+          <value xsi:type="sp:String"><value>SFGPUC-----H--G</value></value>
+        </symbolIDCode>
+        <affiliation xsi:type="sp:FactionReference">
+          <name>Blue</name>
+          <scope>
+            <name>factions</name>
+            <scope>
+              <name>scenario</name>
+              <scope>
+                <name>IRAQ 2005</name>
+              </scope>
+            </scope>
+          </scope>
+        </affiliation>
+        <personnel xsi:type="sp:NonNegativeInteger">
+          <value>800</value>
+        </personnel>
+        <casualties xsi:type="sp:NonNegativeInteger">
+          <value>0</value>
+        </casualties>
+        <strengthFactor xsi:type="sp:Double">
+          <value>0.05</value>
+        </strengthFactor>
+        <attackFactor xsi:type="sp:Double">
+          <value>1</value>
+        </attackFactor>
+        <defenseFactor xsi:type="sp:Double">
+          <value>1</value>
+        </defenseFactor>
+        <maxVelocity xsi:type="sp:Double">
+          <value>60</value>
+        </maxVelocity>
+        <deployTime xsi:type="sp:Timestamp">
+          <value>2005-03-28T19:52:54Z</value>
+        </deployTime>
+        <departTime xsi:type="sp:Timestamp">
+          <value>2010-03-27T19:52:54Z</value>
+        </departTime>
+        <WithdrawThreshold xsi:type="sp:Double">
+          <value>90</value>
+        </WithdrawThreshold>
+        <subunits xsi:type="sp:MilitaryUnit" identifier="BlueForce Subunit 1">
+          <present xsi:type="sp:Boolean">
+            <value>1</value>
+          </present>
+          <activities xsi:type="sp:PresenceOrder" identifier="Maintain Presence">
+            <active xsi:type="sp:Boolean">
+              <value>0</value>
+            </active>
+            <start xsi:type="sp:Timestamp">
+              <value>2005-03-28T19:52:54Z</value>
+            </start>
+            <carriedOut xsi:type="sp:Boolean">
+              <value>0</value>
+            </carriedOut>
+            <end xsi:type="sp:Timestamp">
+              <value>2007-04-28T19:52:54Z</value>
+            </end>
+            <protected xsi:type="sp:Double">
+              <value>1</value>
+            </protected>
+            <perceivedThreat xsi:type="sp:Double">
+              <value>-1</value>
+            </perceivedThreat>
+            <violence xsi:type="sp:Double">
+              <value>-1</value>
+            </violence>
+            <fractionCrimeVictims xsi:type="sp:Double">
+              <value>-1</value>
+            </fractionCrimeVictims>
+            <fractionNoWork xsi:type="sp:Double">
+              <value>-1</value>
+            </fractionNoWork>
+          </activities>
+          <location xsi:type="sp:Circle">
+            <radius><value>25000</value></radius>
+            <center>
+              <lat>33</lat><lon>41</lon>
+            </center>
+          </location>
+          <deployment xsi:type="sp:NormalDistribution">
+            <sigmaMeters xsi:type="sp:Double">
+              <value>20000</value>
+            </sigmaMeters>
+          </deployment>
+          <symbolIDCode xsi:type="sp:SymbolIDCode">
+            <value xsi:type="sp:String"><value>SFGPUC-----H--G</value></value>
+          </symbolIDCode>
+          <affiliation xsi:type="sp:FactionReference">
+            <name>Blue</name>
+            <scope>
+              <name>factions</name>
+              <scope>
+                <name>scenario</name>
+                <scope>
+                  <name>IRAQ 2005</name>
+                </scope>
+              </scope>
+            </scope>
+          </affiliation>
+          <personnel xsi:type="sp:NonNegativeInteger">
+            <value>800</value>
+          </personnel>
+          <casualties xsi:type="sp:NonNegativeInteger">
+            <value>0</value>
+          </casualties>
+          <strengthFactor xsi:type="sp:Double">
+            <value>0.05</value>
+          </strengthFactor>
+          <attackFactor xsi:type="sp:Double">
+            <value>1</value>
+          </attackFactor>
+          <defenseFactor xsi:type="sp:Double">
+            <value>1</value>
+          </defenseFactor>
+          <maxVelocity xsi:type="sp:Double">
+            <value>60</value>
+          </maxVelocity>
+          <deployTime xsi:type="sp:Timestamp">
+            <value>2005-03-28T19:52:54Z</value>
+          </deployTime>
+          <departTime xsi:type="sp:Timestamp">
+            <value>2010-03-27T19:52:54Z</value>
+          </departTime>
+          <WithdrawThreshold xsi:type="sp:Double">
+            <value>90</value>
+          </WithdrawThreshold>
+        </subunits>
+        <subunits xsi:type="sp:MilitaryUnit" identifier="BlueForce Subunit 2">
+          <present xsi:type="sp:Boolean">
+            <value>1</value>
+          </present>
+          <activities xsi:type="sp:PresenceOrder" identifier="Maintain Presence">
+            <active xsi:type="sp:Boolean">
+              <value>0</value>
+            </active>
+            <start xsi:type="sp:Timestamp">
+              <value>2005-03-28T19:52:54Z</value>
+            </start>
+            <carriedOut xsi:type="sp:Boolean">
+              <value>0</value>
+            </carriedOut>
+            <end xsi:type="sp:Timestamp">
+              <value>2007-04-28T19:52:54Z</value>
+            </end>
+            <protected xsi:type="sp:Double">
+              <value>1</value>
+            </protected>
+            <perceivedThreat xsi:type="sp:Double">
+              <value>-1</value>
+            </perceivedThreat>
+            <violence xsi:type="sp:Double">
+              <value>-1</value>
+            </violence>
+            <fractionCrimeVictims xsi:type="sp:Double">
+              <value>-1</value>
+            </fractionCrimeVictims>
+            <fractionNoWork xsi:type="sp:Double">
+              <value>-1</value>
+            </fractionNoWork>
+          </activities>
+          <location xsi:type="sp:Circle">
+            <radius><value>25000</value></radius>
+            <center>
+              <lat>31</lat><lon>41.9</lon>
+            </center>
+          </location>
+          <deployment xsi:type="sp:NormalDistribution">
+            <sigmaMeters xsi:type="sp:Double">
+              <value>20000</value>
+            </sigmaMeters>
+          </deployment>
+          <symbolIDCode xsi:type="sp:SymbolIDCode">
+            <value xsi:type="sp:String"><value>SFGPUC-----H--G</value></value>
+          </symbolIDCode>
+          <affiliation xsi:type="sp:FactionReference">
+            <name>Blue</name>
+            <scope>
+              <name>factions</name>
+              <scope>
+                <name>scenario</name>
+                <scope>
+                  <name>IRAQ 2005</name>
+                </scope>
+              </scope>
+            </scope>
+          </affiliation>
+          <personnel xsi:type="sp:NonNegativeInteger">
+            <value>800</value>
+          </personnel>
+          <casualties xsi:type="sp:NonNegativeInteger">
+            <value>0</value>
+          </casualties>
+          <strengthFactor xsi:type="sp:Double">
+            <value>0.05</value>
+          </strengthFactor>
+          <attackFactor xsi:type="sp:Double">
+            <value>1</value>
+          </attackFactor>
+          <defenseFactor xsi:type="sp:Double">
+            <value>1</value>
+          </defenseFactor>
+          <maxVelocity xsi:type="sp:Double">
+            <value>60</value>
+          </maxVelocity>
+          <deployTime xsi:type="sp:Timestamp">
+            <value>2005-03-28T19:52:54Z</value>
+          </deployTime>
+          <departTime xsi:type="sp:Timestamp">
+            <value>2010-03-27T19:52:54Z</value>
+          </departTime>
+          <WithdrawThreshold xsi:type="sp:Double">
+            <value>90</value>
+          </WithdrawThreshold>
+        </subunits>
+        <subunits xsi:type="sp:MilitaryUnit" identifier="BlueForce Subunit 3">
+          <present xsi:type="sp:Boolean">
+            <value>1</value>
+          </present>
+          <activities xsi:type="sp:PresenceOrder" identifier="Maintain Presence">
+            <active xsi:type="sp:Boolean">
+              <value>0</value>
+            </active>
+            <start xsi:type="sp:Timestamp">
+              <value>2005-03-28T19:52:54Z</value>
+            </start>
+            <carriedOut xsi:type="sp:Boolean">
+              <value>0</value>
+            </carriedOut>
+            <end xsi:type="sp:Timestamp">
+              <value>2007-04-28T19:52:54Z</value>
+            </end>
+            <protected xsi:type="sp:Double">
+              <value>1</value>
+            </protected>
+            <perceivedThreat xsi:type="sp:Double">
+              <value>-1</value>
+            </perceivedThreat>
+            <violence xsi:type="sp:Double">
+              <value>-1</value>
+            </violence>
+            <fractionCrimeVictims xsi:type="sp:Double">
+              <value>-1</value>
+            </fractionCrimeVictims>
+            <fractionNoWork xsi:type="sp:Double">
+              <value>-1</value>
+            </fractionNoWork>
+          </activities>
+          <location xsi:type="sp:Circle">
+            <radius><value>25000</value></radius>
+            <center>
+              <lat>30.9</lat><lon>42.1</lon>
+            </center>
+          </location>
+          <deployment xsi:type="sp:NormalDistribution">
+            <sigmaMeters xsi:type="sp:Double">
+              <value>20000</value>
+            </sigmaMeters>
+          </deployment>
+          <symbolIDCode xsi:type="sp:SymbolIDCode">
+            <value xsi:type="sp:String"><value>SFGPUC-----H--G</value></value>
+          </symbolIDCode>
+          <affiliation xsi:type="sp:FactionReference">
+            <name>Blue</name>
+            <scope>
+              <name>factions</name>
+              <scope>
+                <name>scenario</name>
+                <scope>
+                  <name>IRAQ 2005</name>
+                </scope>
+              </scope>
+            </scope>
+          </affiliation>
+          <personnel xsi:type="sp:NonNegativeInteger">
+            <value>800</value>
+          </personnel>
+          <casualties xsi:type="sp:NonNegativeInteger">
+            <value>0</value>
+          </casualties>
+          <strengthFactor xsi:type="sp:Double">
+            <value>0.05</value>
+          </strengthFactor>
+          <attackFactor xsi:type="sp:Double">
+            <value>1</value>
+          </attackFactor>
+          <defenseFactor xsi:type="sp:Double">
+            <value>1</value>
+          </defenseFactor>
+          <maxVelocity xsi:type="sp:Double">
+            <value>60</value>
+          </maxVelocity>
+          <deployTime xsi:type="sp:Timestamp">
+            <value>2005-03-28T19:52:54Z</value>
+          </deployTime>
+          <departTime xsi:type="sp:Timestamp">
+            <value>2010-03-27T19:52:54Z</value>
+          </departTime>
+          <WithdrawThreshold xsi:type="sp:Double">
+            <value>90</value>
+          </WithdrawThreshold>
+        </subunits>
+        <subunits xsi:type="sp:MilitaryUnit" identifier="BlueForce Subunit 4">
+          <present xsi:type="sp:Boolean">
+            <value>1</value>
+          </present>
+          <activities xsi:type="sp:PresenceOrder" identifier="Maintain Presence">
+            <active xsi:type="sp:Boolean">
+              <value>0</value>
+            </active>
+            <start xsi:type="sp:Timestamp">
+              <value>2005-03-28T19:52:54Z</value>
+            </start>
+            <carriedOut xsi:type="sp:Boolean">
+              <value>0</value>
+            </carriedOut>
+            <end xsi:type="sp:Timestamp">
+              <value>2007-04-28T19:52:54Z</value>
+            </end>
+            <protected xsi:type="sp:Double">
+              <value>1</value>
+            </protected>
+            <perceivedThreat xsi:type="sp:Double">
+              <value>-1</value>
+            </perceivedThreat>
+            <violence xsi:type="sp:Double">
+              <value>-1</value>
+            </violence>
+            <fractionCrimeVictims xsi:type="sp:Double">
+              <value>-1</value>
+            </fractionCrimeVictims>
+            <fractionNoWork xsi:type="sp:Double">
+              <value>-1</value>
+            </fractionNoWork>
+          </activities>
+          <location xsi:type="sp:Circle">
+            <radius><value>25000</value></radius>
+            <center>
+              <lat>31</lat><lon>43</lon>
+            </center>
+          </location>
+          <deployment xsi:type="sp:NormalDistribution">
+            <sigmaMeters xsi:type="sp:Double">
+              <value>20000</value>
+            </sigmaMeters>
+          </deployment>
+          <symbolIDCode xsi:type="sp:SymbolIDCode">
+            <value xsi:type="sp:String"><value>SFGPUC-----H--G</value></value>
+          </symbolIDCode>
+          <affiliation xsi:type="sp:FactionReference">
+            <name>Blue</name>
+            <scope>
+              <name>factions</name>
+              <scope>
+                <name>scenario</name>
+                <scope>
+                  <name>IRAQ 2005</name>
+                </scope>
+              </scope>
+            </scope>
+          </affiliation>
+          <personnel xsi:type="sp:NonNegativeInteger">
+            <value>800</value>
+          </personnel>
+          <casualties xsi:type="sp:NonNegativeInteger">
+            <value>0</value>
+          </casualties>
+          <strengthFactor xsi:type="sp:Double">
+            <value>0.05</value>
+          </strengthFactor>
+          <attackFactor xsi:type="sp:Double">
+            <value>1</value>
+          </attackFactor>
+          <defenseFactor xsi:type="sp:Double">
+            <value>1</value>
+          </defenseFactor>
+          <maxVelocity xsi:type="sp:Double">
+            <value>60</value>
+          </maxVelocity>
+          <deployTime xsi:type="sp:Timestamp">
+            <value>2005-03-28T19:52:54Z</value>
+          </deployTime>
+          <departTime xsi:type="sp:Timestamp">
+            <value>2010-03-27T19:52:54Z</value>
+          </departTime>
+          <WithdrawThreshold xsi:type="sp:Double">
+            <value>90</value>
+          </WithdrawThreshold>
+        </subunits>
+        <subunits xsi:type="sp:MilitaryUnit" identifier="BlueForce Subunit 5">
+          <present xsi:type="sp:Boolean">
+            <value>1</value>
+          </present>
+          <activities xsi:type="sp:PresenceOrder" identifier="Maintain Presence">
+            <active xsi:type="sp:Boolean">
+              <value>0</value>
+            </active>
+            <start xsi:type="sp:Timestamp">
+              <value>2005-03-28T19:52:54Z</value>
+            </start>
+            <carriedOut xsi:type="sp:Boolean">
+              <value>0</value>
+            </carriedOut>
+            <end xsi:type="sp:Timestamp">
+              <value>2007-04-28T19:52:54Z</value>
+            </end>
+            <protected xsi:type="sp:Double">
+              <value>1</value>
+            </protected>
+            <perceivedThreat xsi:type="sp:Double">
+              <value>-1</value>
+            </perceivedThreat>
+            <violence xsi:type="sp:Double">
+              <value>-1</value>
+            </violence>
+            <fractionCrimeVictims xsi:type="sp:Double">
+              <value>-1</value>
+            </fractionCrimeVictims>
+            <fractionNoWork xsi:type="sp:Double">
+              <value>-1</value>
+            </fractionNoWork>
+          </activities>
+          <location xsi:type="sp:Circle">
+            <radius><value>25000</value></radius>
+            <center>
+              <lat>32</lat><lon>42</lon>
+            </center>
+          </location>
+          <deployment xsi:type="sp:NormalDistribution">
+            <sigmaMeters xsi:type="sp:Double">
+              <value>20000</value>
+            </sigmaMeters>
+          </deployment>
+          <symbolIDCode xsi:type="sp:SymbolIDCode">
+            <value xsi:type="sp:String"><value>SFGPUC-----H--G</value></value>
+          </symbolIDCode>
+          <affiliation xsi:type="sp:FactionReference">
+            <name>Blue</name>
+            <scope>
+              <name>factions</name>
+              <scope>
+                <name>scenario</name>
+                <scope>
+                  <name>IRAQ 2005</name>
+                </scope>
+              </scope>
+            </scope>
+          </affiliation>
+          <personnel xsi:type="sp:NonNegativeInteger">
+            <value>800</value>
+          </personnel>
+          <casualties xsi:type="sp:NonNegativeInteger">
+            <value>0</value>
+          </casualties>
+          <strengthFactor xsi:type="sp:Double">
+            <value>0.05</value>
+          </strengthFactor>
+          <attackFactor xsi:type="sp:Double">
+            <value>1</value>
+          </attackFactor>
+          <defenseFactor xsi:type="sp:Double">
+            <value>1</value>
+          </defenseFactor>
+          <maxVelocity xsi:type="sp:Double">
+            <value>60</value>
+          </maxVelocity>
+          <deployTime xsi:type="sp:Timestamp">
+            <value>2005-03-28T19:52:54Z</value>
+          </deployTime>
+          <departTime xsi:type="sp:Timestamp">
+            <value>2010-03-27T19:52:54Z</value>
+          </departTime>
+          <WithdrawThreshold xsi:type="sp:Double">
+            <value>90</value>
+          </WithdrawThreshold>
+        </subunits>
+      </militaryUnits>
+      <factions xsi:type="sp:EthnicFaction" identifier="Shia">
+        <enemies xsi:type="sp:FactionReference" identifier="enemy1">
+          <name>Blue</name>
+          <scope>
+            <name>factions</name>
+            <scope>
+              <name>scenario</name>
+              <scope>
+                <name>IRAQ 2005</name>
+              </scope>
+            </scope>
+          </scope>
+        </enemies>
+      </factions>
+      <factions xsi:type="sp:EthnicFaction" identifier="Sunni">
+        <enemies xsi:type="sp:FactionReference" identifier="enemy1">
+          <name>Blue</name>
+          <scope>
+            <name>factions</name>
+            <scope>
+              <name>scenario</name>
+              <scope>
+                <name>IRAQ 2005</name>
+              </scope>
+            </scope>
+          </scope>
+        </enemies>
+      </factions>
+      <factions xsi:type="sp:EthnicFaction" identifier="Kurd">
+        <enemies xsi:type="sp:FactionReference" identifier="enemy1">
+          <name>Blue</name>
+          <scope>
+            <name>factions</name>
+            <scope>
+              <name>scenario</name>
+              <scope>
+                <name>IRAQ 2005</name>
+              </scope>
+            </scope>
+          </scope>
+        </enemies>
+      </factions>
+      <factions xsi:type="sp:MilitaryFaction" identifier="Blue">
+        <enemies xsi:type="sp:FactionReference" identifier="enemy1">
+          <name>Shia</name>
+          <scope>
+            <name>factions</name>
+            <scope>
+              <name>scenario</name>
+              <scope>
+                <name>IRAQ 2005</name>
+              </scope>
+            </scope>
+          </scope>
+        </enemies>
+        <enemies xsi:type="sp:FactionReference" identifier="enemy2">
+          <name>Sunni</name>
+          <scope>
+            <name>factions</name>
+            <scope>
+              <name>scenario</name>
+              <scope>
+                <name>IRAQ 2005</name>
+              </scope>
+            </scope>
+          </scope>
+        </enemies>
+        <enemies xsi:type="sp:FactionReference" identifier="enemy3">
+          <name>Kurd</name>
+          <scope>
+            <name>factions</name>
+            <scope>
+              <name>scenario</name>
+              <scope>
+                <name>IRAQ 2005</name>
+              </scope>
+            </scope>
+          </scope>
+        </enemies>
+        <enemies xsi:type="sp:FactionReference" identifier="enemy4">
+          <name>Red</name>
+          <scope>
+            <name>factions</name>
+            <scope>
+              <name>scenario</name>
+              <scope>
+                <name>IRAQ 2005</name>
+              </scope>
+            </scope>
+          </scope>
+        </enemies>
+      </factions>
+      <factions xsi:type="sp:MilitaryFaction" identifier="Red">
+        <enemies xsi:type="sp:FactionReference" identifier="enemy1">
+          <name>Blue</name>
+          <scope>
+            <name>factions</name>
+            <scope>
+              <name>scenario</name>
+              <scope>
+                <name>IRAQ 2005</name>
+              </scope>
+            </scope>
+          </scope>
+        </enemies>
+      </factions>
+      <HDI xsi:type="sp:Double">
+        <value>0.45</value>
+      </HDI>
+      <unemployment xsi:type="sp:Double">
+        <value>0.45</value>
+      </unemployment>
+    </scenario>
+    <startTime xsi:type="sp:Timestamp">
+      <value>2005-03-28T19:52:54Z</value>
+    </startTime>
+    <modelParameters xsi:type="sp:ModelParameters">
+      <fractionPotentialInsurgents xsi:type="sp:Double">
+        <value>0.03</value>
+      </fractionPotentialInsurgents>
+      <insurgentDisaffectionThreshold xsi:type="sp:Double">
+        <value>30</value>
+      </insurgentDisaffectionThreshold>
+      <insurgentGenerationCoefficient xsi:type="sp:Double">
+        <value>0.01</value>
+      </insurgentGenerationCoefficient>
+      <insurgentStrengthFactor xsi:type="sp:Double">
+        <value>0.0375</value>
+      </insurgentStrengthFactor>
+    </modelParameters>
+  </identifiables>
+</root>

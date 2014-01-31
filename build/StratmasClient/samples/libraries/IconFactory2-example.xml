@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE IF2Project [
+ <!ELEMENT IF2Project   (Symbols,selectSymbol?)>
+ <!ATTLIST IF2Project   VERSION CDATA #IMPLIED>
+ <!ELEMENT Symbols      (Symbol*)>
+ <!ATTLIST Symbols      STANDARD CDATA #REQUIRED>
+ <!ELEMENT Symbol       (symid,Fields?,Transients?)>
+ <!ELEMENT symid        (#PCDATA)>
+ <!ELEMENT Fields       (field*)>
+ <!ELEMENT field        EMPTY>
+ <!ATTLIST field        ID    CDATA #REQUIRED
+                        VALUE CDATA #REQUIRED>
+ <!ELEMENT Transients   (transient*)>
+ <!ELEMENT transient    EMPTY>
+ <!ATTLIST transient    ID    CDATA #REQUIRED
+                        VALUE CDATA #REQUIRED>
+ <!ELEMENT selectSymbol EMPTY>
+ <!ATTLIST selectSymbol NAME CDATA #REQUIRED>
+]>
+
+<IF2Project VERSION="0.92e">
+ <Symbols STANDARD="app6a">
+  <Symbol>
+   <symid>"SFGPUCI----JSWG"</symid>
+   <Fields>
+    <field ID="T" VALUE="CORPS"/>
+    <field ID="W" VALUE="30020346ZJUN05"/>
+   </Fields>
+   <Transients>
+    <transient ID="expanded" VALUE="true"/>
+   </Transients>
+   <Children>
+    <Symbol>
+     <symid>"SFGPUCI---AESWG"</symid>
+     <Fields>
+      <field ID="T" VALUE="HEADQUARTERS"/>
+      <field ID="W" VALUE="30020346ZJUN05"/>
+     </Fields>
+     <Transients>
+      <transient ID="expanded" VALUE="false"/>
+     </Transients>
+    </Symbol>
+    <Symbol>
+     <symid>"SFGPUCI----ISWG"</symid>
+     <Fields>
+      <field ID="T" VALUE="1:ST DIVISION"/>
+      <field ID="W" VALUE="30020346ZJUN05"/>
+     </Fields>
+     <Transients>
+      <transient ID="expanded" VALUE="true"/>
+     </Transients>
+     <Children>
+      <Symbol>
+       <symid>"SFGPUCI----HSWG"</symid>
+       <Fields>
+        <field ID="T" VALUE="1:ST BRIGADE"/>
+        <field ID="W" VALUE="30020346ZJUN05"/>
+       </Fields>
+       <Transients>
+        <transient ID="expanded" VALUE="false"/>
+       </Transients>
+      </Symbol>
+      <Symbol>
+       <symid>"SFGPUCI----HSWG"</symid>
+       <Fields>
+        <field ID="T" VALUE="2:ND BRIGADE"/>
+        <field ID="W" VALUE="30020346ZJUN05"/>
+       </Fields>
+       <Transients>
+        <transient ID="expanded" VALUE="false"/>
+       </Transients>
+      </Symbol>
+     </Children>
+    </Symbol>
+    <Symbol>
+     <symid>"SFGPUCI----ISWG"</symid>
+     <Fields>
+      <field ID="T" VALUE="2:ND DIVISION"/>
+      <field ID="W" VALUE="30020346ZJUN05"/>
+     </Fields>
+     <Transients>
+      <transient ID="expanded" VALUE="true"/>
+     </Transients>
+     <Children>
+      <Symbol>
+       <symid>"SFGPUCI----HSWG"</symid>
+       <Fields>
+        <field ID="T" VALUE="1:ST BRIGADE"/>
+        <field ID="W" VALUE="30020346ZJUN05"/>
+       </Fields>
+       <Transients>
+        <transient ID="expanded" VALUE="false"/>
+       </Transients>
+      </Symbol>
+      <Symbol>
+       <symid>"SFGPUCI----HSWG"</symid>
+       <Fields>
+        <field ID="T" VALUE="2:ND BRIGADE"/>
+        <field ID="W" VALUE="30020346ZJUN05"/>
+       </Fields>
+       <Transients>
+        <transient ID="expanded" VALUE="false"/>
+       </Transients>
+      </Symbol>
+     </Children>
+    </Symbol>
+   </Children>
+  </Symbol>
+ </Symbols>
+ <selectSymbol NAME="CORPS"/>
+</IF2Project>

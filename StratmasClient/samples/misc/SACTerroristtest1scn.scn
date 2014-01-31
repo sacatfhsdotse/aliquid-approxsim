@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><root xmlns:sp="http://pdc.kth.se/stratmasNamespace" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xi="http://www.w3.org/2001/XInclude" xsi:type="sp:Root">
+<identifiables xsi:type="sp:CommonSimulation" identifier="IRAQ 2005">
+<timeStepper xsi:type="sp:ConstantStepper">
+<dt xsi:type="sp:Duration">
+<value>86400000</value></dt></timeStepper>
+<gridPartitioner xsi:type="sp:SquarePartitioner">
+<cellSizeMeters xsi:type="sp:Double">
+<value>10000.0</value></cellSizeMeters></gridPartitioner>
+<scenario xsi:type="sp:CommonScenario">
+<activities xsi:type="sp:CustomPVModification" identifier="Insurgents">
+<active xsi:type="sp:Boolean">
+<value>false</value></active>
+<start xsi:type="sp:Timestamp">
+<value>2005-03-28T19:52:54.000Z</value></start>
+<end xsi:type="sp:Timestamp">
+<value>2005-03-29T19:52:54.000Z</value></end>
+<location xsi:type="sp:Circle">
+<radius xsi:type="sp:Double">
+<value>2000000.0</value></radius>
+<center xsi:type="sp:Point">
+<lat>32.0</lat>
+<lon>42.0</lon></center></location>
+<insurgents xsi:type="sp:Double">
+<value>1667.0</value></insurgents></activities>
+<activities xsi:type="sp:CustomPVModification" identifier="CustomPVModification">
+<active xsi:type="sp:Boolean">
+<value>false</value></active>
+<start xsi:type="sp:Timestamp">
+<value>1970-01-01T00:00:00.000Z</value></start>
+<end xsi:type="sp:Timestamp">
+<value>1970-01-01T00:00:00.000Z</value></end>
+<target xsi:type="sp:EthnicFactionReference"><name>Kurd</name></target>
+<location xsi:type="sp:Circle">
+<radius xsi:type="sp:Double">
+<value>0.0</value></radius>
+<center xsi:type="sp:Point">
+<lat>0.0</lat>
+<lon>0.0</lon></center></location></activities>
+<map xsi:type="sp:Polygon">
+<curves xsi:type="sp:Line" identifier="0">
+<p1 xsi:type="sp:Point">
+<lat>30.0</lat>
+<lon>40.0</lon></p1>
+<p2 xsi:type="sp:Point">
+<lat>34.0</lat>
+<lon>40.0</lon></p2></curves>
+<curves xsi:type="sp:Line" identifier="1">
+<p1 xsi:type="sp:Point">
+<lat>34.0</lat>
+<lon>40.0</lon></p1>
+<p2 xsi:type="sp:Point">
+<lat>34.0</lat>
+<lon>44.0</lon></p2></curves>
+<curves xsi:type="sp:Line" identifier="2">
+<p1 xsi:type="sp:Point">
+<lat>34.0</lat>
+<lon>44.0</lon></p1>
+<p2 xsi:type="sp:Point">
+<lat>30.0</lat>
+<lon>44.0</lon></p2></curves>
+<curves xsi:type="sp:Line" identifier="3">
+<p1 xsi:type="sp:Point">
+<lat>30.0</lat>
+<lon>44.0</lon></p1>
+<p2 xsi:type="sp:Point">
+<lat>30.0</lat>
+<lon>40.0</lon></p2></curves></map>
+<disease xsi:type="sp:Disease">
+<description xsi:type="sp:String">
+<value>Cholera</value></description>
+<infectionRate xsi:type="sp:Double">
+<value>0.2</value></infectionRate>
+<recoveryRate xsi:type="sp:Double">
+<value>0.2</value></recoveryRate>
+<mortalityRate xsi:type="sp:Double">
+<value>0.01</value></mortalityRate></disease>
+<populationCenters xsi:type="sp:Population" identifier="Town 1">
+<present xsi:type="sp:Boolean">
+<value>true</value></present>
+<location xsi:type="sp:Circle">
+<radius xsi:type="sp:Double">
+<value>48000.0</value></radius>
+<center xsi:type="sp:Point">
+<lat>31.0</lat>
+<lon>43.0</lon></center></location>
+<deployment xsi:type="sp:StratmasCityDistribution">
+<sigmaMeters xsi:type="sp:Double">
+<value>8000.0</value></sigmaMeters></deployment>
+<ethnicGroups xsi:type="sp:PopulationGroup" identifier="Shia">
+<ethnicity xsi:type="sp:EthnicFactionReference"><name>Shia</name><scope><name>factions</name><scope><name>scenario</name><scope><name>IRAQ 2005</name><scope><name>identifiables</name></scope></scope></scope></scope></ethnicity>
+<inhabitants xsi:type="sp:Double">
+<value>346554.0</value></inhabitants></ethnicGroups>
+<ethnicGroups xsi:type="sp:PopulationGroup" identifier="Sunni">
+<ethnicity xsi:type="sp:EthnicFactionReference"><name>Sunni</name><scope><name>factions</name><scope><name>scenario</name><scope><name>IRAQ 2005</name><scope><name>identifiables</name></scope></scope></scope></scope></ethnicity>
+<inhabitants xsi:type="sp:Double">
+<value>86638.6</value></inhabitants></ethnicGroups>
+<ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kurd">
+<ethnicity xsi:type="sp:EthnicFactionReference"><name>Kurd</name><scope><name>factions</name><scope><name>scenario</name><scope><name>IRAQ 2005</name><scope><name>identifiables</name></scope></scope></scope></scope></ethnicity>
+<inhabitants xsi:type="sp:Double">
+<value>0.0</value></inhabitants></ethnicGroups></populationCenters>
+<populationCenters xsi:type="sp:Population" identifier="Town 2">
+<present xsi:type="sp:Boolean">
+<value>true</value></present>
+<location xsi:type="sp:Circle">
+<radius xsi:type="sp:Double">
+<value>48000.0</value></radius>
+<center xsi:type="sp:Point">
+<lat>31.0</lat>
+<lon>42.0</lon></center></location>
+<deployment xsi:type="sp:StratmasCityDistribution">
+<sigmaMeters xsi:type="sp:Double">
+<value>8000.0</value></sigmaMeters></deployment>
+<ethnicGroups xsi:type="sp:PopulationGroup" identifier="Shia">
+<ethnicity xsi:type="sp:EthnicFactionReference"><name>Shia</name><scope><name>factions</name><scope><name>scenario</name><scope><name>IRAQ 2005</name><scope><name>identifiables</name></scope></scope></scope></scope></ethnicity>
+<inhabitants xsi:type="sp:Double">
+<value>325037.0</value></inhabitants></ethnicGroups>
+<ethnicGroups xsi:type="sp:PopulationGroup" identifier="Sunni">
+<ethnicity xsi:type="sp:EthnicFactionReference"><name>Sunni</name><scope><name>factions</name><scope><name>scenario</name><scope><name>IRAQ 2005</name><scope><name>identifiables</name></scope></scope></scope></scope></ethnicity>
+<inhabitants xsi:type="sp:Double">
+<value>81259.2</value></inhabitants></ethnicGroups>
+<ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kurd">
+<ethnicity xsi:type="sp:EthnicFactionReference"><name>Kurd</name><scope><name>factions</name><scope><name>scenario</name><scope><name>IRAQ 2005</name><scope><name>identifiables</name></scope></scope></scope></scope></ethnicity>
+<inhabitants xsi:type="sp:Double">
+<value>103040.0</value></inhabitants></ethnicGroups></populationCenters>
+<populationCenters xsi:type="sp:Population" identifier="Town 3">
+<present xsi:type="sp:Boolean">
+<value>true</value></present>
+<location xsi:type="sp:Circle">
+<radius xsi:type="sp:Double">
+<value>48000.0</value></radius>
+<center xsi:type="sp:Point">
+<lat>31.0</lat>
+<lon>43.0</lon></center></location>
+<deployment xsi:type="sp:StratmasCityDistribution">
+<sigmaMeters xsi:type="sp:Double">
+<value>8000.0</value></sigmaMeters></deployment>
+<ethnicGroups xsi:type="sp:PopulationGroup" identifier="Shia">
+<ethnicity xsi:type="sp:EthnicFactionReference"><name>Shia</name><scope><name>factions</name><scope><name>scenario</name><scope><name>IRAQ 2005</name><scope><name>identifiables</name></scope></scope></scope></scope></ethnicity>
+<inhabitants xsi:type="sp:Double">
+<value>80940.8</value></inhabitants></ethnicGroups>
+<ethnicGroups xsi:type="sp:PopulationGroup" identifier="Sunni">
+<ethnicity xsi:type="sp:EthnicFactionReference"><name>Sunni</name><scope><name>factions</name><scope><name>scenario</name><scope><name>IRAQ 2005</name><scope><name>identifiables</name></scope></scope></scope></scope></ethnicity>
+<inhabitants xsi:type="sp:Double">
+<value>20235.2</value></inhabitants></ethnicGroups>
+<ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kurd">
+<ethnicity xsi:type="sp:EthnicFactionReference"><name>Kurd</name><scope><name>factions</name><scope><name>scenario</name><scope><name>IRAQ 2005</name><scope><name>identifiables</name></scope></scope></scope></scope></ethnicity>
+<inhabitants xsi:type="sp:Double">
+<value>10000.0</value></inhabitants></ethnicGroups></populationCenters>
+<populationCenters xsi:type="sp:Population" identifier="Town 4">
+<present xsi:type="sp:Boolean">
+<value>true</value></present>
+<location xsi:type="sp:Circle">
+<radius xsi:type="sp:Double">
+<value>48000.0</value></radius>
+<center xsi:type="sp:Point">
+<lat>33.0</lat>
+<lon>41.0</lon></center></location>
+<deployment xsi:type="sp:StratmasCityDistribution">
+<sigmaMeters xsi:type="sp:Double">
+<value>8000.0</value></sigmaMeters></deployment>
+<ethnicGroups xsi:type="sp:PopulationGroup" identifier="Shia">
+<ethnicity xsi:type="sp:EthnicFactionReference"><name>Shia</name><scope><name>factions</name><scope><name>scenario</name><scope><name>IRAQ 2005</name><scope><name>identifiables</name></scope></scope></scope></scope></ethnicity>
+<inhabitants xsi:type="sp:Double">
+<value>132711.0</value></inhabitants></ethnicGroups>
+<ethnicGroups xsi:type="sp:PopulationGroup" identifier="Sunni">
+<ethnicity xsi:type="sp:EthnicFactionReference"><name>Sunni</name><scope><name>factions</name><scope><name>scenario</name><scope><name>IRAQ 2005</name><scope><name>identifiables</name></scope></scope></scope></scope></ethnicity>
+<inhabitants xsi:type="sp:Double">
+<value>33177.8</value></inhabitants></ethnicGroups>
+<ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kurd">
+<ethnicity xsi:type="sp:EthnicFactionReference"><name>Kurd</name><scope><name>factions</name><scope><name>scenario</name><scope><name>IRAQ 2005</name><scope><name>identifiables</name></scope></scope></scope></scope></ethnicity>
+<inhabitants xsi:type="sp:Double">
+<value>150000.0</value></inhabitants></ethnicGroups></populationCenters>
+<populationCenters xsi:type="sp:Population" identifier="Town 5">
+<present xsi:type="sp:Boolean">
+<value>true</value></present>
+<location xsi:type="sp:Circle">
+<radius xsi:type="sp:Double">
+<value>48000.0</value></radius>
+<center xsi:type="sp:Point">
+<lat>32.0</lat>
+<lon>42.0</lon></center></location>
+<deployment xsi:type="sp:StratmasCityDistribution">
+<sigmaMeters xsi:type="sp:Double">
+<value>8000.0</value></sigmaMeters></deployment>
+<ethnicGroups xsi:type="sp:PopulationGroup" identifier="Shia">
+<ethnicity xsi:type="sp:EthnicFactionReference"><name>Shia</name><scope><name>factions</name><scope><name>scenario</name><scope><name>IRAQ 2005</name><scope><name>identifiables</name></scope></scope></scope></scope></ethnicity>
+<inhabitants xsi:type="sp:Double">
+<value>10180.0</value></inhabitants></ethnicGroups>
+<ethnicGroups xsi:type="sp:PopulationGroup" identifier="Sunni">
+<ethnicity xsi:type="sp:EthnicFactionReference"><name>Sunni</name><scope><name>factions</name><scope><name>scenario</name><scope><name>IRAQ 2005</name><scope><name>identifiables</name></scope></scope></scope></scope></ethnicity>
+<inhabitants xsi:type="sp:Double">
+<value>0.0</value></inhabitants></ethnicGroups>
+<ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kurd">
+<ethnicity xsi:type="sp:EthnicFactionReference"><name>Kurd</name><scope><name>factions</name><scope><name>scenario</name><scope><name>IRAQ 2005</name><scope><name>identifiables</name></scope></scope></scope></scope></ethnicity>
+<inhabitants xsi:type="sp:Double">
+<value>0.0</value></inhabitants></ethnicGroups></populationCenters>
+<militaryUnits xsi:type="sp:MilitaryUnit" identifier="BlueForce">
+<present xsi:type="sp:Boolean">
+<value>true</value></present>
+<activities xsi:type="sp:PresenceOrder" identifier="Maintain Presence">
+<active xsi:type="sp:Boolean">
+<value>false</value></active>
+<start xsi:type="sp:Timestamp">
+<value>2005-03-28T19:52:54.000Z</value></start>
+<carriedOut xsi:type="sp:Boolean">
+<value>false</value></carriedOut>
+<end xsi:type="sp:Timestamp">
+<value>2007-04-28T19:52:54.000Z</value></end>
+<protected xsi:type="sp:Double">
+<value>1.0</value></protected>
+<perceivedThreat xsi:type="sp:Double">
+<value>-1.0</value></perceivedThreat>
+<violence xsi:type="sp:Double">
+<value>-1.0</value></violence>
+<fractionCrimeVictims xsi:type="sp:Double">
+<value>-1.0</value></fractionCrimeVictims>
+<fractionNoWork xsi:type="sp:Double">
+<value>-1.0</value></fractionNoWork></activities>
+<activities xsi:type="sp:TerroristAttackOrder" identifier="TerroristAttackOrder">
+<active xsi:type="sp:Boolean">
+<value>false</value></active>
+<start xsi:type="sp:Timestamp">
+<value>1970-01-01T00:00:00.000Z</value></start>
+<carriedOut xsi:type="sp:Boolean">
+<value>false</value></carriedOut>
+<end xsi:type="sp:Timestamp">
+<value>1970-01-01T00:00:00.000Z</value></end>
+<actionTime xsi:type="sp:Timestamp">
+<value>1970-01-01T00:00:00.000Z</value></actionTime></activities>
+<location xsi:type="sp:Circle">
+<radius xsi:type="sp:Double">
+<value>25000.0</value></radius>
+<center xsi:type="sp:Point">
+<lat>33.0</lat>
+<lon>41.0</lon></center></location>
+<deployment xsi:type="sp:NormalDistribution">
+<sigmaMeters xsi:type="sp:Double">
+<value>10000.0</value></sigmaMeters></deployment>
+<symbolIDCode xsi:type="sp:SymbolIDCode">
+<value><value>SFGPUC-----H--G</value></value></symbolIDCode>
+<affiliation xsi:type="sp:FactionReference"><name>Blue</name><scope><name>factions</name><scope><name>scenario</name><scope><name>IRAQ 2005</name><scope><name>identifiables</name></scope></scope></scope></scope></affiliation>
+<personnel xsi:type="sp:NonNegativeInteger">
+<value>800</value></personnel>
+<casualties xsi:type="sp:NonNegativeInteger">
+<value>0</value></casualties>
+<strengthFactor xsi:type="sp:Double">
+<value>0.05</value></strengthFactor>
+<attackFactor xsi:type="sp:Double">
+<value>1.0</value></attackFactor>
+<defenseFactor xsi:type="sp:Double">
+<value>1.0</value></defenseFactor>
+<maxVelocity xsi:type="sp:Double">
+<value>60.0</value></maxVelocity>
+<deployTime xsi:type="sp:Timestamp">
+<value>2005-03-28T19:52:54.000Z</value></deployTime>
+<departTime xsi:type="sp:Timestamp">
+<value>2010-03-27T19:52:54.000Z</value></departTime>
+<WithdrawThreshold xsi:type="sp:Double">
+<value>90.0</value></WithdrawThreshold></militaryUnits>
+<factions xsi:type="sp:EthnicFaction" identifier="Shia">
+<enemies xsi:type="sp:FactionReference" identifier="enemy1"><name>Blue</name><scope><name>factions</name><scope><name>scenario</name><scope><name>IRAQ 2005</name><scope><name>identifiables</name></scope></scope></scope></scope></enemies></factions>
+<factions xsi:type="sp:EthnicFaction" identifier="Sunni">
+<enemies xsi:type="sp:FactionReference" identifier="enemy1"><name>Blue</name><scope><name>factions</name><scope><name>scenario</name><scope><name>IRAQ 2005</name><scope><name>identifiables</name></scope></scope></scope></scope></enemies></factions>
+<factions xsi:type="sp:EthnicFaction" identifier="Kurd">
+<enemies xsi:type="sp:FactionReference" identifier="enemy1"><name>Blue</name><scope><name>factions</name><scope><name>scenario</name><scope><name>IRAQ 2005</name><scope><name>identifiables</name></scope></scope></scope></scope></enemies></factions>
+<factions xsi:type="sp:MilitaryFaction" identifier="Blue">
+<enemies xsi:type="sp:FactionReference" identifier="enemy1"><name>Shia</name><scope><name>factions</name><scope><name>scenario</name><scope><name>IRAQ 2005</name><scope><name>identifiables</name></scope></scope></scope></scope></enemies>
+<enemies xsi:type="sp:FactionReference" identifier="enemy2"><name>Sunni</name><scope><name>factions</name><scope><name>scenario</name><scope><name>IRAQ 2005</name><scope><name>identifiables</name></scope></scope></scope></scope></enemies>
+<enemies xsi:type="sp:FactionReference" identifier="enemy3"><name>Kurd</name><scope><name>factions</name><scope><name>scenario</name><scope><name>IRAQ 2005</name><scope><name>identifiables</name></scope></scope></scope></scope></enemies></factions>
+<HDI xsi:type="sp:Double">
+<value>0.45</value></HDI>
+<unemployment xsi:type="sp:Double">
+<value>0.45</value></unemployment></scenario>
+<startTime xsi:type="sp:Timestamp">
+<value>2005-03-28T19:52:54.000Z</value></startTime>
+<modelParameters xsi:type="sp:ModelParameters">
+<fractionPotentialInsurgents xsi:type="sp:Double">
+<value>0.03</value></fractionPotentialInsurgents>
+<insurgentDisaffectionThreshold xsi:type="sp:Double">
+<value>30.0</value></insurgentDisaffectionThreshold>
+<insurgentGenerationCoefficient xsi:type="sp:Double">
+<value>0.01</value></insurgentGenerationCoefficient>
+<insurgentStrengthFactor xsi:type="sp:Double">
+<value>0.0375</value></insurgentStrengthFactor></modelParameters></identifiables></root>

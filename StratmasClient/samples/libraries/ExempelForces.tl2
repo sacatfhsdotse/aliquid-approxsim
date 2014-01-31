@@ -1,0 +1,263 @@
+identifiables = {
+  MilitaryUnit 'RedForce 4' {
+    present = true
+    activities = {
+    }
+    Circle location {
+      radius = 25000.0
+      Point center {}
+    }
+    NormalDistribution deployment {
+      sigmaMeters = 15000.0
+    }
+    inventory = {
+    }
+    symbolIDCode = SymbolIDCode {
+        value = "SHGPUC-----H--G"
+    }
+    affiliation = factions:Red
+    personnel = 800
+    casualties = 0
+    strengthFactor = 0.05
+    attackFactor = 1.0
+    defenseFactor = 1.0
+    maxVelocity = 60.0
+    deployTime = "2005-03-28 21:52:54.000 +0200"
+    departTime = "2010-03-27 20:52:54.000 +0100"
+    WithdrawThreshold = 90.0
+    subunits = {
+    }
+  }
+  MilitaryUnit 'RedForce 3' {
+    present = true
+    activities = {
+    }
+    Circle location {
+      radius = 25000.0
+      Point center {}
+    }
+    NormalDistribution deployment {
+      sigmaMeters = 15000.0
+    }
+    inventory = {
+    }
+    symbolIDCode = SymbolIDCode {
+        value = "SHGPUC-----H--G"
+    }
+    affiliation = factions:Red
+    personnel = 800
+    casualties = 0
+    strengthFactor = 0.05
+    attackFactor = 1.0
+    defenseFactor = 1.0
+    maxVelocity = 60.0
+    deployTime = "2005-03-28 21:52:54.000 +0200"
+    departTime = "2010-03-27 20:52:54.000 +0100"
+    WithdrawThreshold = 90.0
+    subunits = {
+    }
+  }
+  MilitaryUnit 'RedForce 2' {
+    present = true
+    activities = {
+    }
+    Circle location {
+      radius = 25000.0
+      Point center {}
+    }
+    NormalDistribution deployment {
+      sigmaMeters = 15000.0
+    }
+    inventory = {
+    }
+    symbolIDCode = SymbolIDCode {
+        value = "SHGPUC-----H--G"
+    }
+    affiliation = factions:Red
+    personnel = 800
+    casualties = 0
+    strengthFactor = 0.05
+    attackFactor = 1.0
+    defenseFactor = 1.0
+    maxVelocity = 60.0
+    deployTime = "2005-03-28 21:52:54.000 +0200"
+    departTime = "2010-03-27 20:52:54.000 +0100"
+    WithdrawThreshold = 90.0
+    subunits = {
+    }
+  }
+  MilitaryUnit 'RedForce 1' {
+    present = true
+    activities = {
+    }
+    Circle location {
+      radius = 25000.0
+      Point center {}
+    }
+    NormalDistribution deployment {
+      sigmaMeters = 15000.0
+    }
+    inventory = {
+    }
+    symbolIDCode = SymbolIDCode {
+        value = "SHGPUC-----H--G"
+    }
+    affiliation = factions:Red
+    personnel = 800
+    casualties = 0
+    strengthFactor = 0.05
+    attackFactor = 1.0
+    defenseFactor = 1.0
+    maxVelocity = 60.0
+    deployTime = "2005-03-28 21:52:54.000 +0200"
+    departTime = "2010-03-27 20:52:54.000 +0100"
+    WithdrawThreshold = 90.0
+    subunits = {
+    }
+  }
+  MilitaryUnit 'BlueForce 1' {
+    present = true
+    activities = {
+    }
+    Circle location {
+      radius = 25000.0
+      Point center {}
+    }
+    NormalDistribution deployment {
+      sigmaMeters = 15000.0
+    }
+    inventory = {
+    }
+    symbolIDCode = SymbolIDCode {
+        value = "SFGPUC-----H--G"
+    }
+    affiliation = factions:Blue
+    personnel = 800
+    casualties = 0
+    strengthFactor = 0.05
+    attackFactor = 1.0
+    defenseFactor = 1.0
+    maxVelocity = 60.0
+    deployTime = "2005-03-28 21:52:54.000 +0200"
+    departTime = "2010-03-27 20:52:54.000 +0100"
+    WithdrawThreshold = 90.0
+    subunits = {
+    }
+  }
+  MilitaryUnit 'BlueForce 2' {
+    present = true
+    activities = {
+    }
+    Circle location {
+      radius = 25000.0
+      Point center {}
+    }
+    NormalDistribution deployment {
+      sigmaMeters = 15000.0
+    }
+    inventory = {
+    }
+    symbolIDCode = SymbolIDCode {
+        value = "SFGPUC-----H--G"
+    }
+    affiliation = factions:Blue
+    personnel = 800
+    casualties = 0
+    strengthFactor = 0.05
+    attackFactor = 1.0
+    defenseFactor = 1.0
+    maxVelocity = 60.0
+    deployTime = "2005-03-28 21:52:54.000 +0200"
+    departTime = "2010-03-27 20:52:54.000 +0100"
+    WithdrawThreshold = 90.0
+    subunits = {
+    }
+  }
+  MilitaryUnit 'BlueForce 3' {
+    present = true
+    activities = {
+    }
+    Circle location {
+      radius = 25000.0
+      Point center {}
+    }
+    NormalDistribution deployment {
+      sigmaMeters = 15000.0
+    }
+    inventory = {
+    }
+    symbolIDCode = SymbolIDCode {
+        value = "SFGPUC-----H--G"
+    }
+    affiliation = factions:Blue
+    personnel = 800
+    casualties = 0
+    strengthFactor = 0.05
+    attackFactor = 1.0
+    defenseFactor = 1.0
+    maxVelocity = 60.0
+    deployTime = "2005-03-28 21:52:54.000 +0200"
+    departTime = "2010-03-27 20:52:54.000 +0100"
+    WithdrawThreshold = 90.0
+    subunits = {
+    }
+  }
+  MilitaryUnit 'BlueForce 4' {
+    present = true
+    activities = {
+    }
+    Circle location {
+      radius = 25000.0
+      Point center {}
+    }
+    NormalDistribution deployment {
+      sigmaMeters = 15000.0
+    }
+    inventory = {
+    }
+    symbolIDCode = SymbolIDCode {
+        value = "SFGPUC-----H--G"
+    }
+    affiliation = factions:Blue
+    personnel = 800
+    casualties = 0
+    strengthFactor = 0.05
+    attackFactor = 1.0
+    defenseFactor = 1.0
+    maxVelocity = 60.0
+    deployTime = "2005-03-28 21:52:54.000 +0200"
+    departTime = "2010-03-27 20:52:54.000 +0100"
+    WithdrawThreshold = 90.0
+    subunits = {
+    }
+  }
+  MilitaryUnit 'BlueForce 5' {
+    present = true
+    activities = {
+    }
+    Circle location {
+      radius = 25000.0
+      Point center {}
+    }
+    NormalDistribution deployment {
+      sigmaMeters = 15000.0
+    }
+    inventory = {
+    }
+    symbolIDCode = SymbolIDCode {
+        value = "SFGPUC-----H--G"
+    }
+    affiliation = factions:Blue
+    personnel = 800
+    casualties = 0
+    strengthFactor = 0.05
+    attackFactor = 1.0
+    defenseFactor = 1.0
+    maxVelocity = 60.0
+    deployTime = "2005-03-28 21:52:54.000 +0200"
+    departTime = "2010-03-27 20:52:54.000 +0100"
+    WithdrawThreshold = 90.0
+    subunits = {
+    }
+  }
+}

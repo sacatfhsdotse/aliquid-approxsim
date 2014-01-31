@@ -1,0 +1,419 @@
+// $Id: Parser.cup,v 1.15 2006/03/22 14:30:49 dah Exp $
+
+package StratmasClient.TaclanV2;
+
+import StratmasClient.TaclanV2.java_cup.runtime.Symbol;
+import StratmasClient.object.StratmasList;
+import StratmasClient.object.StratmasObject;
+
+import StratmasClient.object.type.TypeFactory;
+import StratmasClient.object.type.TypeInformation;
+import StratmasClient.object.type.Type;
+import StratmasClient.object.type.Declaration;
+
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
+import java.util.Vector;
+import java.util.Enumeration;
+
+parser code {:
+
+    /**
+     * The location beeing parsed by this parser.
+     */
+    String location = null;
+
+    /**
+     * The list that becomes the result of parsing the specified
+     * location
+     */
+    ParsedDeclarationList parsedDeclarationList = null;
+
+    /**
+     * The errors collected during parsing.
+     */
+    Vector errors = new Vector();
+
+    /**
+     * Creates a new parser given a stream and some name (the name is
+     * used mainly for error reporting and resolving some common
+     * importation errors (see ParsedImport.java)).
+     *
+     * @param streamName a name to give the stream.
+     * @param stream the taclan2 stream to parse.
+     */
+    public static Parser getParser(String streamName, Reader stream)
+	{
+	    Parser parser = new Parser(new Lexer(stream));
+	    parser.setLocation(streamName);
+
+	    return parser;
+	}
+
+    /**
+     * Creates a new parser by opening a file using the users
+     * default char encoding.
+     *
+     * @param filename the taclan2 file to parse.
+     */
+    public static Parser getParser(String filename) throws FileNotFoundException
+	{
+	    return getParser(filename, 
+			     new InputStreamReader(new FileInputStream(filename)));
+	}
+
+    /**
+     * Creates a new parser by opening a file using the specified encoding.
+     *
+     * @param filename the taclan2 file to parse.
+     * @param encoding the encoding to use.
+     */
+    public static Parser getParser(String filename, String encoding) 
+	throws FileNotFoundException, UnsupportedEncodingException
+	{
+	    return getParser(filename, 
+			     new InputStreamReader(new FileInputStream(filename), 
+						   encoding));
+	}
+
+    /**
+     * Parses the file given when constructing the parser.
+     */
+    public void doParse() throws SemanticException, SyntaxException
+	{
+	    if (this.parsedDeclarationList == null) {
+		this.parsedDeclarationList = (ParsedDeclarationList) parse().value;
+		if (!errors.isEmpty()) {
+		    throw new CollectedErrorsException(errors);
+		}
+	    }
+	}
+
+    /**
+     * Returns the parsedDeclarationList that the file resulted in.
+     */
+    public ParsedDeclarationList getParsedDeclarationList() throws SemanticException, SyntaxException
+	{
+	    doParse();
+	    return this.parsedDeclarationList;
+	}
+
+    /**
+     * Performs type checking using the supplied TypeInformation 
+     *
+     * @param declaration the declaration the top object(s) should
+     * @param typeInformation the TypeInformation to use.
+     * conform to.
+     */
+    public void typeCheck(Declaration declaration, TypeInformation typeInformation) 
+	throws SemanticException, SyntaxException
+	{
+	    // Get document pseduotype 
+	    (new ParsedList(new SourcePosition(getLocation()), getParsedDeclarationList())).typeCheckImmidiates(declaration, typeInformation);
+	    //getParsedDeclarationList().bindReferences();
+	    //getParsedDeclarationList().typeCheckReferences(typeInformation, documentType);
+	}
+
+    /**
+     * Returns a StratmasList containing the StratmasObjects the 
+     * parsing resulted in.
+     *
+     * @param declaration the declaration to get.
+     */
+    public StratmasList getStratmasList(Declaration declaration) throws SemanticException, SyntaxException
+	{	    
+	    return (StratmasList) (new ParsedList(new SourcePosition(getLocation()), getParsedDeclarationList())).getStratmasObject(declaration);
+	}
+    
+    /**
+     * Test method for the Parser class
+     * 
+     * @param argv a string array where the first element is a Taclan
+     * file and the second a wsd-file specifying the types.
+     */
+    public static void main(String[] argv)
+	{
+
+	    // Check argv
+	    if (argv.length != 1) {
+		System.err.println("Usage: java Parser file");
+		System.exit(1);
+	    }
+	    try {
+		Parser parser = getParser(argv[0]);
+		parser.doParse();
+		TypeInformation typeInformation = 
+		    TypeFactory.getTypeInformation();
+		parser.typeCheck(TypeFactory.getType("Root").getSubElement("simulation"), 
+				 typeInformation);
+	    } catch (FileNotFoundException e) {
+		System.err.println(e.getMessage());
+		System.exit(1);
+	    } catch (Exception e) { 
+		e.printStackTrace(System.err);
+		System.err.println(e.getMessage() + "\nExiting... ");
+		System.exit(1);
+	    } catch (AssertionError e) { 
+		e.printStackTrace(System.err);
+		System.err.println(e.getMessage() + "\nExiting... ");
+		System.exit(1);
+	    }
+	}
+
+    /**
+     * Reports an error.
+     *
+     * @param message the error message.
+     * @param info the object associated with the error.
+     */
+    public void report_error(String message, Object info)
+	{
+	    this.registerError(constructSyntaxException(message, info));
+	}
+
+    /**
+     * Reports a fatal error to the user.
+     *
+     * @param message the error message.
+     * @param info the object associated with the error.
+     */
+    public void report_fatal_error(String message, Object info) 
+	throws SyntaxException
+	{
+	    throw constructSyntaxException(message, info);
+	}
+    
+    /**
+     * Registers an exception occured during parsing.
+     *
+     * @param e the exception to register.
+     */
+    public void registerError(Exception e)
+	{
+	    this.errors.add(e);
+	}
+    
+    /**
+     * Constructs a syntax error from the provided information
+     *
+     * @param message the error message.
+     * @param info the object associated with the error.
+     */
+
+    public SyntaxException constructSyntaxException(String message, Object info)
+	{
+	    StringBuffer errmsg = new StringBuffer();
+	    
+	    if (info instanceof Symbol) {
+		Symbol symbol = (Symbol) info;
+		if (symbol.value instanceof Symbol) {
+		    symbol = (Symbol) symbol.value;
+		}
+		SourcePosition srcpos = new SourcePosition(this.getLocation(), symbol);
+		errmsg.append(srcpos.toString() + ": At or near \"" + symbol.value.toString() + "\": ");
+	    }
+	    else {
+		errmsg.append(this.getLocation() + ": ");
+	    }
+	    
+	    errmsg.append(message);
+
+	    return new SyntaxException(errmsg.toString());
+	}
+
+
+    /**
+     * Sets the location of the taclan file.
+     *
+     * @param source the location
+     */    
+    public void setLocation(String source) 
+	{
+	    this.location = source;
+	}
+
+    /**
+     * Returns the location of the taclan file being parsed.
+     */
+    public String getLocation() 
+	{
+	    return this.location;
+	}
+:}
+
+
+terminal Symbol STRING, ID;
+terminal Symbol INTEGER;
+terminal Symbol FLOAT;
+terminal Symbol TRUE;
+terminal Symbol FALSE;
+
+terminal Symbol EQUIV, OPENBLOCK, CLOSEBLOCK, IMPORT, SCOPE, AS, FROM;
+
+non terminal ParsedDeclaration declaration;
+non terminal ParsedDeclarationList declarations;
+non terminal ParsedDeclarationList massimport;
+
+non terminal ParsedDeclaration importation;
+
+non terminal ParsedDeclaration assignment;
+
+non terminal ParsedReference reference;
+
+non terminal ParsedIdentifier simpleIdentifier;
+
+non terminal ParsedDeclaration rval;
+
+precedence nonassoc EQUIV;
+precedence left SCOPE;
+
+/* Valid subparts of a declaration. */
+declarations ::= 
+{:
+ RESULT = new ParsedDeclarationList();
+:}
+| declaration:part declarations:tail
+{:
+    tail.push(part);
+    RESULT = tail;
+:}
+| assignment:part declarations:tail
+{:
+    tail.push(part);
+    RESULT = tail;
+:}
+| massimport:parts declarations:tail
+{:
+   tail.push(parts);
+   RESULT = tail;
+:};
+
+/* A declaration is a notification of the presence of some object. */
+declaration ::= simpleIdentifier:type simpleIdentifier:name OPENBLOCK declarations:declarations CLOSEBLOCK
+{:
+    SourcePosition srcpos = type.getPos();
+    RESULT = new ParsedDeclaration(srcpos, type, name, declarations);
+:}
+| importation:importation
+{:
+    RESULT = importation;
+:}
+| simpleIdentifier:name OPENBLOCK:open declarations:declarations CLOSEBLOCK:close
+{:
+    // Free standing list declaration.
+    SourcePosition srcpos = new SourcePosition(parser.getLocation(), open, close);
+    RESULT = new ParsedList(srcpos, name, declarations);
+:}
+| simpleIdentifier:name EQUIV simpleIdentifier:type OPENBLOCK declarations:declarations CLOSEBLOCK
+{:
+    SourcePosition srcpos = type.getPos();
+    RESULT = new ParsedDeclaration(srcpos, type, name, declarations);
+:};
+
+/* An importion is one or more declarations fetched from a different
+ * file. The result is a copy of the referenced declaration(s). */
+/* Import all declarations in file. */
+massimport ::= IMPORT:keyword STRING:source
+{:
+ SourcePosition srcpos = new SourcePosition(parser.getLocation(), keyword);
+ ParsedImport imp = new ParsedImport(srcpos, (String) source.value);
+ RESULT = imp.getParsedDeclarationList();
+:};
+
+/* Import declaration , referenced by name, from file. */
+importation ::= IMPORT:keyword reference:name FROM STRING:source
+{:
+  SourcePosition srcpos = new SourcePosition(parser.getLocation(), keyword);
+  ParsedImport imp = new ParsedImport(srcpos, (String) source.value);
+  RESULT = imp.getParsedDeclaration(name);
+:}
+/* Import declaration, referenced by name, from file, rename it to
+ * newname. */
+| IMPORT:keyword reference:name FROM STRING:source AS simpleIdentifier:newname
+{:
+  SourcePosition srcpos = new SourcePosition(parser.getLocation(), keyword);
+  ParsedImport imp = new ParsedImport(srcpos, (String) source.value);
+  ParsedDeclaration declaration = imp.getParsedDeclaration(name);
+  declaration.setIdentifier(newname);
+  RESULT = declaration;
+:}
+| simpleIdentifier:name EQUIV IMPORT:keyword reference:ref FROM STRING:source
+{:
+    SourcePosition srcpos = new SourcePosition(parser.getLocation(), keyword);
+    ParsedImport imp = new ParsedImport(srcpos, (String) source.value);
+    ParsedDeclaration declaration = imp.getParsedDeclaration(ref);
+    declaration.setIdentifier(name);
+    RESULT = declaration;
+:};
+
+/* An assignment is a equation statement. Note that the use of
+   simpleIdentifier below in reality makes this a declaration. This
+   has to change if processdescriptions are to be included.*/
+assignment ::= simpleIdentifier:name EQUIV:equiv rval:rval
+{:
+ SourcePosition srcpos = new SourcePosition(parser.getLocation(), equiv);
+ rval.setIdentifier(name);
+ RESULT = rval;
+:};
+
+
+/* A Reference, either singular or composite using SCOPE as separator. */
+reference ::= simpleIdentifier:ref
+{:
+ RESULT = new ParsedReference(ref);
+:}
+| reference:tail SCOPE reference:ref
+{:
+    ref.setTail(tail);
+    RESULT = ref;
+:};
+
+/* A simple identifier is just an identifier, (i e no scope). */
+simpleIdentifier ::= ID:id
+{:
+ SourcePosition srcpos = new SourcePosition(parser.getLocation(), id);
+
+ RESULT = new ParsedIdentifier(srcpos, (String) (id.value));
+:};
+
+/* rval represents a valid right-hand-side of an
+ * assignment. Declaration as rval is handled in the declaration
+ * production. */
+rval ::= reference:ref
+{:
+ RESULT = ref;
+:}
+| STRING:result
+{:
+    SourcePosition srcpos = new SourcePosition(parser.getLocation(), result);
+    RESULT = new ParsedString(srcpos, (String) (result.value));
+:}
+| INTEGER:result
+{:
+    SourcePosition srcpos = new SourcePosition(parser.getLocation(), result);
+    RESULT = new ParsedInteger(srcpos, (String) (result.value));
+:}
+| FLOAT:result
+{:
+    SourcePosition srcpos = new SourcePosition(parser.getLocation(), result);
+    RESULT = new ParsedFloat(srcpos, (String) (result.value));
+:}
+| TRUE:result
+{:
+    SourcePosition srcpos = new SourcePosition(parser.getLocation(), result);
+    RESULT = new ParsedBoolean(srcpos, true);
+:}
+| FALSE:result
+{:
+    SourcePosition srcpos = new SourcePosition(parser.getLocation(), result);
+    RESULT = new ParsedBoolean(srcpos, false);
+:}
+| OPENBLOCK:open declarations:declarations CLOSEBLOCK:close
+{:
+    SourcePosition srcpos = new SourcePosition(parser.getLocation(), open, close);
+    RESULT = new ParsedList(srcpos, declarations);
+:};
+

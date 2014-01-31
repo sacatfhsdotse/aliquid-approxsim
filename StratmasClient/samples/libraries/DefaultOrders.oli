@@ -1,0 +1,344 @@
+<?xml version="1.0"?>
+<root xmlns:sp="http://pdc.kth.se/stratmasNamespace"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      xsi:type="sp:Root">
+  <identifiables xsi:type="sp:GoToOrder" identifier="Go to">
+    <active xsi:type="sp:Boolean">
+      <value>false</value>
+    </active>
+    <start xsi:type="sp:Timestamp">
+      <value>1970-01-01T00:00:00Z</value>
+    </start>
+    <carriedOut xsi:type="sp:Boolean">
+      <value>false</value>
+    </carriedOut>
+    <location xsi:type="sp:Circle">
+      <radius xsi:type="sp:Double">
+	<value>0.0</value>
+      </radius>
+      <center xsi:type="sp:Point">
+	<lat>0.0</lat>
+	<lon>0.0</lon>
+      </center>
+    </location>
+  </identifiables>
+
+  <identifiables xsi:type="sp:AttackOrder" identifier="Attack">
+    <active xsi:type="sp:Boolean">
+      <value>false</value>
+    </active>
+    <start xsi:type="sp:Timestamp">
+      <value>1970-01-01T00:00:00Z</value>
+    </start>
+    <carriedOut xsi:type="sp:Boolean">
+      <value>false</value>
+    </carriedOut>
+    <location xsi:type="sp:Circle">
+      <radius xsi:type="sp:Double">
+	<value>0.0</value>
+      </radius>
+      <center xsi:type="sp:Point">
+	<lat>0.0</lat>
+	<lon>0.0</lon>
+      </center>
+    </location>
+  </identifiables>
+
+  <identifiables xsi:type="sp:DefendOrder" identifier="Defend">
+    <active xsi:type="sp:Boolean">
+      <value>false</value>
+    </active>
+    <start xsi:type="sp:Timestamp">
+      <value>1970-01-01T00:00:00Z</value>
+    </start>
+    <carriedOut xsi:type="sp:Boolean">
+      <value>false</value>
+    </carriedOut>
+    <end xsi:type="sp:Timestamp">
+      <value>1970-01-11T00:00:00Z</value>
+    </end>
+  </identifiables>
+
+  <identifiables xsi:type="sp:TerroristAttackOrder" identifier="Terrorist attack">
+    <active xsi:type="sp:Boolean">
+      <value>false</value>
+    </active>
+    <start xsi:type="sp:Timestamp">
+      <value>1970-01-01T00:00:00Z</value>
+    </start>
+    <carriedOut xsi:type="sp:Boolean">
+      <value>false</value>
+    </carriedOut>
+    <end xsi:type="sp:Timestamp">
+      <value>1970-01-11T00:00:00Z</value>
+    </end>
+    <violence xsi:type="sp:Double">
+      <value>1000.0</value>
+    </violence>
+    <actionTime xsi:type="sp:Timestamp">
+      <value>1970-01-01T00:00:00Z</value>
+    </actionTime>
+  </identifiables>
+
+  <identifiables xsi:type="sp:AmbushOrder" identifier="Ambush">
+    <active xsi:type="sp:Boolean">
+      <value>false</value>
+    </active>
+    <start xsi:type="sp:Timestamp">
+      <value>1970-01-01T00:00:00Z</value>
+    </start>
+    <carriedOut xsi:type="sp:Boolean">
+      <value>false</value>
+    </carriedOut>
+    <end xsi:type="sp:Timestamp">
+      <value>1970-01-11T00:00:00Z</value>
+    </end>
+    <startAmbush xsi:type="sp:Timestamp">
+      <value>1970-01-01T00:00:00Z</value>
+    </startAmbush>
+    <endAmbush xsi:type="sp:Timestamp">
+      <value>1970-01-01T00:00:00Z</value>
+    </endAmbush>
+  </identifiables>
+
+  <identifiables xsi:type="sp:PresenceOrder" identifier="Presence">
+    <active xsi:type="sp:Boolean">
+      <value>false</value>
+    </active>
+    <start xsi:type="sp:Timestamp">
+      <value>1970-01-01T00:00:00Z</value>
+    </start>
+    <carriedOut xsi:type="sp:Boolean">
+      <value>false</value>
+    </carriedOut>
+    <end xsi:type="sp:Timestamp">
+      <value>1970-01-11T00:00:00Z</value>
+    </end>
+    <displaced xsi:type="sp:Double">
+      <value>-7.85</value>
+    </displaced>
+    <protected xsi:type="sp:Double">
+      <value>7.85</value>
+    </protected>
+    <sheltered xsi:type="sp:Double">
+      <value>7.85</value>
+    </sheltered>
+    <perceivedThreat xsi:type="sp:Double">
+      <value>-15.71</value>
+    </perceivedThreat>
+    <ethnicTension xsi:type="sp:Double">
+      <value>-7.85</value>
+    </ethnicTension>
+    <violence xsi:type="sp:Double">
+      <value>-15.71</value>
+    </violence>
+    <fractionCrimeVictims xsi:type="sp:Double">
+      <value>-7.85</value>
+    </fractionCrimeVictims>
+  </identifiables>
+
+  <identifiables xsi:type="sp:ControlOrder" identifier="Control">
+    <active xsi:type="sp:Boolean">
+      <value>false</value>
+    </active>
+    <start xsi:type="sp:Timestamp">
+      <value>1970-01-01T00:00:00Z</value>
+    </start>
+    <carriedOut xsi:type="sp:Boolean">
+      <value>false</value>
+    </carriedOut>
+    <end xsi:type="sp:Timestamp">
+      <value>1970-01-11T00:00:00Z</value>
+    </end>
+    <foodDays xsi:type="sp:Double">
+      <value>7.85</value>
+    </foodDays>
+    <waterDays xsi:type="sp:Double">
+      <value>7.85</value>
+    </waterDays>
+    <fractionNoMedical xsi:type="sp:Double">
+      <value>-7.85</value>
+    </fractionNoMedical>
+    <displaced xsi:type="sp:Double">
+      <value>-31.42</value>
+    </displaced>
+    <protected xsi:type="sp:Double">
+      <value>31.42</value>
+    </protected>
+    <sheltered xsi:type="sp:Double">
+      <value>31.42</value>
+    </sheltered>
+    <perceivedThreat xsi:type="sp:Double">
+      <value>-62.83</value>
+    </perceivedThreat>
+    <ethnicTension xsi:type="sp:Double">
+      <value>-31.42</value>
+    </ethnicTension>
+    <violence xsi:type="sp:Double">
+      <value>-62.83</value>
+    </violence>
+    <fractionCrimeVictims xsi:type="sp:Double">
+      <value>-31.42</value>
+    </fractionCrimeVictims>
+    <fractionNoWork xsi:type="sp:Double">
+      <value>-7.85</value>
+    </fractionNoWork>
+    <infrastructure xsi:type="sp:Double">
+      <value>7.85</value>
+    </infrastructure>
+  </identifiables>
+
+  <identifiables xsi:type="sp:SecureOrder" identifier="Secure">
+    <active xsi:type="sp:Boolean">
+      <value>false</value>
+    </active>
+    <start xsi:type="sp:Timestamp">
+      <value>1970-01-01T00:00:00Z</value>
+    </start>
+    <carriedOut xsi:type="sp:Boolean">
+      <value>false</value>
+    </carriedOut>
+    <end xsi:type="sp:Timestamp">
+      <value>1970-01-11T00:00:00Z</value>
+    </end>
+    <foodDays xsi:type="sp:Double">
+      <value>7.85</value>
+    </foodDays>
+    <waterDays xsi:type="sp:Double">
+      <value>7.85</value>
+    </waterDays>
+    <fractionNoMedical xsi:type="sp:Double">
+      <value>-7.85</value>
+    </fractionNoMedical>
+    <displaced xsi:type="sp:Double">
+      <value>-11.78</value>
+    </displaced>
+    <protected xsi:type="sp:Double">
+      <value>11.78</value>
+    </protected>
+    <sheltered xsi:type="sp:Double">
+      <value>11.78</value>
+    </sheltered>
+    <perceivedThreat xsi:type="sp:Double">
+      <value>-23.56</value>
+    </perceivedThreat>
+    <ethnicTension xsi:type="sp:Double">
+      <value>-11.78</value>
+    </ethnicTension>
+    <violence xsi:type="sp:Double">
+      <value>-23.56</value>
+    </violence>
+    <fractionCrimeVictims xsi:type="sp:Double">
+      <value>-11.78</value>
+    </fractionCrimeVictims>
+    <fractionNoWork xsi:type="sp:Double">
+      <value>-7.85</value>
+    </fractionNoWork>
+    <infrastructure xsi:type="sp:Double">
+      <value>7.85</value>
+    </infrastructure>
+  </identifiables>
+
+  <identifiables xsi:type="sp:FreedomOfMovementOrder" identifier="Establish Freedom of Movement">
+    <active xsi:type="sp:Boolean">
+      <value>false</value>
+    </active>
+    <start xsi:type="sp:Timestamp">
+      <value>1970-01-01T00:00:00Z</value>
+    </start>
+    <carriedOut xsi:type="sp:Boolean">
+      <value>false</value>
+    </carriedOut>
+    <end xsi:type="sp:Timestamp">
+      <value>1970-01-11T00:00:00Z</value>
+    </end>
+    <foodDays xsi:type="sp:Double">
+      <value>7.85</value>
+    </foodDays>
+    <waterDays xsi:type="sp:Double">
+      <value>7.85</value>
+    </waterDays>
+    <fractionNoMedical xsi:type="sp:Double">
+      <value>-7.85</value>
+    </fractionNoMedical>
+    <displaced xsi:type="sp:Double">
+      <value>-5.24</value>
+    </displaced>
+    <protected xsi:type="sp:Double">
+      <value>5.24</value>
+    </protected>
+    <sheltered xsi:type="sp:Double">
+      <value>5.24</value>
+    </sheltered>
+    <perceivedThreat xsi:type="sp:Double">
+      <value>-10.47</value>
+    </perceivedThreat>
+    <ethnicTension xsi:type="sp:Double">
+      <value>-5.24</value>
+    </ethnicTension>
+    <violence xsi:type="sp:Double">
+      <value>-10.47</value>
+    </violence>
+    <fractionCrimeVictims xsi:type="sp:Double">
+      <value>-5.24</value>
+    </fractionCrimeVictims>
+    <fractionNoWork xsi:type="sp:Double">
+      <value>-7.85</value>
+    </fractionNoWork>
+    <infrastructure xsi:type="sp:Double">
+      <value>7.85</value>
+    </infrastructure>
+  </identifiables>
+
+  <identifiables xsi:type="sp:ProvideCivilianFunctionsOrder" identifier="Provide civilian functions">
+    <active xsi:type="sp:Boolean">
+      <value>false</value>
+    </active>
+    <start xsi:type="sp:Timestamp">
+      <value>1970-01-01T00:00:00Z</value>
+    </start>
+    <carriedOut xsi:type="sp:Boolean">
+      <value>false</value>
+    </carriedOut>
+    <end xsi:type="sp:Timestamp">
+      <value>1970-01-11T00:00:00Z</value>
+    </end>
+    <foodDays xsi:type="sp:Double">
+      <value>7.85</value>
+    </foodDays>
+    <waterDays xsi:type="sp:Double">
+      <value>7.85</value>
+    </waterDays>
+    <fractionNoMedical xsi:type="sp:Double">
+      <value>-7.85</value>
+    </fractionNoMedical>
+    <displaced xsi:type="sp:Double">
+      <value>-3.93</value>
+    </displaced>
+    <protected xsi:type="sp:Double">
+      <value>3.93</value>
+    </protected>
+    <sheltered xsi:type="sp:Double">
+      <value>3.93</value>
+    </sheltered>
+    <perceivedThreat xsi:type="sp:Double">
+      <value>-3.93</value>
+    </perceivedThreat>
+    <ethnicTension xsi:type="sp:Double">
+      <value>-1.96</value>
+    </ethnicTension>
+    <violence xsi:type="sp:Double">
+      <value>-1.96</value>
+    </violence>
+    <fractionCrimeVictims xsi:type="sp:Double">
+      <value>-3.93</value>
+    </fractionCrimeVictims>
+    <fractionNoWork xsi:type="sp:Double">
+      <value>-15.71</value>
+    </fractionNoWork>
+    <infrastructure xsi:type="sp:Double">
+      <value>7.85</value>
+    </infrastructure>
+  </identifiables>
+</root>

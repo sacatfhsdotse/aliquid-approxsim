@@ -7,6 +7,7 @@
 #include <xercesc/framework/psvi/XSModel.hpp>
 #include <xercesc/internal/XMLGrammarPoolImpl.hpp>
 #include <xercesc/sax2/SAX2XMLReader.hpp>
+#include <xercesc/parsers/SAX2XMLReaderImpl.hpp>
 #include <xercesc/sax2/XMLReaderFactory.hpp>
 #include <xercesc/util/OutOfMemoryException.hpp>
 #include <xercesc/util/PlatformUtils.hpp>

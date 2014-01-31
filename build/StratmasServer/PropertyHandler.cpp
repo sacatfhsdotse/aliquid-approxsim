@@ -1,5 +1,6 @@
 // System
 #include <fstream>
+#include <cstring>
 
 // Own
 #include "PropertyHandler.h"

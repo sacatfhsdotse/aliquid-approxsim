@@ -1,4 +1,5 @@
 // System
+#include <cstring>
 #include <cmath>
 #include <iomanip>
 #include <iostream>

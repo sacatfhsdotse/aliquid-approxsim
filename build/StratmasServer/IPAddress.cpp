@@ -1,6 +1,7 @@
 // System
 #include <ostream>
 #include <sstream>
+#include <cstring>
 
 // Own
 #include "Error.h"

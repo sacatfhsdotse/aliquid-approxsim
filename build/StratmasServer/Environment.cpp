@@ -72,7 +72,7 @@ ClientValidator*         Environment::spClientValidator = new PassClientValidato
  */
 std::string Environment::getNativePath(const std::string& path)
 {
-     return getNativePath(fs::path(path, fs::no_check));
+     return getNativePath(fs::path(path));
 }
 
 /**
@@ -83,9 +83,9 @@ std::string Environment::getNativePath(const std::string& path)
 std::string Environment::getNativePath(const fs::path& path)
 {
      if (!path.is_complete()) {
-	  return fs::complete(path, getInstallDir()).native_file_string();
+	  return fs::complete(path, getInstallDir()).string();
      } else {
-	  return path.native_file_string();
+	  return path.string();
      }
 }
 
@@ -103,7 +103,7 @@ std::string Environment::getNativePath(const fs::path& path)
  */
 fs::path Environment::importNativePath(const std::string& nativePath)
 {
-     fs::path path(nativePath, fs::native);
+     fs::path path(nativePath);
      if (!path.is_complete()) {
 	  return fs::complete(path, getInstallDir());
      } else {
@@ -252,8 +252,7 @@ void Environment::initEnvironment(int argc, char** argv)
      if (argc > 0) {
 	  // Can't use importNativePath here since it depends on values
 	  // initialized by sExecutable
-	  sExecutable = fs::complete(fs::path(std::string(argv[0]), 
-					      fs::native));
+	  sExecutable = fs::complete(fs::path(std::string(argv[0])));
      }
 
      // Use progname to figure out install dir.
@@ -291,7 +290,7 @@ void Environment::initConfig(int argc, char** argv)
 	  ("help,?", "Show help message")
 	  ("version,v", "Show version")
 	  ("configfile", 
-	   po::value<std::string>()->notifier(&Environment::setConfigFile)->default_value("", (fs::path("INSTALLDIR") / sConfigFile).native_file_string()), 
+	   po::value<std::string>()->notifier(&Environment::setConfigFile)->default_value("", (fs::path("INSTALLDIR") / sConfigFile).string()), 
 	   "Specify configuration file")
 	  ;
           

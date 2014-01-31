@@ -2,6 +2,7 @@
 
 // Boost
 #include <boost/program_options.hpp>
+#include <cstdlib>
 
 // Own
 #include "Environment.h"

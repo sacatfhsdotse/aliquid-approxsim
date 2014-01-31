@@ -26,29 +26,29 @@ MAKEDEPEND	= ./makedepend.sh
 OPTFLAGS	= -O3
 OS		?= $(shell uname -s)
 
-BOOSTROOT	?= /afs/pdc.kth.se/projects/stratmas/common/boost/1.33.1
-XERCESCROOT     ?= /afs/pdc.kth.se/projects/stratmas/common/xerces/2.7.0
+BOOSTROOT	?= 
+XERCESCROOT     ?= 
 
 # Boost uses compiler- and threadsuffix on most platforms, but not on
 # darwin also ability to switch between dynamic and static linking
 # seems to be missing from darwin. Hence we need to construct somewhat
 # complicated LDFLAGS lines. To add a boost library, just name it on
 # the line below.
-BOOSTLIBS	= thread filesystem program_options date_time
+BOOSTLIBS	= thread filesystem program_options date_time system
 ifeq ($(OS),Darwin)
 BOOSTSUFFIX	=
 BOOSTLDFLAGS	= $(patsubst %,$(BOOSTROOT)/lib/libboost_%$(BOOSTSUFFIX).a,\
 		  $(BOOSTLIBS))
 else
 COMMA		:=,
-BOOSTSUFFIX 	?= -$(CC)-mt
+BOOSTSUFFIX 	?= #-$(CC)-mt
 BOOSTLDFLAGS	= -L$(BOOSTROOT)/lib -Wl,-Bstatic			\
 		  $(patsubst %,-Wl$(COMMA)-lboost_%$(BOOSTSUFFIX),	\
 		    $(BOOSTLIBS))					\
 		  -Wl,-Bdynamic
 endif
-CXXFLAGS	+= -Wall -I$(XERCESCROOT)/include -I$(BOOSTROOT)/include
-LDFLAGS		+= -L$(XERCESCROOT)/lib -lxerces-c $(BOOSTLDFLAGS)
+CXXFLAGS	+= -Wall
+LDFLAGS		+= -L$(XERCESCROOT)/lib -lxerces-c $(BOOSTLDFLAGS) 
 SERVERNAME	= stratmas
 
 # Debug by default

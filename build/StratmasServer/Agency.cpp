@@ -1,5 +1,7 @@
 // System
 #include <ostream>
+#include <cstdlib>
+#include <cstring>
 
 // Own
 #include "AgencyTeam.h"

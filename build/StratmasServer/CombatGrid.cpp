@@ -1,3 +1,4 @@
+#include <cstring>
 #include "CombatGrid.h"
 #include "debugheader.h"
 #include "Distribution.h"

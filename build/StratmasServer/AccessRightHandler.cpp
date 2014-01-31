@@ -1,4 +1,5 @@
 // Own
+#include <cstdlib>
 #include "AccessRightHandler.h"
 #include "Error.h"
 #include "Mapper.h"

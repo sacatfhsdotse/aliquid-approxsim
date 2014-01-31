@@ -1,6 +1,7 @@
 // System
 #include <ostream>
 #include <vector>
+#include <cstdlib>
 
 // Own
 #include "AccessRightHandler.h"

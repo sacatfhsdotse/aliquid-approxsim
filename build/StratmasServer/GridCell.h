@@ -3,6 +3,7 @@
 
 // System
 #include <vector>
+#include <cstring>
 
 // Own
 #include "debugheader.h"

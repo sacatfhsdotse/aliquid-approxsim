@@ -2,6 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
+#include <cstring>
 
 // Own
 #include "debugheader.h"

@@ -41,6 +41,7 @@ Copyright: (C) 1997-1999, Advanced Interfaces Group,
 #include "gpc.h"
 #include <math.h>
 #include <stdlib.h>
+#include <cstdlib>
 
 #include "stdint.h"
 /*

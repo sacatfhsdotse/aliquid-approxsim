@@ -11,7 +11,12 @@ if [[ -z "$PLATFORM" ]]; then
     if [ $UNAME = Darwin ]; then    
 	PLATFORM=ppc_macosx
     elif [ $UNAME = Linux ]; then    
-	PLATFORM=i386_rh9
+		UNAME2=`uname -m`
+		if [ $UNAME2 = x86_64 ]; then
+			PLATFORM=x86_64
+		else
+			PLATFORM=i386
+		fi
     elif echo "$UNAME" | grep -q -i "cygwin"; then
 	PLATFORM=cygwin
     else
@@ -22,25 +27,28 @@ fi
 
 # Setup dependencies
 # Xerces
-XERCESVERSION=2.7.0
-tar zxfC \
-    "$DEPDIR/xerces/$XERCESVERSION/xerces-$XERCESVERSION-$PLATFORM.tar.gz" \
-    "$DEPDIR/xerces/$XERCESVERSION"
-XERCESCROOT="$DEPDIR/xerces/$XERCESVERSION/$PLATFORM"
+#XERCESVERSION=2.8.0
+#tar zxfC \
+#    "$DEPDIR/xerces/$XERCESVERSION/xerces-$XERCESVERSION-$PLATFORM.tar.gz" \
+#    "$DEPDIR/xerces/$XERCESVERSION"
+#XERCESCROOT="$DEPDIR/xerces/$XERCESVERSION/$PLATFORM"
 # Boost
-BOOSTVERSION=1.33.1
-tar zxfC \
-    "$DEPDIR/boost/$BOOSTVERSION/boost-$BOOSTVERSION-$PLATFORM.tar.gz" \
-    "$DEPDIR/boost/$BOOSTVERSION"
-BOOSTROOT="$DEPDIR/boost/$BOOSTVERSION/$PLATFORM"
+#BOOSTVERSION=1.55.0
+#tar zxfC \
+#    "$DEPDIR/boost/$BOOSTVERSION/boost-$BOOSTVERSION-$PLATFORM.tar.gz" \
+#    "$DEPDIR/boost/$BOOSTVERSION"
+#BOOSTROOT="$DEPDIR/boost/$BOOSTVERSION/$PLATFORM"
 
 # Run make
-make -f GNUmakefile "BOOSTROOT=$BOOSTROOT" "XERCESCROOT=$XERCESCROOT" \
-    DEBUG=0 clean
-make -f GNUmakefile "BOOSTROOT=$BOOSTROOT" "XERCESCROOT=$XERCESCROOT" \
-    DEBUG=0 depend
-make -f GNUmakefile "BOOSTROOT=$BOOSTROOT" "XERCESCROOT=$XERCESCROOT" \
-    DEBUG=0 all
+#make -f GNUmakefile "BOOSTROOT=$BOOSTROOT" "XERCESCROOT=$XERCESCROOT" \
+#    DEBUG=0 clean
+#make -f GNUmakefile "BOOSTROOT=$BOOSTROOT" "XERCESCROOT=$XERCESCROOT" \
+#    DEBUG=0 depend
+#make -f GNUmakefile "BOOSTROOT=$BOOSTROOT" "XERCESCROOT=$XERCESCROOT" \
+#    DEBUG=0 all
+make -f GNUmakefile     DEBUG=0 clean
+make -f GNUmakefile    DEBUG=0 depend
+make -j4 -f GNUmakefile    DEBUG=0 all
 
 # Copy the executable to the correct directory if make succeeded (if
 # the retrun status was 0, that is), else print error message.

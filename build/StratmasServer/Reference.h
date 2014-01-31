@@ -5,6 +5,7 @@
 #include <iosfwd>
 #include <map>
 #include <string>
+#include <cstdlib>
 
 // Xerces-c
 #include <xercesc/util/XercesDefs.hpp>

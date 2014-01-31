@@ -2,6 +2,7 @@
 
 // System
 #include <windows.h>
+#include <cstdlib>
 
 // Own
 #include "WinEventSink.h"

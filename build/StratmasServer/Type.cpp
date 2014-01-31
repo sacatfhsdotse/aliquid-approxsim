@@ -1,5 +1,6 @@
 // System
 #include <iostream>
+#include <cstdlib>
 
 // Own
 #include "Declaration.h"

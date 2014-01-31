@@ -138,10 +138,10 @@ public :
 	  unsigned int charsToTranscode = XMLString::stringLen(toTranscode) + 1;
 	  if (charsToTranscode <= kBlock / maxCharSize) {
 	       TranscoderWrapper::getTranscoder()->transcodeTo(toTranscode,
-							       charsToTranscode,
+							       (const XMLSize_t)charsToTranscode,
 							       (XMLByte*)mStr,
-							       kBlock,
-							       charsEaten,
+							       (const XMLSize_t)kBlock,
+							       (XMLSize_t &)charsEaten,
 							       XMLTranscoder::UnRep_RepChar);
 	  }
 	  else {
@@ -153,10 +153,10 @@ public :
 		    chunkSize = (charsToTranscode - i < TranscoderWrapper::getBlockSize() ? 
 				 charsToTranscode - i : TranscoderWrapper::getBlockSize());
 		    readBytes = TranscoderWrapper::getTranscoder()->transcodeTo(toTranscode + i,
-										chunkSize,
+										(const XMLSize_t)chunkSize,
 										(XMLByte*)writeHere,
-										(charsToTranscode - i) * maxCharSize,
-										charsEaten,
+										(const XMLSize_t)(charsToTranscode - i) * maxCharSize,
+										(XMLSize_t &)charsEaten,
 										XMLTranscoder::UnRep_RepChar);
 		    writeHere += readBytes;
 	       }
@@ -236,10 +236,10 @@ private:
 	  if (bytesToTranscode <= kBlock) {
 	       mLongStr = 0;
 	       TranscoderWrapper::getTranscoder()->transcodeFrom((XMLByte*)toTranscode,
-								 bytesToTranscode,
+								 (const XMLSize_t)bytesToTranscode,
 								 mStr,
-								 kBlock,
-								 bytesEaten,
+								 (const XMLSize_t)kBlock,
+								 (XMLSize_t &)bytesEaten,
 								 mNumBytesPerChar);
 	  }
 	  else {
@@ -252,10 +252,10 @@ private:
 		    chunkSize = (bytesToTranscode - i < TranscoderWrapper::getBlockSize() ? 
 				 bytesToTranscode - i : TranscoderWrapper::getBlockSize());
 		    readChars = TranscoderWrapper::getTranscoder()->transcodeFrom((XMLByte*)(toTranscode + i),
-										  chunkSize,
+										  (const XMLSize_t)chunkSize,
 										  writeHere,
-										  bytesToTranscode - i,
-										  bytesEaten,
+										  (const XMLSize_t)bytesToTranscode - i,
+										  (XMLSize_t &)bytesEaten,
 										  numBytesPerChar);
 		    writeHere += readChars;
 	       }

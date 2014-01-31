@@ -5,7 +5,7 @@
 #include <xercesc/framework/LocalFileInputSource.hpp>
 #include <xercesc/framework/MemBufInputSource.hpp>
 #include <xercesc/framework/psvi/XSModel.hpp>
-#include <xercesc/internal/XMLGrammarPoolImpl.hpp>
+#include <xercesc/framework/XMLGrammarPoolImpl.hpp>
 #include <xercesc/sax2/SAX2XMLReader.hpp>
 #include <xercesc/parsers/SAX2XMLReaderImpl.hpp>
 #include <xercesc/sax2/XMLReaderFactory.hpp>
@@ -139,8 +139,9 @@ void XSDContent::parseSchema(const InputSource& source)
 	      parser = 0;
 	      throw handler.errors();
  	 }
-
-	 mXSModel = mGrammarPool->getXSModel();
+   bool lax;
+   bool& fisk = lax;
+	 mXSModel = mGrammarPool->getXSModel(fisk);
 	 if (!mXSModel) {    
 	      e << "No XSModel in XSDContent::parseSchmea()";
 	      errOcc = true;

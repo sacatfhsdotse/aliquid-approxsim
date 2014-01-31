@@ -18,6 +18,7 @@
 #include "Reference.h"
 #include "Shape.h" 
 #include "StrX.h"
+#include "XMLHelper.h"
 
 
 using namespace std;

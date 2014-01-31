@@ -10,6 +10,7 @@
 #include "Grid.h"
 #include "Map.h"
 #include "PVInfo.h"
+#include "Shape.h"
 #include "Server.h"
 #include "Session.h"
 #include "StratmasMessage.h"

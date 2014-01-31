@@ -20,6 +20,7 @@
 #include "Update.h"
 #include "XMLHandler.h"
 #include "XMLHelper.h"
+#include "Reference.h"
 
 // Xerces
 #include <xercesc/dom/DOMElement.hpp>

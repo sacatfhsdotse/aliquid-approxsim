@@ -1,5 +1,5 @@
 // $Id: WinSocket.cpp,v 1.3 2006/09/05 14:18:21 dah Exp $
-
+#ifdef OS_WIN32
 // Windows adaptation of socket.
 
 // System
@@ -347,3 +347,5 @@ std::string WinSocket::address() const
 	 << ((int)tmp&0xFF);
      return ost.str();
 }
+
+#endif /* OS_WIN32 */

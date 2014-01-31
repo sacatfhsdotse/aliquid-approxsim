@@ -1,3 +1,4 @@
+#ifdef OS_LINUX
 // System
 #include <errno.h>
 #include <fcntl.h>
@@ -329,3 +330,5 @@ std::string PosixSocket::address() const
 	 << ((int)(tmp>>8)&0xFF) << "." << ((int)tmp&0xFF);
      return ost.str();
 }
+
+#endif /* OS_LINUX */

@@ -1,5 +1,5 @@
 // $Id: optionsWin.cpp,v 1.2 2006/09/11 09:00:30 dah Exp $
-
+#ifdef OS_WIN32
 // Boost
 #include <boost/program_options.hpp>
 #include <cstdlib>
@@ -333,3 +333,5 @@ VOID WINAPI ::stratmasServiceMain(DWORD argc, LPTSTR* argv)
      
      ::main(0, 0);
 }
+
+#endif /* OS_WIN32 */

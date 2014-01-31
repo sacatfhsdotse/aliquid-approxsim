@@ -1,5 +1,5 @@
 // $Id: WinEventSink.cpp,v 1.3 2006/07/27 15:28:29 dah Exp $
-
+#ifdef OS_WIN32
 // System
 #include <windows.h>
 #include <cstdlib>
@@ -61,3 +61,5 @@ WinEventSink* WinEventSink::createWinEventSink(const std::string& sourceName)
 
      return new WinEventSink();
 }
+
+#endif /* OS_WIN32 */

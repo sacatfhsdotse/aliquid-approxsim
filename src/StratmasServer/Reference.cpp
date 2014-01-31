@@ -110,7 +110,7 @@ const Reference &Reference::get(const DOMElement* n) {
  * \param indent Intention string for readable output.
  * \return The ostream with the XML representation written to it.
  */
-ostream& Reference::toXML(std::ostream& o, std::string indent) const {
+std::ostream& Reference::toXML(std::ostream& o, std::string indent) const {
      if(mScope) {
 	  o << indent << "<name>" << XMLHelper::encodeSpecialCharacters(mName) << "</name>";
 	  if (mScope->mScope) {

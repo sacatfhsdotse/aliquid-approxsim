@@ -1,4 +1,5 @@
 // $Id: SyslogSink.cpp,v 1.1 2006/07/25 14:52:00 dah Exp $
+#ifdef OS_LINUX
 
 // System
 #include <syslog.h>
@@ -37,3 +38,5 @@ SyslogSink* SyslogSink::createSyslogSink(const std::string& ident)
 
      return new SyslogSink();
 }
+
+#endif /* OS_LINUX */

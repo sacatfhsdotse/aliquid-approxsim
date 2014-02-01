@@ -274,8 +274,9 @@ template<class T> ostream& XMLHelper::base64Print(const T* const toEncode,
 ostream& XMLHelper::base64Print(const int8_t* toEncode, int nBytesToEncode, ostream& o)
 {
      unsigned int encodedLength = 0;
+     XMLSize_t outputlength;
      XMLByte* encoded = Base64::encode(reinterpret_cast<const XMLByte*>(toEncode),
-				       nBytesToEncode / sizeof(XMLByte), &encodedLength);
+				       (const XMLSize_t)(nBytesToEncode / sizeof(XMLByte)), (XMLSize_t*)&encodedLength);
      
      if(!encodedLength) {
 	  Error e;

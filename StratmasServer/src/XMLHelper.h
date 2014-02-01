@@ -192,6 +192,6 @@ public:
 };
 
 
-//#include "XMLHelper.cpp"
+#include "XMLHelper.cpp"
 
 #endif   // STRATMAS_XMLHELPER_H

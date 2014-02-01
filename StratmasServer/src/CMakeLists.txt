@@ -1,5 +1,5 @@
 FILE (GLOB_RECURSE project_SRCS *.cpp *.cxx *.cc *.C *.c *.h *.hpp)
-FILE (GLOB glob_remove s_subst.c schemas/file2h.c GridCellPV.cpp)
+FILE (GLOB glob_remove s_subst.c schemas/file2h.c GridCellPV.cpp XMLHelper.cpp)
 LIST(REMOVE_ITEM project_SRCS ${glob_remove})
 
 SET (project_LIBS ${Boost_LIBRARIES} ${XercesC_LIBRARIES} ${Log4Cxx_LIBRARIES})
@@ -27,7 +27,8 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Solaris")
   LIST (APPEND project_OS_SPECIFIC "-lsocket -lnsl")
 ENDIF()
 
-  LIST (APPEND project_OS_SPECIFIC "-lxerces-c")
+#Does not seem to be included properly in XerceC_LIBRARIES
+LIST (APPEND project_OS_SPECIFIC "-lxerces-c")
 
 #Compiler
 IF(${MSVC})

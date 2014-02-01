@@ -1,6 +1,7 @@
 FILE (GLOB_RECURSE project_SRCS *.cpp *.cxx *.cc *.C *.c *.h *.hpp)
-list(REMOVE_ITEM project_SRCS "schemas/file2h.c" "GridCellPV.cpp")
-#list(REMOVE_ITEM project_SRCS "GridCellPV.cpp")
+FILE (GLOB glob_remove s_subst.c schemas/file2h.c GridCellPV.cpp)
+LIST(REMOVE_ITEM project_SRCS ${glob_remove})
+
 SET (project_LIBS ${Boost_LIBRARIES} ${Xerces_LIBRARIES} ${Log4Cxx_LIBRARIES})
 SET (project_BIN ${PROJECT_NAME})
 
@@ -18,7 +19,7 @@ ENDIF()
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   add_definitions(-DOS_DARWIN)
 ELSE()
-  LIST (APPEND project_OS_SPECIFIC "-Wl,-rpath")
+  #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wl,-rpath")
 ENDIF()
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Solaris")

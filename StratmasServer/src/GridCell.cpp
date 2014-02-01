@@ -17,7 +17,7 @@
 #include "random.h"
 
 // The process variable update code.
-//#include "GridCellPV.cpp"
+#include "GridCellPV.cpp"
 
 
 using namespace std;

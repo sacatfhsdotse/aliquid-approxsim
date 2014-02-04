@@ -83,9 +83,9 @@ std::string Environment::getNativePath(const std::string& path)
 std::string Environment::getNativePath(const fs::path& path)
 {
      if (!path.is_complete()) {
-	  return fs::complete(path, getInstallDir()).string();
+          return fs::complete(path, getInstallDir()).string();
      } else {
-	  return path.string();
+          return path.string();
      }
 }
 
@@ -105,9 +105,9 @@ fs::path Environment::importNativePath(const std::string& nativePath)
 {
      fs::path path(nativePath);
      if (!path.is_complete()) {
-	  return fs::complete(path, getInstallDir());
+          return fs::complete(path, getInstallDir());
      } else {
-	  return path;
+          return path;
      }
 }
 
@@ -159,17 +159,17 @@ string Environment::getVersion()
 {
      string version = STRATMAS_VERSION;
      if (version.size() <= 7) {
-	  return string(DEFAULT_VERSION);
+          return string(DEFAULT_VERSION);
      }
      version = version.substr(6, version.size() - 7);
      int first = version.find_first_not_of(" ");
      int last = version.find_last_not_of(" ");
      if (first == -1 || last == -1) {
-	  return string(DEFAULT_VERSION);
+          return string(DEFAULT_VERSION);
      }
      version = version.substr(first, last - first + 1);
      if (version.size() == 0) {
-	  version = DEFAULT_VERSION;
+          version = DEFAULT_VERSION;
      }
      return version;
 }
@@ -186,8 +186,8 @@ string Environment::getVersion()
 void Environment::setConfigFile(const std::string& file)
 {
      if (!file.empty()) {
-	  sConfigFile = importNativePath(file);
-	  sForceConfigFileRead = true;
+          sConfigFile = importNativePath(file);
+          sForceConfigFileRead = true;
      }
 }
 
@@ -199,13 +199,13 @@ void Environment::setDumpDir(const std::string& dirname)
 {
      fs::path path = importNativePath(dirname);
      if (fs::is_directory(path)) {
-	  sDumpDir = path;
-	  IOHandler::enableFileOutput();
+          sDumpDir = path;
+          IOHandler::enableFileOutput();
      } else {
-	  // Since this is not a public user functionality, just give
-	  // a warning if provided path is not a directory.
-	  slog <<  getNativePath(path) << " is not a directory. " 
-	       << "No dumps will be written." << logEnd;
+          // Since this is not a public user functionality, just give
+          // a warning if provided path is not a directory.
+          slog <<  getNativePath(path) << " is not a directory. " 
+               << "No dumps will be written." << logEnd;
      }
 }
 
@@ -216,12 +216,12 @@ void Environment::setDumpDir(const std::string& dirname)
 void Environment::milliSleep(int milliSecs)
 {
 #ifdef __win__
-	       Sleep(milliSecs);
+               Sleep(milliSecs);
 #else
-	       timespec ts;
-	       ts.tv_sec = milliSecs / 1000;
-	       ts.tv_nsec = (milliSecs % 1000) * 1000000;
-	       ::nanosleep(&ts, 0);
+               timespec ts;
+               ts.tv_sec = milliSecs / 1000;
+               ts.tv_nsec = (milliSecs % 1000) * 1000000;
+               ::nanosleep(&ts, 0);
 #endif
 }
 
@@ -237,9 +237,9 @@ void Environment::initEnvironment(int argc, char** argv)
 {
      // Short circuit any subsequent calls to initEnvironment.
      if (initStarted) {
-	  return;
+          return;
      } else {
-	  initStarted = true;
+          initStarted = true;
      }
      
      // Bug fix, for comments see static initializations above.
@@ -250,9 +250,9 @@ void Environment::initEnvironment(int argc, char** argv)
 
      // If any program name supplied, use that, else use default.
      if (argc > 0) {
-	  // Can't use importNativePath here since it depends on values
-	  // initialized by sExecutable
-	  sExecutable = fs::complete(fs::path(std::string(argv[0])));
+          // Can't use importNativePath here since it depends on values
+          // initialized by sExecutable
+          sExecutable = fs::complete(fs::path(std::string(argv[0])));
      }
 
      // Use progname to figure out install dir.
@@ -287,40 +287,40 @@ void Environment::initConfig(int argc, char** argv)
      // file is rather special to cope with defaultness.
      po::options_description invocation("Invocation options");
      invocation.add_options()
-	  ("help,?", "Show help message")
-	  ("version,v", "Show version")
-	  ("configfile", 
-	   po::value<std::string>()->notifier(&Environment::setConfigFile)->default_value("", (fs::path("INSTALLDIR") / sConfigFile).string()), 
-	   "Specify configuration file")
-	  ;
+          ("help,?", "Show help message")
+          ("version,v", "Show version")
+          ("configfile", 
+           po::value<std::string>()->notifier(&Environment::setConfigFile)->default_value("", (fs::path("INSTALLDIR") / sConfigFile).string()), 
+           "Specify configuration file")
+          ;
           
      // Configurable options.
      po::options_description configuration("Configuration");
      configuration.add_options()
-	  ("anyclient,a", "Disable allowed client checks")
-	  ("client,c", 
-	   po::value<vector<string> >()->composing(), 
-	   "Allowed clients")
-	  ("dispatcher,d", po::value(&sDispatcherHost), 
-	   "Register to dispatcher")
-	  ("dispatcher-port", 
-	   po::value(&sDispatcherPort)->default_value(getDispatcherPort()), 
-	   "Dispatcher port to use")
-	  ("host,h", 
-	   po::value(&sServerAddress)->default_value(getServerAddress()), 
-	   "Server address")
-	  ("port,p", 
-	   po::value(&sServerPort)->default_value(getServerPort()), 
-	   "Server port")
-	  ;
+          ("anyclient,a", "Disable allowed client checks")
+          ("client,c", 
+           po::value<vector<string> >()->composing(), 
+           "Allowed clients")
+          ("dispatcher,d", po::value(&sDispatcherHost), 
+           "Register to dispatcher")
+          ("dispatcher-port", 
+           po::value(&sDispatcherPort)->default_value(getDispatcherPort()), 
+           "Dispatcher port to use")
+          ("host,h", 
+           po::value(&sServerAddress)->default_value(getServerAddress()), 
+           "Server address")
+          ("port,p", 
+           po::value(&sServerPort)->default_value(getServerPort()), 
+           "Server port")
+          ;
 
      // Options for developers, these will be hidden.
      po::options_description development("Developer options");
      development.add_options()
-	  ("outputdir,o", 
-	   po::value<std::string>()->notifier(&setDumpDir),
-	   "Output directory")
-	  ;
+          ("outputdir,o", 
+           po::value<std::string>()->notifier(&setDumpDir),
+           "Output directory")
+          ;
 
      // Add options specific to the current platform
      addPlatformOptions(&invocation, &configuration, &development);
@@ -336,25 +336,25 @@ void Environment::initConfig(int argc, char** argv)
 
      // Get command line options.
      try {
-	  po::store(po::parse_command_line(argc, argv, cmdline_options), vm);
+          po::store(po::parse_command_line(argc, argv, cmdline_options), vm);
      } catch (po::error& e) {
-	  slog << "Command line error: " << e.what() << logEnd;
-	  exit(1);
+          slog << "Command line error: " << e.what() << logEnd;
+          exit(1);
      }
      notify(vm);
 
      // Handle help and version from here.
      if (vm.count("help") != 0) {
-	  po::options_description visible("Stratmas Server options");
-	  visible.add(invocation);
-	  visible.add(configuration);
-	  visible.print(std::cout);
-	  std::cout << std::endl;
-	  exit(0);
+          po::options_description visible("Stratmas Server options");
+          visible.add(invocation);
+          visible.add(configuration);
+          visible.print(std::cout);
+          std::cout << std::endl;
+          exit(0);
      } else if (vm.count("version") != 0) {
-	  std::cout << "Stratmas Server" << std::endl
-		    << "    Version:   " << getVersion() << std::endl;
-	  exit(0);
+          std::cout << "Stratmas Server" << std::endl
+                    << "    Version:   " << getVersion() << std::endl;
+          exit(0);
      }
      
      // Get config file options.
@@ -364,37 +364,37 @@ void Environment::initConfig(int argc, char** argv)
      config_file_options.add(development);
 
      try {
-	  if (sForceConfigFileRead && !isFile(sConfigFile)) {
-	       // If config file specified but not found, it is an error.
-	       slog << "Config file error: " 
-		    << getNativePath(sConfigFile)
-		    << " is not a file" << logEnd;
-	       exit(1);
-	  }
-	  std::ifstream ifs(getNativePath(sConfigFile).c_str());
-	  po::store(po::parse_config_file(ifs, config_file_options), vm);
+          if (sForceConfigFileRead && !isFile(sConfigFile)) {
+               // If config file specified but not found, it is an error.
+               slog << "Config file error: " 
+                    << getNativePath(sConfigFile)
+                    << " is not a file" << logEnd;
+               exit(1);
+          }
+          std::ifstream ifs(getNativePath(sConfigFile).c_str());
+          po::store(po::parse_config_file(ifs, config_file_options), vm);
      } catch (po::error& e) {
-	  slog << "Error in config file " 
-	       << getNativePath(sConfigFile) << ": " 
-	       << e.what() << logEnd;
-	  exit(1);
+          slog << "Error in config file " 
+               << getNativePath(sConfigFile) << ": " 
+               << e.what() << logEnd;
+          exit(1);
      }
      notify(vm);
 
      // If anyclient specified, keep default PassClientValidator, else
      // replace with validator we collected with client entries.
      if (vm.count("anyclient") == 0) {
-	  delete spClientValidator;
-	  IPValidator* validator = new IPValidator();
-	  if (vm.count("client") != 0) {
-	       vector<string> clients = vm["client"].as<vector<string> >();
-	       for (vector<string>::iterator it = clients.begin(); 
-		    it != clients.end(); it++) {
-		    validator->addValidIP(*it);
-	       }
-	  }
+          delete spClientValidator;
+          IPValidator* validator = new IPValidator();
+          if (vm.count("client") != 0) {
+               vector<string> clients = vm["client"].as<vector<string> >();
+               for (vector<string>::iterator it = clients.begin(); 
+                    it != clients.end(); it++) {
+                    validator->addValidIP(*it);
+               }
+          }
 
-	  spClientValidator = validator;
+          spClientValidator = validator;
      }
 
      // Handle platform options last. Note that the Windows Service

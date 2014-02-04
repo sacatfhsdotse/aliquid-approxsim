@@ -1,4 +1,4 @@
-// 	$Id: TypeFactory.java,v 1.2 2006/03/31 16:55:51 dah Exp $
+//         $Id: TypeFactory.java,v 1.2 2006/03/31 16:55:51 dah Exp $
 /*
  * @(#)StratmasObjectFactory.java
  */
@@ -44,7 +44,7 @@ public class TypeFactory
      */
     static TypeInformation createTypeInformation(String uri)
     {
-	return new TypeInformation(uri);	
+        return new TypeInformation(uri);        
     }
 
     /**
@@ -55,11 +55,11 @@ public class TypeFactory
      */
     public static Type getType(String type, String namespace)
     {
-	if (typeInformation == null) {
-	    typeInformation = createTypeInformation(defaultUri);
-	}
+        if (typeInformation == null) {
+            typeInformation = createTypeInformation(defaultUri);
+        }
 
-	return typeInformation.getType(type, namespace);
+        return typeInformation.getType(type, namespace);
     }
 
     /**
@@ -70,7 +70,7 @@ public class TypeFactory
      */
     public static Type getType(String type)
     {
-	return getType(type, defaultNamespace);
+        return getType(type, defaultNamespace);
     }
 
     /**
@@ -81,7 +81,7 @@ public class TypeFactory
      */
     public static Type getType(Element element)
     {
-	return XMLHelper.getType(element);
+        return XMLHelper.getType(element);
     }
 
     /**
@@ -89,6 +89,6 @@ public class TypeFactory
      */
     public static TypeInformation getTypeInformation()
     {
-	return typeInformation;
+        return typeInformation;
     }
 }

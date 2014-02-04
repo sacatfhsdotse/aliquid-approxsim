@@ -51,18 +51,18 @@ public class DraggableJMenuItem extends JMenuItem implements DragGestureListener
      * @param object the object associated with the dragging action.
      */
     public DraggableJMenuItem(StratmasObject object) {
-	super( object.getReference().getIdentifier().trim());
-	this.object = object;
-	source = new DragSource();
-	recognizer = source.createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_REFERENCE, this);
-	//
-	Toolkit tk = Toolkit.getDefaultToolkit();
-	Image image = ((Icon)object.getIcon()).getImage();
-	Dimension bestsize = tk.getBestCursorSize(image.getWidth(null),image.getHeight(null));
-	if (bestsize.width != 0)
-	    c = tk.createCustomCursor(image, new java.awt.Point(bestsize.width/2, bestsize.height/2), object.toString());
-	else
-	    c = Cursor.getDefaultCursor();
+        super( object.getReference().getIdentifier().trim());
+        this.object = object;
+        source = new DragSource();
+        recognizer = source.createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_REFERENCE, this);
+        //
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        Image image = ((Icon)object.getIcon()).getImage();
+        Dimension bestsize = tk.getBestCursorSize(image.getWidth(null),image.getHeight(null));
+        if (bestsize.width != 0)
+            c = tk.createCustomCursor(image, new java.awt.Point(bestsize.width/2, bestsize.height/2), object.toString());
+        else
+            c = Cursor.getDefaultCursor();
     }
     
     /*
@@ -71,10 +71,10 @@ public class DraggableJMenuItem extends JMenuItem implements DragGestureListener
      * @param dge the event.
      */
     public void dragGestureRecognized(DragGestureEvent dge) {
-	// set the dragged element
-	DraggedElement.setElement(object);
-	// start the drag
-	source.startDrag(dge, c, object, new DragSourceAdapter(){});
+        // set the dragged element
+        DraggedElement.setElement(object);
+        // start the drag
+        source.startDrag(dge, c, object, new DragSourceAdapter(){});
     }
     
 }

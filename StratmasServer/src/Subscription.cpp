@@ -36,10 +36,10 @@ using namespace std;
 Subscription::Subscription(DOMElement *n, Buffer &buf) : mBuf(buf)
 {
      if (!n) {
-	  Error e(Error::eWarning);
-	  e << "Invalid Stratmas message. Null element node in"
-	    << "Subscription::Subscription()";
-	  throw e;
+          Error e(Error::eWarning);
+          e << "Invalid Stratmas message. Null element node in"
+            << "Subscription::Subscription()";
+          throw e;
      }
 
      // Get the id for this Subscription
@@ -83,10 +83,10 @@ void StratmasObjectSubscription::getSubscribedData(std::ostream &o)
 {
      debug("In SOSub:");
      if (mData->changed()) {
-	  debug("    Changed == true");
-	  o << "<subscribedData xsi:type=\"sp:SubscribedStratmasObjectData\" id=\"" << mId << "\">" << endl;
-	  mData->toXML(o);
-	  o << "</subscribedData>" << endl;
+          debug("    Changed == true");
+          o << "<subscribedData xsi:type=\"sp:SubscribedStratmasObjectData\" id=\"" << mId << "\">" << endl;
+          mData->toXML(o);
+          o << "</subscribedData>" << endl;
      }
 }
 
@@ -110,20 +110,20 @@ LayerSubscription::LayerSubscription(DOMElement* n, Buffer& buf, bool sbe)
      DOMElement* factionElem = XMLHelper::getFirstChildByTag(*n, "faction");
      Faction* fac = &EthnicFaction::all();
      if (!fac) {
-	  Error e;
-	  e << "Tried to subscribe to Faction 'all' that does not exist";
-	  throw e;
+          Error e;
+          e << "Tried to subscribe to Faction 'all' that does not exist";
+          throw e;
      }
      mFaction = (factionElem ? &Reference::get(factionElem) : &fac->ref());
 
      DOMElement* elem = XMLHelper::getFirstChildByTag(*n, "index");
      if (elem) {
-	  XMLByte* data = Base64::decode((const XMLByte * const)XMLHelper::getXMLChString(*n, "index"), (XMLSize_t*)&mLength);
-	  mIndex = reinterpret_cast<int32_t*>(data);
+          XMLByte* data = Base64::decode((const XMLByte * const)XMLHelper::getXMLChString(*n, "index"), (XMLSize_t*)&mLength);
+          mIndex = reinterpret_cast<int32_t*>(data);
      }
      else {
-	  mLength = mBuf.grid().active();
-	  mIndex = 0;
+          mLength = mBuf.grid().active();
+          mIndex = 0;
      }
      debug("Created LayerSubscription for layer '" << mLayer << "', faction: '" << *mFaction << "'");
 }
@@ -163,14 +163,14 @@ RegionSubscription::RegionSubscription(DOMElement *n, Buffer &buf)
      : Subscription(n, buf)
 {
      if (!mBuf.hasData()) {
-	  Error e;
-	  e << "Tried to create a RegionSubscription when no scenario is initialized.";
-	  throw e;
+          Error e;
+          e << "Tried to create a RegionSubscription when no scenario is initialized.";
+          throw e;
      }
      else if (Projection::mCurrent == 0) {
-	  Error e;
-	  e << "Tried to create a RegionSubscription when there is no current projection.";
-	  throw e;
+          Error e;
+          e << "Tried to create a RegionSubscription when there is no current projection.";
+          throw e;
      }
 
      mResetCount = mBuf.resetCount();
@@ -207,12 +207,12 @@ void RegionSubscription::getSubscribedData(std::ostream &o)
      // Update our AttributesGroup if the Buffer has been reset since
      // the last call
      if (mResetCount != mBuf.resetCount()) {
-	  delete mRegion;
-	  mRegion = new CellGroup(mBuf.gridDataHandler());
-//	  mRegion = new CellGroup(mBuf.grid().factions());
-	  for (list<GridPos>::iterator it = mPositions.begin(); it != mPositions.end(); it++) {
-	       mRegion->addMember(mBuf.grid().cell(*it));
-	  }
+          delete mRegion;
+          mRegion = new CellGroup(mBuf.gridDataHandler());
+//          mRegion = new CellGroup(mBuf.grid().factions());
+          for (list<GridPos>::iterator it = mPositions.begin(); it != mPositions.end(); it++) {
+               mRegion->addMember(mBuf.grid().cell(*it));
+          }
      }
 
      mRegion->update();
@@ -220,50 +220,50 @@ void RegionSubscription::getSubscribedData(std::ostream &o)
      o << "<subscribedData xsi:type=\"sp:SubscribedRegionData\" id=\"" << mId << "\">" << endl;
      // PV:s with factions.
      for (int i = 0; i < eNumWithFac; ++i) {
-	  ePVF pv = static_cast<ePVF>(i);
-	  for (int j = 0; j < mBuf.grid().factions() + 1; ++j) {
-	       printPV(o,
-		       PVHelper::pvfName(pv),
-		       PVHelper::pvfType(pv),
-		       mRegion->pvfGet(pv, j),
-		       (j == EthnicFaction::ALL ? 0 : EthnicFaction::faction(j)));
-	  }
+          ePVF pv = static_cast<ePVF>(i);
+          for (int j = 0; j < mBuf.grid().factions() + 1; ++j) {
+               printPV(o,
+                       PVHelper::pvfName(pv),
+                       PVHelper::pvfType(pv),
+                       mRegion->pvfGet(pv, j),
+                       (j == EthnicFaction::ALL ? 0 : EthnicFaction::faction(j)));
+          }
      }
      // PV:s without factions.
      for (int i = 0; i < eNumNoFac; ++i) {
-	  ePV pv = static_cast<ePV>(i);
-	  printPV(o, PVHelper::pvName(pv), PVHelper::pvType(pv), mRegion->pvGet(pv));
+          ePV pv = static_cast<ePV>(i);
+          printPV(o, PVHelper::pvName(pv), PVHelper::pvType(pv), mRegion->pvGet(pv));
      }
      // Derived PV:s with factions.
      for (int i = 0; i < eDNumDerivedF; ++i) {
-	  eDerivedF pv = static_cast<eDerivedF>(i);
-	  for (int j = 0; j < mBuf.grid().factions() + 1; ++j) {
-	       printPV(o, PVHelper::pdfName(pv),
-		       PVHelper::pdfType(pv),
-		       mRegion->pdfGet(pv, j),
-		       (j == EthnicFaction::ALL ? 0 : EthnicFaction::faction(j)));
-	  }
+          eDerivedF pv = static_cast<eDerivedF>(i);
+          for (int j = 0; j < mBuf.grid().factions() + 1; ++j) {
+               printPV(o, PVHelper::pdfName(pv),
+                       PVHelper::pdfType(pv),
+                       mRegion->pdfGet(pv, j),
+                       (j == EthnicFaction::ALL ? 0 : EthnicFaction::faction(j)));
+          }
      }
      // Derived PV:s without factions.
      for (int i = 0; i < eDNumDerived; ++i) {
-	  eDerived pv = static_cast<eDerived>(i);
-	  printPV(o, PVHelper::pdName(pv), PVHelper::pdType(pv), mRegion->pdGet(pv));
+          eDerived pv = static_cast<eDerived>(i);
+          printPV(o, PVHelper::pdName(pv), PVHelper::pdType(pv), mRegion->pdGet(pv));
      }
      
      // Precalculated PV:s with factions.
      for (int i = 0; i < ePNumPreCalcF; ++i) {
-	  ePreCalcF pv = static_cast<ePreCalcF>(i);
-	  for (int j = 0; j < mBuf.grid().factions() + 1; ++j) {
-	       printPV(o, PVHelper::pcfName(pv),
-		       PVHelper::pcfType(pv),
-		       mRegion->pcfGet(pv, j),
-		       (j == EthnicFaction::ALL ? 0 : EthnicFaction::faction(j)));
-	  }
+          ePreCalcF pv = static_cast<ePreCalcF>(i);
+          for (int j = 0; j < mBuf.grid().factions() + 1; ++j) {
+               printPV(o, PVHelper::pcfName(pv),
+                       PVHelper::pcfType(pv),
+                       mRegion->pcfGet(pv, j),
+                       (j == EthnicFaction::ALL ? 0 : EthnicFaction::faction(j)));
+          }
      }
      // Precalculated PV:s without factions.
      for (int i = 0; i < ePNumPreCalc; ++i) {
-	  ePreCalc pv = static_cast<ePreCalc>(i);
-	  printPV(o, PVHelper::pcName(pv), PVHelper::pcType(pv), mRegion->pcGet(pv));
+          ePreCalc pv = static_cast<ePreCalc>(i);
+          printPV(o, PVHelper::pcName(pv), PVHelper::pcType(pv), mRegion->pcGet(pv));
      }
      
      // CombatGrid
@@ -271,14 +271,14 @@ void RegionSubscription::getSubscribedData(std::ostream &o)
      double* agg = new double[numCombatLayers];
      mBuf.combatGrid().aggregate(mPositions, agg);
      for (int i = 0; i < numCombatLayers; i++) {
-	  printPV(o, mBuf.combatGrid().indexToName(i).c_str(), "sp:Positive", agg[i]);
+          printPV(o, mBuf.combatGrid().indexToName(i).c_str(), "sp:Positive", agg[i]);
      }
      delete [] agg;
 
      // Stance Layers
 //      const GridDataHandler& gdh = mBuf.gridDataHandler();
 //      for (int i = 0; i < gdh.stanceLayers(); ++i) {
-// 	  printPV(o, gdh.stanceLayerName(i).c_str(), "sp:Percent", mRegion->psGet(i));
+//           printPV(o, gdh.stanceLayerName(i).c_str(), "sp:Percent", mRegion->psGet(i));
 //      }
 
      o << "</subscribedData>" << endl;
@@ -289,16 +289,16 @@ void RegionSubscription::printPV(ostream& o, const char* name, const char* type,
      o << "<pv>" << endl;
      o << "<name>" << name << "</name>" << endl;
      if (faction) {
-	  o << "<faction>" << endl;
-	  faction->ref().toXML(o) << endl;
-	  o << "</faction>" << endl;
+          o << "<faction>" << endl;
+          faction->ref().toXML(o) << endl;
+          o << "</faction>" << endl;
      }
      o << "<value xsi:type=\"" << type << "\">";
      if (!isnan(value)) {
-	  o << value;
+          o << value;
      }
      else {
-	  o << "NaN";
+          o << "NaN";
      }
      o << "</value>" << endl;
      o << "</pv>" << endl;

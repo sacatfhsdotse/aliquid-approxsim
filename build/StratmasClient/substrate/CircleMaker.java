@@ -26,21 +26,21 @@ public class CircleMaker extends ShapeMaker {
      * Creates new CircleMaker.
      */
     public CircleMaker(SubstrateMapDrawer drawer) {
-	super(drawer);
+        super(drawer);
     }
     
     /**
      * Creates new circle.
      */
     protected void createCircle(double lon, double lat, double radius) {
-	circle = (Circle) StratmasObjectFactory.createCircle("circle" + String.valueOf(createdCircleCounter++), lat, lon, radius);
+        circle = (Circle) StratmasObjectFactory.createCircle("circle" + String.valueOf(createdCircleCounter++), lat, lon, radius);
     }
     
     /**
      * Returns true if a circle is created.
      */
     public boolean isCircleCreated() {
-	return circle != null;
+        return circle != null;
     }
     
     /**
@@ -50,46 +50,46 @@ public class CircleMaker extends ShapeMaker {
      * @param lat latitude of the point.
      */
     protected void setRadius(double lon, double lat) {
-	Point center = circle.getCenter();
-	// compute the radius
-	double radius = GeoMath.distanceGC(center.getLat(), center.getLon(), lat, lon);
-	circle.setRadius(radius);
+        Point center = circle.getCenter();
+        // compute the radius
+        double radius = GeoMath.distanceGC(center.getLat(), center.getLon(), lat, lon);
+        circle.setRadius(radius);
     }
     
     /**
      * Creates new MapShapeAdapter.
      */
     protected void createMapShapeAdapter(Color color) {
-	if (circle != null) {
-	    shapeAdapter = (MapShapeAdapter)MapDrawableAdapter.getMapDrawableAdapter(circle);
-	    shapeAdapter.setShapeAreaColor(color);
-	    shapeAdapter.setShapeLineWidth(2.0f);
-	}
+        if (circle != null) {
+            shapeAdapter = (MapShapeAdapter)MapDrawableAdapter.getMapDrawableAdapter(circle);
+            shapeAdapter.setShapeAreaColor(color);
+            shapeAdapter.setShapeLineWidth(2.0f);
+        }
     }
     
     /**
      * Updates the color of the shape.
      */
     protected void updateShapeColor(Color color) {
-	if (shapeAdapter != null) {
-	    shapeAdapter.setShapeAreaColor(color);
-	} 
+        if (shapeAdapter != null) {
+            shapeAdapter.setShapeAreaColor(color);
+        } 
     }
     
     /**
      * Removes the shape adapter.
      */
     protected void clearAll() {
-	shapeAdapter = null;
-	circle = null;
-	drawer.update();
+        shapeAdapter = null;
+        circle = null;
+        drawer.update();
     }
     
     /**
      * Checks if the polygon is simple.
      */
     protected boolean isShapeSimple() {
-	return true;
+        return true;
     }
     
     /**
@@ -99,9 +99,9 @@ public class CircleMaker extends ShapeMaker {
      * @param lat latitude of the new center of the polygons bounding box.
      */
     public void moveShape(double lon, double lat) {
-	if (circle != null) {
-	    circle.moveTo(lon, lat);
-	}
+        if (circle != null) {
+            circle.moveTo(lon, lat);
+        }
     }
 
 }

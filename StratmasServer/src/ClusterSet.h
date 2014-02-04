@@ -23,12 +23,12 @@ class Ellipse;
 class ClusterSet {
 public:
      int       mNumClusters;   ///< Number of clusters found
-     int       mMaxClusters;   ///< Maximum number of clusters to look for	
+     int       mMaxClusters;   ///< Maximum number of clusters to look for        
      Ellipse   *mCluster;      ///< The array of cluster ellipses
-	
+        
      ClusterSet(int max);
      ~ClusterSet();
-	
+        
      int    FitToData(int n, int *index, const double* const xp, const double* const yp, double *wp);
      void   MakeSigmaBoxes(double k);
 };

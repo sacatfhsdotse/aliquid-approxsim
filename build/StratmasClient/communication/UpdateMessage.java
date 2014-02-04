@@ -36,7 +36,7 @@ public class UpdateMessage extends StratmasMessage {
       * @param u The update object
       */
      public void addUpdate(Update u) {
-	  mUpdates.add(u);
+          mUpdates.add(u);
      }
 
     /**
@@ -45,7 +45,7 @@ public class UpdateMessage extends StratmasMessage {
      * @return A string representation of the type of this message.
      */
      public String getTypeAsString() {
-	  return "UpdateServerMessage";
+          return "UpdateServerMessage";
      }
 
      /**
@@ -56,9 +56,9 @@ public class UpdateMessage extends StratmasMessage {
       * object's body appended to it.
       */
      public StringBuffer bodyXML(StringBuffer b) {
-	  for (Iterator i = mUpdates.iterator(); i.hasNext(); ) {
-	       b.append(((Update)i.next()).toXML());
-	  }
-	  return b;
+          for (Iterator i = mUpdates.iterator(); i.hasNext(); ) {
+               b.append(((Update)i.next()).toXML());
+          }
+          return b;
      }
 }

@@ -22,7 +22,7 @@ class Socket;
 class SocketImpl {
 protected:
      virtual ~SocketImpl() {};
-	       
+               
 public:
      // Server initialization
      virtual bool create() = 0;

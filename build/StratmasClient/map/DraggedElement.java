@@ -17,13 +17,13 @@ public class DraggedElement {
      * Sets the dragged element.
      */
     public static void setElement(StratmasObject element) {
-	draggedElement = element;
+        draggedElement = element;
     }
     
     /**
      * Returns the dragged element.
      */
     public static StratmasObject getElement() {
-	return draggedElement;
+        return draggedElement;
     }
 }

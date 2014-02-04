@@ -37,11 +37,11 @@ Region::Region(const DataObject& d)
 {     
      static bool firstTime = true;
      if (firstTime) {
-	  firstTime = false;
-	  for (int i = 0; i < eRNumRegionParameters; ++i) {
-	       eRegionParameter mp = static_cast<eRegionParameter>(i);
-	       sNameToIndex[paramName(mp)] = mp;
-	  }
+          firstTime = false;
+          for (int i = 0; i < eRNumRegionParameters; ++i) {
+               eRegionParameter mp = static_cast<eRegionParameter>(i);
+               sNameToIndex[paramName(mp)] = mp;
+          }
      }
 
      setDefault();
@@ -62,11 +62,11 @@ Region::~Region()
 void Region::getDataFromDataObject(const DataObject& d)
 {
      for (int i = 0; i < eRNumRegionParameters; ++i) {
-	  eRegionParameter rp = static_cast<eRegionParameter>(i);
-	  const DataObject* child = d.getChild(paramName(rp));
-	  if (child) {
-	       mParam[rp] = child->getDouble();
-	  }
+          eRegionParameter rp = static_cast<eRegionParameter>(i);
+          const DataObject* child = d.getChild(paramName(rp));
+          if (child) {
+               mParam[rp] = child->getDouble();
+          }
      }
      mChanged = true;
 }
@@ -84,31 +84,31 @@ void Region::prepareForSimulation(const Map& map, Grid& grid, const GridDataHand
      mGrid = &grid;
 
      if (*mAreaRef == map.borders().ref()) {
-	  mArea = &map.borders();
+          mArea = &map.borders();
      }
      else {
-	  CompositeShape* comp = dynamic_cast<CompositeShape*>(&map.borders());
-	  if (comp) {
-	       mArea = comp->getPart(*mAreaRef);
-	  }
+          CompositeShape* comp = dynamic_cast<CompositeShape*>(&map.borders());
+          if (comp) {
+               mArea = comp->getPart(*mAreaRef);
+          }
      }
      if (!mArea) {
-	  Error e;
-	  e << "Couldn't map the reference '" << *mAreaRef << "' to any region in the map";
-	  throw e;
+          Error e;
+          e << "Couldn't map the reference '" << *mAreaRef << "' to any region in the map";
+          throw e;
      }
 
      if (mCellGroup) {
-	  delete mCellGroup;
+          delete mCellGroup;
      }
      mCellGroup = new CellGroup(gdh);
 
      list<GridPos> cellList;
      mArea->cells(grid, cellList);
      for (list<GridPos>::iterator it = cellList.begin(); it != cellList.end(); ++it) {
-	  GridCell* c = grid.cell(*it);
-	  mCellGroup->addMember(c);
-	  c->addOverlappingRegion(*this);
+          GridCell* c = grid.cell(*it);
+          mCellGroup->addMember(c);
+          c->addOverlappingRegion(*this);
      }
 }
 
@@ -118,15 +118,15 @@ void Region::prepareForSimulation(const Map& map, Grid& grid, const GridDataHand
 void Region::update()
 {
      if (mChanged) {
-	  mCellGroup->updateWeights();
-	  mChanged = false;
-	  double numCells = 0;
-	  for (std::vector<std::pair<double, const GridCell*> >::const_iterator it = mCellGroup->members().begin();
-	       it != mCellGroup->members().end(); ++it) {
-	       numCells += it->first;
-	  }
-	  double cellProd = GridCell::areaKm2() * rp(eRFractionArableLand) * mGrid->mp().mp(eFoodProductionPerKm2);
-	  pvrSet(eRFoodProduction, numCells * cellProd);
+          mCellGroup->updateWeights();
+          mChanged = false;
+          double numCells = 0;
+          for (std::vector<std::pair<double, const GridCell*> >::const_iterator it = mCellGroup->members().begin();
+               it != mCellGroup->members().end(); ++it) {
+               numCells += it->first;
+          }
+          double cellProd = GridCell::areaKm2() * rp(eRFractionArableLand) * mGrid->mp().mp(eFoodProductionPerKm2);
+          pvrSet(eRFoodProduction, numCells * cellProd);
      }
      mCellGroup->update();
 
@@ -155,21 +155,21 @@ void Region::update(const Update& u)
 {
      const string& attr = u.getReference().name();
      if (u.getType() == Update::eModify) {
-	  std::map<string, eRegionParameter>::iterator it = sNameToIndex.find(attr);
-	  if (it != sNameToIndex.end()) {
-	       mParam[it->second] = u.getObject()->getDouble();
-	  }
-	  else {
-	       Error e;
-	       e << "No updatable attribute '" << attr << "' in '" << ref() << "'";
-	       throw e;
-	  }
+          std::map<string, eRegionParameter>::iterator it = sNameToIndex.find(attr);
+          if (it != sNameToIndex.end()) {
+               mParam[it->second] = u.getObject()->getDouble();
+          }
+          else {
+               Error e;
+               e << "No updatable attribute '" << attr << "' in '" << ref() << "'";
+               throw e;
+          }
      }
      else {
-	  Error e;
-	  e << "Invalid Region Update (type:" << u.getTypeAsString();
-	  e << ", object: " << attr << ").";
-	  throw e;
+          Error e;
+          e << "Invalid Region Update (type:" << u.getTypeAsString();
+          e << ", object: " << attr << ").";
+          throw e;
      }
      mChanged = true;
 }
@@ -183,12 +183,12 @@ void Region::extract(Buffer &b) const
 {
      DataObject& me = *b.map(ref());
      for (int i = 0; i < eRNumRegionParameters; ++i) {
-	  eRegionParameter rp = static_cast<eRegionParameter>(i);
-	  DataObject* c = me.getChild(paramName(rp));
-	  if (c) {
-	       c->setDouble(mParam[rp]);
-	  }
-//	  me.getChild(paramName(mp))->setDouble(mParam[mp]);
+          eRegionParameter rp = static_cast<eRegionParameter>(i);
+          DataObject* c = me.getChild(paramName(rp));
+          if (c) {
+               c->setDouble(mParam[rp]);
+          }
+//          me.getChild(paramName(mp))->setDouble(mParam[mp]);
      }
 }
 

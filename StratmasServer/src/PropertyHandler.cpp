@@ -25,18 +25,18 @@ bool PropertyHandler::stringToBool(std::string& value)
 {
 #ifdef __win__
       if (_stricmp(value.c_str(), "true") == 0 ||
-	  _stricmp(value.c_str(), "on") == 0 ||
+          _stricmp(value.c_str(), "on") == 0 ||
 #else
       if (strcasecmp(value.c_str(), "true") == 0 ||
-	  strcasecmp(value.c_str(), "on") == 0 ||
+          strcasecmp(value.c_str(), "on") == 0 ||
 #endif
-	  value == "1") {
-	  value = "true";
-	  return true;
+          value == "1") {
+          value = "true";
+          return true;
      }
      else {
-	  value = "false";
-	  return false;
+          value = "false";
+          return false;
      } 
 }
 
@@ -56,27 +56,27 @@ bool PropertyHandler::setPropertiesFromFile(const std::string& filename)
      ifstream ifs(filename.c_str());
      
      if (ifs.is_open()) {
-	  while (!ifs.eof()) {
-	       if (ifs.peek() == '#') {
-		    getline(ifs, line);
-	       }
-	       else {
-		    getline(ifs, prop, '=');
-		    if (ifs.eof()) {
-			 break;
-		    }
-		    getline(ifs, value);
-		    unsigned int i = prop.find_first_not_of(' ');
-		    prop = prop.substr(i, prop.find_last_not_of(' ') - i + 1);
-		    i = value.find_first_not_of(' ');
-		    value = value.substr(i, value.find_last_not_of(' ') - i + 1);
-		    setProperty(prop, value);
-	       }
-	  }
-	  return true;
+          while (!ifs.eof()) {
+               if (ifs.peek() == '#') {
+                    getline(ifs, line);
+               }
+               else {
+                    getline(ifs, prop, '=');
+                    if (ifs.eof()) {
+                         break;
+                    }
+                    getline(ifs, value);
+                    unsigned int i = prop.find_first_not_of(' ');
+                    prop = prop.substr(i, prop.find_last_not_of(' ') - i + 1);
+                    i = value.find_first_not_of(' ');
+                    value = value.substr(i, value.find_last_not_of(' ') - i + 1);
+                    setProperty(prop, value);
+               }
+          }
+          return true;
      }
      else {
-	  return false;
+          return false;
      }
 }
 
@@ -91,17 +91,17 @@ void PropertyHandler::setProperty(string property, string value)
      bool set = true;
 
      if (property == "unitRandomWalk") {
-	  mUnitRandomWalk = stringToBool(value);
+          mUnitRandomWalk = stringToBool(value);
      }
      else if (property == "validateXML") {
-	  mValidateXML = stringToBool(value);
+          mValidateXML = stringToBool(value);
      }
      else {
-	  debug("Unknown propery '" << property << "'");
-	  set = false;
+          debug("Unknown propery '" << property << "'");
+          set = false;
      }
 
      if (set) {
-	  debug("Property '" << property << "' set to " << value);
+          debug("Property '" << property << "' set to " << value);
      }
 }

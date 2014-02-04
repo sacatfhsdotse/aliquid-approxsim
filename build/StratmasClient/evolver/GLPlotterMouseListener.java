@@ -1,4 +1,4 @@
-// 	$Id: GLPlotterMouseListener.java,v 1.2 2005/11/24 09:02:34 dah Exp $
+//         $Id: GLPlotterMouseListener.java,v 1.2 2005/11/24 09:02:34 dah Exp $
 /*
  * @(#)GLPlotterMouseListener.java
  */
@@ -66,7 +66,7 @@ class GLPlotterMouseListener extends MouseInputAdapter implements MouseWheelList
      */
     public GLPlotterMouseListener(GLPlotter plotter)
     {
-	this.plotter = plotter;
+        this.plotter = plotter;
     }
 
     /**
@@ -74,7 +74,7 @@ class GLPlotterMouseListener extends MouseInputAdapter implements MouseWheelList
      */    
     protected GLPlotter getPlotter()
     {
-	return this.plotter;
+        return this.plotter;
     }
 
     /**
@@ -82,7 +82,7 @@ class GLPlotterMouseListener extends MouseInputAdapter implements MouseWheelList
      */    
     protected Camera getCamera()
     {
-	return getPlotter().getCamera();
+        return getPlotter().getCamera();
     }
 
     /**
@@ -92,7 +92,7 @@ class GLPlotterMouseListener extends MouseInputAdapter implements MouseWheelList
      */
     public void mouseWheelMoved(MouseWheelEvent e) 
     {
-	getCamera().move(e.getScrollAmount() * e.getWheelRotation());
+        getCamera().move(e.getScrollAmount() * e.getWheelRotation());
     }
 
     /**
@@ -104,21 +104,21 @@ class GLPlotterMouseListener extends MouseInputAdapter implements MouseWheelList
      */
     public void mousePressed(MouseEvent e)
     {
-	setMousePressedLocation(e.getPoint());
-	switch (e.getButton()) {
-	case MouseEvent.BUTTON1:
-	    getPlotter().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-	    setIsTurning(true);
-	    break;
-	case MouseEvent.BUTTON2:
-	    getPlotter().setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
-	    setIsPanning(true);
-	    break;
-	case MouseEvent.BUTTON3:
-	    break;
-	default:
-	    break;
-	}
+        setMousePressedLocation(e.getPoint());
+        switch (e.getButton()) {
+        case MouseEvent.BUTTON1:
+            getPlotter().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            setIsTurning(true);
+            break;
+        case MouseEvent.BUTTON2:
+            getPlotter().setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+            setIsPanning(true);
+            break;
+        case MouseEvent.BUTTON3:
+            break;
+        default:
+            break;
+        }
     }
 
     /**
@@ -132,10 +132,10 @@ class GLPlotterMouseListener extends MouseInputAdapter implements MouseWheelList
      */
     public void mouseReleased(MouseEvent e)
     {
-	getPlotter().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-	setIsDragging(false);
-	setIsTurning(false);
-	setIsPanning(false);
+        getPlotter().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        setIsDragging(false);
+        setIsTurning(false);
+        setIsPanning(false);
     }
     
     /**
@@ -146,20 +146,20 @@ class GLPlotterMouseListener extends MouseInputAdapter implements MouseWheelList
      */
     public void mouseMoved(MouseEvent e)
     {
-	Point oldPoint = getMouseLocation();
-	setMouseLocation(e.getPoint());
-	
-	if (isTurning()) {
-	    double dx = getMouseLocation().getX() - oldPoint.getX();
-	    double dy = getMouseLocation().getY() - oldPoint.getY();
+        Point oldPoint = getMouseLocation();
+        setMouseLocation(e.getPoint());
+        
+        if (isTurning()) {
+            double dx = getMouseLocation().getX() - oldPoint.getX();
+            double dy = getMouseLocation().getY() - oldPoint.getY();
 
-	    getCamera().turn(dx, dy);
-	} else if (isPanning()) {
-	    double dx = getMouseLocation().getX() - oldPoint.getX();
-	    double dy = getMouseLocation().getY() - oldPoint.getY();
+            getCamera().turn(dx, dy);
+        } else if (isPanning()) {
+            double dx = getMouseLocation().getX() - oldPoint.getX();
+            double dy = getMouseLocation().getY() - oldPoint.getY();
 
-	    getCamera().pan(dx, dy);
-	}
+            getCamera().pan(dx, dy);
+        }
     }
 
     /**
@@ -169,7 +169,7 @@ class GLPlotterMouseListener extends MouseInputAdapter implements MouseWheelList
      */
     public void mouseDragged(MouseEvent e)
     {
-	mouseMoved(e);
+        mouseMoved(e);
     }
 
     /**
@@ -179,7 +179,7 @@ class GLPlotterMouseListener extends MouseInputAdapter implements MouseWheelList
      */    
     public void mouseEntered(MouseEvent e)
     {
-	setIsMouseIn(true);
+        setIsMouseIn(true);
     }
 
     /**
@@ -189,7 +189,7 @@ class GLPlotterMouseListener extends MouseInputAdapter implements MouseWheelList
      */        
     public void mouseExited(MouseEvent e)
     {
-	setIsMouseIn(false);
+        setIsMouseIn(false);
     }
 
     /**
@@ -199,7 +199,7 @@ class GLPlotterMouseListener extends MouseInputAdapter implements MouseWheelList
      */
     private void setMouseLocation(Point point)
     {
-	this.mouseLocation = point;
+        this.mouseLocation = point;
     }
 
     /**
@@ -207,7 +207,7 @@ class GLPlotterMouseListener extends MouseInputAdapter implements MouseWheelList
      */
     private Point getMouseLocation()
     {
-	return this.mouseLocation;
+        return this.mouseLocation;
     }
 
     /**
@@ -217,7 +217,7 @@ class GLPlotterMouseListener extends MouseInputAdapter implements MouseWheelList
      */
     private void setMousePressedLocation(Point point)
     {
-	this.mousePressedLocation = point;
+        this.mousePressedLocation = point;
     }
 
     /**
@@ -225,7 +225,7 @@ class GLPlotterMouseListener extends MouseInputAdapter implements MouseWheelList
      */
     private Point getMousePressedLocation()
     {
-	return this.mousePressedLocation;
+        return this.mousePressedLocation;
     }
 
     /**
@@ -235,7 +235,7 @@ class GLPlotterMouseListener extends MouseInputAdapter implements MouseWheelList
      */
     private void setIsMouseIn(boolean flag)
     {
-	this.isMouseIn = flag;
+        this.isMouseIn = flag;
     }
 
     /**
@@ -243,7 +243,7 @@ class GLPlotterMouseListener extends MouseInputAdapter implements MouseWheelList
      */
     private boolean isMouseIn()
     {
-	return this.isMouseIn;
+        return this.isMouseIn;
     }
 
     /**
@@ -253,7 +253,7 @@ class GLPlotterMouseListener extends MouseInputAdapter implements MouseWheelList
      */
     private void setIsDragging(boolean flag)
     {
-	this.isDragging = flag;
+        this.isDragging = flag;
     }
 
     /**
@@ -263,7 +263,7 @@ class GLPlotterMouseListener extends MouseInputAdapter implements MouseWheelList
      */
     private void setIsTurning(boolean flag)
     {
-	this.isTurning = flag;
+        this.isTurning = flag;
     }
 
     /**
@@ -273,7 +273,7 @@ class GLPlotterMouseListener extends MouseInputAdapter implements MouseWheelList
      */
     private void setIsPanning(boolean flag)
     {
-	this.isPanning = flag;
+        this.isPanning = flag;
     }
 
     /**
@@ -281,7 +281,7 @@ class GLPlotterMouseListener extends MouseInputAdapter implements MouseWheelList
      */
     private boolean isDragging()
     {
-	return this.isDragging;
+        return this.isDragging;
     }
 
     /**
@@ -289,7 +289,7 @@ class GLPlotterMouseListener extends MouseInputAdapter implements MouseWheelList
      */
     private boolean isTurning()
     {
-	return this.isTurning;
+        return this.isTurning;
     }
 
     /**
@@ -297,6 +297,6 @@ class GLPlotterMouseListener extends MouseInputAdapter implements MouseWheelList
      */
     private boolean isPanning()
     {
-	return this.isPanning;
+        return this.isPanning;
     }
 };

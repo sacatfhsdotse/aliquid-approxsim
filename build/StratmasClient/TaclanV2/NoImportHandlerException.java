@@ -1,4 +1,4 @@
-// 	$Id: NoImportHandlerException.java,v 1.2 2005/03/30 22:22:23 dah Exp $
+//         $Id: NoImportHandlerException.java,v 1.2 2005/03/30 22:22:23 dah Exp $
 /*
  * @(#)NoImportHandlerException.java
  */
@@ -35,8 +35,8 @@ public class NoImportHandlerException extends Exception
      */
     public NoImportHandlerException(String location, Vector errors)
     {
-	this.location = location;
-	this.errors = errors;
+        this.location = location;
+        this.errors = errors;
     }
 
     /**
@@ -44,15 +44,15 @@ public class NoImportHandlerException extends Exception
      */
     public String getMessage()
     {
-	StringBuffer buf = new StringBuffer();
-	buf.append("No handler is capable of handling \"" + 
-		   this.location + "\n Details as follows:\n");
-	for (Enumeration es = this.errors.elements(); es.hasMoreElements();) {
-	    ImportHandlerException e = (ImportHandlerException) es.nextElement();
-	    buf.append(e.getMessage() + "\n");
-	}
+        StringBuffer buf = new StringBuffer();
+        buf.append("No handler is capable of handling \"" + 
+                   this.location + "\n Details as follows:\n");
+        for (Enumeration es = this.errors.elements(); es.hasMoreElements();) {
+            ImportHandlerException e = (ImportHandlerException) es.nextElement();
+            buf.append(e.getMessage() + "\n");
+        }
 
-	return buf.toString();
+        return buf.toString();
     }
 
     /**
@@ -60,7 +60,7 @@ public class NoImportHandlerException extends Exception
      */
     public String toString()
     {
-	return getMessage();
+        return getMessage();
     }
 
 }

@@ -1,4 +1,4 @@
-// 	$Id: ImportHandler.java,v 1.1 2005/02/03 10:20:58 dah Exp $
+//         $Id: ImportHandler.java,v 1.1 2005/02/03 10:20:58 dah Exp $
 /*
  * @(#)ImportHandler.java
  */
@@ -29,7 +29,7 @@ public abstract class ImportHandler
      */
     public ImportHandler(String location)
     {
-	this.location = location;
+        this.location = location;
     }
 
     /**
@@ -37,7 +37,7 @@ public abstract class ImportHandler
      */
     public boolean canHandle() throws ImportHandlerException
     {
-	return false;
+        return false;
     }
 
     /**

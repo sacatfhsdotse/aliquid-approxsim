@@ -1,4 +1,4 @@
-// 	$Id: SemanticException.java,v 1.1 2005/02/03 10:20:59 dah Exp $
+//         $Id: SemanticException.java,v 1.1 2005/02/03 10:20:59 dah Exp $
 /*
  * @(#)SemanticException.java
  */
@@ -17,7 +17,7 @@ public abstract class SemanticException extends Exception
 
     public String toString() 
     {
-	return getMessage();
+        return getMessage();
     }
 
     /**

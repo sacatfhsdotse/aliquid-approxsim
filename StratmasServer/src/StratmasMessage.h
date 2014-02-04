@@ -107,7 +107,7 @@ public:
       * receiving the message
       */
      GetGridResponseMessage(const Buffer &buf, bool bigEndian)
-	  : mBuf(buf), mSessionBigEndian(bigEndian) {}
+          : mBuf(buf), mSessionBigEndian(bigEndian) {}
      void toXML(std::ostream &o) const;
 };
 
@@ -187,7 +187,7 @@ public:
       * \param r Indicates if the client is registered for updates.
       */
      UpdateMessage(Buffer& b, ChangeTrackerAdapter& c, bool r)
-	  : mBuf(b), mChangeTracker(c), mRegisteredForUpdates(r) {}
+          : mBuf(b), mChangeTracker(c), mRegisteredForUpdates(r) {}
 
      /**
       * \brief Accessor for the simulation time for which the data in

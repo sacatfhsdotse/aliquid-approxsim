@@ -1,4 +1,4 @@
-// 	$Id: Metric.java,v 1.3 2005/10/28 12:20:55 dah Exp $
+//         $Id: Metric.java,v 1.3 2005/10/28 12:20:55 dah Exp $
 /*
  * @(#)Metric.java
  */

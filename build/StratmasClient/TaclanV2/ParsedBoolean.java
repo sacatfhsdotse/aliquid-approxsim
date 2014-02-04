@@ -1,4 +1,4 @@
-// 	$Id: ParsedBoolean.java,v 1.3 2006/03/31 16:55:50 dah Exp $
+//         $Id: ParsedBoolean.java,v 1.3 2006/03/31 16:55:50 dah Exp $
 /*
  * @(#)ParsedBoolean.java
  */
@@ -30,8 +30,8 @@ public class ParsedBoolean extends ParsedPrimitive
      */
     public ParsedBoolean(SourcePosition pos, boolean value) throws SemanticException
     {
-	super(pos);
-	this.value = value;
+        super(pos);
+        this.value = value;
     }
 
     /**
@@ -39,10 +39,10 @@ public class ParsedBoolean extends ParsedPrimitive
      */
     public String valueToString()
     {
-	if (value) {
-	    return "true";
-	} else {
-	    return "false";
-	}
+        if (value) {
+            return "true";
+        } else {
+            return "false";
+        }
     }
 }

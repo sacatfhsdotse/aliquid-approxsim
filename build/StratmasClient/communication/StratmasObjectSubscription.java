@@ -38,9 +38,9 @@ public class StratmasObjectSubscription extends Subscription implements Stratmas
       * @param ref The Reference to where in the simulation tree the object refered to by this
       */
      public StratmasObjectSubscription(StratmasObject obj, Reference ref) {
-	  mObject = obj;
-	  mObject.addEventListener(this);
-	  mReference = ref;
+          mObject = obj;
+          mObject.addEventListener(this);
+          mReference = ref;
      }
 
      /**
@@ -49,13 +49,13 @@ public class StratmasObjectSubscription extends Subscription implements Stratmas
       * when the object this subscription refers to gets removed.
       */
      void annihilate() {
-	  mObject.removeEventListener(this);
-	  mObject = null;
-	  mReference = null;
-	  if (mSH != null) {
-	       mSH.regSubscription(new Unsubscription(this));
-	       mSH = null;
-	  }
+          mObject.removeEventListener(this);
+          mObject = null;
+          mReference = null;
+          if (mSH != null) {
+               mSH.regSubscription(new Unsubscription(this));
+               mSH = null;
+          }
      }
 
      /**
@@ -64,7 +64,7 @@ public class StratmasObjectSubscription extends Subscription implements Stratmas
       * @return The StratmasObject this subscription refers to.
       */
      public StratmasObject object() {
-	  return mObject;
+          return mObject;
      }
      
      /**
@@ -76,7 +76,7 @@ public class StratmasObjectSubscription extends Subscription implements Stratmas
       * @param handler The SubscriptionHandler.
      */
      void setSubscriptionHandler(SubscriptionHandler sh) {
-	  mSH = sh;
+          mSH = sh;
      }
 
      /**
@@ -86,11 +86,11 @@ public class StratmasObjectSubscription extends Subscription implements Stratmas
       * @param t The simulation time for which the data is valid.
       */
      public void update(Element n, Timestamp t) {
-	  Element elem = XMLHandler.getFirstChildByTag(n, "update");
-	  if (elem.getAttribute("xsi:type").equals("sp:UpdateModify")) {
-	       elem = XMLHandler.getFirstChildByTag(elem, "newValue");
-	  }
-	  mObject.update(elem, t);
+          Element elem = XMLHandler.getFirstChildByTag(n, "update");
+          if (elem.getAttribute("xsi:type").equals("sp:UpdateModify")) {
+               elem = XMLHandler.getFirstChildByTag(elem, "newValue");
+          }
+          mObject.update(elem, t);
      }
 
      /**
@@ -104,16 +104,16 @@ public class StratmasObjectSubscription extends Subscription implements Stratmas
       * @param event The event.
       */
      public void eventOccured(StratmasEvent event) {
-	  if (event.isRemoved()) {
-	       annihilate();
-	  }
-	  else if (event.isReplaced()) {
-	       Debug.err.print("Replacing " + mObject.getType().getName());
-	       mObject.removeEventListener(this);
-	       mObject = (StratmasObject)event.getArgument();
-	       mObject.addEventListener(this);
-	       Debug.err.println(" with " + mObject.getType().getName() + " in StratmasObjectSubscription");
-	  }
+          if (event.isRemoved()) {
+               annihilate();
+          }
+          else if (event.isReplaced()) {
+               Debug.err.print("Replacing " + mObject.getType().getName());
+               mObject.removeEventListener(this);
+               mObject = (StratmasObject)event.getArgument();
+               mObject.addEventListener(this);
+               Debug.err.println(" with " + mObject.getType().getName() + " in StratmasObjectSubscription");
+          }
      }
 
     /**
@@ -122,7 +122,7 @@ public class StratmasObjectSubscription extends Subscription implements Stratmas
      * @return A string representation of the type of this object.
      */
      public String getTypeAsString() {
-	  return "StratmasObjectSubscription";
+          return "StratmasObjectSubscription";
      }
 
      /**
@@ -133,9 +133,9 @@ public class StratmasObjectSubscription extends Subscription implements Stratmas
       * object's body appended to it.
       */
      public StringBuffer bodyXML(StringBuffer b) {
-	  b.append(NL).append("<reference>");
-	  mReference.bodyXML(b);
-	  b.append(NL).append("</reference>");
-	  return b;
+          b.append(NL).append("<reference>");
+          mReference.bodyXML(b);
+          b.append(NL).append("</reference>");
+          return b;
      }
 }

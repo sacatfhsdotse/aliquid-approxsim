@@ -1,4 +1,4 @@
-// 	$Id: DefaultComplexVectorConstructor.java,v 1.1 2006/03/22 14:30:51 dah Exp $
+//         $Id: DefaultComplexVectorConstructor.java,v 1.1 2006/03/22 14:30:51 dah Exp $
 /*
  * @(#)DefaultComplexVectorConstructor
  */
@@ -24,7 +24,7 @@ public class DefaultComplexVectorConstructor extends StratmasVectorConstructor
      */
     public DefaultComplexVectorConstructor(Declaration declaration)
     {
-	super(declaration);
+        super(declaration);
     }
 
     /**
@@ -34,6 +34,6 @@ public class DefaultComplexVectorConstructor extends StratmasVectorConstructor
      */
     public StratmasObject getStratmasObject(Vector parts)
     {
-	return new DefaultComplex(this.getDeclaration(), parts);
+        return new DefaultComplex(this.getDeclaration(), parts);
     }
 }

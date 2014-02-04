@@ -1,4 +1,4 @@
-// 	$Id: Evolver.java,v 1.9 2005/11/02 22:18:47 dah Exp $
+//         $Id: Evolver.java,v 1.9 2005/11/02 22:18:47 dah Exp $
 /*
  * @(#)Evolver.java
  */
@@ -84,16 +84,16 @@ public class Evolver extends Thread
      * @param stopper class providing a stop criterion.
      */
     public Evolver(ParameterInstanceSet initialSettings,
-		   Parameter evaluationParameter,
-		   EvaluatorFactory evaluatorFactory,
-		   Sampler sampler,
-		   Stopper stopper)
+                   Parameter evaluationParameter,
+                   EvaluatorFactory evaluatorFactory,
+                   Sampler sampler,
+                   Stopper stopper)
     {
-	this.evaluationParameter = evaluationParameter;
-	this.initialSettings = initialSettings;
-	this.evaluatorFactory = evaluatorFactory;	
-	this.sampler = sampler;
-	setStopper(stopper);
+        this.evaluationParameter = evaluationParameter;
+        this.initialSettings = initialSettings;
+        this.evaluatorFactory = evaluatorFactory;        
+        this.sampler = sampler;
+        setStopper(stopper);
     }
 
     /**
@@ -101,7 +101,7 @@ public class Evolver extends Thread
      */
     public Vector getEvaluations()
     {
-	return (Vector) evaluations.clone();
+        return (Vector) evaluations.clone();
     }
 
     /**
@@ -109,7 +109,7 @@ public class Evolver extends Thread
      */
     public Parameter getEvaluationParameter()
     {
-	return this.evaluationParameter;
+        return this.evaluationParameter;
     }
 
     /**
@@ -117,14 +117,14 @@ public class Evolver extends Thread
      */
     public Vector getParameters()
     {
-	Vector res = new Vector();
+        Vector res = new Vector();
 
-	for (Enumeration e = initialSettings.getParameterInstances(); 
-	     e.hasMoreElements();) {
-	    res.add(((ParameterInstance) e.nextElement()).getParameter());
-	}
+        for (Enumeration e = initialSettings.getParameterInstances(); 
+             e.hasMoreElements();) {
+            res.add(((ParameterInstance) e.nextElement()).getParameter());
+        }
 
-	return res;
+        return res;
     }
 
     /**
@@ -133,48 +133,48 @@ public class Evolver extends Thread
      */
     public void run()
     {
-	fireRunningStateChanged();
-	while(true) {
-	    // What to do this round:
-	    if (isInterrupted() || isAborted()) {
-		// If not a requested abort, this indicates an error.
-		if (!isAborted()) {
-		    throw new AssertionError("Evolver thread unexpectedly interrupted.");
-		} else {
-		    break;
-		}
-	    } else if (isPaused()) {
-		// Wait until unpaused, unless an InterruptedException
-		// occurs, handle that by running through loop again.
-		try {
-		    fireRunningStateChanged();
-		    synchronized(getPauseLock()) {
-			getPauseLock().wait();
-		    }
-		    fireRunningStateChanged();
-		} catch (InterruptedException e) {
-		}
-	    } else if (isFinished()) {
-		// No more work to do. Exit nicely.
-		break;
-	    } else {
-		fireInformation("Step: " + getEvaluations().size());
-		Evaluator evaluator = getEvaluator(8);
-		if (evaluator == null) {
-		    fireInformation("Timed out waiting for Evaluator, aborting");
-		    abort();
-		} else {
-		    evaluator.addEventListener(getDefaultEvaluatorListener());
-		    fireNewEvaluator(evaluator);
-		    try {
-			step(evaluator);
-		    } catch (EvaluatorException e) {
-			fireInformation("Error evaluating sample" + e.getMessage());
-		    }
-		}
-	    }
-	}
-	fireRunningStateChanged();
+        fireRunningStateChanged();
+        while(true) {
+            // What to do this round:
+            if (isInterrupted() || isAborted()) {
+                // If not a requested abort, this indicates an error.
+                if (!isAborted()) {
+                    throw new AssertionError("Evolver thread unexpectedly interrupted.");
+                } else {
+                    break;
+                }
+            } else if (isPaused()) {
+                // Wait until unpaused, unless an InterruptedException
+                // occurs, handle that by running through loop again.
+                try {
+                    fireRunningStateChanged();
+                    synchronized(getPauseLock()) {
+                        getPauseLock().wait();
+                    }
+                    fireRunningStateChanged();
+                } catch (InterruptedException e) {
+                }
+            } else if (isFinished()) {
+                // No more work to do. Exit nicely.
+                break;
+            } else {
+                fireInformation("Step: " + getEvaluations().size());
+                Evaluator evaluator = getEvaluator(8);
+                if (evaluator == null) {
+                    fireInformation("Timed out waiting for Evaluator, aborting");
+                    abort();
+                } else {
+                    evaluator.addEventListener(getDefaultEvaluatorListener());
+                    fireNewEvaluator(evaluator);
+                    try {
+                        step(evaluator);
+                    } catch (EvaluatorException e) {
+                        fireInformation("Error evaluating sample" + e.getMessage());
+                    }
+                }
+            }
+        }
+        fireRunningStateChanged();
     }
 
     /**
@@ -183,9 +183,9 @@ public class Evolver extends Thread
      */
     public synchronized void pause()
     {
-	if (!isPaused()) {
-	    this.pause = true;
-	}
+        if (!isPaused()) {
+            this.pause = true;
+        }
     }
 
     /**
@@ -194,12 +194,12 @@ public class Evolver extends Thread
      */
     public synchronized void unPause()
     {
-	if (isAlive() && isPaused()) {
-	    this.pause = false;
-	    synchronized(getPauseLock()) {
-		getPauseLock().notify();
-	    }
-	}
+        if (isAlive() && isPaused()) {
+            this.pause = false;
+            synchronized(getPauseLock()) {
+                getPauseLock().notify();
+            }
+        }
     }
 
     /**
@@ -207,7 +207,7 @@ public class Evolver extends Thread
      */
     Object getPauseLock()
     {
-	return this.pauseLock;
+        return this.pauseLock;
     }
 
     /**
@@ -215,7 +215,7 @@ public class Evolver extends Thread
      */
     public boolean isPaused()
     {
-	return this.pause;
+        return this.pause;
     }
 
     /**
@@ -224,10 +224,10 @@ public class Evolver extends Thread
      */
     public synchronized void abort()
     {
-	if (isAlive() && !isAborted()) {
-	    this.abort = true;
-	    interrupt();
-	}
+        if (isAlive() && !isAborted()) {
+            this.abort = true;
+            interrupt();
+        }
     }
 
     /**
@@ -235,7 +235,7 @@ public class Evolver extends Thread
      */
     public boolean isFinished()
     {
-	return getStopper().isFinished(this);
+        return getStopper().isFinished(this);
     }
 
     /**
@@ -243,7 +243,7 @@ public class Evolver extends Thread
      */
     public boolean isAborted()
     {
-	return this.abort;
+        return this.abort;
     }
 
     /**
@@ -251,7 +251,7 @@ public class Evolver extends Thread
      */
     public Stopper getStopper()
     {
-	return this.stopper;
+        return this.stopper;
     }
 
     /**
@@ -259,7 +259,7 @@ public class Evolver extends Thread
      */
     public void setStopper(Stopper stopper)
     {
-	this.stopper = stopper;
+        this.stopper = stopper;
     }
 
     /**
@@ -269,16 +269,16 @@ public class Evolver extends Thread
      */
     public void step(Evaluator evaluator) throws EvaluatorException
     {
-	if (evaluations.size() == 0) {
-	    //Debug.err.println(initialSettings);
-	    Evaluation evaluation = evaluator.evaluate(initialSettings);
-	    addEvaluation(evaluation);
-	} else {
-	    ParameterInstanceSet newSample = getSampler().getSample(getEvaluations());
-	    //Debug.err.println(newSample);
-	    Evaluation evaluation = evaluator.evaluate(newSample);
-	    addEvaluation(evaluation);
-	}
+        if (evaluations.size() == 0) {
+            //Debug.err.println(initialSettings);
+            Evaluation evaluation = evaluator.evaluate(initialSettings);
+            addEvaluation(evaluation);
+        } else {
+            ParameterInstanceSet newSample = getSampler().getSample(getEvaluations());
+            //Debug.err.println(newSample);
+            Evaluation evaluation = evaluator.evaluate(newSample);
+            addEvaluation(evaluation);
+        }
     }
 
     /**
@@ -286,41 +286,41 @@ public class Evolver extends Thread
      */
     public EvaluatorEventListener getDefaultEvaluatorListener()
     {
-	return new EvaluatorEventListener()
-	    {
-		/**
-		 * Called when evaluator is finished with the
-		 * evaluation.
-		 *
-		 * @param event the event.
-		 */
-		public void finished(EvaluatorEvent event)
-		{
-		    event.getEvaluator().removeEventListener(this);
-		}
-		
-		/**
-		 * Called when the an error has occured during the
-		 * evaluation.
-		 *
-		 * @param event the event.
-		 * @param errorMessage a string describing the error.
-		 */
-		public void error(EvaluatorEvent event, String errorMessage)
-		{
-		    event.getEvaluator().removeEventListener(this);		    
-		    fireInformation(errorMessage);
-		}
-		/**
-		 * Called when evaluator has a new preliminart evaluation.
-		 *
-		 * @param evaluation the preliminary evaluation.
-		 * @param event the event.
-		 */
-		public void newPreliminaryEvaluation(EvaluatorEvent event, Evaluation evaluation)
-		{
-		}
-	    };
+        return new EvaluatorEventListener()
+            {
+                /**
+                 * Called when evaluator is finished with the
+                 * evaluation.
+                 *
+                 * @param event the event.
+                 */
+                public void finished(EvaluatorEvent event)
+                {
+                    event.getEvaluator().removeEventListener(this);
+                }
+                
+                /**
+                 * Called when the an error has occured during the
+                 * evaluation.
+                 *
+                 * @param event the event.
+                 * @param errorMessage a string describing the error.
+                 */
+                public void error(EvaluatorEvent event, String errorMessage)
+                {
+                    event.getEvaluator().removeEventListener(this);                    
+                    fireInformation(errorMessage);
+                }
+                /**
+                 * Called when evaluator has a new preliminart evaluation.
+                 *
+                 * @param evaluation the preliminary evaluation.
+                 * @param event the event.
+                 */
+                public void newPreliminaryEvaluation(EvaluatorEvent event, Evaluation evaluation)
+                {
+                }
+            };
     }
 
     /**
@@ -330,10 +330,10 @@ public class Evolver extends Thread
      */
     public void addEvaluation(Evaluation evaluation)
     {
-	synchronized (this.evaluations) {
-	    evaluations.add(evaluation);
-	}
-	fireNewEvaluation(evaluation);
+        synchronized (this.evaluations) {
+            evaluations.add(evaluation);
+        }
+        fireNewEvaluation(evaluation);
     }
 
     /**
@@ -341,7 +341,7 @@ public class Evolver extends Thread
      */
     public Evaluator getEvaluator()
     {
-	return getEvaluatorFactory().getEvaluator();
+        return getEvaluatorFactory().getEvaluator();
     }
 
     /**
@@ -353,25 +353,25 @@ public class Evolver extends Thread
      */
     public Evaluator getEvaluator(int fallbacks)
     {
-	long wait = 500;
-	
-	for (int i = 0; i < fallbacks; i++) {
-	    Evaluator evaluator = getEvaluator();
-	    if (evaluator != null) {
-		return evaluator;
-	    } else {
-		fireInformation("Unable to obtain Evaluator - waiting " + 
-				wait + "ms");
-		try {
-		    sleep(wait);
-		} catch (InterruptedException e) {
-		    return null;
-		}
-	    }
-	    wait *= 2;
-	}
+        long wait = 500;
+        
+        for (int i = 0; i < fallbacks; i++) {
+            Evaluator evaluator = getEvaluator();
+            if (evaluator != null) {
+                return evaluator;
+            } else {
+                fireInformation("Unable to obtain Evaluator - waiting " + 
+                                wait + "ms");
+                try {
+                    sleep(wait);
+                } catch (InterruptedException e) {
+                    return null;
+                }
+            }
+            wait *= 2;
+        }
 
-	return null;
+        return null;
     }
 
     /**
@@ -379,7 +379,7 @@ public class Evolver extends Thread
      */
     public EvaluatorFactory getEvaluatorFactory()
     {
-	return evaluatorFactory;
+        return evaluatorFactory;
     }
 
     /**
@@ -387,7 +387,7 @@ public class Evolver extends Thread
      */
     public Sampler getSampler()
     {
-	return sampler;
+        return sampler;
     }
 
     /**
@@ -395,7 +395,7 @@ public class Evolver extends Thread
      */
     protected EventListenerList getEventListenerList()
     {
-	return this.eventListenerList;
+        return this.eventListenerList;
     }
 
     /**
@@ -405,7 +405,7 @@ public class Evolver extends Thread
      */
     public void addEventListener(EvolverEventListener listener)
     {
-	this.getEventListenerList().add(listener.getClass(), listener);
+        this.getEventListenerList().add(listener.getClass(), listener);
     }
 
     /**
@@ -415,7 +415,7 @@ public class Evolver extends Thread
      */
     public void removeEventListener(EvolverEventListener listener)
     {
-	this.getEventListenerList().remove(listener.getClass(), listener);
+        this.getEventListenerList().remove(listener.getClass(), listener);
     }
 
     /**
@@ -426,14 +426,14 @@ public class Evolver extends Thread
      */
     public void fireNewEvaluation(Evaluation newEvaluation) 
     {
-	EvolverEvent event = new EvolverEvent(this);
-	
-	// Guaranteed to return a non-null array
-	Object[] listeners = getEventListenerList().getListenerList();
-	
-	for (int i = listeners.length - 2; i >= 0; i -= 2) {
-	    ((EvolverEventListener) listeners[i + 1]).newEvaluation(event, newEvaluation);
-	}
+        EvolverEvent event = new EvolverEvent(this);
+        
+        // Guaranteed to return a non-null array
+        Object[] listeners = getEventListenerList().getListenerList();
+        
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            ((EvolverEventListener) listeners[i + 1]).newEvaluation(event, newEvaluation);
+        }
     }
 
     /**
@@ -444,14 +444,14 @@ public class Evolver extends Thread
      */
     public void fireNewEvaluator(Evaluator newEvaluator) 
     {
-	EvolverEvent event = new EvolverEvent(this);
-	
-	// Guaranteed to return a non-null array
-	Object[] listeners = getEventListenerList().getListenerList();
-	
-	for (int i = listeners.length - 2; i >= 0; i -= 2) {
-	    ((EvolverEventListener) listeners[i + 1]).newEvaluator(event, newEvaluator);
-	}
+        EvolverEvent event = new EvolverEvent(this);
+        
+        // Guaranteed to return a non-null array
+        Object[] listeners = getEventListenerList().getListenerList();
+        
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            ((EvolverEventListener) listeners[i + 1]).newEvaluator(event, newEvaluator);
+        }
     }
 
     /**
@@ -459,14 +459,14 @@ public class Evolver extends Thread
      */
     public void fireRunningStateChanged()
     {
-	EvolverEvent event = new EvolverEvent(this);
-	
-	// Guaranteed to return a non-null array
-	Object[] listeners = getEventListenerList().getListenerList();
-	
-	for (int i = listeners.length - 2; i >= 0; i -= 2) {
-	    ((EvolverEventListener) listeners[i + 1]).runningStateChanged(event);
-	}
+        EvolverEvent event = new EvolverEvent(this);
+        
+        // Guaranteed to return a non-null array
+        Object[] listeners = getEventListenerList().getListenerList();
+        
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            ((EvolverEventListener) listeners[i + 1]).runningStateChanged(event);
+        }
     }
 
     /**
@@ -474,13 +474,13 @@ public class Evolver extends Thread
      */
     public void fireInformation(String information)
     {
-	EvolverEvent event = new EvolverEvent(this);
-	
-	// Guaranteed to return a non-null array
-	Object[] listeners = getEventListenerList().getListenerList();
-	
-	for (int i = listeners.length - 2; i >= 0; i -= 2) {
-	    ((EvolverEventListener) listeners[i + 1]).information(event, information);
-	}
+        EvolverEvent event = new EvolverEvent(this);
+        
+        // Guaranteed to return a non-null array
+        Object[] listeners = getEventListenerList().getListenerList();
+        
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            ((EvolverEventListener) listeners[i + 1]).information(event, information);
+        }
     }
 }

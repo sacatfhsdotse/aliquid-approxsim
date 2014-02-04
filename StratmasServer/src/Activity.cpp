@@ -76,15 +76,15 @@ void Activity::modify(const DataObject& d)
 {
      const string& attr = d.ref().name();
      if (attr == "active") {
-	  mActive = d.getBool();
+          mActive = d.getBool();
      }
      else if (attr == "start") {
-	  mStart = d.getTime();
+          mStart = d.getTime();
      }
      else {
-	  Error e;
-	  e << "No updatable attribute '" << attr << "' in '" << ref() << "'";
-	  throw e;
+          Error e;
+          e << "No updatable attribute '" << attr << "' in '" << ref() << "'";
+          throw e;
      }
 }
 
@@ -129,13 +129,13 @@ void Order::extract(Buffer &b) const
      // CustomPVModification (that has no carriedOut) and area orders
      // (that has carriedOut) with the same class.
      if (me.getType().canSubstitute("Order")) {
-	  me.getChild("carriedOut")->setBool(mCarriedOut);
+          me.getChild("carriedOut")->setBool(mCarriedOut);
      }
      if (mLocation) {
-	  DataObject* d = me.getChild("location");
-	  if (d) {
-	       d->setShape(mLocation);
-	  }
+          DataObject* d = me.getChild("location");
+          if (d) {
+               d->setShape(mLocation);
+          }
      }
 }
 
@@ -150,11 +150,11 @@ void Order::addObject(DataObject& toAdd, int64_t initiator)
 {
      const Type& type = toAdd.getType();
      if (type.canSubstitute("Shape")) {
-	  SOFactory::createSimple(toAdd, initiator);
-	  mLocation = toAdd.getShape();
+          SOFactory::createSimple(toAdd, initiator);
+          mLocation = toAdd.getShape();
      }
      else {
-	  Activity::addObject(toAdd, initiator);
+          Activity::addObject(toAdd, initiator);
      }
 }
 
@@ -169,18 +169,18 @@ void Order::removeObject(const Reference& toRemove, int64_t initiator)
 {
      DataObject* d = Mapper::map(toRemove);
      if (!d) {
-	  Error e;
-	  e << "Tried to remove non existing DataObject '" << toRemove << "' from '" << ref() << "'";
-	  throw e;
+          Error e;
+          e << "Tried to remove non existing DataObject '" << toRemove << "' from '" << ref() << "'";
+          throw e;
      }
      const Type& type = d->getType();
      if (type.canSubstitute("Shape")) {
-	  delete mLocation;
-	  mLocation = 0;
-	  SOFactory::simulationObjectRemoved(toRemove, initiator);
+          delete mLocation;
+          mLocation = 0;
+          SOFactory::simulationObjectRemoved(toRemove, initiator);
      }
      else {
-	  Activity::removeObject(toRemove, initiator);
+          Activity::removeObject(toRemove, initiator);
      }
 }
 
@@ -196,12 +196,12 @@ void Order::replaceObject(DataObject& newObject, int64_t initiator)
 {
      const string& attr = newObject.identifier();
      if (attr == "location") {
-	  delete mLocation;
-	  mLocation = newObject.getShape();
-	  SOFactory::simulationObjectReplaced(newObject, initiator);
+          delete mLocation;
+          mLocation = newObject.getShape();
+          SOFactory::simulationObjectReplaced(newObject, initiator);
      }
      else {
-	  Activity::replaceObject(newObject, initiator);
+          Activity::replaceObject(newObject, initiator);
      }
 }
 
@@ -214,14 +214,14 @@ void Order::modify(const DataObject& d)
 {
      const string& attr = d.ref().name();
      if (attr == "carriedOut") {
-	  mCarriedOut = d.getBool();
+          mCarriedOut = d.getBool();
      }
      else if (attr == "location") {
-	  delete mLocation;
-	  mLocation = d.getShape();
+          delete mLocation;
+          mLocation = d.getShape();
      }
      else {
-	  Activity::modify(d);
+          Activity::modify(d);
      }
 }
 
@@ -237,20 +237,20 @@ void Order::reset(const DataObject& d)
      // Hack in order to be able to use CustomPV for both ActorBased
      // and ActorLess activities.
      if (DataObject* o = d.getChild("carriedOut")) {
-	  mCarriedOut = o->getBool();
+          mCarriedOut = o->getBool();
      }
      if (DataObject* o = d.getChild("location")) {
-	  if (mLocation) {
-	       delete mLocation;
-	       mLocation = o->getShape();
-//	       replaceObject(*o, -1);
-	  }
-	  else {
-	       addObject(*o->clone(), -1);
-	  }
+          if (mLocation) {
+               delete mLocation;
+               mLocation = o->getShape();
+//               replaceObject(*o, -1);
+          }
+          else {
+               addObject(*o->clone(), -1);
+          }
      }
      else if (mLocation) {
-	  removeObject(Reference::get(ref(), "location"), -1);
+          removeObject(Reference::get(ref(), "location"), -1);
      }
 }
 
@@ -269,39 +269,39 @@ CustomPVModification::CustomPVModification(const DataObject& d)
        mType(d.getType().getName())
 {
      if (mType == "PresenceOrder") {
-	  mCombatFactor = 1;
+          mCombatFactor = 1;
      }
      else if (mType == "ControlOrder") {
-	  mCombatFactor = 0.8;
+          mCombatFactor = 0.8;
      }
      else if (mType == "SecureOrder") {
-	  mCombatFactor = 0.6;
+          mCombatFactor = 0.6;
      }
      else if (mType == "FreedomOfMovementOrder") {
-	  mCombatFactor = 0.4;
+          mCombatFactor = 0.4;
      }
      else if (mType == "ProvideCivilianFunctionsOrder") {
-	  mCombatFactor = 0.2;
+          mCombatFactor = 0.2;
      }
      else if (mType == "CustomAreaOrder") {
-	  mCombatFactor = 0.2;
+          mCombatFactor = 0.2;
      }
      else if (mType == "CustomPVModification") {
-	  mCombatFactor = 0;
+          mCombatFactor = 0;
      }
      else if (mType == "TerroristAttackOrder") {
-	  mCombatFactor = 0;
+          mCombatFactor = 0;
      }
      else {
-	  Error e;
-	  e << "Unknown type of order: " << mType;
-	  throw e;
+          Error e;
+          e << "Unknown type of order: " << mType;
+          throw e;
      }
      for (int i = 0; i < kNumModifiable; i++) {
-	  DataObject* elem = d.getChild(PVHelper::modifiablePVName(i));
-	  if (elem) {
-	       mSeverities[PVHelper::modifiablePVName(i)] = elem->getDouble();
-	  }
+          DataObject* elem = d.getChild(PVHelper::modifiablePVName(i));
+          if (elem) {
+               mSeverities[PVHelper::modifiablePVName(i)] = elem->getDouble();
+          }
      }
 }
 
@@ -321,22 +321,22 @@ void CustomPVModification::createEffects() {
      // for the ones that are found
      EthnicFaction *targetFaction;
      if (mTarget) {
-	  targetFaction = EthnicFaction::faction(*mTarget);
+          targetFaction = EthnicFaction::faction(*mTarget);
      }
      else {
-	  targetFaction = &EthnicFaction::all();
+          targetFaction = &EthnicFaction::all();
      }
      
      if (!targetFaction) {
-	  Error e;
-	  e << "Tried to create effects in Activity but couldn't map the Reference '" << *mTarget;
-	  e << "' to any ethnic faction.\nStratmas does not yet support other targets for Activities";
-	  throw e;
+          Error e;
+          e << "Tried to create effects in Activity but couldn't map the Reference '" << *mTarget;
+          e << "' to any ethnic faction.\nStratmas does not yet support other targets for Activities";
+          throw e;
      }
 
      mEffects.clear();
      for (std::map<string, double>::iterator it = mSeverities.begin(); it != mSeverities.end(); it++) {
-	  addEffect(PVHelper::nameToOverAllOrder(it->first), it->second, targetFaction);
+          addEffect(PVHelper::nameToOverAllOrder(it->first), it->second, targetFaction);
      }
 }
 
@@ -349,28 +349,28 @@ void CustomPVModification::perform(Element *e, double fraction)
 {
      const Shape* areaToUse = 0;
      if (e) {
-	  Unit* u = dynamic_cast<Unit*>(e);
-	  if (u && location() && u->location().cenCoord() != location()->cenCoord() && u->capable()) {
-	       if (u->goal()->cenCoord() != location()->cenCoord()) {
-		    u->setGoal(*location());
-	       }
-	       u->setVelocity();
-	       u->move();
-	       return;
-	  }
-	  else if (u && u->criticalInsurgentSituation()) {
-	       // Don't modify any PV if we're fighting insurgents.
-	       return;
-	  }
-	  areaToUse = &e->location();
+          Unit* u = dynamic_cast<Unit*>(e);
+          if (u && location() && u->location().cenCoord() != location()->cenCoord() && u->capable()) {
+               if (u->goal()->cenCoord() != location()->cenCoord()) {
+                    u->setGoal(*location());
+               }
+               u->setVelocity();
+               u->move();
+               return;
+          }
+          else if (u && u->criticalInsurgentSituation()) {
+               // Don't modify any PV if we're fighting insurgents.
+               return;
+          }
+          areaToUse = &e->location();
      }
      else if (location()) {
-	  areaToUse = location();
+          areaToUse = location();
      }
      else {
-	  Error e;
-	  e << "No area or performer specified for CustomPVModification " << ref();
-	  throw e;
+          Error e;
+          e << "No area or performer specified for CustomPVModification " << ref();
+          throw e;
      }
      GridAction ga(*mGrid, *areaToUse, e, mEffects, fraction * (1 - combatFactor()));
      ga.carryOut();
@@ -387,10 +387,10 @@ void CustomPVModification::extract(Buffer& b) const
      DataObject& me = *b.map(ref());
      me.getChild("end")->setTime(mEnd);
      if (mTarget) {
-	  me.getChild("target")->setReference(*mTarget);
+          me.getChild("target")->setReference(*mTarget);
      }
      for (std::map<string, double>::const_iterator it =  mSeverities.begin(); it != mSeverities.end(); it++) {
-	  me.getChild(it->first)->setDouble(it->second);
+          me.getChild(it->first)->setDouble(it->second);
      }
 }
 
@@ -405,15 +405,15 @@ void CustomPVModification::addObject(DataObject& toAdd, int64_t initiator)
 {
      const Type& type = toAdd.getType();
      if (type.canSubstitute("EthnicFactionReference")) {
-	  SOFactory::createSimple(toAdd, initiator);
-	  mTarget = &toAdd.getReference();
+          SOFactory::createSimple(toAdd, initiator);
+          mTarget = &toAdd.getReference();
      }
      else if (type.canSubstitute("Double")) {
-	  SOFactory::createSimple(toAdd, initiator);
-	  mSeverities[toAdd.identifier()] = toAdd.getDouble();
+          SOFactory::createSimple(toAdd, initiator);
+          mSeverities[toAdd.identifier()] = toAdd.getDouble();
      }
      else {
-	  Order::addObject(toAdd, initiator);
+          Order::addObject(toAdd, initiator);
      }
      createEffects();
 }
@@ -429,21 +429,21 @@ void CustomPVModification::removeObject(const Reference& toRemove, int64_t initi
 {
      DataObject* d = Mapper::map(toRemove);
      if (!d) {
-	  Error e;
-	  e << "Tried to remove non existing DataObject '" << toRemove << "' from '" << ref() << "'";
-	  throw e;
+          Error e;
+          e << "Tried to remove non existing DataObject '" << toRemove << "' from '" << ref() << "'";
+          throw e;
      }
      const Type& type = d->getType();
      if (type.canSubstitute("EthnicFactionReference")) {
-	  mTarget = 0;
-	  SOFactory::simulationObjectRemoved(toRemove, initiator);
+          mTarget = 0;
+          SOFactory::simulationObjectRemoved(toRemove, initiator);
      }
      else if (type.canSubstitute("Double")) {
-	  mSeverities.erase(toRemove.name());
-	  SOFactory::simulationObjectRemoved(toRemove, initiator);
+          mSeverities.erase(toRemove.name());
+          SOFactory::simulationObjectRemoved(toRemove, initiator);
      }
      else {
-	  Order::removeObject(toRemove, initiator);
+          Order::removeObject(toRemove, initiator);
      }
      createEffects();
 }
@@ -457,16 +457,16 @@ void CustomPVModification::modify(const DataObject& d)
 {
      const string& attr = d.identifier();
      if (attr == "end") {
-	  mEnd = d.getTime();
+          mEnd = d.getTime();
      }
      else if (attr == "target") {
-	  mTarget = &d.getReference();
+          mTarget = &d.getReference();
      }
      else if (mSeverities.find(attr) != mSeverities.end()) {
-	  mSeverities[attr] = d.getDouble();
+          mSeverities[attr] = d.getDouble();
      }
      else {
-	  Order::modify(d);
+          Order::modify(d);
      }
      createEffects();
 }
@@ -487,21 +487,21 @@ void CustomPVModification::reset(const DataObject& d)
      std::map<std::string, double> sev(mSeverities);
      // Update the ones that already exist, add new ones.
      for (int i = 0; i < kNumModifiable; i++) {
-	  DataObject* elem = d.getChild(PVHelper::modifiablePVName(i));
-	  if (elem) {
-	       if (sev.find(elem->identifier()) != sev.end()) {
-		    mSeverities[elem->identifier()] = elem->getDouble();
-		    sev.erase(elem->identifier());
-	       }
-	       else {
-		    SOFactory::createSimple(*elem->clone());
-	       }
-	  }
+          DataObject* elem = d.getChild(PVHelper::modifiablePVName(i));
+          if (elem) {
+               if (sev.find(elem->identifier()) != sev.end()) {
+                    mSeverities[elem->identifier()] = elem->getDouble();
+                    sev.erase(elem->identifier());
+               }
+               else {
+                    SOFactory::createSimple(*elem->clone());
+               }
+          }
      }
      // Remove the ones that exist in the simulation but not in the reset DataObject.
      for (std::map<std::string, double>::iterator it = sev.begin(); it != sev.end(); it++) {
-	  mSeverities.erase(it->first);
-	  SOFactory::simulationObjectRemoved(Reference::get(ref(), it->first), -1);
+          mSeverities.erase(it->first);
+          SOFactory::simulationObjectRemoved(Reference::get(ref(), it->first), -1);
      }
 }
 
@@ -517,17 +517,17 @@ std::ostream &operator << (std::ostream& o, const CustomPVModification& a)
      o << "Start:  " << a.startTime() << std::endl;
      o << "End:    " << a.endTime() << std::endl;
      if (a.mTarget) {
-	  o << "Target: " << *a.mTarget << endl;
+          o << "Target: " << *a.mTarget << endl;
      }
      if (a.location()) {
-	  o << "Location:" << endl;
-	  a.location()->toXML(o) << endl;
+          o << "Location:" << endl;
+          a.location()->toXML(o) << endl;
      }
      o << "Effects:";
      for(std::vector<GridEffect>::const_iterator it = a.mEffects.begin(); it != a.mEffects.end(); it++) {
-// 	  o << std::endl << "Attribute: " << PVHelper::attrName(it->mAttr);
-// 	  o << " -- type: " << PVHelper::attrType(it->mAttr) << " -- severity: " << it->mSeverity;
-// 	  o << ", faction: " << it->mFaction->ref();
+//           o << std::endl << "Attribute: " << PVHelper::attrName(it->mAttr);
+//           o << " -- type: " << PVHelper::attrType(it->mAttr) << " -- severity: " << it->mSeverity;
+//           o << ", faction: " << it->mFaction->ref();
      }
      return o;
 }
@@ -567,10 +567,10 @@ void TerroristAttackOrder::modify(const DataObject& d)
 {
      const string& attr = d.identifier();
      if (attr == "actionTime") {
-	  mActionTime = d.getTime();
+          mActionTime = d.getTime();
      }
      else {
-	  CustomPVModification::modify(d);
+          CustomPVModification::modify(d);
      }
 }
 
@@ -599,24 +599,24 @@ void TerroristAttackOrder::reset(const DataObject& d)
 void TerroristAttackOrder::perform(Element *e, double fraction)
 {
      if (Unit* u = dynamic_cast<Unit*>(e)) {
-	  if (location() && u->location().cenCoord() != location()->cenCoord() && u->capable()) {
-	       if (u->goal()->cenCoord() != location()->cenCoord()) {
-		    u->setGoal(*location());
-	       }
-	       u->setVelocity();
-	       u->move();
-	       return;
-	  }
-	  else if (mTimeToPerform && !mAttackPerformed && !u->isSpotted()) {
-	       GridAction ga(*mGrid, (location() ? *location() : u->location()), e, mEffects, fraction);
-	       ga.carryOut();
-	       mAttackPerformed = true;
-	  }
+          if (location() && u->location().cenCoord() != location()->cenCoord() && u->capable()) {
+               if (u->goal()->cenCoord() != location()->cenCoord()) {
+                    u->setGoal(*location());
+               }
+               u->setVelocity();
+               u->move();
+               return;
+          }
+          else if (mTimeToPerform && !mAttackPerformed && !u->isSpotted()) {
+               GridAction ga(*mGrid, (location() ? *location() : u->location()), e, mEffects, fraction);
+               ga.carryOut();
+               mAttackPerformed = true;
+          }
      }
      else {
-	  Error e;
-	  e << "No performer specified for TerroristAttackOrder " << ref();
-	  throw e;
+          Error e;
+          e << "No performer specified for TerroristAttackOrder " << ref();
+          throw e;
      }
 }
 
@@ -633,20 +633,20 @@ void AttackOrder::perform(Element *e, double fraction)
 {
      Unit* u = dynamic_cast<Unit*>(e);
      if (u && u->capable()) {
-	  if (u->combatSituation()) {
-	       u->combat();
-	  }
-	  else if (location() && u->center() != location()->cenCoord()) {
-	       mCarriedOut = false;
-	       if (u->goal()->cenCoord() != location()->cenCoord()) {
-		    u->setGoal(*location());
-	       }
-	       u->setVelocity();
-	       u->move();
-	  }
-	  else {
-	       mCarriedOut = !u->combat();
-	  }
+          if (u->combatSituation()) {
+               u->combat();
+          }
+          else if (location() && u->center() != location()->cenCoord()) {
+               mCarriedOut = false;
+               if (u->goal()->cenCoord() != location()->cenCoord()) {
+                    u->setGoal(*location());
+               }
+               u->setVelocity();
+               u->move();
+          }
+          else {
+               mCarriedOut = !u->combat();
+          }
      }
 }
 
@@ -675,19 +675,19 @@ void DefendOrder::perform(Element *e, double fraction)
 {
      Unit* u = dynamic_cast<Unit*>(e);
      if (u && u->capable()) {
-	  if (location() && u->center() != location()->cenCoord()) {
-	       mCarriedOut = false;
-	       if (u->goal()->cenCoord() != location()->cenCoord()) {
-		    u->setGoal(*location());
-	       }
-	       u->setVelocity();
-	       u->move();
-	  }
-	  else {
-	       if (u->combatSituation()) {
-		    u->combat();
-	       }
-	  }
+          if (location() && u->center() != location()->cenCoord()) {
+               mCarriedOut = false;
+               if (u->goal()->cenCoord() != location()->cenCoord()) {
+                    u->setGoal(*location());
+               }
+               u->setVelocity();
+               u->move();
+          }
+          else {
+               if (u->combatSituation()) {
+                    u->combat();
+               }
+          }
      }
 }
 
@@ -712,10 +712,10 @@ void DefendOrder::modify(const DataObject& d)
 {
      const string& attr = d.identifier();
      if (attr == "end") {
-	  mEnd = d.getTime();
+          mEnd = d.getTime();
      }
      else {
-	  Order::modify(d);
+          Order::modify(d);
      }
 }
 
@@ -757,19 +757,19 @@ void AmbushOrder::perform(Element *e, double fraction)
 {
      Unit* u = dynamic_cast<Unit*>(e);
      if (u && u->capable()) {
-	  // Move to the correct position.
-	  if (location() && u->center() != location()->cenCoord()) {
-	       mState = eHide;
-	       if (u->goal()->cenCoord() != location()->cenCoord()) {
-		    u->setGoal(*location());
-	       }
-	       u->setVelocity();
-	       u->move();
-	  }
-	  else if (state() == eAmbush) {
-	       mOneAmbushPerformed = true;
-	  }
-	  // The actual ambush is handled in Unit.cpp...
+          // Move to the correct position.
+          if (location() && u->center() != location()->cenCoord()) {
+               mState = eHide;
+               if (u->goal()->cenCoord() != location()->cenCoord()) {
+                    u->setGoal(*location());
+               }
+               u->setVelocity();
+               u->move();
+          }
+          else if (state() == eAmbush) {
+               mOneAmbushPerformed = true;
+          }
+          // The actual ambush is handled in Unit.cpp...
      }
 }
 
@@ -796,16 +796,16 @@ void AmbushOrder::modify(const DataObject& d)
 {
      const string& attr = d.identifier();
      if (attr == "end") {
-	  mEnd = d.getTime();
+          mEnd = d.getTime();
      }
      else if (attr == "startAmbush") {
-	  mStartAmbush = d.getTime();
+          mStartAmbush = d.getTime();
      }
      else if (attr == "endAmbush") {
-	  mEndAmbush = d.getTime();
+          mEndAmbush = d.getTime();
      }
      else {
-	  Order::modify(d);
+          Order::modify(d);
      }
 }
 
@@ -841,10 +841,10 @@ bool AmbushOrder::isActive(Time t) {
      Time actualTime = t + Simulation::timestep();
      mCarriedOut = (actualTime > mEnd);
      if (oneAmbush() && !mOneAmbushPerformed) {
-	  mTimeForAmbush = actualTime > mStartAmbush;
+          mTimeForAmbush = actualTime > mStartAmbush;
      } 
      else {
-	  mTimeForAmbush = (actualTime > mStartAmbush && actualTime <= mEndAmbush);
+          mTimeForAmbush = (actualTime > mStartAmbush && actualTime <= mEndAmbush);
      }
      return mActive = (actualTime > mStart && actualTime <= mEnd);
 }
@@ -872,17 +872,17 @@ void GoToOrder::perform(Element *e, double fraction)
 {
      Unit* u = dynamic_cast<Unit*>(e);
      if (u && u->capable()) {
-	  if (u->center() != location()->cenCoord()) {
-	       mCarriedOut = false;
-	       if (u->goal()->cenCoord() != location()->cenCoord()) {
-		   u->setGoal(*location());
-	       }
-	       u->setVelocity();
-	       u->move();
-	  }
-	  else {
-	       mCarriedOut = true;
-	  }
+          if (u->center() != location()->cenCoord()) {
+               mCarriedOut = false;
+               if (u->goal()->cenCoord() != location()->cenCoord()) {
+                   u->setGoal(*location());
+               }
+               u->setVelocity();
+               u->move();
+          }
+          else {
+               mCarriedOut = true;
+          }
      }
 }
 
@@ -899,34 +899,34 @@ void RetreatOrder::perform(Element *e, double fraction)
 {
      Unit* u = dynamic_cast<Unit*>(e);
      if (u) {
-	  if (mState == eRetreat) {
-	       if (u->location().cenCoord() != location()->cenCoord()) {
-		    mCarriedOut = false;
-		    if (u->goal()->cenCoord() != location()->cenCoord()) {
-			 u->setGoal(*location());
-		    }
-		    u->setVelocity();
-		    u->move();
-	       }
-	       else {
-		    mState = eReturn;
-	       }
-	  }
-	  else if (mState == eReturn) {
-	       Unit *parent = findClosestParentWithSameFaction(*u);
-	       if (parent &&
-		   parent->faction().ref() == u->faction().ref() &&
-		   u->location().cenCoord() != parent->location().cenCoord()) {
-		    if (u->goal()->cenCoord() != parent->location().cenCoord()) {
-			 u->setGoal(parent->location());
-		    }
-		    u->setVelocity(0.25);
-		    u->move();
-	       }
-	       else {
-		    mCarriedOut = true;
-	       }
-	  }
+          if (mState == eRetreat) {
+               if (u->location().cenCoord() != location()->cenCoord()) {
+                    mCarriedOut = false;
+                    if (u->goal()->cenCoord() != location()->cenCoord()) {
+                         u->setGoal(*location());
+                    }
+                    u->setVelocity();
+                    u->move();
+               }
+               else {
+                    mState = eReturn;
+               }
+          }
+          else if (mState == eReturn) {
+               Unit *parent = findClosestParentWithSameFaction(*u);
+               if (parent &&
+                   parent->faction().ref() == u->faction().ref() &&
+                   u->location().cenCoord() != parent->location().cenCoord()) {
+                    if (u->goal()->cenCoord() != parent->location().cenCoord()) {
+                         u->setGoal(parent->location());
+                    }
+                    u->setVelocity(0.25);
+                    u->move();
+               }
+               else {
+                    mCarriedOut = true;
+               }
+          }
      }
 }
 
@@ -936,10 +936,10 @@ Unit* RetreatOrder::findClosestParentWithSameFaction(Unit& u)
      Unit* parent = u.parent();
 
      while (parent != 0) {
-	  if (parent->faction().ref() == u.faction().ref()) {
-	       break;
-	  }
-	  parent = parent->parent();
+          if (parent->faction().ref() == u.faction().ref()) {
+               break;
+          }
+          parent = parent->parent();
      }
      return parent;
 }

@@ -1,4 +1,4 @@
-// 	$Id: StratmasServer.java,v 1.6 2005/10/07 12:59:15 dah Exp $
+//         $Id: StratmasServer.java,v 1.6 2005/10/07 12:59:15 dah Exp $
 
 /*
  * @(#).StratmasServer.java
@@ -54,9 +54,9 @@ public class StratmasServer
      */    
     public StratmasServer(String host, int port, Vector simulations)
     {
-	this.host = host;
-	this.port = port;
-	this.simulations = simulations;
+        this.host = host;
+        this.port = port;
+        this.simulations = simulations;
     }
 
     /**
@@ -64,7 +64,7 @@ public class StratmasServer
      */
     public int getPort()
     {
-	return this.port;
+        return this.port;
     }
 
     /**
@@ -72,7 +72,7 @@ public class StratmasServer
      */
     public String getHost()
     {
-	return this.host;
+        return this.host;
     }
 
     /**
@@ -80,7 +80,7 @@ public class StratmasServer
      */
     public Vector getSimulations()
     {
-	return this.simulations;
+        return this.simulations;
     }
 
     /**
@@ -88,7 +88,7 @@ public class StratmasServer
      */
     public boolean isBusy()
     {
-	return hasActiveClient() || getSimulations().size() > 0;
+        return hasActiveClient() || getSimulations().size() > 0;
     }
 
     /**
@@ -98,7 +98,7 @@ public class StratmasServer
      */
     public void setHasActiveClient(boolean flag)
     {
-	this.hasActiveClient = flag;
+        this.hasActiveClient = flag;
     }
 
     /**
@@ -106,7 +106,7 @@ public class StratmasServer
      */
     public boolean hasActiveClient()
     {
-	return this.hasActiveClient;
+        return this.hasActiveClient;
     }
 
     /**
@@ -114,7 +114,7 @@ public class StratmasServer
      */
     public boolean isPending()
     {
-	return  this.isPending;
+        return  this.isPending;
     }
 
     /**
@@ -124,7 +124,7 @@ public class StratmasServer
      */
     public void setIsPending(boolean flag)
     {
-	this.isPending = flag;
+        this.isPending = flag;
     }
 
     /**
@@ -134,22 +134,22 @@ public class StratmasServer
      */
     public static StratmasServer fromDOMElement(Element element)
     {
-	String host = element.getElementsByTagName("host").item(0).getFirstChild().getNodeValue();
-	int port = Integer.parseInt(element.getElementsByTagName("port").item(0).getFirstChild().getNodeValue());
-	boolean active = Boolean.valueOf(element.getElementsByTagName("hasActiveClient").item(0).getFirstChild().getNodeValue()).booleanValue();
-	boolean isPending = Boolean.valueOf(element.getElementsByTagName("isPending").item(0).getFirstChild().getNodeValue()).booleanValue();
-	
-	Vector res = new Vector();
-	NodeList sims = element.getElementsByTagName("simulation");
-	for (int i = 0; i < sims.getLength(); i++) {
-	    res.add(sims.item(i).getFirstChild().getNodeValue());
-	}
-	
-	StratmasServer server = new StratmasServer(host, port, res);
-	server.setHasActiveClient(active);
-	server.setIsPending(isPending);
+        String host = element.getElementsByTagName("host").item(0).getFirstChild().getNodeValue();
+        int port = Integer.parseInt(element.getElementsByTagName("port").item(0).getFirstChild().getNodeValue());
+        boolean active = Boolean.valueOf(element.getElementsByTagName("hasActiveClient").item(0).getFirstChild().getNodeValue()).booleanValue();
+        boolean isPending = Boolean.valueOf(element.getElementsByTagName("isPending").item(0).getFirstChild().getNodeValue()).booleanValue();
+        
+        Vector res = new Vector();
+        NodeList sims = element.getElementsByTagName("simulation");
+        for (int i = 0; i < sims.getLength(); i++) {
+            res.add(sims.item(i).getFirstChild().getNodeValue());
+        }
+        
+        StratmasServer server = new StratmasServer(host, port, res);
+        server.setHasActiveClient(active);
+        server.setIsPending(isPending);
 
-	return server;
+        return server;
     }
 
     /**
@@ -157,11 +157,11 @@ public class StratmasServer
      */
     public String toString() 
     {
-	String status = isBusy() ? "busy" : "available";
-	if (isPending()) {
-	    status += " (pending)";
-	}
-	
-	return getHost() + ":" + getPort() + " - " + status; 
+        String status = isBusy() ? "busy" : "available";
+        if (isPending()) {
+            status += " (pending)";
+        }
+        
+        return getHost() + ":" + getPort() + " - " + status; 
     }
 }

@@ -1,4 +1,4 @@
-// 	$Id: TypeDefinition.java,v 1.1 2006/03/22 14:30:52 dah Exp $
+//         $Id: TypeDefinition.java,v 1.1 2006/03/22 14:30:52 dah Exp $
 /*
  * @(#)TypeDefinition.java
  */
@@ -35,40 +35,40 @@ public class TypeDefinition extends Type
     */
     public TypeDefinition(XSTypeDefinition type, TypeInformation typeInformation)
     {
-	super(typeInformation);
-	this.type = type;
-	processSubelements();
+        super(typeInformation);
+        this.type = type;
+        processSubelements();
     }
 
     protected void processSubelements() 
     {
-	if (this.type.getTypeCategory() == XSTypeDefinition.SIMPLE_TYPE) {
-	    XSSimpleTypeDefinition def = (XSSimpleTypeDefinition) this.type;
-	}
-	else {
-	    XSComplexTypeDefinition def = (XSComplexTypeDefinition) this.type;
-	    this.isAbstract = def.getAbstract();
-	    switch (def.getContentType())
-		{
-		case XSComplexTypeDefinition.CONTENTTYPE_MIXED:
-		case XSComplexTypeDefinition.CONTENTTYPE_ELEMENT:
-		    XSParticle particle = def.getParticle();
-		    if (particle != null) {
-			processParticle(particle);
-		    }
-		    break;
-		case XSComplexTypeDefinition.CONTENTTYPE_EMPTY:
-		    // Nothing to do.
-		    break;
-		case XSComplexTypeDefinition.CONTENTTYPE_SIMPLE:
-		    throw new AssertionError("CONTENTTYPE_SIMPLE not implemented for ComplexType.");
-		default:
-		    throw new AssertionError("Nonreachable default reached.");
-		}
+        if (this.type.getTypeCategory() == XSTypeDefinition.SIMPLE_TYPE) {
+            XSSimpleTypeDefinition def = (XSSimpleTypeDefinition) this.type;
+        }
+        else {
+            XSComplexTypeDefinition def = (XSComplexTypeDefinition) this.type;
+            this.isAbstract = def.getAbstract();
+            switch (def.getContentType())
+                {
+                case XSComplexTypeDefinition.CONTENTTYPE_MIXED:
+                case XSComplexTypeDefinition.CONTENTTYPE_ELEMENT:
+                    XSParticle particle = def.getParticle();
+                    if (particle != null) {
+                        processParticle(particle);
+                    }
+                    break;
+                case XSComplexTypeDefinition.CONTENTTYPE_EMPTY:
+                    // Nothing to do.
+                    break;
+                case XSComplexTypeDefinition.CONTENTTYPE_SIMPLE:
+                    throw new AssertionError("CONTENTTYPE_SIMPLE not implemented for ComplexType.");
+                default:
+                    throw new AssertionError("Nonreachable default reached.");
+                }
 
-	    XSObjectList attributeUses = def.getAttributeUses();
-	    processAttributeUses(attributeUses);
-	}
+            XSObjectList attributeUses = def.getAttributeUses();
+            processAttributeUses(attributeUses);
+        }
     }
 
     /**
@@ -78,9 +78,9 @@ public class TypeDefinition extends Type
      */
     protected void processAttributeUses(XSObjectList attributeUses)
     {
-	for (int i = 0; i < attributeUses.getLength(); i++) {
-	    processAttributeUse((XSAttributeUse) attributeUses.item(i));
-	}
+        for (int i = 0; i < attributeUses.getLength(); i++) {
+            processAttributeUse((XSAttributeUse) attributeUses.item(i));
+        }
     }
 
     /**
@@ -90,9 +90,9 @@ public class TypeDefinition extends Type
      */
     protected void processParticles(XSObjectList particles)
     {
-	for (int i = 0; i < particles.getLength(); i++) {
-	    processParticle((XSParticle) particles.item(i));
-	}
+        for (int i = 0; i < particles.getLength(); i++) {
+            processParticle((XSParticle) particles.item(i));
+        }
     }
 
     /**
@@ -102,33 +102,33 @@ public class TypeDefinition extends Type
      */
     protected void processParticle(XSParticle particle)
     {
-	XSTerm subterm = particle.getTerm();
-	switch(subterm.getType()) {
-	case XSConstants.ELEMENT_DECLARATION:
-	    XSElementDeclaration  declaration = (XSElementDeclaration) subterm;
-	    TypeDefinition subtype = null;
-	    // This conditional handles base case for recursive
-	    // definitions.
-	    if (declaration.getTypeDefinition().getName().equals(this.type.getName()) &&
-		declaration.getTypeDefinition().getNamespace().equals(this.type.getNamespace())) {
-		appendSubElement(new Declaration(particle, this));
-	    }
-	    else {
-		subtype = (TypeDefinition) this.typeInformation.getType(declaration.getTypeDefinition().getName(), 
-						  declaration.getTypeDefinition().getNamespace());
-		appendSubElement(new Declaration(particle, getTypeInformation()));
-	    }
-	    break;
-	case XSConstants.MODEL_GROUP:
-	    XSModelGroup group = (XSModelGroup) subterm;
-	    processParticles(group.getParticles());
-	    break;
-	case XSConstants.WILDCARD:
-	    StratmasClient.Debug.err.println("FIXME: WILDCARD not implemented.");
-	    break;
-	default:
-	    throw new AssertionError("Nonreachable default reached.");
-	}
+        XSTerm subterm = particle.getTerm();
+        switch(subterm.getType()) {
+        case XSConstants.ELEMENT_DECLARATION:
+            XSElementDeclaration  declaration = (XSElementDeclaration) subterm;
+            TypeDefinition subtype = null;
+            // This conditional handles base case for recursive
+            // definitions.
+            if (declaration.getTypeDefinition().getName().equals(this.type.getName()) &&
+                declaration.getTypeDefinition().getNamespace().equals(this.type.getNamespace())) {
+                appendSubElement(new Declaration(particle, this));
+            }
+            else {
+                subtype = (TypeDefinition) this.typeInformation.getType(declaration.getTypeDefinition().getName(), 
+                                                  declaration.getTypeDefinition().getNamespace());
+                appendSubElement(new Declaration(particle, getTypeInformation()));
+            }
+            break;
+        case XSConstants.MODEL_GROUP:
+            XSModelGroup group = (XSModelGroup) subterm;
+            processParticles(group.getParticles());
+            break;
+        case XSConstants.WILDCARD:
+            StratmasClient.Debug.err.println("FIXME: WILDCARD not implemented.");
+            break;
+        default:
+            throw new AssertionError("Nonreachable default reached.");
+        }
     }
 
     /**
@@ -136,7 +136,7 @@ public class TypeDefinition extends Type
      */
     public String getName()
     {
-	return this.type.getName();
+        return this.type.getName();
     }
 
     /**
@@ -148,16 +148,16 @@ public class TypeDefinition extends Type
      */
     public boolean canSubstitute(Type other)
     {
-	if (other instanceof TypeDefinition) {	    
-	    short derivationTypes =  XSConstants.DERIVATION_RESTRICTION |  
-		XSConstants.DERIVATION_EXTENSION | 
-		XSConstants.DERIVATION_UNION | 
-		XSConstants.DERIVATION_LIST ;
-	    return this.type.derivedFromType(((TypeDefinition) other).type, derivationTypes);
-	} 
-	else {
-	    return false;
-	}
+        if (other instanceof TypeDefinition) {            
+            short derivationTypes =  XSConstants.DERIVATION_RESTRICTION |  
+                XSConstants.DERIVATION_EXTENSION | 
+                XSConstants.DERIVATION_UNION | 
+                XSConstants.DERIVATION_LIST ;
+            return this.type.derivedFromType(((TypeDefinition) other).type, derivationTypes);
+        } 
+        else {
+            return false;
+        }
     }
 
     /**
@@ -165,7 +165,7 @@ public class TypeDefinition extends Type
      */
     public String getNamespace()
     {
-	return this.type.getNamespace();
+        return this.type.getNamespace();
     }
 
     /**
@@ -173,12 +173,12 @@ public class TypeDefinition extends Type
      */ 
     public Type getBaseType()
     {
-	XSTypeDefinition baseType = this.type.getBaseType();
-	if (baseType != null) {
-	    return this.typeInformation.getType(baseType.getName(), baseType.getNamespace());
-	} else {
-	    return null;
-	}
+        XSTypeDefinition baseType = this.type.getBaseType();
+        if (baseType != null) {
+            return this.typeInformation.getType(baseType.getName(), baseType.getNamespace());
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -186,27 +186,27 @@ public class TypeDefinition extends Type
      */
     public String[] getAnnotations()
     {
-	XSObjectList annotations = null;
-	
-	if (type instanceof XSComplexTypeDefinition) {
-	    annotations = ((XSComplexTypeDefinition) type).getAnnotations();
-	} else if (type instanceof XSSimpleTypeDefinition) {
-	    annotations = ((XSSimpleTypeDefinition) type).getAnnotations();
-	} else {
-	    return null;
-	}
+        XSObjectList annotations = null;
+        
+        if (type instanceof XSComplexTypeDefinition) {
+            annotations = ((XSComplexTypeDefinition) type).getAnnotations();
+        } else if (type instanceof XSSimpleTypeDefinition) {
+            annotations = ((XSSimpleTypeDefinition) type).getAnnotations();
+        } else {
+            return null;
+        }
 
-	if (annotations == null) {
-	    return null;
-	}
-	
-	String[] res = new String[annotations.getLength()];
+        if (annotations == null) {
+            return null;
+        }
+        
+        String[] res = new String[annotations.getLength()];
 
-	for (int i = 0; i < annotations.getLength(); i++) {
-	    res[i] = ((XSAnnotation) annotations.item(i)).getAnnotationString();
-	}
-	
-	return res;
+        for (int i = 0; i < annotations.getLength(); i++) {
+            res[i] = ((XSAnnotation) annotations.item(i)).getAnnotationString();
+        }
+        
+        return res;
     }
 
     
@@ -216,43 +216,43 @@ public class TypeDefinition extends Type
      */
     public Type validReferenceType() 
     {
-	Type referenceBaseType = typeInformation.getType("Reference");
+        Type referenceBaseType = typeInformation.getType("Reference");
 
-	if (this.canSubstitute(referenceBaseType)) {
-	    String target = null;
-	    
-	    XSObjectList attributeUses = 
-		((XSComplexTypeDefinition) this.type).getAttributeUses();	    	    
-	    for (int i = 0; i < attributeUses.getLength(); i++) {
-		XSAttributeUse attributeUse = ((XSAttributeUse) attributeUses.item(i));
-		if (attributeUse.getAttrDeclaration().getName().equals("target")) {
-		    if (attributeUse.getConstraintType() == XSConstants.VC_FIXED) {
-			target = attributeUse.getConstraintValue();
-		    } else if (this.equals(referenceBaseType)) {
-			target = "Identifiable";
-		    } else {
-			throw new AssertionError("Schema inconsistancy in definition of " + 
-						 this.getName());
-		    }
+        if (this.canSubstitute(referenceBaseType)) {
+            String target = null;
+            
+            XSObjectList attributeUses = 
+                ((XSComplexTypeDefinition) this.type).getAttributeUses();                        
+            for (int i = 0; i < attributeUses.getLength(); i++) {
+                XSAttributeUse attributeUse = ((XSAttributeUse) attributeUses.item(i));
+                if (attributeUse.getAttrDeclaration().getName().equals("target")) {
+                    if (attributeUse.getConstraintType() == XSConstants.VC_FIXED) {
+                        target = attributeUse.getConstraintValue();
+                    } else if (this.equals(referenceBaseType)) {
+                        target = "Identifiable";
+                    } else {
+                        throw new AssertionError("Schema inconsistancy in definition of " + 
+                                                 this.getName());
+                    }
 
-		    Type targetType = typeInformation.getType(target);
-		    
-		    if (targetType == null) {
-			throw new AssertionError("Schema inconsistancy in definition of " + 
-						 this.getName());
-		    } else {
-			return targetType;
-		    }
-		}
-	    }
+                    Type targetType = typeInformation.getType(target);
+                    
+                    if (targetType == null) {
+                        throw new AssertionError("Schema inconsistancy in definition of " + 
+                                                 this.getName());
+                    } else {
+                        return targetType;
+                    }
+                }
+            }
 
-	    // Check if this is the void pointer reference.
-	    if (this.equals(referenceBaseType)) {
-		return typeInformation.getType("Identifiable");
-	    }    
-	}
-	
-	return null;
+            // Check if this is the void pointer reference.
+            if (this.equals(referenceBaseType)) {
+                return typeInformation.getType("Identifiable");
+            }    
+        }
+        
+        return null;
     }
 }
 

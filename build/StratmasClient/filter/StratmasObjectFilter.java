@@ -1,4 +1,4 @@
-// 	$Id: StratmasObjectFilter.java,v 1.5 2006/03/22 14:30:50 dah Exp $
+//         $Id: StratmasObjectFilter.java,v 1.5 2006/03/22 14:30:50 dah Exp $
 /*
  * @(#)StratmasObjectFilter.java
  */
@@ -30,7 +30,7 @@ public abstract class StratmasObjectFilter
      *
      */
     public StratmasObjectFilter()
-    {	
+    {        
     }
 
     /**
@@ -47,7 +47,7 @@ public abstract class StratmasObjectFilter
      */
     public boolean pass(StratmasObjectAdapter sObjAdapter)
     {
-	return pass(sObjAdapter.getStratmasObject());
+        return pass(sObjAdapter.getStratmasObject());
     }
 
     /**
@@ -58,7 +58,7 @@ public abstract class StratmasObjectFilter
      */
     public Enumeration filterTree(StratmasObject sObj)
     {
-	return filterTree(sObj, new Vector()).elements();	
+        return filterTree(sObj, new Vector()).elements();        
     }
 
     /**
@@ -69,7 +69,7 @@ public abstract class StratmasObjectFilter
      */
     public Vector filter(Vector vector)
     {
-	return filter(vector.elements());
+        return filter(vector.elements());
     }
     
     /**
@@ -80,18 +80,18 @@ public abstract class StratmasObjectFilter
      */
     public Vector filter(Enumeration e)
     {
-	Vector res = new Vector();
-	for (; e.hasMoreElements();) {
-	    Object o = e.nextElement();
-	    if (o instanceof StratmasObject && pass((StratmasObject) o)) {
-		res.add(o);
-	    } else if (o instanceof StratmasObjectAdapter && 
-		       pass((StratmasObjectAdapter) o)) {
-		res.add(o);
-	    }
-	}
-	
-	return res;
+        Vector res = new Vector();
+        for (; e.hasMoreElements();) {
+            Object o = e.nextElement();
+            if (o instanceof StratmasObject && pass((StratmasObject) o)) {
+                res.add(o);
+            } else if (o instanceof StratmasObjectAdapter && 
+                       pass((StratmasObjectAdapter) o)) {
+                res.add(o);
+            }
+        }
+        
+        return res;
     }
 
     /**
@@ -99,7 +99,7 @@ public abstract class StratmasObjectFilter
      */
     public boolean isInverted()
     {
-	return this.inverted;
+        return this.inverted;
     }
 
     /**
@@ -108,7 +108,7 @@ public abstract class StratmasObjectFilter
      */
     public void setInverted(boolean inverted)
     {
-	this.inverted = inverted;
+        this.inverted = inverted;
     }
 
     /**
@@ -120,15 +120,15 @@ public abstract class StratmasObjectFilter
      */
     public Vector filterTree(StratmasObject sObj, Vector vector)
     {
-	if (pass(sObj)) {
-	    vector.add(sObj);
-	}
+        if (pass(sObj)) {
+            vector.add(sObj);
+        }
 
-	for (Enumeration e = sObj.children(); e.hasMoreElements();) {
-	    filterTree((StratmasObject) e.nextElement(), vector);
-	}
+        for (Enumeration e = sObj.children(); e.hasMoreElements();) {
+            filterTree((StratmasObject) e.nextElement(), vector);
+        }
 
-	return vector;
+        return vector;
     }
 
     /**
@@ -138,11 +138,11 @@ public abstract class StratmasObjectFilter
      */
     protected boolean applyInverted(boolean b)
     {
-	if (isInverted()) {
-	    return !b;
-	} else {
-	    return b;
-	}
+        if (isInverted()) {
+            return !b;
+        } else {
+            return b;
+        }
     }
 
 }

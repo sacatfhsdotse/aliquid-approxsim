@@ -1,4 +1,4 @@
-// 	$Id: Declaration.java,v 1.4 2006/03/31 16:55:51 dah Exp $
+//         $Id: Declaration.java,v 1.4 2006/03/31 16:55:51 dah Exp $
 /*
  * @(#)Declaration.java
  */
@@ -56,9 +56,9 @@ public class Declaration
      */    
     private Declaration(int minOccurs, int maxOccurs, boolean unbounded)
     {
-	this.minOccurs = minOccurs;
-	this.maxOccurs = maxOccurs;
-	this.unbounded = unbounded;	
+        this.minOccurs = minOccurs;
+        this.maxOccurs = maxOccurs;
+        this.unbounded = unbounded;        
     }
 
     /**
@@ -72,9 +72,9 @@ public class Declaration
      */
     public Declaration(Type type, String name, int minOccurs, int maxOccurs, boolean unbounded)
     {
-	this(minOccurs, maxOccurs, unbounded);
-	this.type = type;
-	this.name = name;
+        this(minOccurs, maxOccurs, unbounded);
+        this.type = type;
+        this.name = name;
     }
 
     /**
@@ -85,7 +85,7 @@ public class Declaration
      */
     public Declaration(Type type)
     {
-	this(type, type.getName(), 1, 1, false);
+        this(type, type.getName(), 1, 1, false);
     }
 
     /**
@@ -97,7 +97,7 @@ public class Declaration
      */
     public Declaration(Type type, String identifier)
     {
-	this(type, identifier, 1, 1, false);
+        this(type, identifier, 1, 1, false);
     }
 
     /**
@@ -111,15 +111,15 @@ public class Declaration
      */
     public Declaration(XSParticle particle, TypeInformation typeInformation)
     {
-	this(particle.getMinOccurs(), particle.getMaxOccurs(), 
-	     particle.getMaxOccursUnbounded());
-	XSElementDeclaration  declaration = (XSElementDeclaration) particle.getTerm();
-	this.name = declaration.getName();
-	this.type = typeInformation.getType(declaration.getTypeDefinition().getName(), 
-					    declaration.getTypeDefinition().getNamespace());
-	if (declaration.getAnnotation() != null) {
-	    this.annotation = declaration.getAnnotation().getAnnotationString();
-	}
+        this(particle.getMinOccurs(), particle.getMaxOccurs(), 
+             particle.getMaxOccursUnbounded());
+        XSElementDeclaration  declaration = (XSElementDeclaration) particle.getTerm();
+        this.name = declaration.getName();
+        this.type = typeInformation.getType(declaration.getTypeDefinition().getName(), 
+                                            declaration.getTypeDefinition().getNamespace());
+        if (declaration.getAnnotation() != null) {
+            this.annotation = declaration.getAnnotation().getAnnotationString();
+        }
     }
 
     /**
@@ -134,14 +134,14 @@ public class Declaration
      */
     protected Declaration(XSParticle particle, Type type)
     {
-	this(particle.getMinOccurs(), particle.getMaxOccurs(), 
-	     particle.getMaxOccursUnbounded());
-	XSElementDeclaration  declaration = (XSElementDeclaration) particle.getTerm();
-	this.name = declaration.getName();
-	this.type = type;
-	if (declaration.getAnnotation() != null) {
-	    this.annotation = declaration.getAnnotation().getAnnotationString();
-	}
+        this(particle.getMinOccurs(), particle.getMaxOccurs(), 
+             particle.getMaxOccursUnbounded());
+        XSElementDeclaration  declaration = (XSElementDeclaration) particle.getTerm();
+        this.name = declaration.getName();
+        this.type = type;
+        if (declaration.getAnnotation() != null) {
+            this.annotation = declaration.getAnnotation().getAnnotationString();
+        }
     }
 
     /**
@@ -149,12 +149,12 @@ public class Declaration
      */
     public String toString() 
     {
-	String res = type.getName() + "\t\t" + getName() + " (" + minOccurs + "..";
-	if (!this.unbounded) {
-	    res += maxOccurs;
-	}
+        String res = type.getName() + "\t\t" + getName() + " (" + minOccurs + "..";
+        if (!this.unbounded) {
+            res += maxOccurs;
+        }
 
-	return res + ")";
+        return res + ")";
     }
 
     /**
@@ -162,7 +162,7 @@ public class Declaration
      */
     public Type getType()
     {
-	return this.type;
+        return this.type;
     }
     
     /**
@@ -170,7 +170,7 @@ public class Declaration
      */
     public int getMinOccurs()
     {
-	return this.minOccurs;
+        return this.minOccurs;
     }
 
     /**
@@ -180,7 +180,7 @@ public class Declaration
      */
     public void setMinOccurs(int min)
     {
-	this.minOccurs = min;
+        this.minOccurs = min;
     }
 
     /**
@@ -188,7 +188,7 @@ public class Declaration
      */
     public int getMaxOccurs()
     {
-	return this.maxOccurs;
+        return this.maxOccurs;
     }
 
     /**
@@ -198,7 +198,7 @@ public class Declaration
      */
     public void setMaxOccurs(int max)
     {
-	this.maxOccurs = max;
+        this.maxOccurs = max;
     }
     
     /**
@@ -206,7 +206,7 @@ public class Declaration
      */
     public boolean isUnbounded()
     {
-	return this.unbounded;
+        return this.unbounded;
     }
 
     /**
@@ -216,7 +216,7 @@ public class Declaration
      */
     public void setUnbounded(boolean unbounded)
     {
-	this.unbounded = unbounded;
+        this.unbounded = unbounded;
     }
     
     /**
@@ -225,9 +225,9 @@ public class Declaration
      */
     public boolean isSingular()
     {
-	return (this.getMinOccurs() == 1) && 
-	    (!this.isUnbounded()) && 
-	    (getMaxOccurs() == 1);
+        return (this.getMinOccurs() == 1) && 
+            (!this.isUnbounded()) && 
+            (getMaxOccurs() == 1);
     }
 
     /**
@@ -236,7 +236,7 @@ public class Declaration
      */
     public boolean isOptional()
     {
-	return (getMinOccurs() == 0) && (!isUnbounded()) && (getMaxOccurs() == 1);
+        return (getMinOccurs() == 0) && (!isUnbounded()) && (getMaxOccurs() == 1);
     }
 
     /**
@@ -247,7 +247,7 @@ public class Declaration
      */
     public boolean isList()
     {
-	return (isUnbounded() || getMinOccurs() > 1 || getMaxOccurs() > 1);
+        return (isUnbounded() || getMinOccurs() > 1 || getMaxOccurs() > 1);
     }
 
     /** 
@@ -255,7 +255,7 @@ public class Declaration
      */
     public String getName()
     {
-	return name;
+        return name;
     }
 
     /** 
@@ -264,7 +264,7 @@ public class Declaration
      */
     public String getAnnotation()
     {
-	return annotation;
+        return annotation;
     }
 
     /**
@@ -276,15 +276,15 @@ public class Declaration
      */
     public Declaration clone(Type subType)
     {
-	if (subType.canSubstitute(getType())) {	
-	    return new Declaration(subType, getName(), getMinOccurs(), 
-				   getMaxOccurs(), isUnbounded());
-	}
-	else {	    
-	    throw new AssertionError("Non substitionable type provided: " + 
-				     subType.getName() + " may not serve as substitute for " +
-				     getType().getName());
-	}
+        if (subType.canSubstitute(getType())) {        
+            return new Declaration(subType, getName(), getMinOccurs(), 
+                                   getMaxOccurs(), isUnbounded());
+        }
+        else {            
+            throw new AssertionError("Non substitionable type provided: " + 
+                                     subType.getName() + " may not serve as substitute for " +
+                                     getType().getName());
+        }
     }
 
     /**
@@ -292,8 +292,8 @@ public class Declaration
      */
     public Object clone()
     {
-	return new Declaration(getType(), getName(), getMinOccurs(), 
-			       getMaxOccurs(), isUnbounded());
+        return new Declaration(getType(), getName(), getMinOccurs(), 
+                               getMaxOccurs(), isUnbounded());
     }
 }
 

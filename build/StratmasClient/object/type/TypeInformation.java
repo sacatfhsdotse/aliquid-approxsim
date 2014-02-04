@@ -1,4 +1,4 @@
-// 	$Id: TypeInformation.java,v 1.5 2006/03/31 16:55:51 dah Exp $
+//         $Id: TypeInformation.java,v 1.5 2006/03/31 16:55:51 dah Exp $
 /*
  * @(#)TypeInformation.java
  */
@@ -57,19 +57,19 @@ public class TypeInformation
     */
     public TypeInformation(String location)
     {
-	try {
-	    // Set DOM implementation to xerces
-	    System.setProperty(DOMImplementationRegistry.PROPERTY,
-			       "org.apache.xerces.dom.DOMXSImplementationSourceImpl");
-	    // Choose correct implementation for examining XML Schemas.
-	    DOMImplementationRegistry registry = DOMImplementationRegistry.newInstance();
-	    
-	    
-	    XSImplementation impl = (XSImplementation) registry.getDOMImplementation("XS-Loader");
-	    
-	    /* Create loader and load location*/
-	    XSLoader loader = impl.createXSLoader(null);
-	    
+        try {
+            // Set DOM implementation to xerces
+            System.setProperty(DOMImplementationRegistry.PROPERTY,
+                               "org.apache.xerces.dom.DOMXSImplementationSourceImpl");
+            // Choose correct implementation for examining XML Schemas.
+            DOMImplementationRegistry registry = DOMImplementationRegistry.newInstance();
+            
+            
+            XSImplementation impl = (XSImplementation) registry.getDOMImplementation("XS-Loader");
+            
+            /* Create loader and load location*/
+            XSLoader loader = impl.createXSLoader(null);
+            
             loader.getConfig().setParameter("http://apache.org/xml/features/validation/schema-full-checking",
                                             Boolean.TRUE);
             loader.getConfig().setParameter("error-handler", new DOMErrorHandler() 
@@ -84,30 +84,30 @@ public class TypeInformation
                         throw new AssertionError(error.getMessage());   
                     }
                 });
-	    DOMConfiguration dc = loader.getConfig();
-	    Object resolver = dc.getParameter("resource-resolver");
-	    if (resolver == null) {
-		 dc.setParameter("resource-resolver", new LSJarXSDResolver((LSResourceResolver)null));
-	    }
-	    else if (resolver instanceof LSResourceResolver) {
-		 dc.setParameter("resource-resolver", new LSJarXSDResolver((LSResourceResolver)resolver));
-	    }
-	    else if (resolver instanceof XMLEntityResolver) {
-		 dc.setParameter("resource-resolver", new LSJarXSDResolver((XMLEntityResolver)resolver));
-	    }
-	    
-	    this.model = loader.load(LSJarXSDResolver.getStreamInput(location));
-	    //this.model = loader.loadURI(location);
-	}
-	catch (ClassNotFoundException e) {
-	    throw new AssertionError(e.getMessage());
-	}
-	catch (InstantiationException e) {
-	    throw new AssertionError(e.getMessage());
-	}
-	catch (IllegalAccessException e) {
-	    throw new AssertionError(e.getMessage());
-	}	
+            DOMConfiguration dc = loader.getConfig();
+            Object resolver = dc.getParameter("resource-resolver");
+            if (resolver == null) {
+                 dc.setParameter("resource-resolver", new LSJarXSDResolver((LSResourceResolver)null));
+            }
+            else if (resolver instanceof LSResourceResolver) {
+                 dc.setParameter("resource-resolver", new LSJarXSDResolver((LSResourceResolver)resolver));
+            }
+            else if (resolver instanceof XMLEntityResolver) {
+                 dc.setParameter("resource-resolver", new LSJarXSDResolver((XMLEntityResolver)resolver));
+            }
+            
+            this.model = loader.load(LSJarXSDResolver.getStreamInput(location));
+            //this.model = loader.loadURI(location);
+        }
+        catch (ClassNotFoundException e) {
+            throw new AssertionError(e.getMessage());
+        }
+        catch (InstantiationException e) {
+            throw new AssertionError(e.getMessage());
+        }
+        catch (IllegalAccessException e) {
+            throw new AssertionError(e.getMessage());
+        }        
     }
 
     /**
@@ -118,19 +118,19 @@ public class TypeInformation
      */
     public Type getType(String name, String namespace)
     {
-	// Try looking for the type in resolvedTypes.
-	Type type = (Type) resolvedTypes.get(createKey(name, namespace));
-	if (type == null) {
-	    // Try looking for the type in the schema.
-	    XSTypeDefinition xt = model.getTypeDefinition(name, namespace);
-	    if (xt != null) {
-		// Not there yet, create it.
-		type = new TypeDefinition(xt, this);
-		resolvedTypes.put(createKey(name, namespace), type);
-	    }
-	}
+        // Try looking for the type in resolvedTypes.
+        Type type = (Type) resolvedTypes.get(createKey(name, namespace));
+        if (type == null) {
+            // Try looking for the type in the schema.
+            XSTypeDefinition xt = model.getTypeDefinition(name, namespace);
+            if (xt != null) {
+                // Not there yet, create it.
+                type = new TypeDefinition(xt, this);
+                resolvedTypes.put(createKey(name, namespace), type);
+            }
+        }
 
-	return type;
+        return type;
     }
 
     /**
@@ -141,25 +141,25 @@ public class TypeInformation
      */
     public void findDerived(Type type)
     {
-	// Can't do anything for documentType
-	if (type instanceof DocumentDefinition) {
-	    return;
-	}
+        // Can't do anything for documentType
+        if (type instanceof DocumentDefinition) {
+            return;
+        }
 
-	/* Get all types. */
-	XSNamedMap map = this.model.getComponents(XSConstants.TYPE_DEFINITION);	
-	/* Get type's XSTypeDefiniton. */
-	XSTypeDefinition xsType = this.model.getTypeDefinition(type.getName(), 
-							       type.getNamespace());
+        /* Get all types. */
+        XSNamedMap map = this.model.getComponents(XSConstants.TYPE_DEFINITION);        
+        /* Get type's XSTypeDefiniton. */
+        XSTypeDefinition xsType = this.model.getTypeDefinition(type.getName(), 
+                                                               type.getNamespace());
 
-	for (int i = 0; i < map.getLength(); i++) {
-	    XSTypeDefinition item = (XSTypeDefinition) map.item(i);
-	    if (item.getBaseType() != null) {
-		if (item.getBaseType().equals(xsType)) {
-		    type.addDerived(this.getType(item.getName(), item.getNamespace()));
-		}
-	    }
-	}
+        for (int i = 0; i < map.getLength(); i++) {
+            XSTypeDefinition item = (XSTypeDefinition) map.item(i);
+            if (item.getBaseType() != null) {
+                if (item.getBaseType().equals(xsType)) {
+                    type.addDerived(this.getType(item.getName(), item.getNamespace()));
+                }
+            }
+        }
     }
 
     /**
@@ -169,7 +169,7 @@ public class TypeInformation
      */
     public Type getType(String type)
     {
-	return getType(type, this.namespace);
+        return getType(type, this.namespace);
     }
 
     /** 
@@ -180,7 +180,7 @@ public class TypeInformation
      */
     protected String createKey(String name, String namespace)
     {
-	return name + ":" + namespace;
+        return name + ":" + namespace;
     }
 
 
@@ -189,17 +189,17 @@ public class TypeInformation
      */
     public String toString() 
     {
-	StringBuffer buf = new StringBuffer();
-	Enumeration rs = resolvedTypes.elements();
-	// No newline first time.
-	if (rs.hasMoreElements()) {
-	    buf.append(rs.nextElement().toString());
-	}
-	while (rs.hasMoreElements()) {
-	    buf.append("\n" + rs.nextElement().toString());
-	}
+        StringBuffer buf = new StringBuffer();
+        Enumeration rs = resolvedTypes.elements();
+        // No newline first time.
+        if (rs.hasMoreElements()) {
+            buf.append(rs.nextElement().toString());
+        }
+        while (rs.hasMoreElements()) {
+            buf.append("\n" + rs.nextElement().toString());
+        }
 
-	return buf.toString();
+        return buf.toString();
     }
 
     /**
@@ -208,11 +208,11 @@ public class TypeInformation
      */
     public Type getDocumentType()
     {
-	if (this.documentType == null) {
-	    createDocumentType();
-	}
-	
-	return this.documentType;
+        if (this.documentType == null) {
+            createDocumentType();
+        }
+        
+        return this.documentType;
     }
 
     /**
@@ -221,27 +221,27 @@ public class TypeInformation
      */
     protected void createDocumentType()
     {
-	this.documentType = new DocumentDefinition(model, this);
+        this.documentType = new DocumentDefinition(model, this);
     }
 
     public static void main(String argv[])
     {
-	if (argv.length != 3) {
-	    System.err.println("Incorrect number of parameters");
-	    System.exit(1);
-	}
-	try {
-	    TypeInformation typeInformation = new TypeInformation(argv[0]);
-	    typeInformation.getDocumentType();
-	    System.out.println(typeInformation.getDocumentType());
-	    //Type type = typeInformation.getType(argv[2], argv[1]);
-	    //System.out.println(typeInformation);
-	} catch (Exception e) {
-	    e.printStackTrace();
-	    System.err.println(e.getMessage());
-	    System.exit(1);
-	}
+        if (argv.length != 3) {
+            System.err.println("Incorrect number of parameters");
+            System.exit(1);
+        }
+        try {
+            TypeInformation typeInformation = new TypeInformation(argv[0]);
+            typeInformation.getDocumentType();
+            System.out.println(typeInformation.getDocumentType());
+            //Type type = typeInformation.getType(argv[2], argv[1]);
+            //System.out.println(typeInformation);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println(e.getMessage());
+            System.exit(1);
+        }
 
-	System.exit(0);
+        System.exit(0);
     }
 }

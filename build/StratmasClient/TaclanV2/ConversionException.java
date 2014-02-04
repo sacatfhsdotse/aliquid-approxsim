@@ -1,4 +1,4 @@
-// 	$Id: ConversionException.java,v 1.3 2006/03/22 14:30:49 dah Exp $
+//         $Id: ConversionException.java,v 1.3 2006/03/22 14:30:49 dah Exp $
 /*
  * @(#)ConversionException.java
  */
@@ -25,12 +25,12 @@ public class ConversionException extends SemanticException
      */
     public ConversionException(ParsedPrimitive primitive, Declaration declaration)
     {
-	this.primitive = primitive;
-	this.declaration = declaration;	
+        this.primitive = primitive;
+        this.declaration = declaration;        
     }
 
     public String toString()
     {
-	return primitive.getPos().toString() + ": Unable to construct a " + declaration.getType().getName() + " from \"" + primitive.valueToString() + "\"";
+        return primitive.getPos().toString() + ": Unable to construct a " + declaration.getType().getName() + " from \"" + primitive.valueToString() + "\"";
     }
 }

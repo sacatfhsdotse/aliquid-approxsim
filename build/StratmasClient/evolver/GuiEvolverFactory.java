@@ -1,4 +1,4 @@
-// 	$Id: GuiEvolverFactory.java,v 1.9 2006/04/10 09:45:55 dah Exp $
+//         $Id: GuiEvolverFactory.java,v 1.9 2006/04/10 09:45:55 dah Exp $
 /*
  * @(#)GuiEvolverFactory.java
  */
@@ -128,33 +128,33 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory
      */
     public GuiEvolverFactory()
     {
-	setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-	setSamplerFactory(new GuiSamplerFactory());
-	setStopperFactory(new GuiIterationsStopperFactory("Evolver")
-	    {
-		public Stopper getStopper() {
-		    return new IterationsStopper(getIterations())
-			{
-			    /**
-			     * Returns the number of iterations for the object o
-			     *
-			     * @param o the object to get iterations from.
-			     */
-			    public int getIterations(Object o) {
-				return ((Evolver) o).getEvaluations().size();
-			    }
-			};
-		}
-	    });
-	JPanel panel = new JPanel();
-	panel.add((JComponent) getSamplerFactory());
-	panel.add((JComponent) getStopperFactory());
-			
-	// Add drop point for parameters
-	add(new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-			   createTargetChoicePanel(),
-			   createParameterChoicePanel()));	
+        setSamplerFactory(new GuiSamplerFactory());
+        setStopperFactory(new GuiIterationsStopperFactory("Evolver")
+            {
+                public Stopper getStopper() {
+                    return new IterationsStopper(getIterations())
+                        {
+                            /**
+                             * Returns the number of iterations for the object o
+                             *
+                             * @param o the object to get iterations from.
+                             */
+                            public int getIterations(Object o) {
+                                return ((Evolver) o).getEvaluations().size();
+                            }
+                        };
+                }
+            });
+        JPanel panel = new JPanel();
+        panel.add((JComponent) getSamplerFactory());
+        panel.add((JComponent) getStopperFactory());
+                        
+        // Add drop point for parameters
+        add(new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+                           createTargetChoicePanel(),
+                           createParameterChoicePanel()));        
     }
 
     /**
@@ -164,42 +164,42 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory
      */
     public GuiEvolverFactory(StratmasObject root)
     {
-	//setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-	setRoot(root);
+        //setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setRoot(root);
 
-	//setLayout(new java.awt.GridBagLayout());
-	setLayout(new BorderLayout());
+        //setLayout(new java.awt.GridBagLayout());
+        setLayout(new BorderLayout());
 
-	setSamplerFactory(new GuiSamplerFactory());
-	setStopperFactory(new GuiIterationsStopperFactory("Evolver")
-	    {
-		public Stopper getStopper() {
-		    return new IterationsStopper(getIterations())
-			{
-			    /**
-			     * Returns the number of iterations for the object o
-			     *
-			     * @param o the object to get iterations from.
-			     */
-			    public int getIterations(Object o) {
-				return ((Evolver) o).getEvaluations().size();
-			    }
-			};
-		}
-	    });
-	JPanel panel = new JPanel();
-	panel.add((JComponent) getSamplerFactory());
-	panel.add((JComponent) getStopperFactory());
-	add(panel, BorderLayout.NORTH);
-			
-	// Add drop point for parameters
-	TreeView treeView = TreeView.getDefaultTreeView(root);
-	add(new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-			   new JScrollPane(treeView),
-			   new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-					  createTargetChoicePanel(),
-					  createParameterChoicePanel())),
-	    BorderLayout.CENTER);
+        setSamplerFactory(new GuiSamplerFactory());
+        setStopperFactory(new GuiIterationsStopperFactory("Evolver")
+            {
+                public Stopper getStopper() {
+                    return new IterationsStopper(getIterations())
+                        {
+                            /**
+                             * Returns the number of iterations for the object o
+                             *
+                             * @param o the object to get iterations from.
+                             */
+                            public int getIterations(Object o) {
+                                return ((Evolver) o).getEvaluations().size();
+                            }
+                        };
+                }
+            });
+        JPanel panel = new JPanel();
+        panel.add((JComponent) getSamplerFactory());
+        panel.add((JComponent) getStopperFactory());
+        add(panel, BorderLayout.NORTH);
+                        
+        // Add drop point for parameters
+        TreeView treeView = TreeView.getDefaultTreeView(root);
+        add(new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+                           new JScrollPane(treeView),
+                           new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+                                          createTargetChoicePanel(),
+                                          createParameterChoicePanel())),
+            BorderLayout.CENTER);
     }
 
     /**
@@ -207,7 +207,7 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory
      */
     void setSamplerFactory(SamplerFactory factory)
     {
-	this.samplerFactory = factory;
+        this.samplerFactory = factory;
     }
     
     /**
@@ -215,7 +215,7 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory
      */
     public SamplerFactory getSamplerFactory()
     {
-	return this.samplerFactory;
+        return this.samplerFactory;
     }
 
     /**
@@ -224,7 +224,7 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory
      */
     void setEvaluatorStopperFactory(StopperFactory stopperFactory)
     {
-	this.evaluatorStopperFactory = stopperFactory;
+        this.evaluatorStopperFactory = stopperFactory;
     }
     
     /**
@@ -233,7 +233,7 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory
      */
     public StopperFactory getEvaluatorStopperFactory()
     {
-	return this.evaluatorStopperFactory;
+        return this.evaluatorStopperFactory;
     }
 
     /**
@@ -241,7 +241,7 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory
      */
     void setRoot(StratmasObject root)
     {
-	this.root = root;
+        this.root = root;
     }
 
     /**
@@ -249,7 +249,7 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory
      */
     StratmasObject getRoot()
     {
-	return this.root;
+        return this.root;
     }
     
     /**
@@ -257,7 +257,7 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory
      */
     void setStopperFactory(StopperFactory factory)
     {
-	this.stopperFactory = factory;
+        this.stopperFactory = factory;
     }
     
     /**
@@ -265,7 +265,7 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory
      */
     public StopperFactory getStopperFactory()
     {
-	return this.stopperFactory;
+        return this.stopperFactory;
     }
 
     /**
@@ -273,93 +273,93 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory
      */
     public JPanel createParameterChoicePanel()
     {
-	JPanel res = new JPanel();
-	res.setLayout(new BoxLayout(res, BoxLayout.Y_AXIS));
-	res.add(new JLabel("Drop the parameters you wish to evolve here."));
-	final DefaultTableModel parameterTableModel = new DefaultTableModel();
-	parameterTableModel.addColumn("Parameter");
-	res.add(new JScrollPane(new JTable(parameterTableModel)));
+        JPanel res = new JPanel();
+        res.setLayout(new BoxLayout(res, BoxLayout.Y_AXIS));
+        res.add(new JLabel("Drop the parameters you wish to evolve here."));
+        final DefaultTableModel parameterTableModel = new DefaultTableModel();
+        parameterTableModel.addColumn("Parameter");
+        res.add(new JScrollPane(new JTable(parameterTableModel)));
 
-	res.setDropTarget(new DropTarget(res, new DropSink() 
-	    {
-		ParameterFactory parameterFactory = new StratmasParameterFactory();
-		public boolean checkDrop(final StratmasObject object)
-		{
-		    if (getRoot() != null &&
-			getRoot().getRoot() != object.getRoot()) {
-			JOptionPane.showMessageDialog(null, 
-						      "Please only use objects from " + 
-						      "the tree in this window",
-						      "Parameter Error", 
-						      JOptionPane.WARNING_MESSAGE);
-			return false;
-		    }
+        res.setDropTarget(new DropTarget(res, new DropSink() 
+            {
+                ParameterFactory parameterFactory = new StratmasParameterFactory();
+                public boolean checkDrop(final StratmasObject object)
+                {
+                    if (getRoot() != null &&
+                        getRoot().getRoot() != object.getRoot()) {
+                        JOptionPane.showMessageDialog(null, 
+                                                      "Please only use objects from " + 
+                                                      "the tree in this window",
+                                                      "Parameter Error", 
+                                                      JOptionPane.WARNING_MESSAGE);
+                        return false;
+                    }
 
-		    Parameter parameter = parameterFactory.getParameter(object);
-		    if (parameter != null) {
-			if (!hasParameter(parameter)) {
-			    int lastRow = parameterTableModel.getRowCount();
-			    parameterTableModel.setRowCount(lastRow + 1);
-			    parameterTableModel.setValueAt(parameter, lastRow, 
-							   parameterTableModel.findColumn("Parameter"));
+                    Parameter parameter = parameterFactory.getParameter(object);
+                    if (parameter != null) {
+                        if (!hasParameter(parameter)) {
+                            int lastRow = parameterTableModel.getRowCount();
+                            parameterTableModel.setRowCount(lastRow + 1);
+                            parameterTableModel.setValueAt(parameter, lastRow, 
+                                                           parameterTableModel.findColumn("Parameter"));
 
-			    Vector vector = new Vector();
-			    for (int i = 0; i < parameterTableModel.getRowCount(); i++) {
-				vector.add(parameterTableModel.getValueAt(i, 
-									  parameterTableModel.findColumn("Parameter")));
-			    }
-			    setEvolveParameters(vector);
-			    return true;
-			} else {
-			    SwingUtilities.invokeLater(new Runnable()
-			    {
-				public void run()
-				{
-				    JOptionPane.showMessageDialog(null, 
-								  object.getReference() + " is " + 
-								  "already included in the " + 
-								  "parameter set.",
-								  "Parameter error", 
-								  JOptionPane.WARNING_MESSAGE);
-				}
-			    });
-			    return false;
-			}
-		    } else {
-			SwingUtilities.invokeLater(new Runnable()
-			    {
-				public void run()
-				{
-				    JOptionPane.showMessageDialog(null, 
-								  "It is presently not possible to " + 
-								  "evolve parameters of the type '" + 
-								  object.getType().getName() + "'", 
-								  "Parameter error", 
-								  JOptionPane.ERROR_MESSAGE);
-				}
-			    });
-			return false;
-		    }
-		}
+                            Vector vector = new Vector();
+                            for (int i = 0; i < parameterTableModel.getRowCount(); i++) {
+                                vector.add(parameterTableModel.getValueAt(i, 
+                                                                          parameterTableModel.findColumn("Parameter")));
+                            }
+                            setEvolveParameters(vector);
+                            return true;
+                        } else {
+                            SwingUtilities.invokeLater(new Runnable()
+                            {
+                                public void run()
+                                {
+                                    JOptionPane.showMessageDialog(null, 
+                                                                  object.getReference() + " is " + 
+                                                                  "already included in the " + 
+                                                                  "parameter set.",
+                                                                  "Parameter error", 
+                                                                  JOptionPane.WARNING_MESSAGE);
+                                }
+                            });
+                            return false;
+                        }
+                    } else {
+                        SwingUtilities.invokeLater(new Runnable()
+                            {
+                                public void run()
+                                {
+                                    JOptionPane.showMessageDialog(null, 
+                                                                  "It is presently not possible to " + 
+                                                                  "evolve parameters of the type '" + 
+                                                                  object.getType().getName() + "'", 
+                                                                  "Parameter error", 
+                                                                  JOptionPane.ERROR_MESSAGE);
+                                }
+                            });
+                        return false;
+                    }
+                }
 
-		public boolean hasParameter(Parameter parameter)
-		{
-		    for (int i = 0; i < parameterTableModel.getRowCount(); i++) {
-			Object entry = 
-			    parameterTableModel.getValueAt(i, 
-							   parameterTableModel.findColumn("Parameter"));
-			if (entry != null && parameter instanceof StratmasObjectParameter && 
-			    entry instanceof StratmasObjectParameter && 
-			    ((StratmasObjectParameter) parameter).getReference().equals(((StratmasObjectParameter) entry).getReference())) {
-			    return true;
-			}
-		    }
+                public boolean hasParameter(Parameter parameter)
+                {
+                    for (int i = 0; i < parameterTableModel.getRowCount(); i++) {
+                        Object entry = 
+                            parameterTableModel.getValueAt(i, 
+                                                           parameterTableModel.findColumn("Parameter"));
+                        if (entry != null && parameter instanceof StratmasObjectParameter && 
+                            entry instanceof StratmasObjectParameter && 
+                            ((StratmasObjectParameter) parameter).getReference().equals(((StratmasObjectParameter) entry).getReference())) {
+                            return true;
+                        }
+                    }
 
-		    return false;
-		}
-	    }));
-	
-	return res;
+                    return false;
+                }
+            }));
+        
+        return res;
     }
 
     /**
@@ -367,137 +367,137 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory
      */
     public JPanel createTargetChoicePanel()
     {
-	final JPanel res = new JPanel();
-	res.setLayout(new BoxLayout(res, BoxLayout.Y_AXIS));
-	res.add(new JLabel("Drop the performance measure you wish to use here."));
-	final DefaultTableModel measureTableModel = new DefaultTableModel();
-	measureTableModel.addColumn("Measure");
-	res.add(new JScrollPane(new JTable(measureTableModel)));
+        final JPanel res = new JPanel();
+        res.setLayout(new BoxLayout(res, BoxLayout.Y_AXIS));
+        res.add(new JLabel("Drop the performance measure you wish to use here."));
+        final DefaultTableModel measureTableModel = new DefaultTableModel();
+        measureTableModel.addColumn("Measure");
+        res.add(new JScrollPane(new JTable(measureTableModel)));
 
-	res.setDropTarget(new DropTarget(res, new DropSink() 
-	    {
-		ParameterFactory parameterFactory = new StratmasParameterFactory();
+        res.setDropTarget(new DropTarget(res, new DropSink() 
+            {
+                ParameterFactory parameterFactory = new StratmasParameterFactory();
 
-		public boolean checkDrop(final StratmasObject object)
-		{
-		    if (getRoot() != null &&
-			getRoot().getRoot() != object.getRoot()) {
-			JOptionPane.showMessageDialog(null, 
-						      "Please only use objects from " + 
-						      "the tree in this window",
-						      "Parameter Error", 
-						      JOptionPane.WARNING_MESSAGE);
-			return false;
-		    }
+                public boolean checkDrop(final StratmasObject object)
+                {
+                    if (getRoot() != null &&
+                        getRoot().getRoot() != object.getRoot()) {
+                        JOptionPane.showMessageDialog(null, 
+                                                      "Please only use objects from " + 
+                                                      "the tree in this window",
+                                                      "Parameter Error", 
+                                                      JOptionPane.WARNING_MESSAGE);
+                        return false;
+                    }
 
-		    // Special handling for shapes:
-		    Parameter parameter = null;
-		    if (object.getType().canSubstitute("Shape") && 
-			(JOptionPane.showConfirmDialog(null,
-						      object.getIdentifier() + " defines " + 
-						      "a region. The currently supported " + 
-						      "meassure of this type is a meassure of a " + 
-						      "process variable within that region.\n" + 
-						      "To get a listing of availiable process variables " +
-						      "it is necessary to connect to a server. Do you want " + 
-						      "to try this?",
-						      "Connect to server",
-						      JOptionPane.YES_NO_OPTION) == 0)) {
-			ProcessVariableParameter pvParameter = 
-			    new ProcessVariableParameter((Shape) object, null, null);
-			try {
-			    ServerSession session = DefaultServerSession.allocateSession();
-			    if (session != null) {
-				session.open();
-				pvParameter.setProcessVariables(session);
-				session.close();
-				if (pvParameter.showProcessVariablesOptionPane()) {
-				    parameter = pvParameter;
-				} else {
-				    return false;
-				}
-			    } else {
-				JOptionPane.showMessageDialog(null, 
-							      "Unable to allocate server to get variables.",
-							      "Server error", 
-							      JOptionPane.ERROR_MESSAGE);
-				return false;
-			    }
-			} catch (ServerException e) {
-			    JOptionPane.showMessageDialog(null, 
-							  "Unable to get variables from server.",
-							  "Server error", 
-							  JOptionPane.ERROR_MESSAGE);
-			    return false;
-			}
-		    } else {
-			parameter = parameterFactory.getParameter(object);
-		    }
-		    if (parameter != null) {
-			if (!hasParameter() || 
-			    JOptionPane.showConfirmDialog(null,
-							  getTargetParameter() + " is " + 
-							  "already defined as performance " + 
-							  "meassure. Do you want to " + 
-							  "replace it?",
-							  "Replace current meassure",
-							  JOptionPane.YES_NO_OPTION) == 0) {
-			    setTargetParameter(parameter);
-			    measureTableModel.setRowCount(1);
-			    measureTableModel.setValueAt(getTargetParameter().toString(), 
-							 0, 0);
-			    if (getEvaluatorStopperFactory() != null) {
-				res.remove((JComponent) getEvaluatorStopperFactory());
-			    }
+                    // Special handling for shapes:
+                    Parameter parameter = null;
+                    if (object.getType().canSubstitute("Shape") && 
+                        (JOptionPane.showConfirmDialog(null,
+                                                      object.getIdentifier() + " defines " + 
+                                                      "a region. The currently supported " + 
+                                                      "meassure of this type is a meassure of a " + 
+                                                      "process variable within that region.\n" + 
+                                                      "To get a listing of availiable process variables " +
+                                                      "it is necessary to connect to a server. Do you want " + 
+                                                      "to try this?",
+                                                      "Connect to server",
+                                                      JOptionPane.YES_NO_OPTION) == 0)) {
+                        ProcessVariableParameter pvParameter = 
+                            new ProcessVariableParameter((Shape) object, null, null);
+                        try {
+                            ServerSession session = DefaultServerSession.allocateSession();
+                            if (session != null) {
+                                session.open();
+                                pvParameter.setProcessVariables(session);
+                                session.close();
+                                if (pvParameter.showProcessVariablesOptionPane()) {
+                                    parameter = pvParameter;
+                                } else {
+                                    return false;
+                                }
+                            } else {
+                                JOptionPane.showMessageDialog(null, 
+                                                              "Unable to allocate server to get variables.",
+                                                              "Server error", 
+                                                              JOptionPane.ERROR_MESSAGE);
+                                return false;
+                            }
+                        } catch (ServerException e) {
+                            JOptionPane.showMessageDialog(null, 
+                                                          "Unable to get variables from server.",
+                                                          "Server error", 
+                                                          JOptionPane.ERROR_MESSAGE);
+                            return false;
+                        }
+                    } else {
+                        parameter = parameterFactory.getParameter(object);
+                    }
+                    if (parameter != null) {
+                        if (!hasParameter() || 
+                            JOptionPane.showConfirmDialog(null,
+                                                          getTargetParameter() + " is " + 
+                                                          "already defined as performance " + 
+                                                          "meassure. Do you want to " + 
+                                                          "replace it?",
+                                                          "Replace current meassure",
+                                                          JOptionPane.YES_NO_OPTION) == 0) {
+                            setTargetParameter(parameter);
+                            measureTableModel.setRowCount(1);
+                            measureTableModel.setValueAt(getTargetParameter().toString(), 
+                                                         0, 0);
+                            if (getEvaluatorStopperFactory() != null) {
+                                res.remove((JComponent) getEvaluatorStopperFactory());
+                            }
 
-			    setEvaluatorStopperFactory(new GuiIterationsStopperFactory("Simulation")
-				{
-				    public Stopper getStopper() {
-					return new IterationsStopper(getIterations())
-					    {
-						/**
-						 * Returns the number of iterations for the object o
-						 *
-						 * @param o the object to get iterations from.
-						 */
-						public int getIterations(Object o) {
-						    return ((SimulationEvaluator) o).getTarget().getUpdateCount();
-						}
-					    };
-				    }
-				});
-			    res.add((JComponent) getEvaluatorStopperFactory(), 0);
-			    res.validate();
-			    
-			    return true;
-			} else {
-			    return false;
-			}
-		    } else {
-			SwingUtilities.invokeLater(new Runnable()
-			    {
-				public void run()
-				{
-				    JOptionPane.showMessageDialog(null, 
-								  "It is presently not possible to " + 
-								  "use parameters of the type '" + 
-								  object.getType().getName() + "' " +
-								  "as a perfomance measure.", 
-								  "Parameter error", 
-								  JOptionPane.ERROR_MESSAGE);
-				}
-			    });
-			return false;
-		    }
-		}
+                            setEvaluatorStopperFactory(new GuiIterationsStopperFactory("Simulation")
+                                {
+                                    public Stopper getStopper() {
+                                        return new IterationsStopper(getIterations())
+                                            {
+                                                /**
+                                                 * Returns the number of iterations for the object o
+                                                 *
+                                                 * @param o the object to get iterations from.
+                                                 */
+                                                public int getIterations(Object o) {
+                                                    return ((SimulationEvaluator) o).getTarget().getUpdateCount();
+                                                }
+                                            };
+                                    }
+                                });
+                            res.add((JComponent) getEvaluatorStopperFactory(), 0);
+                            res.validate();
+                            
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        SwingUtilities.invokeLater(new Runnable()
+                            {
+                                public void run()
+                                {
+                                    JOptionPane.showMessageDialog(null, 
+                                                                  "It is presently not possible to " + 
+                                                                  "use parameters of the type '" + 
+                                                                  object.getType().getName() + "' " +
+                                                                  "as a perfomance measure.", 
+                                                                  "Parameter error", 
+                                                                  JOptionPane.ERROR_MESSAGE);
+                                }
+                            });
+                        return false;
+                    }
+                }
 
-		public boolean hasParameter()
-		{
-		    return getTargetParameter() != null;
-		}
-	    }));
+                public boolean hasParameter()
+                {
+                    return getTargetParameter() != null;
+                }
+            }));
 
-	return res;
+        return res;
     }
 
     /**
@@ -505,7 +505,7 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory
      */
     Parameter getTargetParameter()
     {
-	return this.targetParameter;
+        return this.targetParameter;
     }
 
     /**
@@ -513,7 +513,7 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory
      */
     void setTargetParameter(Parameter targetParameter)
     {
-	this.targetParameter = targetParameter;
+        this.targetParameter = targetParameter;
     }
 
     /**
@@ -521,7 +521,7 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory
      */
     Vector getEvolveParameters()
     {
-	return this.evolveParameters;
+        return this.evolveParameters;
     }
 
     /**
@@ -529,7 +529,7 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory
      */
     void setEvolveParameters(Vector evolveParameters)
     {
-	this.evolveParameters = evolveParameters;
+        this.evolveParameters = evolveParameters;
     }
     
     /**
@@ -537,60 +537,60 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory
      */
     public Evolver getEvolver()
     {
-	final Parameter targetParameter = getTargetParameter();
+        final Parameter targetParameter = getTargetParameter();
 
-	ParameterInstanceSet initialValues = new ParameterInstanceSet();
-	StratmasObject yca = null;
-	boolean initYca = true; // Hack
-	for (Enumeration e = getEvolveParameters().elements(); 
-	     e.hasMoreElements();) {
-	    Parameter parameter = (Parameter) e.nextElement();
-	    StratmasObject object = 
-		((StratmasObjectParameter) parameter).getStratmasObject();
-	    if (initYca) {
-		yca = object;
-		initYca = false;
-	    } else {
-		yca = object.getYoungestCommonAncestor(yca);
-	    }
+        ParameterInstanceSet initialValues = new ParameterInstanceSet();
+        StratmasObject yca = null;
+        boolean initYca = true; // Hack
+        for (Enumeration e = getEvolveParameters().elements(); 
+             e.hasMoreElements();) {
+            Parameter parameter = (Parameter) e.nextElement();
+            StratmasObject object = 
+                ((StratmasObjectParameter) parameter).getStratmasObject();
+            if (initYca) {
+                yca = object;
+                initYca = false;
+            } else {
+                yca = object.getYoungestCommonAncestor(yca);
+            }
 
-	    initialValues.add(parameter.getParameterInstance(StratmasObjectFactory.cloneObject(object)));
-	}
-	
-	// Find the simulation the parameters belong to:
-	StratmasObject simulation = null;
-	for(simulation = yca; 
-	    simulation != null && 
-		!simulation.getType().canSubstitute("Simulation"); 
-	    simulation = simulation.getParent());
+            initialValues.add(parameter.getParameterInstance(StratmasObjectFactory.cloneObject(object)));
+        }
+        
+        // Find the simulation the parameters belong to:
+        StratmasObject simulation = null;
+        for(simulation = yca; 
+            simulation != null && 
+                !simulation.getType().canSubstitute("Simulation"); 
+            simulation = simulation.getParent());
 
-	if (simulation == null) {
-	    return null;
-	}
+        if (simulation == null) {
+            return null;
+        }
 
-	EvaluatorFactory evaluatorFactory =
-	    new SimulationEvaluatorFactory(StratmasDispatcher.getDefaultDispatcher(), simulation)
-	    {
-		SimulationEvaluatorTarget createTarget()
-		{
-		    SimulationEvaluatorTarget target = ((SimulationEvaluatorTargetFactory) getTargetParameter()).createSimulationEvaluatorTarget();
-		    target.setStopper(getEvaluatorStopperFactory().getStopper());
-		    return target;
-		}
-	    };
+        EvaluatorFactory evaluatorFactory =
+            new SimulationEvaluatorFactory(StratmasDispatcher.getDefaultDispatcher(), simulation)
+            {
+                SimulationEvaluatorTarget createTarget()
+                {
+                    SimulationEvaluatorTarget target = ((SimulationEvaluatorTargetFactory) getTargetParameter()).createSimulationEvaluatorTarget();
+                    target.setStopper(getEvaluatorStopperFactory().getStopper());
+                    return target;
+                }
+            };
 
-	Sampler sampler = getSamplerFactory().getSampler();
+        Sampler sampler = getSamplerFactory().getSampler();
 
-	Stopper stopper = getStopperFactory().getStopper();
+        Stopper stopper = getStopperFactory().getStopper();
 
-	if (evaluatorFactory != null &&
-	    sampler != null &&
-	    stopper != null) {
-	    return new Evolver(initialValues, targetParameter, evaluatorFactory, 
-			       sampler, stopper);
-	} else {
-	    return null;
-	}
+        if (evaluatorFactory != null &&
+            sampler != null &&
+            stopper != null) {
+            return new Evolver(initialValues, targetParameter, evaluatorFactory, 
+                               sampler, stopper);
+        } else {
+            return null;
+        }
     }
 }
 
@@ -610,7 +610,7 @@ abstract class DropSink extends DropTargetAdapter
     
     public void dragEnter(DropTargetDragEvent dtde) 
     {
-	dtde.acceptDrag(dtde.getDropAction());
+        dtde.acceptDrag(dtde.getDropAction());
     }
     
     public void dragExit(DropTargetEvent dtde) 
@@ -623,36 +623,36 @@ abstract class DropSink extends DropTargetAdapter
     
     public void drop(DropTargetDropEvent dtde) 
     {
-	if (dtde.isDataFlavorSupported(StratmasObject.STRATMAS_OBJECT_FLAVOR)) {
-	    dtde.acceptDrop(DnDConstants.ACTION_LINK);
-	    try {
-		Object object = 
-		    dtde.getTransferable().getTransferData(StratmasObject.STRATMAS_OBJECT_FLAVOR);
-		// Apple's dnd implementation needs some
-		// looking over... Call the
-		// getTransferData method for the string
-		// flavor in order to get a valid
-		// callback.
-		if (System.getProperty("os.name").equals("macosx")) {
-		    dtde.getTransferable().getTransferData(DataFlavor.stringFlavor);
-		}
-		
-		if (object instanceof StratmasObject) {
-		    dtde.dropComplete(checkDrop((StratmasObject) object));
-		} else {
-		    dtde.dropComplete(false);
-		}
-	    } catch (UnsupportedFlavorException e) {
-		// Since we checked this in the preceeding
-		// if-clause this should not be possible.
-		throw new AssertionError("Apparent inconsistency in DnD implementation");
-	    } catch (IOException e) {
-		System.err.println("Error completing drop: " + e.getMessage());
-		dtde.dropComplete(false);
-	    }
-	} else {
-	    dtde.rejectDrop();
-	}
+        if (dtde.isDataFlavorSupported(StratmasObject.STRATMAS_OBJECT_FLAVOR)) {
+            dtde.acceptDrop(DnDConstants.ACTION_LINK);
+            try {
+                Object object = 
+                    dtde.getTransferable().getTransferData(StratmasObject.STRATMAS_OBJECT_FLAVOR);
+                // Apple's dnd implementation needs some
+                // looking over... Call the
+                // getTransferData method for the string
+                // flavor in order to get a valid
+                // callback.
+                if (System.getProperty("os.name").equals("macosx")) {
+                    dtde.getTransferable().getTransferData(DataFlavor.stringFlavor);
+                }
+                
+                if (object instanceof StratmasObject) {
+                    dtde.dropComplete(checkDrop((StratmasObject) object));
+                } else {
+                    dtde.dropComplete(false);
+                }
+            } catch (UnsupportedFlavorException e) {
+                // Since we checked this in the preceeding
+                // if-clause this should not be possible.
+                throw new AssertionError("Apparent inconsistency in DnD implementation");
+            } catch (IOException e) {
+                System.err.println("Error completing drop: " + e.getMessage());
+                dtde.dropComplete(false);
+            }
+        } else {
+            dtde.rejectDrop();
+        }
     }
 
     /**

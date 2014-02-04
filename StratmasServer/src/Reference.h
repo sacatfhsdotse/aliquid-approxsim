@@ -65,7 +65,7 @@ private:
       * \param name The name of the Reference to be created.
       */
      Reference(const Reference& scope, const std::string& name)
-	  : mName(name), mScope(&scope) {}
+          : mName(name), mScope(&scope) {}
      Reference(const Reference& ref);
      ~Reference();
      
@@ -120,19 +120,19 @@ public:
       * \return True if this reference is less than r.
       */
      bool operator < (const Reference& r) const {
-	  // Equal scopes => return true of this name is less than r's name.
-	  if (mScope == r.mScope) {
-	       return (mName < r.mName);
-	  }
-	  // Basis case - one of the scopes is null, e.g. either this
-	  // or r is the root Reference and thus the 'smallest' Reference.
-	  else if (mScope == 0 || r.mScope == 0) {
-	       return (mScope == 0);
-	  }
-	  // Else just compare this Reference to r's scope Reference.
-	  else {
-	       return (*mScope < *r.mScope);
-	  }
+          // Equal scopes => return true of this name is less than r's name.
+          if (mScope == r.mScope) {
+               return (mName < r.mName);
+          }
+          // Basis case - one of the scopes is null, e.g. either this
+          // or r is the root Reference and thus the 'smallest' Reference.
+          else if (mScope == 0 || r.mScope == 0) {
+               return (mScope == 0);
+          }
+          // Else just compare this Reference to r's scope Reference.
+          else {
+               return (*mScope < *r.mScope);
+          }
      }
 
      /**
@@ -185,12 +185,12 @@ struct lessReferenceP {
       * the Reference pointed to by r2.
       */
      bool operator()(const Reference *const r1, const Reference *const r2) const {
-	  if (!r1 || !r2) {
-	       exit(1);
-	  }
-	  else {
-	       return (*r1 < *r2);
-	  }
+          if (!r1 || !r2) {
+               exit(1);
+          }
+          else {
+               return (*r1 < *r2);
+          }
      }
 };
 
@@ -212,7 +212,7 @@ struct hashReferenceP {
       * \return A hashcode for the specified Reference.
       */
      size_t operator()(const Reference *const key) const {
-	  return reinterpret_cast<size_t>(key);
+          return reinterpret_cast<size_t>(key);
      }
 };
 

@@ -1,4 +1,4 @@
-// 	$Id: TypeErrorException.java,v 1.3 2005/09/09 17:25:19 dah Exp $
+//         $Id: TypeErrorException.java,v 1.3 2005/09/09 17:25:19 dah Exp $
 /*
  * @(#)TypeErrorException.java
  */
@@ -24,8 +24,8 @@ public class TypeErrorException extends SemanticException
      */
     public TypeErrorException(ParsedDeclaration declaration, String information)
     {
-	this.declaration = declaration;
-	this.information = information;
+        this.declaration = declaration;
+        this.information = information;
     }
 
     /**
@@ -33,7 +33,7 @@ public class TypeErrorException extends SemanticException
      */    
     public String toString()
     {
-	return this.declaration.getPos().toString() + " " + information;
+        return this.declaration.getPos().toString() + " " + information;
     }
 
     /**
@@ -41,7 +41,7 @@ public class TypeErrorException extends SemanticException
      */
     public String getMessage()
     {
-	return toString();
+        return toString();
     }
 
     /**
@@ -51,8 +51,8 @@ public class TypeErrorException extends SemanticException
      */
     public void claimUnclaimed(ParsedDeclaration declaration)
     {
-	if (declaration == null) {
-	    this.declaration = declaration;
-	}
+        if (declaration == null) {
+            this.declaration = declaration;
+        }
     }
 }

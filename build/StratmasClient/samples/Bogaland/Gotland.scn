@@ -6,12 +6,12 @@
   <identifiables xsi:type="sp:CommonSimulation" identifier="Bogaland">
     <timeStepper xsi:type="sp:ConstantStepper">
       <dt xsi:type="sp:Duration">
-	<value>86400000</value>
+        <value>86400000</value>
       </dt>
     </timeStepper>
     <gridPartitioner xsi:type="sp:SquarePartitioner">
       <cellSizeMeters xsi:type="sp:Double">
-	<value>1000.0</value>
+        <value>1000.0</value>
       </cellSizeMeters>
     </gridPartitioner>
     <scenario xsi:type="sp:CommonScenario">
@@ -19,24 +19,24 @@
       <xi:include href="file:map/gotland.shp"/>
 
       <disease xsi:type="sp:Disease">
-	<description xsi:type="sp:String">
-	  <value>None</value>
-	</description>
-	<infectionRate xsi:type="sp:Double">
-	  <value>0.0</value>
-	</infectionRate>
-	<recoveryRate xsi:type="sp:Double">
-	  <value>0.0</value>
-	</recoveryRate>
-	<mortalityRate xsi:type="sp:Double">
-	  <value>0.0</value>
-	</mortalityRate>
+        <description xsi:type="sp:String">
+          <value>None</value>
+        </description>
+        <infectionRate xsi:type="sp:Double">
+          <value>0.0</value>
+        </infectionRate>
+        <recoveryRate xsi:type="sp:Double">
+          <value>0.0</value>
+        </recoveryRate>
+        <mortalityRate xsi:type="sp:Double">
+          <value>0.0</value>
+        </mortalityRate>
       </disease>
   
 
     <populationCenters xsi:type="sp:Population" identifier="Fårösund Enclave">
-	<present xsi:type="sp:Boolean">
-	   <value>1</value>
+        <present xsi:type="sp:Boolean">
+           <value>1</value>
         </present>
 <location xsi:type="sp:Polygon">
 <curves xsi:type="sp:Line" identifier="1">
@@ -125,9 +125,9 @@
 <lon>19.0143150376354</lon></p2></curves></location>
 
     <deployment xsi:type="sp:StratmasCityDistribution">
-	<sigmaMeters xsi:type="sp:Double">
-	   <value>8000</value>
-	</sigmaMeters>
+        <sigmaMeters xsi:type="sp:Double">
+           <value>8000</value>
+        </sigmaMeters>
     </deployment> 
     <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Mida">
        <ethnicity xsi:type="sp:EthnicFactionReference">
@@ -143,8 +143,8 @@
       </populationCenters>
   
     <populationCenters xsi:type="sp:Population" identifier="Hemse Enclave">
-	<present xsi:type="sp:Boolean">
-	   <value>1</value>
+        <present xsi:type="sp:Boolean">
+           <value>1</value>
         </present>
 <location xsi:type="sp:Polygon">
 <curves xsi:type="sp:Line" identifier="1">
@@ -555,9 +555,9 @@
 <lon>18.386956454346333</lon></p2></curves></location>
 
     <deployment xsi:type="sp:StratmasCityDistribution">
-	<sigmaMeters xsi:type="sp:Double">
-	   <value>8000</value>
-	</sigmaMeters>
+        <sigmaMeters xsi:type="sp:Double">
+           <value>8000</value>
+        </sigmaMeters>
     </deployment> 
     <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kasuria">
        <ethnicity xsi:type="sp:EthnicFactionReference">
@@ -573,8 +573,8 @@
     </populationCenters>
 
     <populationCenters xsi:type="sp:Population" identifier="FÅRÖSUND">
-	<present xsi:type="sp:Boolean">
-	   <value>1</value>
+        <present xsi:type="sp:Boolean">
+           <value>1</value>
         </present>
     <location xsi:type="sp:Polygon">
 <curves xsi:type="sp:Line" identifier="1">
@@ -852,9 +852,9 @@
 <lon>19.043016538619245</lon></p2></curves></location>
 
     <deployment xsi:type="sp:StratmasCityDistribution">
-	<sigmaMeters xsi:type="sp:Double">
-	   <value>8000</value>
-	</sigmaMeters>
+        <sigmaMeters xsi:type="sp:Double">
+           <value>8000</value>
+        </sigmaMeters>
     </deployment> 
     <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kasuria">
        <ethnicity xsi:type="sp:EthnicFactionReference">
@@ -881,8 +881,8 @@
       </populationCenters>
   
     <populationCenters xsi:type="sp:Population" identifier="LÄRBRO">
-	<present xsi:type="sp:Boolean">
-	   <value>1</value>
+        <present xsi:type="sp:Boolean">
+           <value>1</value>
         </present>
     <location xsi:type="sp:Polygon">
 <curves xsi:type="sp:Line" identifier="1">
@@ -1083,9 +1083,9 @@
 <lon>18.790944875427392</lon></p2></curves></location>
 
     <deployment xsi:type="sp:StratmasCityDistribution">
-	<sigmaMeters xsi:type="sp:Double">
-	   <value>8000</value>
-	</sigmaMeters>
+        <sigmaMeters xsi:type="sp:Double">
+           <value>8000</value>
+        </sigmaMeters>
     </deployment> 
     <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kasuria">
        <ethnicity xsi:type="sp:EthnicFactionReference">
@@ -1112,8 +1112,8 @@
       </populationCenters>
   
     <populationCenters xsi:type="sp:Population" identifier="TINGSTÄDE">
-	<present xsi:type="sp:Boolean">
-	   <value>1</value>
+        <present xsi:type="sp:Boolean">
+           <value>1</value>
         </present>
     <location xsi:type="sp:Polygon">
 <curves xsi:type="sp:Line" identifier="1">
@@ -1342,9 +1342,9 @@
 <lon>18.615344951231236</lon></p2></curves></location>
 
     <deployment xsi:type="sp:StratmasCityDistribution">
-	<sigmaMeters xsi:type="sp:Double">
-	   <value>8000</value>
-	</sigmaMeters>
+        <sigmaMeters xsi:type="sp:Double">
+           <value>8000</value>
+        </sigmaMeters>
     </deployment> 
     <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kasuria">
        <ethnicity xsi:type="sp:EthnicFactionReference">
@@ -1371,8 +1371,8 @@
       </populationCenters>
   
     <populationCenters xsi:type="sp:Population" identifier="SLITE">
-	<present xsi:type="sp:Boolean">
-	   <value>1</value>
+        <present xsi:type="sp:Boolean">
+           <value>1</value>
         </present>
     <location xsi:type="sp:Polygon">
 <curves xsi:type="sp:Line" identifier="1">
@@ -1951,9 +1951,9 @@
 <lon>18.792500502934967</lon></p2></curves></location>
 
     <deployment xsi:type="sp:StratmasCityDistribution">
-	<sigmaMeters xsi:type="sp:Double">
-	   <value>8000</value>
-	</sigmaMeters>
+        <sigmaMeters xsi:type="sp:Double">
+           <value>8000</value>
+        </sigmaMeters>
     </deployment> 
     <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kasuria">
        <ethnicity xsi:type="sp:EthnicFactionReference">
@@ -1980,8 +1980,8 @@
       </populationCenters>
   
     <populationCenters xsi:type="sp:Population" identifier="VÄSKINDE">
-	<present xsi:type="sp:Boolean">
-	   <value>1</value>
+        <present xsi:type="sp:Boolean">
+           <value>1</value>
         </present>
     <location xsi:type="sp:Polygon">
 <curves xsi:type="sp:Line" identifier="1">
@@ -2287,9 +2287,9 @@
 <lon>18.424932619279488</lon></p2></curves></location>
 
     <deployment xsi:type="sp:StratmasCityDistribution">
-	<sigmaMeters xsi:type="sp:Double">
-	   <value>8000</value>
-	</sigmaMeters>
+        <sigmaMeters xsi:type="sp:Double">
+           <value>8000</value>
+        </sigmaMeters>
     </deployment> 
     <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kasuria">
        <ethnicity xsi:type="sp:EthnicFactionReference">
@@ -2316,8 +2316,8 @@
       </populationCenters>
   
     <populationCenters xsi:type="sp:Population" identifier="VISBY">
-	<present xsi:type="sp:Boolean">
-	   <value>1</value>
+        <present xsi:type="sp:Boolean">
+           <value>1</value>
         </present>
     <location xsi:type="sp:Polygon">
 <curves xsi:type="sp:Line" identifier="1">
@@ -2798,9 +2798,9 @@
 <lon>18.32908881281795</lon></p2></curves></location>
 
     <deployment xsi:type="sp:StratmasCityDistribution">
-	<sigmaMeters xsi:type="sp:Double">
-	   <value>8000</value>
-	</sigmaMeters>
+        <sigmaMeters xsi:type="sp:Double">
+           <value>8000</value>
+        </sigmaMeters>
     </deployment> 
     <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kasuria">
        <ethnicity xsi:type="sp:EthnicFactionReference">
@@ -2827,8 +2827,8 @@
       </populationCenters>
   
     <populationCenters xsi:type="sp:Population" identifier="VIBBLE">
-	<present xsi:type="sp:Boolean">
-	   <value>1</value>
+        <present xsi:type="sp:Boolean">
+           <value>1</value>
         </present>
     <location xsi:type="sp:Polygon">
 <curves xsi:type="sp:Line" identifier="1">
@@ -2945,9 +2945,9 @@
 <lon>18.254400289705142</lon></p2></curves></location>
 
     <deployment xsi:type="sp:StratmasCityDistribution">
-	<sigmaMeters xsi:type="sp:Double">
-	   <value>8000</value>
-	</sigmaMeters>
+        <sigmaMeters xsi:type="sp:Double">
+           <value>8000</value>
+        </sigmaMeters>
     </deployment> 
     <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kasuria">
        <ethnicity xsi:type="sp:EthnicFactionReference">
@@ -2974,8 +2974,8 @@
       </populationCenters>
   
     <populationCenters xsi:type="sp:Population" identifier="VÄSTERHEJDE">
-	<present xsi:type="sp:Boolean">
-	   <value>1</value>
+        <present xsi:type="sp:Boolean">
+           <value>1</value>
         </present>
     <location xsi:type="sp:Polygon">
 <curves xsi:type="sp:Line" identifier="1">
@@ -3512,9 +3512,9 @@
 <lon>18.243226008376492</lon></p2></curves></location>
 
     <deployment xsi:type="sp:StratmasCityDistribution">
-	<sigmaMeters xsi:type="sp:Double">
-	   <value>8000</value>
-	</sigmaMeters>
+        <sigmaMeters xsi:type="sp:Double">
+           <value>8000</value>
+        </sigmaMeters>
     </deployment> 
     <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kasuria">
        <ethnicity xsi:type="sp:EthnicFactionReference">
@@ -3541,8 +3541,8 @@
       </populationCenters>
   
     <populationCenters xsi:type="sp:Population" identifier="ROMA KYRKBY">
-	<present xsi:type="sp:Boolean">
-	   <value>1</value>
+        <present xsi:type="sp:Boolean">
+           <value>1</value>
         </present>
     <location xsi:type="sp:Polygon">
 <curves xsi:type="sp:Line" identifier="1">
@@ -3785,9 +3785,9 @@
 <lon>18.441421253897232</lon></p2></curves></location>
 
     <deployment xsi:type="sp:StratmasCityDistribution">
-	<sigmaMeters xsi:type="sp:Double">
-	   <value>8000</value>
-	</sigmaMeters>
+        <sigmaMeters xsi:type="sp:Double">
+           <value>8000</value>
+        </sigmaMeters>
     </deployment> 
     <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kasuria">
        <ethnicity xsi:type="sp:EthnicFactionReference">
@@ -3814,8 +3814,8 @@
       </populationCenters>
   
     <populationCenters xsi:type="sp:Population" identifier="ROMAKLOSTER">
-	<present xsi:type="sp:Boolean">
-	   <value>1</value>
+        <present xsi:type="sp:Boolean">
+           <value>1</value>
         </present>
     <location xsi:type="sp:Polygon">
 <curves xsi:type="sp:Line" identifier="1">
@@ -3953,9 +3953,9 @@
 <lon>18.454342313627354</lon></p2></curves></location>
 
     <deployment xsi:type="sp:StratmasCityDistribution">
-	<sigmaMeters xsi:type="sp:Double">
-	   <value>8000</value>
-	</sigmaMeters>
+        <sigmaMeters xsi:type="sp:Double">
+           <value>8000</value>
+        </sigmaMeters>
     </deployment> 
     <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kasuria">
        <ethnicity xsi:type="sp:EthnicFactionReference">
@@ -3982,8 +3982,8 @@
       </populationCenters>
   
     <populationCenters xsi:type="sp:Population" identifier="KATTHAMMARSVIK">
-	<present xsi:type="sp:Boolean">
-	   <value>1</value>
+        <present xsi:type="sp:Boolean">
+           <value>1</value>
         </present>
     <location xsi:type="sp:Polygon">
 <curves xsi:type="sp:Line" identifier="1">
@@ -4667,9 +4667,9 @@
 <lon>18.848167614673603</lon></p2></curves></location>
 
     <deployment xsi:type="sp:StratmasCityDistribution">
-	<sigmaMeters xsi:type="sp:Double">
-	   <value>8000</value>
-	</sigmaMeters>
+        <sigmaMeters xsi:type="sp:Double">
+           <value>8000</value>
+        </sigmaMeters>
     </deployment> 
     <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kasuria">
        <ethnicity xsi:type="sp:EthnicFactionReference">
@@ -4696,8 +4696,8 @@
       </populationCenters>
   
     <populationCenters xsi:type="sp:Population" identifier="KLINTEHAMN">
-	<present xsi:type="sp:Boolean">
-	   <value>1</value>
+        <present xsi:type="sp:Boolean">
+           <value>1</value>
         </present>
     <location xsi:type="sp:Composite">
 <shapes xsi:type="sp:Polygon" identifier="1">
@@ -5076,9 +5076,9 @@
 <lon>18.203500831027952</lon></p2></curves></shapes></location>
 
     <deployment xsi:type="sp:StratmasCityDistribution">
-	<sigmaMeters xsi:type="sp:Double">
-	   <value>8000</value>
-	</sigmaMeters>
+        <sigmaMeters xsi:type="sp:Double">
+           <value>8000</value>
+        </sigmaMeters>
     </deployment> 
     <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kasuria">
        <ethnicity xsi:type="sp:EthnicFactionReference">
@@ -5105,8 +5105,8 @@
       </populationCenters>
   
     <populationCenters xsi:type="sp:Population" identifier="LJUGARN">
-	<present xsi:type="sp:Boolean">
-	   <value>1</value>
+        <present xsi:type="sp:Boolean">
+           <value>1</value>
         </present>
     <location xsi:type="sp:Polygon">
 <curves xsi:type="sp:Line" identifier="1">
@@ -5482,9 +5482,9 @@
 <lon>18.71987810323753</lon></p2></curves></location>
 
     <deployment xsi:type="sp:StratmasCityDistribution">
-	<sigmaMeters xsi:type="sp:Double">
-	   <value>8000</value>
-	</sigmaMeters>
+        <sigmaMeters xsi:type="sp:Double">
+           <value>8000</value>
+        </sigmaMeters>
     </deployment> 
     <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kasuria">
        <ethnicity xsi:type="sp:EthnicFactionReference">
@@ -5511,8 +5511,8 @@
       </populationCenters>
   
     <populationCenters xsi:type="sp:Population" identifier="STÅNGA">
-	<present xsi:type="sp:Boolean">
-	   <value>1</value>
+        <present xsi:type="sp:Boolean">
+           <value>1</value>
         </present>
     <location xsi:type="sp:Polygon">
 <curves xsi:type="sp:Line" identifier="1">
@@ -5671,9 +5671,9 @@
 <lon>18.484028734835686</lon></p2></curves></location>
 
     <deployment xsi:type="sp:StratmasCityDistribution">
-	<sigmaMeters xsi:type="sp:Double">
-	   <value>8000</value>
-	</sigmaMeters>
+        <sigmaMeters xsi:type="sp:Double">
+           <value>8000</value>
+        </sigmaMeters>
     </deployment> 
     <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kasuria">
        <ethnicity xsi:type="sp:EthnicFactionReference">
@@ -5700,8 +5700,8 @@
       </populationCenters>
   
     <populationCenters xsi:type="sp:Population" identifier="NÄR">
-	<present xsi:type="sp:Boolean">
-	   <value>1</value>
+        <present xsi:type="sp:Boolean">
+           <value>1</value>
         </present>
     <location xsi:type="sp:Polygon">
 <curves xsi:type="sp:Line" identifier="1">
@@ -6042,9 +6042,9 @@
 <lon>18.64556570565167</lon></p2></curves></location>
 
     <deployment xsi:type="sp:StratmasCityDistribution">
-	<sigmaMeters xsi:type="sp:Double">
-	   <value>8000</value>
-	</sigmaMeters>
+        <sigmaMeters xsi:type="sp:Double">
+           <value>8000</value>
+        </sigmaMeters>
     </deployment> 
     <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kasuria">
        <ethnicity xsi:type="sp:EthnicFactionReference">
@@ -6071,8 +6071,8 @@
       </populationCenters>
   
     <populationCenters xsi:type="sp:Population" identifier="HEMSE">
-	<present xsi:type="sp:Boolean">
-	   <value>1</value>
+        <present xsi:type="sp:Boolean">
+           <value>1</value>
         </present>
     <location xsi:type="sp:Polygon">
 <curves xsi:type="sp:Line" identifier="1">
@@ -6504,9 +6504,9 @@
 <lon>18.40712744417573</lon></p2></curves></location>
 
     <deployment xsi:type="sp:StratmasCityDistribution">
-	<sigmaMeters xsi:type="sp:Double">
-	   <value>8000</value>
-	</sigmaMeters>
+        <sigmaMeters xsi:type="sp:Double">
+           <value>8000</value>
+        </sigmaMeters>
     </deployment> 
     <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kasuria">
        <ethnicity xsi:type="sp:EthnicFactionReference">
@@ -6533,8 +6533,8 @@
       </populationCenters>
   
     <populationCenters xsi:type="sp:Population" identifier="HAVDHEM">
-	<present xsi:type="sp:Boolean">
-	   <value>1</value>
+        <present xsi:type="sp:Boolean">
+           <value>1</value>
         </present>
     <location xsi:type="sp:Polygon">
 <curves xsi:type="sp:Line" identifier="1">
@@ -6714,9 +6714,9 @@
 <lon>18.341969572146645</lon></p2></curves></location>
 
     <deployment xsi:type="sp:StratmasCityDistribution">
-	<sigmaMeters xsi:type="sp:Double">
-	   <value>8000</value>
-	</sigmaMeters>
+        <sigmaMeters xsi:type="sp:Double">
+           <value>8000</value>
+        </sigmaMeters>
     </deployment> 
     <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kasuria">
        <ethnicity xsi:type="sp:EthnicFactionReference">
@@ -6743,8 +6743,8 @@
       </populationCenters>
   
     <populationCenters xsi:type="sp:Population" identifier="BURGSVIK">
-	<present xsi:type="sp:Boolean">
-	   <value>1</value>
+        <present xsi:type="sp:Boolean">
+           <value>1</value>
         </present>
     <location xsi:type="sp:Polygon">
 <curves xsi:type="sp:Line" identifier="1">
@@ -6853,9 +6853,9 @@
 <lat>57.032279835873375</lat>
 <lon>18.259690021762935</lon></p2></curves></location>
     <deployment xsi:type="sp:StratmasCityDistribution">
-	<sigmaMeters xsi:type="sp:Double">
-	   <value>8000</value>
-	</sigmaMeters>
+        <sigmaMeters xsi:type="sp:Double">
+           <value>8000</value>
+        </sigmaMeters>
     </deployment> 
     <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Kasuria">
        <ethnicity xsi:type="sp:EthnicFactionReference">
@@ -6883,205 +6883,205 @@
 
     <agencyTeams xsi:type="sp:HealthAgencyTeam" identifier="Visby Hospital Catchment Area">
       <present xsi:type="sp:Boolean">
-	<value>false</value></present>
+        <value>false</value></present>
       <location xsi:type="sp:Polygon">
-	<curves xsi:type="sp:Line" identifier="0">
-	  <p1 xsi:type="sp:Point">
-	    <lat>57.678521643650136</lat>
-	    <lon>18.290095427598246</lon></p1>
-	  <p2 xsi:type="sp:Point">
-	    <lat>57.60991110118364</lat>
-	    <lon>18.4517663271089</lon></p2></curves>
-	<curves xsi:type="sp:Line" identifier="1">
-	  <p1 xsi:type="sp:Point">
-	    <lat>57.60991110118364</lat>
-	    <lon>18.4517663271089</lon></p1>
-	  <p2 xsi:type="sp:Point">
-	    <lat>57.587087177812535</lat>
-	    <lon>18.627063544190342</lon></p2></curves>
-	<curves xsi:type="sp:Line" identifier="2">
-	  <p1 xsi:type="sp:Point">
-	    <lat>57.587087177812535</lat>
-	    <lon>18.627063544190342</lon></p1>
-	  <p2 xsi:type="sp:Point">
-	    <lat>57.625297651533835</lat>
-	    <lon>18.83458291023257</lon></p2></curves>
-	<curves xsi:type="sp:Line" identifier="3">
-	  <p1 xsi:type="sp:Point">
-	    <lat>57.625297651533835</lat>
-	    <lon>18.83458291023257</lon></p1>
-	  <p2 xsi:type="sp:Point">
-	    <lat>57.431306361613224</lat>
-	    <lon>19.043683404515782</lon></p2></curves>
-	<curves xsi:type="sp:Line" identifier="4">
-	  <p1 xsi:type="sp:Point">
-	    <lat>57.431306361613224</lat>
-	    <lon>19.043683404515782</lon></p1>
-	  <p2 xsi:type="sp:Point">
-	    <lat>57.2306065211316</lat>
-	    <lon>18.80441089797545</lon></p2></curves>
-	<curves xsi:type="sp:Line" identifier="5">
-	  <p1 xsi:type="sp:Point">
-	    <lat>57.2306065211316</lat>
-	    <lon>18.80441089797545</lon></p1>
-	  <p2 xsi:type="sp:Point">
-	    <lat>57.285824913680806</lat>
-	    <lon>18.333076333408435</lon></p2></curves>
-	<curves xsi:type="sp:Line" identifier="6">
-	  <p1 xsi:type="sp:Point">
-	    <lat>57.285824913680806</lat>
-	    <lon>18.333076333408435</lon></p1>
-	  <p2 xsi:type="sp:Point">
-	    <lat>57.263060215582186</lat>
-	    <lon>17.932876418395107</lon></p2></curves>
-	<curves xsi:type="sp:Line" identifier="7">
-	  <p1 xsi:type="sp:Point">
-	    <lat>57.263060215582186</lat>
-	    <lon>17.932876418395107</lon></p1>
-	  <p2 xsi:type="sp:Point">
-	    <lat>57.5513611671532</lat>
-	    <lon>18.102112015619067</lon></p2></curves>
-	<curves xsi:type="sp:Line" identifier="8">
-	  <p1 xsi:type="sp:Point">
-	    <lat>57.5513611671532</lat>
-	    <lon>18.102112015619067</lon></p1>
-	  <p2 xsi:type="sp:Point">
-	    <lat>57.678521643650136</lat>
-	    <lon>18.290095427598246</lon></p2></curves></location>
+        <curves xsi:type="sp:Line" identifier="0">
+          <p1 xsi:type="sp:Point">
+            <lat>57.678521643650136</lat>
+            <lon>18.290095427598246</lon></p1>
+          <p2 xsi:type="sp:Point">
+            <lat>57.60991110118364</lat>
+            <lon>18.4517663271089</lon></p2></curves>
+        <curves xsi:type="sp:Line" identifier="1">
+          <p1 xsi:type="sp:Point">
+            <lat>57.60991110118364</lat>
+            <lon>18.4517663271089</lon></p1>
+          <p2 xsi:type="sp:Point">
+            <lat>57.587087177812535</lat>
+            <lon>18.627063544190342</lon></p2></curves>
+        <curves xsi:type="sp:Line" identifier="2">
+          <p1 xsi:type="sp:Point">
+            <lat>57.587087177812535</lat>
+            <lon>18.627063544190342</lon></p1>
+          <p2 xsi:type="sp:Point">
+            <lat>57.625297651533835</lat>
+            <lon>18.83458291023257</lon></p2></curves>
+        <curves xsi:type="sp:Line" identifier="3">
+          <p1 xsi:type="sp:Point">
+            <lat>57.625297651533835</lat>
+            <lon>18.83458291023257</lon></p1>
+          <p2 xsi:type="sp:Point">
+            <lat>57.431306361613224</lat>
+            <lon>19.043683404515782</lon></p2></curves>
+        <curves xsi:type="sp:Line" identifier="4">
+          <p1 xsi:type="sp:Point">
+            <lat>57.431306361613224</lat>
+            <lon>19.043683404515782</lon></p1>
+          <p2 xsi:type="sp:Point">
+            <lat>57.2306065211316</lat>
+            <lon>18.80441089797545</lon></p2></curves>
+        <curves xsi:type="sp:Line" identifier="5">
+          <p1 xsi:type="sp:Point">
+            <lat>57.2306065211316</lat>
+            <lon>18.80441089797545</lon></p1>
+          <p2 xsi:type="sp:Point">
+            <lat>57.285824913680806</lat>
+            <lon>18.333076333408435</lon></p2></curves>
+        <curves xsi:type="sp:Line" identifier="6">
+          <p1 xsi:type="sp:Point">
+            <lat>57.285824913680806</lat>
+            <lon>18.333076333408435</lon></p1>
+          <p2 xsi:type="sp:Point">
+            <lat>57.263060215582186</lat>
+            <lon>17.932876418395107</lon></p2></curves>
+        <curves xsi:type="sp:Line" identifier="7">
+          <p1 xsi:type="sp:Point">
+            <lat>57.263060215582186</lat>
+            <lon>17.932876418395107</lon></p1>
+          <p2 xsi:type="sp:Point">
+            <lat>57.5513611671532</lat>
+            <lon>18.102112015619067</lon></p2></curves>
+        <curves xsi:type="sp:Line" identifier="8">
+          <p1 xsi:type="sp:Point">
+            <lat>57.5513611671532</lat>
+            <lon>18.102112015619067</lon></p1>
+          <p2 xsi:type="sp:Point">
+            <lat>57.678521643650136</lat>
+            <lon>18.290095427598246</lon></p2></curves></location>
       <deployment xsi:type="sp:UniformDistribution"></deployment>
       <capacityPPD xsi:type="sp:Double">
-	<value>5000.0</value></capacityPPD>
+        <value>5000.0</value></capacityPPD>
       <responseTimeSecs xsi:type="sp:Double">
-	<value>0.0</value></responseTimeSecs>
+        <value>0.0</value></responseTimeSecs>
       <ownInitiative xsi:type="sp:Boolean">
-	<value>false</value></ownInitiative>
+        <value>false</value></ownInitiative>
     </agencyTeams>
 
     <agencyTeams xsi:type="sp:ShelterAgencyTeam" identifier="Fårösund Enclave Refugee Camp">
       <present xsi:type="sp:Boolean">
-	<value>false</value></present>
+        <value>false</value></present>
       <location xsi:type="sp:Polygon">
-	<curves xsi:type="sp:Line" identifier="0">
-	  <p1 xsi:type="sp:Point">
-	    <lat>57.78498388569533</lat>
-	    <lon>19.006869002392897</lon></p1>
-	  <p2 xsi:type="sp:Point">
-	    <lat>57.83125358035655</lat>
-	    <lon>18.927467879579662</lon></p2></curves>
-	<curves xsi:type="sp:Line" identifier="1">
-	  <p1 xsi:type="sp:Point">
-	    <lat>57.83125358035655</lat>
-	    <lon>18.927467879579662</lon></p1>
-	  <p2 xsi:type="sp:Point">
-	    <lat>57.85521867295466</lat>
-	    <lon>19.014249825054605</lon></p2></curves>
-	<curves xsi:type="sp:Line" identifier="2">
-	  <p1 xsi:type="sp:Point">
-	    <lat>57.85521867295466</lat>
-	    <lon>19.014249825054605</lon></p1>
-	  <p2 xsi:type="sp:Point">
-	    <lat>57.83092157995664</lat>
-	    <lon>19.055762554762275</lon></p2></curves>
-	<curves xsi:type="sp:Line" identifier="3">
-	  <p1 xsi:type="sp:Point">
-	    <lat>57.83092157995664</lat>
-	    <lon>19.055762554762275</lon></p1>
-	  <p2 xsi:type="sp:Point">
-	    <lat>57.83092157995664</lat>
-	    <lon>19.055762554762275</lon></p2></curves>
-	<curves xsi:type="sp:Line" identifier="4">
-	  <p1 xsi:type="sp:Point">
-	    <lat>57.83092157995664</lat>
-	    <lon>19.055762554762275</lon></p1>
-	  <p2 xsi:type="sp:Point">
-	    <lat>57.78498388569533</lat>
-	    <lon>19.006869002392897</lon></p2></curves></location>
+        <curves xsi:type="sp:Line" identifier="0">
+          <p1 xsi:type="sp:Point">
+            <lat>57.78498388569533</lat>
+            <lon>19.006869002392897</lon></p1>
+          <p2 xsi:type="sp:Point">
+            <lat>57.83125358035655</lat>
+            <lon>18.927467879579662</lon></p2></curves>
+        <curves xsi:type="sp:Line" identifier="1">
+          <p1 xsi:type="sp:Point">
+            <lat>57.83125358035655</lat>
+            <lon>18.927467879579662</lon></p1>
+          <p2 xsi:type="sp:Point">
+            <lat>57.85521867295466</lat>
+            <lon>19.014249825054605</lon></p2></curves>
+        <curves xsi:type="sp:Line" identifier="2">
+          <p1 xsi:type="sp:Point">
+            <lat>57.85521867295466</lat>
+            <lon>19.014249825054605</lon></p1>
+          <p2 xsi:type="sp:Point">
+            <lat>57.83092157995664</lat>
+            <lon>19.055762554762275</lon></p2></curves>
+        <curves xsi:type="sp:Line" identifier="3">
+          <p1 xsi:type="sp:Point">
+            <lat>57.83092157995664</lat>
+            <lon>19.055762554762275</lon></p1>
+          <p2 xsi:type="sp:Point">
+            <lat>57.83092157995664</lat>
+            <lon>19.055762554762275</lon></p2></curves>
+        <curves xsi:type="sp:Line" identifier="4">
+          <p1 xsi:type="sp:Point">
+            <lat>57.83092157995664</lat>
+            <lon>19.055762554762275</lon></p1>
+          <p2 xsi:type="sp:Point">
+            <lat>57.78498388569533</lat>
+            <lon>19.006869002392897</lon></p2></curves></location>
       <deployment xsi:type="sp:UniformDistribution"></deployment>
       <capacityPPD xsi:type="sp:Double">
-	<value>4000.0</value></capacityPPD>
+        <value>4000.0</value></capacityPPD>
       <responseTimeSecs xsi:type="sp:Double">
-	<value>0.0</value></responseTimeSecs>
+        <value>0.0</value></responseTimeSecs>
       <ownInitiative xsi:type="sp:Boolean">
-	<value>false</value></ownInitiative>
+        <value>false</value></ownInitiative>
     </agencyTeams>
 
     <agencyTeams xsi:type="sp:ShelterAgencyTeam" identifier="Hemse Enclave Refugee Camp">
       <present xsi:type="sp:Boolean">
-	<value>false</value></present>
+        <value>false</value></present>
       <location xsi:type="sp:Polygon">
-	<curves xsi:type="sp:Line" identifier="0">
-	  <p1 xsi:type="sp:Point">
-	    <lat>57.11924149505371</lat>
-	    <lon>18.406252194958146</lon></p1>
-	  <p2 xsi:type="sp:Point">
-	    <lat>57.218748696852195</lat>
-	    <lon>18.316604016253216</lon></p2></curves>
-	<curves xsi:type="sp:Line" identifier="1">
-	  <p1 xsi:type="sp:Point">
-	    <lat>57.218748696852195</lat>
-	    <lon>18.316604016253216</lon></p1>
-	  <p2 xsi:type="sp:Point">
-	    <lat>57.26605974496505</lat>
-	    <lon>18.335396029150964</lon></p2></curves>
-	<curves xsi:type="sp:Line" identifier="2">
-	  <p1 xsi:type="sp:Point">
-	    <lat>57.26605974496505</lat>
-	    <lon>18.335396029150964</lon></p1>
-	  <p2 xsi:type="sp:Point">
-	    <lat>57.26912081939022</lat>
-	    <lon>18.385972607891336</lon></p2></curves>
-	<curves xsi:type="sp:Line" identifier="3">
-	  <p1 xsi:type="sp:Point">
-	    <lat>57.26912081939022</lat>
-	    <lon>18.385972607891336</lon></p1>
-	  <p2 xsi:type="sp:Point">
-	    <lat>57.22868620017143</lat>
-	    <lon>18.756820267300615</lon></p2></curves>
-	<curves xsi:type="sp:Line" identifier="4">
-	  <p1 xsi:type="sp:Point">
-	    <lat>57.22868620017143</lat>
-	    <lon>18.756820267300615</lon></p1>
-	  <p2 xsi:type="sp:Point">
-	    <lat>57.11924149505371</lat>
-	    <lon>18.406252194958146</lon></p2></curves></location>
+        <curves xsi:type="sp:Line" identifier="0">
+          <p1 xsi:type="sp:Point">
+            <lat>57.11924149505371</lat>
+            <lon>18.406252194958146</lon></p1>
+          <p2 xsi:type="sp:Point">
+            <lat>57.218748696852195</lat>
+            <lon>18.316604016253216</lon></p2></curves>
+        <curves xsi:type="sp:Line" identifier="1">
+          <p1 xsi:type="sp:Point">
+            <lat>57.218748696852195</lat>
+            <lon>18.316604016253216</lon></p1>
+          <p2 xsi:type="sp:Point">
+            <lat>57.26605974496505</lat>
+            <lon>18.335396029150964</lon></p2></curves>
+        <curves xsi:type="sp:Line" identifier="2">
+          <p1 xsi:type="sp:Point">
+            <lat>57.26605974496505</lat>
+            <lon>18.335396029150964</lon></p1>
+          <p2 xsi:type="sp:Point">
+            <lat>57.26912081939022</lat>
+            <lon>18.385972607891336</lon></p2></curves>
+        <curves xsi:type="sp:Line" identifier="3">
+          <p1 xsi:type="sp:Point">
+            <lat>57.26912081939022</lat>
+            <lon>18.385972607891336</lon></p1>
+          <p2 xsi:type="sp:Point">
+            <lat>57.22868620017143</lat>
+            <lon>18.756820267300615</lon></p2></curves>
+        <curves xsi:type="sp:Line" identifier="4">
+          <p1 xsi:type="sp:Point">
+            <lat>57.22868620017143</lat>
+            <lon>18.756820267300615</lon></p1>
+          <p2 xsi:type="sp:Point">
+            <lat>57.11924149505371</lat>
+            <lon>18.406252194958146</lon></p2></curves></location>
       <deployment xsi:type="sp:UniformDistribution"></deployment>
       <capacityPPD xsi:type="sp:Double">
-	<value>3500.0</value></capacityPPD>
+        <value>3500.0</value></capacityPPD>
       <responseTimeSecs xsi:type="sp:Double">
-	<value>0.0</value></responseTimeSecs>
+        <value>0.0</value></responseTimeSecs>
       <ownInitiative xsi:type="sp:Boolean">
-	<value>false</value></ownInitiative>
+        <value>false</value></ownInitiative>
     </agencyTeams>
 
     <factions xsi:type="sp:EthnicFaction" identifier="Kasuria">
       <enemies xsi:type="sp:FactionReference" identifier="enemies">
-	<name>Mida</name>
-	<scope>
-	  <name>factions</name>
-	</scope>
+        <name>Mida</name>
+        <scope>
+          <name>factions</name>
+        </scope>
       </enemies>
     </factions>
     <factions xsi:type="sp:EthnicFaction" identifier="Mida">
       <enemies xsi:type="sp:FactionReference" identifier="enemies">
-	<name>Kasuria</name>
-	<scope>
-	  <name>factions</name>
-	</scope>
+        <name>Kasuria</name>
+        <scope>
+          <name>factions</name>
+        </scope>
       </enemies>
     </factions>
     <factions xsi:type="sp:MilitaryFaction" identifier="Blue">
       <enemies xsi:type="sp:FactionReference" identifier="enemies">
-	<name>Red</name>
-	<scope>
-	  <name>factions</name>
-	</scope>
+        <name>Red</name>
+        <scope>
+          <name>factions</name>
+        </scope>
       </enemies>
     </factions>
     <factions xsi:type="sp:MilitaryFaction" identifier="Red">
       <enemies xsi:type="sp:FactionReference" identifier="enemies">
-	<name>Blue</name>
-	<scope>
-	  <name>factions</name>
+        <name>Blue</name>
+        <scope>
+          <name>factions</name>
         </scope>
       </enemies>
     </factions>
@@ -7101,16 +7101,16 @@
     </randomSeed>
     <modelParameters xsi:type="sp:ModelParameters">
       <fractionPotentialInsurgents xsi:type="sp:Double">
-	<value>0.03</value>
+        <value>0.03</value>
       </fractionPotentialInsurgents>
       <insurgentDisaffectionThreshold xsi:type="sp:Double">
-	<value>30.0</value>
+        <value>30.0</value>
       </insurgentDisaffectionThreshold>
       <insurgentGenerationCoefficient xsi:type="sp:Double">
-	<value>0.01</value>
+        <value>0.01</value>
       </insurgentGenerationCoefficient>
       <insurgentStrengthFactor xsi:type="sp:Double">
-	<value>0.0375</value>
+        <value>0.0375</value>
       </insurgentStrengthFactor>
     </modelParameters>
   </identifiables>

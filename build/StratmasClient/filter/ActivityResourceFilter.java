@@ -17,9 +17,9 @@ public class ActivityResourceFilter extends StratmasObjectFilter {
     /**
      * Creates a new ActivityResourceFilter.
      */
-    public ActivityResourceFilter(StratmasObjectFilter resourceFilter)  {	
-	super();
-	this.resourceFilter = resourceFilter;
+    public ActivityResourceFilter(StratmasObjectFilter resourceFilter)  {        
+        super();
+        this.resourceFilter = resourceFilter;
     }
     
     /**
@@ -28,16 +28,16 @@ public class ActivityResourceFilter extends StratmasObjectFilter {
      * @param sObj the object to test
      */
     public boolean pass(StratmasObject sObj) {
-	// only activities can pass
-	if (sObj.getType().canSubstitute("Order")) {
-	    try {
-		StratmasObject resource = (StratmasObject)sObj.getParent().getParent();
-		return resourceFilter.pass(resource);
-	    }
-	    catch (NullPointerException exc) {
-		return applyInverted(false);
-	    }
-	}
-	return applyInverted(false);
+        // only activities can pass
+        if (sObj.getType().canSubstitute("Order")) {
+            try {
+                StratmasObject resource = (StratmasObject)sObj.getParent().getParent();
+                return resourceFilter.pass(resource);
+            }
+            catch (NullPointerException exc) {
+                return applyInverted(false);
+            }
+        }
+        return applyInverted(false);
     }
 }

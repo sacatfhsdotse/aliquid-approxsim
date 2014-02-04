@@ -1,4 +1,4 @@
-// 	$Id: Type.java,v 1.1 2006/03/22 14:30:52 dah Exp $
+//         $Id: Type.java,v 1.1 2006/03/22 14:30:52 dah Exp $
 /*
  * @(#)Type.java
  */
@@ -64,7 +64,7 @@ public abstract class Type
     */
     public Type(TypeInformation typeInformation)
     {
-	this.typeInformation = typeInformation;
+        this.typeInformation = typeInformation;
     }
 
     /**
@@ -79,8 +79,8 @@ public abstract class Type
      */    
     protected void appendSubElement(Declaration declaration)
     {
-	subElements.add(declaration);
-	subElementHash.put(declaration.getName(), declaration);
+        subElements.add(declaration);
+        subElementHash.put(declaration.getName(), declaration);
     }
 
     /**
@@ -90,8 +90,8 @@ public abstract class Type
      */ 
     protected void appendAttribute(TypeAttribute attribute)
     {
-	attributes.add(attribute);
-	attributesHash.put(attribute.getName(), attribute);
+        attributes.add(attribute);
+        attributesHash.put(attribute.getName(), attribute);
     }
 
     /**
@@ -101,11 +101,11 @@ public abstract class Type
      */
     protected void processAttributeUse(XSAttributeUse attributeUse)
     {
-	XSAttributeDeclaration declaration = attributeUse.getAttrDeclaration();
-	Type subtype = this.typeInformation.getType(declaration.getTypeDefinition().getName(), 
-						    declaration.getTypeDefinition().getNamespace());
+        XSAttributeDeclaration declaration = attributeUse.getAttrDeclaration();
+        Type subtype = this.typeInformation.getType(declaration.getTypeDefinition().getName(), 
+                                                    declaration.getTypeDefinition().getNamespace());
 
-	appendAttribute(new TypeAttribute(subtype, declaration.getName()));
+        appendAttribute(new TypeAttribute(subtype, declaration.getName()));
     }
 
     /**
@@ -113,20 +113,20 @@ public abstract class Type
      */
     public String toString()
     {
-	StringBuffer buf = new StringBuffer();
-	for (Enumeration ss = subElements.elements(); ss.hasMoreElements(); ) {
-	    buf.append("\n");
-	    Declaration subElement = (Declaration) ss.nextElement();
-	    buf.append(subElement.toString());	    
-	}
-	for (Enumeration ss = attributes.elements(); ss.hasMoreElements(); ) {
-	    buf.append("\n");
-	    TypeAttribute subElement = (TypeAttribute) ss.nextElement();
-	    buf.append(subElement.toString());	    
-	}
-	String subelementstr = buf.toString().replaceAll("\n", "\n  ");
-	
-	return 	getName() + " {" + subelementstr + "\n}";
+        StringBuffer buf = new StringBuffer();
+        for (Enumeration ss = subElements.elements(); ss.hasMoreElements(); ) {
+            buf.append("\n");
+            Declaration subElement = (Declaration) ss.nextElement();
+            buf.append(subElement.toString());            
+        }
+        for (Enumeration ss = attributes.elements(); ss.hasMoreElements(); ) {
+            buf.append("\n");
+            TypeAttribute subElement = (TypeAttribute) ss.nextElement();
+            buf.append(subElement.toString());            
+        }
+        String subelementstr = buf.toString().replaceAll("\n", "\n  ");
+        
+        return         getName() + " {" + subelementstr + "\n}";
     }
 
     /**
@@ -134,7 +134,7 @@ public abstract class Type
      */
     public boolean isAbstract() 
     {
-	return isAbstract;
+        return isAbstract;
     }
 
     /**
@@ -142,7 +142,7 @@ public abstract class Type
      */
     public Vector getSubElements()
     {
-	return subElements;
+        return subElements;
     }
 
     /**
@@ -152,7 +152,7 @@ public abstract class Type
      */
     public Declaration getSubElement(String tag)
     {
-	return (Declaration) subElementHash.get(tag);
+        return (Declaration) subElementHash.get(tag);
     }
     
     /**
@@ -174,7 +174,7 @@ public abstract class Type
      */
     public boolean canSubstitute(String other, String namespace)
     {
-	return canSubstitute(typeInformation.getType(other, namespace));
+        return canSubstitute(typeInformation.getType(other, namespace));
     }
 
     /**
@@ -186,7 +186,7 @@ public abstract class Type
      */
     public boolean canSubstitute(String other)
     {
-	return canSubstitute(other, this.getNamespace());
+        return canSubstitute(other, this.getNamespace());
     }
 
     /**
@@ -201,7 +201,7 @@ public abstract class Type
      */
     protected void addDerived(Type derived)
     {
-	derivedTypes.put(derived, derived);
+        derivedTypes.put(derived, derived);
     }
     
     /**
@@ -214,12 +214,12 @@ public abstract class Type
      */
     public Enumeration getDerived()
     {
-	if (this.derivedTypes == null) {
-	    this.derivedTypes = new Hashtable();
-	    this.typeInformation.findDerived(this);
-	}
+        if (this.derivedTypes == null) {
+            this.derivedTypes = new Hashtable();
+            this.typeInformation.findDerived(this);
+        }
 
-	return this.derivedTypes.elements();
+        return this.derivedTypes.elements();
     }
     
     /**
@@ -230,14 +230,14 @@ public abstract class Type
      */
     protected void reduceBranch(Type base, Hashtable map)
     {
-	/* Map this type */
-	map.put(this, base);
+        /* Map this type */
+        map.put(this, base);
 
-	/* Map children */
-	for (Enumeration ds = this.getDerived(); ds.hasMoreElements();) {
-	    Type derived = (Type) ds.nextElement();
-	    derived.reduceBranch(base, map);
-	}
+        /* Map children */
+        for (Enumeration ds = this.getDerived(); ds.hasMoreElements();) {
+            Type derived = (Type) ds.nextElement();
+            derived.reduceBranch(base, map);
+        }
     }
 
     /**
@@ -248,7 +248,7 @@ public abstract class Type
      */
     protected Type getDerived(Type type)
     {
-	return (Type) this.derivedTypes.get(type);
+        return (Type) this.derivedTypes.get(type);
     }
 
     /**
@@ -261,22 +261,22 @@ public abstract class Type
      */
     public void createMapping (Type otherType, Hashtable map)
     {
-	/* Map this type */
-	map.put(this, otherType);
-	
-	for (Enumeration ds = this.getDerived(); ds.hasMoreElements();) {
-	    Type derived = (Type) ds.nextElement();
-	    Type  otherDerived = (Type) otherType.getDerived(derived);
-	    if (otherDerived != null) {
-		/* Descend this branch.*/
-		derived.createMapping(otherDerived, map);
-	    }
-	    else {
-		/* No otherDerived found, reduce all derivation in
-		 * this branch to otherTypes type. */
-		derived.reduceBranch(otherType, map);
-	    }
-	}
+        /* Map this type */
+        map.put(this, otherType);
+        
+        for (Enumeration ds = this.getDerived(); ds.hasMoreElements();) {
+            Type derived = (Type) ds.nextElement();
+            Type  otherDerived = (Type) otherType.getDerived(derived);
+            if (otherDerived != null) {
+                /* Descend this branch.*/
+                derived.createMapping(otherDerived, map);
+            }
+            else {
+                /* No otherDerived found, reduce all derivation in
+                 * this branch to otherTypes type. */
+                derived.reduceBranch(otherType, map);
+            }
+        }
     }
 
     /**
@@ -284,7 +284,7 @@ public abstract class Type
      */
     public int hashCode()
     {
-	return (this.getNamespace() + ":" + this.getName()).hashCode();
+        return (this.getNamespace() + ":" + this.getName()).hashCode();
     }
 
     /**
@@ -294,13 +294,13 @@ public abstract class Type
      */
     public boolean equals(Object o)
     {
-	if (o instanceof Type) {
-	    return ((Type) o).getName().equals(this.getName()) &&
-		((Type) o).getNamespace().equals(this.getNamespace());
-	}
+        if (o instanceof Type) {
+            return ((Type) o).getName().equals(this.getName()) &&
+                ((Type) o).getNamespace().equals(this.getNamespace());
+        }
 
-	return false;
-	
+        return false;
+        
     }
 
     /**
@@ -308,7 +308,7 @@ public abstract class Type
      */
     public TypeInformation getTypeInformation()
     {
-	return this.typeInformation;
+        return this.typeInformation;
     }
 
     /**
@@ -317,11 +317,11 @@ public abstract class Type
      */
     public String toTaclanV2()
     {
-	if (getName().matches("[A-Za-z_][A-Za-z_0-9]*")) {
-	    return getName();
-	} else {
-	    return "'" + getName() + "'";
-	}
+        if (getName().matches("[A-Za-z_][A-Za-z_0-9]*")) {
+            return getName();
+        } else {
+            return "'" + getName() + "'";
+        }
     }
 
     /**
@@ -329,7 +329,7 @@ public abstract class Type
      */
     public String[] getAnnotations()
     {
-	return new String[0];
+        return new String[0];
     }
 
     /**
@@ -337,7 +337,7 @@ public abstract class Type
      */    
     public Vector getExpandedDerived()
     {
-	return getExpandedDerived(new Vector());
+        return getExpandedDerived(new Vector());
     }
 
     /**
@@ -348,13 +348,13 @@ public abstract class Type
      */    
     protected Vector getExpandedDerived(Vector res)
     {
-	for (Enumeration ts = getDerived(); ts.hasMoreElements();) {
-	    Type type = (Type) ts.nextElement();
-	    res.add(type);
-	    type.getExpandedDerived(res);
-	}
+        for (Enumeration ts = getDerived(); ts.hasMoreElements();) {
+            Type type = (Type) ts.nextElement();
+            res.add(type);
+            type.getExpandedDerived(res);
+        }
 
-	return res;
+        return res;
     }
 
     /**
@@ -363,7 +363,7 @@ public abstract class Type
      */
     public Type validReferenceType() 
     {
-	return null;
+        return null;
     }
 
     /** 
@@ -373,13 +373,13 @@ public abstract class Type
      */
     public boolean isValidReferenceType(Type t)
     {
-	Type t2 = this.validReferenceType();
-	
-	if (t2 != null && t != null && t.canSubstitute(t2)) {
-	    return true;
-	} else {
-	    return false;
-	}
+        Type t2 = this.validReferenceType();
+        
+        if (t2 != null && t != null && t.canSubstitute(t2)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 

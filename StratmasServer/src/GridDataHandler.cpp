@@ -30,7 +30,7 @@ GridDataHandler::GridDataHandler(Grid& grid, CombatGrid& cg, const vector<Factio
      // Calculate the number of layers
      mNumLayers = (eNumWithFac + eDNumDerivedF) * (mGrid.factions() + 1) + eNumNoFac + eDNumDerived + mCG.layers();
      if (kShowPrecalculated) {
-	  mNumLayers += ePNumPreCalcF * (mGrid.factions() + 1) + ePNumPreCalc;
+          mNumLayers += ePNumPreCalcF * (mGrid.factions() + 1) + ePNumPreCalc;
      }
      mStanceStartIndex = mNumLayers;
 //     int numStanceLayers = mGrid.factions() * (mFactions.size() - 1);
@@ -38,74 +38,74 @@ GridDataHandler::GridDataHandler(Grid& grid, CombatGrid& cg, const vector<Factio
 
      // PV:s with factions.
      for (int i = 0; i < eNumWithFac; ++i) {
- 	  mLayerNameToIndex[PVHelper::pvfName(static_cast<ePVF>(i))] = i * (mGrid.factions() + 1);
+           mLayerNameToIndex[PVHelper::pvfName(static_cast<ePVF>(i))] = i * (mGrid.factions() + 1);
      }
      int base = (mGrid.factions() + 1) * eNumWithFac;
      // PV:s without factions.
      for (int i = 0; i < eNumNoFac; ++i) {
- 	  mLayerNameToIndex[PVHelper::pvName(static_cast<ePV>(i))] = base + i;
+           mLayerNameToIndex[PVHelper::pvName(static_cast<ePV>(i))] = base + i;
      }
      base += eNumNoFac;
 
      // Derived PV:s with factions.
      for (int i = 0; i < eDNumDerivedF; ++i) {
- 	  mLayerNameToIndex[PVHelper::pdfName(static_cast<eDerivedF>(i))] = base + i * (mGrid.factions() + 1);
+           mLayerNameToIndex[PVHelper::pdfName(static_cast<eDerivedF>(i))] = base + i * (mGrid.factions() + 1);
      }
      base += (mGrid.factions() + 1) * eDNumDerivedF;
      // Derived PV:s without factions.
      for (int i = 0; i < eDNumDerived; ++i) {
- 	  mLayerNameToIndex[PVHelper::pdName(static_cast<eDerived>(i))] = base + i;
+           mLayerNameToIndex[PVHelper::pdName(static_cast<eDerived>(i))] = base + i;
      }
      base += eDNumDerived;
 
      if (kShowPrecalculated) {
-	  // Precalculated PV:s with factions.
-	  for (int i = 0; i < ePNumPreCalcF; ++i) {
-	       mLayerNameToIndex[PVHelper::pcfName(static_cast<ePreCalcF>(i))] = base + i * (mGrid.factions() + 1);
-	  }
-	  base += (mGrid.factions() + 1) * ePNumPreCalcF;
-	  // Precalculated PV:s without factions.
-	  for (int i = 0; i < ePNumPreCalc; ++i) {
-	       mLayerNameToIndex[PVHelper::pcName(static_cast<ePreCalc>(i))] = base + i;
-	  }
-	  base += ePNumPreCalc;
+          // Precalculated PV:s with factions.
+          for (int i = 0; i < ePNumPreCalcF; ++i) {
+               mLayerNameToIndex[PVHelper::pcfName(static_cast<ePreCalcF>(i))] = base + i * (mGrid.factions() + 1);
+          }
+          base += (mGrid.factions() + 1) * ePNumPreCalcF;
+          // Precalculated PV:s without factions.
+          for (int i = 0; i < ePNumPreCalc; ++i) {
+               mLayerNameToIndex[PVHelper::pcName(static_cast<ePreCalc>(i))] = base + i;
+          }
+          base += ePNumPreCalc;
      }
 
      // CombatGrid.
      for (std::map<string, int>::const_iterator it = mCG.nameToIndexMap().begin();
-	  it != mCG.nameToIndexMap().end(); it++) {
-  	  mLayerNameToIndex[it->first] = base + it->second;
+          it != mCG.nameToIndexMap().end(); it++) {
+            mLayerNameToIndex[it->first] = base + it->second;
      }
      base += mCG.layers();
 
      // Stance layers
 //      for (int i = 1; i < mGrid.factions() + 1; ++i) {
-// 	  int numMilFac = 0;
-// 	  int count = 0;
-// 	  for (vector<Faction*>::const_iterator it = mFactions.begin(); it != mFactions.end(); ++it) {
-// 	       EthnicFaction* fac = dynamic_cast<EthnicFaction*>(*it);
-// 	       int j = (fac ? fac->index() : mGrid.factions() + 1 + numMilFac++);
-// 	       if (j != i ) {
-// 		    string layerName = EthnicFaction::faction(i)->ref().name()
-// 			 + " hostility toward " + (*it)->ref().name();
-// 		    mStanceLayerName.push_back(layerName);
-// 		    mLayerNameToIndex[layerName] = base + (i - 1) * (mFactions.size() - 1) + count;
-// 		    PVInfo::addPV(layerName, "Stance", false, "0", "100");
-// 		    ++count;
-// 	       }
-// 	  }
+//           int numMilFac = 0;
+//           int count = 0;
+//           for (vector<Faction*>::const_iterator it = mFactions.begin(); it != mFactions.end(); ++it) {
+//                EthnicFaction* fac = dynamic_cast<EthnicFaction*>(*it);
+//                int j = (fac ? fac->index() : mGrid.factions() + 1 + numMilFac++);
+//                if (j != i ) {
+//                     string layerName = EthnicFaction::faction(i)->ref().name()
+//                          + " hostility toward " + (*it)->ref().name();
+//                     mStanceLayerName.push_back(layerName);
+//                     mLayerNameToIndex[layerName] = base + (i - 1) * (mFactions.size() - 1) + count;
+//                     PVInfo::addPV(layerName, "Stance", false, "0", "100");
+//                     ++count;
+//                }
+//           }
 //      }
 
 //       for (std::map<std::string, int>::iterator it = mLayerNameToIndex.begin(); it != mLayerNameToIndex.end(); it++) {
-//        	  debug(it->first << " - " << it->second);
+//                  debug(it->first << " - " << it->second);
 //       }
 
      // Allocate memory for new grid
      // Cell after cell
      mGridData = new double*[mNumActive];
      for (int i = 0; i < mNumActive; i++) {
-	  mGridData[i] = new double[mNumLayers];
-	  memset(mGridData[i], 0, mNumLayers * sizeof(double));
+          mGridData[i] = new double[mNumLayers];
+          memset(mGridData[i], 0, mNumLayers * sizeof(double));
      }
 }
 
@@ -116,12 +116,12 @@ GridDataHandler::GridDataHandler(Grid& grid, CombatGrid& cg, const vector<Factio
 GridDataHandler::~GridDataHandler()
 {
      if (mGridData) {
-	  for (int i = 0; i < mNumActive; ++i) {
-	       if (mGridData[i]) {
-		    delete [] mGridData[i];
-	       }
-	  }
-	  delete [] mGridData;
+          for (int i = 0; i < mNumActive; ++i) {
+               if (mGridData[i]) {
+                    delete [] mGridData[i];
+               }
+          }
+          delete [] mGridData;
      }
      mStanceLayerName.clear();
 }
@@ -142,7 +142,7 @@ GridDataHandler::~GridDataHandler()
 void GridDataHandler::layer(int lay, int fac, int size, int32_t* index, double*& outData)
 {
      for (int i = 0; i < size; ++i) {
-	  outData[i] = (index ? mGridData[index[i]][lay + fac] : mGridData[i][lay + fac]);
+          outData[i] = (index ? mGridData[index[i]][lay + fac] : mGridData[i][lay + fac]);
      }
 }
 
@@ -159,27 +159,27 @@ void GridDataHandler::layer(int lay, int fac, int size, int32_t* index, double*&
  * contain the values for the specified cells.
  */
 void GridDataHandler::layer(const std::string& lay,
-			    const Reference& fac,
-			    int size,
-			    int32_t* index,
-			    double*& outData)
+                            const Reference& fac,
+                            int size,
+                            int32_t* index,
+                            double*& outData)
 {
      EthnicFaction* facp = EthnicFaction::faction(fac);
      std::map<std::string, int>::iterator it = mLayerNameToIndex.find(lay);
      
      // Check if the layer and faction asked for are is valid
      if(it == mLayerNameToIndex.end()) {
-	  Error e(Error::eWarning);
-	  e << "In GridDataHandler::layer() - Tried to extract data for unknown layer '" << lay << "'";
-	  throw e;
+          Error e(Error::eWarning);
+          e << "In GridDataHandler::layer() - Tried to extract data for unknown layer '" << lay << "'";
+          throw e;
      }
      else if (!facp) {
-	  Error e(Error::eWarning);
-	  e << "In GridDataHandler::layer() - Tried to extract data for unknown faction '" << fac << "'";
-	  throw e;
+          Error e(Error::eWarning);
+          e << "In GridDataHandler::layer() - Tried to extract data for unknown faction '" << fac << "'";
+          throw e;
      }
      else {
-	  layer(it->second, facp->index(), size, index, outData);
+          layer(it->second, facp->index(), size, index, outData);
      }
 }
 
@@ -199,73 +199,73 @@ void GridDataHandler::extractGridData() {
      // PV values
      // Parallell - All these for loops should be parallellizable.
      for (int i = 0; i < mGrid.active(); ++i) {
-	  GridCell &c = *mGrid.cell(i);
-	  // PV:s with factions.
-	  for (int j = 0; j < eNumWithFac; ++j) {
-	       tmpbase = j * (nFac + 1);
-	       for (int k = 0; k < nFac + 1; ++k) {
-		    mGridData[i][tmpbase + k] = c.pvfGet(static_cast<ePVF>(j), k);
-	       }
-	  }
-	  base = eNumWithFac * (nFac + 1);
-	  // PV:s without factions.
-	  for (int j = 0; j < eNumNoFac; ++j) {
-	       mGridData[i][base + j] = c.pvGet(static_cast<ePV>(j));
-	  }
-	  base += eNumNoFac;
+          GridCell &c = *mGrid.cell(i);
+          // PV:s with factions.
+          for (int j = 0; j < eNumWithFac; ++j) {
+               tmpbase = j * (nFac + 1);
+               for (int k = 0; k < nFac + 1; ++k) {
+                    mGridData[i][tmpbase + k] = c.pvfGet(static_cast<ePVF>(j), k);
+               }
+          }
+          base = eNumWithFac * (nFac + 1);
+          // PV:s without factions.
+          for (int j = 0; j < eNumNoFac; ++j) {
+               mGridData[i][base + j] = c.pvGet(static_cast<ePV>(j));
+          }
+          base += eNumNoFac;
 
-	  // Derived PV:s with factions.
-	  for (int j = 0; j < eDNumDerivedF; ++j) {
-	       tmpbase = base + j * (nFac + 1);
-	       for (int k = 0; k < nFac + 1; ++k) {
-		    mGridData[i][tmpbase + k] = c.pdfGet(static_cast<eDerivedF>(j), k);
-	       }
-	  }
-	  base += eDNumDerivedF * (nFac + 1);
-	  // Derived PV:s without factions.
-	  for (int j = 0; j < eDNumDerived; ++j) {
-	       mGridData[i][base + j] = c.pdGet(static_cast<eDerived>(j));
-	  }
-	  base += eDNumDerived;
+          // Derived PV:s with factions.
+          for (int j = 0; j < eDNumDerivedF; ++j) {
+               tmpbase = base + j * (nFac + 1);
+               for (int k = 0; k < nFac + 1; ++k) {
+                    mGridData[i][tmpbase + k] = c.pdfGet(static_cast<eDerivedF>(j), k);
+               }
+          }
+          base += eDNumDerivedF * (nFac + 1);
+          // Derived PV:s without factions.
+          for (int j = 0; j < eDNumDerived; ++j) {
+               mGridData[i][base + j] = c.pdGet(static_cast<eDerived>(j));
+          }
+          base += eDNumDerived;
 
-	  if (kShowPrecalculated) {
-	       // Precalculated PV:s with factions.
-	       for (int j = 0; j < ePNumPreCalcF; ++j) {
-		    tmpbase = base + j * (nFac + 1);
-		    for (int k = 0; k < nFac + 1; ++k) {
-			 mGridData[i][tmpbase + k] = c.pcfGet(static_cast<ePreCalcF>(j), k);
-		    }
-	       }
-	       base += ePNumPreCalcF * (nFac + 1);
-	       // PreCalculated PV:s without factions.
-	       for (int j = 0; j < ePNumPreCalc; ++j) {
-		    mGridData[i][base + j] = c.pcGet(static_cast<ePreCalc>(j));
-	       }
-	       base += ePNumPreCalc;
-	  }
+          if (kShowPrecalculated) {
+               // Precalculated PV:s with factions.
+               for (int j = 0; j < ePNumPreCalcF; ++j) {
+                    tmpbase = base + j * (nFac + 1);
+                    for (int k = 0; k < nFac + 1; ++k) {
+                         mGridData[i][tmpbase + k] = c.pcfGet(static_cast<ePreCalcF>(j), k);
+                    }
+               }
+               base += ePNumPreCalcF * (nFac + 1);
+               // PreCalculated PV:s without factions.
+               for (int j = 0; j < ePNumPreCalc; ++j) {
+                    mGridData[i][base + j] = c.pcGet(static_cast<ePreCalc>(j));
+               }
+               base += ePNumPreCalc;
+          }
 
-	  // CombatGrid.
-	  for (int j = 0; j < mCG.layers(); ++j) {
-	       mGridData[i][base + j] = mCG.value(i, j);
-	  }
-	  base += mCG.layers();
+          // CombatGrid.
+          for (int j = 0; j < mCG.layers(); ++j) {
+               mGridData[i][base + j] = mCG.value(i, j);
+          }
+          base += mCG.layers();
      }
 
      // Stance layers
 //      for (int i = 1; i < mGrid.factions() + 1; ++i) {
-// 	  int numMilFac = 0;
-// 	  int count = 0;
-// 	  for (vector<Faction*>::const_iterator it = mFactions.begin(); it != mFactions.end(); ++it) {
-// 	       EthnicFaction* fac = dynamic_cast<EthnicFaction*>(*it);
-// 	       int j = (fac ? fac->index() : mGrid.factions() + 1 + numMilFac++);
-// 	       if (j != i ) {
-// 		    int index = base + (i - 1) * (mFactions.size() - 1) + count;
-// 		    double stance = EthnicFaction::faction(i)->stance(**it);
-// 		    for (int k = 0; k < mGrid.active(); ++k) {
-// 			 mGridData[k][index] = mGrid.cell(k)->pdfGet(eDDisaffection, i) * stance;
-// 		    }
-// 		    ++count;
-// 	       }
-// 	  }
+//           int numMilFac = 0;
+//           int count = 0;
+//           for (vector<Faction*>::const_iterator it = mFactions.begin(); it != mFactions.end(); ++it) {
+//                EthnicFaction* fac = dynamic_cast<EthnicFaction*>(*it);
+//                int j = (fac ? fac->index() : mGrid.factions() + 1 + numMilFac++);
+//                if (j != i ) {
+//                     int index = base + (i - 1) * (mFactions.size() - 1) + count;
+//                     double stance = EthnicFaction::faction(i)->stance(**it);
+//                     for (int k = 0; k < mGrid.active(); ++k) {
+//                          mGridData[k][index] = mGrid.cell(k)->pdfGet(eDDisaffection, i) * stance;
+//                     }
+//                     ++count;
+//                }
+//           }
 //      }
 }

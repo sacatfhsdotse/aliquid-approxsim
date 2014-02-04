@@ -1,4 +1,4 @@
-// 	$Id: RenderSelection.java,v 1.5 2006/04/18 13:01:16 dah Exp $
+//         $Id: RenderSelection.java,v 1.5 2006/04/18 13:01:16 dah Exp $
 
 package StratmasClient.map;
 
@@ -55,41 +55,41 @@ public class RenderSelection extends Vector
      */
     public RenderSelection(int hits, IntBuffer selectionBuffer, Hashtable mapper)
     {
-	if (hits == 0) {
-	    this.hits = 0;
-	    this.selectionBuffer = new int[0];
-	    this.topSelectionIndex = this.selectionBuffer;
-	    this.topSelectionNames = this.selectionBuffer;
-	} else  {
-	    this.hits = hits;
-	    this.mapper = mapper;
-	    
-	    this.topSelectionIndex = new int[hits];
-	    
-	    // Find out useful length of selectionBuffer and fill topEntriesIndex
-	    this.topSelectionIndex[0] = 0;
-	    for (int i = 1; i < hits; i++) {
-		this.topSelectionIndex[i] = 3 + this.topSelectionIndex[i - 1] + 
-		    selectionBuffer.get(this.topSelectionIndex[i - 1]);
-	    }
-	    
-	    this.selectionBuffer = new int[selectionBuffer.get(topSelectionIndex[hits - 1]) + 
-					   topSelectionIndex[hits - 1] + 3];
-	    selectionBuffer.rewind();
-	    selectionBuffer.get(this.selectionBuffer);
-	    
-	    //Fill topSelectionNames and secondLevelEntries
-	    this.topSelectionNames = new int[hits];
-	    this.secondLevelNames  = new int[hits];
-	    for(int i = 0; i < this.hits; i++) {
-		if (this.selectionBuffer[topSelectionIndex[i]] != 0) {
-		    topSelectionNames[i] = this.selectionBuffer[topSelectionIndex[i] + 3];
-		}
-		if (this.selectionBuffer[topSelectionIndex[i]] > 1) {
-		    secondLevelNames[i] = this.selectionBuffer[topSelectionIndex[i] + 4];
-		}
-	    }
-	}
+        if (hits == 0) {
+            this.hits = 0;
+            this.selectionBuffer = new int[0];
+            this.topSelectionIndex = this.selectionBuffer;
+            this.topSelectionNames = this.selectionBuffer;
+        } else  {
+            this.hits = hits;
+            this.mapper = mapper;
+            
+            this.topSelectionIndex = new int[hits];
+            
+            // Find out useful length of selectionBuffer and fill topEntriesIndex
+            this.topSelectionIndex[0] = 0;
+            for (int i = 1; i < hits; i++) {
+                this.topSelectionIndex[i] = 3 + this.topSelectionIndex[i - 1] + 
+                    selectionBuffer.get(this.topSelectionIndex[i - 1]);
+            }
+            
+            this.selectionBuffer = new int[selectionBuffer.get(topSelectionIndex[hits - 1]) + 
+                                           topSelectionIndex[hits - 1] + 3];
+            selectionBuffer.rewind();
+            selectionBuffer.get(this.selectionBuffer);
+            
+            //Fill topSelectionNames and secondLevelEntries
+            this.topSelectionNames = new int[hits];
+            this.secondLevelNames  = new int[hits];
+            for(int i = 0; i < this.hits; i++) {
+                if (this.selectionBuffer[topSelectionIndex[i]] != 0) {
+                    topSelectionNames[i] = this.selectionBuffer[topSelectionIndex[i] + 3];
+                }
+                if (this.selectionBuffer[topSelectionIndex[i]] > 1) {
+                    secondLevelNames[i] = this.selectionBuffer[topSelectionIndex[i] + 4];
+                }
+            }
+        }
     }
 
     /**
@@ -100,7 +100,7 @@ public class RenderSelection extends Vector
      */
     public RenderSelection(int hits, IntBuffer selectionBuffer)
     {
-	this(hits, selectionBuffer, null);
+        this(hits, selectionBuffer, null);
     }
 
     /**
@@ -108,7 +108,7 @@ public class RenderSelection extends Vector
      */
     public RenderSelection()
     {
-	this(0, null);
+        this(0, null);
     }
 
     /**
@@ -116,9 +116,9 @@ public class RenderSelection extends Vector
      */
     public int[] getTopSelectionNames()
     {
-	int[] res = new int[this.hits];
-	System.arraycopy(topSelectionNames, 0, res, 0, res.length);
-	return res;
+        int[] res = new int[this.hits];
+        System.arraycopy(topSelectionNames, 0, res, 0, res.length);
+        return res;
     }
 
     /**
@@ -126,11 +126,11 @@ public class RenderSelection extends Vector
      */
     public int[] getSecondLevelSelectionNames()
     {
-	int[] res = new int[this.hits];
-	if (res.length > 0) {
-	    System.arraycopy(secondLevelNames, 0, res, 0, res.length);
-	}
-	return res;
+        int[] res = new int[this.hits];
+        if (res.length > 0) {
+            System.arraycopy(secondLevelNames, 0, res, 0, res.length);
+        }
+        return res;
     }
 
     /**
@@ -138,19 +138,19 @@ public class RenderSelection extends Vector
      */
     public Vector getTopSelectionObjects()
     {
-	Vector res = new Vector();
-	// If no mapper provided we are not able to match
-	if (mapper != null) {
-	    Hashtable hack = (Hashtable) mapper.clone();
-	    for (int i = 0; i < topSelectionNames.length; i++) {
-		Object o = hack.remove(new Integer(topSelectionNames[i]));
-		if (o != null) {
-		    res.add(o);
-		}
-	    }
-	}
+        Vector res = new Vector();
+        // If no mapper provided we are not able to match
+        if (mapper != null) {
+            Hashtable hack = (Hashtable) mapper.clone();
+            for (int i = 0; i < topSelectionNames.length; i++) {
+                Object o = hack.remove(new Integer(topSelectionNames[i]));
+                if (o != null) {
+                    res.add(o);
+                }
+            }
+        }
 
-	return res;
+        return res;
     }
 
 }

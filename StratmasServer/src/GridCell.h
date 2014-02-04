@@ -313,7 +313,7 @@ struct lessGridCellPtr {
       * false otherwise.
       */
      bool operator()(const GridCell* c1, const GridCell* c2) {
-	  return (c1->row() < c2->row() || c1->row() == c2->row() && c1->col() < c2->col());
+          return (c1->row() < c2->row() || c1->row() == c2->row() && c1->col() < c2->col());
      }
 };
 
@@ -335,7 +335,7 @@ struct equalGridCellPtr {
       * \return True if the two cells are equal.
       */
      bool operator()(const GridCell* c1, const GridCell* c2) {
-	  return (c1->row() == c2->row() && c1->col() == c2->col());
+          return (c1->row() == c2->row() && c1->col() == c2->col());
      }
 };
 
@@ -343,21 +343,21 @@ struct equalGridCellPtr {
 void GridCell::handleRoundOffErrorsPositive(double* data, int size)
 {
      for (int i = 0; i < size; i++) {
-	  data[i] = std::max(0.0, data[i]);
+          data[i] = std::max(0.0, data[i]);
      }
 }
 
 void GridCell::handleRoundOffErrorsPercent(double* data, int size)
 {
      for (int i = 0; i < size; i++) {
-	  data[i] = between(data[i], 0.0, 100.0);
+          data[i] = between(data[i], 0.0, 100.0);
      }
 }
 
 void GridCell::handleRoundOffErrorsFraction(double* data, int size)
 {
      for (int i = 0; i < size; i++) {
-	  data[i] = between(data[i], 0.0, 1.0);
+          data[i] = between(data[i], 0.0, 1.0);
      }
 }
 

@@ -42,13 +42,13 @@ ostream& operator << (ostream& o, const TypeAttribute& t)
      
 //      switch (t.constraintType()) {
 //      case XSConstants::VALUE_CONSTRAINT_NONE:
-// 	  break;
+//           break;
 //      case XSConstants::VALUE_CONSTRAINT_DEFAULT:
-// 	  o << "  Default constraint - '" << t.constraintValue() << "'" << endl;
-// 	  break;
+//           o << "  Default constraint - '" << t.constraintValue() << "'" << endl;
+//           break;
 //      case XSConstants::VALUE_CONSTRAINT_FIXED:
-// 	  o << "  Fixed constraint - '" << t.constraintValue() << "'" << endl;
-// 	  break;
+//           o << "  Fixed constraint - '" << t.constraintValue() << "'" << endl;
+//           break;
 //      }
      return o;
 }

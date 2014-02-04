@@ -10,8 +10,8 @@ public class MapConstants {
      * The force units.
      */
     public static final String[] forceUnits = {"Region", "Army Group/Front", "Army", "Corps/Mef", "Division", "Brigade",
-					       "Regiment/Group", "Battalion", "Company", "Platoon", "Section", "Squad",
-					       "Team/Crew"};
+                                               "Regiment/Group", "Battalion", "Company", "Platoon", "Section", "Squad",
+                                               "Team/Crew"};
     
     /**
      * The force symbols.
@@ -22,9 +22,9 @@ public class MapConstants {
      * The mobility groups.
      */
     public static final String[] mobileUnits = {"Headquarters (HQ)", "Task Force HQ", "Feint Dummy HQ", 
-						"Feint Dummy/Task Force HQ", "Task Force", "Feint Dummy", 
-						"Feint Dummy/Task Force", "Installation", 
-						"Nuclear Yields in Kilotons", "Mobility Equipment"};
+                                                "Feint Dummy/Task Force HQ", "Task Force", "Feint Dummy", 
+                                                "Feint Dummy/Task Force", "Installation", 
+                                                "Nuclear Yields in Kilotons", "Mobility Equipment"};
     
     /**
      * The mobility symbols.
@@ -40,7 +40,7 @@ public class MapConstants {
      * The agency types.
      */
     public static final String[] agencyTypes = {"ShelterAgencyTeam", "WaterAgencyTeam", "HealthAgencyTeam", 
-						"FoodAgencyTeam", "PoliceAgencyTeam", "CustomAgencyTeam"};
+                                                "FoodAgencyTeam", "PoliceAgencyTeam", "CustomAgencyTeam"};
     
     /**
      * One inch expressed in meters.
@@ -56,8 +56,8 @@ public class MapConstants {
      * Affiliation of the military units.
      */
     public static final String[] affiliationDescription = {"Pending", "Unknown", "Assumed Friends", "Friends",
-							   "Neutral", "Suspect", "Hostile", "Joker", "Faker",
-							   "None Specified"};
+                                                           "Neutral", "Suspect", "Hostile", "Joker", "Faker",
+                                                           "None Specified"};
     /**
      * The affiliation symbols.
      */ 
@@ -66,6 +66,6 @@ public class MapConstants {
      * Categories of the process variables.
      */
     public static final String[] pvCategories = {"Forces", "Environmental", "Quality of Life", "Social", "Economical", 
-						 "Governance", "Political"}; 
+                                                 "Governance", "Political"}; 
     
 }

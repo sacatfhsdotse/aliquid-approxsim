@@ -191,7 +191,7 @@ public:
       * null if no such cell exists.
       */
      GridCell* cell(int r, int c) {
-	  int pos = r * mCols + c; return (pos >= 0 && pos < mCells ? mCellP[pos] : 0);
+          int pos = r * mCols + c; return (pos >= 0 && pos < mCells ? mCellP[pos] : 0);
      }
 
      /**
@@ -209,7 +209,7 @@ public:
       * null if no such cell exists.
       */
      const GridCell* cell(int r, int c) const {
-	  int pos = r * mCols + c; return (pos >= 0 && pos < mCells ? mCellP[pos] : 0);
+          int pos = r * mCols + c; return (pos >= 0 && pos < mCells ? mCellP[pos] : 0);
      }
 
      /**

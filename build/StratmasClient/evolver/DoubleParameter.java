@@ -1,4 +1,4 @@
-// 	$Id: DoubleParameter.java,v 1.3 2005/10/28 12:15:24 dah Exp $
+//         $Id: DoubleParameter.java,v 1.3 2005/10/28 12:15:24 dah Exp $
 /*
  * @(#)DoubleParameter.java
  */
@@ -21,43 +21,43 @@ public class DoubleParameter extends Parameter
      * The comparator of this type.
      */
     final static Comparator comparator = new Comparator()
-	{
-	    /**
-	     * Compares its two arguments for order.
-	     *
-	     * @param o1 first object.
-	     * @param o2 second object.
-	     */
-	    public int compare(Object o1, Object o2)
-	    {
-		double o1d = 
-		    ((DoubleParameter) ((ParameterInstance) o1).getParameter()).getDouble((ParameterInstance) o1);
-		double o2d = 
-		    ((DoubleParameter) ((ParameterInstance) o2).getParameter()).getDouble((ParameterInstance) o2);
+        {
+            /**
+             * Compares its two arguments for order.
+             *
+             * @param o1 first object.
+             * @param o2 second object.
+             */
+            public int compare(Object o1, Object o2)
+            {
+                double o1d = 
+                    ((DoubleParameter) ((ParameterInstance) o1).getParameter()).getDouble((ParameterInstance) o1);
+                double o2d = 
+                    ((DoubleParameter) ((ParameterInstance) o2).getParameter()).getDouble((ParameterInstance) o2);
 
-		return Double.compare(o1d, o2d);
-	    }
-	};
+                return Double.compare(o1d, o2d);
+            }
+        };
 
     /**
      * The metric of this type.
      */
      final static Metric metric = new Metric()
- 	{
- 	    /**
- 	     * Returns a measure of distance between two ParameterInstances.
- 	     *
- 	     * @param a the first ParameterInstance
- 	     * @param b the second ParameterInstance
- 	     */
- 	    public double d(ParameterInstance a, ParameterInstance b)
- 	    {
-		double ad = ((DoubleParameter) a.getParameter()).getDouble(a);
-		double bd = ((DoubleParameter) b.getParameter()).getDouble(b);
+         {
+             /**
+              * Returns a measure of distance between two ParameterInstances.
+              *
+              * @param a the first ParameterInstance
+              * @param b the second ParameterInstance
+              */
+             public double d(ParameterInstance a, ParameterInstance b)
+             {
+                double ad = ((DoubleParameter) a.getParameter()).getDouble(a);
+                double bd = ((DoubleParameter) b.getParameter()).getDouble(b);
 
- 		return Math.abs(ad - bd);
- 	    }
-	 };
+                 return Math.abs(ad - bd);
+             }
+         };
 
     /**
      * Creates a new DoubleParameter with the specified name.
@@ -66,7 +66,7 @@ public class DoubleParameter extends Parameter
      */
     public DoubleParameter(String name)
     {
-	super(name);
+        super(name);
     }
 
     /**
@@ -76,7 +76,7 @@ public class DoubleParameter extends Parameter
      */
     public Comparator getComparator()
     {
-	return comparator;
+        return comparator;
     }
 
     /**
@@ -87,7 +87,7 @@ public class DoubleParameter extends Parameter
      */
     public Metric getMetric()
     {
- 	return metric;
+         return metric;
     }
 
     /**
@@ -99,10 +99,10 @@ public class DoubleParameter extends Parameter
      * @param gradient the gradient.
      */ 
     public ParameterInstance getGradientNeighbour(ParameterInstance instance, 
-						  double gradient)
+                                                  double gradient)
     {
-	return new ParameterInstance(this,
-				     new Double(getDouble(instance) + gradient));
+        return new ParameterInstance(this,
+                                     new Double(getDouble(instance) + gradient));
     }
 
     /**
@@ -113,7 +113,7 @@ public class DoubleParameter extends Parameter
      */
     double getDouble(ParameterInstance instance)
     {
-	return ((Double) instance.getValue()).doubleValue();
+        return ((Double) instance.getValue()).doubleValue();
     }
 
     /**
@@ -121,6 +121,6 @@ public class DoubleParameter extends Parameter
      */
     public String toString(ParameterInstance parameterInstance)
     {
-	return Double.toString(getDouble(parameterInstance));
+        return Double.toString(getDouble(parameterInstance));
     }
 }

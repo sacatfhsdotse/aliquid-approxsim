@@ -25,7 +25,7 @@ CellGroup::CellGroup(const GridDataHandler& gdh) : mGDH(gdh), mFactions(mGDH.gri
      // With factions
      mPVF = new double*[eNumWithFac];
      for (int i = 0; i < eNumWithFac; ++i) {
-	  mPVF[i] = new double[mFactions + 1];
+          mPVF[i] = new double[mFactions + 1];
      }
      // Without factions
      mPV = new double[eNumNoFac];
@@ -33,7 +33,7 @@ CellGroup::CellGroup(const GridDataHandler& gdh) : mGDH(gdh), mFactions(mGDH.gri
      // Derived with factions
      mPDF = new double*[eNumWithFac];
      for (int i = 0; i < eDNumDerivedF; ++i) {
-	  mPDF[i] = new double[mFactions + 1];
+          mPDF[i] = new double[mFactions + 1];
      }
      // Derived without factions
      mPD = new double[eDNumDerived];
@@ -41,7 +41,7 @@ CellGroup::CellGroup(const GridDataHandler& gdh) : mGDH(gdh), mFactions(mGDH.gri
      // Precalculated with factions
      mPCF = new double*[ePNumPreCalcF];
      for (int i = 0; i < ePNumPreCalcF; ++i) {
-	  mPCF[i] = new double[mFactions + 1];
+          mPCF[i] = new double[mFactions + 1];
      }
      // Precalculated without factions
      mPC = new double[ePNumPreCalc];
@@ -58,19 +58,19 @@ CellGroup::CellGroup(const GridDataHandler& gdh) : mGDH(gdh), mFactions(mGDH.gri
 CellGroup::~CellGroup()
 {
      for (int i = 0; i < eNumWithFac; ++i) {
-	  delete [] mPVF[i];
+          delete [] mPVF[i];
      }
      delete [] mPVF;
      delete [] mPV;
 
      for (int i = 0; i < eDNumDerivedF; ++i) {
-	  delete [] mPDF[i];
+          delete [] mPDF[i];
      }
      delete [] mPDF;
      delete [] mPD;
 
      for (int i = 0; i < ePNumPreCalcF; ++i) {
-	  delete [] mPCF[i];
+          delete [] mPCF[i];
      }
      delete [] mPCF;
      delete [] mPC;
@@ -84,17 +84,17 @@ CellGroup::~CellGroup()
 void CellGroup::zero()
 {
      for (int i = 0; i < eNumWithFac; ++i) {
-	  memset(mPVF[i], 0, (mFactions + 1) * sizeof(double));
+          memset(mPVF[i], 0, (mFactions + 1) * sizeof(double));
      }
      memset(mPV, 0, eNumNoFac * sizeof(double));
 
      for (int i = 0; i < eDNumDerivedF; ++i) {
-	  memset(mPDF[i], 0, (mFactions + 1) * sizeof(double));
+          memset(mPDF[i], 0, (mFactions + 1) * sizeof(double));
      }
      memset(mPD, 0, eDNumDerived * sizeof(double));
 
      for (int i = 0; i < ePNumPreCalcF; ++i) {
-	  memset(mPCF[i], 0, (mFactions + 1) * sizeof(double));
+          memset(mPCF[i], 0, (mFactions + 1) * sizeof(double));
      }
      memset(mPC, 0, ePNumPreCalc * sizeof(double));
 
@@ -179,141 +179,141 @@ void CellGroup::handleRoundOffErrors()
 void CellGroup::update()
 {
      if (mMembers.size() == 1) {
-	  const GridCell& c = *mMembers.begin()->second;
-	  // Ordinary
-	  for (int i = 0; i < eNumWithFac; ++i) {
-	       for (int j = 0; j < mFactions + 1; ++j) {
-		    mPVF[i][j] = c.pvfGet(static_cast<ePVF>(i), j);
-	       }
-	  }
-	  for (int i = 0; i < eNumNoFac; ++i) {
-	       mPV[i] =  c.pvGet(static_cast<ePV>(i));
-	  }
+          const GridCell& c = *mMembers.begin()->second;
+          // Ordinary
+          for (int i = 0; i < eNumWithFac; ++i) {
+               for (int j = 0; j < mFactions + 1; ++j) {
+                    mPVF[i][j] = c.pvfGet(static_cast<ePVF>(i), j);
+               }
+          }
+          for (int i = 0; i < eNumNoFac; ++i) {
+               mPV[i] =  c.pvGet(static_cast<ePV>(i));
+          }
 
-	  // Derived
-	  for (int i = 0; i < eDNumDerivedF; ++i) {
-	       for (int j = 0; j < mFactions + 1; ++j) {
-		    mPDF[i][j] = c.pdfGet(static_cast<eDerivedF>(i), j);
-	       }
-	  }
-	  for (int i = 0; i < eDNumDerived; ++i) {
-	       mPD[i] =  c.pdGet(static_cast<eDerived>(i));
-	  }
+          // Derived
+          for (int i = 0; i < eDNumDerivedF; ++i) {
+               for (int j = 0; j < mFactions + 1; ++j) {
+                    mPDF[i][j] = c.pdfGet(static_cast<eDerivedF>(i), j);
+               }
+          }
+          for (int i = 0; i < eDNumDerived; ++i) {
+               mPD[i] =  c.pdGet(static_cast<eDerived>(i));
+          }
 
-	  // Precalculated
-	  for (int i = 0; i < ePNumPreCalcF; ++i) {
-	       for (int j = 0; j < mFactions + 1; ++j) {
-		    mPCF[i][j] = c.pcfGet(static_cast<ePreCalcF>(i), j);
-	       }
-	  }
-	  for (int i = 0; i < ePNumPreCalc; ++i) {
-	       mPC[i] =  c.pcGet(static_cast<ePreCalc>(i));
-	  }
+          // Precalculated
+          for (int i = 0; i < ePNumPreCalcF; ++i) {
+               for (int j = 0; j < mFactions + 1; ++j) {
+                    mPCF[i][j] = c.pcfGet(static_cast<ePreCalcF>(i), j);
+               }
+          }
+          for (int i = 0; i < ePNumPreCalc; ++i) {
+               mPC[i] =  c.pcGet(static_cast<ePreCalc>(i));
+          }
      }
      else {
-	  zero();
-	  std::vector<std::pair<double, const GridCell*> >::iterator it;
+          zero();
+          std::vector<std::pair<double, const GridCell*> >::iterator it;
 
-	  // Aggregate the weighted counts across all members
-	  for(it = mMembers.begin(); it != mMembers.end(); it++) {
-	       double weight = it->first;
-	       const GridCell& c = *it->second;
-	       for (int i = 0; i < mFactions + 1; i++) {
-		    mPVF[ePopulation][i] += weight * c.pvfGet(ePopulation, i);
-		    mPVF[eDisplaced ][i] += weight * c.pvfGet(eDisplaced,  i);
-		    mPVF[eSheltered ][i] += weight * c.pvfGet(eSheltered,  i);
-		    mPVF[eProtected ][i] += weight * c.pvfGet(eProtected,  i);
-		    mPVF[eInsurgents][i] += weight * c.pvfGet(eInsurgents, i);
+          // Aggregate the weighted counts across all members
+          for(it = mMembers.begin(); it != mMembers.end(); it++) {
+               double weight = it->first;
+               const GridCell& c = *it->second;
+               for (int i = 0; i < mFactions + 1; i++) {
+                    mPVF[ePopulation][i] += weight * c.pvfGet(ePopulation, i);
+                    mPVF[eDisplaced ][i] += weight * c.pvfGet(eDisplaced,  i);
+                    mPVF[eSheltered ][i] += weight * c.pvfGet(eSheltered,  i);
+                    mPVF[eProtected ][i] += weight * c.pvfGet(eProtected,  i);
+                    mPVF[eInsurgents][i] += weight * c.pvfGet(eInsurgents, i);
 
-		    // Precalculated
-		    mPCF[ePAtHome                 ][i] += weight * c.pcfGet(ePAtHome                 , i);
-		    mPCF[ePSheltered              ][i] += weight * c.pcfGet(ePSheltered              , i);
-		    mPCF[ePUnsheltered            ][i] += weight * c.pcfGet(ePUnsheltered            , i);
-		    mPCF[ePHomeIll                ][i] += weight * c.pcfGet(ePHomeIll                , i);
-		    mPCF[ePShelteredIll           ][i] += weight * c.pcfGet(ePShelteredIll           , i);
-		    mPCF[ePUnshelteredIll         ][i] += weight * c.pcfGet(ePUnshelteredIll         , i);
-		    mPCF[ePHomeImmune             ][i] += weight * c.pcfGet(ePHomeImmune             , i);
-		    mPCF[ePShelteredImmune        ][i] += weight * c.pcfGet(ePShelteredImmune        , i);
-		    mPCF[ePUnshelteredImmune      ][i] += weight * c.pcfGet(ePUnshelteredImmune      , i);
-		    mPCF[ePHomeDead               ][i] += weight * c.pcfGet(ePHomeDead               , i);
-		    mPCF[ePShelteredDead          ][i] += weight * c.pcfGet(ePShelteredDead          , i);
-		    mPCF[ePUnshelteredDead        ][i] += weight * c.pcfGet(ePUnshelteredDead        , i);
-		    mPCF[ePIDPDeadDueToViolence   ][i] += weight * c.pcfGet(ePIDPDeadDueToViolence   , i);
-		    mPCF[ePHousedDeadDueToViolence][i] += weight * c.pcfGet(ePHousedDeadDueToViolence, i);
-		    mPCF[ePNewIDPDueToViolence    ][i] += weight * c.pcfGet(ePNewIDPDueToViolence    , i);
-		    mPCF[ePTowardsCampDelta       ][i] += weight * c.pcfGet(ePTowardsCampDelta       , i);
-		    mPCF[ePDiffusionDelta         ][i] += weight * c.pcfGet(ePDiffusionDelta         , i);
-		    mPCF[ePDiffusionDisplacedDelta][i] += weight * c.pcfGet(ePDiffusionDisplacedDelta, i);
-	       }
-	       mPV[eHousingUnits    ] += weight * c.pvGet(eHousingUnits    );
-	       mPV[eSusceptible     ] += weight * c.pvGet(eSusceptible     );
-	       mPV[eInfected        ] += weight * c.pvGet(eInfected        );
-	       mPV[eRecovered       ] += weight * c.pvGet(eRecovered       );
-	       mPV[eDeadDueToDisease] += weight * c.pvGet(eDeadDueToDisease);
-	       mPV[eDailyDead       ] += weight * c.pvGet(eDailyDead       );
-	       mPV[eTotalDead       ] += weight * c.pvGet(eTotalDead       );
-	       mPV[eSmoothedDead    ] += weight * c.pvGet(eSmoothedDead    );
+                    // Precalculated
+                    mPCF[ePAtHome                 ][i] += weight * c.pcfGet(ePAtHome                 , i);
+                    mPCF[ePSheltered              ][i] += weight * c.pcfGet(ePSheltered              , i);
+                    mPCF[ePUnsheltered            ][i] += weight * c.pcfGet(ePUnsheltered            , i);
+                    mPCF[ePHomeIll                ][i] += weight * c.pcfGet(ePHomeIll                , i);
+                    mPCF[ePShelteredIll           ][i] += weight * c.pcfGet(ePShelteredIll           , i);
+                    mPCF[ePUnshelteredIll         ][i] += weight * c.pcfGet(ePUnshelteredIll         , i);
+                    mPCF[ePHomeImmune             ][i] += weight * c.pcfGet(ePHomeImmune             , i);
+                    mPCF[ePShelteredImmune        ][i] += weight * c.pcfGet(ePShelteredImmune        , i);
+                    mPCF[ePUnshelteredImmune      ][i] += weight * c.pcfGet(ePUnshelteredImmune      , i);
+                    mPCF[ePHomeDead               ][i] += weight * c.pcfGet(ePHomeDead               , i);
+                    mPCF[ePShelteredDead          ][i] += weight * c.pcfGet(ePShelteredDead          , i);
+                    mPCF[ePUnshelteredDead        ][i] += weight * c.pcfGet(ePUnshelteredDead        , i);
+                    mPCF[ePIDPDeadDueToViolence   ][i] += weight * c.pcfGet(ePIDPDeadDueToViolence   , i);
+                    mPCF[ePHousedDeadDueToViolence][i] += weight * c.pcfGet(ePHousedDeadDueToViolence, i);
+                    mPCF[ePNewIDPDueToViolence    ][i] += weight * c.pcfGet(ePNewIDPDueToViolence    , i);
+                    mPCF[ePTowardsCampDelta       ][i] += weight * c.pcfGet(ePTowardsCampDelta       , i);
+                    mPCF[ePDiffusionDelta         ][i] += weight * c.pcfGet(ePDiffusionDelta         , i);
+                    mPCF[ePDiffusionDisplacedDelta][i] += weight * c.pcfGet(ePDiffusionDisplacedDelta, i);
+               }
+               mPV[eHousingUnits    ] += weight * c.pvGet(eHousingUnits    );
+               mPV[eSusceptible     ] += weight * c.pvGet(eSusceptible     );
+               mPV[eInfected        ] += weight * c.pvGet(eInfected        );
+               mPV[eRecovered       ] += weight * c.pvGet(eRecovered       );
+               mPV[eDeadDueToDisease] += weight * c.pvGet(eDeadDueToDisease);
+               mPV[eDailyDead       ] += weight * c.pvGet(eDailyDead       );
+               mPV[eTotalDead       ] += weight * c.pvGet(eTotalDead       );
+               mPV[eSmoothedDead    ] += weight * c.pvGet(eSmoothedDead    );
 
-	       // Derived
-	       mPD[eDHoused] += weight * c.pdGet(eDHoused);
+               // Derived
+               mPD[eDHoused] += weight * c.pdGet(eDHoused);
 
-	       // Precalculated
-	       mPC[ePFoodProduction ] += weight * c.pcGet(ePFoodProduction );
-	       mPC[ePWaterProduction] += weight * c.pcGet(ePWaterProduction);
-	  }
+               // Precalculated
+               mPC[ePFoodProduction ] += weight * c.pcGet(ePFoodProduction );
+               mPC[ePWaterProduction] += weight * c.pcGet(ePWaterProduction);
+          }
 
-	  // Second, aggregate the quantitative variables using population-weighted averaging.
-	  double popWeight;
-	  for(it = mMembers.begin(); it != mMembers.end(); it++) {
-	       const GridCell& c = *it->second;
-	       for (int i = 0; i < mFactions + 1; i++) {
-		    double popInThisAttrGrp = pvfGet(ePopulation, i);
-		    if (popInThisAttrGrp > 0) {
-			 popWeight = it->first * c.pvfGet(ePopulation, i) / popInThisAttrGrp;
-			 mPVF[eViolence       ][i] += popWeight * c.pvfGet(eViolence,        i);
-			 mPVF[ePerceivedThreat][i] += popWeight * c.pvfGet(ePerceivedThreat, i);
+          // Second, aggregate the quantitative variables using population-weighted averaging.
+          double popWeight;
+          for(it = mMembers.begin(); it != mMembers.end(); it++) {
+               const GridCell& c = *it->second;
+               for (int i = 0; i < mFactions + 1; i++) {
+                    double popInThisAttrGrp = pvfGet(ePopulation, i);
+                    if (popInThisAttrGrp > 0) {
+                         popWeight = it->first * c.pvfGet(ePopulation, i) / popInThisAttrGrp;
+                         mPVF[eViolence       ][i] += popWeight * c.pvfGet(eViolence,        i);
+                         mPVF[ePerceivedThreat][i] += popWeight * c.pvfGet(ePerceivedThreat, i);
 
-			 mPDF[eDDisaffection  ][i] += popWeight * c.pdfGet(eDDisaffection,   i);
-		    }
-	       }
+                         mPDF[eDDisaffection  ][i] += popWeight * c.pdfGet(eDDisaffection,   i);
+                    }
+               }
 
-	       if (pvfGet(ePopulation) > 0) {
-		    // Could be saved from above if loop is reversed but isn't since this is clearer...
-		    popWeight = it->first * c.pvfGet(ePopulation) / pvfGet(ePopulation);
-	  
-		    // Population-weighted averages
-		    mPV[eStoredFood          ] += popWeight * c.pvGet(eStoredFood          );
-		    mPV[eFoodConsumption     ] += popWeight * c.pvGet(eFoodConsumption     );
-		    mPV[eFarmStoredFood      ] += popWeight * c.pvGet(eFarmStoredFood      );
-		    mPV[eMarketedFood        ] += popWeight * c.pvGet(eMarketedFood        );
-		    mPV[eFoodDays            ] += popWeight * c.pvGet(eFoodDays            );
-		    mPV[eFractionNoFood      ] += popWeight * c.pvGet(eFractionNoFood      );
-		    mPV[eWaterConsumption    ] += popWeight * c.pvGet(eWaterConsumption    );
-		    mPV[eWaterDays           ] += popWeight * c.pvGet(eWaterDays           );
-		    mPV[eSuppliedWater       ] += popWeight * c.pvGet(eSuppliedWater       );
-		    mPV[eFractionNoWater     ] += popWeight * c.pvGet(eFractionNoWater     );
-		    mPV[eFractionInfected    ] += popWeight * c.pvGet(eFractionInfected    );
-		    mPV[eFractionRecovered   ] += popWeight * c.pvGet(eFractionRecovered   );
-		    mPV[eFractionCrimeVictims] += popWeight * c.pvGet(eFractionCrimeVictims);
-		    mPV[eFractionNoMedical   ] += popWeight * c.pvGet(eFractionNoMedical   );
-		    mPV[eFractionNoWork      ] += popWeight * c.pvGet(eFractionNoWork      );
-		    mPV[eEthnicTension       ] += popWeight * c.pvGet(eEthnicTension       );
-		    mPV[eInfrastructure      ] += popWeight * c.pvGet(eInfrastructure      );
+               if (pvfGet(ePopulation) > 0) {
+                    // Could be saved from above if loop is reversed but isn't since this is clearer...
+                    popWeight = it->first * c.pvfGet(ePopulation) / pvfGet(ePopulation);
+          
+                    // Population-weighted averages
+                    mPV[eStoredFood          ] += popWeight * c.pvGet(eStoredFood          );
+                    mPV[eFoodConsumption     ] += popWeight * c.pvGet(eFoodConsumption     );
+                    mPV[eFarmStoredFood      ] += popWeight * c.pvGet(eFarmStoredFood      );
+                    mPV[eMarketedFood        ] += popWeight * c.pvGet(eMarketedFood        );
+                    mPV[eFoodDays            ] += popWeight * c.pvGet(eFoodDays            );
+                    mPV[eFractionNoFood      ] += popWeight * c.pvGet(eFractionNoFood      );
+                    mPV[eWaterConsumption    ] += popWeight * c.pvGet(eWaterConsumption    );
+                    mPV[eWaterDays           ] += popWeight * c.pvGet(eWaterDays           );
+                    mPV[eSuppliedWater       ] += popWeight * c.pvGet(eSuppliedWater       );
+                    mPV[eFractionNoWater     ] += popWeight * c.pvGet(eFractionNoWater     );
+                    mPV[eFractionInfected    ] += popWeight * c.pvGet(eFractionInfected    );
+                    mPV[eFractionRecovered   ] += popWeight * c.pvGet(eFractionRecovered   );
+                    mPV[eFractionCrimeVictims] += popWeight * c.pvGet(eFractionCrimeVictims);
+                    mPV[eFractionNoMedical   ] += popWeight * c.pvGet(eFractionNoMedical   );
+                    mPV[eFractionNoWork      ] += popWeight * c.pvGet(eFractionNoWork      );
+                    mPV[eEthnicTension       ] += popWeight * c.pvGet(eEthnicTension       );
+                    mPV[eInfrastructure      ] += popWeight * c.pvGet(eInfrastructure      );
 
-		    mPD[eDPolarization       ] += popWeight * c.pdGet(eDPolarization) * c.pdGet(eDPolarization);
-		    mPD[eDAvailableFood      ] += popWeight * c.pdGet(eDAvailableFood      );
-		    mPD[eDFoodDeprivation    ] += popWeight * c.pdGet(eDFoodDeprivation    );
-		    mPD[eDWaterSurplusDeficit] += popWeight * c.pdGet(eDWaterSurplusDeficit);
-		    mPD[eDWaterDeprivation   ] += popWeight * c.pdGet(eDWaterDeprivation   );
+                    mPD[eDPolarization       ] += popWeight * c.pdGet(eDPolarization) * c.pdGet(eDPolarization);
+                    mPD[eDAvailableFood      ] += popWeight * c.pdGet(eDAvailableFood      );
+                    mPD[eDFoodDeprivation    ] += popWeight * c.pdGet(eDFoodDeprivation    );
+                    mPD[eDWaterSurplusDeficit] += popWeight * c.pdGet(eDWaterSurplusDeficit);
+                    mPD[eDWaterDeprivation   ] += popWeight * c.pdGet(eDWaterDeprivation   );
 
-// 		    // Stance Layers
-// 		    for (int i = 0; i < mGDH.stanceLayers(); ++i) {
-// 			 mPS[i] += popWeight * mGDH.ps(c.index(), i);
-// 		    }
-	       }
-	  }
-	  // Weighted root-mean-square of polarization
-	  mPD[eDPolarization] = sqrt(pdGet(eDPolarization));
+//                     // Stance Layers
+//                     for (int i = 0; i < mGDH.stanceLayers(); ++i) {
+//                          mPS[i] += popWeight * mGDH.ps(c.index(), i);
+//                     }
+               }
+          }
+          // Weighted root-mean-square of polarization
+          mPD[eDPolarization] = sqrt(pdGet(eDPolarization));
      }
      handleRoundOffErrors();
 }
@@ -326,7 +326,7 @@ void CellGroup::updateWeights()
 {
      vector<pair<double, const GridCell*> >::iterator it;
      for(it = mMembers.begin(); it != mMembers.end(); it++) {
-	  it->first = 1.0 / static_cast<double>(it->second->numOverlappingRegions());
+          it->first = 1.0 / static_cast<double>(it->second->numOverlappingRegions());
      }
 }
 
@@ -341,31 +341,31 @@ ostream& operator << (ostream& o, const CellGroup& c)
 {
 //      vector<pair<double, const GridCell*> >::const_iterator it;
 //      for(it = c.mMembers.begin(); it != c.mMembers.end(); ++it) {
-// 	  o << it->second->row() << ", "  << it->second->col() << ": " << it->first << endl;
+//           o << it->second->row() << ", "  << it->second->col() << ": " << it->first << endl;
 //      }
      for (int i = 0; i < eNumWithFac; ++i) {
-	  ePVF pv = static_cast<ePVF>(i);
-	  o << PVHelper::pvfName(pv) << "(type = " << PVHelper::pvfType(pv) << "):" << endl;
-	  for (int f = 0; f < c.mFactions + 1; ++f) {
-	       o << "   " << c.pvfGet(pv, f) << endl;
-	  }
+          ePVF pv = static_cast<ePVF>(i);
+          o << PVHelper::pvfName(pv) << "(type = " << PVHelper::pvfType(pv) << "):" << endl;
+          for (int f = 0; f < c.mFactions + 1; ++f) {
+               o << "   " << c.pvfGet(pv, f) << endl;
+          }
      }
      for (int i = 0; i < eNumNoFac; ++i) {
-	  ePV pv = static_cast<ePV>(i);
-	  o << left << setw(22) << PVHelper::pvName(pv);
-	  o << right << " = " << c.pvGet(pv) << endl;
+          ePV pv = static_cast<ePV>(i);
+          o << left << setw(22) << PVHelper::pvName(pv);
+          o << right << " = " << c.pvGet(pv) << endl;
      }
      for (int i = 0; i < eDNumDerivedF; ++i) {
-	  eDerivedF pv = static_cast<eDerivedF>(i);
-	  o << PVHelper::pdfName(pv) << "(type = " << PVHelper::pdfType(pv) << "):" << endl;
-	  for (int f = 0; f < c.mFactions + 1; ++f) {
-	       o << "   " << c.pdfGet(pv, f) << endl;
-	  }
+          eDerivedF pv = static_cast<eDerivedF>(i);
+          o << PVHelper::pdfName(pv) << "(type = " << PVHelper::pdfType(pv) << "):" << endl;
+          for (int f = 0; f < c.mFactions + 1; ++f) {
+               o << "   " << c.pdfGet(pv, f) << endl;
+          }
      }
      for (int i = 0; i < eDNumDerived; ++i) {
-	  eDerived pv = static_cast<eDerived>(i);
-	  o << left << setw(22) << PVHelper::pdName(pv);
-	  o << right << " = " << c.pdGet(pv) << endl;
+          eDerived pv = static_cast<eDerived>(i);
+          o << left << setw(22) << PVHelper::pdName(pv);
+          o << right << " = " << c.pdGet(pv) << endl;
      }
      return o;
 }

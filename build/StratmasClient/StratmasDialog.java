@@ -42,33 +42,33 @@ public class StratmasDialog {
      * @param info the message shown in the dialog.
      */
     public static void showProgressBarDialog(Frame f, String info) {
-	progressBarDialog = createProgressBarDialog(null, info);
-	final boolean fprogressBarOnTop = progressBarOnTop;
-	final JDialog dialog = progressBarDialog;
-	final Frame frame = JOptionPane.getFrameForComponent(f);
-	final Dimension screen_size = Toolkit.getDefaultToolkit().getScreenSize();
-	progressBarDialog.setSize(screen_size.width/5, screen_size.height/9); 
+        progressBarDialog = createProgressBarDialog(null, info);
+        final boolean fprogressBarOnTop = progressBarOnTop;
+        final JDialog dialog = progressBarDialog;
+        final Frame frame = JOptionPane.getFrameForComponent(f);
+        final Dimension screen_size = Toolkit.getDefaultToolkit().getScreenSize();
+        progressBarDialog.setSize(screen_size.width/5, screen_size.height/9); 
         progressBarDialog.setLocation(screen_size.width/2, screen_size.height/2);
-	progressBarDialog.validate();
-	progressBarDialog.addWindowListener(new WindowAdapter() {
-		public void windowDeactivated(WindowEvent we) {
-		    if (fprogressBarOnTop) {
-			dialog.toFront(); 
-			dialog.pack();
-			dialog.setSize(screen_size.width/5, screen_size.height/9); 
-			dialog.setLocation(screen_size.width/2, screen_size.height/2);
-			dialog.validate();
-		    }
-		}
-	    });
-	// show the dialog
-	SwingWorker worker = new SwingWorker() {
-		public Object construct() {
-		    dialog.setVisible(true);
-		    return null;
-		}
-	    };
-	worker.start();
+        progressBarDialog.validate();
+        progressBarDialog.addWindowListener(new WindowAdapter() {
+                public void windowDeactivated(WindowEvent we) {
+                    if (fprogressBarOnTop) {
+                        dialog.toFront(); 
+                        dialog.pack();
+                        dialog.setSize(screen_size.width/5, screen_size.height/9); 
+                        dialog.setLocation(screen_size.width/2, screen_size.height/2);
+                        dialog.validate();
+                    }
+                }
+            });
+        // show the dialog
+        SwingWorker worker = new SwingWorker() {
+                public Object construct() {
+                    dialog.setVisible(true);
+                    return null;
+                }
+            };
+        worker.start();
     }
     
     /**
@@ -80,38 +80,38 @@ public class StratmasDialog {
      * @return the progress bar dialog.
      */
     private static JDialog createProgressBarDialog(Frame frame, String info) {
-	// create text field
-	JTextField infoField = new JTextField(info);
-	infoField.setEditable(false);
-	infoField.setFont(infoField.getFont().deriveFont(15.0f));
-	// create progress bar
-	JProgressBar progressBar = new JProgressBar();
-	progressBar.setStringPainted(true);
-	progressBar.setMinimum(0);
-	progressBar.setMaximum(100);
-	progressBar.setValue(0);
-	progressBar.setString("");
-	progressBar.setIndeterminate(true);
-	//put everything together
+        // create text field
+        JTextField infoField = new JTextField(info);
+        infoField.setEditable(false);
+        infoField.setFont(infoField.getFont().deriveFont(15.0f));
+        // create progress bar
+        JProgressBar progressBar = new JProgressBar();
+        progressBar.setStringPainted(true);
+        progressBar.setMinimum(0);
+        progressBar.setMaximum(100);
+        progressBar.setValue(0);
+        progressBar.setString("");
+        progressBar.setIndeterminate(true);
+        //put everything together
         Container contentPane = new Container();
-	contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
-	contentPane.add(infoField);
-	contentPane.add(progressBar);
-	// initialize values
-	JDialog dialog = new JDialog(frame, "Stratmas Info Dialog", true);
+        contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
+        contentPane.add(infoField);
+        contentPane.add(progressBar);
+        // initialize values
+        JDialog dialog = new JDialog(frame, "Stratmas Info Dialog", true);
         dialog.setContentPane(contentPane);
-	dialog.pack();
-	//
-	return dialog;
+        dialog.pack();
+        //
+        return dialog;
     }
     
     /**
      * Terminates the progress bar dialog.
      */
     public static void quitProgressBarDialog() {
-	if (progressBarDialog != null) {
-	    progressBarDialog.dispose();
-	}
+        if (progressBarDialog != null) {
+            progressBarDialog.dispose();
+        }
     }
 
     /**
@@ -122,8 +122,8 @@ public class StratmasDialog {
      * @param title the title of the dialog.
      */
     public static void showErrorMessageDialog(Component parentComponent, Object message, String title) {
-	StratmasDialog.quitProgressBarDialog();
-	JOptionPane.showMessageDialog(parentComponent, preprocessMessage(message), title, JOptionPane.ERROR_MESSAGE); 
+        StratmasDialog.quitProgressBarDialog();
+        JOptionPane.showMessageDialog(parentComponent, preprocessMessage(message), title, JOptionPane.ERROR_MESSAGE); 
     }
     
     /**
@@ -134,8 +134,8 @@ public class StratmasDialog {
      * @param title the title of the dialog.
      */
     public static void showWarningMessageDialog(Component parentComponent, Object message, String title) {
-	StratmasDialog.quitProgressBarDialog();
-	JOptionPane.showMessageDialog(parentComponent, preprocessMessage(message), title, JOptionPane.WARNING_MESSAGE); 
+        StratmasDialog.quitProgressBarDialog();
+        JOptionPane.showMessageDialog(parentComponent, preprocessMessage(message), title, JOptionPane.WARNING_MESSAGE); 
     }
     
     /**
@@ -154,14 +154,14 @@ public class StratmasDialog {
      * @return an integer indicating the option chosen by the user, or CLOSED_OPTION if the user closed the dialog.
      */
     public static int showOptionDialog (Component parentComponent, Object message, String title, int optionType, int messageType, 
-					Icon icon, Object[] options, Object initialValue) {
-	StratmasDialog.quitProgressBarDialog();
-	// set this dialog as the top component
-	progressBarOnTop = false;
-	int result = JOptionPane.showOptionDialog(parentComponent, preprocessMessage(message),
-						  title, optionType, messageType, icon, options, initialValue);
-	progressBarOnTop = true;
-	return result;
+                                        Icon icon, Object[] options, Object initialValue) {
+        StratmasDialog.quitProgressBarDialog();
+        // set this dialog as the top component
+        progressBarOnTop = false;
+        int result = JOptionPane.showOptionDialog(parentComponent, preprocessMessage(message),
+                                                  title, optionType, messageType, icon, options, initialValue);
+        progressBarOnTop = true;
+        return result;
     } 
     
     /**
@@ -172,8 +172,8 @@ public class StratmasDialog {
      * @param initialSelectionValue the value used to initialize the input field.
      */
     public static String showInputDialog (Component parentComponent, Object message, Object initialSelectionValue) {
-	StratmasDialog.quitProgressBarDialog();
-	return JOptionPane.showInputDialog(parentComponent, message, initialSelectionValue);
+        StratmasDialog.quitProgressBarDialog();
+        return JOptionPane.showInputDialog(parentComponent, message, initialSelectionValue);
     }
     
     /**
@@ -184,13 +184,13 @@ public class StratmasDialog {
      * @return The processed message object.
      */
      public static Object preprocessMessage(Object msg) {
-	 Object ret = msg;
-	 if (msg instanceof String) {
-	     JTextArea tmsg = new JTextArea((String)msg);
-	     tmsg.setEditable(false);
-	     tmsg.setOpaque(false);
-	     ret = tmsg;
-	 }
-	 return ret;
+         Object ret = msg;
+         if (msg instanceof String) {
+             JTextArea tmsg = new JTextArea((String)msg);
+             tmsg.setEditable(false);
+             tmsg.setOpaque(false);
+             ret = tmsg;
+         }
+         return ret;
      }
 }

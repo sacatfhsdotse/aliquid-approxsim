@@ -1,4 +1,4 @@
-// 	$Id: ServerException.java,v 1.1 2005/10/28 18:47:52 dah Exp $
+//         $Id: ServerException.java,v 1.1 2005/10/28 18:47:52 dah Exp $
 /*
  * @(#)ServerException.java
  */
@@ -25,7 +25,7 @@ public class ServerException extends Exception
      */
     public ServerException(String description)
     {
-	this.description = description;
+        this.description = description;
     }
 
     /**
@@ -33,7 +33,7 @@ public class ServerException extends Exception
      */
     public String getMessage()
     {
-	return description;
+        return description;
     }
 
     /**
@@ -41,6 +41,6 @@ public class ServerException extends Exception
      */
     public String toString()
     {
-	return getMessage();
+        return getMessage();
     }
 }

@@ -34,7 +34,7 @@ public class PointAdapter extends StratmasObjectAdapter {
      */
     protected PointAdapter() 
     {
-	super();
+        super();
     }
    
     /**
@@ -44,8 +44,8 @@ public class PointAdapter extends StratmasObjectAdapter {
      */
     public PointAdapter(StratmasObject stratmasObject) 
     {
-	this.setUserObject(stratmasObject);
-	Configuration.addStratmasListener(this);
+        this.setUserObject(stratmasObject);
+        Configuration.addStratmasListener(this);
     }
     
     /**
@@ -55,9 +55,9 @@ public class PointAdapter extends StratmasObjectAdapter {
      */
     public PointAdapter(StratmasObject stratmasObject, StratmasObjectFilter filter) 
     {
-	this.setUserObject(stratmasObject);
-	this.filter = filter;
-	Configuration.addStratmasListener(this);	
+        this.setUserObject(stratmasObject);
+        this.filter = filter;
+        Configuration.addStratmasListener(this);        
     }
 
     /**
@@ -65,14 +65,14 @@ public class PointAdapter extends StratmasObjectAdapter {
      */
     protected void createChildren()
     {
-	this.children = new Vector();
+        this.children = new Vector();
 
-	if (Configuration.getCoordinateSystem() == Configuration.GEODETIC) {
-	    silentAdd(new PointCoordinateAdapter(getStratmasObject(), "lat"), 
-		      children.size());
-	    silentAdd(new PointCoordinateAdapter(getStratmasObject(), "lon"), 
-		      children.size());
-	}
+        if (Configuration.getCoordinateSystem() == Configuration.GEODETIC) {
+            silentAdd(new PointCoordinateAdapter(getStratmasObject(), "lat"), 
+                      children.size());
+            silentAdd(new PointCoordinateAdapter(getStratmasObject(), "lon"), 
+                      children.size());
+        }
     }
         
     /**
@@ -81,63 +81,63 @@ public class PointAdapter extends StratmasObjectAdapter {
      * @param event the event causing the call.
      */
     public void eventOccured(StratmasEvent event){
-	if (event.isValueChanged()) {
-	    sendTreeNodesChangedEvent();
-	} else if (event.isRemoved()) {
-	    if (getUserObject() != null) {
-		getUserObject().removeEventListener(this);
-	    }
-	    Configuration.removeStratmasListener(this);
-	    sendTreeNodeRemovedEvent();
-	    if (getParent() != null) {
-		parent.remove(this);
-	    }
-	    stratmasObject = null;
-	} else if (event.isObjectAdded()) {
-	    StratmasObject newObj = (StratmasObject) event.getArgument();
-	    add(newObj);
-	} else if (event.isChildChanged()) {
-	    sendTreeNodesChangedEvent();
-	} else if (event.isReplaced()) {
-	    getUserObject().removeEventListener(this);
-	    StratmasObjectAdapter parent = (StratmasObjectAdapter)getParent();
-	    if (parent != null) {
-		sendTreeNodeRemovedEvent();
-		 parent.remove(this);
-		 parent.add((StratmasObject)event.getArgument());
-	    }
-	    else {
-		StratmasObject o = (StratmasObject)event.getArgument();
-		 setUserObject(o);
-		 for (Enumeration en = o.children(); en.hasMoreElements(); ) {
-		     add((StratmasObject)en.nextElement());
-		 }
-		 sendTreeNodesChangedEvent();
-	    }
-	}
-	else if (event.isCoordSystemChanged()) {
-	    // MGRS coordinates
-	    if (Configuration.getCoordinateSystem() == Configuration.MGRS) {
-		while (!getChildren().isEmpty()) {
-		    StratmasObjectAdapter soa = (StratmasObjectAdapter) getChildren().get(0);
-		    //FIXME THIS SHOULD NOT BE A REMOVE EVENT!!!
-		    soa.eventOccured(StratmasEvent.getRemoved(soa, null));
-		}
-		sendTreeNodesChangedEvent();
-	    }
-	    // geodetic (lat, lon) coordinates
-	    else if (Configuration.getCoordinateSystem() == Configuration.GEODETIC) {
-		silentAdd(new PointCoordinateAdapter(getStratmasObject(), "lat"), 
-			  children.size());
-		silentAdd(new PointCoordinateAdapter(getStratmasObject(), "lon"), 
-			  children.size());
-		sort();
-		for (Enumeration e = getChildren().elements(); e.hasMoreElements();) {
-		    sendTreeNodeAddedEvent((StratmasObjectAdapter)e.nextElement());
-		}
-		sendTreeNodesChangedEvent();
-	    }
-	}
+        if (event.isValueChanged()) {
+            sendTreeNodesChangedEvent();
+        } else if (event.isRemoved()) {
+            if (getUserObject() != null) {
+                getUserObject().removeEventListener(this);
+            }
+            Configuration.removeStratmasListener(this);
+            sendTreeNodeRemovedEvent();
+            if (getParent() != null) {
+                parent.remove(this);
+            }
+            stratmasObject = null;
+        } else if (event.isObjectAdded()) {
+            StratmasObject newObj = (StratmasObject) event.getArgument();
+            add(newObj);
+        } else if (event.isChildChanged()) {
+            sendTreeNodesChangedEvent();
+        } else if (event.isReplaced()) {
+            getUserObject().removeEventListener(this);
+            StratmasObjectAdapter parent = (StratmasObjectAdapter)getParent();
+            if (parent != null) {
+                sendTreeNodeRemovedEvent();
+                 parent.remove(this);
+                 parent.add((StratmasObject)event.getArgument());
+            }
+            else {
+                StratmasObject o = (StratmasObject)event.getArgument();
+                 setUserObject(o);
+                 for (Enumeration en = o.children(); en.hasMoreElements(); ) {
+                     add((StratmasObject)en.nextElement());
+                 }
+                 sendTreeNodesChangedEvent();
+            }
+        }
+        else if (event.isCoordSystemChanged()) {
+            // MGRS coordinates
+            if (Configuration.getCoordinateSystem() == Configuration.MGRS) {
+                while (!getChildren().isEmpty()) {
+                    StratmasObjectAdapter soa = (StratmasObjectAdapter) getChildren().get(0);
+                    //FIXME THIS SHOULD NOT BE A REMOVE EVENT!!!
+                    soa.eventOccured(StratmasEvent.getRemoved(soa, null));
+                }
+                sendTreeNodesChangedEvent();
+            }
+            // geodetic (lat, lon) coordinates
+            else if (Configuration.getCoordinateSystem() == Configuration.GEODETIC) {
+                silentAdd(new PointCoordinateAdapter(getStratmasObject(), "lat"), 
+                          children.size());
+                silentAdd(new PointCoordinateAdapter(getStratmasObject(), "lon"), 
+                          children.size());
+                sort();
+                for (Enumeration e = getChildren().elements(); e.hasMoreElements();) {
+                    sendTreeNodeAddedEvent((StratmasObjectAdapter)e.nextElement());
+                }
+                sendTreeNodesChangedEvent();
+            }
+        }
     }
     
     /**
@@ -146,16 +146,16 @@ public class PointAdapter extends StratmasObjectAdapter {
      */   
     public void update(Object o)
     {
-	if (o instanceof String) {
-	    if (Configuration.getCoordinateSystem() == Configuration.MGRS) {
-		double[] lon_lat = MGRSConversion.convertMGRSToGeodetic(o.toString());
-		if (lon_lat != null) {
-		    ((Point)getUserObject()).setLon(Math.toDegrees(lon_lat[0]), this);
-		    ((Point)getUserObject()).setLat(Math.toDegrees(lon_lat[1]), this);   
-		}
+        if (o instanceof String) {
+            if (Configuration.getCoordinateSystem() == Configuration.MGRS) {
+                double[] lon_lat = MGRSConversion.convertMGRSToGeodetic(o.toString());
+                if (lon_lat != null) {
+                    ((Point)getUserObject()).setLon(Math.toDegrees(lon_lat[0]), this);
+                    ((Point)getUserObject()).setLat(Math.toDegrees(lon_lat[1]), this);   
+                }
 
-	    }
-	}
+            }
+        }
     }
     
     
@@ -164,19 +164,19 @@ public class PointAdapter extends StratmasObjectAdapter {
      * this value.
      */    
     public String getTextTag()
-    {	
-	if (stratmasObject == null) {
-	    return null;
-	} else {
-	    String text = getStratmasObject().getIdentifier();
-	    if (Configuration.getCoordinateSystem() == Configuration.MGRS) {
-		String value = ((Point)getStratmasObject()).getMGRSValue();
-		return text+" : "+value;
-	    }
-	    else {
-		return text;
-	    }
-	}
+    {        
+        if (stratmasObject == null) {
+            return null;
+        } else {
+            String text = getStratmasObject().getIdentifier();
+            if (Configuration.getCoordinateSystem() == Configuration.MGRS) {
+                String value = ((Point)getStratmasObject()).getMGRSValue();
+                return text+" : "+value;
+            }
+            else {
+                return text;
+            }
+        }
     }
     
     /**
@@ -184,14 +184,14 @@ public class PointAdapter extends StratmasObjectAdapter {
      * this value.
      */    
     public Icon getIcon()
-    {	
-	if (getStratmasObject() == null) {
-	    return null;
-	} else if (Configuration.getCoordinateSystem() == Configuration.GEODETIC) {
-	    return getStratmasObject().getIcon();
-	} else {
-	    return IconFactory.getLeafIcon();
-	}
+    {        
+        if (getStratmasObject() == null) {
+            return null;
+        } else if (Configuration.getCoordinateSystem() == Configuration.GEODETIC) {
+            return getStratmasObject().getIcon();
+        } else {
+            return IconFactory.getLeafIcon();
+        }
     }
     
     /**
@@ -200,16 +200,16 @@ public class PointAdapter extends StratmasObjectAdapter {
      */    
     public String toEditableString()
     {
-	if (stratmasObject != null) {
-	    return "";
-	}
+        if (stratmasObject != null) {
+            return "";
+        }
 
-	if (Configuration.getCoordinateSystem() == Configuration.GEODETIC) {
-	    return getStratmasObject().getIdentifier();  
-	}
-	else {
-	    return ((Point)getStratmasObject()).getMGRSValue();
-	}
+        if (Configuration.getCoordinateSystem() == Configuration.GEODETIC) {
+            return getStratmasObject().getIdentifier();  
+        }
+        else {
+            return ((Point)getStratmasObject()).getMGRSValue();
+        }
     }
 
     /**
@@ -217,7 +217,7 @@ public class PointAdapter extends StratmasObjectAdapter {
      */
     public boolean getAllowsChildren()
     {
-	return Configuration.getCoordinateSystem() == Configuration.GEODETIC;
+        return Configuration.getCoordinateSystem() == Configuration.GEODETIC;
     }
     
     /**
@@ -225,7 +225,7 @@ public class PointAdapter extends StratmasObjectAdapter {
      */
     public boolean isLeaf()
     {
-	return Configuration.getCoordinateSystem() != Configuration.GEODETIC;
+        return Configuration.getCoordinateSystem() != Configuration.GEODETIC;
     }    
 }
 
@@ -251,14 +251,14 @@ class PointCoordinateAdapter extends StratmasObjectAdapter
      * @param tag whether this is lat or lon.
      */
     PointCoordinateAdapter(StratmasObject stratmasObject, 
-			   String tag)
+                           String tag)
     {
-	super(stratmasObject);
-	if (tag != "lat" && tag != "lon") {
-	    throw new AssertionError(getClass().getName() + 
-				     " can only have tag \"lat\"  or \"lon\"");
-	}
-	this.tag = tag;
+        super(stratmasObject);
+        if (tag != "lat" && tag != "lon") {
+            throw new AssertionError(getClass().getName() + 
+                                     " can only have tag \"lat\"  or \"lon\"");
+        }
+        this.tag = tag;
     }
 
     /**
@@ -266,7 +266,7 @@ class PointCoordinateAdapter extends StratmasObjectAdapter
      */
     protected void createChildren()
     {
-	this.children = noChildren;
+        this.children = noChildren;
     }
 
     /**
@@ -274,7 +274,7 @@ class PointCoordinateAdapter extends StratmasObjectAdapter
      */
     public boolean getAllowsChildren()
     {
-	return false;
+        return false;
     }
     
     /**
@@ -282,7 +282,7 @@ class PointCoordinateAdapter extends StratmasObjectAdapter
      */
     public boolean isLeaf()
     {
-	return true;
+        return true;
     }
 
     /**
@@ -291,27 +291,27 @@ class PointCoordinateAdapter extends StratmasObjectAdapter
      */   
     public void update(Object o)
     {
-	if (stratmasObject == null) {
-	    return;
-	} else {
-	    if (o instanceof String) {
-		try {
-		    double val = Double.parseDouble((String) o);
-		    Point p = (Point) getStratmasObject();
-		    if (tag == "lat") {
-			((Point) getStratmasObject()).setLat(val, this);
-		    } else { // (tag == "lon")
-			((Point) getStratmasObject()).setLon(val, this);
-		    }
-		} catch (NumberFormatException e) {
-		    JOptionPane.showMessageDialog((JFrame) null, "Parse error:\nUnable to assign \"" + 
-						  o + "\" to " + tag + " of Point.",
-						  "Parse Error", JOptionPane.ERROR_MESSAGE);
-		}
-	    } else {
-		System.err.println("Don't know how to update using a " + o.getClass().toString());
-	    }
-	}
+        if (stratmasObject == null) {
+            return;
+        } else {
+            if (o instanceof String) {
+                try {
+                    double val = Double.parseDouble((String) o);
+                    Point p = (Point) getStratmasObject();
+                    if (tag == "lat") {
+                        ((Point) getStratmasObject()).setLat(val, this);
+                    } else { // (tag == "lon")
+                        ((Point) getStratmasObject()).setLon(val, this);
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog((JFrame) null, "Parse error:\nUnable to assign \"" + 
+                                                  o + "\" to " + tag + " of Point.",
+                                                  "Parse Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                System.err.println("Don't know how to update using a " + o.getClass().toString());
+            }
+        }
     }
 
     /**
@@ -320,13 +320,13 @@ class PointCoordinateAdapter extends StratmasObjectAdapter
      */    
     public String toEditableString()
     {
-	if (getStratmasObject() == null) {
-	    return "";
-	} else if (tag == "lat") {
-	    return Double.toString(((Point) getStratmasObject()).getLat());
-	} else { // (tag == "lon")
-	    return Double.toString(((Point) getStratmasObject()).getLon());
-	}
+        if (getStratmasObject() == null) {
+            return "";
+        } else if (tag == "lat") {
+            return Double.toString(((Point) getStratmasObject()).getLat());
+        } else { // (tag == "lon")
+            return Double.toString(((Point) getStratmasObject()).getLon());
+        }
     }
 
     /**
@@ -334,11 +334,11 @@ class PointCoordinateAdapter extends StratmasObjectAdapter
      */
     public boolean equals(Object o)
     {
-	if (o instanceof PointCoordinateAdapter) {
-	    return stratmasObject == ((StratmasObjectAdapter) o).stratmasObject &&
-		this.tag == ((PointCoordinateAdapter) o).tag;
-	}
-	return false;
+        if (o instanceof PointCoordinateAdapter) {
+            return stratmasObject == ((StratmasObjectAdapter) o).stratmasObject &&
+                this.tag == ((PointCoordinateAdapter) o).tag;
+        }
+        return false;
     }
 
     /**
@@ -346,16 +346,16 @@ class PointCoordinateAdapter extends StratmasObjectAdapter
      * this value.
      */    
     public String getTextTag()
-    {	
-	if (getStratmasObject() != null) {
-	    if (tag == "lat") {
-		return tag + " " + Double.toString(((Point) getStratmasObject()).getLat());
-	    } else { //(tag == "lon")
-		return tag + " " + Double.toString(((Point) getStratmasObject()).getLon());
-	    }
-	} else {
-	    return null;
-	}
+    {        
+        if (getStratmasObject() != null) {
+            if (tag == "lat") {
+                return tag + " " + Double.toString(((Point) getStratmasObject()).getLat());
+            } else { //(tag == "lon")
+                return tag + " " + Double.toString(((Point) getStratmasObject()).getLon());
+            }
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -363,7 +363,7 @@ class PointCoordinateAdapter extends StratmasObjectAdapter
      * this value.
      */    
     public Icon getIcon()
-    {	
-	return IconFactory.getLeafIcon();
+    {        
+        return IconFactory.getLeafIcon();
     }
 }

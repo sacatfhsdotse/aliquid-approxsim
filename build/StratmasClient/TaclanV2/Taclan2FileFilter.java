@@ -1,4 +1,4 @@
-// 	$Id: Taclan2FileFilter.java,v 1.1 2005/02/12 22:30:40 dah Exp $
+//         $Id: Taclan2FileFilter.java,v 1.1 2005/02/12 22:30:40 dah Exp $
 
 /*
  * @(#)Taclan2FileFilter.java
@@ -32,9 +32,9 @@ public class Taclan2FileFilter extends FileFilter {
         String extension = getExtension(f);
         if (extension != null) {
             if (extension.equals("tl2")) {
-		return true;
-	    }
-	    else {
+                return true;
+            }
+            else {
                 return false;
             }
         }
@@ -51,7 +51,7 @@ public class Taclan2FileFilter extends FileFilter {
         String ext = null;
         String s = f.getName();
         int i = s.lastIndexOf('.');
-	
+        
         if (i > 0 &&  i < s.length() - 1) {
             ext = s.substring(i+1).toLowerCase();
         }

@@ -39,10 +39,10 @@ const Type& TypeFactory::getType(const std::string& typeName)
 const Type& TypeFactory::getType(const std::string& typeName, const std::string& nameSpace)
 {
      if (sXSDContent == 0) {
-	  MemEntityResolver r;
-	  InputSource* inp = r.resolve(Environment::STRATMAS_PROTOCOL_SCHEMA);
-	  sXSDContent = XSDContent::create(inp);
-	  delete inp;
+          MemEntityResolver r;
+          InputSource* inp = r.resolve(Environment::STRATMAS_PROTOCOL_SCHEMA);
+          sXSDContent = XSDContent::create(inp);
+          delete inp;
      }
      return sXSDContent->getType(typeName, nameSpace);
 }

@@ -1,4 +1,4 @@
-// 	$Id: StratmasConstants.java,v 1.12 2006/09/12 07:40:02 alexius Exp $
+//         $Id: StratmasConstants.java,v 1.12 2006/09/12 07:40:02 alexius Exp $
 /*
  * @(#)StratmasConstants.java
  */
@@ -31,12 +31,12 @@ public class StratmasConstants
       * The header to use in xml files.
       */
      public static final String xmlFileHeader =
-	  "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>" + 
-	  "<root xmlns:sp=\"http://pdc.kth.se/stratmasNamespace\" " + 
-	  "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " + 
-	  "xmlns:xi=\"http://www.w3.org/2001/XInclude\" " + 
-	  "xsi:type=\"sp:Root\">";
-	  
+          "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>" + 
+          "<root xmlns:sp=\"http://pdc.kth.se/stratmasNamespace\" " + 
+          "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " + 
+          "xmlns:xi=\"http://www.w3.org/2001/XInclude\" " + 
+          "xsi:type=\"sp:Root\">";
+          
      /**
       * The footer to use in xml files.
       */

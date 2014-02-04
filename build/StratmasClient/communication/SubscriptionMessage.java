@@ -26,7 +26,7 @@ public class SubscriptionMessage extends StratmasMessage {
       * subscriptions).
       */
      public SubscriptionMessage(int initialSize) {
-	  mSubscriptions = new Vector(initialSize);
+          mSubscriptions = new Vector(initialSize);
      }
 
      /**
@@ -35,14 +35,14 @@ public class SubscriptionMessage extends StratmasMessage {
       * @param sub The subscription to be added.
       */
      public void addSubscription(Subscription sub) {
-	  mSubscriptions.add(sub);
+          mSubscriptions.add(sub);
      }
 
      /**
       * Removes all subscriptions from this message.
       */
      public void clear() {
-	  mSubscriptions.clear();
+          mSubscriptions.clear();
      }
 
      /**
@@ -52,7 +52,7 @@ public class SubscriptionMessage extends StratmasMessage {
       * subscriptions, false otherwise.
       */
      public boolean isEmpty() {
-	  return mSubscriptions.isEmpty();
+          return mSubscriptions.isEmpty();
      }
 
      /**
@@ -61,7 +61,7 @@ public class SubscriptionMessage extends StratmasMessage {
       * @return The number of subscriptions currently in this message.
       */
      public int size() {
-	  return mSubscriptions.size();
+          return mSubscriptions.size();
      }
 
     /**
@@ -70,7 +70,7 @@ public class SubscriptionMessage extends StratmasMessage {
      * @return A string representation of the type of this object.
      */
      public String getTypeAsString() {
-	  return "SubscriptionMessage";
+          return "SubscriptionMessage";
      }
 
      /**
@@ -81,13 +81,13 @@ public class SubscriptionMessage extends StratmasMessage {
       * object's body appended to it.
       */
      public StringBuffer bodyXML(StringBuffer b) {
-	  for (Iterator i = mSubscriptions.iterator(); i.hasNext(); ) {
-	       Subscription sub = (Subscription)i.next();
-	       if (!sub.getTypeAsString().equals("Unsubscription")) {
-		    b.append(NL);
-	       }
-	       sub.toXML(b);
-	  }
-	  return b;
+          for (Iterator i = mSubscriptions.iterator(); i.hasNext(); ) {
+               Subscription sub = (Subscription)i.next();
+               if (!sub.getTypeAsString().equals("Unsubscription")) {
+                    b.append(NL);
+               }
+               sub.toXML(b);
+          }
+          return b;
      }
 }

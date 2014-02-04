@@ -61,8 +61,8 @@ public class MapPointAdapter extends MapDrawableAdapter {
      * @param renderSelectionName the integer to use as the base for names in RENDER_SELECTION.
      */
     protected MapPointAdapter(Point point, int renderSelectionName) {
-	super(point);
-	setRenderSelectionName(renderSelectionName);
+        super(point);
+        setRenderSelectionName(renderSelectionName);
     }
     
     /**
@@ -71,7 +71,7 @@ public class MapPointAdapter extends MapDrawableAdapter {
      * @param point the object to adapt.
      */
     public MapPointAdapter(Point point) {
-	super(point);
+        super(point);
     }
     
     /**
@@ -82,25 +82,25 @@ public class MapPointAdapter extends MapDrawableAdapter {
      * @param gld the gl drawable targeted.
      */
     protected void updateDisplayList(Projection proj, GLAutoDrawable gld) {
-	GL gl = gld.getGL();
- 	displayList = (gl.glIsList(displayList)) ? displayList : gl.glGenLists(1);
-	//
-	gl.glNewList(displayList, GL.GL_COMPILE);
-	// point display list
-	gl.glMatrixMode(GL.GL_MODELVIEW);
-	gl.glPushMatrix();
-	// Pushes the name for RenderSelection mode.	
-	gl.glPushName(getRenderSelectionName());
-	// get x-coordinate of the render position 
-	// get y-coordinate of the render position
-	double[] xy = proj.projToXY((Point)stComp);
-	gl.glTranslated(xy[0], xy[1], 0);
-	gl.glCallList(symbolDisplayList);
-	gl.glPopName();
-	gl.glMatrixMode(GL.GL_MODELVIEW);
-	gl.glPopMatrix();
-	gl.glEndList();
-	displayListUpdated = true;
+        GL gl = gld.getGL();
+         displayList = (gl.glIsList(displayList)) ? displayList : gl.glGenLists(1);
+        //
+        gl.glNewList(displayList, GL.GL_COMPILE);
+        // point display list
+        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glPushMatrix();
+        // Pushes the name for RenderSelection mode.        
+        gl.glPushName(getRenderSelectionName());
+        // get x-coordinate of the render position 
+        // get y-coordinate of the render position
+        double[] xy = proj.projToXY((Point)stComp);
+        gl.glTranslated(xy[0], xy[1], 0);
+        gl.glCallList(symbolDisplayList);
+        gl.glPopName();
+        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glPopMatrix();
+        gl.glEndList();
+        displayListUpdated = true;
     }
     
     /**
@@ -111,92 +111,92 @@ public class MapPointAdapter extends MapDrawableAdapter {
      */
     protected void updateSymbolDisplayLists(GLAutoDrawable gld)
     {
-	GL gl = gld.getGL();
-	symbolDisplayList = (gl.glIsList(symbolDisplayList))? symbolDisplayList : gl.glGenLists(1);
-	
-	// get texture from texture mapper
-	int texture = SymbolToTextureMapper.getTexture(new Icon(IconFactory.class.getResource("icons/leaf.png")), gld);
-	
-	// Start list
-	gl.glNewList(symbolDisplayList, GL.GL_COMPILE);
-	// Enable textures.	
-	gl.glEnable(GL.GL_TEXTURE_2D);
-	gl.glBindTexture(GL.GL_TEXTURE_2D, texture);
-	gl.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, GL.GL_CLAMP);
-	gl.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, GL.GL_CLAMP);
-	gl.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, 
-			   SymbolToTextureMapper.textureMagFilter);
-	gl.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, 
-			   SymbolToTextureMapper.textureMinFilter);
-	gl.glTexEnvf(GL.GL_TEXTURE_ENV, GL.GL_TEXTURE_ENV_MODE, 
-		     SymbolToTextureMapper.textureMode);
-	
-	// Pushes the name for RenderSelection mode.
-	gl.glPushName(getRenderSelectionName() + 1);
-	
-	double scale = getSymbolScale();
-	if (getInvariantSymbolSize()) {
-	    gl.glMatrixMode(GL.GL_PROJECTION);
-	    DoubleBuffer buf = BufferUtil.newDoubleBuffer(16);
-	    gl.glGetDoublev(GL.GL_PROJECTION_MATRIX, buf);
-	    scale = getSymbolScale()*0.000004d/buf.get(0);
-	}
+        GL gl = gld.getGL();
+        symbolDisplayList = (gl.glIsList(symbolDisplayList))? symbolDisplayList : gl.glGenLists(1);
+        
+        // get texture from texture mapper
+        int texture = SymbolToTextureMapper.getTexture(new Icon(IconFactory.class.getResource("icons/leaf.png")), gld);
+        
+        // Start list
+        gl.glNewList(symbolDisplayList, GL.GL_COMPILE);
+        // Enable textures.        
+        gl.glEnable(GL.GL_TEXTURE_2D);
+        gl.glBindTexture(GL.GL_TEXTURE_2D, texture);
+        gl.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, GL.GL_CLAMP);
+        gl.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, GL.GL_CLAMP);
+        gl.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, 
+                           SymbolToTextureMapper.textureMagFilter);
+        gl.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, 
+                           SymbolToTextureMapper.textureMinFilter);
+        gl.glTexEnvf(GL.GL_TEXTURE_ENV, GL.GL_TEXTURE_ENV_MODE, 
+                     SymbolToTextureMapper.textureMode);
+        
+        // Pushes the name for RenderSelection mode.
+        gl.glPushName(getRenderSelectionName() + 1);
+        
+        double scale = getSymbolScale();
+        if (getInvariantSymbolSize()) {
+            gl.glMatrixMode(GL.GL_PROJECTION);
+            DoubleBuffer buf = BufferUtil.newDoubleBuffer(16);
+            gl.glGetDoublev(GL.GL_PROJECTION_MATRIX, buf);
+            scale = getSymbolScale()*0.000004d/buf.get(0);
+        }
 
-	gl.glMatrixMode(GL.GL_MODELVIEW);
-	gl.glPushMatrix();
-	gl.glScaled(scale, scale, 1.0d);
-	gl.glBegin(GL.GL_QUADS);
-	gl.glColor4d(1.0d, 1.0d, 1.0d, 1.0d);
-	gl.glTexCoord2f(0, 0);
-	gl.glVertex2d(-horizontalSymbolSize/2, -verticalSymbolSize/2);
-	gl.glTexCoord2f(0, 1);
-	gl.glVertex2d(-horizontalSymbolSize/2, verticalSymbolSize/2);
-	gl.glTexCoord2f(1, 1);
-	gl.glVertex2d(horizontalSymbolSize/2, verticalSymbolSize/2);
-	gl.glTexCoord2f(1, 0);
-	gl.glVertex2d(horizontalSymbolSize/2, -verticalSymbolSize/2);
-	gl.glEnd();
-	gl.glPopName();
-	gl.glPopMatrix();
-	gl.glDisable(GL.GL_TEXTURE_2D);
-	gl.glEndList();
-	symbolUpdated = true;
+        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glPushMatrix();
+        gl.glScaled(scale, scale, 1.0d);
+        gl.glBegin(GL.GL_QUADS);
+        gl.glColor4d(1.0d, 1.0d, 1.0d, 1.0d);
+        gl.glTexCoord2f(0, 0);
+        gl.glVertex2d(-horizontalSymbolSize/2, -verticalSymbolSize/2);
+        gl.glTexCoord2f(0, 1);
+        gl.glVertex2d(-horizontalSymbolSize/2, verticalSymbolSize/2);
+        gl.glTexCoord2f(1, 1);
+        gl.glVertex2d(horizontalSymbolSize/2, verticalSymbolSize/2);
+        gl.glTexCoord2f(1, 0);
+        gl.glVertex2d(horizontalSymbolSize/2, -verticalSymbolSize/2);
+        gl.glEnd();
+        gl.glPopName();
+        gl.glPopMatrix();
+        gl.glDisable(GL.GL_TEXTURE_2D);
+        gl.glEndList();
+        symbolUpdated = true;
     }
 
     /**
      * Returns the number of renderSelectionNames needed for this adapter.
      */
     public int getNrOfRenderSelectionNames() {
-	return NR_RENDER_SELECTION_NAMES;
+        return NR_RENDER_SELECTION_NAMES;
     }
 
     /**
      * Updates the display lists
      */
     public void reCompile(Projection proj, GLAutoDrawable gld) {
-	if (!symbolUpdated) {
-	    updateSymbolDisplayLists(gld);
-	}
-	if (!displayListUpdated) {
-	    updateDisplayList(proj, gld);	
-	}
+        if (!symbolUpdated) {
+            updateSymbolDisplayLists(gld);
+        }
+        if (!displayListUpdated) {
+            updateDisplayList(proj, gld);        
+        }
     }
     
     /**
      * Invalidates the display lists.
      */
     public void invalidateAllLists() {
-	symbolUpdated = false;
-	displayListUpdated = false;
-	fireAdapterUpdated();
+        symbolUpdated = false;
+        displayListUpdated = false;
+        fireAdapterUpdated();
     }
 
     /**
      * Invalidates the display list for the symbol. 
      */
     public void invalidateSymbolList() {
-	this.symbolUpdated = false;
-	fireAdapterUpdated();
+        this.symbolUpdated = false;
+        fireAdapterUpdated();
     }
 
     /**
@@ -206,17 +206,17 @@ public class MapPointAdapter extends MapDrawableAdapter {
      * @param flag true if symbol size should be invariant
      */
     public void setInvariantSymbolSize(boolean flag) {
-	if (this.invariantSymbolSize != flag) {
-	    this.invariantSymbolSize = flag;
-	    invalidateSymbolList();
-	}
+        if (this.invariantSymbolSize != flag) {
+            this.invariantSymbolSize = flag;
+            invalidateSymbolList();
+        }
     }
     
     /**
      * Returns true if the symbol size is constant. 
      */
     public boolean getInvariantSymbolSize() {
-	return this.invariantSymbolSize;
+        return this.invariantSymbolSize;
     }
     
     /**
@@ -226,32 +226,32 @@ public class MapPointAdapter extends MapDrawableAdapter {
      * @param symbolScale the new opacity.
      */
     public void setSymbolScale(double symbolScale) {
-	if (this.symbolScale != symbolScale) {
-	    this.symbolScale = symbolScale;
-	    symbolUpdated = false;
-	    fireAdapterUpdated();
-	}
+        if (this.symbolScale != symbolScale) {
+            this.symbolScale = symbolScale;
+            symbolUpdated = false;
+            fireAdapterUpdated();
+        }
     }
     
     /**
      * Returns the symbol scale of this adapter.
      */
     public double getSymbolScale() {
-	return symbolScale;
+        return symbolScale;
     }
     
     /**
      * Returns the symbol horizontal size of the images.
      */
     public static double getHorizontalSymbolSize() {
-	return horizontalSymbolSize;
+        return horizontalSymbolSize;
     }
 
     /**
      * Returns the symbol vertical size of the images.
      */
     public static double getVerticalSymbolSize() {
-	return verticalSymbolSize;
+        return verticalSymbolSize;
     }
 
     /**
@@ -260,7 +260,7 @@ public class MapPointAdapter extends MapDrawableAdapter {
      * @param event the event causing the change.
      */
     protected void valueChanged(StratmasEvent event) {
-	displayListUpdated = false;
-	fireAdapterUpdated();
+        displayListUpdated = false;
+        fireAdapterUpdated();
     }
 }

@@ -1,4 +1,4 @@
-// 	$Id: Parameter.java,v 1.4 2005/10/28 12:15:25 dah Exp $
+//         $Id: Parameter.java,v 1.4 2005/10/28 12:15:25 dah Exp $
 /*
  * @(#)Parameter.java
  */
@@ -35,7 +35,7 @@ public abstract class Parameter implements ParameterInstanceFactory
      */
     public Parameter(String name)
     {
-	setName(name);
+        setName(name);
     }
 
     /**
@@ -43,7 +43,7 @@ public abstract class Parameter implements ParameterInstanceFactory
      */
     public String getName()
     {
-	return name;
+        return name;
     }
 
     /**
@@ -51,7 +51,7 @@ public abstract class Parameter implements ParameterInstanceFactory
      */
     protected void setName(String name)
     {
-	this.name = name;
+        this.name = name;
     }
 
     /**
@@ -59,7 +59,7 @@ public abstract class Parameter implements ParameterInstanceFactory
      */
     public String toString()
     {
-	return getName();
+        return getName();
     }
 
     /**
@@ -67,7 +67,7 @@ public abstract class Parameter implements ParameterInstanceFactory
      */
     public String toString(ParameterInstance parameterInstance)
     {
-	return parameterInstance.getValue().toString();
+        return parameterInstance.getValue().toString();
     }
 
     /**
@@ -77,7 +77,7 @@ public abstract class Parameter implements ParameterInstanceFactory
      */
     public Comparator getComparator()
     {
-	return null;
+        return null;
     }
 
     /**
@@ -88,7 +88,7 @@ public abstract class Parameter implements ParameterInstanceFactory
      */
      public Metric getMetric()
      {
- 	return null;
+         return null;
      }
 
     /**
@@ -100,7 +100,7 @@ public abstract class Parameter implements ParameterInstanceFactory
      */ 
     public ParameterInstance getParameterInstance(Object object)
     {
-	return new ParameterInstance(this, object);
+        return new ParameterInstance(this, object);
     }
 
     /**
@@ -111,6 +111,6 @@ public abstract class Parameter implements ParameterInstanceFactory
      * @param gradient the gradient.
      */ 
     public abstract ParameterInstance getGradientNeighbour(ParameterInstance instance, 
-							   double gradient);
+                                                           double gradient);
 }
 

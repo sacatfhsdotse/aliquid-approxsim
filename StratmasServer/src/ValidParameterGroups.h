@@ -26,7 +26,7 @@ private:
      
 public:
      DefaultParameterGroup(const DataObject& d)
-	  : TemplateParameterGroup<NOTYPE, 0>(d, defaultParameterGroups, kNumDefaultParameterGroups, 0) {}
+          : TemplateParameterGroup<NOTYPE, 0>(d, defaultParameterGroups, kNumDefaultParameterGroups, 0) {}
 };
 
 
@@ -81,7 +81,7 @@ static const ParameterEntry insurgentModelP[] = {
 class InsurgentModelParameters : public TemplateParameterGroup<eInsurgentModelP, eNumInsurgentModelP> {
 public:
      InsurgentModelParameters(const DataObject& d)
-	  : TemplateParameterGroup<eInsurgentModelP, eNumInsurgentModelP>(d, 0, 0, insurgentModelP) {}
+          : TemplateParameterGroup<eInsurgentModelP, eNumInsurgentModelP>(d, 0, 0, insurgentModelP) {}
 };
 
 

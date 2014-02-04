@@ -1,4 +1,4 @@
-// 	$Id: SyntaxException.java,v 1.2 2005/03/21 10:14:47 dah Exp $
+//         $Id: SyntaxException.java,v 1.2 2005/03/21 10:14:47 dah Exp $
 /*
  * @(#)SyntaxException.java
  */
@@ -18,18 +18,18 @@ public class SyntaxException extends Exception
 
     public SyntaxException(String info)
     {
-	super();
-	this.info = info;
+        super();
+        this.info = info;
     }
 
     public String toString() 
     {
-	return getMessage();
+        return getMessage();
     }
 
     
     public String getMessage()
     {
-	return info;
+        return info;
     }
 }

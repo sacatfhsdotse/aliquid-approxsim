@@ -16,6 +16,6 @@ public class ResetMessage extends StratmasMessage {
      * @return A string representation of the type of this message.
      */
      public String getTypeAsString() {
-	  return "ResetMessage";
+          return "ResetMessage";
      }
 }

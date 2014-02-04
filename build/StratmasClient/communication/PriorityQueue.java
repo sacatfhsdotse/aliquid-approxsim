@@ -27,8 +27,8 @@ public class PriorityQueue {
       * @param prio The priority of the enqueued Object.
       */
      public synchronized void enqueue(Object o, int prio) {
-	  mMap.put(new PQKey(prio, mCount++), o);
-	  notifyAll();
+          mMap.put(new PQKey(prio, mCount++), o);
+          notifyAll();
      }
 
      /**
@@ -38,14 +38,14 @@ public class PriorityQueue {
       * null if the queue is empty.
       */
     public synchronized Object dequeue() {
-	return (mMap.isEmpty() ? null : mMap.remove(mMap.lastKey()));
+        return (mMap.isEmpty() ? null : mMap.remove(mMap.lastKey()));
     }
      
      /**
       * Removes all entries in the queue
       */
     public synchronized void clear() {
-	 mMap.clear();
+         mMap.clear();
     }
      
      /**
@@ -55,13 +55,13 @@ public class PriorityQueue {
       * @return The Object with the highest priority in the queue.
       */
      public synchronized Object blockingDequeue() {
-	  while (mMap.isEmpty()) {
-	       try {
-		    wait();
-	       } catch (InterruptedException e) {
-	       }
-	  }
-	  return mMap.remove(mMap.lastKey());
+          while (mMap.isEmpty()) {
+               try {
+                    wait();
+               } catch (InterruptedException e) {
+               }
+          }
+          return mMap.remove(mMap.lastKey());
      }
 
      /**
@@ -70,7 +70,7 @@ public class PriorityQueue {
       * @return true if the queue is empty, false otherwise.
       */
      public boolean empty() {
-	  return mMap.isEmpty();
+          return mMap.isEmpty();
      }
 
     
@@ -80,7 +80,7 @@ public class PriorityQueue {
      * @return size of the queue.
      */
     public int size() {
-	return mMap.size();
+        return mMap.size();
     }
     
 
@@ -91,58 +91,58 @@ public class PriorityQueue {
       * priority and A's count is larger than B's.
       */
      public class PQKey implements Comparable {
-	  /** The priority */
-	  private int mPrio;
-	  /** The count keeping track of the key enqueuement order */
-	  private int mCount;
+          /** The priority */
+          private int mPrio;
+          /** The count keeping track of the key enqueuement order */
+          private int mCount;
 
-	  /**
-	   * Creates a new PQKey.
-	   *
-	   * @param prio The priority
-	   * @param count The count keeping track of the key
-	   * enqueuement order.
-	   */
-	  public PQKey(int prio, int count) {
-	       mPrio   = prio;
-	       mCount  = count;
-	  }
-	  
-	  /** 
-	   * Implementation of the Comparable interface.
-	   *
-	   * @param o The key to compare this key to.
-	   * @return -1, 0 or 1 if this key is less than, equal to
-	   * or greater than o, respectively.
-	   */
-	  public int compareTo(Object o) {
-	       PQKey p = (PQKey)o;
-	       if (equals(p)) {
-		    return 0;
-	       }
-	       else {
-		    return (lessThan(p) ? -1 : 1);
-	       }
-	  }
+          /**
+           * Creates a new PQKey.
+           *
+           * @param prio The priority
+           * @param count The count keeping track of the key
+           * enqueuement order.
+           */
+          public PQKey(int prio, int count) {
+               mPrio   = prio;
+               mCount  = count;
+          }
+          
+          /** 
+           * Implementation of the Comparable interface.
+           *
+           * @param o The key to compare this key to.
+           * @return -1, 0 or 1 if this key is less than, equal to
+           * or greater than o, respectively.
+           */
+          public int compareTo(Object o) {
+               PQKey p = (PQKey)o;
+               if (equals(p)) {
+                    return 0;
+               }
+               else {
+                    return (lessThan(p) ? -1 : 1);
+               }
+          }
 
-	  /** 
-	   * Checks if this key is less than n.
-	   *
-	   * @param n The key to compare this key to.
-	   * @return true if this key is less than n, false otherwise.
-	   */
-	  public boolean lessThan(PQKey n) {
-	       return (mPrio < n.mPrio || mPrio == n.mPrio && mCount > n.mCount);
-	  }
+          /** 
+           * Checks if this key is less than n.
+           *
+           * @param n The key to compare this key to.
+           * @return true if this key is less than n, false otherwise.
+           */
+          public boolean lessThan(PQKey n) {
+               return (mPrio < n.mPrio || mPrio == n.mPrio && mCount > n.mCount);
+          }
 
-	  /** 
-	   * Checks if this key is equal to n.
-	   *
-	   * @param n The key to compare this key to.
-	   * @return true if this key is equal to n, false otherwise.
-	   */
-	  public boolean equals(PQKey n) {
-	       return (mPrio == n.mPrio && mCount == n.mCount);
-	  }
+          /** 
+           * Checks if this key is equal to n.
+           *
+           * @param n The key to compare this key to.
+           * @return true if this key is equal to n, false otherwise.
+           */
+          public boolean equals(PQKey n) {
+               return (mPrio == n.mPrio && mCount == n.mCount);
+          }
      }
 }

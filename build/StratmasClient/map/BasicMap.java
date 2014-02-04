@@ -35,68 +35,68 @@ public class BasicMap {
      * @param shape shapes defining geographical region.
      */
     public BasicMap(Client client, Shape shape) {
-	// reference to the client
-	this.client = client;
+        // reference to the client
+        this.client = client;
 
-	// shape to be displayed
-	this.shape = shape;
-	
-	// Azimuthal Equal Area Projection by default
-	proj = new AzEqAreaProj(shape.getBoundingBox());
+        // shape to be displayed
+        this.shape = shape;
+        
+        // Azimuthal Equal Area Projection by default
+        proj = new AzEqAreaProj(shape.getBoundingBox());
 
-	// region defined by shape objects
-	region = new Region(this, shape);
+        // region defined by shape objects
+        region = new Region(this, shape);
     }
     
     /**
      * Sets projection of the map.
      */
     public void setProjection(Projection proj) {
-	this.proj = proj;
+        this.proj = proj;
     }
     
     /**
      * Returns actual projection.
      */
     public Projection getProjection() {
-	return proj;
+        return proj;
     }
     
     /**
      * Returns the client.
      */
     public Client getClient() {
-	return client;
+        return client;
     }
     
     /**
      * Returns the shape.
      */
     public Shape getShape() {
-	return shape;
+        return shape;
     }
     
     /**
      * Removes all objects used in StratMap.
      */
     public void remove() {
-	// remove region
-	region.remove();
-	// remove map drawer
-	//drawer.remove();
+        // remove region
+        region.remove();
+        // remove map drawer
+        //drawer.remove();
     }
     
     /**
      * Resets all the map components.
      */
     public void reset() {
-	drawer.reset();
+        drawer.reset();
     }
     
     /**
      * Returns displayed region.
      */ 
     public Region getRegion() {
-	return region;
+        return region;
     }
 }

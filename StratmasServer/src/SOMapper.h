@@ -49,7 +49,7 @@ public:
       * \param ref The Reference to deregister.
       */
      inline static void dereg(const Reference& ref) {
-	  mMap.erase(&ref);
+          mMap.erase(&ref);
      }
 
      /**
@@ -61,19 +61,19 @@ public:
       * null if no such SimulationObject was found..
       */
      inline static SimulationObject* map(const Reference& ref) {
-	  SimulationObject *ret = 0;
-	  SOMap::const_iterator it = mMap.find(&ref);
-	  if (it != mMap.end()) {
-	       ret = it->second;
-	  }
-	  return ret;
+          SimulationObject *ret = 0;
+          SOMap::const_iterator it = mMap.find(&ref);
+          if (it != mMap.end()) {
+               ret = it->second;
+          }
+          return ret;
      }
 
      /**
       * \brief Erases all mappings.
       */
      inline static void clear() {
-	  mMap.clear();
+          mMap.clear();
      }
 
      static void extract(Buffer& b);

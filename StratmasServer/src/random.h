@@ -68,17 +68,17 @@ public:
       */
      static inline void initRandomNumberArray() {
 #ifdef __win__
-	  srand(4711);
+          srand(4711);
 #else
- 	  srandom(4711);
+           srandom(4711);
 #endif
- 	  for (int i = 0; i < kNumRand; i++) {
+           for (int i = 0; i < kNumRand; i++) {
 #ifdef __win__
-	       sRandNum[i] = rand();
+               sRandNum[i] = rand();
 #else
- 	       sRandNum[i] = random();
+                sRandNum[i] = random();
 #endif
-	  }
+          }
      }
      
      /**
@@ -96,7 +96,7 @@ public:
       * between zero and kRandomMax.
       */
      static inline long privateRandomUniform() {
-	  return sRandNum[(++sRandIndex) % kNumRand];
+          return sRandNum[(++sRandIndex) % kNumRand];
      }
 
 
@@ -121,7 +121,7 @@ public:
       * \param saved The new state of the saved flag.
       */
      inline static void setSaved(bool saved) {
-	  smSaved = saved;
+          smSaved = saved;
      }
 
      /**
@@ -130,7 +130,7 @@ public:
       * \return The new state of the saved flag.
       */
      inline static bool isSaved() {
-	  return smSaved;
+          return smSaved;
      }
 };
 
@@ -173,8 +173,8 @@ inline double RandomUniform()
 #ifdef NORANDOM
      static bool firstTime =true;
      if (firstTime) {
-	  firstTime = false;
-	  slog << "---------------------- NO RANDOM ----------------------" << logEnd;
+          firstTime = false;
+          slog << "---------------------- NO RANDOM ----------------------" << logEnd;
      }     
      return 0.5;
 #endif     
@@ -219,37 +219,37 @@ double Gaussian( double scale, double mean )
 #ifdef NORANDOM
      static bool firstTime =true;
      if (firstTime) {
-	  firstTime = false;
-	  slog << "---------------------- NO RANDOM IN GAUSSIAN----------------------" << logEnd;
+          firstTime = false;
+          slog << "---------------------- NO RANDOM IN GAUSSIAN----------------------" << logEnd;
      }     
      return mean;
 #endif     
      double result = mean;   // NOTE:  default value of mean is zero.
 
-     //	Fast Box-Muller method:
+     //        Fast Box-Muller method:
      double U1, U2, V, W;
 //     static bool         stored = false;
      static double       save;
      static const double kFactor = 2.0 / double(RAND_MAX);
-	
+        
      if (GaussSaver::isSaved()) {
-	  result = save;
-	  GaussSaver::setSaved(false);
+          result = save;
+          GaussSaver::setSaved(false);
      }
      else {
-	  do {
-	       U1 = kFactor * RandomUniform(0, RAND_MAX) - 1.0;
-	       U2 = kFactor * RandomUniform(0, RAND_MAX) - 1.0;
-	       W  = U1*U1 + U2*U2;
-	  } while ( W > 1.0 );
-		
-	  V = sqrt( -2.0 * log(W) / W );
-	  result = U1 * V;
-	  save   = U2 * V; 
-	  GaussSaver::setSaved(true);
+          do {
+               U1 = kFactor * RandomUniform(0, RAND_MAX) - 1.0;
+               U2 = kFactor * RandomUniform(0, RAND_MAX) - 1.0;
+               W  = U1*U1 + U2*U2;
+          } while ( W > 1.0 );
+                
+          V = sqrt( -2.0 * log(W) / W );
+          result = U1 * V;
+          save   = U2 * V; 
+          GaussSaver::setSaved(true);
      }
-		
-     result = mean + scale * result;		//	approximate Normal(mean,scale*scale)
+                
+     result = mean + scale * result;                //        approximate Normal(mean,scale*scale)
 
      return result;
 }
@@ -265,33 +265,33 @@ double Gaussian( double scale, double mean )
 inline int Poisson(double lambda) {
      double U, f, cf, x;
      int    k, n, result;
-	
+        
      if ( lambda <= 0.0 ) {
-	  result = 0;
+          result = 0;
      }
      else if ( lambda < 9.0 ) {
-	  U = RandomUniform();
-	  f = exp( -lambda );
-	  if ( U <= f ) {
-	       result = 0;
-	  }
-	  else {
-	       cf = f;
-	       n = max( 5, int(lambda+3*sqrt(lambda)) );
-	       for ( k = 1; k < n; k++ ) {
-		    f = lambda * f / k;
-		    cf += f;
-		    if ( U <= cf )
-			 break;
-	       }
-	       result = k;
-	  }
+          U = RandomUniform();
+          f = exp( -lambda );
+          if ( U <= f ) {
+               result = 0;
+          }
+          else {
+               cf = f;
+               n = max( 5, int(lambda+3*sqrt(lambda)) );
+               for ( k = 1; k < n; k++ ) {
+                    f = lambda * f / k;
+                    cf += f;
+                    if ( U <= cf )
+                         break;
+               }
+               result = k;
+          }
      }
-     else {	//	Use Gaussian approximation:
-	  x = Gaussian( sqrt(lambda), lambda );
-	  result = max( 0, int(x+0.5) );
+     else {        //        Use Gaussian approximation:
+          x = Gaussian( sqrt(lambda), lambda );
+          result = max( 0, int(x+0.5) );
      }
-	
+        
      return result;
 }
 /**
@@ -305,33 +305,33 @@ inline int Poisson(double lambda) {
  * \return A random double with a Poisson distribution (truncated).
  */
 inline double XPoisson( double lambda, double clip ) {
-     double		U, f, cf, x,
-	  k, n, result;
+     double                U, f, cf, x,
+          k, n, result;
      
      if ( lambda <= 0.0 ) {
-	  result = 0.0;
+          result = 0.0;
      }
      else if ( lambda < 9.0 ) {
-	  U = RandomUniform();
-	  f = exp( -lambda );
-	  if ( U <= f ) {
-	       result = 0;
-	  }
-	  else {
-	       cf = f;
-	       n = max( 5.0, lambda + 3.0*sqrt(lambda) );
-	       for ( k = 1.0; k < n; k++ ) {
-		    f = lambda * f / k;
-		    cf += f;
-		    if ( U <= cf )
-			 break;
-	       }
-	       result = k;
-	  }
+          U = RandomUniform();
+          f = exp( -lambda );
+          if ( U <= f ) {
+               result = 0;
+          }
+          else {
+               cf = f;
+               n = max( 5.0, lambda + 3.0*sqrt(lambda) );
+               for ( k = 1.0; k < n; k++ ) {
+                    f = lambda * f / k;
+                    cf += f;
+                    if ( U <= cf )
+                         break;
+               }
+               result = k;
+          }
      }
-     else { //	Use Gaussian approximation:
-	  x = Gaussian( sqrt(lambda), lambda );
-	  result = max( 0.0, floor(x+0.5) );
+     else { //        Use Gaussian approximation:
+          x = Gaussian( sqrt(lambda), lambda );
+          result = max( 0.0, floor(x+0.5) );
      }
      
      return min( result, clip );
@@ -363,16 +363,16 @@ inline int probBySize(const double* sizes, int length)
 {
      double sum = 0;
      for (int i = 0; i < length; i++) {
-	  sum += sizes[i];
+          sum += sizes[i];
      }
 
      double r = RandomUniform();
      double prob = 0;
      for (int i = 0; i < length; i++) {
-	  prob += sizes[i] / sum;
-	  if (r < prob) {
-	       return i;
-	  }
+          prob += sizes[i] / sum;
+          if (r < prob) {
+               return i;
+          }
      }
      return 0;
 }

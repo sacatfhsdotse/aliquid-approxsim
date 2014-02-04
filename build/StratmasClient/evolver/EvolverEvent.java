@@ -1,4 +1,4 @@
-// 	$Id: EvolverEvent.java,v 1.1 2005/10/28 12:14:34 dah Exp $
+//         $Id: EvolverEvent.java,v 1.1 2005/10/28 12:14:34 dah Exp $
 /*
  * @(#)EvolverEvent.java
  */
@@ -24,7 +24,7 @@ public class EvolverEvent extends EventObject
      */
     EvolverEvent(Evolver evolver)
     {
-	super(evolver);
+        super(evolver);
     }
 
     /**
@@ -32,6 +32,6 @@ public class EvolverEvent extends EventObject
      */
     public Evolver getEvolver()
     {
-	return (Evolver) getSource();
+        return (Evolver) getSource();
     }
 }

@@ -42,9 +42,9 @@ static std::ostream &gridToXML(std::ostream& o, const BasicGrid& grid, bool bigE
      // Build array marking which cells that are active.
      int8_t *activeCells = new int8_t[grid.cells()];
      for (int r = 0; r < rows; r++) {
-	  for (int c = 0; c < cols; c++) {
-	       activeCells[r * cols + c] = (grid.isActive(r, c) ? 1 : 0);
-	  }
+          for (int c = 0; c < cols; c++) {
+               activeCells[r * cols + c] = (grid.isActive(r, c) ? 1 : 0);
+          }
      }
 
      bool swapEndian = bigEndian != Server::bigEndian();
@@ -62,16 +62,16 @@ static std::ostream &gridToXML(std::ostream& o, const BasicGrid& grid, bool bigE
      vector<Shape*> shapes;
      Shape* mapShape = &grid.map().borders();
      if (mapShape->type() == "Composite") {
-	  dynamic_cast<CompositeShape*>(mapShape)->getFlattened(shapes);
+          dynamic_cast<CompositeShape*>(mapShape)->getFlattened(shapes);
      }
      else {
-	  shapes.push_back(mapShape);
+          shapes.push_back(mapShape);
      }
 
      for (vector<Shape*>::const_iterator it = shapes.begin(); it != shapes.end(); it++) {
-	  o << "<regionData>" << endl;
-	  (*it)->cellsToXML(grid, swapEndian, o);
-	  o << "</regionData>" << endl;
+          o << "<regionData>" << endl;
+          (*it)->cellsToXML(grid, swapEndian, o);
+          o << "</regionData>" << endl;
      }
 
      o << "</gridData>";
@@ -166,8 +166,8 @@ void StatusMessage::toXML(std::ostream &o) const
      openMessage(o, "StatusMessage");
      o << "<type>" << mType << "</type>" << std::endl;
      for (std::vector<Error>::const_iterator it = mErrors.begin(); it != mErrors.end(); it++) {
-	  it->toXML(o);
-	  o << std::endl;
+          it->toXML(o);
+          o << std::endl;
      }
      closeMessage(o);
 }
@@ -188,10 +188,10 @@ void UpdateMessage::toXML(std::ostream &o) const
      XMLHelper::timeToDateTime(o, mBuf.simTime());
      o << "</value></simulationTime>" << endl;
      if (mRegisteredForUpdates && mChangeTracker.changed()) {
-	  mChangeTracker.toXML(o);
+          mChangeTracker.toXML(o);
      }
      for (std::vector<Subscription*>::const_iterator it = mSubscriptions.begin(); it != mSubscriptions.end(); it++) {
-	  (*it)->getSubscribedData(o);
+          (*it)->getSubscribedData(o);
      }
      bufLock.unlock();
      closeMessage(o);
@@ -225,8 +225,8 @@ void LoadQueryResponseMessage::toXML(std::ostream &o) const
 {
      set<string> sims;
      for (std::map<int64_t, Session*>::const_iterator it = mServer.sessions().begin();
-	  it != mServer.sessions().end(); it++) {
-	  sims.insert(it->second->simulationName());
+          it != mServer.sessions().end(); it++) {
+          sims.insert(it->second->simulationName());
      }
      // An empty string means that there is no simulation, e.g. that
      // there is a Session but that the simulation is not initialized
@@ -236,7 +236,7 @@ void LoadQueryResponseMessage::toXML(std::ostream &o) const
      openMessage(o, "LoadQueryResponseMessage");
      o << "<hasActiveClient>" << (mServer.hasActiveClient() ? "true" : "false") << "</hasActiveClient>" << endl;
      for (set<string>::iterator it = sims.begin(); it != sims.end(); it++) {
-	  o << "<simulation>" << *it << "</simulation>" << endl;
+          o << "<simulation>" << *it << "</simulation>" << endl;
      }
      closeMessage(o);
 }

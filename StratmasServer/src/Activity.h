@@ -103,12 +103,12 @@ struct lessActivityPointer {
       * Activity, false otherwise.
       */
      bool operator()(const Activity* const a1, const Activity* const a2) const {
-	  if (!a1 || !a2) {
-	       return false;
-	  }
-	  else {
-	       return (a1->startTime() < a2->startTime());
-	  }
+          if (!a1 || !a2) {
+               return false;
+          }
+          else {
+               return (a1->startTime() < a2->startTime());
+          }
      }
 };
 

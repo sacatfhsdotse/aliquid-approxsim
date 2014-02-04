@@ -17,7 +17,7 @@ public class Unsubscription extends Subscription {
      * @param id The id of the subscription to unsubscribe to.
      */
      public Unsubscription(int id) {
-	  super(id);
+          super(id);
      }
 
     /**
@@ -26,7 +26,7 @@ public class Unsubscription extends Subscription {
      * @param sub The subscription to unsubscribe to.
      */
      public Unsubscription(Subscription sub) {
-	  super(sub.id());
+          super(sub.id());
      }
 
     /**
@@ -35,7 +35,7 @@ public class Unsubscription extends Subscription {
      * @return A string representation of the type of this object.
      */
      public String getTypeAsString() {
-	  return "Unsubscription";
+          return "Unsubscription";
      }
 
      /**

@@ -34,28 +34,28 @@ public class XMLHelper
      */
     public static Type getType(Element element)
     {
-	TypeInfo typeInfo = 
-	    ((org.apache.xerces.dom.ElementImpl)element).getSchemaTypeInfo();
-	Type ret = TypeFactory.getType(typeInfo.getTypeName(), 
-				       typeInfo.getTypeNamespace());
-	if (ret == null) {
-	    String[] nsType = element.getAttribute("xsi:type").split(":");
-	    if (nsType.length == 1) {
-		ret = TypeFactory.getType(nsType[0]);
-	    } else {
-		ret = TypeFactory.getType(nsType[1]);
-	    }
+        TypeInfo typeInfo = 
+            ((org.apache.xerces.dom.ElementImpl)element).getSchemaTypeInfo();
+        Type ret = TypeFactory.getType(typeInfo.getTypeName(), 
+                                       typeInfo.getTypeNamespace());
+        if (ret == null) {
+            String[] nsType = element.getAttribute("xsi:type").split(":");
+            if (nsType.length == 1) {
+                ret = TypeFactory.getType(nsType[0]);
+            } else {
+                ret = TypeFactory.getType(nsType[1]);
+            }
 
-	    if (ret == null) {
-		throw new AssertionError("getType() failed for element " + 
-					 element.getTagName() + 
-					 ". This may indicate that " + 
-					 "validation is switched off " + 
-					 "and that the xsi:type attribute " + 
-					 "is missing.");
-	    }
-	}
-	return ret;
+            if (ret == null) {
+                throw new AssertionError("getType() failed for element " + 
+                                         element.getTagName() + 
+                                         ". This may indicate that " + 
+                                         "validation is switched off " + 
+                                         "and that the xsi:type attribute " + 
+                                         "is missing.");
+            }
+        }
+        return ret;
     }
 
     /**
@@ -67,17 +67,17 @@ public class XMLHelper
      */
     public static Element getFirstChildByTag(Node n, String tag)
     {
-	for (Node child = n.getFirstChild(); 
-	     child != null; 
-	     child = child.getNextSibling()) {
-	    if (child.getNodeType() == Node.ELEMENT_NODE) {
-		Element elem = (Element)child;
-		if (tag.equals(elem.getTagName())) {
-		    return elem;
-		}
-	    }
-	}
-	return null;
+        for (Node child = n.getFirstChild(); 
+             child != null; 
+             child = child.getNextSibling()) {
+            if (child.getNodeType() == Node.ELEMENT_NODE) {
+                Element elem = (Element)child;
+                if (tag.equals(elem.getTagName())) {
+                    return elem;
+                }
+            }
+        }
+        return null;
     }
 
     /**
@@ -90,17 +90,17 @@ public class XMLHelper
      */
     public static Vector getChildElementsByTag(Node n, String tag)
     {
-	Vector ret = new Vector();
-	for (Node child = n.getFirstChild(); child != null; 
-	     child = child.getNextSibling()) {
-	    if (child.getNodeType() == Node.ELEMENT_NODE) {
-		Element elem = (Element)child;
-		if (tag.equals(elem.getTagName())) {
-		    ret.add(elem);
-		    }
-	    }
-	}
-	return ret;
+        Vector ret = new Vector();
+        for (Node child = n.getFirstChild(); child != null; 
+             child = child.getNextSibling()) {
+            if (child.getNodeType() == Node.ELEMENT_NODE) {
+                Element elem = (Element)child;
+                if (tag.equals(elem.getTagName())) {
+                    ret.add(elem);
+                    }
+            }
+        }
+        return ret;
     }
 
     /**
@@ -114,13 +114,13 @@ public class XMLHelper
      */
     public static String getString(Node n)
     {
-	for (Node child = n.getFirstChild(); 
-	     child != null; child = child.getNextSibling()) {
-	    if (child.getNodeType() == Node.TEXT_NODE) {
-		return child.getNodeValue();
-	    }
-	}
-	return null;
+        for (Node child = n.getFirstChild(); 
+             child != null; child = child.getNextSibling()) {
+            if (child.getNodeType() == Node.TEXT_NODE) {
+                return child.getNodeValue();
+            }
+        }
+        return null;
     }
      
     /**
@@ -132,12 +132,12 @@ public class XMLHelper
       */
     public static String getString(Node n, String tag) 
     {
-	Element elem = getFirstChildByTag(n, tag);
-	if (elem == null) {
-	    return null;
-	} else {
-	    return getString(elem);
-	}
+        Element elem = getFirstChildByTag(n, tag);
+        if (elem == null) {
+            return null;
+        } else {
+            return getString(elem);
+        }
     }
      
     /**
@@ -149,8 +149,8 @@ public class XMLHelper
      */
     public static boolean getBoolean(Node n, String tag) 
     {
-	String val = getString(n, tag);
-	return (val.equalsIgnoreCase("true") || val.equals("1"));
+        String val = getString(n, tag);
+        return (val.equalsIgnoreCase("true") || val.equals("1"));
     }
 
     /**
@@ -162,11 +162,11 @@ public class XMLHelper
      */
     public static double getDouble(Node n, String tag) 
     {
-	String tmp = getString(n, tag);
-	if (tmp.equals("INF")) {
-	    tmp = "Infinity";
-	}	  
-	return Double.parseDouble(tmp);
+        String tmp = getString(n, tag);
+        if (tmp.equals("INF")) {
+            tmp = "Infinity";
+        }          
+        return Double.parseDouble(tmp);
     }
 
     /**
@@ -178,8 +178,8 @@ public class XMLHelper
      */
     public static long getLong(Node n, String tag)
     {
-	String tmp = getString(n, tag);
-	return Long.parseLong(tmp);
+        String tmp = getString(n, tag);
+        return Long.parseLong(tmp);
     }
     
     /**
@@ -190,12 +190,12 @@ public class XMLHelper
      */
     public static String encodeSpecialCharacters(String s)
     {
-	String res = s;
-	res = res.replaceAll("&", "&amp;");
-	res = res.replaceAll("<", "&lt;");
-	res = res.replaceAll(">", "&gt;");
-	res = res.replaceAll("'", "&apos;");
-	res = res.replaceAll("\"", "&quot;");
-	return res;
+        String res = s;
+        res = res.replaceAll("&", "&amp;");
+        res = res.replaceAll("<", "&lt;");
+        res = res.replaceAll(">", "&gt;");
+        res = res.replaceAll("'", "&apos;");
+        res = res.replaceAll("\"", "&quot;");
+        return res;
     }
 }

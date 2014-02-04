@@ -1,4 +1,4 @@
-// 	$Id: StratmasGUIConstructorDialog.java,v 1.1 2006/03/22 14:30:51 dah Exp $
+//         $Id: StratmasGUIConstructorDialog.java,v 1.1 2006/03/22 14:30:51 dah Exp $
 /*
  * @(#)StratmasGUIConstructor.java
  */
@@ -48,9 +48,9 @@ public class StratmasGUIConstructorDialog extends JDialog
      */
     StratmasGUIConstructorDialog(StratmasGUIConstructor constructor)
     {
-	super((java.awt.Frame) null, "Create " + 
-	      constructor.getDeclaration().getType().getName(), true);
-	this.constructor = constructor;	
+        super((java.awt.Frame) null, "Create " + 
+              constructor.getDeclaration().getType().getName(), true);
+        this.constructor = constructor;        
     } 
     
     /**
@@ -59,11 +59,11 @@ public class StratmasGUIConstructorDialog extends JDialog
      */
     public StratmasObject getStratmasObject()
     {
-	if (!cancelled) {
-	    return constructor.getStratmasObject();
-	} else {
-	    return null;
-	}
+        if (!cancelled) {
+            return constructor.getStratmasObject();
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -71,7 +71,7 @@ public class StratmasGUIConstructorDialog extends JDialog
      */
     public void cancel() 
     {
-	cancelled = true;
-	dispose();
+        cancelled = true;
+        dispose();
     }
 }

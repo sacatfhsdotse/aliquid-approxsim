@@ -25,15 +25,15 @@ public class ActivityTableCellRenderer extends DefaultTableCellRenderer {
      * @return the deafult table cell renderer.
      */
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
-						   boolean hasFocus, int row, int column) {
-	DefaultTableCellRenderer defaultRenderer = new DefaultTableCellRenderer();
-	Component renderer = defaultRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-	((JLabel) renderer).setOpaque(true);
-	// color each other row with different color
-	if (!isSelected) {
-	    Color backgroundColor = (row % 2 == 0)? TimelineConstants.LIGHT : TimelineConstants.LIGHTER;
-	    renderer.setBackground(backgroundColor);
-	}
-	return renderer;
+                                                   boolean hasFocus, int row, int column) {
+        DefaultTableCellRenderer defaultRenderer = new DefaultTableCellRenderer();
+        Component renderer = defaultRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        ((JLabel) renderer).setOpaque(true);
+        // color each other row with different color
+        if (!isSelected) {
+            Color backgroundColor = (row % 2 == 0)? TimelineConstants.LIGHT : TimelineConstants.LIGHTER;
+            renderer.setBackground(backgroundColor);
+        }
+        return renderer;
     }
 }

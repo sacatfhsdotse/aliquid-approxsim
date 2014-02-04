@@ -184,8 +184,8 @@ public:
       * \return The index of the specified layer.
       */
      int nameToIndex(const std::string& name) const {
-	  std::map<std::string, int>::const_iterator it = mNameToIndex.find(name);
-	  return (it == mNameToIndex.end() ? -1 : it->second);
+          std::map<std::string, int>::const_iterator it = mNameToIndex.find(name);
+          return (it == mNameToIndex.end() ? -1 : it->second);
      }
 
      friend std::ostream& operator << (std::ostream& o, const CombatGrid& c);

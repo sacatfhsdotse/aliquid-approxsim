@@ -1,4 +1,4 @@
-// 	$Id: Shape.java,v 1.4 2006/07/31 10:18:44 alexius Exp $
+//         $Id: Shape.java,v 1.4 2006/07/31 10:18:44 alexius Exp $
 /*
  * @(#)Shape.java
  */
@@ -47,7 +47,7 @@ public abstract class Shape extends DefaultComplex
      */
     protected Shape(String identifier, Type type)
     {
-	super(identifier, type);
+        super(identifier, type);
     }
 
     /**
@@ -62,8 +62,8 @@ public abstract class Shape extends DefaultComplex
      */
     public Vector constructSimpleShapes()
     {
-	Vector res = new Vector();
-	return constructSimpleShapes(res);
+        Vector res = new Vector();
+        return constructSimpleShapes(res);
     }
     
     /**
@@ -72,7 +72,7 @@ public abstract class Shape extends DefaultComplex
      * @param box bounding box of the shape.
      */
     public void setBoundingBox(BoundingBox box) {
-	this.box = box;
+        this.box = box;
     }
 
     /**
@@ -81,8 +81,8 @@ public abstract class Shape extends DefaultComplex
      * @return bounding box of the shape.
      */
     public BoundingBox getBoundingBox() {
-	 box = createBoundingBox();
-	 return box;
+         box = createBoundingBox();
+         return box;
     }
 
     /**
@@ -128,7 +128,7 @@ public abstract class Shape extends DefaultComplex
      */
     protected static StratmasObject defaultCreate(Declaration declaration)
     {
-	return Circle.defaultCreate(declaration.clone(TypeFactory.getType("Circle")));
+        return Circle.defaultCreate(declaration.clone(TypeFactory.getType("Circle")));
     }
 
     /**
@@ -138,13 +138,13 @@ public abstract class Shape extends DefaultComplex
     {
         Vector res = new Vector();
         for (StratmasObject walker = this; walker.getParent() != null && (walker.getParent() instanceof Shape ||
-							      walker.getParent() instanceof StratmasList);
+                                                              walker.getParent() instanceof StratmasList);
              walker = (StratmasObject) walker.getParent()) {
-	    if (walker.getParent() instanceof Shape) {
-		res.add(walker.getParent());
-	    }
+            if (walker.getParent() instanceof Shape) {
+                res.add(walker.getParent());
+            }
         }
-	
+        
         return res;
     }
 
@@ -155,12 +155,12 @@ public abstract class Shape extends DefaultComplex
      *
      * @param child the child that changed
      */
-     public void childChanged(StratmasObject child, Object initiator) {	
-	  if (getParent() != null) {
-	       getParent().childChanged(this, initiator);
-	  }
+     public void childChanged(StratmasObject child, Object initiator) {        
+          if (getParent() != null) {
+               getParent().childChanged(this, initiator);
+          }
 
-	  fireChildChanged(child, initiator);
+          fireChildChanged(child, initiator);
      }
 
     /**
@@ -171,7 +171,7 @@ public abstract class Shape extends DefaultComplex
      */
     protected static StratmasGUIConstructor getGUIConstructor(Declaration declaration)
     {
-	return new StratmasComplexGUIConstructor(declaration);
+        return new StratmasComplexGUIConstructor(declaration);
     }
     
 //     /**
@@ -179,29 +179,29 @@ public abstract class Shape extends DefaultComplex
 //      */
 //     public Vector getActions()
 //     {
-// 	Vector res = new Vector();
-// 	res.addAll(super.getActions());
-	
-// 	final Shape self = this;
-// 	for (StratmasObject walker = this; walker != null; 
-// 	     walker = walker.getParent()) {
-// 	    if (walker.getIdentifier().equals("map")) {
-// 		StratmasAbstractAction showMapAction = 
-// 		    new StratmasAbstractAction("Show in new Map", false)
-// 		    {
-// 			public void actionPerformed(ActionEvent e)
-// 			{
-// 			    Visualizer.createNewStratMap(self);
-// 			}
-// 		    };
-// 		showMapAction.setEnabled(true);
-// 		res.add(showMapAction);
-		
-// 		break;
-// 	    }
-// 	}
-	
-// 	return res;
+//         Vector res = new Vector();
+//         res.addAll(super.getActions());
+        
+//         final Shape self = this;
+//         for (StratmasObject walker = this; walker != null; 
+//              walker = walker.getParent()) {
+//             if (walker.getIdentifier().equals("map")) {
+//                 StratmasAbstractAction showMapAction = 
+//                     new StratmasAbstractAction("Show in new Map", false)
+//                     {
+//                         public void actionPerformed(ActionEvent e)
+//                         {
+//                             Visualizer.createNewStratMap(self);
+//                         }
+//                     };
+//                 showMapAction.setEnabled(true);
+//                 res.add(showMapAction);
+                
+//                 break;
+//             }
+//         }
+        
+//         return res;
 //     }
 
     /**
@@ -209,20 +209,20 @@ public abstract class Shape extends DefaultComplex
      */
     public ActionGroup getActionGroup()
     {
-	ActionGroup ag = super.getActionGroup();
-	final Shape self = this;
-	for (StratmasObject walker = this; walker != null; walker = walker.getParent()) {
-	    if (walker.getIdentifier().equals("map")) {
-		ActionGroup showMapAction =  new ActionGroup("Show in new Map", false, false) {
-			public void actionPerformed(ActionEvent e) {
-			    Visualizer.createNewStratMap(self);
-			}
-		    };
-		showMapAction.setEnabled(true);
-		ag.add(showMapAction);
-		break;
-	    }
-	}
-	return ag;
+        ActionGroup ag = super.getActionGroup();
+        final Shape self = this;
+        for (StratmasObject walker = this; walker != null; walker = walker.getParent()) {
+            if (walker.getIdentifier().equals("map")) {
+                ActionGroup showMapAction =  new ActionGroup("Show in new Map", false, false) {
+                        public void actionPerformed(ActionEvent e) {
+                            Visualizer.createNewStratMap(self);
+                        }
+                    };
+                showMapAction.setEnabled(true);
+                ag.add(showMapAction);
+                break;
+            }
+        }
+        return ag;
     }
 }

@@ -51,105 +51,105 @@ public class XMLImporter {
      private static XMLReader parser = null;
 
      public static void main(String[] args) {
-	  if (args.length != 1) {
-	       System.out.println("Usage:  java XMLImporter <instance file>");
-	       System.exit(0);
-	  }
+          if (args.length != 1) {
+               System.out.println("Usage:  java XMLImporter <instance file>");
+               System.exit(0);
+          }
 
-	  try {
-	       StratmasObject so;
-	       so = saxParseFromFile(args[0]);
-	       so = saxParseFromFile(args[0]);
-	       System.err.println("Created " + so.getIdentifier() + ", " + so.getType().getName());
-  	  } catch (IOException e) {
-  	       System.err.println(e.getMessage());
-  	  } catch (ExceptionCollection e) {
-   	       System.err.println(e.getMessage());
- 	       for (Enumeration en = e.getExceptions().elements(); en.hasMoreElements(); ) {
- 		    System.err.println("==============================");
- 		    System.err.println(((Exception)en.nextElement()).getMessage());
- 	       }
-	  }
+          try {
+               StratmasObject so;
+               so = saxParseFromFile(args[0]);
+               so = saxParseFromFile(args[0]);
+               System.err.println("Created " + so.getIdentifier() + ", " + so.getType().getName());
+            } catch (IOException e) {
+                 System.err.println(e.getMessage());
+            } catch (ExceptionCollection e) {
+                  System.err.println(e.getMessage());
+                for (Enumeration en = e.getExceptions().elements(); en.hasMoreElements(); ) {
+                     System.err.println("==============================");
+                     System.err.println(((Exception)en.nextElement()).getMessage());
+                }
+          }
      }
 
      public static StratmasObject saxParseFromFile(String instanceFile) throws IOException, ExceptionCollection {
-	  InputSource source = new InputSource(new BufferedInputStream(new FileInputStream(instanceFile)));
-	  source.setSystemId(instanceFile);
-	  return saxParse(source);
+          InputSource source = new InputSource(new BufferedInputStream(new FileInputStream(instanceFile)));
+          source.setSystemId(instanceFile);
+          return saxParse(source);
      }
 
      public static StratmasObject saxParseFromString(String instanceDoc) throws IOException, ExceptionCollection {
-	  return saxParse(new InputSource(new StringReader(instanceDoc)));
+          return saxParse(new InputSource(new StringReader(instanceDoc)));
      }
 
      public static StratmasObject saxParse(InputSource source) throws IOException, ExceptionCollection {
-	  StratmasObject ret = null;
-	  SAXDocumentHandler handler = null;
+          StratmasObject ret = null;
+          SAXDocumentHandler handler = null;
 
-	  try {
-	       long start = System.currentTimeMillis();
+          try {
+               long start = System.currentTimeMillis();
 
-	       if (parser == null) {
-		    createParser();
-	       }
-	       
- 	       parser.setProperty("http://apache.org/xml/properties/schema/external-schemaLocation",
- 				  StratmasConstants.stratmasNamespace + " " +
- 				  StratmasConstants.STRATMAS_SIMULATION_SCHEMA);
+               if (parser == null) {
+                    createParser();
+               }
+               
+                parser.setProperty("http://apache.org/xml/properties/schema/external-schemaLocation",
+                                   StratmasConstants.stratmasNamespace + " " +
+                                   StratmasConstants.STRATMAS_SIMULATION_SCHEMA);
 
-	       handler = new SAXDocumentHandler();
-	       parser.setContentHandler(handler);
-	       parser.setEntityResolver(handler);
-	       parser.setErrorHandler(handler);
+               handler = new SAXDocumentHandler();
+               parser.setContentHandler(handler);
+               parser.setEntityResolver(handler);
+               parser.setErrorHandler(handler);
 
-	       parser.parse(source);
+               parser.parse(source);
 
-	       long duration = System.currentTimeMillis() - start;
-	       Debug.err.println("SAX took " + duration + " ms");
+               long duration = System.currentTimeMillis() - start;
+               Debug.err.println("SAX took " + duration + " ms");
 
-	       if (!handler.getExceptions().isEmpty()) {
-		    throw new ExceptionCollection(handler.getExceptions());
-	       }
+               if (!handler.getExceptions().isEmpty()) {
+                    throw new ExceptionCollection(handler.getExceptions());
+               }
 
-	       ret = handler.getCreatedObject();	       
-	  } catch (SAXException e) {
-	       Vector v;
-	       if (handler == null) {
-		    v = new Vector();
-	       }
-	       else {
-		    v = handler.getExceptions();
-		    v.add(e);
-	       }
-	       throw new ExceptionCollection(v);
- 	  } finally {
-	      // Remove parsers reference to handler (because handler
-	      // have references to stratmasObject's it creates.)
-	      if (handler != null) {
-		  handler.nullify();
-		  if (parser != null) {
-		      // This don't accomplish much, but we try
-		      // anyway.
-		      parser.setContentHandler(null);
-		      parser.setEntityResolver(null);
-		      parser.setErrorHandler(null);
-		  }
-		  handler = null;
-	      }
-	  }
-	  return ret;
+               ret = handler.getCreatedObject();               
+          } catch (SAXException e) {
+               Vector v;
+               if (handler == null) {
+                    v = new Vector();
+               }
+               else {
+                    v = handler.getExceptions();
+                    v.add(e);
+               }
+               throw new ExceptionCollection(v);
+           } finally {
+              // Remove parsers reference to handler (because handler
+              // have references to stratmasObject's it creates.)
+              if (handler != null) {
+                  handler.nullify();
+                  if (parser != null) {
+                      // This don't accomplish much, but we try
+                      // anyway.
+                      parser.setContentHandler(null);
+                      parser.setEntityResolver(null);
+                      parser.setErrorHandler(null);
+                  }
+                  handler = null;
+              }
+          }
+          return ret;
      }
 
      /**
       * Creates a parser.
       */
      private static void createParser() throws SAXException {
-	  parser = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser");
-	  parser.setFeature("http://xml.org/sax/features/validation", true);
-	  parser.setFeature("http://xml.org/sax/features/namespaces", true);
-	  parser.setFeature("http://apache.org/xml/features/validation/schema", true);
-	  parser.setFeature("http://apache.org/xml/features/xinclude", true); 
-	  //parser.setProperty("http://apache.org/xml/properties/validation/schema/root-type-definition", "foo"); 
+          parser = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser");
+          parser.setFeature("http://xml.org/sax/features/validation", true);
+          parser.setFeature("http://xml.org/sax/features/namespaces", true);
+          parser.setFeature("http://apache.org/xml/features/validation/schema", true);
+          parser.setFeature("http://apache.org/xml/features/xinclude", true); 
+          //parser.setProperty("http://apache.org/xml/properties/validation/schema/root-type-definition", "foo"); 
      }
 
 }
@@ -157,11 +157,11 @@ public class XMLImporter {
 class ExceptionCollection extends Exception {
      private Vector exceptions;
      public ExceptionCollection(Vector v) {
-	  super("Collection of " + v.size() + " exceptions.");
-	  exceptions = v;
+          super("Collection of " + v.size() + " exceptions.");
+          exceptions = v;
      }
      public Vector getExceptions() {
-	  return exceptions;
+          return exceptions;
      }
 }
 
@@ -203,17 +203,17 @@ class SOPlaceHolder {
       * @param parent The parent of this place holder.
       */
      public SOPlaceHolder(String identifier, Type type, SOPlaceHolder parent) {
-	  this.identifier = identifier;
-	  this.type = type;
-	  this.parent = parent;
+          this.identifier = identifier;
+          this.type = type;
+          this.parent = parent;
 
-	  // Create StratmasLists for all lists in our Type.
-	  for (Enumeration en = type.getSubElements().elements(); en.hasMoreElements(); ) {
-	       Declaration dec = (Declaration)en.nextElement();
-	       if (dec.isList()) {
-		    objects.put(dec.getName(), StratmasObjectFactory.vectorCreateList(dec).getStratmasObject(new Vector()));
-	       }
-	  }
+          // Create StratmasLists for all lists in our Type.
+          for (Enumeration en = type.getSubElements().elements(); en.hasMoreElements(); ) {
+               Declaration dec = (Declaration)en.nextElement();
+               if (dec.isList()) {
+                    objects.put(dec.getName(), StratmasObjectFactory.vectorCreateList(dec).getStratmasObject(new Vector()));
+               }
+          }
      }
 
      /**
@@ -222,7 +222,7 @@ class SOPlaceHolder {
       * @return The idenfifier of the object this placeholder refers to.
       */
      public String getIdentifier() {
-	  return identifier;
+          return identifier;
      }
 
      /**
@@ -231,7 +231,7 @@ class SOPlaceHolder {
       * @return The parent of this placeholder.
       */
      public SOPlaceHolder getParent() {
-	  return parent;
+          return parent;
      }
 
      /**
@@ -240,7 +240,7 @@ class SOPlaceHolder {
       * @return The type of the object this placeholder refers to.
       */
      public Type getType() {
-	  return type;
+          return type;
      }
 
      /**
@@ -255,15 +255,15 @@ class SOPlaceHolder {
       * the dom element the StratmasObject was created from.
       */
      public void addObject(StratmasObject o, String newIdentifier) {
-	  Declaration dec = getType().getSubElement(o.getIdentifier());
-	  if (dec.isList()) {
-	       StratmasList list = (StratmasList)objects.get(o.getIdentifier());
-	       o.setIdentifier(newIdentifier);
-	       list.add(o);
-	  }
-	  else {
-	       objects.put(o.getIdentifier(), o);
-	  }
+          Declaration dec = getType().getSubElement(o.getIdentifier());
+          if (dec.isList()) {
+               StratmasList list = (StratmasList)objects.get(o.getIdentifier());
+               o.setIdentifier(newIdentifier);
+               list.add(o);
+          }
+          else {
+               objects.put(o.getIdentifier(), o);
+          }
      }
 
      /**
@@ -274,29 +274,29 @@ class SOPlaceHolder {
       * @return The newly created StratmasObject.
       */
      public StratmasObject createStratmasObject(String tag) throws IncompleteVectorConstructException {
-	  Vector parts = new Vector();
-	  for (Enumeration en = type.getSubElements().elements(); en.hasMoreElements(); ) {
-	       StratmasObject o = (StratmasObject)objects.get(((Declaration)en.nextElement()).getName());
-	       if (o != null) {
-		    parts.add(o);
-	       }
-	  }
+          Vector parts = new Vector();
+          for (Enumeration en = type.getSubElements().elements(); en.hasMoreElements(); ) {
+               StratmasObject o = (StratmasObject)objects.get(((Declaration)en.nextElement()).getName());
+               if (o != null) {
+                    parts.add(o);
+               }
+          }
 
-	  Declaration dec;
-	  if(getParent() == null) {
-	       dec = new Declaration(getType(), tag, 0, -1, true);
-	  }
-	  else {
-	       dec = getParent().getType().getSubElement(tag).clone(getType());
-	  }
-	  StratmasObject so = StratmasObjectFactory.vectorCreate(dec).getStratmasObject(parts);
-	  if (so == null) {
-	       throw new IncompleteVectorConstructException("Error when creating object of type " + 
-							    dec.getType().getName() + " with tag '" + tag + "'.");
-	  }
-	  else {
-	       return so;
-	  }
+          Declaration dec;
+          if(getParent() == null) {
+               dec = new Declaration(getType(), tag, 0, -1, true);
+          }
+          else {
+               dec = getParent().getType().getSubElement(tag).clone(getType());
+          }
+          StratmasObject so = StratmasObjectFactory.vectorCreate(dec).getStratmasObject(parts);
+          if (so == null) {
+               throw new IncompleteVectorConstructException("Error when creating object of type " + 
+                                                            dec.getType().getName() + " with tag '" + tag + "'.");
+          }
+          else {
+               return so;
+          }
      }
 }
 
@@ -395,7 +395,7 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
       * Default constructor.
       */
      public SAXDocumentHandler() {
-	  chars = new char[allocatedLength];
+          chars = new char[allocatedLength];
      }
 
      /**
@@ -405,11 +405,11 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
       * @return The StratmasObject created from the parsed document.
       */
      public StratmasObject getCreatedObject() {
-	  return createdObject;
+          return createdObject;
      }
 
      public Vector getExceptions() {
-	  return exceptions;
+          return exceptions;
      }
 
      /**
@@ -419,7 +419,7 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
       * @param locator The locator.
       */
      public void setDocumentLocator(Locator locator) {
-	  this.locator = locator;
+          this.locator = locator;
      }
 
      /**
@@ -466,21 +466,21 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
       * @see org.xml.sax.Locator
       */
      public void characters(char[] ch, int start, int length) throws SAXException {
-	  if (readChars == true) {
-	       // Check if the allocated char array is large enough.
-	       if (currentLength + length > allocatedLength) {
-		    allocatedLength = currentLength + length;
-		    char [] tmp = new char[allocatedLength];
-		    System.arraycopy(chars, 0, tmp, 0, currentLength);
-		    chars = tmp;
-		    Debug.err.println("SAX Document handler reallocating char array.");
-	       }
-	       // Sorry, we have to copy chars to our own array since
-	       // there seems to be no guarantee how the 'ch' char
-	       // array will look like the next time.
-	       System.arraycopy(ch, start, chars, currentLength, length);
-	       currentLength += length;
-	  }
+          if (readChars == true) {
+               // Check if the allocated char array is large enough.
+               if (currentLength + length > allocatedLength) {
+                    allocatedLength = currentLength + length;
+                    char [] tmp = new char[allocatedLength];
+                    System.arraycopy(chars, 0, tmp, 0, currentLength);
+                    chars = tmp;
+                    Debug.err.println("SAX Document handler reallocating char array.");
+               }
+               // Sorry, we have to copy chars to our own array since
+               // there seems to be no guarantee how the 'ch' char
+               // array will look like the next time.
+               System.arraycopy(ch, start, chars, currentLength, length);
+               currentLength += length;
+          }
      }
 
      /**
@@ -548,72 +548,72 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
       * @see org.xml.sax.helpers.AttributesImpl
       */
      public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-	  if (!exceptions.isEmpty()) {
-	       return;
-	  }
-	  if (imported == true) {
-	       imported = false;
-	  }
+          if (!exceptions.isEmpty()) {
+               return;
+          }
+          if (imported == true) {
+               imported = false;
+          }
 
-	  Type type = null;
+          Type type = null;
 
-	  // First check the xsi:type attribute.
-	  String typeStr = attributes.getValue("xsi:type");
-	  if (typeStr != null) {
-	       type = TypeFactory.getType(typeStr.split(":")[1]);
-	  }
+          // First check the xsi:type attribute.
+          String typeStr = attributes.getValue("xsi:type");
+          if (typeStr != null) {
+               type = TypeFactory.getType(typeStr.split(":")[1]);
+          }
 
-	  // If no xsi:type then get type from tag and parent's type.
-	  if (type == null && currentPlaceHolder != null) {
-	       Declaration dec = ((Type)typeStack.peek()).getSubElement(localName);
-	       if (dec != null) {
-		    type = dec.getType();
-	       }
-	  }
+          // If no xsi:type then get type from tag and parent's type.
+          if (type == null && currentPlaceHolder != null) {
+               Declaration dec = ((Type)typeStack.peek()).getSubElement(localName);
+               if (dec != null) {
+                    type = dec.getType();
+               }
+          }
 
-	  if (type == null) {
-	       throw new AssertionError("Can't create Type for element with tag '" + localName + "'");
-	  }
-	  else if (!type.getNamespace().equals(StratmasConstants.xsdNamespace) &&
-		   !type.canSubstitute("Identifier", StratmasConstants.stratmasNamespace)) {
-	       // Shouldn't care about currentIdentifier if we're
-	       // currently parsing a Reference.
-	       if (refDepth == 0) {
-		    currentIdentifier = attributes.getValue("identifier");
-		    if (currentIdentifier == null || currentIdentifier.equals("")) {
-			 currentIdentifier = localName;
-		    }
-	       }
-	       
-	       if (type.canSubstitute("Reference", StratmasConstants.stratmasNamespace)) {
-		    // Just increase depth. StratmasReferences are
-		    // created in endElement in order to avoid a
-		    // refDepth check here.
-		    refDepth++;
-	       }
-	       else if (type.getName().equals("Point") ||
-			(type.canSubstitute("SimpleType", StratmasConstants.stratmasNamespace) &&
-			 !type.getName().equals("SymbolIDCode"))) {
-		    // Points and simple types except for Reference
-		    // and SymbolIDCode may be created here.
-		   Declaration decToCreateFrom = ((Type)typeStack.peek()).getSubElement(localName).clone(type);
-		   currentObject = StratmasObjectFactory.defaultCreate(decToCreateFrom);
-	       }
-	       else if (type.canSubstitute("ComplexType", StratmasConstants.stratmasNamespace) ||
-			type.canSubstitute("Shape", StratmasConstants.stratmasNamespace) || 
-			type.getName().equals("SymbolIDCode") ||
-			type.getName().equals("Root")) {
-		    // Create a place holder for complex types and SymbolIDCodes.
-		    currentPlaceHolder = new SOPlaceHolder(currentIdentifier, type, currentPlaceHolder);
-	       }
-	       // Keep track of the Type of object we're currently creating.
-	       typeStack.push(type);
-	  }
-	  // Should be only anySimpleType descendants here...
-	  else {
-	       // Simple type descendant means we must read characters.
-	       readChars = true;
-	  }
+          if (type == null) {
+               throw new AssertionError("Can't create Type for element with tag '" + localName + "'");
+          }
+          else if (!type.getNamespace().equals(StratmasConstants.xsdNamespace) &&
+                   !type.canSubstitute("Identifier", StratmasConstants.stratmasNamespace)) {
+               // Shouldn't care about currentIdentifier if we're
+               // currently parsing a Reference.
+               if (refDepth == 0) {
+                    currentIdentifier = attributes.getValue("identifier");
+                    if (currentIdentifier == null || currentIdentifier.equals("")) {
+                         currentIdentifier = localName;
+                    }
+               }
+               
+               if (type.canSubstitute("Reference", StratmasConstants.stratmasNamespace)) {
+                    // Just increase depth. StratmasReferences are
+                    // created in endElement in order to avoid a
+                    // refDepth check here.
+                    refDepth++;
+               }
+               else if (type.getName().equals("Point") ||
+                        (type.canSubstitute("SimpleType", StratmasConstants.stratmasNamespace) &&
+                         !type.getName().equals("SymbolIDCode"))) {
+                    // Points and simple types except for Reference
+                    // and SymbolIDCode may be created here.
+                   Declaration decToCreateFrom = ((Type)typeStack.peek()).getSubElement(localName).clone(type);
+                   currentObject = StratmasObjectFactory.defaultCreate(decToCreateFrom);
+               }
+               else if (type.canSubstitute("ComplexType", StratmasConstants.stratmasNamespace) ||
+                        type.canSubstitute("Shape", StratmasConstants.stratmasNamespace) || 
+                        type.getName().equals("SymbolIDCode") ||
+                        type.getName().equals("Root")) {
+                    // Create a place holder for complex types and SymbolIDCodes.
+                    currentPlaceHolder = new SOPlaceHolder(currentIdentifier, type, currentPlaceHolder);
+               }
+               // Keep track of the Type of object we're currently creating.
+               typeStack.push(type);
+          }
+          // Should be only anySimpleType descendants here...
+          else {
+               // Simple type descendant means we must read characters.
+               readChars = true;
+          }
      }
 
      /**
@@ -638,128 +638,128 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
       *            wrapping another exception
       */
      public void endElement(String uri, String localName, String qName) throws SAXException {
-	  if (!exceptions.isEmpty()) {
-	       return;
-	  }
-	  if (readChars == true) {
-	       // Here the element we're closing is a anySimpleType descendant.
-	       Type type = (Type)typeStack.peek();
-	       if (type.getName().equals("Point")) {
-		    // Have to give Point special treatment.
-		    if (localName.equals("lat")) {
-			 ((Point)currentObject).setLat(Double.parseDouble(new String(chars, 0, currentLength)), null);
-		    }
-		    else if (localName.equals("lon")) {
-			 ((Point)currentObject).setLon(Double.parseDouble(new String(chars, 0, currentLength)), null);
-		    }
-	       }
-	       else if (type.canSubstitute("Reference", StratmasConstants.stratmasNamespace)) {
-		    // Collect the newly parsed Identifier in the reference Vector.
-		    refVec.add(new String(chars, 0, currentLength));
-	       }       
-	       else if (type.canSubstitute("SimpleType", StratmasConstants.stratmasNamespace) &&
-			!type.getName().equals("SymbolIDCode")) {
-		    // Set value of simple type.
-		   try {
-		       ((StratmasSimple)currentObject).valueFromString(new String(chars, 0, currentLength), null);
-		   } catch (ParseException e) {
-		       throw new SAXException(e);
-		   }
-	       }
-	       
-	       readChars = false;
-	       currentLength = 0;
-	  }
-	  else {
-	       Type type = (Type)typeStack.pop();
-	       if (type.canSubstitute("Reference", StratmasConstants.stratmasNamespace)) {
-		    refDepth--;
-		    if (refDepth == 0) {
-			 // Here we're closing a top Reference element
-			 // so we must create a StratmasReference from
-			 // the identifiers in the reference Vector.
-			 String [] ids = new String[refVec.size()];
-			 ids = (String[])refVec.toArray(ids);
-			 Declaration dec = ((Type)typeStack.peek()).getSubElement(localName);
-			 StratmasReference so = (StratmasReference)StratmasObjectFactory.defaultCreate(dec);
-			 so.setValue(new Reference(ids), null);
-			 refVec.removeAllElements();
-			 currentPlaceHolder.addObject(so, currentIdentifier);			 
-			 currentIdentifier = currentPlaceHolder.getIdentifier();
-		    }
-	       }
-	       else if (type.getName().equals("Point") ||
-			(type.canSubstitute("SimpleType", StratmasConstants.stratmasNamespace) && 
-			 !type.getName().equals("SymbolIDCode"))) {
-		    // Points and SimpleTypes except for References
-		    // and SymbolIDCodes are already created so simply
-		    // add them to their parent-to-be placeholder.
-		    currentPlaceHolder.addObject(currentObject, currentIdentifier);
-		    currentIdentifier = currentPlaceHolder.getIdentifier();
-	       }
-	       else if (currentPlaceHolder.getParent() == null) {
+          if (!exceptions.isEmpty()) {
+               return;
+          }
+          if (readChars == true) {
+               // Here the element we're closing is a anySimpleType descendant.
+               Type type = (Type)typeStack.peek();
+               if (type.getName().equals("Point")) {
+                    // Have to give Point special treatment.
+                    if (localName.equals("lat")) {
+                         ((Point)currentObject).setLat(Double.parseDouble(new String(chars, 0, currentLength)), null);
+                    }
+                    else if (localName.equals("lon")) {
+                         ((Point)currentObject).setLon(Double.parseDouble(new String(chars, 0, currentLength)), null);
+                    }
+               }
+               else if (type.canSubstitute("Reference", StratmasConstants.stratmasNamespace)) {
+                    // Collect the newly parsed Identifier in the reference Vector.
+                    refVec.add(new String(chars, 0, currentLength));
+               }       
+               else if (type.canSubstitute("SimpleType", StratmasConstants.stratmasNamespace) &&
+                        !type.getName().equals("SymbolIDCode")) {
+                    // Set value of simple type.
+                   try {
+                       ((StratmasSimple)currentObject).valueFromString(new String(chars, 0, currentLength), null);
+                   } catch (ParseException e) {
+                       throw new SAXException(e);
+                   }
+               }
+               
+               readChars = false;
+               currentLength = 0;
+          }
+          else {
+               Type type = (Type)typeStack.pop();
+               if (type.canSubstitute("Reference", StratmasConstants.stratmasNamespace)) {
+                    refDepth--;
+                    if (refDepth == 0) {
+                         // Here we're closing a top Reference element
+                         // so we must create a StratmasReference from
+                         // the identifiers in the reference Vector.
+                         String [] ids = new String[refVec.size()];
+                         ids = (String[])refVec.toArray(ids);
+                         Declaration dec = ((Type)typeStack.peek()).getSubElement(localName);
+                         StratmasReference so = (StratmasReference)StratmasObjectFactory.defaultCreate(dec);
+                         so.setValue(new Reference(ids), null);
+                         refVec.removeAllElements();
+                         currentPlaceHolder.addObject(so, currentIdentifier);                         
+                         currentIdentifier = currentPlaceHolder.getIdentifier();
+                    }
+               }
+               else if (type.getName().equals("Point") ||
+                        (type.canSubstitute("SimpleType", StratmasConstants.stratmasNamespace) && 
+                         !type.getName().equals("SymbolIDCode"))) {
+                    // Points and SimpleTypes except for References
+                    // and SymbolIDCodes are already created so simply
+                    // add them to their parent-to-be placeholder.
+                    currentPlaceHolder.addObject(currentObject, currentIdentifier);
+                    currentIdentifier = currentPlaceHolder.getIdentifier();
+               }
+               else if (currentPlaceHolder.getParent() == null) {
                     // Now we're going to create the last object.
-		    StratmasObject so = null;
-		    try {
-			 so = currentPlaceHolder.createStratmasObject(localName);
-		    } catch (IncompleteVectorConstructException e) {
-			 String msg = "";
-			 if (locator != null) {
-			      msg = "Line: " + locator.getLineNumber() + ", column: " + locator.getColumnNumber() + ": ";
-			 }
-			 throw new SAXException(msg + e.getMessage());
-		    }
-		    so.setIdentifier(currentIdentifier);
+                    StratmasObject so = null;
+                    try {
+                         so = currentPlaceHolder.createStratmasObject(localName);
+                    } catch (IncompleteVectorConstructException e) {
+                         String msg = "";
+                         if (locator != null) {
+                              msg = "Line: " + locator.getLineNumber() + ", column: " + locator.getColumnNumber() + ": ";
+                         }
+                         throw new SAXException(msg + e.getMessage());
+                    }
+                    so.setIdentifier(currentIdentifier);
 
-		    if (!type.getName().equals("Root")) {
-			// The document has a root element that isn't
-			// of type Root so we must create the Root
-			// type object explicitly.
-			StratmasObject docRoot = so;
-			so = StratmasObjectFactory.create(TypeFactory.getType("Root"));
-			so.getChild("identifiables").add(docRoot);
-		    }
+                    if (!type.getName().equals("Root")) {
+                        // The document has a root element that isn't
+                        // of type Root so we must create the Root
+                        // type object explicitly.
+                        StratmasObject docRoot = so;
+                        so = StratmasObjectFactory.create(TypeFactory.getType("Root"));
+                        so.getChild("identifiables").add(docRoot);
+                    }
 
-		    createdObject = so;
-	       }
-	       else if (!type.canSubstitute("anySimpleType", StratmasConstants.xsdNamespace)) {
-		    // Here we're closing a complex element so let's
-		    // create a StratmasComplex from the current
-		    // placeholder.
-		    StratmasObject so = null;
-		    try {
-			 so = currentPlaceHolder.createStratmasObject(localName);
-		    } catch (IncompleteVectorConstructException e) {
-			 String msg = "";
-			 if (locator != null) {
-			      msg = "Line: " + locator.getLineNumber() + ", column: " + locator.getColumnNumber() + ": ";
-			 }
-			 throw new SAXException(msg + e.getMessage());
-		    }
-		    currentPlaceHolder = currentPlaceHolder.getParent();
-		    currentPlaceHolder.addObject(so, currentIdentifier);
-		    currentIdentifier = currentPlaceHolder.getIdentifier();
-	       }
-	  }
+                    createdObject = so;
+               }
+               else if (!type.canSubstitute("anySimpleType", StratmasConstants.xsdNamespace)) {
+                    // Here we're closing a complex element so let's
+                    // create a StratmasComplex from the current
+                    // placeholder.
+                    StratmasObject so = null;
+                    try {
+                         so = currentPlaceHolder.createStratmasObject(localName);
+                    } catch (IncompleteVectorConstructException e) {
+                         String msg = "";
+                         if (locator != null) {
+                              msg = "Line: " + locator.getLineNumber() + ", column: " + locator.getColumnNumber() + ": ";
+                         }
+                         throw new SAXException(msg + e.getMessage());
+                    }
+                    currentPlaceHolder = currentPlaceHolder.getParent();
+                    currentPlaceHolder.addObject(so, currentIdentifier);
+                    currentIdentifier = currentPlaceHolder.getIdentifier();
+               }
+          }
      }
 
      /**
       * Default implementation to fulfil interface contract.
       *
       * @param name Identifies the document root element.  This name
-      *	comes from a DOCTYPE declaration (where available) or from the
-      *	actual root element.
+      *        comes from a DOCTYPE declaration (where available) or from the
+      *        actual root element.
       * @param baseURI The document's base URI, serving as an
-      *	additional hint for selecting the external subset.  This is
-      *	always an absolute URI, unless it is null because the
-      *	XMLReader was given an InputSource without one.
+      *        additional hint for selecting the external subset.  This is
+      *        always an absolute URI, unless it is null because the
+      *        XMLReader was given an InputSource without one.
       *
       * @return An InputSource object describing the new external
-      *	subset to be used by the parser, or null to indicate that no
-      *	external subset is provided.
+      *        subset to be used by the parser, or null to indicate that no
+      *        external subset is provided.
       */
      public InputSource getExternalSubset(String name, String baseURI) throws SAXException, IOException {
-	  return null;
+          return null;
      }
 
      /**
@@ -775,67 +775,67 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
       * about which elements that were imported from external sources.
       *
       * @param name Identifies the external entity being resolved.
-      *	Either "[dtd]" for the external subset, or a name starting
-      *	with "%" to indicate a parameter entity, or else the name of a
-      *	general entity.  This is never null when invoked by a SAX2
-      *	parser.
+      *        Either "[dtd]" for the external subset, or a name starting
+      *        with "%" to indicate a parameter entity, or else the name of a
+      *        general entity.  This is never null when invoked by a SAX2
+      *        parser.
       * @param publicId The public identifier of the external entity
-      *	being referenced (normalized as required by the XML
-      *	specification), or null if none was supplied.
+      *        being referenced (normalized as required by the XML
+      *        specification), or null if none was supplied.
       * @param baseURI The URI with respect to which relative
-      *	systemIDs are interpreted.  This is always an absolute URI,
-      *	unless it is null (likely because the XMLReader was given an
-      *	InputSource without one).  This URI is defined by the XML
-      *	specification to be the one associated with the "&lt;"
-      *	starting the relevant declaration.
+      *        systemIDs are interpreted.  This is always an absolute URI,
+      *        unless it is null (likely because the XMLReader was given an
+      *        InputSource without one).  This URI is defined by the XML
+      *        specification to be the one associated with the "&lt;"
+      *        starting the relevant declaration.
       * @param systemId The system identifier of the external entity
-      *	being referenced; either a relative or absolute URI.  This is
-      *	never null when invoked by a SAX2 parser; only declared
-      *	entities, and any external subset, are resolved by such
-      *	parsers.
+      *        being referenced; either a relative or absolute URI.  This is
+      *        never null when invoked by a SAX2 parser; only declared
+      *        entities, and any external subset, are resolved by such
+      *        parsers.
       *
       * @return An InputSource object describing the new input source
-      *	to be used by the parser.  Returning null directs the parser
-      *	to resolve the system ID against the base URI and open a
-      *	connection to resulting URI.
+      *        to be used by the parser.  Returning null directs the parser
+      *        to resolve the system ID against the base URI and open a
+      *        connection to resulting URI.
       *
       * @exception SAXException Any SAX exception, possibly wrapping
-      *	another exception.
+      *        another exception.
       * @exception IOException Probably indicating a failure to create
-      *	a new InputStream or Reader, or an illegal URL.
+      *        a new InputStream or Reader, or an illegal URL.
       */
      public InputSource resolveEntity(String name, String publicId, String baseURI, String systemId)
-	  throws SAXException, IOException {
-	  InputSource ret = null;
+          throws SAXException, IOException {
+          InputSource ret = null;
 
-	  InputStream stream = XMLImporter.class.getResourceAsStream(StratmasConstants.JAR_SCHEMA_LOCATION + systemId);
-	  if (stream != null) {
-	       ret = new InputSource(stream);
-	       ret.setPublicId(publicId);
-	       ret.setSystemId(systemId);
-	       return ret;
-	  }
+          InputStream stream = XMLImporter.class.getResourceAsStream(StratmasConstants.JAR_SCHEMA_LOCATION + systemId);
+          if (stream != null) {
+               ret = new InputSource(stream);
+               ret.setPublicId(publicId);
+               ret.setSystemId(systemId);
+               return ret;
+          }
 
-	  if (systemId != null) {
-	       if (systemId.toLowerCase().matches(".*\\.shp(\\?.*)?")) {
-		    imported = true;
-		    try {
-			 URL url = findFile(baseURI, systemId);
-			 if (url != null) {
-			      ret = new InputSource(new ESRIInputStream(url, null));
-			      ret.setPublicId(publicId);
-			      ret.setSystemId(systemId);
-			      ret.setEncoding("ISO-8859-1");
-			 }
-		    } catch (IOException e) {
-			 ret = null;
-		    }
-	       }
-	       else if (systemId.matches(".*\\.xml(\\?.*)?")) {
-		    imported = true;
-	       }
-	  }
-	  return ret;
+          if (systemId != null) {
+               if (systemId.toLowerCase().matches(".*\\.shp(\\?.*)?")) {
+                    imported = true;
+                    try {
+                         URL url = findFile(baseURI, systemId);
+                         if (url != null) {
+                              ret = new InputSource(new ESRIInputStream(url, null));
+                              ret.setPublicId(publicId);
+                              ret.setSystemId(systemId);
+                              ret.setEncoding("ISO-8859-1");
+                         }
+                    } catch (IOException e) {
+                         ret = null;
+                    }
+               }
+               else if (systemId.matches(".*\\.xml(\\?.*)?")) {
+                    imported = true;
+               }
+          }
+          return ret;
      }
 
      /**
@@ -848,39 +848,39 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
       * @param systemId The system id.
       * @return An URL to the file or null if no file was found.
       */
-     private URL findFile(String baseURI, String systemId) {	  
-	  final String enc = "UTF-8"; // Encoding to decode to.
-	  URL ret = null;
-	  try {
-	       URL url = new URL(systemId);
-	       File file = new File(URLDecoder.decode(url.getPath(), enc));
-	       // Check for absolute path.
-	       if (file.isAbsolute() && file.exists()) {
-		    ret = url;
-	       }
-	       else if (!file.isAbsolute()) {
-		    // Try relative the same directory as the
-		    // 'importing' file lives in.
-		    URL baseURL = new URL(baseURI);
-		    File baseFile = new File(URLDecoder.decode(baseURL.getPath(), enc)).getParentFile();
-		    String absPath = baseFile.getPath() + System.getProperty("file.separator") +
-			 URLDecoder.decode(url.getPath(), enc);
-		    file = new File(absPath);
-		    if (file.exists()) {
-			 String newURL = file.toURL().toString();
-			 if (url.getQuery() != null) {
-			     newURL += "?" + url.getQuery();
-			 }
-			 ret = new URL(newURL);
-		    }
-		    else {
-			 // Perhaps try relative cwd here...
-		    }
-	       }
-	  } catch (MalformedURLException e) {
-	  } catch (UnsupportedEncodingException e) {
- 	  }
-	  return ret;
+     private URL findFile(String baseURI, String systemId) {          
+          final String enc = "UTF-8"; // Encoding to decode to.
+          URL ret = null;
+          try {
+               URL url = new URL(systemId);
+               File file = new File(URLDecoder.decode(url.getPath(), enc));
+               // Check for absolute path.
+               if (file.isAbsolute() && file.exists()) {
+                    ret = url;
+               }
+               else if (!file.isAbsolute()) {
+                    // Try relative the same directory as the
+                    // 'importing' file lives in.
+                    URL baseURL = new URL(baseURI);
+                    File baseFile = new File(URLDecoder.decode(baseURL.getPath(), enc)).getParentFile();
+                    String absPath = baseFile.getPath() + System.getProperty("file.separator") +
+                         URLDecoder.decode(url.getPath(), enc);
+                    file = new File(absPath);
+                    if (file.exists()) {
+                         String newURL = file.toURL().toString();
+                         if (url.getQuery() != null) {
+                             newURL += "?" + url.getQuery();
+                         }
+                         ret = new URL(newURL);
+                    }
+                    else {
+                         // Perhaps try relative cwd here...
+                    }
+               }
+          } catch (MalformedURLException e) {
+          } catch (UnsupportedEncodingException e) {
+           }
+          return ret;
      }
 
      /**
@@ -893,14 +893,14 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
       * exceptions has occurred.
       */
      public void warning(SAXParseException exception) throws SAXException {
-	  SAXParseException e = addLineAndColumnInfoToMessage(exception);
-	  System.err.println("Warning: " + e);
-	  if (exceptions.size() > 98) {
-	       throw e;
-	  }
-	  else {
-	       exceptions.add(e);
-	  }
+          SAXParseException e = addLineAndColumnInfoToMessage(exception);
+          System.err.println("Warning: " + e);
+          if (exceptions.size() > 98) {
+               throw e;
+          }
+          else {
+               exceptions.add(e);
+          }
      }
 
      /**
@@ -913,14 +913,14 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
       * exceptions has occurred.
       */
      public void error(SAXParseException exception) throws SAXException {
-	  SAXParseException e = addLineAndColumnInfoToMessage(exception);
-	  System.err.println("Error: " + e);
-	  if (exceptions.size() > 98) {
-	       throw e;
-	  }
-	  else {
-	       exceptions.add(e);
-	  }
+          SAXParseException e = addLineAndColumnInfoToMessage(exception);
+          System.err.println("Error: " + e);
+          if (exceptions.size() > 98) {
+               throw e;
+          }
+          else {
+               exceptions.add(e);
+          }
      }
 
      /**
@@ -930,9 +930,9 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
       * @throws SAXException Throws the exception found by the parser.
       */
      public void fatalError(SAXParseException exception) throws SAXException {
-	  SAXParseException e = addLineAndColumnInfoToMessage(exception);
-	  System.err.println("Fatal: " + e);
-	  throw e;
+          SAXParseException e = addLineAndColumnInfoToMessage(exception);
+          System.err.println("Fatal: " + e);
+          throw e;
      }
 
      /**
@@ -945,12 +945,12 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
       * information added to the message.
       */
      private SAXParseException addLineAndColumnInfoToMessage(SAXParseException e) {
-	  String msg = "Line: " + e.getLineNumber() + ", column: " + e.getColumnNumber() + ": ";
-	  return new SAXParseException(msg + e.getMessage(),
-				       e.getPublicId(),
-				       e.getSystemId(),
-				       e.getLineNumber(),
-				       e.getColumnNumber());
+          String msg = "Line: " + e.getLineNumber() + ", column: " + e.getColumnNumber() + ": ";
+          return new SAXParseException(msg + e.getMessage(),
+                                       e.getPublicId(),
+                                       e.getSystemId(),
+                                       e.getLineNumber(),
+                                       e.getColumnNumber());
      }
 
     /**
@@ -959,9 +959,9 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
      */ 
     public void nullify() 
     {
-	currentPlaceHolder = null;
-	currentObject = null;
-	createdObject = null;
+        currentPlaceHolder = null;
+        currentObject = null;
+        createdObject = null;
     }
 }
 
@@ -979,6 +979,6 @@ class IncompleteVectorConstructException extends Exception {
       * @param msg The message.
       */
      public IncompleteVectorConstructException(String msg) {
-	  super(msg);
+          super(msg);
      }
 }

@@ -58,28 +58,28 @@ public class TimeSliderDebugFrame extends JFrame {
       * Constructor.
       */
      public TimeSliderDebugFrame() {
-	  super("TimeSliderDebugFrame");
+          super("TimeSliderDebugFrame");
 
-	  setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+          setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-	  final TimeSliderDebugFrame self = this;
-	  JSlider timeSlider = new JSlider(0, 10000, 0);
-	  mLabel = new JLabel(mFormat.format(mMeanStepTime));
-	  timeSlider.addChangeListener(new ChangeListener() {
-		    public void stateChanged(ChangeEvent e) {
-			 JSlider source = (JSlider) e.getSource();
-			 if (!source.getValueIsAdjusting()) {
-			      mLabel.setText(mFormat.format((mMeanStepTime + source.getValue()) / 1000.0));
-			      mWaitTime = source.getValue();
-			 }
-		    }
-	       });
-	  JPanel timeSliderPanel = new JPanel();
-	  timeSliderPanel.setLayout(new BoxLayout(timeSliderPanel, BoxLayout.Y_AXIS));
-	  timeSliderPanel.add(timeSlider);
-	  timeSliderPanel.add(mLabel);
+          final TimeSliderDebugFrame self = this;
+          JSlider timeSlider = new JSlider(0, 10000, 0);
+          mLabel = new JLabel(mFormat.format(mMeanStepTime));
+          timeSlider.addChangeListener(new ChangeListener() {
+                    public void stateChanged(ChangeEvent e) {
+                         JSlider source = (JSlider) e.getSource();
+                         if (!source.getValueIsAdjusting()) {
+                              mLabel.setText(mFormat.format((mMeanStepTime + source.getValue()) / 1000.0));
+                              mWaitTime = source.getValue();
+                         }
+                    }
+               });
+          JPanel timeSliderPanel = new JPanel();
+          timeSliderPanel.setLayout(new BoxLayout(timeSliderPanel, BoxLayout.Y_AXIS));
+          timeSliderPanel.add(timeSlider);
+          timeSliderPanel.add(mLabel);
 
-	  getContentPane().add(timeSliderPanel);
+          getContentPane().add(timeSliderPanel);
      }
 
      /**
@@ -88,17 +88,17 @@ public class TimeSliderDebugFrame extends JFrame {
       * @param timeMs The step time in milliseconds.
       */
      public void registerStepTime(long timeMs) {
-	  mStepTimes[mCurrentIndex] = timeMs;
-	  if (mNumStepTimes < mStepTimes.length) {
-	       mNumStepTimes++;
-	  }
-	  mCurrentIndex = (mCurrentIndex + 1) % mStepTimes.length;
-	  double sum = 0;
-	  for (int i = 0; i < mNumStepTimes; i++) {
-	       sum += mStepTimes[i];
-	  }
-	  mMeanStepTime = sum / mNumStepTimes;
-	  mLabel.setText(mFormat.format((mMeanStepTime + mWaitTime) / 1000.0));
+          mStepTimes[mCurrentIndex] = timeMs;
+          if (mNumStepTimes < mStepTimes.length) {
+               mNumStepTimes++;
+          }
+          mCurrentIndex = (mCurrentIndex + 1) % mStepTimes.length;
+          double sum = 0;
+          for (int i = 0; i < mNumStepTimes; i++) {
+               sum += mStepTimes[i];
+          }
+          mMeanStepTime = sum / mNumStepTimes;
+          mLabel.setText(mFormat.format((mMeanStepTime + mWaitTime) / 1000.0));
      }
 
      /**
@@ -108,18 +108,18 @@ public class TimeSliderDebugFrame extends JFrame {
       * between two consecutive step messages.
       */
      public long getWaitTimeMs() {
-	  return mWaitTime;
+          return mWaitTime;
      }
 
      public static TimeSliderDebugFrame openTimeSliderDebugFrame() {
-	  final TimeSliderDebugFrame frame = new TimeSliderDebugFrame();
-	  
-	  javax.swing.SwingUtilities.invokeLater(new Runnable() {
-		    public void run() {
-			 frame.pack();
-			 frame.setVisible(true);
-		    }
-	       });
-	  return frame;
+          final TimeSliderDebugFrame frame = new TimeSliderDebugFrame();
+          
+          javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                         frame.pack();
+                         frame.setVisible(true);
+                    }
+               });
+          return frame;
      }
 }

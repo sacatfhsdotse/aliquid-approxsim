@@ -1,4 +1,4 @@
-// 	$Id: ParsedPrimitive.java,v 1.4 2006/03/31 16:55:50 dah Exp $
+//         $Id: ParsedPrimitive.java,v 1.4 2006/03/31 16:55:50 dah Exp $
 /*
  * @(#)ParsedPrimitive.java
  */
@@ -31,10 +31,10 @@ public abstract class ParsedPrimitive extends ParsedDeclaration
      *@param pos where the declaration were made.
      */
     public ParsedPrimitive(SourcePosition pos)
-	throws SemanticException
+        throws SemanticException
     {
-	super(pos, primitiveType, ParsedIdentifier.getAnonymous(), 
-	      ParsedDeclarationList.getEmpty());
+        super(pos, primitiveType, ParsedIdentifier.getAnonymous(), 
+              ParsedDeclarationList.getEmpty());
     }
 
     /**
@@ -44,10 +44,10 @@ public abstract class ParsedPrimitive extends ParsedDeclaration
      * @param typeInformation the TypeInformation to use.
      */
     public void typeCheckImmidiates(Declaration definedDeclaration, 
-				    TypeInformation typeInformation) 
-	throws SemanticException
+                                    TypeInformation typeInformation) 
+        throws SemanticException
     {
-	
+        
     }
 
     /**
@@ -55,7 +55,7 @@ public abstract class ParsedPrimitive extends ParsedDeclaration
      */
     public String toString()
     {
-	return "'" + this.getIdentifier().getName() + "' = " + valueToString();
+        return "'" + this.getIdentifier().getName() + "' = " + valueToString();
     }
 
     /**
@@ -70,12 +70,12 @@ public abstract class ParsedPrimitive extends ParsedDeclaration
      */
     public StratmasObject getStratmasObject(Declaration declaration) throws SemanticException
     {
-	try {
-	    StratmasSimple res = (StratmasSimple) StratmasObjectFactory.defaultCreate(declaration);
-	    res.valueFromString(valueToString());
-	    return res;
-	} catch (ParseException e) {
-	    throw new ConversionException(this, declaration);
-	}
+        try {
+            StratmasSimple res = (StratmasSimple) StratmasObjectFactory.defaultCreate(declaration);
+            res.valueFromString(valueToString());
+            return res;
+        } catch (ParseException e) {
+            throw new ConversionException(this, declaration);
+        }
     }
 }

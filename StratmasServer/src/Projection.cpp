@@ -88,45 +88,45 @@ void Projection::projToCoord(const double inX, const double inY, double &outLng,
     double z = 0.5 * rho / mR;
 
     if ( z > 1.0 ) {
-//	debug("z > 1.0 in Proj2Coord for coord x: " << inX << ", y: " << inY);
-	return;
+//        debug("z > 1.0 in Proj2Coord for coord x: " << inX << ", y: " << inY);
+        return;
     }
 
     double t = 2.0 * asin(z);
     if ( inX == mPCenX && inY == mPCenY) {
-	phi = mPhi0;
-	lam = mLam0;
+        phi = mPhi0;
+        lam = mLam0;
     }
     else {
-	phi = asin(cos(t) * mSinPhi0 + y * sin(t) * mCosPhi0 / rho);
-	if (mCenLat == 90.0) {
-	    lam = mLam0 + atan2(x, -y);
-	}
-	else if (mCenLat == -90.0) {
-	    lam = mLam0 + atan2(x, y);
-	}
-	else {
-	    lam = mLam0 + atan2(x * sin(t), rho * mCosPhi0 * cos(t) - y * mSinPhi0 * sin(t));
-	}
+        phi = asin(cos(t) * mSinPhi0 + y * sin(t) * mCosPhi0 / rho);
+        if (mCenLat == 90.0) {
+            lam = mLam0 + atan2(x, -y);
+        }
+        else if (mCenLat == -90.0) {
+            lam = mLam0 + atan2(x, y);
+        }
+        else {
+            lam = mLam0 + atan2(x * sin(t), rho * mCosPhi0 * cos(t) - y * mSinPhi0 * sin(t));
+        }
     }
     outLng = lam * kRad2Deg;
     outLat = phi * kRad2Deg;
 
     if (outLat > 90.0) {
-	outLat = 90.0;
+        outLat = 90.0;
     }
     else if (outLat < -90.0) {
-	outLat = -90.0;
+        outLat = -90.0;
     }
 
     while (outLng > 180.0) {
-//	outLng -= 180.0;
-	outLng -= 360.0;
+//        outLng -= 180.0;
+        outLng -= 360.0;
     }
 
     while (outLng < -180.0) {
-//	outLng += 180.0;
-	outLng += 360.0;
+//        outLng += 180.0;
+        outLng += 360.0;
     }
 }
 
@@ -176,7 +176,7 @@ void Projection::coordToProj(gpc_vertex &dst, const gpc_vertex &src) const
 void Projection::coordToProj(gpc_vertex_list &dst, const gpc_vertex_list &src) const
 {
      for (int i = 0; i < src.num_vertices; i++) {
-	  coordToProj(dst.vertex[i], src.vertex[i]);
+          coordToProj(dst.vertex[i], src.vertex[i]);
      }
 }
 
@@ -186,7 +186,7 @@ void Projection::coordToProj(gpc_vertex_list &dst, const gpc_vertex_list &src) c
 void Projection::coordToProj(gpc_polygon &dst,  const gpc_polygon &src) const
 {
      for (int i = 0; i < src.num_contours; i++) {
-	  coordToProj(dst.contour[i], src.contour[i]);
+          coordToProj(dst.contour[i], src.contour[i]);
      }
 }
 
@@ -204,7 +204,7 @@ void Projection::projToCoord(gpc_vertex &dst,  const gpc_vertex &src) const
 void Projection::projToCoord(gpc_vertex_list &dst,  const gpc_vertex_list &src) const
 {
      for (int i = 0; i < src.num_vertices; i++) {
-	  projToCoord(dst.vertex[i], src.vertex[i]);
+          projToCoord(dst.vertex[i], src.vertex[i]);
      }
 }
 
@@ -214,6 +214,6 @@ void Projection::projToCoord(gpc_vertex_list &dst,  const gpc_vertex_list &src) 
 void Projection::projToCoord(gpc_polygon &dst,  const gpc_polygon &src) const
 {
      for (int i = 0; i < src.num_contours; i++) {
-	  projToCoord(dst.contour[i], src.contour[i]);
+          projToCoord(dst.contour[i], src.contour[i]);
      }
 }

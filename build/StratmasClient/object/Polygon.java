@@ -1,4 +1,4 @@
-// 	$Id: Polygon.java,v 1.7 2007/01/24 14:08:55 amfi Exp $
+//         $Id: Polygon.java,v 1.7 2007/01/24 14:08:55 amfi Exp $
 /*
  * @(#)Polygon.java
  */
@@ -39,8 +39,8 @@ public class Polygon extends Segmented
      */
     protected Polygon(String identifier, Vector lines)
     {
-	super(identifier, TypeFactory.getType("Polygon"));
-	this.add(lines);
+        super(identifier, TypeFactory.getType("Polygon"));
+        this.add(lines);
     }
 
     /**
@@ -51,7 +51,7 @@ public class Polygon extends Segmented
      */
     protected Polygon(Declaration declaration, Vector lines)
     {
-	this(declaration.getName(), lines);
+        this(declaration.getName(), lines);
     }
 
     /**
@@ -62,7 +62,7 @@ public class Polygon extends Segmented
      */
     protected Polygon constructPolygon(double error)
     {
-	return this;
+        return this;
     }
 
     /**
@@ -73,7 +73,7 @@ public class Polygon extends Segmented
      */
     protected static StratmasVectorConstructor getVectorConstructor(Declaration declaration)
     {
-	return new PolygonVectorConstructor(declaration);
+        return new PolygonVectorConstructor(declaration);
     }
 
     /**
@@ -85,65 +85,65 @@ public class Polygon extends Segmented
      */
     protected static StratmasObject defaultCreate(Declaration declaration)
     {
-	throw new AssertionError("No default constructor for Polygon.");
+        throw new AssertionError("No default constructor for Polygon.");
     }
     
     /**
      * Creates this shapes bounding box. This method assumes that the polygon is nonempty.
      */
     public BoundingBox createBoundingBox()
-    {		
-	double xmin = Double.POSITIVE_INFINITY;
-	double ymin = Double.POSITIVE_INFINITY;
-	double xmax = Double.NEGATIVE_INFINITY;
-	double ymax = Double.NEGATIVE_INFINITY;
+    {                
+        double xmin = Double.POSITIVE_INFINITY;
+        double ymin = Double.POSITIVE_INFINITY;
+        double xmax = Double.NEGATIVE_INFINITY;
+        double ymax = Double.NEGATIVE_INFINITY;
 
-	for (Enumeration ls = this.getCurves(); ls.hasMoreElements();) {
-	    Line l = (Line) ls.nextElement();
-	    xmin = xmin < l.getStartPoint().getLon() ? xmin : l.getStartPoint().getLon();
-	    xmin = xmin < l.getEndPoint().getLon() ? xmin : l.getEndPoint().getLon();
+        for (Enumeration ls = this.getCurves(); ls.hasMoreElements();) {
+            Line l = (Line) ls.nextElement();
+            xmin = xmin < l.getStartPoint().getLon() ? xmin : l.getStartPoint().getLon();
+            xmin = xmin < l.getEndPoint().getLon() ? xmin : l.getEndPoint().getLon();
 
-	    ymin = ymin < l.getStartPoint().getLat() ? ymin : l.getStartPoint().getLat();
-	    ymin = ymin < l.getEndPoint().getLat() ? ymin : l.getEndPoint().getLat();
+            ymin = ymin < l.getStartPoint().getLat() ? ymin : l.getStartPoint().getLat();
+            ymin = ymin < l.getEndPoint().getLat() ? ymin : l.getEndPoint().getLat();
 
-	    xmax = xmax > l.getStartPoint().getLon() ? xmax : l.getStartPoint().getLon();
-	    xmax = xmax > l.getEndPoint().getLon() ? xmax : l.getEndPoint().getLon();
+            xmax = xmax > l.getStartPoint().getLon() ? xmax : l.getStartPoint().getLon();
+            xmax = xmax > l.getEndPoint().getLon() ? xmax : l.getEndPoint().getLon();
 
-	    ymax = ymax > l.getStartPoint().getLat() ? ymax : l.getStartPoint().getLat();
-	    ymax = ymax > l.getEndPoint().getLat() ? ymax : l.getEndPoint().getLat();
-	}
+            ymax = ymax > l.getStartPoint().getLat() ? ymax : l.getStartPoint().getLat();
+            ymax = ymax > l.getEndPoint().getLat() ? ymax : l.getEndPoint().getLat();
+        }
 
-	return new BoundingBox(xmin, ymin, xmax, ymax);
+        return new BoundingBox(xmin, ymin, xmax, ymax);
     }
 
     /**
      * Returns the bounding box with respect to its projected parts.
      */
     public BoundingBox getBoundingBox(Projection proj)
-    {		
-	double xmin = Double.POSITIVE_INFINITY;
-	double ymin = Double.POSITIVE_INFINITY;
-	double xmax = Double.NEGATIVE_INFINITY;
-	double ymax = Double.NEGATIVE_INFINITY;
+    {                
+        double xmin = Double.POSITIVE_INFINITY;
+        double ymin = Double.POSITIVE_INFINITY;
+        double xmax = Double.NEGATIVE_INFINITY;
+        double ymax = Double.NEGATIVE_INFINITY;
 
-	for (Enumeration ls = this.getCurves(); ls.hasMoreElements();) {
-	    Line l = (Line) ls.nextElement();
-	    double[] p1 = proj.projToXY(l.getStartPoint());
-	    double[] p2 = proj.projToXY(l.getEndPoint());
+        for (Enumeration ls = this.getCurves(); ls.hasMoreElements();) {
+            Line l = (Line) ls.nextElement();
+            double[] p1 = proj.projToXY(l.getStartPoint());
+            double[] p2 = proj.projToXY(l.getEndPoint());
 
-	    xmin = xmin < p1[0] ? xmin : p1[0];
-	    xmin = xmin < p2[0] ? xmin : p2[0];
+            xmin = xmin < p1[0] ? xmin : p1[0];
+            xmin = xmin < p2[0] ? xmin : p2[0];
 
-	    ymin = ymin < p1[1] ? ymin : p1[1];
-	    ymin = ymin < p2[1] ? ymin : p2[1];
+            ymin = ymin < p1[1] ? ymin : p1[1];
+            ymin = ymin < p2[1] ? ymin : p2[1];
 
-	    xmax = xmax > p1[0] ? xmax : p1[0];
-	    xmax = xmax > p2[0] ? xmax : p2[0];
+            xmax = xmax > p1[0] ? xmax : p1[0];
+            xmax = xmax > p2[0] ? xmax : p2[0];
 
-	    ymax = ymax > p1[1] ? ymax : p1[1];
-	    ymax = ymax > p2[1] ? ymax : p2[1];
-	}
-	return new BoundingBox(xmin, ymin, xmax, ymax, proj);
+            ymax = ymax > p1[1] ? ymax : p1[1];
+            ymax = ymax > p2[1] ? ymax : p2[1];
+        }
+        return new BoundingBox(xmin, ymin, xmax, ymax, proj);
     }
 
 
@@ -156,9 +156,9 @@ public class Polygon extends Segmented
       * @param dy The distance to move given in degrees latitude.
       */
      public void move(double dx, double dy) {
-	 for(Enumeration en = getCurves(); en.hasMoreElements(); ) {
-	       ((Line)en.nextElement()).move(dx, dy);
-	 }
+         for(Enumeration en = getCurves(); en.hasMoreElements(); ) {
+               ((Line)en.nextElement()).move(dx, dy);
+         }
      }
 
      /**
@@ -170,10 +170,10 @@ public class Polygon extends Segmented
       * @param lat The latitude of the new location.
       */
     public void moveTo(double lng, double lat) {
-	BoundingBox b = createBoundingBox();
-	double cenLng = b.getWestLon() + (b.getEastLon() - b.getWestLon()) / 2;
-	double cenLat = b.getSouthLat() + (b.getNorthLat() - b.getSouthLat()) / 2;
-	move(lng - cenLng, lat - cenLat);
+        BoundingBox b = createBoundingBox();
+        double cenLng = b.getWestLon() + (b.getEastLon() - b.getWestLon()) / 2;
+        double cenLat = b.getSouthLat() + (b.getNorthLat() - b.getSouthLat()) / 2;
+        move(lng - cenLng, lat - cenLat);
     }
 
 
@@ -187,11 +187,11 @@ public class Polygon extends Segmented
      * @return A clone of this object.
      */
      protected Object clone() {
-	  Vector elements = new Vector();
-	  for (Enumeration en = children(); en.hasMoreElements(); ) {
-	       elements.add(((StratmasObject)en.nextElement()).clone());
-	  }
-	  return new Polygon(identifier, elements);
+          Vector elements = new Vector();
+          for (Enumeration en = children(); en.hasMoreElements(); ) {
+               elements.add(((StratmasObject)en.nextElement()).clone());
+          }
+          return new Polygon(identifier, elements);
      }
 
     /**
@@ -204,56 +204,56 @@ public class Polygon extends Segmented
      */
     public void update(Element n, Timestamp t) 
     {
-	if (getType().equals(TypeFactory.getType(n))) {
-	    // Get the StratmasList containing the child curves.
-	    StratmasList curveList = (StratmasList)getChild("curves");
-	    if (curveList == null) {
-		throw new AssertionError("Polygon without curve StratmasList");
-	    }
-	    
-	    // Go through the child curves in the new Polygon and
-	    // check them with the existing child curves. If any
-	    // new curves are detected or if any curve has been
-	    // removed we replace the enture Polygon.
-	    Vector v = XMLHelper.getChildElementsByTag(n, "curves");
-	    if (v.size() == curveList.getChildCount()) {
-		for (Enumeration en = v.elements(); en.hasMoreElements(); ) {
-		    // Cast the child curve Node to an Element.
-		    Element curveElem = (Element) en.nextElement();
-		    
-		    // Get the Identifier of the child curve.
-		    String id = Identifier.getIdentifier(curveElem);
-		    
-		    // Get the Type of the child curve.
-		    Type typeOfNewChild = TypeFactory.getType(curveElem);
-		    
-		    // Check if we have a child curve with the same
-		    // name as the new one.
-		    Curve childCurve = (Curve) curveList.getChild(id);
-		    if (childCurve == null || 
-			!childCurve.getType().equals(typeOfNewChild)) {
-			// Same number of curves but not same
-			// identifers -> replace.
-			replace(StratmasObjectFactory.domCreate(n), n);
-			return;
-		    }
-		    else {
-			// Ok, it was just an update of the same
-			// child curve.
-			childCurve.update(curveElem, t);
-		    }
-		}
-	    }
-	    else {
-		// More or less curves than in the old polygon -> replace.
-		replace(StratmasObjectFactory.domCreate(n), n);
-		return;
-	    }
-	}
-	else {
-	    // Different type -> replace
-	    replace(StratmasObjectFactory.domCreate(n), n);
-	}
+        if (getType().equals(TypeFactory.getType(n))) {
+            // Get the StratmasList containing the child curves.
+            StratmasList curveList = (StratmasList)getChild("curves");
+            if (curveList == null) {
+                throw new AssertionError("Polygon without curve StratmasList");
+            }
+            
+            // Go through the child curves in the new Polygon and
+            // check them with the existing child curves. If any
+            // new curves are detected or if any curve has been
+            // removed we replace the enture Polygon.
+            Vector v = XMLHelper.getChildElementsByTag(n, "curves");
+            if (v.size() == curveList.getChildCount()) {
+                for (Enumeration en = v.elements(); en.hasMoreElements(); ) {
+                    // Cast the child curve Node to an Element.
+                    Element curveElem = (Element) en.nextElement();
+                    
+                    // Get the Identifier of the child curve.
+                    String id = Identifier.getIdentifier(curveElem);
+                    
+                    // Get the Type of the child curve.
+                    Type typeOfNewChild = TypeFactory.getType(curveElem);
+                    
+                    // Check if we have a child curve with the same
+                    // name as the new one.
+                    Curve childCurve = (Curve) curveList.getChild(id);
+                    if (childCurve == null || 
+                        !childCurve.getType().equals(typeOfNewChild)) {
+                        // Same number of curves but not same
+                        // identifers -> replace.
+                        replace(StratmasObjectFactory.domCreate(n), n);
+                        return;
+                    }
+                    else {
+                        // Ok, it was just an update of the same
+                        // child curve.
+                        childCurve.update(curveElem, t);
+                    }
+                }
+            }
+            else {
+                // More or less curves than in the old polygon -> replace.
+                replace(StratmasObjectFactory.domCreate(n), n);
+                return;
+            }
+        }
+        else {
+            // Different type -> replace
+            replace(StratmasObjectFactory.domCreate(n), n);
+        }
     }
 
     /**
@@ -264,11 +264,11 @@ public class Polygon extends Segmented
      */
     public void childChanged(StratmasObject child, Object initiator) 
     {
-	if (getParent() != null) {
-	    getParent().childChanged(this, initiator);
-	}
-	
-	fireChildChanged(child, initiator);
+        if (getParent() != null) {
+            getParent().childChanged(this, initiator);
+        }
+        
+        fireChildChanged(child, initiator);
     }
 
      /**
@@ -278,41 +278,41 @@ public class Polygon extends Segmented
       * @return True if the polygon is closed, false otherwise.
       */
      public boolean isClosed() {
-	  // Should be cached and updated!!!
-	  Hashtable h = new Hashtable();
-	  for (Enumeration en = getCurves(); en.hasMoreElements(); ) {
-	       Line l = (Line)en.nextElement();
-	       h.put(new java.awt.geom.Point2D.Double(l.getStartPoint().getLon(), l.getStartPoint().getLat()), l);
-//	       h.put(l.getStartPoint(), l);
-	  }
-	  for (Enumeration en = h.elements(); en.hasMoreElements(); ) {
-	       Line l = (Line)en.nextElement();
-	       if (h.get(new java.awt.geom.Point2D.Double(l.getEndPoint().getLon(), l.getEndPoint().getLat())) == null) {
-//	       if (h.get(l.getEndPoint()) == null) {
-		    return false;
-	       }
-	  }
-	  return true;
+          // Should be cached and updated!!!
+          Hashtable h = new Hashtable();
+          for (Enumeration en = getCurves(); en.hasMoreElements(); ) {
+               Line l = (Line)en.nextElement();
+               h.put(new java.awt.geom.Point2D.Double(l.getStartPoint().getLon(), l.getStartPoint().getLat()), l);
+//               h.put(l.getStartPoint(), l);
+          }
+          for (Enumeration en = h.elements(); en.hasMoreElements(); ) {
+               Line l = (Line)en.nextElement();
+               if (h.get(new java.awt.geom.Point2D.Double(l.getEndPoint().getLon(), l.getEndPoint().getLat())) == null) {
+//               if (h.get(l.getEndPoint()) == null) {
+                    return false;
+               }
+          }
+          return true;
      }
     
     /**
      * Returns the ordered set of points for this polygonial.
      */
     public Vector getOrderedSetOfPoints() {
-	Hashtable h = new Hashtable();
-	for (Enumeration en = getCurves(); en.hasMoreElements(); ) {
-	    Line l = (Line)en.nextElement();
-	    h.put(new java.awt.geom.Point2D.Double(l.getStartPoint().getLon(), l.getStartPoint().getLat()), 
-		  l.getEndPoint());
-	}
-	Vector points = new Vector();
-	// get the first point
-	Point point = (Point)h.elements().nextElement();
-	while (point != null && !points.contains(point)) {
-	    points.add(point);
-	    point = (Point)h.get(new java.awt.geom.Point2D.Double(point.getLon(), point.getLat()));
-	}
-	return points;
+        Hashtable h = new Hashtable();
+        for (Enumeration en = getCurves(); en.hasMoreElements(); ) {
+            Line l = (Line)en.nextElement();
+            h.put(new java.awt.geom.Point2D.Double(l.getStartPoint().getLon(), l.getStartPoint().getLat()), 
+                  l.getEndPoint());
+        }
+        Vector points = new Vector();
+        // get the first point
+        Point point = (Point)h.elements().nextElement();
+        while (point != null && !points.contains(point)) {
+            points.add(point);
+            point = (Point)h.get(new java.awt.geom.Point2D.Double(point.getLon(), point.getLat()));
+        }
+        return points;
     }
 
 
@@ -338,7 +338,7 @@ class PolygonVectorConstructor extends StratmasVectorConstructor
      */
     public PolygonVectorConstructor(Declaration declaration)
     {
-	super(declaration);
+        super(declaration);
     }
 
     /**
@@ -348,6 +348,6 @@ class PolygonVectorConstructor extends StratmasVectorConstructor
      */
     public StratmasObject getStratmasObject(Vector parts)
     {
-	return new Polygon(this.getDeclaration(), parts);
+        return new Polygon(this.getDeclaration(), parts);
     }
 }

@@ -1,6 +1,6 @@
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"	
-	    xmlns:sp="http://pdc.kth.se/stratmasNamespace"	
-	    targetNamespace="http://pdc.kth.se/stratmasNamespace">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"        
+            xmlns:sp="http://pdc.kth.se/stratmasNamespace"        
+            targetNamespace="http://pdc.kth.se/stratmasNamespace">
 
   <!-- For xml:base attribute of Identifiable -->
   <xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/> 
@@ -21,8 +21,8 @@
   <xsd:complexType name="Simulation" abstract="true">
     <xsd:annotation>
       <xsd:documentation xml:lang="en">
-	This element represents all the server needs to know to start a
-	simulation.
+        This element represents all the server needs to know to start a
+        simulation.
       </xsd:documentation>
     </xsd:annotation>
     <xsd:complexContent>
@@ -46,8 +46,8 @@
     </xsd:annotation>
     <xsd:complexContent>
       <xsd:extension base="sp:Simulation">
-	<xsd:sequence>
-	</xsd:sequence>
+        <xsd:sequence>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -55,7 +55,7 @@
   <xsd:complexType name="TimeStepper" abstract="true">
     <xsd:annotation>
       <xsd:documentation xml:lang="en">
-	This element contains the information needed to decide the next timestep.
+        This element contains the information needed to decide the next timestep.
       </xsd:documentation>
     </xsd:annotation>
     <xsd:complexContent>
@@ -67,14 +67,14 @@
   <xsd:complexType name="ConstantStepper">
     <xsd:annotation>
       <xsd:documentation xml:lang="en">
-	This derivation of timestepper takes constant sized steps.
+        This derivation of timestepper takes constant sized steps.
       </xsd:documentation>
     </xsd:annotation>
     <xsd:complexContent>
       <xsd:extension base="sp:TimeStepper">
-	<xsd:sequence>
-	  <xsd:element name="dt" type="sp:Duration"/>
-	</xsd:sequence>
+        <xsd:sequence>
+          <xsd:element name="dt" type="sp:Duration"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -82,8 +82,8 @@
   <xsd:complexType name="GridPartitioner" abstract="true">
     <xsd:annotation>
       <xsd:documentation xml:lang="en">
-	This type contains the information needed to decide a
-	partitioning into cells of the map.
+        This type contains the information needed to decide a
+        partitioning into cells of the map.
       </xsd:documentation>
     </xsd:annotation>
     <xsd:complexContent>
@@ -95,15 +95,15 @@
   <xsd:complexType name="SquarePartitioner">
     <xsd:annotation>
       <xsd:documentation xml:lang="en">
-	This derivation of GridPartitioner partitions the map into
-	square cells of the specified size.
+        This derivation of GridPartitioner partitions the map into
+        square cells of the specified size.
       </xsd:documentation>
     </xsd:annotation>
     <xsd:complexContent>
       <xsd:extension base="sp:GridPartitioner">
-	<xsd:sequence>
-	  <xsd:element name="cellSizeMeters" type="sp:Double"/>
-	</xsd:sequence>
+        <xsd:sequence>
+          <xsd:element name="cellSizeMeters" type="sp:Double"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -137,8 +137,8 @@
           <xsd:element name="disease" type="sp:Disease"/>
           <xsd:element name="element" type="sp:Element" minOccurs="0" maxOccurs="unbounded"/>
           <xsd:element name="faction" type="sp:Faction" minOccurs="0" maxOccurs="unbounded"/>
-	  <xsd:element name="HDI" type="sp:Double"/>
-	  <xsd:element name="unemployment" type="sp:Double"/>
+          <xsd:element name="HDI" type="sp:Double"/>
+          <xsd:element name="unemployment" type="sp:Double"/>
         </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
@@ -196,7 +196,7 @@
     <xsd:complexContent>
       <xsd:extension base="sp:Shape">
         <xsd:sequence>
-	   <xsd:element name="curve" type="sp:Curve" minOccurs="1" maxOccurs="unbounded"/>
+           <xsd:element name="curve" type="sp:Curve" minOccurs="1" maxOccurs="unbounded"/>
        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
@@ -219,10 +219,10 @@
   <xsd:complexType name="Line">
     <xsd:complexContent>
       <xsd:extension base="sp:Curve">
-	<xsd:sequence>
-	  <xsd:element name="p1" type="sp:Point"/>
-	  <xsd:element name="p2" type="sp:Point"/>
-	</xsd:sequence>
+        <xsd:sequence>
+          <xsd:element name="p1" type="sp:Point"/>
+          <xsd:element name="p2" type="sp:Point"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -291,8 +291,8 @@
     <xsd:complexContent>
       <xsd:extension base="sp:ActorBasedActivity">
         <xsd:sequence>
-	  <xsd:element name="carriedOut" type="sp:Boolean"/>
-	</xsd:sequence>
+          <xsd:element name="carriedOut" type="sp:Boolean"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -301,8 +301,8 @@
     <xsd:complexContent>
       <xsd:extension base="sp:Order">
         <xsd:sequence>
-	  <xsd:element name="location" type="sp:Shape"/>
-	</xsd:sequence>
+          <xsd:element name="location" type="sp:Shape"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -312,10 +312,10 @@
       <xsd:extension base="sp:Order">
         <xsd:sequence>
           <xsd:element name="end" type="sp:Timestamp"/>
-	  <xsd:element name="target" type="sp:EthnicFactionReference" minOccurs="0"/>
-	  <xsd:element name="location" type="sp:Shape" minOccurs="0"/>
-	  <xsd:element name="foodDays" type="sp:Double" minOccurs="0"/>
-	  <xsd:element name="waterDays" type="sp:Double" minOccurs="0"/> 
+          <xsd:element name="target" type="sp:EthnicFactionReference" minOccurs="0"/>
+          <xsd:element name="location" type="sp:Shape" minOccurs="0"/>
+          <xsd:element name="foodDays" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="waterDays" type="sp:Double" minOccurs="0"/> 
           <xsd:element name="fractionNoMedical" type="sp:Double" minOccurs="0"/> 
           <xsd:element name="fractionInfected" type="sp:Double" minOccurs="0"/> 
           <xsd:element name="fractionRecovered" type="sp:Double" minOccurs="0"/> 
@@ -330,7 +330,7 @@
           <xsd:element name="fractionNoWork" type="sp:Double" minOccurs="0"/>  
           <xsd:element name="infrastructure" type="sp:Double" minOccurs="0"/>
           <xsd:element name="insurgents" type="sp:Double" minOccurs="0"/>
-	</xsd:sequence>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -338,12 +338,12 @@
   <xsd:complexType name="AmbushOrder">
     <xsd:complexContent>
       <xsd:extension base="sp:Order">
-	<xsd:sequence>
+        <xsd:sequence>
           <xsd:element name="end" type="sp:Timestamp"/>
-	  <xsd:element name="location" type="sp:Shape" minOccurs="0"/>
+          <xsd:element name="location" type="sp:Shape" minOccurs="0"/>
           <xsd:element name="startAmbush" type="sp:Timestamp"/>
           <xsd:element name="endAmbush" type="sp:Timestamp"/>
-	</xsd:sequence>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -351,9 +351,9 @@
   <xsd:complexType name="TerroristAttackOrder">
     <xsd:complexContent>
       <xsd:extension base="sp:AreaOrder">
-	<xsd:sequence>
+        <xsd:sequence>
           <xsd:element name="actionTime" type="sp:Timestamp"/>
-	</xsd:sequence>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -390,8 +390,8 @@
     <xsd:complexContent>
       <xsd:extension base="sp:Order">
         <xsd:sequence>
-	  <xsd:element name="location" type="sp:Shape"/>
-	</xsd:sequence>
+          <xsd:element name="location" type="sp:Shape"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -400,9 +400,9 @@
     <xsd:complexContent>
       <xsd:extension base="sp:Order">
         <xsd:sequence>
-	  <xsd:element name="location" type="sp:Shape" minOccurs="0"/>
+          <xsd:element name="location" type="sp:Shape" minOccurs="0"/>
           <xsd:element name="end" type="sp:Timestamp"/>
-	</xsd:sequence>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -426,10 +426,10 @@
       <xsd:extension base="sp:ActorLessActivity">
         <xsd:sequence>
           <xsd:element name="end" type="sp:Timestamp"/>
-	  <xsd:element name="target" type="sp:EthnicFactionReference" minOccurs="0"/>
-	  <xsd:element name="location" type="sp:Shape" minOccurs="0"/>
-	  <xsd:element name="foodDays" type="sp:Double" minOccurs="0"/>
-	  <xsd:element name="waterDays" type="sp:Double" minOccurs="0"/> 
+          <xsd:element name="target" type="sp:EthnicFactionReference" minOccurs="0"/>
+          <xsd:element name="location" type="sp:Shape" minOccurs="0"/>
+          <xsd:element name="foodDays" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="waterDays" type="sp:Double" minOccurs="0"/> 
           <xsd:element name="fractionNoMedical" type="sp:Double" minOccurs="0"/> 
           <xsd:element name="fractionInfected" type="sp:Double" minOccurs="0"/> 
           <xsd:element name="fractionRecovered" type="sp:Double" minOccurs="0"/> 
@@ -444,7 +444,7 @@
           <xsd:element name="fractionNoWork" type="sp:Double" minOccurs="0"/>  
           <xsd:element name="infrastructure" type="sp:Double" minOccurs="0"/>
           <xsd:element name="insurgents" type="sp:Double" minOccurs="0"/>
-	</xsd:sequence>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -452,14 +452,14 @@
   <xsd:complexType name="Timestamp">
     <xsd:annotation>
       <xsd:documentation xml:lang="en">
-	This element contains a timestamp in UTC format e.g. the number of
-	seconds since 1:st jan 1970 00:00:00
+        This element contains a timestamp in UTC format e.g. the number of
+        seconds since 1:st jan 1970 00:00:00
       </xsd:documentation>
     </xsd:annotation>
     <xsd:complexContent>
       <xsd:extension base="sp:SimpleType">
         <xsd:sequence>
-	  <xsd:element name="value" type="xsd:long"/>
+          <xsd:element name="value" type="xsd:long"/>
         </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
@@ -501,9 +501,9 @@
   <xsd:complexType name="Population">
     <xsd:complexContent>
       <xsd:extension base="sp:Element">
-	<xsd:sequence>
-	  <xsd:element name="ethnicGroup" type="sp:PopulationGroup" minOccurs="0" maxOccurs="unbounded"/>
-	</xsd:sequence>
+        <xsd:sequence>
+          <xsd:element name="ethnicGroup" type="sp:PopulationGroup" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -522,10 +522,10 @@
   <xsd:complexType name="AgencyTeam" abstract="true">
     <xsd:complexContent>
       <xsd:extension base="sp:Element">
-	<xsd:sequence>
-	  <xsd:element name="capacityPPD" type="sp:Double"/>
-	  <xsd:element name="responseTimeSecs" type="sp:Double"/>
-	</xsd:sequence>
+        <xsd:sequence>
+          <xsd:element name="capacityPPD" type="sp:Double"/>
+          <xsd:element name="responseTimeSecs" type="sp:Double"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -568,9 +568,9 @@
   <xsd:complexType name="Unit" abstract="true">
     <xsd:complexContent>
       <xsd:extension base="sp:Element">
-	<xsd:sequence>
-	  <xsd:element name="inventory" type="sp:Equipment" minOccurs="0" maxOccurs="unbounded"/>
-	</xsd:sequence>
+        <xsd:sequence>
+          <xsd:element name="inventory" type="sp:Equipment" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -578,21 +578,21 @@
   <xsd:complexType name="MilitaryUnit">
     <xsd:complexContent>
       <xsd:extension base="sp:Unit">
-	<xsd:sequence>
-	  <xsd:element name="symbolIDCode" type="sp:SymbolIDCode"/>
+        <xsd:sequence>
+          <xsd:element name="symbolIDCode" type="sp:SymbolIDCode"/>
           <xsd:element name="affiliation" type="sp:FactionReference"/>
-	  <xsd:element name="personnel" type="sp:NonNegativeInteger"/>
-	  <xsd:element name="casualties" type="sp:NonNegativeInteger"/>
-	  <xsd:element name="strengthFactor" type="sp:Double"/>
-	  <xsd:element name="attackFactor" type="sp:Double"/>
-	  <xsd:element name="defenseFactor" type="sp:Double"/>
-	  <xsd:element name="attritionCoefficient" type="sp:Double"/>
-	  <xsd:element name="maxVelocity" type="sp:Double"/>
-	  <xsd:element name="deployTime" type="sp:Timestamp"/>
-	  <xsd:element name="departTime" type="sp:Timestamp"/>
-	  <xsd:element name="WithdrawThreshold" type="sp:Double"/>
-	  <xsd:element name="subunits" type="sp:MilitaryUnit" minOccurs="0" maxOccurs="unbounded"/>
-	</xsd:sequence>
+          <xsd:element name="personnel" type="sp:NonNegativeInteger"/>
+          <xsd:element name="casualties" type="sp:NonNegativeInteger"/>
+          <xsd:element name="strengthFactor" type="sp:Double"/>
+          <xsd:element name="attackFactor" type="sp:Double"/>
+          <xsd:element name="defenseFactor" type="sp:Double"/>
+          <xsd:element name="attritionCoefficient" type="sp:Double"/>
+          <xsd:element name="maxVelocity" type="sp:Double"/>
+          <xsd:element name="deployTime" type="sp:Timestamp"/>
+          <xsd:element name="departTime" type="sp:Timestamp"/>
+          <xsd:element name="WithdrawThreshold" type="sp:Double"/>
+          <xsd:element name="subunits" type="sp:MilitaryUnit" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -638,9 +638,9 @@
   <xsd:complexType name="NormalDistribution">
     <xsd:complexContent>
       <xsd:extension base="sp:Distribution">
-	<xsd:sequence>
-	  <xsd:element name="sigmaMeters" type="sp:Double"/>
-	</xsd:sequence>
+        <xsd:sequence>
+          <xsd:element name="sigmaMeters" type="sp:Double"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -648,9 +648,9 @@
   <xsd:complexType name="StratmasCityDistribution">
     <xsd:complexContent>
       <xsd:extension base="sp:Distribution">
-	<xsd:sequence>
-	  <xsd:element name="sigmaMeters" type="sp:Double"/>
-	</xsd:sequence>
+        <xsd:sequence>
+          <xsd:element name="sigmaMeters" type="sp:Double"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -665,9 +665,9 @@
   <xsd:complexType name="NonNegativeInteger">
     <xsd:complexContent>
       <xsd:extension base="sp:SimpleType">
-	<xsd:sequence>
-	  <xsd:element name="value" type="xsd:unsignedLong"/>
-	</xsd:sequence>
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:unsignedLong"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -675,9 +675,9 @@
   <xsd:complexType name="Duration">
     <xsd:complexContent>
       <xsd:extension base="sp:SimpleType">
-	<xsd:sequence>
-	  <xsd:element name="value" type="xsd:long"/>
-	</xsd:sequence>
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:long"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -685,9 +685,9 @@
   <xsd:complexType name="Double">
     <xsd:complexContent>
       <xsd:extension base="sp:SimpleType">
-	<xsd:sequence>
-	  <xsd:element name="value" type="xsd:double"/>
-	</xsd:sequence>
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:double"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -695,9 +695,9 @@
   <xsd:complexType name="String">
     <xsd:complexContent>
       <xsd:extension base="sp:SimpleType">
-	<xsd:sequence>
-	  <xsd:element name="value" type="xsd:string"/>
-	</xsd:sequence>
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:string"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -705,9 +705,9 @@
   <xsd:complexType name="Boolean">
     <xsd:complexContent>
       <xsd:extension base="sp:SimpleType">
-	<xsd:sequence>
-	  <xsd:element name="value" type="xsd:boolean"/>
-	</xsd:sequence>
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:boolean"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>

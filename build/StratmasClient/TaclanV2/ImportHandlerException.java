@@ -1,4 +1,4 @@
-// 	$Id: ImportHandlerException.java,v 1.3 2005/07/14 10:01:14 dah Exp $
+//         $Id: ImportHandlerException.java,v 1.3 2005/07/14 10:01:14 dah Exp $
 /*
  * @(#)ImportHandlerException.java
  */
@@ -35,8 +35,8 @@ public class ImportHandlerException extends Exception
      */
     public ImportHandlerException(ImportHandler handler, String info)
     {
-	this.handler = handler;
-	this.info = info;
+        this.handler = handler;
+        this.info = info;
     }
 
     /**
@@ -44,7 +44,7 @@ public class ImportHandlerException extends Exception
      */
     public String getMessage()
     {
-	return handler.getClass().getName() + ": " + info;
+        return handler.getClass().getName() + ": " + info;
     }
 
 
@@ -53,7 +53,7 @@ public class ImportHandlerException extends Exception
      */
     public String toString()
     {
-	return getMessage();
+        return getMessage();
     }
 
 }

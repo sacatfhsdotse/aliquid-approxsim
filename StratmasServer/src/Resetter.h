@@ -49,7 +49,7 @@ template<class T> void Resetter<T>::reset(std::vector<T*>& simObjs, const std::v
 
      // Store SimulationObjects in map. 
      for (unsigned int i = 0; i < simObjs.size(); i++) {
-	  objs[&simObjs[i]->ref()] = simObjs[i];
+          objs[&simObjs[i]->ref()] = simObjs[i];
      }
 
      // Clear original vector
@@ -57,21 +57,21 @@ template<class T> void Resetter<T>::reset(std::vector<T*>& simObjs, const std::v
 
      // 
      for (std::vector<DataObject*>::const_iterator it = dataObjs.begin(); it != dataObjs.end(); it++) {
-	  std::map<const Reference*, SimulationObject*>::iterator it2 = objs.find(&(*it)->ref());
-	  if (it2 != objs.end()) {
-	       // Object exists both in current and original state so let's reset it.
-	       it2->second->reset(**it);
-	       simObjs.push_back(dynamic_cast<T*>(it2->second));
-	       objs.erase(it2);
-	  }
-	  else {
-	       // Object existed in original state but not in current so let's create it.
-	       simObjs.push_back(dynamic_cast<T*>(SOFactory::createSimulationObject(*(*it)->clone())));
-	  }
+          std::map<const Reference*, SimulationObject*>::iterator it2 = objs.find(&(*it)->ref());
+          if (it2 != objs.end()) {
+               // Object exists both in current and original state so let's reset it.
+               it2->second->reset(**it);
+               simObjs.push_back(dynamic_cast<T*>(it2->second));
+               objs.erase(it2);
+          }
+          else {
+               // Object existed in original state but not in current so let's create it.
+               simObjs.push_back(dynamic_cast<T*>(SOFactory::createSimulationObject(*(*it)->clone())));
+          }
      }
      for (std::map<const Reference*, SimulationObject*>::iterator it = objs.begin(); it != objs.end(); it++) {
-	  // Object exists in current state but not in the original so let's remove it.
-	  SOFactory::removeSimulationObject(it->second);
+          // Object exists in current state but not in the original so let's remove it.
+          SOFactory::removeSimulationObject(it->second);
      }
 }
 

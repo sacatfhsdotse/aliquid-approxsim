@@ -20,7 +20,7 @@ public class RegisterForUpdatesMessage extends StratmasMessage {
       * to deregister.
       */
      public RegisterForUpdatesMessage(boolean register) {
-	  mRegister = register;
+          mRegister = register;
      }
 
     /**
@@ -29,7 +29,7 @@ public class RegisterForUpdatesMessage extends StratmasMessage {
      * @return A string representation of the type of this message.
      */
      public String getTypeAsString() {
-	  return "RegisterForUpdatesMessage";
+          return "RegisterForUpdatesMessage";
      }
 
      /**
@@ -40,7 +40,7 @@ public class RegisterForUpdatesMessage extends StratmasMessage {
       * object's body appended to it.
       */
      public StringBuffer bodyXML(StringBuffer b) {
-	  b.append(NL).append("<register>").append(mRegister).append("</register>");
-	  return b;
+          b.append(NL).append("<register>").append(mRegister).append("</register>");
+          return b;
      }
 }

@@ -27,38 +27,38 @@ public class PointedValueLabel extends JLabel{
      * @param pos x-coordinate of the value in the label.
      */
     public void setValue(String displayedValue, int pos) {
-	this.displayedValue = displayedValue;
-	valuePosition = pos;
+        this.displayedValue = displayedValue;
+        valuePosition = pos;
     }
     
     /**
      * Updates this label.
      */
     public void update() {
-	validate();
-	repaint();
+        validate();
+        repaint();
     }
     
     /**
      * Draws the color map label.
      */
     protected void paintComponent(Graphics g) {
-	// let UI delegate paint first 
-	super.paintComponent(g); 
-	
-	// display the value
-	if (displayedValue != null) {
-	    // set color
-	    g.setColor(Color.BLACK);
-	    // get font characteristics
-	    FontMetrics fm = g.getFontMetrics();
-	    g.setFont(this.getFont().deriveFont(Font.PLAIN));
-	    // get the position of the value
-	    int XBASE = (valuePosition + fm.stringWidth(displayedValue) > this.getWidth())? 
-		this.getWidth() - fm.stringWidth(displayedValue) : valuePosition;
-	    int YBASE = fm.getMaxAscent() + fm.getLeading();
-	    g.drawString(displayedValue, XBASE, YBASE);
-	}
+        // let UI delegate paint first 
+        super.paintComponent(g); 
+        
+        // display the value
+        if (displayedValue != null) {
+            // set color
+            g.setColor(Color.BLACK);
+            // get font characteristics
+            FontMetrics fm = g.getFontMetrics();
+            g.setFont(this.getFont().deriveFont(Font.PLAIN));
+            // get the position of the value
+            int XBASE = (valuePosition + fm.stringWidth(displayedValue) > this.getWidth())? 
+                this.getWidth() - fm.stringWidth(displayedValue) : valuePosition;
+            int YBASE = fm.getMaxAscent() + fm.getLeading();
+            g.drawString(displayedValue, XBASE, YBASE);
+        }
 
     }
 }

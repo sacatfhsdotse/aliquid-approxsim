@@ -27,15 +27,15 @@ public:
      /**
       * \brief Creates a PVDescription from the provided values.
       *
-      * \param n   The name of the PV.		  
-      * \param c   The category of the PV.	  
-      * \param f   Flag for factions or not.	  
-      * \param min The minimum value.		  
-      * \param max The maximum value.		  
+      * \param n   The name of the PV.                  
+      * \param c   The category of the PV.          
+      * \param f   Flag for factions or not.          
+      * \param min The minimum value.                  
+      * \param max The maximum value.                  
       * \param v   Flag indicating user visibility.
       */
      PVDescription(std::string n, std::string type, std::string c, bool f, std::string min, std::string max, bool v = true)
-	  : mName(n), mType(type), mCategory(c), mFactions(f), mMin(min), mMax(max), mVisible(v) {}
+          : mName(n), mType(type), mCategory(c), mFactions(f), mMin(min), mMax(max), mVisible(v) {}
 
      /**
       * \brief Copy constructor.
@@ -43,7 +43,7 @@ public:
       * \param p The PVDescription to copy.
       */
      PVDescription(const PVDescription& p)
-	  : mName(p.mName), mType(p.mType), mCategory(p.mCategory), mFactions(p.mFactions), mMin(p.mMin), mMax(p.mMax), mVisible(p.mVisible) {}
+          : mName(p.mName), mType(p.mType), mCategory(p.mCategory), mFactions(p.mFactions), mMin(p.mMin), mMax(p.mMax), mVisible(p.mVisible) {}
 
      /**
       * \brief Accessor for the visible flag.

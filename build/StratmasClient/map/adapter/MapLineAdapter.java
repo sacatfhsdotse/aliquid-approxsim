@@ -49,8 +49,8 @@ public class MapLineAdapter extends MapDrawableAdapter {
      * @param renderSelectionName the integer to use as the base for names in RENDER_SELECTION.
      */
     public MapLineAdapter(Line line, int renderSelectionName) {
-	super(line);
-	setRenderSelectionName(renderSelectionName);
+        super(line);
+        setRenderSelectionName(renderSelectionName);
     }
 
     /**
@@ -59,7 +59,7 @@ public class MapLineAdapter extends MapDrawableAdapter {
      * @param line the object to adapt.
      */
     public MapLineAdapter(Line line) {
-	super(line);
+        super(line);
     }
     
     /**
@@ -69,50 +69,50 @@ public class MapLineAdapter extends MapDrawableAdapter {
      * @param gld the gl drawable targeted.
      */
     protected void updateDisplayList(Projection proj, GLAutoDrawable gld) {
-	GL gl = gld.getGL();
- 	displayList = (gl.glIsList(displayList)) ? displayList : gl.glGenLists(1);
-	
-	gl.glNewList(displayList, GL.GL_COMPILE);
-	// point display list
-	gl.glMatrixMode(GL.GL_MODELVIEW);
-	gl.glPushMatrix();
-	// pushes the name for RenderSelection mode	
-	gl.glPushName(getRenderSelectionName());
-	// get the start and the end points
+        GL gl = gld.getGL();
+         displayList = (gl.glIsList(displayList)) ? displayList : gl.glGenLists(1);
+        
+        gl.glNewList(displayList, GL.GL_COMPILE);
+        // point display list
+        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glPushMatrix();
+        // pushes the name for RenderSelection mode        
+        gl.glPushName(getRenderSelectionName());
+        // get the start and the end points
 
-	double[] p1 = proj.projToXY(((Line) stComp).getStartPoint());
-	double[] p2 = proj.projToXY(((Line) stComp).getEndPoint());
-	
-	// line color
-	float[] cColor = lineColor.getRGBColorComponents(null);
-	gl.glColor3f(cColor[0], cColor[1], cColor[2]);
-	// width of the line
-	gl.glLineWidth(lineWidth);
-	gl.glBegin(GL.GL_LINES);
-	gl.glVertex2dv(p1, 0);
-	gl.glVertex2dv(p2, 0);
-	gl.glEnd();
-	gl.glPopName();
-	gl.glMatrixMode(GL.GL_MODELVIEW);
-	gl.glPopMatrix();
-	gl.glEndList();
-	displayListUpdated = true;
+        double[] p1 = proj.projToXY(((Line) stComp).getStartPoint());
+        double[] p2 = proj.projToXY(((Line) stComp).getEndPoint());
+        
+        // line color
+        float[] cColor = lineColor.getRGBColorComponents(null);
+        gl.glColor3f(cColor[0], cColor[1], cColor[2]);
+        // width of the line
+        gl.glLineWidth(lineWidth);
+        gl.glBegin(GL.GL_LINES);
+        gl.glVertex2dv(p1, 0);
+        gl.glVertex2dv(p2, 0);
+        gl.glEnd();
+        gl.glPopName();
+        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glPopMatrix();
+        gl.glEndList();
+        displayListUpdated = true;
     }
 
     /**
      * Returns the number of renderSelectionNames needed for this adapter.
      */
     public int getNrOfRenderSelectionNames() {
-	return NR_RENDER_SELECTION_NAMES;
+        return NR_RENDER_SELECTION_NAMES;
     }
     
     /**
      * Updates the display lists
      */
     public void reCompile(Projection proj, GLAutoDrawable gld) {
-	if (!displayListUpdated) {
-	    updateDisplayList(proj, gld);	
-	}
+        if (!displayListUpdated) {
+            updateDisplayList(proj, gld);        
+        }
     }
     
     /**
@@ -121,9 +121,9 @@ public class MapLineAdapter extends MapDrawableAdapter {
      * @param lineColor color of the line.
      */
     public void setLineColor(Color lineColor) {
-	this.lineColor = lineColor;
-	displayListUpdated = false;
-	fireAdapterUpdated();
+        this.lineColor = lineColor;
+        displayListUpdated = false;
+        fireAdapterUpdated();
     }
     
     /**
@@ -132,9 +132,9 @@ public class MapLineAdapter extends MapDrawableAdapter {
      * @param lineWidth width of the line.
      */
     public void setLineWidth(float lineWidth) {
-	this.lineWidth = lineWidth;
-	displayListUpdated = false;
-	fireAdapterUpdated();
+        this.lineWidth = lineWidth;
+        displayListUpdated = false;
+        fireAdapterUpdated();
     }
     
 }

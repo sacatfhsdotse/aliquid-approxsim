@@ -1,4 +1,4 @@
-// 	$Id: DefaultEvaluator.java,v 1.1 2005/10/28 12:14:33 dah Exp $
+//         $Id: DefaultEvaluator.java,v 1.1 2005/10/28 12:14:33 dah Exp $
 /*
  * @(#)DefaultEvaluator.java
  */
@@ -30,7 +30,7 @@ public abstract class DefaultEvaluator implements Evaluator
      * Creates a new DefaultEvaluator.
      */
     public DefaultEvaluator()
-    {	
+    {        
     }
 
     /**
@@ -38,7 +38,7 @@ public abstract class DefaultEvaluator implements Evaluator
      */
     public boolean isFinished()
     {
-	return isFinished;
+        return isFinished;
     }
 
     /**
@@ -46,8 +46,8 @@ public abstract class DefaultEvaluator implements Evaluator
      */
     void finished()
     {
-	this.isFinished = true;
-	fireFinished();
+        this.isFinished = true;
+        fireFinished();
     }
 
     /**
@@ -55,7 +55,7 @@ public abstract class DefaultEvaluator implements Evaluator
      */
     protected EventListenerList getEventListenerList()
     {
-	return this.eventListenerList;
+        return this.eventListenerList;
     }
 
     /**
@@ -65,7 +65,7 @@ public abstract class DefaultEvaluator implements Evaluator
      */
     public void addEventListener(EvaluatorEventListener listener)
     {
-	this.getEventListenerList().add(listener.getClass(), listener);
+        this.getEventListenerList().add(listener.getClass(), listener);
     }
 
     /**
@@ -75,7 +75,7 @@ public abstract class DefaultEvaluator implements Evaluator
      */
     public void removeEventListener(EvaluatorEventListener listener)
     {
-	this.getEventListenerList().remove(listener.getClass(), listener);
+        this.getEventListenerList().remove(listener.getClass(), listener);
     }
 
     /**
@@ -84,14 +84,14 @@ public abstract class DefaultEvaluator implements Evaluator
      */
     public void fireFinished()
     {
-	EvaluatorEvent event = new EvaluatorEvent(this);
-	
-	// Guaranteed to return a non-null array
-	Object[] listeners = getEventListenerList().getListenerList();
-	
-	for (int i = listeners.length - 2; i >= 0; i -= 2) {
-	    ((EvaluatorEventListener) listeners[i + 1]).finished(event);
-	}
+        EvaluatorEvent event = new EvaluatorEvent(this);
+        
+        // Guaranteed to return a non-null array
+        Object[] listeners = getEventListenerList().getListenerList();
+        
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            ((EvaluatorEventListener) listeners[i + 1]).finished(event);
+        }
     }
 
     /**
@@ -102,15 +102,15 @@ public abstract class DefaultEvaluator implements Evaluator
      */
     public void fireError(String errorMessage)
     {
-	EvaluatorEvent event = new EvaluatorEvent(this);
-	
-	// Guaranteed to return a non-null array
-	Object[] listeners = getEventListenerList().getListenerList();
-	
-	for (int i = listeners.length - 2; i >= 0; i -= 2) {
-	    ((EvaluatorEventListener) listeners[i + 1]).error(event, 
-							      errorMessage);
-	}
+        EvaluatorEvent event = new EvaluatorEvent(this);
+        
+        // Guaranteed to return a non-null array
+        Object[] listeners = getEventListenerList().getListenerList();
+        
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            ((EvaluatorEventListener) listeners[i + 1]).error(event, 
+                                                              errorMessage);
+        }
     }
 
     /**
@@ -120,14 +120,14 @@ public abstract class DefaultEvaluator implements Evaluator
      */
     public void fireNewEvaluation(Evaluation evaluation)
     {
-	EvaluatorEvent event = new EvaluatorEvent(this);
-	
-	// Guaranteed to return a non-null array
-	Object[] listeners = getEventListenerList().getListenerList();
-	
-	for (int i = listeners.length - 2; i >= 0; i -= 2) {
-	    ((EvaluatorEventListener) listeners[i + 1]).newPreliminaryEvaluation(event, 
-										 evaluation);
-	}
+        EvaluatorEvent event = new EvaluatorEvent(this);
+        
+        // Guaranteed to return a non-null array
+        Object[] listeners = getEventListenerList().getListenerList();
+        
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            ((EvaluatorEventListener) listeners[i + 1]).newPreliminaryEvaluation(event, 
+                                                                                 evaluation);
+        }
     }
 }

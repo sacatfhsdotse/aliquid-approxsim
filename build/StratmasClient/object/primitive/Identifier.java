@@ -1,4 +1,4 @@
-// 	$Id: Identifier.java,v 1.2 2006/03/31 16:55:51 dah Exp $
+//         $Id: Identifier.java,v 1.2 2006/03/31 16:55:51 dah Exp $
 /*
  * @(#)Identifier.java
  */
@@ -29,7 +29,7 @@ public class Identifier
      */
     public static String getAnonymous()
     {
-	return "";
+        return "";
     }
 
     /**
@@ -37,7 +37,7 @@ public class Identifier
      */
     public static boolean isAnonymous(String string)
     {
-	return string.equals("");
+        return string.equals("");
     }
 
     /**
@@ -46,26 +46,26 @@ public class Identifier
      */
     public static String toTaclanV2(String identifier)
     {
-	if (identifier.matches("[A-Za-z_][A-Za-z_0-9]*")) {
-	     // Wordlike identifier - check for  keywords.
-	     if (identifier.equals("import") ||
-		 identifier.equals("from")   ||
-		 identifier.equals("as")     ||
-		 identifier.equals("true")   ||
-		 identifier.equals("false")) {
-		 return "'" + identifier + "'";
-	     } else { 
-		 return identifier;
-	     }
-	} else {
-	     // Wash a bit.
-	     String wash = identifier;
-	     wash = wash.replaceAll("\\\\", "\\\\"); // replaceAll(regex, string)
-	     wash = wash.replaceAll("\n", "\\\\n");
-	     wash = wash.replaceAll("'", "\\\\'");
-	     
-	     return "'" + wash + "'";
-	}
+        if (identifier.matches("[A-Za-z_][A-Za-z_0-9]*")) {
+             // Wordlike identifier - check for  keywords.
+             if (identifier.equals("import") ||
+                 identifier.equals("from")   ||
+                 identifier.equals("as")     ||
+                 identifier.equals("true")   ||
+                 identifier.equals("false")) {
+                 return "'" + identifier + "'";
+             } else { 
+                 return identifier;
+             }
+        } else {
+             // Wash a bit.
+             String wash = identifier;
+             wash = wash.replaceAll("\\\\", "\\\\"); // replaceAll(regex, string)
+             wash = wash.replaceAll("\n", "\\\\n");
+             wash = wash.replaceAll("'", "\\\\'");
+             
+             return "'" + wash + "'";
+        }
     }
 
     /**
@@ -76,10 +76,10 @@ public class Identifier
      */
     public static String getIdentifier(Element n)
     {
-	String id = n.getAttribute("identifier");
-	if (id.equals("")) {
-	    id = n.getTagName();
-	}
-	return id;
+        String id = n.getAttribute("identifier");
+        if (id.equals("")) {
+            id = n.getTagName();
+        }
+        return id;
     }
 }

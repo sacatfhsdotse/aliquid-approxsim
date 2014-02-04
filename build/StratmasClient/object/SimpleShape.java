@@ -1,4 +1,4 @@
-// 	$Id: SimpleShape.java,v 1.2 2006/03/31 16:55:51 dah Exp $
+//         $Id: SimpleShape.java,v 1.2 2006/03/31 16:55:51 dah Exp $
 /*
  * @(#)SimpleShape.java
  */
@@ -42,7 +42,7 @@ public abstract class SimpleShape extends Shape
      */
     protected SimpleShape(String identifier, Type type)
     {
-	super(identifier, type);
+        super(identifier, type);
     }
 
     /**
@@ -54,12 +54,12 @@ public abstract class SimpleShape extends Shape
      */
     public Polygon getPolygon(double error)
     {
-	if (this.cachedPolygon == null || this.cachedPolygonError > error) {
-	    this.cachedPolygon = this.constructPolygon(error);
-	    this.cachedPolygonError = error;
-	}
+        if (this.cachedPolygon == null || this.cachedPolygonError > error) {
+            this.cachedPolygon = this.constructPolygon(error);
+            this.cachedPolygonError = error;
+        }
 
-	return this.cachedPolygon;
+        return this.cachedPolygon;
     }
 
     /**
@@ -67,7 +67,7 @@ public abstract class SimpleShape extends Shape
      */
     public boolean isHole()
     {
-	return this.isHole;
+        return this.isHole;
     }
 
     /**
@@ -77,7 +77,7 @@ public abstract class SimpleShape extends Shape
      */
     public void setHole(boolean hole)
     {
-	this.isHole = hole;
+        this.isHole = hole;
     }
 
     /**
@@ -92,8 +92,8 @@ public abstract class SimpleShape extends Shape
      */
     public Vector constructSimpleShapes(Vector res)
     {
-	res.add(this);
-	return res;
+        res.add(this);
+        return res;
     }
 
     /**
@@ -102,11 +102,11 @@ public abstract class SimpleShape extends Shape
      *
      * @param child the child that changed
      */
-     public void childChanged(StratmasObject child, Object initiator) {	
-	 if (this.cachedPolygon != null) {
-	     cachedPolygon.remove();
-	     this.cachedPolygon = null;
-	 }
-	 super.childChanged(child, initiator);
+     public void childChanged(StratmasObject child, Object initiator) {        
+         if (this.cachedPolygon != null) {
+             cachedPolygon.remove();
+             this.cachedPolygon = null;
+         }
+         super.childChanged(child, initiator);
      }
 }

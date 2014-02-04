@@ -20,8 +20,8 @@ private:
 public:
      static void enableFileOutput();
      static void dumpToFile(const std::string& toDump,
-			    const std::string& filename,
-			    std::ios_base::openmode mode = std::ios_base::trunc);
+                            const std::string& filename,
+                            std::ios_base::openmode mode = std::ios_base::trunc);
 
 };
 

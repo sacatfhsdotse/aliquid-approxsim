@@ -37,11 +37,11 @@ void IOHandler::enableFileOutput()
 void IOHandler::dumpToFile(const string& toDump, const string& filename, ios_base::openmode mode)
 {
      if (sWriteToFile) {
-	  string filePath = Environment::getDumpDir() + "/" + filename;
-	  ofstream o(Environment::getNativePath(filePath).c_str(), mode);
-	  if (o) {
-	       o << toDump;
-	  }
-	  o.close();
+          string filePath = Environment::getDumpDir() + "/" + filename;
+          ofstream o(Environment::getNativePath(filePath).c_str(), mode);
+          if (o) {
+               o << toDump;
+          }
+          o.close();
      }
 }

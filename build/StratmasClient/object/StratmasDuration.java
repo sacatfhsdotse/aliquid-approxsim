@@ -1,4 +1,4 @@
-// 	$Id: StratmasDuration.java,v 1.3 2006/04/10 09:45:55 dah Exp $
+//         $Id: StratmasDuration.java,v 1.3 2006/04/10 09:45:55 dah Exp $
 /*
  * @(#)StratmasDuration.java
  */
@@ -42,8 +42,8 @@ public class StratmasDuration extends StratmasSimple
      */
     protected StratmasDuration(String identifier, Type type, long value)
     {
-	super(identifier, type);
-	this.value = new Duration(value);
+        super(identifier, type);
+        this.value = new Duration(value);
     }
 
     /**
@@ -54,8 +54,8 @@ public class StratmasDuration extends StratmasSimple
      */
     protected StratmasDuration(Declaration declaration, long value)
     {
-	super(declaration);
-	this.value = new Duration(value);
+        super(declaration);
+        this.value = new Duration(value);
     }
 
     /**
@@ -66,8 +66,8 @@ public class StratmasDuration extends StratmasSimple
      */
     protected StratmasDuration(Declaration declaration, String value) throws ParseException
     {
-	this(declaration, 0);
-	this.value = Duration.parseDuration(value);
+        this(declaration, 0);
+        this.value = Duration.parseDuration(value);
     }
 
     /**
@@ -75,7 +75,7 @@ public class StratmasDuration extends StratmasSimple
      */
     public String valueToString()
     {
-	return Long.toString(value.getMilliSecs());
+        return Long.toString(value.getMilliSecs());
     }
 
     /**
@@ -83,7 +83,7 @@ public class StratmasDuration extends StratmasSimple
      */
     public String valueToPrettyString()
     {
-	return value.toString();
+        return value.toString();
     }
 
     /**
@@ -93,7 +93,7 @@ public class StratmasDuration extends StratmasSimple
      */
     public Duration getValue()
     {
-	return this.value;
+        return this.value;
     }
 
     /**
@@ -105,8 +105,8 @@ public class StratmasDuration extends StratmasSimple
      */
     private void setValue(Duration newValue, Object initiator)
     {
-	this.value = newValue;
-	fireValueChanged(initiator);
+        this.value = newValue;
+        fireValueChanged(initiator);
     }
 
     /**
@@ -117,10 +117,10 @@ public class StratmasDuration extends StratmasSimple
      */
     public void valueFromString(String str, Object initiator) throws ParseException
     {
-	Duration test = Duration.parseDuration(str);
-	if(! test.equals(getValue())) {
-	    setValue(test, initiator);
-	}
+        Duration test = Duration.parseDuration(str);
+        if(! test.equals(getValue())) {
+            setValue(test, initiator);
+        }
     }
 
     /**
@@ -131,7 +131,7 @@ public class StratmasDuration extends StratmasSimple
      */
     protected static StratmasGUIConstructor getGUIConstructor(Declaration declaration)
     {
-	return new StratmasDurationGUIConstructor(declaration); 
+        return new StratmasDurationGUIConstructor(declaration); 
     }
     
     /**
@@ -141,15 +141,15 @@ public class StratmasDuration extends StratmasSimple
      */
     protected static StratmasObject domCreate(Element n)
     {
-	try {
-	    return new StratmasDuration(Identifier.getIdentifier(n),
-					TypeFactory.getType("Duration"),
-					XMLHelper.getLong(n, "value"));
-	} catch (NumberFormatException e) {
-	    System.err.println("Number format exeption for " + 
-			       XMLHelper.getString(n, "value"));
-	    return null;
-	}
+        try {
+            return new StratmasDuration(Identifier.getIdentifier(n),
+                                        TypeFactory.getType("Duration"),
+                                        XMLHelper.getLong(n, "value"));
+        } catch (NumberFormatException e) {
+            System.err.println("Number format exeption for " + 
+                               XMLHelper.getString(n, "value"));
+            return null;
+        }
     }
     
     /**
@@ -161,7 +161,7 @@ public class StratmasDuration extends StratmasSimple
      */
     public static StratmasObject defaultCreate(Declaration declaration) 
     {
-	return new StratmasDuration(declaration, 0);
+        return new StratmasDuration(declaration, 0);
     }
     
     /**
@@ -173,9 +173,9 @@ public class StratmasDuration extends StratmasSimple
      */
     protected StringBuffer toTaclanV2StringBuffer(StringBuffer buf, String indent)
     {
-	buf.append(indent + Identifier.toTaclanV2(getIdentifier()) + " = " + 
-		   "\"" + valueToPrettyString() + "\"");
-	return buf;
+        buf.append(indent + Identifier.toTaclanV2(getIdentifier()) + " = " + 
+                   "\"" + valueToPrettyString() + "\"");
+        return buf;
     }
 
     /**
@@ -188,7 +188,7 @@ public class StratmasDuration extends StratmasSimple
      * @return A clone of this object.
      */
      protected Object clone() {
-	  return new StratmasDuration(identifier, type, value.getMilliSecs());
+          return new StratmasDuration(identifier, type, value.getMilliSecs());
      }
 
      /**
@@ -200,7 +200,7 @@ public class StratmasDuration extends StratmasSimple
       * @param t The simulation time for which the data is valid.
       */
      public void update(org.w3c.dom.Element n, Timestamp t) {
-	  setValue(new Duration(XMLHelper.getLong(n, "value")), n);
+          setValue(new Duration(XMLHelper.getLong(n, "value")), n);
      }
 }
 
@@ -223,7 +223,7 @@ class StratmasDurationGUIConstructor extends StratmasGUIConstructor
      */
     public StratmasDurationGUIConstructor(Declaration declaration)
     {
-	super(declaration);
+        super(declaration);
     }
 
     /**
@@ -231,9 +231,9 @@ class StratmasDurationGUIConstructor extends StratmasGUIConstructor
      */    
     protected void buildPanel()
     {
-	this.add(new javax.swing.JLabel(declaration.getName()));
-	this.field = new javax.swing.JTextField(10);
-	this.add(this.field);
+        this.add(new javax.swing.JLabel(declaration.getName()));
+        this.field = new javax.swing.JTextField(10);
+        this.add(this.field);
     }
 
     /**
@@ -241,10 +241,10 @@ class StratmasDurationGUIConstructor extends StratmasGUIConstructor
      */
     protected void createStratmasObject()
     {
-	try {
-	    setStratmasObject(new StratmasDuration(this.declaration, field.getText()));
-	} catch (java.text.ParseException e) {
-	    System.err.println("FIXME: Don't fail quietly " + getClass().toString());
-	}
+        try {
+            setStratmasObject(new StratmasDuration(this.declaration, field.getText()));
+        } catch (java.text.ParseException e) {
+            System.err.println("FIXME: Don't fail quietly " + getClass().toString());
+        }
     }
 }

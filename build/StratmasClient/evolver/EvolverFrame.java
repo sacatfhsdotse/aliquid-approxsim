@@ -1,4 +1,4 @@
-// 	$Id: EvolverFrame.java,v 1.4 2006/01/11 22:22:18 dah Exp $
+//         $Id: EvolverFrame.java,v 1.4 2006/01/11 22:22:18 dah Exp $
 
 /*
  * @(#)EvolverFrame.java
@@ -94,19 +94,19 @@ public class EvolverFrame extends JFrame
      */
     public EvolverFrame(EvolverGUI evolverGUI)
     {
-	super("StratmasClient Evolver");
-	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-	this.evolverGUI = evolverGUI;
-	getContentPane().add(evolverGUI);
-	JPanel panel = new JPanel();
-	panel.setLayout(new BorderLayout());
-	this.infoField = createInfoField();
-	panel.add(infoField);
-	getContentPane().add(panel, BorderLayout.SOUTH);
+        super("StratmasClient Evolver");
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.evolverGUI = evolverGUI;
+        getContentPane().add(evolverGUI);
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        this.infoField = createInfoField();
+        panel.add(infoField);
+        getContentPane().add(panel, BorderLayout.SOUTH);
 
-	// Find a suitable image for this application
-	//setIconImage(new ImageIcon(getClass().getResource("icons/evolver.png")).getImage());
-	updateToolBar();
+        // Find a suitable image for this application
+        //setIconImage(new ImageIcon(getClass().getResource("icons/evolver.png")).getImage());
+        updateToolBar();
     }
 
     /**
@@ -114,10 +114,10 @@ public class EvolverFrame extends JFrame
      */
     JTextField createInfoField()
     {
-	JTextField field = new JTextField();
-	field.setEditable(false);
-	field.setBackground(this.getBackground());
-	return field;
+        JTextField field = new JTextField();
+        field.setEditable(false);
+        field.setBackground(this.getBackground());
+        return field;
     }
 
     /**
@@ -128,27 +128,27 @@ public class EvolverFrame extends JFrame
      */
     public void log(String message, boolean temporary)
     {
-	synchronized (this.infoFieldTimer) {
-	    this.infoFieldTimer.cancel();
-	}
+        synchronized (this.infoFieldTimer) {
+            this.infoFieldTimer.cancel();
+        }
 
-	getInfoField().setText(message);
+        getInfoField().setText(message);
 
-	if (temporary) {
-	    final Timer timer = new Timer();
-	    timer.schedule(new TimerTask() 
-		{
-		    public void run()
-		    {
-			getInfoField().setText("");
-			timer.cancel();
-		    }
-		}, LOG_LIFE_MS);
+        if (temporary) {
+            final Timer timer = new Timer();
+            timer.schedule(new TimerTask() 
+                {
+                    public void run()
+                    {
+                        getInfoField().setText("");
+                        timer.cancel();
+                    }
+                }, LOG_LIFE_MS);
 
-	    synchronized (this.infoFieldTimer) {
-		this.infoFieldTimer = timer;
-	    }
-	}
+            synchronized (this.infoFieldTimer) {
+                this.infoFieldTimer = timer;
+            }
+        }
     }
 
     /**
@@ -156,7 +156,7 @@ public class EvolverFrame extends JFrame
      */
     public JTextField getInfoField()
     {
-	return this.infoField;
+        return this.infoField;
     }
     
     /**
@@ -164,15 +164,15 @@ public class EvolverFrame extends JFrame
      */
     public void updateToolBar()
     {
-	if (toolBar == null) {
-	    toolBar = new JToolBar();
-	    getContentPane().add(toolBar, BorderLayout.PAGE_START);
-	} else {
-	    toolBar.removeAll();
-	}
+        if (toolBar == null) {
+            toolBar = new JToolBar();
+            getContentPane().add(toolBar, BorderLayout.PAGE_START);
+        } else {
+            toolBar.removeAll();
+        }
 
-	toolBar.add(getEvolverGUI().getAction("Run"));
-	toolBar.add(getEvolverGUI().getAction("Abort"));
+        toolBar.add(getEvolverGUI().getAction("Run"));
+        toolBar.add(getEvolverGUI().getAction("Abort"));
     }
 
     /**
@@ -180,6 +180,6 @@ public class EvolverFrame extends JFrame
      */
     EvolverGUI getEvolverGUI()
     {
-	return this.evolverGUI;
+        return this.evolverGUI;
     }
 }

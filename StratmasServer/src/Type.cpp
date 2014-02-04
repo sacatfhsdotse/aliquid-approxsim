@@ -16,16 +16,16 @@ using namespace std;
 Type::~Type()
 {
      for(vector<const Declaration*>::iterator it = mSubElements.begin(); it != mSubElements.end(); it++) {
-	  delete *it;
+          delete *it;
      }
      for(std::map<string, const Declaration*>::iterator it = mSubElementsMap.begin(); it != mSubElementsMap.end(); it++) {
-	  delete it->second;
+          delete it->second;
      }
      for(vector<const TypeAttribute*>::iterator it = mAttributes.begin(); it != mAttributes.end(); it++) {
-	  delete *it;
+          delete *it;
      }
      for(std::map<string, const TypeAttribute*>::iterator it = mAttributesMap.begin(); it != mAttributesMap.end(); it++) {
-	  delete it->second;
+          delete it->second;
      }
 }
 
@@ -104,16 +104,16 @@ std::ostream& operator << (std::ostream& o, const Type& t)
 {
      o << "=== " << t.getName() << (t.abstract() ? " (abstract)" : "") << endl;
      if (!t.mAttributes.empty()) {
-	  o << "Attributes:" << endl;
-	  for(vector<const TypeAttribute*>::const_iterator it = t.mAttributes.begin(); it != t.mAttributes.end(); it++) {
-	       o << **it;
-	  }
+          o << "Attributes:" << endl;
+          for(vector<const TypeAttribute*>::const_iterator it = t.mAttributes.begin(); it != t.mAttributes.end(); it++) {
+               o << **it;
+          }
      }
      if (!t.mSubElements.empty()) {
-	  o << "Elements:" << endl;
-	  for(vector<const Declaration*>::const_iterator it = t.mSubElements.begin(); it != t.mSubElements.end(); it++) {
-	       o << **it;
-	  }
+          o << "Elements:" << endl;
+          for(vector<const Declaration*>::const_iterator it = t.mSubElements.begin(); it != t.mSubElements.end(); it++) {
+               o << **it;
+          }
      }
      return o;
 }

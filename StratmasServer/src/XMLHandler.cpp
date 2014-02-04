@@ -49,7 +49,7 @@ void XMLHandler::getSubscriptions(UpdateMessage &um) const
 {
      map<int, Subscription*>::const_iterator it;
      for (it = mSubscriptions.begin(); it != mSubscriptions.end(); it++) {
-	  um.addSubscription(it->second);
+          um.addSubscription(it->second);
      }
 }
 
@@ -64,10 +64,10 @@ void XMLHandler::getGridBasedSubscriptions(UpdateMessage &um) const
 {
      map<int, Subscription*>::const_iterator it;
      for (it = mSubscriptions.begin(); it != mSubscriptions.end(); it++) {
-	  if(dynamic_cast<RegionSubscription*>(it->second) ||
-	     dynamic_cast<LayerSubscription*>(it->second)) {
-	       um.addSubscription(it->second);
-	  }
+          if(dynamic_cast<RegionSubscription*>(it->second) ||
+             dynamic_cast<LayerSubscription*>(it->second)) {
+               um.addSubscription(it->second);
+          }
      }
 }
 
@@ -83,15 +83,15 @@ XMLHandler::XMLHandler(Buffer &buf, string ns, string schemaLocation, int64_t id
      : mId(id), mSimulation(0), mPVInitValueSet(0), mBuf(buf), mRegisteredForUpdates(false)
 {
      try {
-	  XMLPlatformUtils::Initialize();
-	  if (!TranscoderWrapper::getTranscoder()) {
-	       TranscoderWrapper::setEncoding("ISO-8859-1", 1);
-	  }
+          XMLPlatformUtils::Initialize();
+          if (!TranscoderWrapper::getTranscoder()) {
+               TranscoderWrapper::setEncoding("ISO-8859-1", 1);
+          }
      }
      catch(const XMLException &toCatch) {
-	  Error e;
-	  e << "Error during Xerces-c Initialization. Exception message:" << StrX(toCatch.getMessage());
-	  throw e;
+          Error e;
+          e << "Error during Xerces-c Initialization. Exception message:" << StrX(toCatch.getMessage());
+          throw e;
      }
 
      mParser = new XercesDOMParser;
@@ -105,12 +105,12 @@ XMLHandler::XMLHandler(Buffer &buf, string ns, string schemaLocation, int64_t id
      mParser->useCachedGrammarInParse(true);
      
      mpEntityResolver = 
-	  new MemEntityResolver(mParser->getXMLEntityResolver());
+          new MemEntityResolver(mParser->getXMLEntityResolver());
      mParser->setXMLEntityResolver(mpEntityResolver);
 
      if (schemaLocation != "") {
-  	  mParser->setExternalSchemaLocation(XStr(XMLHelper::encodeURLSpecialCharacters(ns) +
-  						  " " + XMLHelper::encodeURLSpecialCharacters(schemaLocation)).str());
+            mParser->setExternalSchemaLocation(XStr(XMLHelper::encodeURLSpecialCharacters(ns) +
+                                                    " " + XMLHelper::encodeURLSpecialCharacters(schemaLocation)).str());
      }
      
      mErrorReporter = new ParserErrorReporter();
@@ -131,7 +131,7 @@ XMLHandler::~XMLHandler()
      eraseSubscriptions();
 
      for (vector<Update*>::iterator it = mUpdates.begin(); it != mUpdates.end(); it++) {
-	  delete *it;
+          delete *it;
      }
 
 }
@@ -156,141 +156,141 @@ int XMLHandler::handle(const string &xml)
      bool errOcc = false;
      mErrorReporter->resetErrors();
      try {
-	  mParser->setValidationScheme(PropertyHandler::validateXML() ?
-				       XercesDOMParser::Val_Always :
-				       XercesDOMParser::Val_Never);
-	  mParser->parse(*memBuf);
+          mParser->setValidationScheme(PropertyHandler::validateXML() ?
+                                       XercesDOMParser::Val_Always :
+                                       XercesDOMParser::Val_Never);
+          mParser->parse(*memBuf);
      }
      catch (const OutOfMemoryException&) {
-	  errOcc = true;
-	  anError << "OutOfMemoryException";
+          errOcc = true;
+          anError << "OutOfMemoryException";
      }
      catch (const XMLException& e) {
-	  errOcc = true;
-	  anError << "An error occurred during parsing\n   Message: " << StrX(e.getMessage());
+          errOcc = true;
+          anError << "An error occurred during parsing\n   Message: " << StrX(e.getMessage());
      }
      catch (const DOMException& e) {
-	  errOcc = true;
-	  const unsigned int maxChars = 2047;
-	  XMLCh errText[maxChars + 1];
+          errOcc = true;
+          const unsigned int maxChars = 2047;
+          XMLCh errText[maxChars + 1];
 
-	  anError << "\nDOM Error during parsing. DOMException code is:  " << e.code;
-	  
-	  if (DOMImplementation::loadDOMExceptionMsg(e.code, errText, maxChars)) {
-	       anError << "Message is: " << StrX(errText);
-	  }
+          anError << "\nDOM Error during parsing. DOMException code is:  " << e.code;
+          
+          if (DOMImplementation::loadDOMExceptionMsg(e.code, errText, maxChars)) {
+               anError << "Message is: " << StrX(errText);
+          }
      }
      catch (...) {
-	  errOcc = true;
-	  anError << "An unknown error occurred during parsing";
+          errOcc = true;
+          anError << "An unknown error occurred during parsing";
      }
 
      if (mErrorReporter->errorsOccurred() || errOcc) {
-	  mParser->resetDocumentPool();   // Destroy parsed document
-	  delete memBuf;
-	  debug("Dumping discarded message!");
-	  IOHandler::dumpToFile(xml, "DISCARDED_MESSAGE.tmp");
-	  if (errOcc) {
-	       throw anError;
-	  }
-	  else {
-	       throw mErrorReporter->errors();
-	  }
+          mParser->resetDocumentPool();   // Destroy parsed document
+          delete memBuf;
+          debug("Dumping discarded message!");
+          IOHandler::dumpToFile(xml, "DISCARDED_MESSAGE.tmp");
+          if (errOcc) {
+               throw anError;
+          }
+          else {
+               throw mErrorReporter->errors();
+          }
      }
      else {
-	  DOMDocument *doc = mParser->getDocument();
-	  if (doc) {
-	       DOMElement *root = doc->getDocumentElement();
-	       StrX type(root->getAttribute(XStr("xsi:type").str()));
-	       mLastType = type.str();
-	       XMLHelper::removeNamespace(mLastType);
-	       if (type == "sp:ConnectMessage") {
-		    debug("ConnectMessage received.");
-		    handleConnectMessage(*root);
-		    res = eConnect;
-	       }
-	       else if (type == "sp:DisconnectMessage") {
-		    debug("DisconnectMessage received.");
-		    res = eDisconnect;
-	       }
-	       else if (type == "sp:InitializationMessage") {
-		    debug("InitializationMessage received.");
-//		    IOHandler::dumpToFile(xml, "init.xml");
-		    StopWatch s;
-		    s.start();
-		    
-		    mSimulation = DataObjectFactory::createDataObject(Reference::get(Reference::root(), "identifiables"),
-								      XMLHelper::getFirstChildByTag(*root, "simulation"));
+          DOMDocument *doc = mParser->getDocument();
+          if (doc) {
+               DOMElement *root = doc->getDocumentElement();
+               StrX type(root->getAttribute(XStr("xsi:type").str()));
+               mLastType = type.str();
+               XMLHelper::removeNamespace(mLastType);
+               if (type == "sp:ConnectMessage") {
+                    debug("ConnectMessage received.");
+                    handleConnectMessage(*root);
+                    res = eConnect;
+               }
+               else if (type == "sp:DisconnectMessage") {
+                    debug("DisconnectMessage received.");
+                    res = eDisconnect;
+               }
+               else if (type == "sp:InitializationMessage") {
+                    debug("InitializationMessage received.");
+//                    IOHandler::dumpToFile(xml, "init.xml");
+                    StopWatch s;
+                    s.start();
+                    
+                    mSimulation = DataObjectFactory::createDataObject(Reference::get(Reference::root(), "identifiables"),
+                                                                      XMLHelper::getFirstChildByTag(*root, "simulation"));
 
-		    if (mPVInitValueSet) {
-			 delete mPVInitValueSet;
-		    }
-		    mPVInitValueSet = new PVInitValueSet(root);
-// 		    ofstream ofs("scenario.tmp.xml", ios_base::trunc);
-// 		    mSimulation->toXML(ofs);
-// 		    ofs.close();
+                    if (mPVInitValueSet) {
+                         delete mPVInitValueSet;
+                    }
+                    mPVInitValueSet = new PVInitValueSet(root);
+//                     ofstream ofs("scenario.tmp.xml", ios_base::trunc);
+//                     mSimulation->toXML(ofs);
+//                     ofs.close();
 
-		    s.stop();
-		    debug("DataObject creation took " << s.secs() << " secs" );
+                    s.stop();
+                    debug("DataObject creation took " << s.secs() << " secs" );
 
-		    res = eInitialization;
-	       }
-	       else if (type == "sp:ServerCapabilitiesMessage") {
-		    debug("ServerCapabilitiesMessage received.");
-		    res = eServerCapabilities;
-	       }
-	       else if (type == "sp:GetGridMessage") {
-		    debug("GetGridMessage received.");
-		    res = eGetGrid;
-	       }
-	       else if (type == "sp:RegisterForUpdatesMessage") {
-		    debug("RegisterForUpdatesMessage received.");
-		    handleRegisterForUpdatesMessage(*root);
-		    res = eRegisterForUpdates;
-	       }
-	       else if (type == "sp:SubscriptionMessage") {
-		    debug("SubscriptionMessage received.");
-		    handleSubscriptionMessage(*root);
-		    res = eSubscription;
-	       }
-	       else if (type == "sp:StepMessage") {
-		    debug("StepMessage received.");
-		    handleStepMessage(*root);
-		    res = eStep;
-	       }
-	       else if (type == "sp:UpdateServerMessage") {
-		    debug("UpdateServerMessage received.");
-		    handleServerUpdateMessage(*root);
-		    res = eUpdateServer;
-	       }
-	       else if (type == "sp:ResetMessage") {
-		    debug("ResetMessage received.");
-		    res = eReset;
-	       }
-	       else if (type == "sp:ProgressQueryMessage") {
-		    debug("ProgressQueryMessage received.");
-		    res = eProgressQuery;
-	       }
-	       else if (type == "sp:SetPropertyMessage") {
-		    debug("SetPropertyMessage received.");
-		    handleSetPropertyMessage(*root);
-		    res = eSetProperty;
-	       }
-	       else if (type == "sp:LoadQueryMessage") {
-		    res = eLoadQuery;
-	       }
-	       else {
-		    Error e(Error::eWarning);
-		    e << "Unknown message type --" << type << "-- ignoring...";
-		    throw e;
-	       }
-	  }
-	  else {
-	       mParser->resetDocumentPool();   // Destroy parsed document
-	       delete memBuf;
-	       anError << "Couldn't get document from the XML parser";
-	       throw anError;
-	  }
+                    res = eInitialization;
+               }
+               else if (type == "sp:ServerCapabilitiesMessage") {
+                    debug("ServerCapabilitiesMessage received.");
+                    res = eServerCapabilities;
+               }
+               else if (type == "sp:GetGridMessage") {
+                    debug("GetGridMessage received.");
+                    res = eGetGrid;
+               }
+               else if (type == "sp:RegisterForUpdatesMessage") {
+                    debug("RegisterForUpdatesMessage received.");
+                    handleRegisterForUpdatesMessage(*root);
+                    res = eRegisterForUpdates;
+               }
+               else if (type == "sp:SubscriptionMessage") {
+                    debug("SubscriptionMessage received.");
+                    handleSubscriptionMessage(*root);
+                    res = eSubscription;
+               }
+               else if (type == "sp:StepMessage") {
+                    debug("StepMessage received.");
+                    handleStepMessage(*root);
+                    res = eStep;
+               }
+               else if (type == "sp:UpdateServerMessage") {
+                    debug("UpdateServerMessage received.");
+                    handleServerUpdateMessage(*root);
+                    res = eUpdateServer;
+               }
+               else if (type == "sp:ResetMessage") {
+                    debug("ResetMessage received.");
+                    res = eReset;
+               }
+               else if (type == "sp:ProgressQueryMessage") {
+                    debug("ProgressQueryMessage received.");
+                    res = eProgressQuery;
+               }
+               else if (type == "sp:SetPropertyMessage") {
+                    debug("SetPropertyMessage received.");
+                    handleSetPropertyMessage(*root);
+                    res = eSetProperty;
+               }
+               else if (type == "sp:LoadQueryMessage") {
+                    res = eLoadQuery;
+               }
+               else {
+                    Error e(Error::eWarning);
+                    e << "Unknown message type --" << type << "-- ignoring...";
+                    throw e;
+               }
+          }
+          else {
+               mParser->resetDocumentPool();   // Destroy parsed document
+               delete memBuf;
+               anError << "Couldn't get document from the XML parser";
+               throw anError;
+          }
      }
 
      mParser->resetDocumentPool();   // Destroy parsed document
@@ -328,7 +328,7 @@ void XMLHandler::handleSubscriptionMessage(DOMElement &n)
      vector<DOMElement*> v;
      XMLHelper::getChildElementsByTag(n, "subscription", v);
      for (vector<DOMElement*>::iterator it = v.begin(); it != v.end(); it++) {
-	  createSubscription(**it);
+          createSubscription(**it);
      }
 }
 
@@ -343,10 +343,10 @@ void XMLHandler::handleStepMessage(DOMElement &n)
 //     debug("====== Number of timesteps " << mNumberOfTimesteps);
      // Shouldn't be optional in the future...
      if (XMLHelper::getFirstChildByTag(n, "detached")) {
-	  mDetachedStep = XMLHelper::getBool(n, "detached");
+          mDetachedStep = XMLHelper::getBool(n, "detached");
      }
      else {
-	  mDetachedStep = false;
+          mDetachedStep = false;
      }
 }
 
@@ -361,14 +361,14 @@ void XMLHandler::handleServerUpdateMessage(DOMElement &n)
      vector<DOMElement*> v;
      XMLHelper::getChildElementsByTag(n, "update", v);
      for (vector<DOMElement*>::iterator it = v.begin(); it != v.end(); it++) {
-	  try {
-	       mUpdates.push_back(new Update(**it, mId));
-	  } catch (Error& e) {
-	       errors.push_back(e);
-	  }
+          try {
+               mUpdates.push_back(new Update(**it, mId));
+          } catch (Error& e) {
+               errors.push_back(e);
+          }
      }
      if (!errors.empty()) {
-	  throw errors;
+          throw errors;
      }
 }
 
@@ -395,17 +395,17 @@ void XMLHandler::handleSetPropertyMessage(DOMElement &n)
 void XMLHandler::addSubscription(Subscription *sub)
 {
      if (!sub) {
-	  Error e;
-	  e << "Null Subscription in XMLHandler::addSubscription()";
-	  throw e;
+          Error e;
+          e << "Null Subscription in XMLHandler::addSubscription()";
+          throw e;
      }
 
      map<int, Subscription*>::iterator it = mSubscriptions.find(sub->id());
      if (it != mSubscriptions.end()) {
-	  slog << "Subscription " << it->first << " has same id as another Subscription. "
-	       << "The other subscription will be deleted..." << logEnd;
-	  delete it->second;
-	  mSubscriptions.erase(it->first);
+          slog << "Subscription " << it->first << " has same id as another Subscription. "
+               << "The other subscription will be deleted..." << logEnd;
+          delete it->second;
+          mSubscriptions.erase(it->first);
      }
      mSubscriptions[sub->id()] = sub;
 }
@@ -420,40 +420,40 @@ void XMLHandler::createSubscription(DOMElement &n)
 {
      StrX type(n.getAttribute(XStr("xsi:type").str()));
      if (type == "sp:RootSubscription") {
-//	  addSubscription(new GeneralSubscription(&n, mBuf));
-	  debug("=========== RootSubscriptions no longer supported! ===========");
+//          addSubscription(new GeneralSubscription(&n, mBuf));
+          debug("=========== RootSubscriptions no longer supported! ===========");
      }
      else if (type == "sp:GeneralSubscription") {
-//	  addSubscription(new GeneralSubscription(&n, mBuf));
-	  debug("=========== GeneralSubscriptions no longer supported! ===========");
+//          addSubscription(new GeneralSubscription(&n, mBuf));
+          debug("=========== GeneralSubscriptions no longer supported! ===========");
      }
      else if (type == "sp:StratmasObjectSubscription") {
-	  addSubscription(new StratmasObjectSubscription(&n, mBuf, mId));
+          addSubscription(new StratmasObjectSubscription(&n, mBuf, mId));
      }
      else if (type == "sp:LayerSubscription") {
-	  addSubscription(new LayerSubscription(&n, mBuf, mSessionBigEndian));
+          addSubscription(new LayerSubscription(&n, mBuf, mSessionBigEndian));
      }
      else if (type == "sp:RegionSubscription") {
-	  addSubscription(new RegionSubscription(&n, mBuf));
+          addSubscription(new RegionSubscription(&n, mBuf));
      }
      else if (type == "sp:Unsubscription") {
-	  int toRemove = XMLHelper::getIntAttribute(n, "id");
-	  map<int, Subscription*>::iterator it = mSubscriptions.find(toRemove);
-	  debug("%%%%%%%%% Got remove subscription message");
-	  if (it != mSubscriptions.end()) {
-	       debug("Removing Subscription: '" << it->first << "'");
-	       delete it->second;
-	       mSubscriptions.erase(it->first);
-	  }
-	  else {
-	       slog << "Tried to unsubscribe to non-existing Subscription (id: "
-		    << toRemove << ")" << logEnd;
-	  }
+          int toRemove = XMLHelper::getIntAttribute(n, "id");
+          map<int, Subscription*>::iterator it = mSubscriptions.find(toRemove);
+          debug("%%%%%%%%% Got remove subscription message");
+          if (it != mSubscriptions.end()) {
+               debug("Removing Subscription: '" << it->first << "'");
+               delete it->second;
+               mSubscriptions.erase(it->first);
+          }
+          else {
+               slog << "Tried to unsubscribe to non-existing Subscription (id: "
+                    << toRemove << ")" << logEnd;
+          }
      }
      else {
-	  Error e(Error::eWarning);
-	  e << "Stratmas does not support Subscription of type: " << type.str();
-	  throw e;
+          Error e(Error::eWarning);
+          e << "Stratmas does not support Subscription of type: " << type.str();
+          throw e;
      }
 }
 
@@ -462,7 +462,7 @@ void XMLHandler::createSubscription(DOMElement &n)
  */
 void XMLHandler::eraseSubscriptions() {
      for (map<int, Subscription*>::iterator it = mSubscriptions.begin(); it != mSubscriptions.end(); it++) {
-	  delete it->second;
+          delete it->second;
      }
      mSubscriptions.clear();
 }

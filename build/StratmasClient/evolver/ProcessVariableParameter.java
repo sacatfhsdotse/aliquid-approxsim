@@ -1,4 +1,4 @@
-// 	$Id: ProcessVariableParameter.java,v 1.5 2006/03/22 14:30:50 dah Exp $
+//         $Id: ProcessVariableParameter.java,v 1.5 2006/03/22 14:30:50 dah Exp $
 /*
  * @(#)ProcessVariableParameter.java
  */
@@ -84,12 +84,12 @@ public class ProcessVariableParameter extends DoubleParameter implements Simulat
      * @param faction the faction to sample (may be null)
      */
     public ProcessVariableParameter(Shape region, String processVariable, 
-				    String faction)
+                                    String faction)
     {
-	super(region.getReference().toString());
-	setRegion(region);
-	setProcessVariable(processVariable);
-	setFaction(faction);
+        super(region.getReference().toString());
+        setRegion(region);
+        setProcessVariable(processVariable);
+        setFaction(faction);
     }
 
     /**
@@ -99,7 +99,7 @@ public class ProcessVariableParameter extends DoubleParameter implements Simulat
      */
     void setRegion(Shape region)
     {
-	this.region = region;
+        this.region = region;
     }
 
     /**
@@ -107,7 +107,7 @@ public class ProcessVariableParameter extends DoubleParameter implements Simulat
      */
     Shape getRegion()
     {
-	return this.region;
+        return this.region;
     }
 
     /**
@@ -115,7 +115,7 @@ public class ProcessVariableParameter extends DoubleParameter implements Simulat
      */
     String getFaction()
     {
-	return this.faction;
+        return this.faction;
     }
 
     /**
@@ -123,7 +123,7 @@ public class ProcessVariableParameter extends DoubleParameter implements Simulat
      */
     String getProcessVariable()
     {
-	return this.processVariable;
+        return this.processVariable;
     }
 
     /**
@@ -133,7 +133,7 @@ public class ProcessVariableParameter extends DoubleParameter implements Simulat
      */
     void setProcessVariable(String processVariable)
     {
-	this.processVariable = processVariable;
+        this.processVariable = processVariable;
     }
 
     /**
@@ -143,7 +143,7 @@ public class ProcessVariableParameter extends DoubleParameter implements Simulat
      */
     void setFaction(String faction)
     {
-	this.faction = faction;
+        this.faction = faction;
     }
 
     /**
@@ -152,28 +152,28 @@ public class ProcessVariableParameter extends DoubleParameter implements Simulat
      */
     public SimulationEvaluatorTarget createSimulationEvaluatorTarget()
     {
-	return new DefaultSimulationEvaluatorTarget()
-	    {
-		/**
-		 * Creates the subscription of this target. This
-		 * subscription is required to, in some way, make sure
-		 * update() is called whenever the subscription is
-		 * updated.
-		 */
-		Subscription createSubscription()
-		{
-		    return new RegionSubscription(new RegionData(getRegion()));
-		}
+        return new DefaultSimulationEvaluatorTarget()
+            {
+                /**
+                 * Creates the subscription of this target. This
+                 * subscription is required to, in some way, make sure
+                 * update() is called whenever the subscription is
+                 * updated.
+                 */
+                Subscription createSubscription()
+                {
+                    return new RegionSubscription(new RegionData(getRegion()));
+                }
 
-		/**
-		 * Creates the ParameterInstance acting as evaluation in the
-		 * Evaluations created by the SimulationEvaluator.
-		 */
-		public ParameterInstance createEvaluation()
-		{
-		    return getParameterInstance(((RegionSubscription) getSubscription()).getRegionData().getPV(getProcessVariable(), getFaction()));
-		}
-	    };
+                /**
+                 * Creates the ParameterInstance acting as evaluation in the
+                 * Evaluations created by the SimulationEvaluator.
+                 */
+                public ParameterInstance createEvaluation()
+                {
+                    return getParameterInstance(((RegionSubscription) getSubscription()).getRegionData().getPV(getProcessVariable(), getFaction()));
+                }
+            };
     }
 
     /**
@@ -182,7 +182,7 @@ public class ProcessVariableParameter extends DoubleParameter implements Simulat
      */
     Vector getProcessVariables()
     {
-	return this.processVariables;
+        return this.processVariables;
     }
 
     /**
@@ -194,7 +194,7 @@ public class ProcessVariableParameter extends DoubleParameter implements Simulat
      */
     void setProcessVariables(Vector processVariables)
     {
-	this.processVariables = processVariables;
+        this.processVariables = processVariables;
     }
 
     /**
@@ -204,27 +204,27 @@ public class ProcessVariableParameter extends DoubleParameter implements Simulat
      */
     void setProcessVariables(ServerSession session) throws ServerException
     {
-	StratmasMessage message = new ServerCapabilitiesMessage();
-	
-	message.addEventListener(new DefaultStratmasMessageListener() 
-	    {
-		/**
-		 * Called when the XMLHandler has processed the data in the
-		 * answer message received from the server.
-		 *
-		 * @param e The event that occured.
-		 * @param reply the reply, if any, else null
-		 */
-		public void messageHandled(StratmasMessageEvent e, Object reply)
-		{
-		    if (reply instanceof Vector) {
-			setProcessVariables((Vector) reply);
-		    }
-		}
-	    });
+        StratmasMessage message = new ServerCapabilitiesMessage();
+        
+        message.addEventListener(new DefaultStratmasMessageListener() 
+            {
+                /**
+                 * Called when the XMLHandler has processed the data in the
+                 * answer message received from the server.
+                 *
+                 * @param e The event that occured.
+                 * @param reply the reply, if any, else null
+                 */
+                public void messageHandled(StratmasMessageEvent e, Object reply)
+                {
+                    if (reply instanceof Vector) {
+                        setProcessVariables((Vector) reply);
+                    }
+                }
+            });
 
-	// Blocking send
-	session.send(message);
+        // Blocking send
+        session.send(message);
     }
 
     /**
@@ -233,49 +233,49 @@ public class ProcessVariableParameter extends DoubleParameter implements Simulat
      */
     JPopupMenu getProcessVariablesMenu()
     {
-	JPopupMenu res = null;
-	if (getProcessVariables() != null) {
-	    // Build a vector with all factions.
-	    Vector factions = new TypeFilter(TypeFactory.getType("EthnicFaction")).filterTree(getRegion().getRoot(), new Vector());
+        JPopupMenu res = null;
+        if (getProcessVariables() != null) {
+            // Build a vector with all factions.
+            Vector factions = new TypeFilter(TypeFactory.getType("EthnicFaction")).filterTree(getRegion().getRoot(), new Vector());
 
-	    res = new JPopupMenu();
-	    for (Enumeration e = getProcessVariables().elements(); e.hasMoreElements();) {
-		final ProcessVariableDescription pvd = (ProcessVariableDescription) e.nextElement();
-		if (pvd.hasFactions()) {
-		    JMenu menu = new JMenu(pvd.getName());
-		    menu.add(new AbstractAction(StratmasConstants.factionAll) 
-			{
-			    public void actionPerformed(ActionEvent event)
-			    {
-				setProcessVariable(pvd.getName());
-				setFaction(StratmasConstants.factionAll);
-			    }
-			});
-		    for (Enumeration f = factions.elements(); f.hasMoreElements();) {
-			final StratmasObject obj = (StratmasObject) f.nextElement();
-			menu.add(new AbstractAction(obj.getIdentifier()) 
-			    {
-				public void actionPerformed(ActionEvent event)
-				{
-				    setProcessVariable(pvd.getName());
-				    setFaction(obj.getReference().toString());
-				}
-			    });
-		    }
-		} else {
-		    res.add(new AbstractAction(pvd.getName()) 
-			{
-			    public void actionPerformed(ActionEvent event)
-			    {
-				setProcessVariable(pvd.getName());
-				setFaction(StratmasConstants.factionAll);
-			    }
-			});
-		}
-	    }
-	}
+            res = new JPopupMenu();
+            for (Enumeration e = getProcessVariables().elements(); e.hasMoreElements();) {
+                final ProcessVariableDescription pvd = (ProcessVariableDescription) e.nextElement();
+                if (pvd.hasFactions()) {
+                    JMenu menu = new JMenu(pvd.getName());
+                    menu.add(new AbstractAction(StratmasConstants.factionAll) 
+                        {
+                            public void actionPerformed(ActionEvent event)
+                            {
+                                setProcessVariable(pvd.getName());
+                                setFaction(StratmasConstants.factionAll);
+                            }
+                        });
+                    for (Enumeration f = factions.elements(); f.hasMoreElements();) {
+                        final StratmasObject obj = (StratmasObject) f.nextElement();
+                        menu.add(new AbstractAction(obj.getIdentifier()) 
+                            {
+                                public void actionPerformed(ActionEvent event)
+                                {
+                                    setProcessVariable(pvd.getName());
+                                    setFaction(obj.getReference().toString());
+                                }
+                            });
+                    }
+                } else {
+                    res.add(new AbstractAction(pvd.getName()) 
+                        {
+                            public void actionPerformed(ActionEvent event)
+                            {
+                                setProcessVariable(pvd.getName());
+                                setFaction(StratmasConstants.factionAll);
+                            }
+                        });
+                }
+            }
+        }
 
-	return res;
+        return res;
     }
 
     /**
@@ -284,47 +284,47 @@ public class ProcessVariableParameter extends DoubleParameter implements Simulat
      */
     boolean showProcessVariablesOptionPane() 
     {
-	class Entry
-	{
-	    String processVariable;
-	    String faction;
-	    
-	    Entry(String processVariable, String faction)
-	    {
-		this.processVariable = processVariable; 
-		this.faction = faction;
-	    }
+        class Entry
+        {
+            String processVariable;
+            String faction;
+            
+            Entry(String processVariable, String faction)
+            {
+                this.processVariable = processVariable; 
+                this.faction = faction;
+            }
 
-	    public String toString()
-	    {
-		return processVariable + " - " + faction;
-	    }
-	}
-	Vector entries = new Vector();
-	Vector factions = new TypeFilter(TypeFactory.getType("EthnicFaction")).filterTree(getRegion().getRoot(), new Vector());
+            public String toString()
+            {
+                return processVariable + " - " + faction;
+            }
+        }
+        Vector entries = new Vector();
+        Vector factions = new TypeFilter(TypeFactory.getType("EthnicFaction")).filterTree(getRegion().getRoot(), new Vector());
 
-	for (Enumeration e = getProcessVariables().elements(); e.hasMoreElements();) {
-	    ProcessVariableDescription pvd = (ProcessVariableDescription) e.nextElement();
-	    entries.add(new Entry(pvd.getName(), StratmasConstants.factionAll));
-	    if (pvd.hasFactions()) {
-		for (Enumeration f = factions.elements(); f.hasMoreElements();) {
-		    StratmasObject obj = (StratmasObject) f.nextElement();
-		    entries.add(new Entry(pvd.getName(), obj.getIdentifier()));
-		}
-	    }
-	}
+        for (Enumeration e = getProcessVariables().elements(); e.hasMoreElements();) {
+            ProcessVariableDescription pvd = (ProcessVariableDescription) e.nextElement();
+            entries.add(new Entry(pvd.getName(), StratmasConstants.factionAll));
+            if (pvd.hasFactions()) {
+                for (Enumeration f = factions.elements(); f.hasMoreElements();) {
+                    StratmasObject obj = (StratmasObject) f.nextElement();
+                    entries.add(new Entry(pvd.getName(), obj.getIdentifier()));
+                }
+            }
+        }
 
-	Entry selected = (Entry) JOptionPane.showInputDialog(null, "Please choose process variable and \n" + 
-							     "faction to use as measure.", "Choose measure", 
-							     JOptionPane.QUESTION_MESSAGE, null, 
-							     entries.toArray(), entries.get(0));
-	if (selected != null) {
-	    this.setFaction(selected.faction);
-	    this.setProcessVariable(selected.processVariable);
-	    return true;
-	} else {
-	    return false;
-	}	
+        Entry selected = (Entry) JOptionPane.showInputDialog(null, "Please choose process variable and \n" + 
+                                                             "faction to use as measure.", "Choose measure", 
+                                                             JOptionPane.QUESTION_MESSAGE, null, 
+                                                             entries.toArray(), entries.get(0));
+        if (selected != null) {
+            this.setFaction(selected.faction);
+            this.setProcessVariable(selected.processVariable);
+            return true;
+        } else {
+            return false;
+        }        
     }
 
     /**
@@ -332,11 +332,11 @@ public class ProcessVariableParameter extends DoubleParameter implements Simulat
      */
     public String toString()
     {
-	if (getFaction() != null && getProcessVariable() != null) {
-	    return super.toString() + " - " + getProcessVariable() + " - " +  getFaction();
-	} else {
-	    return super.toString();
-	}
+        if (getFaction() != null && getProcessVariable() != null) {
+            return super.toString() + " - " + getProcessVariable() + " - " +  getFaction();
+        } else {
+            return super.toString();
+        }
     }
 }
 

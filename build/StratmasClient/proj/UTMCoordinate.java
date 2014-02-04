@@ -17,38 +17,38 @@ public class UTMCoordinate {
      * Creates new coordinate.
      */
     public UTMCoordinate(long zone, char hemisphere, double easting, double northing) {
-	this.zone = zone;
-	this.hemisphere = hemisphere;
-	this.easting = easting;
-	this.northing = northing;
+        this.zone = zone;
+        this.hemisphere = hemisphere;
+        this.easting = easting;
+        this.northing = northing;
     }
     
     /**
      * Returns the zone.
      */
     public long getZone() {
-	return zone;
+        return zone;
     }
     
     /**
      * Returns the hemisphere ('N' or 'S').
      */
     public char getHemisphere() {
-	return hemisphere;
+        return hemisphere;
     }
     
     /**
      * Returns the easting value.
      */
     public double getEasting() {
-	return easting; 
+        return easting; 
     }
     
     /**
      * Returns the northing value.
      */
     public double getNorthing() {
-	return northing;
+        return northing;
     }
     
 }

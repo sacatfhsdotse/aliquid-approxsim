@@ -68,10 +68,10 @@ const Shape *Map::getRegionForPoint(const ProjCoord &p) const
 {
      CompositeShape *cs = dynamic_cast<CompositeShape*>(mBorders);
      if (cs) {
-	  return cs->getRegionForPoint(p);
+          return cs->getRegionForPoint(p);
      }
      else {
-	  debug("Not a Composite map!");
+          debug("Not a Composite map!");
      }
      return 0;
 }

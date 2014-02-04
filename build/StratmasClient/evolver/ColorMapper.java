@@ -1,4 +1,4 @@
-// 	$Id: ColorMapper.java,v 1.1 2005/11/02 22:18:47 dah Exp $
+//         $Id: ColorMapper.java,v 1.1 2005/11/02 22:18:47 dah Exp $
 /*
  * @(#)ColorMapper.java
  */

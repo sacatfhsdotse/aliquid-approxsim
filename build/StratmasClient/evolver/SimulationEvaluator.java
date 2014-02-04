@@ -1,4 +1,4 @@
-// 	$Id: SimulationEvaluator.java,v 1.6 2006/03/22 14:30:50 dah Exp $
+//         $Id: SimulationEvaluator.java,v 1.6 2006/03/22 14:30:50 dah Exp $
 /*
  * @(#)SimulationEvaluator.java
  */
@@ -58,13 +58,13 @@ public class SimulationEvaluator extends DefaultEvaluator implements StratmasEve
      * @param simulation the simulation to run
      */
     public SimulationEvaluator(ServerSession session, 
-			       SimulationEvaluatorTarget target,
-			       StratmasObject simulation)
-    {	
-	super();
-	this.target = target;
-	this.session = session;
-	setSimulation(simulation);
+                               SimulationEvaluatorTarget target,
+                               StratmasObject simulation)
+    {        
+        super();
+        this.target = target;
+        this.session = session;
+        setSimulation(simulation);
     }
 
     /**
@@ -76,73 +76,73 @@ public class SimulationEvaluator extends DefaultEvaluator implements StratmasEve
      */
     public Evaluation evaluate(ParameterInstanceSet set) throws EvaluatorException
     {
-	// Check all parameters in set:
-	// 1. Find out if they are backed by StratmasObjects.
-	// 2. Check resolvability of all references.
-	// FIXME: Note that 2 have to be removed or changed when the
-	// sampler should be able to actually add objects (and not just
-	// change existing ones).
-	for (Enumeration e = set.getParameterInstances(); 
-	     e.hasMoreElements();) {
-	    ParameterInstance parameterInstance = 
-		(ParameterInstance) e.nextElement();
-	    if (! (parameterInstance.getParameter() instanceof StratmasObjectParameter)) {
-		String errorMessage = getClass() + 
-		    " is unable to evaluate parameters of type: " + 
-		    parameterInstance.getParameter().getClass();
-		fireError(errorMessage);
-		throw new EvaluatorException(this, errorMessage);
-	    } else if (((StratmasObjectParameter) parameterInstance.getParameter()).getReference().resolve(getSimulation()) == null) {
-		String errorMessage = getClass() + ": " + 
-		    ((StratmasObjectParameter) parameterInstance.getParameter()).getReference() + 
-		    " does not exist in the simulation.";
-		fireError(errorMessage);
-		throw new EvaluatorException(this, errorMessage);
-	    }
-	}
+        // Check all parameters in set:
+        // 1. Find out if they are backed by StratmasObjects.
+        // 2. Check resolvability of all references.
+        // FIXME: Note that 2 have to be removed or changed when the
+        // sampler should be able to actually add objects (and not just
+        // change existing ones).
+        for (Enumeration e = set.getParameterInstances(); 
+             e.hasMoreElements();) {
+            ParameterInstance parameterInstance = 
+                (ParameterInstance) e.nextElement();
+            if (! (parameterInstance.getParameter() instanceof StratmasObjectParameter)) {
+                String errorMessage = getClass() + 
+                    " is unable to evaluate parameters of type: " + 
+                    parameterInstance.getParameter().getClass();
+                fireError(errorMessage);
+                throw new EvaluatorException(this, errorMessage);
+            } else if (((StratmasObjectParameter) parameterInstance.getParameter()).getReference().resolve(getSimulation()) == null) {
+                String errorMessage = getClass() + ": " + 
+                    ((StratmasObjectParameter) parameterInstance.getParameter()).getReference() + 
+                    " does not exist in the simulation.";
+                fireError(errorMessage);
+                throw new EvaluatorException(this, errorMessage);
+            }
+        }
 
-	try {
-	    getSession().initialize(getSimulation());
-	    for (Enumeration e = set.getParameterInstances(); 
-		 e.hasMoreElements();) {
-		ParameterInstance parameterInstance = 
-		    (ParameterInstance) e.nextElement();	    
-		getSession().updateObject(((StratmasObjectParameter) parameterInstance.getParameter()).getReference(),
-					  (StratmasObject) parameterInstance.getValue());
-	    } 
+        try {
+            getSession().initialize(getSimulation());
+            for (Enumeration e = set.getParameterInstances(); 
+                 e.hasMoreElements();) {
+                ParameterInstance parameterInstance = 
+                    (ParameterInstance) e.nextElement();            
+                getSession().updateObject(((StratmasObjectParameter) parameterInstance.getParameter()).getReference(),
+                                          (StratmasObject) parameterInstance.getValue());
+            } 
 
-	    getSession().registerSubscription(getTarget().getSubscription());
-	   
-	    while (!getTarget().getStopper().isFinished(this)) {
-		// Blocking step until any subscriptions is updated.
-		getSession().step();
-		addEvaluation(new Evaluation(set, getTarget().createEvaluation()));
-		getTarget().increaseUpdateCount();
-	    }
-	} catch (ServerException e) {
-	    String errorMessage = getClass() + " was interrupted waiting " + 
-		"for server update: " + e.getMessage();
-	    fireError(errorMessage);
-	    try {
-		getSession().close();
-	    } catch (ServerException ex) {
-		// Don't care really.
-		Debug.err.println("Error closing session: " + ex.getMessage());
-	    }
-	    throw new EvaluatorException(this, errorMessage);
-	}
-	
-	try {
-	    getSession().close();
-	} catch (ServerException e) {
-	    // Don't care really.
-	    Debug.err.println("Error closing session: " + e.getMessage());
-	}
+            getSession().registerSubscription(getTarget().getSubscription());
+           
+            while (!getTarget().getStopper().isFinished(this)) {
+                // Blocking step until any subscriptions is updated.
+                getSession().step();
+                addEvaluation(new Evaluation(set, getTarget().createEvaluation()));
+                getTarget().increaseUpdateCount();
+            }
+        } catch (ServerException e) {
+            String errorMessage = getClass() + " was interrupted waiting " + 
+                "for server update: " + e.getMessage();
+            fireError(errorMessage);
+            try {
+                getSession().close();
+            } catch (ServerException ex) {
+                // Don't care really.
+                Debug.err.println("Error closing session: " + ex.getMessage());
+            }
+            throw new EvaluatorException(this, errorMessage);
+        }
+        
+        try {
+            getSession().close();
+        } catch (ServerException e) {
+            // Don't care really.
+            Debug.err.println("Error closing session: " + e.getMessage());
+        }
 
-	// This will (intentionally) return null if no current
-	// evaluation.
-	fireFinished();
-	return getPreliminaryEvaluation();
+        // This will (intentionally) return null if no current
+        // evaluation.
+        fireFinished();
+        return getPreliminaryEvaluation();
     }
 
 
@@ -153,15 +153,15 @@ public class SimulationEvaluator extends DefaultEvaluator implements StratmasEve
      */
     void setSimulation(StratmasObject simulation)
     {
-	if (getSimulation() != null) {
-	    getSimulation().removeEventListener(this);
-	}
+        if (getSimulation() != null) {
+            getSimulation().removeEventListener(this);
+        }
 
-	if (simulation != null) {
-	    simulation.addEventListener(this);
-	}
+        if (simulation != null) {
+            simulation.addEventListener(this);
+        }
 
-	this.simulation = simulation;
+        this.simulation = simulation;
     }
 
     /**
@@ -169,7 +169,7 @@ public class SimulationEvaluator extends DefaultEvaluator implements StratmasEve
      */
     StratmasObject getSimulation()
     {
-	return this.simulation;
+        return this.simulation;
     }
     
     /**
@@ -179,9 +179,9 @@ public class SimulationEvaluator extends DefaultEvaluator implements StratmasEve
      */
     public void eventOccured(StratmasEvent event)
     {
-	if (event.isRemoved() || event.isReplaced()) {
-	    setSimulation(null);
-	}
+        if (event.isRemoved() || event.isReplaced()) {
+            setSimulation(null);
+        }
     }
 
 
@@ -191,7 +191,7 @@ public class SimulationEvaluator extends DefaultEvaluator implements StratmasEve
      */
     ServerSession getSession() 
     {
-	return this.session;
+        return this.session;
     }
 
     /**
@@ -199,7 +199,7 @@ public class SimulationEvaluator extends DefaultEvaluator implements StratmasEve
      */
     SimulationEvaluatorTarget getTarget() 
     {
-	return this.target;
+        return this.target;
     }
 
     /**
@@ -208,13 +208,13 @@ public class SimulationEvaluator extends DefaultEvaluator implements StratmasEve
      */
     public Vector getEvaluations()
     {
-	Vector res = null;
+        Vector res = null;
 
-	synchronized (this.evaluations) {
-	    res = (Vector) evaluations.clone();
-	}
+        synchronized (this.evaluations) {
+            res = (Vector) evaluations.clone();
+        }
 
-	return res;
+        return res;
     }
 
     /**
@@ -222,15 +222,15 @@ public class SimulationEvaluator extends DefaultEvaluator implements StratmasEve
      */
     public Evaluation getPreliminaryEvaluation()
     {
-	Evaluation res = null;
+        Evaluation res = null;
 
-	synchronized (this.evaluations) {
-	    if (this.evaluations.size() > 0) {
-		res = (Evaluation) this.evaluations.lastElement();
-	    }
-	}
+        synchronized (this.evaluations) {
+            if (this.evaluations.size() > 0) {
+                res = (Evaluation) this.evaluations.lastElement();
+            }
+        }
 
-	return res;
+        return res;
     }
 
     /**
@@ -240,10 +240,10 @@ public class SimulationEvaluator extends DefaultEvaluator implements StratmasEve
      */
     protected void addEvaluation(Evaluation evaluation)
     {
-	synchronized (this.evaluations) {
-	    this.evaluations.add(evaluation);
-	}
-	fireNewEvaluation(evaluation);
+        synchronized (this.evaluations) {
+            this.evaluations.add(evaluation);
+        }
+        fireNewEvaluation(evaluation);
     }
 
     /**
@@ -251,7 +251,7 @@ public class SimulationEvaluator extends DefaultEvaluator implements StratmasEve
      */
     long getTimeout()
     {
-	return 20000;
+        return 20000;
     }
 
     /**
@@ -259,7 +259,7 @@ public class SimulationEvaluator extends DefaultEvaluator implements StratmasEve
      */
     public String toString()
     {
-	return getSession().toString();
+        return getSession().toString();
     }
 }
 

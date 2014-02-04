@@ -45,8 +45,8 @@ public class MapPoint {
      * @param lon the longitude component of this point.
      */
     public MapPoint(double lon, double lat) {
-	this.lon = lon;
-	this.lat = lat;
+        this.lon = lon;
+        this.lat = lat;
     }
 
     /**
@@ -54,7 +54,7 @@ public class MapPoint {
      */
     public double getLat()
     {
-	return this.lat;
+        return this.lat;
     }
 
     /**
@@ -62,15 +62,15 @@ public class MapPoint {
      */
     public double getLon()
     {
-    	return this.lon;
+            return this.lon;
     }
 
     /**
      * Returns the MGRS value of this point.
      */
     public String getMGRSValue() {
-	return MGRSConversion.convertGeodeticToMGRS(Math.toRadians(this.lon), 
-						    Math.toRadians(this.lat), 5);
+        return MGRSConversion.convertGeodeticToMGRS(Math.toRadians(this.lon), 
+                                                    Math.toRadians(this.lat), 5);
     }
     
     /**
@@ -79,8 +79,8 @@ public class MapPoint {
      */
     public void setLat(double lat)
     {
-	this.lat = lat;
-	invalidateProjection();
+        this.lat = lat;
+        invalidateProjection();
     }
 
     /**
@@ -89,8 +89,8 @@ public class MapPoint {
      */
     public void setLon(double lon)
     {
-	this.lon = lon;
-	invalidateProjection();
+        this.lon = lon;
+        invalidateProjection();
     }
     
     /**
@@ -98,7 +98,7 @@ public class MapPoint {
      */
     public double getX()
     {
-	return this.x;
+        return this.x;
     }
 
     /**
@@ -106,7 +106,7 @@ public class MapPoint {
      */
     public double getY()
     {
-    	return this.y;
+            return this.y;
     }
     
     /**
@@ -114,15 +114,15 @@ public class MapPoint {
      *
      * @param proj actual projection.
      */
-    public MapPoint getProjectedPoint(Projection proj) {	
-	if (!isProjectionValid() || usedProjection == null || 
-	    !usedProjection.equals(proj)) {
-	    double[] xy =  proj.projToXY(lon, lat);
-	    x = xy[0];
-	    y = xy[1];
-	    usedProjection = proj;
-	}
-	return this;
+    public MapPoint getProjectedPoint(Projection proj) {        
+        if (!isProjectionValid() || usedProjection == null || 
+            !usedProjection.equals(proj)) {
+            double[] xy =  proj.projToXY(lon, lat);
+            x = xy[0];
+            y = xy[1];
+            usedProjection = proj;
+        }
+        return this;
     }
     
     /**
@@ -130,7 +130,7 @@ public class MapPoint {
      */
     void invalidateProjection()
     {
-	this.projectionValid = false;
+        this.projectionValid = false;
     }
     
     /**
@@ -138,6 +138,6 @@ public class MapPoint {
      */
     boolean isProjectionValid()
     {
-	return this.projectionValid;
+        return this.projectionValid;
     }
 }

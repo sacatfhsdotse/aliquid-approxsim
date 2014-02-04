@@ -34,10 +34,10 @@ TypeDefinition::TypeDefinition(XSDContent& content, XSTypeDefinition& xsTypeDef)
      mName = StrX(mXSTypeDefinition.getName()).str();
      mNamespace = StrX(mXSTypeDefinition.getNamespace()).str();
      if (mXSTypeDefinition.getTypeCategory() == XSTypeDefinition::SIMPLE_TYPE) {
-	  processSimpleTypeDefinition(*reinterpret_cast<XSSimpleTypeDefinition*>(&mXSTypeDefinition));
+          processSimpleTypeDefinition(*reinterpret_cast<XSSimpleTypeDefinition*>(&mXSTypeDefinition));
      }
      else {
-	  processComplexTypeDefinition(*reinterpret_cast<XSComplexTypeDefinition*>(&mXSTypeDefinition));
+          processComplexTypeDefinition(*reinterpret_cast<XSComplexTypeDefinition*>(&mXSTypeDefinition));
      }
 }
 
@@ -50,58 +50,58 @@ void TypeDefinition::processSimpleTypeDefinition(XSSimpleTypeDefinition& xsSimpl
 {
      int facets = xsSimpleTypeDef.getDefinedFacets();
      if (facets) {
-	  //cout << "Facets:\n";
+          //cout << "Facets:\n";
           
-	  if (facets & XSSimpleTypeDefinition::FACET_LENGTH) {
-	       //cout << "\tLength:\t\t" << StrX(xsSimpleTypeDef.getLexicalFacetValue(XSSimpleTypeDefinition::FACET_LENGTH)) << endl;
-	  }
-	  if (facets & XSSimpleTypeDefinition::FACET_MINLENGTH) {
-	       //cout << "\tMinLength:\t" << StrX(xsSimpleTypeDef.getLexicalFacetValue(XSSimpleTypeDefinition::FACET_MINLENGTH)) << endl;
-	  }
-	  if (facets & XSSimpleTypeDefinition::FACET_MAXLENGTH) {
-	       //cout << "\tMaxLength:\t" << StrX(xsSimpleTypeDef.getLexicalFacetValue(XSSimpleTypeDefinition::FACET_MAXLENGTH)) << endl;
-	  }
-	  if (facets & XSSimpleTypeDefinition::FACET_PATTERN) {
-	       StringList *lexicalPatterns = xsSimpleTypeDef.getLexicalPattern();
-	       if (lexicalPatterns && lexicalPatterns->size()) {
-		    //cout << "\tPattern:\t\t";
-		    for (unsigned i = 0; i < lexicalPatterns->size(); i++) {                    
-			 //cout << StrX(lexicalPatterns->elementAt(i));
-		    }
-		    //cout << endl;
-	       }
-	  }
-	  if (facets & XSSimpleTypeDefinition::FACET_WHITESPACE) {
-	       //cout << "\tWhitespace:\t\t" << StrX(xsSimpleTypeDef.getLexicalFacetValue(XSSimpleTypeDefinition::FACET_WHITESPACE)) << endl;
-	  }
-	  if (facets & XSSimpleTypeDefinition::FACET_MAXINCLUSIVE) {
-	       //cout << "\tMaxInclusive:\t" << StrX(xsSimpleTypeDef.getLexicalFacetValue(XSSimpleTypeDefinition::FACET_MAXINCLUSIVE)) << endl;
-	  }
-	  if (facets & XSSimpleTypeDefinition::FACET_MAXEXCLUSIVE) {
-	       //cout << "\tMaxExclusive:\t" << StrX(xsSimpleTypeDef.getLexicalFacetValue(XSSimpleTypeDefinition::FACET_MAXEXCLUSIVE)) << endl;      
-	  }
-	  if (facets & XSSimpleTypeDefinition::FACET_MINEXCLUSIVE) {
-	       //cout << "\tMinExclusive:\t" << StrX(xsSimpleTypeDef.getLexicalFacetValue(XSSimpleTypeDefinition::FACET_MINEXCLUSIVE)) << endl;
-	  }
-	  if (facets & XSSimpleTypeDefinition::FACET_MININCLUSIVE) {
-	       //cout << "\tMinInclusive:\t" << StrX(xsSimpleTypeDef.getLexicalFacetValue(XSSimpleTypeDefinition::FACET_MININCLUSIVE)) << endl;
-	  }
-	  if (facets & XSSimpleTypeDefinition::FACET_TOTALDIGITS) {
-	       //cout << "\tTotalDigits:\t" << StrX(xsSimpleTypeDef.getLexicalFacetValue(XSSimpleTypeDefinition::FACET_TOTALDIGITS)) << endl;
-	  }
-	  if (facets & XSSimpleTypeDefinition::FACET_FRACTIONDIGITS) {
-	       //cout << "\tFractionDigits:\t" << StrX(xsSimpleTypeDef.getLexicalFacetValue(XSSimpleTypeDefinition::FACET_FRACTIONDIGITS)) << endl;
-	  }
-	  if (facets & XSSimpleTypeDefinition::FACET_ENUMERATION) {
-	       StringList *lexicalEnums = xsSimpleTypeDef.getLexicalEnumeration();
-	       if (lexicalEnums && lexicalEnums->size()) {
-		    //cout << "\tEnumeration:\n";
-		    for (unsigned i = 0; i < lexicalEnums->size(); i++) {
-			 //cout << "\t\t\t" << StrX(lexicalEnums->elementAt(i)) << "\n";
-		    }
-		    //cout << endl;
-	       }
-	  }
+          if (facets & XSSimpleTypeDefinition::FACET_LENGTH) {
+               //cout << "\tLength:\t\t" << StrX(xsSimpleTypeDef.getLexicalFacetValue(XSSimpleTypeDefinition::FACET_LENGTH)) << endl;
+          }
+          if (facets & XSSimpleTypeDefinition::FACET_MINLENGTH) {
+               //cout << "\tMinLength:\t" << StrX(xsSimpleTypeDef.getLexicalFacetValue(XSSimpleTypeDefinition::FACET_MINLENGTH)) << endl;
+          }
+          if (facets & XSSimpleTypeDefinition::FACET_MAXLENGTH) {
+               //cout << "\tMaxLength:\t" << StrX(xsSimpleTypeDef.getLexicalFacetValue(XSSimpleTypeDefinition::FACET_MAXLENGTH)) << endl;
+          }
+          if (facets & XSSimpleTypeDefinition::FACET_PATTERN) {
+               StringList *lexicalPatterns = xsSimpleTypeDef.getLexicalPattern();
+               if (lexicalPatterns && lexicalPatterns->size()) {
+                    //cout << "\tPattern:\t\t";
+                    for (unsigned i = 0; i < lexicalPatterns->size(); i++) {                    
+                         //cout << StrX(lexicalPatterns->elementAt(i));
+                    }
+                    //cout << endl;
+               }
+          }
+          if (facets & XSSimpleTypeDefinition::FACET_WHITESPACE) {
+               //cout << "\tWhitespace:\t\t" << StrX(xsSimpleTypeDef.getLexicalFacetValue(XSSimpleTypeDefinition::FACET_WHITESPACE)) << endl;
+          }
+          if (facets & XSSimpleTypeDefinition::FACET_MAXINCLUSIVE) {
+               //cout << "\tMaxInclusive:\t" << StrX(xsSimpleTypeDef.getLexicalFacetValue(XSSimpleTypeDefinition::FACET_MAXINCLUSIVE)) << endl;
+          }
+          if (facets & XSSimpleTypeDefinition::FACET_MAXEXCLUSIVE) {
+               //cout << "\tMaxExclusive:\t" << StrX(xsSimpleTypeDef.getLexicalFacetValue(XSSimpleTypeDefinition::FACET_MAXEXCLUSIVE)) << endl;      
+          }
+          if (facets & XSSimpleTypeDefinition::FACET_MINEXCLUSIVE) {
+               //cout << "\tMinExclusive:\t" << StrX(xsSimpleTypeDef.getLexicalFacetValue(XSSimpleTypeDefinition::FACET_MINEXCLUSIVE)) << endl;
+          }
+          if (facets & XSSimpleTypeDefinition::FACET_MININCLUSIVE) {
+               //cout << "\tMinInclusive:\t" << StrX(xsSimpleTypeDef.getLexicalFacetValue(XSSimpleTypeDefinition::FACET_MININCLUSIVE)) << endl;
+          }
+          if (facets & XSSimpleTypeDefinition::FACET_TOTALDIGITS) {
+               //cout << "\tTotalDigits:\t" << StrX(xsSimpleTypeDef.getLexicalFacetValue(XSSimpleTypeDefinition::FACET_TOTALDIGITS)) << endl;
+          }
+          if (facets & XSSimpleTypeDefinition::FACET_FRACTIONDIGITS) {
+               //cout << "\tFractionDigits:\t" << StrX(xsSimpleTypeDef.getLexicalFacetValue(XSSimpleTypeDefinition::FACET_FRACTIONDIGITS)) << endl;
+          }
+          if (facets & XSSimpleTypeDefinition::FACET_ENUMERATION) {
+               StringList *lexicalEnums = xsSimpleTypeDef.getLexicalEnumeration();
+               if (lexicalEnums && lexicalEnums->size()) {
+                    //cout << "\tEnumeration:\n";
+                    for (unsigned i = 0; i < lexicalEnums->size(); i++) {
+                         //cout << "\t\t\t" << StrX(lexicalEnums->elementAt(i)) << "\n";
+                    }
+                    //cout << endl;
+               }
+          }
      }
 }
 
@@ -117,14 +117,14 @@ void TypeDefinition::processComplexTypeDefinition(XSComplexTypeDefinition& xsCom
      XSComplexTypeDefinition::CONTENT_TYPE contentType = xsComplexTypeDef.getContentType();
 
      if (contentType == XSComplexTypeDefinition::CONTENTTYPE_ELEMENT ||
-	 contentType == XSComplexTypeDefinition::CONTENTTYPE_MIXED) {
-	  processParticle(*xsComplexTypeDef.getParticle());
+         contentType == XSComplexTypeDefinition::CONTENTTYPE_MIXED) {
+          processParticle(*xsComplexTypeDef.getParticle());
      }
      XSAttributeUseList* attrList = xsComplexTypeDef.getAttributeUses();
      if (attrList) {
-	  for (unsigned int i = 0; i < attrList->size(); i++) {
-	       processAttributeUse(*attrList->elementAt(i));
-	  }
+          for (unsigned int i = 0; i < attrList->size(); i++) {
+               processAttributeUse(*attrList->elementAt(i));
+          }
      }
 }
 
@@ -138,23 +138,23 @@ void TypeDefinition::processParticle(XSParticle& xsParticle)
 {
      XSParticle::TERM_TYPE termType = xsParticle.getTermType();
      if (termType == XSParticle::TERM_ELEMENT) {
-	  XSElementDeclaration* dec = xsParticle.getElementTerm();
-	  string nameSpace = StrX(mXSTypeDefinition.getNamespace()).str();
-	  if (getName() == StrX(dec->getTypeDefinition()->getName()     ).str() &&
-	      nameSpace == StrX(dec->getTypeDefinition()->getNamespace()).str()) {
-	       Declaration* dec = new Declaration(xsParticle, this);
-	       appendSubElement(*dec);
-	  }
-	  else {
-	       Declaration *dec = new Declaration(xsParticle, mXSDContent);
-	       appendSubElement(*dec);
-	  }
+          XSElementDeclaration* dec = xsParticle.getElementTerm();
+          string nameSpace = StrX(mXSTypeDefinition.getNamespace()).str();
+          if (getName() == StrX(dec->getTypeDefinition()->getName()     ).str() &&
+              nameSpace == StrX(dec->getTypeDefinition()->getNamespace()).str()) {
+               Declaration* dec = new Declaration(xsParticle, this);
+               appendSubElement(*dec);
+          }
+          else {
+               Declaration *dec = new Declaration(xsParticle, mXSDContent);
+               appendSubElement(*dec);
+          }
      }
      else if (termType == XSParticle::TERM_MODELGROUP) {
-	  processParticles(*xsParticle.getModelGroupTerm());
+          processParticles(*xsParticle.getModelGroupTerm());
      }
      else if (termType == XSParticle::TERM_WILDCARD) {
-	  debug("* (wildcard) NOT IMPLEMENTED");
+          debug("* (wildcard) NOT IMPLEMENTED");
      }
 }
 
@@ -168,16 +168,16 @@ void TypeDefinition::processParticles(XSModelGroup& xsModelGroup)
      // Should we care about gropus contra sequences?
 //      switch (xsModelGroup.getCompositor()) {
 //      case XSModelGroup::COMPOSITOR_SEQUENCE:
-// 	  break;
+//           break;
 //      case XSModelGroup::COMPOSITOR_CHOICE:
-// 	  break;
+//           break;
 //      case XSModelGroup::COMPOSITOR_ALL:
-// 	  break;
+//           break;
 //      }    
 
      XSParticleList* xsParticleList = xsModelGroup.getParticles();
      for (unsigned i = 0; i < xsParticleList->size(); i++) {
-	  processParticle(*xsParticleList->elementAt(i));
+          processParticle(*xsParticleList->elementAt(i));
      }
 }
 
@@ -198,16 +198,16 @@ bool TypeDefinition::canSubstitute(const Type& type) const
      // library has a bug. The bug is that anyType is ancestor of
      // itself and thus causes the derivedFromType function to hang.
      if (type.getName() == "anyType") {
-	  return true;
+          return true;
      }
      else {
-	  XSTypeDefinition* td = &mXSTypeDefinition;
-	  while (!(StrX(td->getName()) == "anyType")) {
-	       if (type.getName() == StrX(td->getName()).str()) {
-		    return true;
-	       }
-	       td = td->getBaseType();
-	  }
+          XSTypeDefinition* td = &mXSTypeDefinition;
+          while (!(StrX(td->getName()) == "anyType")) {
+               if (type.getName() == StrX(td->getName()).str()) {
+                    return true;
+               }
+               td = td->getBaseType();
+          }
      }
      return false;
 

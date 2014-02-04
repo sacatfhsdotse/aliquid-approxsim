@@ -1,4 +1,4 @@
-// 	$Id: UnresolvedReferenceException.java,v 1.1 2005/02/03 10:20:59 dah Exp $
+//         $Id: UnresolvedReferenceException.java,v 1.1 2005/02/03 10:20:59 dah Exp $
 /*
  * @(#)UnresolvedReferenceException.java
  */
@@ -24,12 +24,12 @@ public class UnresolvedReferenceException extends SemanticException
      */
     public UnresolvedReferenceException(ParsedReference reference, ParsedDeclaration lastResolved)
     {
-	this.reference = reference;
-	this.lastResolved = lastResolved;
+        this.reference = reference;
+        this.lastResolved = lastResolved;
     }
 
     public String toString()
     {
-	return reference.getPos().toString() + ": Unable to resolv + " + this.reference.toString();
+        return reference.getPos().toString() + ": Unable to resolv + " + this.reference.toString();
     }
 }

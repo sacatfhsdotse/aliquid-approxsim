@@ -1,4 +1,4 @@
-// 	$Id: TypeFilter.java,v 1.3 2006/03/22 14:30:50 dah Exp $
+//         $Id: TypeFilter.java,v 1.3 2006/03/22 14:30:50 dah Exp $
 /*
  * @(#)Typefilter.java
  */
@@ -41,10 +41,10 @@ public class TypeFilter extends StratmasObjectFilter
      * of specified type.
      */
     public TypeFilter(Type type, boolean substitutionOk)
-    {	
-	super();
-	setType(type);
-	setSubstitutionOk(substitutionOk);
+    {        
+        super();
+        setType(type);
+        setSubstitutionOk(substitutionOk);
     }
 
     /**
@@ -54,8 +54,8 @@ public class TypeFilter extends StratmasObjectFilter
      * @param type the type to filter for.
      */
     public TypeFilter(Type type)
-    {	
-	this(type, true);
+    {        
+        this(type, true);
     }
 
     /**
@@ -65,7 +65,7 @@ public class TypeFilter extends StratmasObjectFilter
      */
     public void setType(Type type)
     {
-	this.type = type;
+        this.type = type;
     }
 
     /**
@@ -73,7 +73,7 @@ public class TypeFilter extends StratmasObjectFilter
      */
     public Type getType()
     {
-	return this.type;
+        return this.type;
     }
 
     /**
@@ -83,7 +83,7 @@ public class TypeFilter extends StratmasObjectFilter
      */
     public void setSubstitutionOk(boolean substitutionOk)
     {
-	this.substitutionOk = substitutionOk;
+        this.substitutionOk = substitutionOk;
     }
 
     /**
@@ -91,7 +91,7 @@ public class TypeFilter extends StratmasObjectFilter
      */
     public boolean isSubstitutionOk()
     {
-	return this.substitutionOk;
+        return this.substitutionOk;
     }
 
     /**
@@ -102,10 +102,10 @@ public class TypeFilter extends StratmasObjectFilter
      */
     public boolean pass(StratmasObject sObj)
     {
-	if (isSubstitutionOk()) {
-	    return applyInverted(sObj.getType().canSubstitute(getType()));
-	} else {
-	    return applyInverted(sObj.getType().equals(getType()));
-	}
+        if (isSubstitutionOk()) {
+            return applyInverted(sObj.getType().canSubstitute(getType()));
+        } else {
+            return applyInverted(sObj.getType().equals(getType()));
+        }
     }
 }

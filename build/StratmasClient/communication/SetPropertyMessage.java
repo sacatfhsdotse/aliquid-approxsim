@@ -24,8 +24,8 @@ public class SetPropertyMessage extends StratmasMessage {
      * @param value The value of the property.
      */
      public SetPropertyMessage(String property, String value) {
-	  mProperty = property;
-	  mValue = value;
+          mProperty = property;
+          mValue = value;
      }
 
     /**
@@ -34,7 +34,7 @@ public class SetPropertyMessage extends StratmasMessage {
      * @return A string representation of the type of this message.
      */
      public String getTypeAsString() {
-	  return "SetPropertyMessage";
+          return "SetPropertyMessage";
      }
 
      /**
@@ -45,8 +45,8 @@ public class SetPropertyMessage extends StratmasMessage {
       * object's body appended to it.
       */
      public StringBuffer bodyXML(StringBuffer b) {
-	  b.append(NL).append("<property>").append(mProperty).append("</property>");
-	  b.append(NL).append("<value>").append(mValue).append("</value>");
-	  return b;
+          b.append(NL).append("<property>").append(mProperty).append("</property>");
+          b.append(NL).append("<value>").append(mValue).append("</value>");
+          return b;
      }
 }

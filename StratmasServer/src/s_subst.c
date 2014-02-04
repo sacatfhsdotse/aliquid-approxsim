@@ -37,54 +37,54 @@ int main(int argc, char** argv)
       // Prefix match, if at end of replacee, output replacement (if
       // any), else look at next input.
       if (replacee[m + 1] == '\0') {
-	if (replacement != NULL) {
-	  if (fputs(replacement, stdout) == EOF) {
-	    fprintf(stderr, "%s: error writing to stdout\n", 
-		    progname);
-	    exit(1);
-	  }
-	}
-	m = 0;
+        if (replacement != NULL) {
+          if (fputs(replacement, stdout) == EOF) {
+            fprintf(stderr, "%s: error writing to stdout\n", 
+                    progname);
+            exit(1);
+          }
+        }
+        m = 0;
       } else {
-	m++;
+        m++;
       }
     } else {
       // Missmatch.
       if (m == 0) {
-	if (putc(c, stdout) == EOF) {
-	  fprintf(stderr, "%s: error writing to stdout\n", 
-		  progname);
-	  exit(1);
-	}
+        if (putc(c, stdout) == EOF) {
+          fprintf(stderr, "%s: error writing to stdout\n", 
+                  progname);
+          exit(1);
+        }
       } else {
-	// If there is currently a matching prefix, it has to
-	// be investigated for suffixes that are prefixes of itself.  A
-	// Perhaps more efficient way would be to pre-investigate
-	// replacee for potential suffixes == prefix, however this
-	// program is supposed to be simple...
-	for (i = 1; i < m; i++) {
-	  if ((char) c == replacee[m - i + 1] &&
-	      strncmp(replacee, &replacee[i], m - i) == 0) {
-	    fprintf(stdout, "%d:%d\n", m, i);
-	    // New partial match
-	    break;
-	  }
-	}
-	// Write remainder
-	if (fwrite(replacee, sizeof(char), i, stdout) != i) {
-	  fprintf(stderr, "%s: error writing to stdout\n", 
-		  progname);
-	  exit(1);
-	}
-	m = m - i; 
+        // If there is currently a matching prefix, it has to
+        // be investigated for suffixes that are prefixes of itself.  A
+        // Perhaps more efficient way would be to pre-investigate
+        // replacee for potential suffixes == prefix, however this
+        // program is supposed to be simple...
+        for (i = 1; i < m; i++) {
+          if ((char) c == replacee[m - i + 1] &&
+              strncmp(replacee, &replacee[i], m - i) == 0) {
+            fprintf(stdout, "%d:%d\n", m, i);
+            // New partial match
+            break;
+          }
+        }
+        // Write remainder
+        if (fwrite(replacee, sizeof(char), i, stdout) != i) {
+          fprintf(stderr, "%s: error writing to stdout\n", 
+                  progname);
+          exit(1);
+        }
+        m = m - i; 
 
-	if (m == 0) {
-	  if (putc(c, stdout) == EOF) {
-	    fprintf(stderr, "%s: error writing to stdout\n", 
-		    progname);
-	    exit(1);
-	  }
-	}
+        if (m == 0) {
+          if (putc(c, stdout) == EOF) {
+            fprintf(stderr, "%s: error writing to stdout\n", 
+                    progname);
+            exit(1);
+          }
+        }
       }
     }
   }
@@ -92,14 +92,14 @@ int main(int argc, char** argv)
   // If we are collecting a partial match at EOF, write partial match.
   if (fwrite(replacee, sizeof(char), m, stdout) != m) {
     fprintf(stderr, "%s: error writing to stdout\n", 
-	    progname);
+            progname);
     exit(1);
   }
 
   // Make sure everything gets written.
   if (fflush(stdout) == EOF) {
     fprintf(stderr, "%s: error writing to stdout\n", 
-	    progname);
+            progname);
     exit(1);
   }
 

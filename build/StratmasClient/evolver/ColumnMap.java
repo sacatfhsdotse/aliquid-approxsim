@@ -1,4 +1,4 @@
-// 	$Id: ColumnMap.java,v 1.2 2006/03/31 16:55:51 dah Exp $
+//         $Id: ColumnMap.java,v 1.2 2006/03/31 16:55:51 dah Exp $
 /*
  * @(#)ColumnMap.java
  */
@@ -42,7 +42,7 @@ public class ColumnMap
      */    
     public ColumnMap()
     {
-	super();
+        super();
     }
 
     /**
@@ -53,12 +53,12 @@ public class ColumnMap
      */
     public synchronized int getIndex(Parameter parameter)
     {
-	Integer i = (Integer) parameterToIndex.get(parameter);
-	if (i != null) {
-	    return i.intValue();
-	} else {
-	    return -1;
-	}
+        Integer i = (Integer) parameterToIndex.get(parameter);
+        if (i != null) {
+            return i.intValue();
+        } else {
+            return -1;
+        }
     }
 
     /**
@@ -69,7 +69,7 @@ public class ColumnMap
      */
     public synchronized Parameter getParameter(int index)
     {
-	return (Parameter) indexToParameter.get(new Integer(index));
+        return (Parameter) indexToParameter.get(new Integer(index));
     }
 
     /**
@@ -78,14 +78,14 @@ public class ColumnMap
      */
     public synchronized Vector getParameters()
     {
-	int[] indices = getIndices();
+        int[] indices = getIndices();
 
-	Vector v = new Vector();
-	for (int i = 0; i < indices.length; i++) {
-	    v.add(getParameter(indices[i]));
-	}
+        Vector v = new Vector();
+        for (int i = 0; i < indices.length; i++) {
+            v.add(getParameter(indices[i]));
+        }
 
-	return v;
+        return v;
     }
 
     /**
@@ -93,14 +93,14 @@ public class ColumnMap
      */
     public synchronized int[] getIndices()
     {
-	int[] res = new int[indexToParameter.size()];
-	int i = 0;
-	for (Enumeration e = indexToParameter.keys(); e.hasMoreElements();) {
-	    res[i++] = ((Integer) e.nextElement()).intValue();
-	}
-	Arrays.sort(res);
+        int[] res = new int[indexToParameter.size()];
+        int i = 0;
+        for (Enumeration e = indexToParameter.keys(); e.hasMoreElements();) {
+            res[i++] = ((Integer) e.nextElement()).intValue();
+        }
+        Arrays.sort(res);
 
-	return res;
+        return res;
     }
 
     /**
@@ -112,22 +112,22 @@ public class ColumnMap
      */
     public synchronized void set(int index, Parameter parameter)
     {
-	Integer i = new Integer(index);
+        Integer i = new Integer(index);
 
-	// Remove any old mapping.
-	Parameter oldParameter = getParameter(index);
-	int oldIndex = getIndex(parameter);
-	if (oldIndex != -1) {
-	    parameterToIndex.remove(oldParameter);
-	    indexToParameter.remove(new Integer(oldIndex));
-	}
+        // Remove any old mapping.
+        Parameter oldParameter = getParameter(index);
+        int oldIndex = getIndex(parameter);
+        if (oldIndex != -1) {
+            parameterToIndex.remove(oldParameter);
+            indexToParameter.remove(new Integer(oldIndex));
+        }
 
-	// Set new mapping
-	parameterToIndex.put(parameter, i);
-	indexToParameter.put(i, parameter);
-	if (getMaxIndex() < index) {
-	    setMaxIndex(index);
-	}
+        // Set new mapping
+        parameterToIndex.put(parameter, i);
+        indexToParameter.put(i, parameter);
+        if (getMaxIndex() < index) {
+            setMaxIndex(index);
+        }
     }
 
     /**
@@ -136,7 +136,7 @@ public class ColumnMap
      */
     public synchronized int getMaxIndex()
     {
-	return this.maxIndex;
+        return this.maxIndex;
     }
 
     /**
@@ -146,7 +146,7 @@ public class ColumnMap
      */
     synchronized void setMaxIndex(int index)
     {
-	this.maxIndex = index;
+        this.maxIndex = index;
     }
 }
 

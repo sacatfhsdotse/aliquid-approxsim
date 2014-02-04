@@ -1,4 +1,4 @@
-// 	$Id: CollectedErrorsException.java,v 1.2 2005/09/09 17:25:19 dah Exp $
+//         $Id: CollectedErrorsException.java,v 1.2 2005/09/09 17:25:19 dah Exp $
 /*
  * @(#)CollectedErrorsException.java
  */
@@ -28,7 +28,7 @@ public class CollectedErrorsException extends SemanticException
      */
     public CollectedErrorsException(Vector errors)
     {
-	this.errors = errors;
+        this.errors = errors;
     }
 
     /**
@@ -36,7 +36,7 @@ public class CollectedErrorsException extends SemanticException
      */
     public CollectedErrorsException()
     {
-	this(new Vector());
+        this(new Vector());
     }
 
     /**
@@ -46,22 +46,22 @@ public class CollectedErrorsException extends SemanticException
      */
     public void add(Exception error) 
     {
-	this.errors.add(error);
+        this.errors.add(error);
     }
 
     public String getMessage()
     {
-	StringBuffer buf = new StringBuffer();
-	for (Enumeration es = this.errors.elements(); es.hasMoreElements();) {
-	    Exception e = (Exception) es.nextElement();
-	    if (e instanceof CollectedErrorsException) {
-		buf.append(e.getMessage());
-	    } else {
-		buf.append(e.getMessage() + "\n");
-	    }
-	}
-	
-	return buf.toString();
+        StringBuffer buf = new StringBuffer();
+        for (Enumeration es = this.errors.elements(); es.hasMoreElements();) {
+            Exception e = (Exception) es.nextElement();
+            if (e instanceof CollectedErrorsException) {
+                buf.append(e.getMessage());
+            } else {
+                buf.append(e.getMessage() + "\n");
+            }
+        }
+        
+        return buf.toString();
     }
 
     /**
@@ -71,11 +71,11 @@ public class CollectedErrorsException extends SemanticException
      */
     public void claimUnclaimed(ParsedDeclaration declaration)
     {
-	for (Enumeration es = this.errors.elements(); es.hasMoreElements();) {
-	    Object e = es.nextElement();
-	    if (e instanceof SemanticException) {
-		((SemanticException) e).claimUnclaimed(declaration);
-	    }
-	}
+        for (Enumeration es = this.errors.elements(); es.hasMoreElements();) {
+            Object e = es.nextElement();
+            if (e instanceof SemanticException) {
+                ((SemanticException) e).claimUnclaimed(declaration);
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-// 	$Id: ReferenceFilter.java,v 1.5 2006/03/22 14:30:50 dah Exp $
+//         $Id: ReferenceFilter.java,v 1.5 2006/03/22 14:30:50 dah Exp $
 /*
  * @(#)Pathfilter.java
  */
@@ -26,15 +26,15 @@ public class ReferenceFilter extends PathFilter
      * @param ref the ref to filter after.
      */
     private ReferenceFilter(Reference ref)
-    {	
-	super();
-	setTargetIndex(ref.getLength());
+    {        
+        super();
+        setTargetIndex(ref.getLength());
 
-	Reference walker = ref;
-	for (int i = ref.getLength(); i >= 0; i++) {
-	    addComponent(new IdentifierFilter(walker.getIdentifier()));
-	    walker = walker.getScope();
-	}
+        Reference walker = ref;
+        for (int i = ref.getLength(); i >= 0; i++) {
+            addComponent(new IdentifierFilter(walker.getIdentifier()));
+            walker = walker.getScope();
+        }
     }
 }
 

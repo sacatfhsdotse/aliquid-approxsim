@@ -135,7 +135,7 @@ public:
       * \return The simulation DataObject.
       */
      DataObject* takeOverSimulation() { 
-	  DataObject* d = mSimulation; mSimulation = 0; return d;
+          DataObject* d = mSimulation; mSimulation = 0; return d;
      }
 
      /**
@@ -144,9 +144,9 @@ public:
       * \return The updates vector.
       */
      std::vector<Update*> takeOverUpdates() {
-	  std::vector<Update*> tmp = mUpdates;
-	  mUpdates.clear();
-	  return tmp;
+          std::vector<Update*> tmp = mUpdates;
+          mUpdates.clear();
+          return tmp;
      }
 
      /**

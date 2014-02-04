@@ -1,4 +1,4 @@
-// 	$Id: StratmasListGUIConstructor.java,v 1.1 2006/03/22 14:30:51 dah Exp $
+//         $Id: StratmasListGUIConstructor.java,v 1.1 2006/03/22 14:30:51 dah Exp $
 /*
  * @(#)StratmasObject.java
  */
@@ -52,7 +52,7 @@ public class StratmasListGUIConstructor extends StratmasGUIConstructor
      */
     public StratmasListGUIConstructor(Declaration declaration)
     {
-	super(declaration, false);
+        super(declaration, false);
     }
     
     /**
@@ -60,22 +60,22 @@ public class StratmasListGUIConstructor extends StratmasGUIConstructor
      */   
     public void buildPanel()
     {
-	this.add(new JLabel(getDeclaration().getName()));
+        this.add(new JLabel(getDeclaration().getName()));
 
-	final StratmasListGUIConstructor self = this;
+        final StratmasListGUIConstructor self = this;
 
-	add(new JButton(new AbstractAction("Edit") 
-	    {
-		/**
-		 * Invoked when an action occurs.
-		 *
-		 * @param e the event
-		 */
-		public void actionPerformed(ActionEvent e)
-		{
-		    self.showEditDialog();
-		}
-	    }));
+        add(new JButton(new AbstractAction("Edit") 
+            {
+                /**
+                 * Invoked when an action occurs.
+                 *
+                 * @param e the event
+                 */
+                public void actionPerformed(ActionEvent e)
+                {
+                    self.showEditDialog();
+                }
+            }));
     }
 
     /**
@@ -83,60 +83,60 @@ public class StratmasListGUIConstructor extends StratmasGUIConstructor
      */    
     public void showEditDialog() 
     {
-	if (stratmasList == null) {
-	    // Prepare a forgiving declaration. The multiplicity
-	    // checks are made in createStratmasObject.
-	    final Declaration decl = (Declaration) this.getDeclaration().clone();
-	    decl.setMinOccurs(0);
-	    decl.setUnbounded(true);	    
-	    // Create a specialised version of StratmasList:
-	    stratmasList = new StratmasList(decl, new Vector()) 
-		{
-		    public Declaration getDeclaration()
-		    {
-			return decl;
-		    }
-		};
-	}
-	
-	
-	final JDialog dialog = new JDialog((java.awt.Frame) null, 
-					   this.getDeclaration().getName(), 
-					   true);
-	JPanel panel = new JPanel();
-	panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-	panel.add(new JScrollPane(TreeView.getDefaultTreeView(stratmasList)));
-	panel.add(new JButton(new AbstractAction("Done")
-	    {
-		/**
-		 * Invoked when an action occurs.
-		 *
-		 * @param e the event
-		 */
-		public void actionPerformed(ActionEvent e)
-		{
-		    dialog.dispose();
-		}
-	    }));
+        if (stratmasList == null) {
+            // Prepare a forgiving declaration. The multiplicity
+            // checks are made in createStratmasObject.
+            final Declaration decl = (Declaration) this.getDeclaration().clone();
+            decl.setMinOccurs(0);
+            decl.setUnbounded(true);            
+            // Create a specialised version of StratmasList:
+            stratmasList = new StratmasList(decl, new Vector()) 
+                {
+                    public Declaration getDeclaration()
+                    {
+                        return decl;
+                    }
+                };
+        }
+        
+        
+        final JDialog dialog = new JDialog((java.awt.Frame) null, 
+                                           this.getDeclaration().getName(), 
+                                           true);
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.add(new JScrollPane(TreeView.getDefaultTreeView(stratmasList)));
+        panel.add(new JButton(new AbstractAction("Done")
+            {
+                /**
+                 * Invoked when an action occurs.
+                 *
+                 * @param e the event
+                 */
+                public void actionPerformed(ActionEvent e)
+                {
+                    dialog.dispose();
+                }
+            }));
 
 
-	dialog.getRootPane().getContentPane().add(panel);
-	dialog.pack();
-	dialog.setVisible(true);
+        dialog.getRootPane().getContentPane().add(panel);
+        dialog.pack();
+        dialog.setVisible(true);
     }
 
     protected void createStratmasObject()
     {
-	if (stratmasList == null) {
-	    setStratmasObject(new StratmasList(this.getDeclaration(), new Vector()));
-	}
-	else if (stratmasList.getChildCount() >= this.getDeclaration().getMinOccurs() &&
-		(stratmasList.getChildCount() <= this.getDeclaration().getMaxOccurs() ||
-		 this.getDeclaration().isUnbounded())) {
-		setStratmasObject(new StratmasList(this.getDeclaration(), stratmasList.parts));
-	}
-	else {
-	    this.result = null;
-	}
+        if (stratmasList == null) {
+            setStratmasObject(new StratmasList(this.getDeclaration(), new Vector()));
+        }
+        else if (stratmasList.getChildCount() >= this.getDeclaration().getMinOccurs() &&
+                (stratmasList.getChildCount() <= this.getDeclaration().getMaxOccurs() ||
+                 this.getDeclaration().isUnbounded())) {
+                setStratmasObject(new StratmasList(this.getDeclaration(), stratmasList.parts));
+        }
+        else {
+            this.result = null;
+        }
     }
 }

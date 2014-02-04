@@ -1,4 +1,4 @@
-// 	$Id: StratmasTimestamp.java,v 1.5 2006/05/16 12:37:02 alexius Exp $
+//         $Id: StratmasTimestamp.java,v 1.5 2006/05/16 12:37:02 alexius Exp $
 /*
  * @(#)StratmasTimestamp.java
  */
@@ -39,8 +39,8 @@ public class StratmasTimestamp extends StratmasSimple
      */
     protected StratmasTimestamp(String identifier, Type type, long value)
     {
-	super(identifier, type);
-	this.value = new Timestamp(value);
+        super(identifier, type);
+        this.value = new Timestamp(value);
     }
 
     /**
@@ -51,8 +51,8 @@ public class StratmasTimestamp extends StratmasSimple
      */
     protected StratmasTimestamp(Declaration declaration, long value)
     {
-	super(declaration);
-	this.value = new Timestamp(value);
+        super(declaration);
+        this.value = new Timestamp(value);
     }
 
     /**
@@ -62,10 +62,10 @@ public class StratmasTimestamp extends StratmasSimple
      * @param value the value of the timestamp.
      */
     protected StratmasTimestamp(Declaration declaration, String value) 
-	throws ParseException
+        throws ParseException
     {
-	this(declaration, 0);
-	this.value = Timestamp.parseTimestamp(value);
+        this(declaration, 0);
+        this.value = Timestamp.parseTimestamp(value);
     }
 
     /**
@@ -73,8 +73,8 @@ public class StratmasTimestamp extends StratmasSimple
      */
     public String valueToString()
     {
-	 return value.toDateTimeString();
-//	return Long.toString(this.value.getMilliSecs());
+         return value.toDateTimeString();
+//        return Long.toString(this.value.getMilliSecs());
     }
 
     /**
@@ -82,7 +82,7 @@ public class StratmasTimestamp extends StratmasSimple
      */
     public String valueToPrettyString()
     {
-	return value.toString();
+        return value.toString();
     }
 
     /**
@@ -96,10 +96,10 @@ public class StratmasTimestamp extends StratmasSimple
      */
     public StringBuffer bodyXML(StringBuffer b)
     {
-	b.append(NL).append("<value>");
-	b.append(value.toDateTimeString());
-	b.append("</value>");
-	return b;
+        b.append(NL).append("<value>");
+        b.append(value.toDateTimeString());
+        b.append("</value>");
+        return b;
     }
     
     /**
@@ -109,7 +109,7 @@ public class StratmasTimestamp extends StratmasSimple
      */
     public Timestamp getValue()
     {
-	return value;
+        return value;
     }
   
     /**
@@ -121,8 +121,8 @@ public class StratmasTimestamp extends StratmasSimple
      */
     public void setValue(Timestamp newValue, Object initiator)
     {
-	this.value = newValue;
-	fireValueChanged(initiator);
+        this.value = newValue;
+        fireValueChanged(initiator);
     }
 
     /**
@@ -133,10 +133,10 @@ public class StratmasTimestamp extends StratmasSimple
      */
     public void valueFromString(String str, Object initiator) throws ParseException
     {
-	Timestamp test = Timestamp.parseTimestamp(str);
-	if(! test.equals(getValue())) {
-	    setValue(test, initiator);
-	}
+        Timestamp test = Timestamp.parseTimestamp(str);
+        if(! test.equals(getValue())) {
+            setValue(test, initiator);
+        }
     }
 
     /**
@@ -147,7 +147,7 @@ public class StratmasTimestamp extends StratmasSimple
      */
     protected static StratmasGUIConstructor getGUIConstructor(Declaration declaration)
     {
-	return new StratmasTimestampGUIConstructor(declaration); 
+        return new StratmasTimestampGUIConstructor(declaration); 
     }
     
     /**
@@ -157,16 +157,16 @@ public class StratmasTimestamp extends StratmasSimple
      */
     protected static StratmasObject domCreate(Element n) 
     {
-	 try {
-	      Timestamp t = Timestamp.parseTimestamp(XMLHelper.getString(n, "value"));
-	      return new StratmasTimestamp(Identifier.getIdentifier(n),
-					   TypeFactory.getType("Timestamp"),
-					   t.getMilliSecs());
-	 } catch (NumberFormatException e) {
-	      return null;
-	 } catch (ParseException e) {
-	      return null;
-	 }
+         try {
+              Timestamp t = Timestamp.parseTimestamp(XMLHelper.getString(n, "value"));
+              return new StratmasTimestamp(Identifier.getIdentifier(n),
+                                           TypeFactory.getType("Timestamp"),
+                                           t.getMilliSecs());
+         } catch (NumberFormatException e) {
+              return null;
+         } catch (ParseException e) {
+              return null;
+         }
     }
     
     /**
@@ -178,7 +178,7 @@ public class StratmasTimestamp extends StratmasSimple
      */
     protected static StratmasObject defaultCreate(Declaration declaration)
     {
-	return new StratmasTimestamp(declaration, 0);
+        return new StratmasTimestamp(declaration, 0);
     }
 
     /**
@@ -190,9 +190,9 @@ public class StratmasTimestamp extends StratmasSimple
      */
     protected StringBuffer toTaclanV2StringBuffer(StringBuffer buf, String indent)
     {
-	buf.append(indent + Identifier.toTaclanV2(getIdentifier()) + " = " + 
-		   "\"" + valueToPrettyString() + "\"");
-	return buf;
+        buf.append(indent + Identifier.toTaclanV2(getIdentifier()) + " = " + 
+                   "\"" + valueToPrettyString() + "\"");
+        return buf;
     }
 
     /**
@@ -205,7 +205,7 @@ public class StratmasTimestamp extends StratmasSimple
      * @return A clone of this object.
      */
      protected Object clone() {
-	  return new StratmasTimestamp(identifier, type, value.getMilliSecs());
+          return new StratmasTimestamp(identifier, type, value.getMilliSecs());
      }
 }
 
@@ -228,7 +228,7 @@ class StratmasTimestampGUIConstructor extends StratmasGUIConstructor
      */
     public StratmasTimestampGUIConstructor(Declaration declaration)
     {
-	super(declaration);
+        super(declaration);
     }
 
     /**
@@ -236,9 +236,9 @@ class StratmasTimestampGUIConstructor extends StratmasGUIConstructor
      */    
     protected void buildPanel()
     {
-	this.add(new javax.swing.JLabel(declaration.getName()));
-	this.field = new javax.swing.JTextField(10);
-	this.add(this.field);
+        this.add(new javax.swing.JLabel(declaration.getName()));
+        this.field = new javax.swing.JTextField(10);
+        this.add(this.field);
     }
 
     /**
@@ -246,10 +246,10 @@ class StratmasTimestampGUIConstructor extends StratmasGUIConstructor
      */
     protected void createStratmasObject()
     {
-	try {
-	    setStratmasObject(new StratmasTimestamp(this.declaration, field.getText()));
-	} catch (java.text.ParseException e) {
-	    System.err.println("FIXME: Don't fail quietly " + getClass().toString());
-	}
+        try {
+            setStratmasObject(new StratmasTimestamp(this.declaration, field.getText()));
+        } catch (java.text.ParseException e) {
+            System.err.println("FIXME: Don't fail quietly " + getClass().toString());
+        }
     }
 }

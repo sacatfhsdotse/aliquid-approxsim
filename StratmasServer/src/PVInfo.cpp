@@ -39,12 +39,12 @@ ostream& PVDescription::toXML(std::ostream& o) const
 /**
  * \brief Adds a PVDescription with the provided values.
  *
- * \param name The name of the PV.		  
- * \param type The type of the PV.	  
- * \param cat The category of the PV.	  
- * \param fac Flag for factions or not.	  
- * \param min The minimum value.		  
- * \param max The maximum value.		  
+ * \param name The name of the PV.                  
+ * \param type The type of the PV.          
+ * \param cat The category of the PV.          
+ * \param fac Flag for factions or not.          
+ * \param min The minimum value.                  
+ * \param max The maximum value.                  
  * \param visible Flag indicating visibility to client.
  */
 void PVInfo::addStaticPV(string name, string type, string cat, bool fac, string min, string max, bool visible)
@@ -101,39 +101,39 @@ void PVInfo::init()
      addStaticPV(PVHelper::pdName (eDWaterDeprivation   ), "not used", "UNKNOWN"        , false, "0"   , "1"  , false);
      
      if (kShowPrecalculated) {
-	  addStaticPV(PVHelper::pcfName(ePAtHome                 ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
-	  addStaticPV(PVHelper::pcfName(ePSheltered              ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
-	  addStaticPV(PVHelper::pcfName(ePUnsheltered            ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
-	  addStaticPV(PVHelper::pcfName(ePHomeIll                ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
-	  addStaticPV(PVHelper::pcfName(ePShelteredIll           ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
-	  addStaticPV(PVHelper::pcfName(ePUnshelteredIll         ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
-	  addStaticPV(PVHelper::pcfName(ePHomeImmune             ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
-	  addStaticPV(PVHelper::pcfName(ePShelteredImmune        ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
-	  addStaticPV(PVHelper::pcfName(ePUnshelteredImmune      ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
-	  addStaticPV(PVHelper::pcfName(ePHomeDead               ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
-	  addStaticPV(PVHelper::pcfName(ePShelteredDead          ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
-	  addStaticPV(PVHelper::pcfName(ePUnshelteredDead        ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
-	  addStaticPV(PVHelper::pcfName(ePIDPDeadDueToViolence   ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
-	  addStaticPV(PVHelper::pcfName(ePHousedDeadDueToViolence), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
-	  addStaticPV(PVHelper::pcfName(ePNewIDPDueToViolence    ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
-	  addStaticPV(PVHelper::pcfName(ePTowardsCampDelta       ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
-	  addStaticPV(PVHelper::pcfName(ePDiffusionDelta         ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
-	  addStaticPV(PVHelper::pcfName(ePDiffusionDisplacedDelta), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
+          addStaticPV(PVHelper::pcfName(ePAtHome                 ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
+          addStaticPV(PVHelper::pcfName(ePSheltered              ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
+          addStaticPV(PVHelper::pcfName(ePUnsheltered            ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
+          addStaticPV(PVHelper::pcfName(ePHomeIll                ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
+          addStaticPV(PVHelper::pcfName(ePShelteredIll           ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
+          addStaticPV(PVHelper::pcfName(ePUnshelteredIll         ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
+          addStaticPV(PVHelper::pcfName(ePHomeImmune             ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
+          addStaticPV(PVHelper::pcfName(ePShelteredImmune        ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
+          addStaticPV(PVHelper::pcfName(ePUnshelteredImmune      ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
+          addStaticPV(PVHelper::pcfName(ePHomeDead               ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
+          addStaticPV(PVHelper::pcfName(ePShelteredDead          ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
+          addStaticPV(PVHelper::pcfName(ePUnshelteredDead        ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
+          addStaticPV(PVHelper::pcfName(ePIDPDeadDueToViolence   ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
+          addStaticPV(PVHelper::pcfName(ePHousedDeadDueToViolence), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
+          addStaticPV(PVHelper::pcfName(ePNewIDPDueToViolence    ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
+          addStaticPV(PVHelper::pcfName(ePTowardsCampDelta       ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
+          addStaticPV(PVHelper::pcfName(ePDiffusionDelta         ), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
+          addStaticPV(PVHelper::pcfName(ePDiffusionDisplacedDelta), "precalc" , "UNKNOWN"  , true , "0"   , "INF", true);
 
-	  addStaticPV(PVHelper::pcName (ePFoodProduction         ), "not used", "UNKNOWN"  , false, "0"   , "INF", true);
-	  addStaticPV(PVHelper::pcName (ePWaterProduction        ), "not used", "UNKNOWN"  , false, "0"   , "INF", true);
+          addStaticPV(PVHelper::pcName (ePFoodProduction         ), "not used", "UNKNOWN"  , false, "0"   , "INF", true);
+          addStaticPV(PVHelper::pcName (ePWaterProduction        ), "not used", "UNKNOWN"  , false, "0"   , "INF", true);
      }
 }
 
 /**
  * \brief Adds a PVDescription with the provided values.
  *
- * \param n   The name of the PV.		  
- * \param t   The type of the PV.	  
- * \param c   The category of the PV.	  
- * \param f   Flag for factions or not.	  
- * \param min The minimum value.		  
- * \param max The maximum value.		  
+ * \param n   The name of the PV.                  
+ * \param t   The type of the PV.          
+ * \param c   The category of the PV.          
+ * \param f   Flag for factions or not.          
+ * \param min The minimum value.                  
+ * \param max The maximum value.                  
  */
 void PVInfo::addPV(string n, string t, std::string c, bool f, string min, string max)
 {
@@ -151,15 +151,15 @@ ostream& PVInfo::toXML(std::ostream& o)
 {
      o << "<processVariables>" << endl;
      for (vector<PVDescription>::iterator it = sStaticPV.begin(); it != sStaticPV.end(); it++) {
-	  if (it->visible()) {
-	       it->toXML(o);
-	  }
+          if (it->visible()) {
+               it->toXML(o);
+          }
      }
      for (vector<PVDescription>::iterator it = sSimulationDependentPV.begin();
-	  it != sSimulationDependentPV.end(); it++) {
-	  if (it->visible()) {
-	       it->toXML(o);
-	  }
+          it != sSimulationDependentPV.end(); it++) {
+          if (it->visible()) {
+               it->toXML(o);
+          }
      }
      o << "</processVariables>" << endl;
      return o;

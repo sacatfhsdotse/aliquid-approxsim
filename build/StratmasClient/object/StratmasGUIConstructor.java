@@ -1,4 +1,4 @@
-// 	$Id: StratmasGUIConstructor.java,v 1.1 2006/03/22 14:30:51 dah Exp $
+//         $Id: StratmasGUIConstructor.java,v 1.1 2006/03/22 14:30:51 dah Exp $
 /*
  * @(#)StratmasGUIConstructor.java
  */
@@ -69,15 +69,15 @@ public abstract class StratmasGUIConstructor extends JPanel
      */
     public StratmasGUIConstructor(Declaration declaration, boolean useChooser)
     {
-	this.declaration = declaration;
-	setIdentifier(declaration.getName());
-    	setType(getDeclaration().getType());
-	this.useChooser = useChooser;
-	if (this.useChooser) {
-	    buildChooser();
-	} else {
-	    buildPanel();
-	}
+        this.declaration = declaration;
+        setIdentifier(declaration.getName());
+            setType(getDeclaration().getType());
+        this.useChooser = useChooser;
+        if (this.useChooser) {
+            buildChooser();
+        } else {
+            buildPanel();
+        }
     }
 
     /**
@@ -87,7 +87,7 @@ public abstract class StratmasGUIConstructor extends JPanel
      */
     public StratmasGUIConstructor(Declaration declaration)
     {
-	this(declaration, declaration.getType().isAbstract());
+        this(declaration, declaration.getType().isAbstract());
     }
 
     /**
@@ -95,31 +95,31 @@ public abstract class StratmasGUIConstructor extends JPanel
      */   
     public void buildChooser()
     {
-	this.add(new JLabel(declaration.getName()));
-	final StratmasGUIConstructor self = this;
-	final TypeSelector typeSelector = new TypeSelector(this.declaration.getType());
-	// Hack to get selected item implicitly selected item.
-	typeSelector.setSelectedIndex(0);
-	this.add(typeSelector);
-	final JButton createButton = new JButton();
-	createButton.setAction(new AbstractAction("Create...") {
-		/**
-		 * Invoked when an action occurs.
-		 *
-		 * @param e the event
-		 */
-		public void actionPerformed(ActionEvent e)
-		{
-		    StratmasGUIConstructorDialog deferedDialog = 
-			StratmasGUIConstructor.buildDialog(StratmasObjectFactory.guiCreate(declaration.clone(typeSelector.getSelectedType())));
-		    deferedDialog.setVisible(true);
-		    self.setStratmasObject(deferedDialog.getStratmasObject());
-		    if (self.getStratmasObject() != null) {
-			createButton.setText("Redo...");
-		    }
-		}
-	    });	
-	add(createButton);
+        this.add(new JLabel(declaration.getName()));
+        final StratmasGUIConstructor self = this;
+        final TypeSelector typeSelector = new TypeSelector(this.declaration.getType());
+        // Hack to get selected item implicitly selected item.
+        typeSelector.setSelectedIndex(0);
+        this.add(typeSelector);
+        final JButton createButton = new JButton();
+        createButton.setAction(new AbstractAction("Create...") {
+                /**
+                 * Invoked when an action occurs.
+                 *
+                 * @param e the event
+                 */
+                public void actionPerformed(ActionEvent e)
+                {
+                    StratmasGUIConstructorDialog deferedDialog = 
+                        StratmasGUIConstructor.buildDialog(StratmasObjectFactory.guiCreate(declaration.clone(typeSelector.getSelectedType())));
+                    deferedDialog.setVisible(true);
+                    self.setStratmasObject(deferedDialog.getStratmasObject());
+                    if (self.getStratmasObject() != null) {
+                        createButton.setText("Redo...");
+                    }
+                }
+            });        
+        add(createButton);
     }
 
     /**
@@ -139,7 +139,7 @@ public abstract class StratmasGUIConstructor extends JPanel
      */
     public void setType(Type type)
     {
-	this.type = type;
+        this.type = type;
     }
     
     /**
@@ -147,7 +147,7 @@ public abstract class StratmasGUIConstructor extends JPanel
      */
     public Type getType()
     {
-	return this.type;
+        return this.type;
     }
 
     /**
@@ -157,7 +157,7 @@ public abstract class StratmasGUIConstructor extends JPanel
      */
     public void setIdentifier(String identifier)
     {
-	this.identifier = identifier;
+        this.identifier = identifier;
     }
     
     /**
@@ -165,7 +165,7 @@ public abstract class StratmasGUIConstructor extends JPanel
      */
     public String getIdentifier()
     {
-	return this.identifier;
+        return this.identifier;
     }
 
     /**
@@ -173,19 +173,19 @@ public abstract class StratmasGUIConstructor extends JPanel
      */
     public StratmasObject getStratmasObject()
     {
-	if (this.result == null) {
-	    // If this constructor is handled by the chooser the defered
-	    // constructor will take care of the creation of the StratmasObject.	    
-	    if (! useChooser) {
-		createStratmasObject();
-	    }
-	}
+        if (this.result == null) {
+            // If this constructor is handled by the chooser the defered
+            // constructor will take care of the creation of the StratmasObject.            
+            if (! useChooser) {
+                createStratmasObject();
+            }
+        }
 
-	if (this.result != null) {
-	    this.result.setIdentifier(getIdentifier());
-	}
+        if (this.result != null) {
+            this.result.setIdentifier(getIdentifier());
+        }
 
-	return this.result;
+        return this.result;
     }
 
     /**
@@ -193,7 +193,7 @@ public abstract class StratmasGUIConstructor extends JPanel
      */
     protected void setStratmasObject(StratmasObject object)
     {
-	this.result = object;
+        this.result = object;
     }
 
     /**
@@ -201,7 +201,7 @@ public abstract class StratmasGUIConstructor extends JPanel
      */
     protected Declaration getDeclaration()
     {
-	return this.declaration;
+        return this.declaration;
     }
 
     /**
@@ -213,36 +213,36 @@ public abstract class StratmasGUIConstructor extends JPanel
      */    
     public static final StratmasGUIConstructorDialog buildDialog(StratmasGUIConstructor constructor, boolean fixedIdentifier) 
     {
-	JPanel panel = new JPanel();
-	panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-	// Handle identifier specifically.
-	JPanel subpanel = new JPanel();
-	subpanel.add(new JLabel("Name: "));
-	JTextField identifierField = 
-	    new JTextField(constructor.getIdentifier(), 15);
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        // Handle identifier specifically.
+        JPanel subpanel = new JPanel();
+        subpanel.add(new JLabel("Name: "));
+        JTextField identifierField = 
+            new JTextField(constructor.getIdentifier(), 15);
 
-	final StratmasGUIConstructor fCons = constructor;
-	identifierField.addCaretListener(new CaretListener()
-	    {
-		public void caretUpdate(CaretEvent e)
-		{
-		    JTextField tF = (JTextField) e.getSource();		    
-		    fCons.setIdentifier(tF.getText());
-		}
-	    });
+        final StratmasGUIConstructor fCons = constructor;
+        identifierField.addCaretListener(new CaretListener()
+            {
+                public void caretUpdate(CaretEvent e)
+                {
+                    JTextField tF = (JTextField) e.getSource();                    
+                    fCons.setIdentifier(tF.getText());
+                }
+            });
 
-	identifierField.setEditable(!fixedIdentifier);
-	subpanel.add(identifierField);
-	panel.add(subpanel);
+        identifierField.setEditable(!fixedIdentifier);
+        subpanel.add(identifierField);
+        panel.add(subpanel);
 
-	panel.add(new javax.swing.JSeparator());
-	panel.add(constructor);
-	StratmasGUIConstructorDialog dialog = new StratmasGUIConstructorDialog(constructor);
-	panel.add(constructor.getExitButtons(dialog));
-	dialog.getRootPane().getContentPane().add(panel);
-	dialog.pack();
+        panel.add(new javax.swing.JSeparator());
+        panel.add(constructor);
+        StratmasGUIConstructorDialog dialog = new StratmasGUIConstructorDialog(constructor);
+        panel.add(constructor.getExitButtons(dialog));
+        dialog.getRootPane().getContentPane().add(panel);
+        dialog.pack();
 
-	return dialog;
+        return dialog;
     }
 
     /**
@@ -254,7 +254,7 @@ public abstract class StratmasGUIConstructor extends JPanel
      */    
     public static final StratmasGUIConstructorDialog buildDialog(StratmasGUIConstructor constructor) 
     {
-	return buildDialog(constructor, true);
+        return buildDialog(constructor, true);
     }
     
     /**
@@ -264,31 +264,31 @@ public abstract class StratmasGUIConstructor extends JPanel
      */
     protected JPanel getExitButtons(StratmasGUIConstructorDialog d)
     {
-	JPanel panel = new JPanel();
-	final StratmasGUIConstructorDialog dialog = d;
-	final StratmasGUIConstructor target = this;
-	panel.add(new JButton(new AbstractAction("Create") {
-		public void actionPerformed(ActionEvent e)		{
-		    if (target.getStratmasObject() != null) {
-			dialog.dispose();
-		    } else {
-			JOptionPane.showMessageDialog(dialog, "Unable to construct a \n" + 
-						      target.getDeclaration().getType().getName() + 
-						      " \nfrom the provided values.",
-						      "Error creating " + 
-						      target.getDeclaration().getType().getName(), 
-						      JOptionPane.ERROR_MESSAGE);
-		    }
-		}
-	    }));
+        JPanel panel = new JPanel();
+        final StratmasGUIConstructorDialog dialog = d;
+        final StratmasGUIConstructor target = this;
+        panel.add(new JButton(new AbstractAction("Create") {
+                public void actionPerformed(ActionEvent e)                {
+                    if (target.getStratmasObject() != null) {
+                        dialog.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(dialog, "Unable to construct a \n" + 
+                                                      target.getDeclaration().getType().getName() + 
+                                                      " \nfrom the provided values.",
+                                                      "Error creating " + 
+                                                      target.getDeclaration().getType().getName(), 
+                                                      JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }));
 
-	panel.add(new JButton(new AbstractAction("Cancel") {
-		public void actionPerformed(ActionEvent e)
-		{
-		    dialog.cancel();
-		}
-	    }));
+        panel.add(new JButton(new AbstractAction("Cancel") {
+                public void actionPerformed(ActionEvent e)
+                {
+                    dialog.cancel();
+                }
+            }));
     
-	return panel;
+        return panel;
     }
 }

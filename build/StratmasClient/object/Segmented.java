@@ -1,4 +1,4 @@
-// 	$Id: Segmented.java,v 1.3 2006/05/11 16:43:04 alexius Exp $
+//         $Id: Segmented.java,v 1.3 2006/05/11 16:43:04 alexius Exp $
 /*
  * @(#)SimpleShape.java
  */
@@ -27,17 +27,17 @@ public abstract class Segmented extends SimpleShape
      */
     Segmented(String identifier, Type type)
     {
-	super(identifier, type);
+        super(identifier, type);
     }
 
     /**
      * Returns the curves making up this segmented.
      */
     public Enumeration getCurves()
-    {	
-	// We know that Segmented is expected to contain a
-	// StratmasList as its only direct child.
-	StratmasList curves = (StratmasList) this.getChild("curves");
-	return curves.children();
+    {        
+        // We know that Segmented is expected to contain a
+        // StratmasList as its only direct child.
+        StratmasList curves = (StratmasList) this.getChild("curves");
+        return curves.children();
     }
 }

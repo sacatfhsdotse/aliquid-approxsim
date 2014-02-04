@@ -1,4 +1,4 @@
-// 	$Id: StratmasString.java,v 1.3 2006/04/10 09:45:55 dah Exp $
+//         $Id: StratmasString.java,v 1.3 2006/04/10 09:45:55 dah Exp $
 /*
  * @(#)StratmasString.java
  */
@@ -37,8 +37,8 @@ public class StratmasString extends StratmasSimple
      */
     protected StratmasString(String identifier, Type type, String value)
     {
-	super(identifier, type);
-	this.value = value;
+        super(identifier, type);
+        this.value = value;
     }
 
     /**
@@ -49,8 +49,8 @@ public class StratmasString extends StratmasSimple
      */
     protected StratmasString(Declaration declaration, String value)
     {
-	super(declaration);
-	this.value = value;
+        super(declaration);
+        this.value = value;
     }
 
     /**
@@ -58,7 +58,7 @@ public class StratmasString extends StratmasSimple
      */
     public String valueToString()
     {
-	return this.value;
+        return this.value;
     }
 
     /**
@@ -66,7 +66,7 @@ public class StratmasString extends StratmasSimple
      */
     public String getValue()
     {
-	return this.value;
+        return this.value;
     }
 
     /**
@@ -78,8 +78,8 @@ public class StratmasString extends StratmasSimple
      */
     private void setValue(String newValue, Object initiator)
     {
-	this.value = newValue;
-	fireValueChanged(initiator);
+        this.value = newValue;
+        fireValueChanged(initiator);
     }
     
 
@@ -90,9 +90,9 @@ public class StratmasString extends StratmasSimple
      */
     public void valueFromString(String str, Object initiator)
     {
-	if(!getValue().equals(str)) {
-	     setValue(str, initiator);
-	}
+        if(!getValue().equals(str)) {
+             setValue(str, initiator);
+        }
     }
 
     /**
@@ -103,7 +103,7 @@ public class StratmasString extends StratmasSimple
      */
     protected static StratmasGUIConstructor getGUIConstructor(Declaration declaration)
     {
-	return new StratmasStringGUIConstructor(declaration); 
+        return new StratmasStringGUIConstructor(declaration); 
     }
     
     /**
@@ -115,9 +115,9 @@ public class StratmasString extends StratmasSimple
      */
     protected static StratmasObject domCreate(Element n) 
     {
-	return new StratmasString(Identifier.getIdentifier(n),
-				  TypeFactory.getType("String"),
-				  XMLHelper.getString(n, "value"));
+        return new StratmasString(Identifier.getIdentifier(n),
+                                  TypeFactory.getType("String"),
+                                  XMLHelper.getString(n, "value"));
     }
 
     /**
@@ -129,7 +129,7 @@ public class StratmasString extends StratmasSimple
      */
     protected static StratmasObject defaultCreate(Declaration declaration)
     {
-	return new StratmasString(declaration, "");
+        return new StratmasString(declaration, "");
     }
 
     /**
@@ -141,15 +141,15 @@ public class StratmasString extends StratmasSimple
      */
     protected StringBuffer toTaclanV2StringBuffer(StringBuffer buf, String indent)
     {
-	// Wash a bit.
-	String wash = valueToString();
-	wash = wash.replaceAll("\\\\", "\\\\");
-	wash = wash.replaceAll("\n", "\\\\n");
-	wash = wash.replaceAll("\"", "\\\\\"");
+        // Wash a bit.
+        String wash = valueToString();
+        wash = wash.replaceAll("\\\\", "\\\\");
+        wash = wash.replaceAll("\n", "\\\\n");
+        wash = wash.replaceAll("\"", "\\\\\"");
 
-	buf.append(indent + Identifier.toTaclanV2(getIdentifier()) + " = " + 
-		   "\"" + wash + "\"");
-	return buf;
+        buf.append(indent + Identifier.toTaclanV2(getIdentifier()) + " = " + 
+                   "\"" + wash + "\"");
+        return buf;
     }
 
     /**
@@ -162,7 +162,7 @@ public class StratmasString extends StratmasSimple
      * @return A clone of this object.
      */
      protected Object clone() {
-	  return new StratmasString(identifier, type, value);
+          return new StratmasString(identifier, type, value);
      }
 }
 
@@ -185,7 +185,7 @@ class StratmasStringGUIConstructor extends StratmasGUIConstructor
      */
     public StratmasStringGUIConstructor(Declaration declaration)
     {
-	super(declaration);
+        super(declaration);
     }
 
     /**
@@ -193,9 +193,9 @@ class StratmasStringGUIConstructor extends StratmasGUIConstructor
      */    
     protected void buildPanel()
     {
-	this.add(new javax.swing.JLabel(declaration.getName()));
-	this.field = new javax.swing.JTextField(10);
-	this.add(this.field);
+        this.add(new javax.swing.JLabel(declaration.getName()));
+        this.field = new javax.swing.JTextField(10);
+        this.add(this.field);
     }
 
     /**
@@ -203,6 +203,6 @@ class StratmasStringGUIConstructor extends StratmasGUIConstructor
      */
     protected void createStratmasObject()
     {
-	setStratmasObject(new StratmasString(this.declaration, field.getText()));
+        setStratmasObject(new StratmasString(this.declaration, field.getText()));
     }
 }

@@ -112,231 +112,231 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
      * Used to compare start times of the activities.
      */
     public static final Comparator START_TIME_COMPARATOR = new Comparator() {
-	    public int compare(Object o1, Object o2) {
-		StratmasTimestamp st1 = (StratmasTimestamp) ((StratmasObject)o1).getChild("start");
-		StratmasTimestamp st2 = (StratmasTimestamp) ((StratmasObject)o2).getChild("start");
-		if (st1 == null) {
-		    return -1; 
-		}
-		else if (st2 == null) {
-		    return 1;
-		}
-		Timestamp t1 = st1.getValue();
-		Timestamp t2 = st2.getValue();
-		return (t1.getMilliSecs() < t2.getMilliSecs()) ? -1 : 
-		    (t1.getMilliSecs() > t2.getMilliSecs()) ? 1 : 0;
-	    }
-	};
+            public int compare(Object o1, Object o2) {
+                StratmasTimestamp st1 = (StratmasTimestamp) ((StratmasObject)o1).getChild("start");
+                StratmasTimestamp st2 = (StratmasTimestamp) ((StratmasObject)o2).getChild("start");
+                if (st1 == null) {
+                    return -1; 
+                }
+                else if (st2 == null) {
+                    return 1;
+                }
+                Timestamp t1 = st1.getValue();
+                Timestamp t2 = st2.getValue();
+                return (t1.getMilliSecs() < t2.getMilliSecs()) ? -1 : 
+                    (t1.getMilliSecs() > t2.getMilliSecs()) ? 1 : 0;
+            }
+        };
     /**
      * Used to compare end times of the activities.
      */
     public static final Comparator END_TIME_COMPARATOR = new Comparator() {
-	    public int compare(Object o1, Object o2) {
-		StratmasTimestamp st1 = (StratmasTimestamp) ((StratmasObject)o1).getChild("end");
-		StratmasTimestamp st2 = (StratmasTimestamp) ((StratmasObject)o2).getChild("end");
-		if (st1 == null) {
-		    return -1; 
-		}
-		else if (st2 == null) {
-		    return 1;
-		}
-		Timestamp t1 = st1.getValue();
-		Timestamp t2 = st2.getValue();
-		return (t1.getMilliSecs() < t2.getMilliSecs()) ? -1 : 
-		    (t1.getMilliSecs() > t2.getMilliSecs()) ? 1 : 0;
-	    }
-	};
+            public int compare(Object o1, Object o2) {
+                StratmasTimestamp st1 = (StratmasTimestamp) ((StratmasObject)o1).getChild("end");
+                StratmasTimestamp st2 = (StratmasTimestamp) ((StratmasObject)o2).getChild("end");
+                if (st1 == null) {
+                    return -1; 
+                }
+                else if (st2 == null) {
+                    return 1;
+                }
+                Timestamp t1 = st1.getValue();
+                Timestamp t2 = st2.getValue();
+                return (t1.getMilliSecs() < t2.getMilliSecs()) ? -1 : 
+                    (t1.getMilliSecs() > t2.getMilliSecs()) ? 1 : 0;
+            }
+        };
     /**
      * Used to compare the activity names.
      */
     public static final Comparator ACTIVITY_NAME_COMPARATOR = new Comparator() {
-	    public int compare(Object o1, Object o2) {
-		String s1 = ((StratmasObject)o1).getIdentifier();
-		String s2 = ((StratmasObject)o2).getIdentifier();
-		return s1.compareTo(s2);
-	    }
-	};
+            public int compare(Object o1, Object o2) {
+                String s1 = ((StratmasObject)o1).getIdentifier();
+                String s2 = ((StratmasObject)o2).getIdentifier();
+                return s1.compareTo(s2);
+            }
+        };
     /**
      * Used to compare names of the resources.
      */
     public static final Comparator MU_NAME_COMPARATOR = new Comparator() {
-	    public int compare(Object o1, Object o2) {
-		try {
-		    StratmasObject mu1 = ((StratmasObject)o1).getParent().getParent();
-		    StratmasObject mu2 = ((StratmasObject)o2).getParent().getParent();
-		    if (!mu1.getType().canSubstitute("MilitaryUnit")) {
-			return -1; 
-		    }
-		    else if (!mu2.getType().canSubstitute("MilitaryUnit")) {
-			return 1;
-		    }
-		    String s1 = mu1.getIdentifier();
-		    String s2 = mu2.getIdentifier();
-		    return s1.compareTo(s2);
-		}
-		catch (NullPointerException exc) {
-		    return 0;
-		}
-	    }
-	};
+            public int compare(Object o1, Object o2) {
+                try {
+                    StratmasObject mu1 = ((StratmasObject)o1).getParent().getParent();
+                    StratmasObject mu2 = ((StratmasObject)o2).getParent().getParent();
+                    if (!mu1.getType().canSubstitute("MilitaryUnit")) {
+                        return -1; 
+                    }
+                    else if (!mu2.getType().canSubstitute("MilitaryUnit")) {
+                        return 1;
+                    }
+                    String s1 = mu1.getIdentifier();
+                    String s2 = mu2.getIdentifier();
+                    return s1.compareTo(s2);
+                }
+                catch (NullPointerException exc) {
+                    return 0;
+                }
+            }
+        };
     /**
      * Used to compare names of the affiliations of the resources.
      */
     public static final Comparator AFF_NAME_COMPARATOR = new Comparator() {
-	    public int compare(Object o1, Object o2) {
-		try {
-		    StratmasObject mu1 = ((StratmasObject)o1).getParent().getParent();
-		    StratmasObject mu2 = ((StratmasObject)o2).getParent().getParent();
-		    if (!mu1.getType().canSubstitute("MilitaryUnit")) {
-			return -1; 
-		    }
-		    else if (!mu2.getType().canSubstitute("MilitaryUnit")) {
-			return 1;
-		    }
-		    String s1 = ((StratmasReference)mu1.getChild("affiliation")).getValue().getIdentifier();
-		    String s2 = ((StratmasReference)mu2.getChild("affiliation")).getValue().getIdentifier();
-		    return s1.compareTo(s2);
-		}
-		catch (NullPointerException exc) {
-		    return 0;
-		}
-	    }
-	};
+            public int compare(Object o1, Object o2) {
+                try {
+                    StratmasObject mu1 = ((StratmasObject)o1).getParent().getParent();
+                    StratmasObject mu2 = ((StratmasObject)o2).getParent().getParent();
+                    if (!mu1.getType().canSubstitute("MilitaryUnit")) {
+                        return -1; 
+                    }
+                    else if (!mu2.getType().canSubstitute("MilitaryUnit")) {
+                        return 1;
+                    }
+                    String s1 = ((StratmasReference)mu1.getChild("affiliation")).getValue().getIdentifier();
+                    String s2 = ((StratmasReference)mu2.getChild("affiliation")).getValue().getIdentifier();
+                    return s1.compareTo(s2);
+                }
+                catch (NullPointerException exc) {
+                    return 0;
+                }
+            }
+        };
     /**
      * The list of comparators.
      */
     private Comparator[] comparators = {ACTIVITY_NAME_COMPARATOR, START_TIME_COMPARATOR, END_TIME_COMPARATOR,
-					MU_NAME_COMPARATOR, AFF_NAME_COMPARATOR};
+                                        MU_NAME_COMPARATOR, AFF_NAME_COMPARATOR};
     
     /**
      * Creates new table model.
      */
     public TimelineActivityTableModel(Timeline timeline) {
-	this.timeline = timeline;
-	// update the display of the activity symbols when the table changes
-	final Timeline tline = timeline;
-	addTableModelListener(new TableModelListener() {
-		public void tableChanged(TableModelEvent e) {
-		    tline.getTimelinePanel().updateActivityList();
-		}
-	    });
+        this.timeline = timeline;
+        // update the display of the activity symbols when the table changes
+        final Timeline tline = timeline;
+        addTableModelListener(new TableModelListener() {
+                public void tableChanged(TableModelEvent e) {
+                    tline.getTimelinePanel().updateActivityList();
+                }
+            });
     }
     
     /**
      * Returns the number of columns.
      */
     public int getColumnCount() {
-	return columns.length;
+        return columns.length;
     }
     
     /**
      * Returns the number of rows.
      */
     public int getRowCount() {
-	return activityList.size();
+        return activityList.size();
     }
     
     /**
      * Returns the name of the column.
      */
     public String getColumnName(int col) {
-	return columns[col];
+        return columns[col];
     }
     
     /**
      * Returns the class of the column.
      */
     public Class getColumnClass(int col) {
-	return String.class;
+        return String.class;
     }
     
     /**
      * Returns the value of the specified cell.
      */
     public synchronized Object getValueAt(int row, int col) {
-	if (row < activityList.size()) {
-	    StratmasObject activity = (StratmasObject)activityList.get(row);
-	    // name of the activity
-	    if (col == 0) {
-		return activity.getIdentifier();
-	    } 
-	    // start time of the activity
-	    else if (col == 1) {
-		StratmasTimestamp t = (StratmasTimestamp)activity.getChild("start");
-		if (t != null) {
-		    return t.valueToPrettyString();
-		}
-	    }
-	    // end time of the activity
-	    else if (col == 2) {
-		StratmasTimestamp t = (StratmasTimestamp)activity.getChild("end");
-		if (t != null) {
-		    return t.valueToPrettyString();
-		}
-	    }
-	    // military units which executes the activity
-	    else if (col == 3) {
-		try {
-		    StratmasObject parent = activity.getParent().getParent();
-		    if (parent.getType().canSubstitute("MilitaryUnit")) {
-			return parent.getIdentifier();
-		    }
-		    else {
-			return new String("");
-		    }
-		}
-		catch (NullPointerException exc) {
-		    return null;
-		}
-	    }
-	    // affiliation of the military unit
-	    else if (col == 4) {
-		try {
-		    StratmasObject parent = activity.getParent().getParent();
-		    if (parent.getType().canSubstitute("MilitaryUnit")) {
-			return ((StratmasReference)parent.getChild("affiliation")).getValue().getIdentifier();
-		    }
-		    else {
-			return new String("");
-		    }
-		}
-		catch (NullPointerException exc) {
-		    return null;
-		}
-	    }
-	}
-	//
-	return null;
+        if (row < activityList.size()) {
+            StratmasObject activity = (StratmasObject)activityList.get(row);
+            // name of the activity
+            if (col == 0) {
+                return activity.getIdentifier();
+            } 
+            // start time of the activity
+            else if (col == 1) {
+                StratmasTimestamp t = (StratmasTimestamp)activity.getChild("start");
+                if (t != null) {
+                    return t.valueToPrettyString();
+                }
+            }
+            // end time of the activity
+            else if (col == 2) {
+                StratmasTimestamp t = (StratmasTimestamp)activity.getChild("end");
+                if (t != null) {
+                    return t.valueToPrettyString();
+                }
+            }
+            // military units which executes the activity
+            else if (col == 3) {
+                try {
+                    StratmasObject parent = activity.getParent().getParent();
+                    if (parent.getType().canSubstitute("MilitaryUnit")) {
+                        return parent.getIdentifier();
+                    }
+                    else {
+                        return new String("");
+                    }
+                }
+                catch (NullPointerException exc) {
+                    return null;
+                }
+            }
+            // affiliation of the military unit
+            else if (col == 4) {
+                try {
+                    StratmasObject parent = activity.getParent().getParent();
+                    if (parent.getType().canSubstitute("MilitaryUnit")) {
+                        return ((StratmasReference)parent.getChild("affiliation")).getValue().getIdentifier();
+                    }
+                    else {
+                        return new String("");
+                    }
+                }
+                catch (NullPointerException exc) {
+                    return null;
+                }
+            }
+        }
+        //
+        return null;
     }
     
     /*
      * Checks if the cell is editable.
      */
     public boolean isCellEditable(int row, int col) {
-	StratmasObject activity = (StratmasObject)activityList.get(row);
-	// end time not allowed according to the schema
-	if (col == 2) {
-	    Declaration decl = activity.getType().getSubElement("end");
-	    if (decl == null) {
-		return false;
-	    }
-	}
-	else if (col == 3) {
-	    try {
-		// get the current resource value 
-		StratmasObject parent = activity.getParent().getParent();
-		if (!parent.getType().canSubstitute("MilitaryUnit")) {
-		    return false;
-		}
-	    }
-	    catch (NullPointerException exc) {
-		return false;
-	    }
-	}
-	else if (col == 4) {
-	    return false;
-	}
-	return true;
+        StratmasObject activity = (StratmasObject)activityList.get(row);
+        // end time not allowed according to the schema
+        if (col == 2) {
+            Declaration decl = activity.getType().getSubElement("end");
+            if (decl == null) {
+                return false;
+            }
+        }
+        else if (col == 3) {
+            try {
+                // get the current resource value 
+                StratmasObject parent = activity.getParent().getParent();
+                if (!parent.getType().canSubstitute("MilitaryUnit")) {
+                    return false;
+                }
+            }
+            catch (NullPointerException exc) {
+                return false;
+            }
+        }
+        else if (col == 4) {
+            return false;
+        }
+        return true;
     }
     
     /**
@@ -347,105 +347,105 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
      * @param col   the column of the modified cell.
      */
     public void setValueAt(Object value, int row, int col) {
-	final StratmasObject activity = (StratmasObject)activityList.get(row);
-	// change the identifier of the activity
-	if (col == 0) {
-	    activity.setIdentifier((String)value);
-	}
-	// change the start time of the activity
-	else if (col == 1) {
-	    String timeString = (String)value;
-	    StratmasTimestamp t = (StratmasTimestamp)activity.getChild("start");
-	    if (t != null) {
-		try {
-		    t.valueFromString(timeString, this);
-		}
-		catch (ParseException e) {
-		    JOptionPane.showMessageDialog((JFrame) null, "Parse error:\nUnable to assign \"" + 
-						  timeString + "\" to a Timestamp ", 
-						  "Parse Error", JOptionPane.ERROR_MESSAGE);
-		}
-	    }
-	}
-	// change the end time of the activity
-	else if (col == 2) {
-	    String timeString = (String)value;
-	    try {
-		StratmasTimestamp endTime = (StratmasTimestamp)activity.getChild("end");
-		Declaration decl = activity.getType().getSubElement("end");
-		// modify the end time
-		if (endTime != null && (timeString.length() > 0 || !decl.isOptional())) {
-		    endTime.valueFromString(timeString, this);
-		}
-		// remove the end time
-		else  if (endTime != null && timeString.length() == 0 && decl.isOptional()) {
-		    endTime.remove();
-		}
-		// add the end time
-		else if (endTime == null && timeString.length() > 0) {
-		    StratmasTimestamp endT = 
-			(StratmasTimestamp)StratmasObjectFactory.create(TypeFactory.getType("Timestamp"));
-		    endT.setIdentifier("end");
-		    endT.valueFromString(timeString, this);
-		    activity.add(endT);
-		}
-	    }
-	    catch (ParseException e) {
-		JOptionPane.showMessageDialog((JFrame) null, "Parse error:\nUnable to assign \"" + 
-					      timeString + "\" to a Timestamp ", 
-					      "Parse Error", JOptionPane.ERROR_MESSAGE);
-	    }
-	}
-	// change the resource of the activity
-	else if (col == 3) {
-	    String newValue = (String)value;
-	    try {
-		// get the current resource value 
-		StratmasObject parent = activity.getParent().getParent();
-		if (parent.getType().canSubstitute("MilitaryUnit")) {
-		    // military units with the selected identifier
-		    Vector selectedUnits = militaryUnitsComboBox.getResources(newValue);
-		    // the resource is changed
-		    if (!newValue.equals(parent.getIdentifier()) || (selectedUnits != null && selectedUnits.size() > 1)) {
-			// only one military unit found
-			if (selectedUnits.size() == 1) {
-			    lastRemovedRow = activityList.indexOf(activity);
-			    activity.remove();
-			    // get the new resource
-			    StratmasObject res = (StratmasObject)selectedUnits.firstElement();
-			    ((StratmasList)res.getChild("activities")).addWithUniqueIdentifier(activity);
-			    
-			}
-			// several military units found  
-			else if (selectedUnits.size() > 1 && militaryUnitsComboBox.isPopupVisible()) {
-			    // create a menu
-			    JPopupMenu menu = new JPopupMenu();
-			    JMenu submenu = new JMenu("Please refine your selection :");
-			    for (Enumeration e = selectedUnits.elements(); e.hasMoreElements(); ) {
-				final StratmasObject mUnit = (StratmasObject)e.nextElement();
-				JMenuItem item = new JMenuItem(getPathOfMilitaryUnits(mUnit));
-				item.addActionListener(new AbstractAction() {
-					public void actionPerformed(ActionEvent event) {
-					    activity.remove();
-					    ((StratmasList)mUnit.getChild("activities")).addWithUniqueIdentifier(activity);
-					}
-				    });
-				submenu.add(item);
-			    }
-			    menu.add(submenu);
-			    menu.show(militaryUnitsComboBox, 
-				      (int)militaryUnitsComboBox.getRootPane().getLocation(null).getX(), 
-				      (int)militaryUnitsComboBox.getRootPane().getLocation(null).getY());
-			}
-		    }
-		}
-	    }
-	    catch (NullPointerException exc) {
-		JOptionPane.showMessageDialog((JFrame) null, "Unable to change the resource for activity " + 
-					      activity.getIdentifier(), 
-					      "Error", JOptionPane.ERROR_MESSAGE);
-	    }
-	}
+        final StratmasObject activity = (StratmasObject)activityList.get(row);
+        // change the identifier of the activity
+        if (col == 0) {
+            activity.setIdentifier((String)value);
+        }
+        // change the start time of the activity
+        else if (col == 1) {
+            String timeString = (String)value;
+            StratmasTimestamp t = (StratmasTimestamp)activity.getChild("start");
+            if (t != null) {
+                try {
+                    t.valueFromString(timeString, this);
+                }
+                catch (ParseException e) {
+                    JOptionPane.showMessageDialog((JFrame) null, "Parse error:\nUnable to assign \"" + 
+                                                  timeString + "\" to a Timestamp ", 
+                                                  "Parse Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+        // change the end time of the activity
+        else if (col == 2) {
+            String timeString = (String)value;
+            try {
+                StratmasTimestamp endTime = (StratmasTimestamp)activity.getChild("end");
+                Declaration decl = activity.getType().getSubElement("end");
+                // modify the end time
+                if (endTime != null && (timeString.length() > 0 || !decl.isOptional())) {
+                    endTime.valueFromString(timeString, this);
+                }
+                // remove the end time
+                else  if (endTime != null && timeString.length() == 0 && decl.isOptional()) {
+                    endTime.remove();
+                }
+                // add the end time
+                else if (endTime == null && timeString.length() > 0) {
+                    StratmasTimestamp endT = 
+                        (StratmasTimestamp)StratmasObjectFactory.create(TypeFactory.getType("Timestamp"));
+                    endT.setIdentifier("end");
+                    endT.valueFromString(timeString, this);
+                    activity.add(endT);
+                }
+            }
+            catch (ParseException e) {
+                JOptionPane.showMessageDialog((JFrame) null, "Parse error:\nUnable to assign \"" + 
+                                              timeString + "\" to a Timestamp ", 
+                                              "Parse Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        // change the resource of the activity
+        else if (col == 3) {
+            String newValue = (String)value;
+            try {
+                // get the current resource value 
+                StratmasObject parent = activity.getParent().getParent();
+                if (parent.getType().canSubstitute("MilitaryUnit")) {
+                    // military units with the selected identifier
+                    Vector selectedUnits = militaryUnitsComboBox.getResources(newValue);
+                    // the resource is changed
+                    if (!newValue.equals(parent.getIdentifier()) || (selectedUnits != null && selectedUnits.size() > 1)) {
+                        // only one military unit found
+                        if (selectedUnits.size() == 1) {
+                            lastRemovedRow = activityList.indexOf(activity);
+                            activity.remove();
+                            // get the new resource
+                            StratmasObject res = (StratmasObject)selectedUnits.firstElement();
+                            ((StratmasList)res.getChild("activities")).addWithUniqueIdentifier(activity);
+                            
+                        }
+                        // several military units found  
+                        else if (selectedUnits.size() > 1 && militaryUnitsComboBox.isPopupVisible()) {
+                            // create a menu
+                            JPopupMenu menu = new JPopupMenu();
+                            JMenu submenu = new JMenu("Please refine your selection :");
+                            for (Enumeration e = selectedUnits.elements(); e.hasMoreElements(); ) {
+                                final StratmasObject mUnit = (StratmasObject)e.nextElement();
+                                JMenuItem item = new JMenuItem(getPathOfMilitaryUnits(mUnit));
+                                item.addActionListener(new AbstractAction() {
+                                        public void actionPerformed(ActionEvent event) {
+                                            activity.remove();
+                                            ((StratmasList)mUnit.getChild("activities")).addWithUniqueIdentifier(activity);
+                                        }
+                                    });
+                                submenu.add(item);
+                            }
+                            menu.add(submenu);
+                            menu.show(militaryUnitsComboBox, 
+                                      (int)militaryUnitsComboBox.getRootPane().getLocation(null).getX(), 
+                                      (int)militaryUnitsComboBox.getRootPane().getLocation(null).getY());
+                        }
+                    }
+                }
+            }
+            catch (NullPointerException exc) {
+                JOptionPane.showMessageDialog((JFrame) null, "Unable to change the resource for activity " + 
+                                              activity.getIdentifier(), 
+                                              "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     /**
@@ -454,83 +454,83 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
      * @param event the event causing the call.
      */
     public void eventOccured(StratmasEvent event) {
-	// the start time and the end time are considered
-	if (event.isChildChanged()) {
-	    int row = activityList.indexOf((StratmasObject)event.getSource());
-	    StratmasObject child = (StratmasObject) event.getArgument();
-	    // update the start time
-	    if (child.getIdentifier().equals("start")) {
-		fireTableCellUpdated(row, 1);
-		if (lastSortedCol == 1) {
-		    setUnsorted();
-		}
-	    }
-	    // update the end time
-	    if (child.getIdentifier().equals("end")) {
-		fireTableCellUpdated(row, 2);
-		if (lastSortedCol == 2) {
-		    setUnsorted();
-		}
-	    }
-	} 
-	else if (event.isIdentifierChanged()) {
-	    StratmasObject src = (StratmasObject)event.getSource();
-	    // update the name of the military unit which exectutes the activity
-	    if (src.getType().canSubstitute("MilitaryUnit")) {
-		for (int i = 0; i < activityList.size(); i++) {
-		    if (((StratmasObject)activityList.get(i)).getParent().getParent().equals(src)) {
-			fireTableCellUpdated(i, 3);	
-		    }
-		}
-		if (lastSortedCol == 3) {
-		    setUnsorted();
-		}
-	    }
-	    // update the name of the activity
-	    else {
-		int row = activityList.indexOf(src);
-		fireTableCellUpdated(row, 0);
-		if (lastSortedCol == 0) {
-		    setUnsorted();
-		}
-	    }
-	} 
-	// replace the activity
-	else if (event.isReplaced()) {
-	    // UNTESTED - the replace code is untested 
-	    Debug.err.println("FIXME - Replace behavior untested in TimelineActivityTable");
-	    remove((StratmasObject)event.getSource());
-	    add((StratmasObject)event.getArgument());
-	} 
+        // the start time and the end time are considered
+        if (event.isChildChanged()) {
+            int row = activityList.indexOf((StratmasObject)event.getSource());
+            StratmasObject child = (StratmasObject) event.getArgument();
+            // update the start time
+            if (child.getIdentifier().equals("start")) {
+                fireTableCellUpdated(row, 1);
+                if (lastSortedCol == 1) {
+                    setUnsorted();
+                }
+            }
+            // update the end time
+            if (child.getIdentifier().equals("end")) {
+                fireTableCellUpdated(row, 2);
+                if (lastSortedCol == 2) {
+                    setUnsorted();
+                }
+            }
+        } 
+        else if (event.isIdentifierChanged()) {
+            StratmasObject src = (StratmasObject)event.getSource();
+            // update the name of the military unit which exectutes the activity
+            if (src.getType().canSubstitute("MilitaryUnit")) {
+                for (int i = 0; i < activityList.size(); i++) {
+                    if (((StratmasObject)activityList.get(i)).getParent().getParent().equals(src)) {
+                        fireTableCellUpdated(i, 3);        
+                    }
+                }
+                if (lastSortedCol == 3) {
+                    setUnsorted();
+                }
+            }
+            // update the name of the activity
+            else {
+                int row = activityList.indexOf(src);
+                fireTableCellUpdated(row, 0);
+                if (lastSortedCol == 0) {
+                    setUnsorted();
+                }
+            }
+        } 
+        // replace the activity
+        else if (event.isReplaced()) {
+            // UNTESTED - the replace code is untested 
+            Debug.err.println("FIXME - Replace behavior untested in TimelineActivityTable");
+            remove((StratmasObject)event.getSource());
+            add((StratmasObject)event.getArgument());
+        } 
     }
     
     /**
      * Adds a new activity to the table.
      */
     public void add(StratmasObject activity) {
-	if (!activityList.contains(activity)) {
-	    try {
-		// used when the activity has changed it's resource in the table
-		if (lastRemovedRow != -1) {
-		    activityList.add(lastRemovedRow, activity);
-		    lastRemovedRow = -1;
-		}
-		// used when "new" activity is added
-		else {
-		    activityList.add(activity);
-		}
-		activity.addEventListener(this);
-		// check for the military unit
-		StratmasObject anc = activity.getParent().getParent(); 
-		if (anc.getType().canSubstitute("MilitaryUnit") && !militaryUnitsComboBox.contains(anc)) {
-		    anc.addEventListener(this);
-		}
-		fireTableRowsInserted(activityList.size() - 1, activityList.size() - 1);
-		setUnsorted();
-	    }
-	    catch (NullPointerException exc) {
-	    }
-	}
+        if (!activityList.contains(activity)) {
+            try {
+                // used when the activity has changed it's resource in the table
+                if (lastRemovedRow != -1) {
+                    activityList.add(lastRemovedRow, activity);
+                    lastRemovedRow = -1;
+                }
+                // used when "new" activity is added
+                else {
+                    activityList.add(activity);
+                }
+                activity.addEventListener(this);
+                // check for the military unit
+                StratmasObject anc = activity.getParent().getParent(); 
+                if (anc.getType().canSubstitute("MilitaryUnit") && !militaryUnitsComboBox.contains(anc)) {
+                    anc.addEventListener(this);
+                }
+                fireTableRowsInserted(activityList.size() - 1, activityList.size() - 1);
+                setUnsorted();
+            }
+            catch (NullPointerException exc) {
+            }
+        }
     }
     
     /**
@@ -538,116 +538,116 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
      * that the sorting is remained.
      */
     public void addSorted(StratmasObject activity) {
-	if (!activityList.contains(activity)) {
-	    if (currentOrder == NOT_SORTED) {
-		add(activity);
-	    }
-	    else {
-		try {
-		    Comparator comp = comparators[lastSortedCol];
-		    int i = 0;
-		    boolean inserted = false;
-		    while ( i < activityList.size() && !inserted) {
-			int res = comp.compare(activity, activityList.get(i));
-			if (res > 0 && currentOrder == ASCENDING) {
-			    i++;
-			}
-			else if (res < 0 && currentOrder == DESCENDING) {
-			    i++;
-			}
-			else {
-			    activityList.add(i, activity);
-			    inserted = true;
-			}
-		    } 
-		    if (!inserted) {
-			activityList.add(activity); 
-		    }
-		    activity.addEventListener(this);
-		    // check for the military unit
-		    StratmasObject anc = activity.getParent().getParent(); 
-		    if (anc.getType().canSubstitute("MilitaryUnit") && !militaryUnitsComboBox.contains(anc)) {
-			anc.addEventListener(this);
-		    }
-		    fireTableRowsInserted(i, i);
-		}
-		catch (NullPointerException exc) {
-		}
-	    }
-	}
+        if (!activityList.contains(activity)) {
+            if (currentOrder == NOT_SORTED) {
+                add(activity);
+            }
+            else {
+                try {
+                    Comparator comp = comparators[lastSortedCol];
+                    int i = 0;
+                    boolean inserted = false;
+                    while ( i < activityList.size() && !inserted) {
+                        int res = comp.compare(activity, activityList.get(i));
+                        if (res > 0 && currentOrder == ASCENDING) {
+                            i++;
+                        }
+                        else if (res < 0 && currentOrder == DESCENDING) {
+                            i++;
+                        }
+                        else {
+                            activityList.add(i, activity);
+                            inserted = true;
+                        }
+                    } 
+                    if (!inserted) {
+                        activityList.add(activity); 
+                    }
+                    activity.addEventListener(this);
+                    // check for the military unit
+                    StratmasObject anc = activity.getParent().getParent(); 
+                    if (anc.getType().canSubstitute("MilitaryUnit") && !militaryUnitsComboBox.contains(anc)) {
+                        anc.addEventListener(this);
+                    }
+                    fireTableRowsInserted(i, i);
+                }
+                catch (NullPointerException exc) {
+                }
+            }
+        }
     }
 
     /**
      * Removes an activity from the table.
      */
     public void remove(StratmasObject activity) {
-	if (activityList.contains(activity)) {
-	    int index = activityList.indexOf(activity);
-	    activityList.remove(activity);
-	    activity.removeEventListener(this);
-	    // check for the military unit
-	    StratmasObject anc = activity.getParent().getParent(); 
-	    if (anc.getType().canSubstitute("MilitaryUnit")) {
-		anc.removeEventListener(this);
-	    }
-	    fireTableRowsDeleted(index, index);
-	    if (activityList.isEmpty()) {
-		setUnsorted();
-	    }
-	}
+        if (activityList.contains(activity)) {
+            int index = activityList.indexOf(activity);
+            activityList.remove(activity);
+            activity.removeEventListener(this);
+            // check for the military unit
+            StratmasObject anc = activity.getParent().getParent(); 
+            if (anc.getType().canSubstitute("MilitaryUnit")) {
+                anc.removeEventListener(this);
+            }
+            fireTableRowsDeleted(index, index);
+            if (activityList.isEmpty()) {
+                setUnsorted();
+            }
+        }
     }
     
     /**
      * Removes all activities from the table.
      */
     public void removeAll() {
-	while (!activityList.isEmpty()) {
-	    remove((StratmasObject)activityList.firstElement());
-	}
+        while (!activityList.isEmpty()) {
+            remove((StratmasObject)activityList.firstElement());
+        }
     }
     
     /**
      * Resets the table model.
      */
     public void reset() {
-	//militaryUnitsComboBox.reset();
-	removeAll();
-	militaryUnitsComboBox = new ActivityTableComboBox();
+        //militaryUnitsComboBox.reset();
+        removeAll();
+        militaryUnitsComboBox = new ActivityTableComboBox();
     }
     
     /**
      * Sets the actual table header.
      */
     public void setTableHeader(JTableHeader tableHeader) {
-	this.tableHeader = tableHeader;
+        this.tableHeader = tableHeader;
         if (this.tableHeader != null) {
-	    final TimelineActivityTableModel self = this;
+            final TimelineActivityTableModel self = this;
             this.tableHeader.addMouseListener(new MouseAdapter() {
-		    public void mouseClicked(MouseEvent e) {
-			JTableHeader h = (JTableHeader) e.getSource();
-			TableColumnModel columnModel = h.getColumnModel();
-			int viewColumn = columnModel.getColumnIndexAtX(e.getX());
-			int column = columnModel.getColumn(viewColumn).getModelIndex();
-			// sort the table
-			self.sort(column);
-		    }
-		});
-	    final TableCellRenderer fRenderer = this.tableHeader.getDefaultRenderer();
+                    public void mouseClicked(MouseEvent e) {
+                        JTableHeader h = (JTableHeader) e.getSource();
+                        TableColumnModel columnModel = h.getColumnModel();
+                        int viewColumn = columnModel.getColumnIndexAtX(e.getX());
+                        int column = columnModel.getColumn(viewColumn).getModelIndex();
+                        // sort the table
+                        self.sort(column);
+                    }
+                });
+            final TableCellRenderer fRenderer = this.tableHeader.getDefaultRenderer();
             this.tableHeader.setDefaultRenderer(new TableCellRenderer() {
-		    public Component getTableCellRendererComponent(JTable table, Object value, 
-								   boolean isSelected, 
-								   boolean hasFocus, int row, int column) {
-			Component c = fRenderer.getTableCellRendererComponent(table, value, isSelected, 
-									      hasFocus, row, column);
-			if (c instanceof JLabel) {
-			    JLabel l = (JLabel) c;
-			    l.setHorizontalTextPosition(JLabel.LEFT);
-			    int modelColumn = table.convertColumnIndexToModel(column);
-			    l.setIcon(getHeaderRendererIcon(modelColumn, l.getFont().getSize()));
-			}
-			return c;
-		    }
-		});
+                    public Component getTableCellRendererComponent(JTable table, Object value, 
+                                                                   boolean isSelected, 
+                                                                   boolean hasFocus, int row, int column) {
+                        Component c = fRenderer.getTableCellRendererComponent(table, value, isSelected, 
+                                                                              hasFocus, row, column);
+                        if (c instanceof JLabel) {
+                            JLabel l = (JLabel) c;
+                            l.setHorizontalTextPosition(JLabel.LEFT);
+                            int modelColumn = table.convertColumnIndexToModel(column);
+                            l.setIcon(getHeaderRendererIcon(modelColumn, l.getFont().getSize()));
+                        }
+                        return c;
+                    }
+                });
         }
     }
 
@@ -655,29 +655,29 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
      * Returns the list of activities displayed in the table.
      */
     public Vector getActivities() {
-	return activityList;
+        return activityList;
     }
     
     /**
      * Returns the tree path consisting of miltary units only.
      */
     public String getPathOfMilitaryUnits(StratmasObject militaryUnit) {
-	String path = militaryUnit.getIdentifier();
-	StratmasObject mu = militaryUnit;
-	while (mu.getParent() != null) {
-	    mu = mu.getParent();
-	    if (mu.getType().canSubstitute("MilitaryUnit") && !(mu instanceof StratmasList)) {
-		path = mu.getIdentifier().concat(" : ").concat(path); 
-	    }
-	}
-	return path;
+        String path = militaryUnit.getIdentifier();
+        StratmasObject mu = militaryUnit;
+        while (mu.getParent() != null) {
+            mu = mu.getParent();
+            if (mu.getType().canSubstitute("MilitaryUnit") && !(mu instanceof StratmasList)) {
+                path = mu.getIdentifier().concat(" : ").concat(path); 
+            }
+        }
+        return path;
     }
     
     /**
      * Returns the combo box which contains the list of military units.
      */
     public ActivityTableComboBox getMilitaryUnitsComboBox() {
-	return militaryUnitsComboBox;
+        return militaryUnitsComboBox;
     }
     
     /**
@@ -687,13 +687,13 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
      * @param col the column where the sorting is initialized.
      */
     public void sort(int col) {
-	// sort the table
-	sortByOrder(comparators[col], col);
-	// update the latest column the sorting was fired
-	lastSortedCol = col;
-	// update the table
-	fireTableDataChanged();
-	if (tableHeader != null) {
+        // sort the table
+        sortByOrder(comparators[col], col);
+        // update the latest column the sorting was fired
+        lastSortedCol = col;
+        // update the table
+        fireTableDataChanged();
+        if (tableHeader != null) {
             tableHeader.repaint();
         }
     }
@@ -705,24 +705,24 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
      * @param col the column where the sorting is initialized.
      */
     private void sortByOrder(Comparator comparator, int col) {
-	// if the table is already sorted wrt the column then reverse it
-	if (currentOrder == ASCENDING && lastSortedCol == col) {
-	    Collections.reverse(activityList);
-	    currentOrder = DESCENDING;
-	}
-	// sort the table
-	else {
-	    Collections.sort(activityList, comparator);
-	    currentOrder = ASCENDING;
-	}
+        // if the table is already sorted wrt the column then reverse it
+        if (currentOrder == ASCENDING && lastSortedCol == col) {
+            Collections.reverse(activityList);
+            currentOrder = DESCENDING;
+        }
+        // sort the table
+        else {
+            Collections.sort(activityList, comparator);
+            currentOrder = ASCENDING;
+        }
     }
     
     /**
      * Sets the table unsorted anr repaints the header.
      */
     private void setUnsorted() {
-	currentOrder = NOT_SORTED;
-	if (tableHeader != null) {
+        currentOrder = NOT_SORTED;
+        if (tableHeader != null) {
             tableHeader.repaint();
         }
     }
@@ -734,11 +734,11 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
      * @param size the size of the icon.
      */
     protected Icon getHeaderRendererIcon(int column, int size) {
-	// not sorted or not actual column
-	if (currentOrder == NOT_SORTED || lastSortedCol != column) {
-	    return null;
-	}
-	// get the arrow
+        // not sorted or not actual column
+        if (currentOrder == NOT_SORTED || lastSortedCol != column) {
+            return null;
+        }
+        // get the arrow
         return new Arrow((currentOrder == ASCENDING), size);
     }
     
@@ -746,29 +746,29 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
      * The icon used for the header rendering.
      */
     private static class Arrow implements Icon {
-	/**
-	 * Indicator for descending or ascending order.
-	 */
+        /**
+         * Indicator for descending or ascending order.
+         */
         private boolean descending;
         /**
-	 * The size of the icon.
-	 */
-	private int size;
-	
-	/**
-	 * Creates the arrow.
-	 */
+         * The size of the icon.
+         */
+        private int size;
+        
+        /**
+         * Creates the arrow.
+         */
         public Arrow(boolean descending, int size) {
             this.descending = descending;
             this.size = size;
-	}
-	
-	/**
-	 * Paints the icon.
-	 */
+        }
+        
+        /**
+         * Paints the icon.
+         */
         public void paintIcon(Component c, Graphics g, int x, int y) {
             Color color = (c == null) ? Color.GRAY : c.getBackground();             
-	    int dx = size / 2;
+            int dx = size / 2;
             int dy = descending ? dx : -dx;
             // Align icon (roughly) with font baseline. 
             y = y + 5 * size / 6 + (descending ? -dy : 0);
@@ -796,17 +796,17 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
             g.setColor(color);
             g.translate(-x, -y);
         }
-	
-	/**
-	 * Returns the icon width.
-	 */
+        
+        /**
+         * Returns the icon width.
+         */
         public int getIconWidth() {
             return size;
         }
 
-	/**
-	 * Returns the icon height.
-	 */
+        /**
+         * Returns the icon height.
+         */
         public int getIconHeight() {
             return size;
         }

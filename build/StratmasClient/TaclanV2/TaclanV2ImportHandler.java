@@ -1,4 +1,4 @@
-// 	$Id: TaclanV2ImportHandler.java,v 1.2 2005/02/12 22:30:40 dah Exp $
+//         $Id: TaclanV2ImportHandler.java,v 1.2 2005/02/12 22:30:40 dah Exp $
 /*
  * @(#)TaclanV2ImportHandler.java
  */
@@ -27,7 +27,7 @@ public class TaclanV2ImportHandler extends ImportHandler
      */
     public TaclanV2ImportHandler(String location)
     {
-	super(location);
+        super(location);
     }
 
     /**
@@ -35,31 +35,31 @@ public class TaclanV2ImportHandler extends ImportHandler
      */
     protected void parse() throws ImportHandlerException
     {
-	if (parser == null) {
-	    try {
-		this.parser = Parser.getParser(this.location);
-		this.parser.doParse();
-	    }
-	    catch (FileNotFoundException e) {
-		throw new ImportHandlerException(this, e.getMessage());
-		}
-	    catch (SemanticException e) {
-		throw new ImportHandlerException(this, e.getMessage());
-	    }
-	    catch (SyntaxException e) {
-		throw new ImportHandlerException(this, e.getMessage());
-	    }
-    	}  
+        if (parser == null) {
+            try {
+                this.parser = Parser.getParser(this.location);
+                this.parser.doParse();
+            }
+            catch (FileNotFoundException e) {
+                throw new ImportHandlerException(this, e.getMessage());
+                }
+            catch (SemanticException e) {
+                throw new ImportHandlerException(this, e.getMessage());
+            }
+            catch (SyntaxException e) {
+                throw new ImportHandlerException(this, e.getMessage());
+            }
+            }  
     }
-		      
+                      
     /**
      * Reports whether the class can handle the location.
      */
     public boolean canHandle() throws ImportHandlerException
     {
-	parse();
-	// If we get here its OK.
-	return true; 
+        parse();
+        // If we get here its OK.
+        return true; 
     }
 
     /**
@@ -67,27 +67,27 @@ public class TaclanV2ImportHandler extends ImportHandler
      * @param reference the reference targeted declaration.
      */
     public ParsedDeclaration getParsedDeclaration(ParsedReference reference) 
-	throws ImportHandlerException 
+        throws ImportHandlerException 
     {
-	parse();
-	return getParsedDeclarationList().getDeclaration(reference);
+        parse();
+        return getParsedDeclarationList().getDeclaration(reference);
     }
 
     /**
      * Returns a ParsedDeclarationList containing all declarations
      */
     public ParsedDeclarationList getParsedDeclarationList() 
-	throws ImportHandlerException {
-	
-	parse();
-	try {
-	    return this.parser.getParsedDeclarationList();
-	}
-	catch (SemanticException e) {
-	    throw new ImportHandlerException(this, e.getMessage());
-	}
-	catch (SyntaxException e) {
-	    throw new ImportHandlerException(this, e.getMessage());
-	}
+        throws ImportHandlerException {
+        
+        parse();
+        try {
+            return this.parser.getParsedDeclarationList();
+        }
+        catch (SemanticException e) {
+            throw new ImportHandlerException(this, e.getMessage());
+        }
+        catch (SyntaxException e) {
+            throw new ImportHandlerException(this, e.getMessage());
+        }
     }
 }

@@ -79,23 +79,23 @@ public class TimelineCanvasPanel extends JPanel implements GLEventListener, Mous
      * @param timeline the timeline.
      */
     public TimelineCanvasPanel(Timeline timeline, TimelinePanel timelinePanel) {
-	// set reference to the timeline and the timeline panel
-	this.timeline = timeline;
-	this.timelinePanel = timelinePanel;
-	
-	// create JOGL canvas
-	GLCapabilities glcaps = new GLCapabilities();
-	glcaps.setHardwareAccelerated(true);
-	canvas = new GLCanvas(glcaps);
-	canvas.addGLEventListener(this);
-	canvas.addMouseListener(this);
-	canvas.addMouseMotionListener(this);
+        // set reference to the timeline and the timeline panel
+        this.timeline = timeline;
+        this.timelinePanel = timelinePanel;
+        
+        // create JOGL canvas
+        GLCapabilities glcaps = new GLCapabilities();
+        glcaps.setHardwareAccelerated(true);
+        canvas = new GLCanvas(glcaps);
+        canvas.addGLEventListener(this);
+        canvas.addMouseListener(this);
+        canvas.addMouseMotionListener(this);
 
-	// initialize the area bounds
-	xmin = 0;
-	xmax = 1000;
-	ymin = 0;
-	ymax = 1000;
+        // initialize the area bounds
+        xmin = 0;
+        xmax = 1000;
+        ymin = 0;
+        ymax = 1000;
     }
     
     /**
@@ -104,28 +104,28 @@ public class TimelineCanvasPanel extends JPanel implements GLEventListener, Mous
      * @param gld needed when opengl is used. 
      */
     public void init(GLAutoDrawable gld) {
-	GL gl = gld.getGL();
-	
-	// set the background color
-	Color c = this.getBackground();
-	float r = c.getRed() / 255.0f;
-	float g = c.getGreen() / 255.0f;
-	float b = c.getBlue() / 255.0f;
-	gl.glClearColor(r, g, b, 0.0f);
-	
-	// enable shading
-	gl.glShadeModel(GL.GL_SMOOTH);
-	
-	// enable blending
-	gl.glEnable(GL.GL_BLEND);
-	gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
-	
-	// set actual matrix
-	gl.glMatrixMode(GL.GL_PROJECTION);
-	gl.glLoadIdentity();
-	
-	// initialize bounding box
-	glu.gluOrtho2D(xmin, xmax, ymin, ymax);
+        GL gl = gld.getGL();
+        
+        // set the background color
+        Color c = this.getBackground();
+        float r = c.getRed() / 255.0f;
+        float g = c.getGreen() / 255.0f;
+        float b = c.getBlue() / 255.0f;
+        gl.glClearColor(r, g, b, 0.0f);
+        
+        // enable shading
+        gl.glShadeModel(GL.GL_SMOOTH);
+        
+        // enable blending
+        gl.glEnable(GL.GL_BLEND);
+        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+        
+        // set actual matrix
+        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glLoadIdentity();
+        
+        // initialize bounding box
+        glu.gluOrtho2D(xmin, xmax, ymin, ymax);
     }
     
     /**
@@ -134,17 +134,17 @@ public class TimelineCanvasPanel extends JPanel implements GLEventListener, Mous
      * @param gld needed when opengl is used. 
      */
     public void display(GLAutoDrawable gld) {
-	GL gl = gld.getGL();
-	
-	// set actual matrix
-	gl.glMatrixMode(GL.GL_PROJECTION);
-	gl.glLoadIdentity();
-	
-	// set bounding box
-	glu.gluOrtho2D(xmin, xmax, ymin, ymax);
-	
-	// draw the color map
-	drawGraph(gl);
+        GL gl = gld.getGL();
+        
+        // set actual matrix
+        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glLoadIdentity();
+        
+        // set bounding box
+        glu.gluOrtho2D(xmin, xmax, ymin, ymax);
+        
+        // draw the color map
+        drawGraph(gl);
     }
     
     /**
@@ -181,26 +181,26 @@ public class TimelineCanvasPanel extends JPanel implements GLEventListener, Mous
      * Not implemented.
      */
     public void mouseReleased(MouseEvent e) {}
-	
+        
     /**
      * Updates the position of the mouse cursor.
      *
      * @param e the mouse event.
      */
     public void mouseDragged(MouseEvent e) {
-	Object src = e.getSource();
-	if (src.equals(canvas)) {
-	    // get x window coordinate
-	    int x = (int)Math.round(e.getX());
-	    int y = (int)Math.round(e.getY());
-	    // update the position of the cursor
-	    setCurrentCursorProjectedPos(x);
-	    // redraw
-	    if (System.currentTimeMillis() - latestUpdateTime > updateTimeDelay) {
-		update();
-		latestUpdateTime = System.currentTimeMillis();
-	    }
-	}
+        Object src = e.getSource();
+        if (src.equals(canvas)) {
+            // get x window coordinate
+            int x = (int)Math.round(e.getX());
+            int y = (int)Math.round(e.getY());
+            // update the position of the cursor
+            setCurrentCursorProjectedPos(x);
+            // redraw
+            if (System.currentTimeMillis() - latestUpdateTime > updateTimeDelay) {
+                update();
+                latestUpdateTime = System.currentTimeMillis();
+            }
+        }
     }
         
     /**
@@ -209,45 +209,45 @@ public class TimelineCanvasPanel extends JPanel implements GLEventListener, Mous
      * @param e the mouse event.
      */
     public void mouseMoved(MouseEvent e) {
-	Object src = e.getSource();
-	if (src.equals(canvas)) {
-	    // get x window coordinate
-	    int x = (int)e.getX();
-	    int y = (int)e.getY();
-	    // update the position of the cursor
-	    setCurrentCursorProjectedPos(x);
-	    // redraw
-	    if (System.currentTimeMillis() - latestUpdateTime > updateTimeDelay) {
-		update();
-		latestUpdateTime = System.currentTimeMillis();
-	    }
-	}
+        Object src = e.getSource();
+        if (src.equals(canvas)) {
+            // get x window coordinate
+            int x = (int)e.getX();
+            int y = (int)e.getY();
+            // update the position of the cursor
+            setCurrentCursorProjectedPos(x);
+            // redraw
+            if (System.currentTimeMillis() - latestUpdateTime > updateTimeDelay) {
+                update();
+                latestUpdateTime = System.currentTimeMillis();
+            }
+        }
     }
     
     /**
      * Redraw the timeline.
      */
     public void update() {
-	canvas.validate();
-	canvas.repaint();
+        canvas.validate();
+        canvas.repaint();
     }
     
     /**
      * Resets the panel.
      */
     public void reset() {
-	// redraw
-	update();
+        // redraw
+        update();
     }
     
     /**
      * Removes the panel.
      */
     public void remove() {
-	timeline = null;
-	canvas.removeGLEventListener(this);
-	canvas.removeMouseListener(this);
-	canvas.removeMouseMotionListener(this);
+        timeline = null;
+        canvas.removeGLEventListener(this);
+        canvas.removeMouseListener(this);
+        canvas.removeMouseMotionListener(this);
     }
 
     /**
@@ -255,7 +255,7 @@ public class TimelineCanvasPanel extends JPanel implements GLEventListener, Mous
      * expresed in the projected coordinate system. 
      */
     protected int getCurrentCursorProjectedPos() {
-	return currentCursorProjectedPos;
+        return currentCursorProjectedPos;
     }
     
     /**
@@ -264,8 +264,8 @@ public class TimelineCanvasPanel extends JPanel implements GLEventListener, Mous
      * @param x the x-coordinate in the window coordinate system
      */
     protected void setCurrentCursorProjectedPos(int x) {
-	int currentPos = convertWindowXToProjectedX(x);
-	currentCursorProjectedPos = (currentPos < xmin) ? xmin : (currentPos > xmax) ? xmax : currentPos;
+        int currentPos = convertWindowXToProjectedX(x);
+        currentCursorProjectedPos = (currentPos < xmin) ? xmin : (currentPos > xmax) ? xmax : currentPos;
     }
 
     /**
@@ -274,12 +274,12 @@ public class TimelineCanvasPanel extends JPanel implements GLEventListener, Mous
      * @param x the x-coordinate in the window coordinate system
      */
     protected int convertWindowXToProjectedX(int x) {
-	if (canvas.getWidth() > 0) {
-	    return (int) ((x * (xmax - xmin) *1.0 / canvas.getWidth()) + xmin);
-	}
-	else {
-	    return 0;
-	}
+        if (canvas.getWidth() > 0) {
+            return (int) ((x * (xmax - xmin) *1.0 / canvas.getWidth()) + xmin);
+        }
+        else {
+            return 0;
+        }
     }
     
     /**
@@ -288,7 +288,7 @@ public class TimelineCanvasPanel extends JPanel implements GLEventListener, Mous
      * @param x the x-coordinate in the projected coordinate system
      */
     protected int convertProjectedXToWindowX(int x) {
-	return (int) (canvas.getWidth() * (x - xmin) * 1.0 / (xmax - xmin));
+        return (int) (canvas.getWidth() * (x - xmin) * 1.0 / (xmax - xmin));
     }
     
     /**
@@ -299,9 +299,9 @@ public class TimelineCanvasPanel extends JPanel implements GLEventListener, Mous
      * @return the relative time in the timeline.
      */
     public double convertProjectedXToCurrentTime(int x) {
-	long tstart = timelinePanel.getDisplayedStartTime();
-	long tend    = timelinePanel.getDisplayedEndTime();
-	return (x - xmin) * (tend - tstart) * 1.0 / (xmax - xmin) + tstart;
+        long tstart = timelinePanel.getDisplayedStartTime();
+        long tend    = timelinePanel.getDisplayedEndTime();
+        return (x - xmin) * (tend - tstart) * 1.0 / (xmax - xmin) + tstart;
     }
     
     /**
@@ -312,39 +312,39 @@ public class TimelineCanvasPanel extends JPanel implements GLEventListener, Mous
      * @return the projected x-coordinate.
      */
     public int convertCurrentTimeToProjectedX(double t) {
-	long tstart = timelinePanel.getDisplayedStartTime();
-	long tend    = timelinePanel.getDisplayedEndTime();
-	return  (int) (xmin + ((t - tstart) * (xmax - xmin) * 1.0 / (tend - tstart)));
+        long tstart = timelinePanel.getDisplayedStartTime();
+        long tend    = timelinePanel.getDisplayedEndTime();
+        return  (int) (xmin + ((t - tstart) * (xmax - xmin) * 1.0 / (tend - tstart)));
     }
     
     /**
      * Converts the given window x coordinate to the time in the timepanel.
      */
     public double convertWindowXToCurrentTime(int x) {
-	long tstart = timelinePanel.getDisplayedStartTime();
-	long tend    = timelinePanel.getDisplayedEndTime();
-	int projectedX = convertWindowXToProjectedX(x);
-	double t = convertProjectedXToCurrentTime(projectedX);
+        long tstart = timelinePanel.getDisplayedStartTime();
+        long tend    = timelinePanel.getDisplayedEndTime();
+        int projectedX = convertWindowXToProjectedX(x);
+        double t = convertProjectedXToCurrentTime(projectedX);
         t = (t < tstart)? tstart : ((t > tend)? tend : t);
-	return t;
+        return t;
     }
     
     /**
      * Converts the time given in the current time unit to the window x-coordinate.
      */
     public int convertCurrentTimeToWindowX(double t) {
-	int projectedX = convertCurrentTimeToProjectedX(t);
-	return convertProjectedXToWindowX(projectedX);
+        int projectedX = convertCurrentTimeToProjectedX(t);
+        return convertProjectedXToWindowX(projectedX);
     }
     
     /**
      * Converts a time interval into a length scale in the projected coordinates.
      */
     protected double dt2dx(long dt) {
-	double x1 = convertCurrentTimeToProjectedX(0);
-	double x2 = convertCurrentTimeToProjectedX(timelinePanel.millisecondsToTimeUnit(dt));
-	double res = x2 - x1;
-	return x2 - x1;
+        double x1 = convertCurrentTimeToProjectedX(0);
+        double x2 = convertCurrentTimeToProjectedX(timelinePanel.millisecondsToTimeUnit(dt));
+        double res = x2 - x1;
+        return x2 - x1;
     }
     
     /**
@@ -352,9 +352,9 @@ public class TimelineCanvasPanel extends JPanel implements GLEventListener, Mous
      */
     protected int dW2dP(int dW) {
         int x1 = convertWindowXToProjectedX(0);
-	int x2 = convertWindowXToProjectedX(dW);
-	int res = x2 - x1;
-	return x2 - x1;
+        int x2 = convertWindowXToProjectedX(dW);
+        int res = x2 - x1;
+        return x2 - x1;
     }
    
     /**

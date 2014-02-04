@@ -73,7 +73,7 @@ public:
       * false otherwise.
       */
      bool operator < (const UniqueTime &t) const { return (mTime < t.mTime ||
-								   mTime == t.mTime && mId < t.mId); }
+                                                                   mTime == t.mTime && mId < t.mId); }
 };
 
 

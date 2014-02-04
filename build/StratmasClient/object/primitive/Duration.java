@@ -1,4 +1,4 @@
-// 	$Id: Duration.java,v 1.2 2006/03/23 17:16:51 alexius Exp $
+//         $Id: Duration.java,v 1.2 2006/03/23 17:16:51 alexius Exp $
 /*
  * @(#)Duration.java
  */
@@ -67,7 +67,7 @@ public class Duration
      */
     public Duration(long ms) 
     {
-	milliSecs = ms;
+        milliSecs = ms;
     }
      
     /**
@@ -77,7 +77,7 @@ public class Duration
      */
     public long getMilliSecs()
     {
-	return milliSecs;
+        return milliSecs;
     }
     
     /**
@@ -87,54 +87,54 @@ public class Duration
      */
     public String toString() 
     {
-	StringBuffer buf = new StringBuffer();
-	long remainder = getMilliSecs();
-	if (remainder < 0) {	    
-	    remainder *= -1;
-	    buf.append("-");
-	}
+        StringBuffer buf = new StringBuffer();
+        long remainder = getMilliSecs();
+        if (remainder < 0) {            
+            remainder *= -1;
+            buf.append("-");
+        }
 
-	long years = remainder / TICS_PER_YEAR;
-	if (years > 0) {
-	    buf.append(years + "y ");
-	    remainder %= TICS_PER_YEAR;
-	}
+        long years = remainder / TICS_PER_YEAR;
+        if (years > 0) {
+            buf.append(years + "y ");
+            remainder %= TICS_PER_YEAR;
+        }
 
-	long weeks = remainder / TICS_PER_WEEK;
-	if (weeks > 0) {
-	    buf.append(weeks + "w ");
-	    remainder %= TICS_PER_WEEK;
-	}
+        long weeks = remainder / TICS_PER_WEEK;
+        if (weeks > 0) {
+            buf.append(weeks + "w ");
+            remainder %= TICS_PER_WEEK;
+        }
 
-	long days = remainder / TICS_PER_DAY;
-	if (days > 0) {
-	    buf.append(days + "d ");
-	    remainder %= TICS_PER_DAY;
-	}
+        long days = remainder / TICS_PER_DAY;
+        if (days > 0) {
+            buf.append(days + "d ");
+            remainder %= TICS_PER_DAY;
+        }
 
-	long hours = remainder / TICS_PER_HOUR;
-	if (hours > 0) {
-	    buf.append(hours + "h ");
-	    remainder %= TICS_PER_HOUR;
-	}
+        long hours = remainder / TICS_PER_HOUR;
+        if (hours > 0) {
+            buf.append(hours + "h ");
+            remainder %= TICS_PER_HOUR;
+        }
 
-	long minutes = remainder / TICS_PER_MINUTE;
-	if (minutes > 0) {
-	    buf.append(minutes + "m ");
-	    remainder %= TICS_PER_MINUTE;
-	}
+        long minutes = remainder / TICS_PER_MINUTE;
+        if (minutes > 0) {
+            buf.append(minutes + "m ");
+            remainder %= TICS_PER_MINUTE;
+        }
 
-	long seconds = remainder / TICS_PER_SECOND;
-	if (seconds > 0) {
-	    buf.append(seconds + "s ");
-	    remainder %= TICS_PER_SECOND;
-	}
+        long seconds = remainder / TICS_PER_SECOND;
+        if (seconds > 0) {
+            buf.append(seconds + "s ");
+            remainder %= TICS_PER_SECOND;
+        }
 
-	if (remainder > 0) {
-	    buf.append(remainder + "ms ");
-	}
-	
-	return buf.toString().trim();
+        if (remainder > 0) {
+            buf.append(remainder + "ms ");
+        }
+        
+        return buf.toString().trim();
     }
 
     /**
@@ -144,61 +144,61 @@ public class Duration
      */
     public static Duration parseDuration(String str) throws ParseException
     {
-	long res = 0;
-	boolean negative = false; 
+        long res = 0;
+        boolean negative = false; 
 
-	//Check for negative pattern
-	if (str.matches("\\A-.*")) {
-	    negative = true;
-	    str = str.substring(1);
-	}
+        //Check for negative pattern
+        if (str.matches("\\A-.*")) {
+            negative = true;
+            str = str.substring(1);
+        }
 
-	// If no unit and only numericals we assume seconds.
-	if (str.matches("\\A[0-9]+\\z")) {
-	     return new Duration(Long.parseLong(str));
-	}
+        // If no unit and only numericals we assume seconds.
+        if (str.matches("\\A[0-9]+\\z")) {
+             return new Duration(Long.parseLong(str));
+        }
 
-	Pattern splitPattern = Pattern.compile("\\s+");
-	
-	String[] fields = splitPattern.split(str);
-	
-	for (int i = 0; i < fields.length; i++) {
-	    String value;
-	    String unit;
-	    if (fields[i].matches("\\A[0-9]+\\z") &&
-		i < (fields.length - 1)) {
-		// Check for unit in next field
-		value = fields[i];
-		unit = fields[i + 1];
-		i++;		
-	    } else if (fields[i].matches("\\A[0-9]+[^0-9]+\\z")) {
-		// Check for unit as tail of field.
-		Matcher matcher = Pattern.compile("[^0-9].*\\z").matcher(fields[i]);
-		matcher.find();
-		int limit = matcher.start();
-		value = fields[i].substring(0,limit);
-		unit = fields[i].substring(limit);
-	    } else {
-		// Else there is an errror;
-		throw new ParseException("Unable to parse \"" + 
-					 fields[i] + "\"", -1);
-	    }
+        Pattern splitPattern = Pattern.compile("\\s+");
+        
+        String[] fields = splitPattern.split(str);
+        
+        for (int i = 0; i < fields.length; i++) {
+            String value;
+            String unit;
+            if (fields[i].matches("\\A[0-9]+\\z") &&
+                i < (fields.length - 1)) {
+                // Check for unit in next field
+                value = fields[i];
+                unit = fields[i + 1];
+                i++;                
+            } else if (fields[i].matches("\\A[0-9]+[^0-9]+\\z")) {
+                // Check for unit as tail of field.
+                Matcher matcher = Pattern.compile("[^0-9].*\\z").matcher(fields[i]);
+                matcher.find();
+                int limit = matcher.start();
+                value = fields[i].substring(0,limit);
+                unit = fields[i].substring(limit);
+            } else {
+                // Else there is an errror;
+                throw new ParseException("Unable to parse \"" + 
+                                         fields[i] + "\"", -1);
+            }
 
-	    // Get multiplier;
-	    Long multiplier = (Long) unitLookupTable.get(unit.toLowerCase());
-	    if (multiplier == null) {
-		throw new ParseException("Unable to parse \"" + 
-					 unit + "\"", -1);
-	    } else {
-		res += (Long.parseLong(value) * multiplier.longValue());
-		
-	    }
-	}
-		
-	if (negative) {
-	    res *= -1;
-	}	
-	return new Duration(res);	   
+            // Get multiplier;
+            Long multiplier = (Long) unitLookupTable.get(unit.toLowerCase());
+            if (multiplier == null) {
+                throw new ParseException("Unable to parse \"" + 
+                                         unit + "\"", -1);
+            } else {
+                res += (Long.parseLong(value) * multiplier.longValue());
+                
+            }
+        }
+                
+        if (negative) {
+            res *= -1;
+        }        
+        return new Duration(res);           
     }
 
     /**
@@ -207,37 +207,37 @@ public class Duration
      */
     private static Hashtable createUnitLookupTable()
     {
-	Hashtable res = new Hashtable();
+        Hashtable res = new Hashtable();
 
-	res.put("ms", new Long(1));
-	res.put("millisecond", new Long(1));
-	res.put("milliseconds", new Long(1));
+        res.put("ms", new Long(1));
+        res.put("millisecond", new Long(1));
+        res.put("milliseconds", new Long(1));
 
-	res.put("s", new Long(TICS_PER_SECOND));
-	res.put("second", new Long(TICS_PER_SECOND));
-	res.put("seconds", new Long(TICS_PER_SECOND));
+        res.put("s", new Long(TICS_PER_SECOND));
+        res.put("second", new Long(TICS_PER_SECOND));
+        res.put("seconds", new Long(TICS_PER_SECOND));
 
-	res.put("m", new Long(TICS_PER_MINUTE));
-	res.put("minute", new Long(TICS_PER_MINUTE));
-	res.put("minutes", new Long(TICS_PER_MINUTE));
+        res.put("m", new Long(TICS_PER_MINUTE));
+        res.put("minute", new Long(TICS_PER_MINUTE));
+        res.put("minutes", new Long(TICS_PER_MINUTE));
 
-	res.put("h", new Long(TICS_PER_HOUR));
-	res.put("hour", new Long(TICS_PER_HOUR));
-	res.put("hours", new Long(TICS_PER_HOUR));
+        res.put("h", new Long(TICS_PER_HOUR));
+        res.put("hour", new Long(TICS_PER_HOUR));
+        res.put("hours", new Long(TICS_PER_HOUR));
 
-	res.put("d", new Long(TICS_PER_DAY));
-	res.put("day", new Long(TICS_PER_DAY));
-	res.put("days", new Long(TICS_PER_DAY));
+        res.put("d", new Long(TICS_PER_DAY));
+        res.put("day", new Long(TICS_PER_DAY));
+        res.put("days", new Long(TICS_PER_DAY));
 
-	res.put("w", new Long(TICS_PER_WEEK));
-	res.put("week", new Long(TICS_PER_WEEK));
-	res.put("weeks", new Long(TICS_PER_WEEK));
+        res.put("w", new Long(TICS_PER_WEEK));
+        res.put("week", new Long(TICS_PER_WEEK));
+        res.put("weeks", new Long(TICS_PER_WEEK));
 
-	res.put("y", new Long(TICS_PER_YEAR));
-	res.put("year", new Long(TICS_PER_YEAR));
-	res.put("years", new Long(TICS_PER_YEAR));
+        res.put("y", new Long(TICS_PER_YEAR));
+        res.put("year", new Long(TICS_PER_YEAR));
+        res.put("years", new Long(TICS_PER_YEAR));
 
-	return res;
+        return res;
     }
 
     /**
@@ -245,10 +245,10 @@ public class Duration
      */
     public boolean equals(Object o)
     {
-	if (o instanceof Duration) {
-	    return ((Duration) o).getMilliSecs() == getMilliSecs();
-	}
-	return false;
+        if (o instanceof Duration) {
+            return ((Duration) o).getMilliSecs() == getMilliSecs();
+        }
+        return false;
     }
 
     /**
@@ -257,6 +257,6 @@ public class Duration
      */
     public int hashCode()
     {
-	return (int)(this.getMilliSecs()^(this.getMilliSecs()>>>32));
+        return (int)(this.getMilliSecs()^(this.getMilliSecs()>>>32));
     }
 }

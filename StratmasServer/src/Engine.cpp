@@ -50,8 +50,8 @@ void Engine::endSimulation()
 {
      mInitialized = false;
      if (mSimulation) {
-	  SOFactory::removeSimulationObject(mSimulation);
-	  mSimulation = 0;
+          SOFactory::removeSimulationObject(mSimulation);
+          mSimulation = 0;
      }
 }
 
@@ -64,12 +64,12 @@ void Engine::notifyAllTimeListeners(const char* errMsg)
 {
      EngineStatusObject eso;
      if (errMsg) {
-	  eso = EngineStatusObject(Error(errMsg));
+          eso = EngineStatusObject(Error(errMsg));
      }
      Lock lock(mutex());
      while (mTimeListeners.begin() != mTimeListeners.end()) {
-	  mTimeListeners.begin()->second->enqueue(eso);
-	  mTimeListeners.erase(mTimeListeners.begin());
+          mTimeListeners.begin()->second->enqueue(eso);
+          mTimeListeners.erase(mTimeListeners.begin());
      }
      lock.unlock();
 }
@@ -85,106 +85,106 @@ void Engine::run() {
      int msg;
      cout << "Engine running" << endl;
      while (true) {
-	  try {
-	       msg = mQ.dequeue();
-	       StopWatch s;
-	       switch (msg) {
-	       case eEngInitSimulation: {
-		    mSimulation->prepareForSimulation();
-		    Lock bufLock(mBuf.mutex());
-		    SOMapper::extract(mBuf);
-		    bufLock.unlock();
-		    break;
-	       }
-	       case eEngStep: {
-		    mBuf.engineIdle(false);
-		    for (int i = 0; i < mNumberOfTimesteps; i++) {
-			 s.start();
-			 mSimulation->step();
-			 s.stop();
-			 debug("Step took " << s.secs() << " seconds");
-			 Lock bufLock(mBuf.mutex());
-			 s.start();
-			 SOMapper::extract(mBuf);
-			 s.stop();
-			 debug("Extraction took " << s.secs() << " seconds");
-			 bufLock.unlock();
+          try {
+               msg = mQ.dequeue();
+               StopWatch s;
+               switch (msg) {
+               case eEngInitSimulation: {
+                    mSimulation->prepareForSimulation();
+                    Lock bufLock(mBuf.mutex());
+                    SOMapper::extract(mBuf);
+                    bufLock.unlock();
+                    break;
+               }
+               case eEngStep: {
+                    mBuf.engineIdle(false);
+                    for (int i = 0; i < mNumberOfTimesteps; i++) {
+                         s.start();
+                         mSimulation->step();
+                         s.stop();
+                         debug("Step took " << s.secs() << " seconds");
+                         Lock bufLock(mBuf.mutex());
+                         s.start();
+                         SOMapper::extract(mBuf);
+                         s.stop();
+                         debug("Extraction took " << s.secs() << " seconds");
+                         bufLock.unlock();
 
-			 // Notify all listeners listening for the
-			 // current time or a time that has passed.
-			 Lock lock(mutex());
-			 while (mTimeListeners.begin() != mTimeListeners.end() &&
-				mBuf.simTime() >= mTimeListeners.begin()->first.time()) {
-			      mTimeListeners.begin()->second->enqueue(EngineStatusObject());
-			      mTimeListeners.erase(mTimeListeners.begin());
-			 }
-			 lock.unlock();
-//			 debug("Simulation time after timestep: " << tt - mBuf.simulationData().mStartTime);
-		    }
+                         // Notify all listeners listening for the
+                         // current time or a time that has passed.
+                         Lock lock(mutex());
+                         while (mTimeListeners.begin() != mTimeListeners.end() &&
+                                mBuf.simTime() >= mTimeListeners.begin()->first.time()) {
+                              mTimeListeners.begin()->second->enqueue(EngineStatusObject());
+                              mTimeListeners.erase(mTimeListeners.begin());
+                         }
+                         lock.unlock();
+//                         debug("Simulation time after timestep: " << tt - mBuf.simulationData().mStartTime);
+                    }
 
-		    mBuf.engineIdle(true);
-		    break;
-	       }
-	       case eEngUpdate: {
-		    // Only active client runs this code - no need for
-		    // the two calls to be made atomically.
-		    mBuf.transferUpdatesToSimulation();
-		    Lock bufLock(mBuf.mutex());
-		    SOMapper::extract(mBuf);
-		    bufLock.unlock();
-		    notifyAllTimeListeners();
-		    break;
-	       }
-	       case eEngReset: {
-		    if (mInitialized) {
-			 Lock bufLock(mBuf.mutex());
-			 mBuf.reset();
-			 mSimulation->reset(*mBuf.originalSimulation());
-			 mSimulation->prepareForSimulation();
-			 mBuf.currentTime(Simulation::simulationTime());
-			 SOMapper::extract(mBuf);
+                    mBuf.engineIdle(true);
+                    break;
+               }
+               case eEngUpdate: {
+                    // Only active client runs this code - no need for
+                    // the two calls to be made atomically.
+                    mBuf.transferUpdatesToSimulation();
+                    Lock bufLock(mBuf.mutex());
+                    SOMapper::extract(mBuf);
+                    bufLock.unlock();
+                    notifyAllTimeListeners();
+                    break;
+               }
+               case eEngReset: {
+                    if (mInitialized) {
+                         Lock bufLock(mBuf.mutex());
+                         mBuf.reset();
+                         mSimulation->reset(*mBuf.originalSimulation());
+                         mSimulation->prepareForSimulation();
+                         mBuf.currentTime(Simulation::simulationTime());
+                         SOMapper::extract(mBuf);
 
-			 bufLock.unlock();
-			 notifyAllTimeListeners();
-		    }
-		    break;
-	       }
-	       case eEngEndScenario:
-		    notifyAllTimeListeners("Simulation reset by active client.");
-		    endSimulation();
-		    break;
-	       default:
-		    slog << "Unknown" << logEnd;
-		    break;
-	       }
-	       // Everything is ok.
-	       mOutQ.enqueue(EngineStatusObject());
-	  }
-	  catch(Error& e) {
-	       slog << "Engine caught error \"" << e << "\" in Engine main loop. Notifying Session..." << logEnd;
-	       try {
-		    endSimulation();
-	       } catch (...) {
-		    vector<Error> errs;
-		    errs.push_back(e);
-		    errs.push_back(Error("Couldn't end scenario", Error::eFatal));
-		    throw errs;
-	       }
- 	       mOutQ.enqueue(EngineStatusObject(e));
-	  }
-	  catch (vector<Error>& e) {
-	       slog << "Engine caught errors in Engine main loop. Notifying Session..." << logEnd;
-	       for(vector<Error>::iterator it = e.begin(); it != e.end(); it++) {
-		    slog << *it << "---" << logEnd;
-	       }
-	       try {
-		    endSimulation();
-	       } catch (...) {
-		    e.push_back(Error("Couldn't end scenario", Error::eFatal));
-		    throw e;
-	       }
- 	       mOutQ.enqueue(EngineStatusObject(e));
-	  }
+                         bufLock.unlock();
+                         notifyAllTimeListeners();
+                    }
+                    break;
+               }
+               case eEngEndScenario:
+                    notifyAllTimeListeners("Simulation reset by active client.");
+                    endSimulation();
+                    break;
+               default:
+                    slog << "Unknown" << logEnd;
+                    break;
+               }
+               // Everything is ok.
+               mOutQ.enqueue(EngineStatusObject());
+          }
+          catch(Error& e) {
+               slog << "Engine caught error \"" << e << "\" in Engine main loop. Notifying Session..." << logEnd;
+               try {
+                    endSimulation();
+               } catch (...) {
+                    vector<Error> errs;
+                    errs.push_back(e);
+                    errs.push_back(Error("Couldn't end scenario", Error::eFatal));
+                    throw errs;
+               }
+                mOutQ.enqueue(EngineStatusObject(e));
+          }
+          catch (vector<Error>& e) {
+               slog << "Engine caught errors in Engine main loop. Notifying Session..." << logEnd;
+               for(vector<Error>::iterator it = e.begin(); it != e.end(); it++) {
+                    slog << *it << "---" << logEnd;
+               }
+               try {
+                    endSimulation();
+               } catch (...) {
+                    e.push_back(Error("Couldn't end scenario", Error::eFatal));
+                    throw e;
+               }
+                mOutQ.enqueue(EngineStatusObject(e));
+          }
      }
 }
 
@@ -214,7 +214,7 @@ void Engine::createSimulation(DataObject* simulation, int64_t creator)
 void Engine::put(enum eEngMsg msg)
 {
      if (msg != eEngNoMsg) { 
-	  mQ.enqueue(msg);
+          mQ.enqueue(msg);
      }
 }
 
@@ -237,14 +237,14 @@ UniqueTime Engine::registerInterestInTime(Time t, TSQueue<EngineStatusObject>* q
 {
      UniqueTime ut(t);
      if (mBuf.simTime() >= t) {
-	  q->enqueue(EngineStatusObject());
-	  debug("Time " << t << " has already past");
+          q->enqueue(EngineStatusObject());
+          debug("Time " << t << " has already past");
      }
      else {
-	  Lock lock(mutex());
-	  mTimeListeners[ut] = q;
-	  lock.unlock();
-//	  debug("Registering interest in time " << ut.time() - mBuf.simulationData().mStartTime);
+          Lock lock(mutex());
+          mTimeListeners[ut] = q;
+          lock.unlock();
+//          debug("Registering interest in time " << ut.time() - mBuf.simulationData().mStartTime);
      }
      return ut;
 }

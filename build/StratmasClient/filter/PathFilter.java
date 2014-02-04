@@ -1,4 +1,4 @@
-// 	$Id: PathFilter.java,v 1.4 2006/03/22 14:30:50 dah Exp $
+//         $Id: PathFilter.java,v 1.4 2006/03/22 14:30:50 dah Exp $
 /*
  * @(#)Pathfilter.java
  */
@@ -38,8 +38,8 @@ public class PathFilter extends StratmasObjectFilter
      * Creates a new PathFilter
      */
     private PathFilter()
-    {		
-	this.filters = new Vector();
+    {                
+        this.filters = new Vector();
     }
     
     /**
@@ -50,7 +50,7 @@ public class PathFilter extends StratmasObjectFilter
      */
     public void addComponent(StratmasObjectFilter filter, int i)
     {
-	filters.add(i, filter);
+        filters.add(i, filter);
     }
 
     /**
@@ -60,7 +60,7 @@ public class PathFilter extends StratmasObjectFilter
      */
     public void addComponent(StratmasObjectFilter filter)
     {
-	filters.add(filter);
+        filters.add(filter);
     }
 
     /**
@@ -74,7 +74,7 @@ public class PathFilter extends StratmasObjectFilter
      */
     public void setTargetIndex(int targetIndex)
     {
-	this.targetIndex = targetIndex;
+        this.targetIndex = targetIndex;
     }
     
     /**
@@ -86,7 +86,7 @@ public class PathFilter extends StratmasObjectFilter
      */
     public int getTargetIndex()
     {
-	return this.targetIndex;
+        return this.targetIndex;
     }
 
     /**
@@ -96,7 +96,7 @@ public class PathFilter extends StratmasObjectFilter
      */
     public StratmasObjectFilter getComponent(int i)
     {
-	return (StratmasObjectFilter) this.filters.get(i);
+        return (StratmasObjectFilter) this.filters.get(i);
     }
 
     /**
@@ -104,7 +104,7 @@ public class PathFilter extends StratmasObjectFilter
      */
     public int getComponentCount()
     {
-	return this.filters.size();
+        return this.filters.size();
     }
 
     /**
@@ -114,26 +114,26 @@ public class PathFilter extends StratmasObjectFilter
      */
     public boolean pass(StratmasObject sObj)
     {
-	boolean res = true;
+        boolean res = true;
 
-	// Check sObj
-	res = getComponent(getTargetIndex()).pass(sObj);
+        // Check sObj
+        res = getComponent(getTargetIndex()).pass(sObj);
 
-	// Check upwards.
-	StratmasObject walker = sObj.getParent();
-	for (int i = getTargetIndex() - 1; res && i > 0; i--) {
-	    res = (walker != null || getComponent(i).pass(walker));
-	    walker = walker.getParent();
-	}
+        // Check upwards.
+        StratmasObject walker = sObj.getParent();
+        for (int i = getTargetIndex() - 1; res && i > 0; i--) {
+            res = (walker != null || getComponent(i).pass(walker));
+            walker = walker.getParent();
+        }
 
-	// Check downwards.
-	walker = sObj.getChild();
-	for (int i = getTargetIndex() + 1; res && i < getComponentCount; i++) {
-	    res = (walker != null || getComponent(i).pass(walker));
-	    walker = walker.getParent();
-	}
+        // Check downwards.
+        walker = sObj.getChild();
+        for (int i = getTargetIndex() + 1; res && i < getComponentCount; i++) {
+            res = (walker != null || getComponent(i).pass(walker));
+            walker = walker.getParent();
+        }
 
-	return applyInverted(res);
+        return applyInverted(res);
     }
 }
 

@@ -29,7 +29,7 @@ bool WinSocket::initWinSocketLibrary()
   int status = ::WSAStartup(MAKEWORD(2,2), &WinSocket::sWSAData);
   if (status != 0) {
     slog << "Failed to initialize Windows Socket library: error " << status
-	 << logEnd;
+         << logEnd;
     abort();
     // Never happens.
     return false;
@@ -94,12 +94,12 @@ bool WinSocket::create()
      mSock = ::socket(AF_INET, SOCK_STREAM, 0);
 
      if (valid()) {
-	  const int on = 1;
-	  if (::setsockopt(mSock, SOL_SOCKET, SO_REUSEADDR, 
-+			   (const char*) &on,
-			   sizeof(on)) != SOCKET_ERROR) {
-	       ret = true;
-	  }
+          const int on = 1;
+          if (::setsockopt(mSock, SOL_SOCKET, SO_REUSEADDR, 
++                           (const char*) &on,
+                           sizeof(on)) != SOCKET_ERROR) {
+               ret = true;
+          }
      }
      return ret;
 }
@@ -115,19 +115,19 @@ bool WinSocket::create()
 bool WinSocket::bind(const char *host, int port)
 {
      if (!valid()) {
-	  return false;
+          return false;
      }
 
      struct hostent *tmp = 0;
      if (host) {
-	  // tmp Is statically allocated (at least on Mac) so there is
-	  // no need to deallocate it.
-	  tmp = ::gethostbyname(host);
-	  if (!tmp) {
-	       slog << "Invaid interface '" << host << 
-		 "'. Setting interface to localhost." << logEnd;
-	       tmp = ::gethostbyname("localhost");
-	  }
+          // tmp Is statically allocated (at least on Mac) so there is
+          // no need to deallocate it.
+          tmp = ::gethostbyname(host);
+          if (!tmp) {
+               slog << "Invaid interface '" << host << 
+                 "'. Setting interface to localhost." << logEnd;
+               tmp = ::gethostbyname("localhost");
+          }
      }
      
      mAddr.sin_family      = AF_INET;
@@ -139,8 +139,8 @@ bool WinSocket::bind(const char *host, int port)
      int bindRet = ::bind(mSock, (struct sockaddr*)(&mAddr), sizeof(mAddr));
 
      if (bindRet == SOCKET_ERROR) {
-	  slog << "WSAError: " << ::WSAGetLastError() << " - "  << logEnd;
-	  return false;
+          slog << "WSAError: " << ::WSAGetLastError() << " - "  << logEnd;
+          return false;
      }
 
      return true;
@@ -155,13 +155,13 @@ bool WinSocket::bind(const char *host, int port)
 bool WinSocket::listen() const
 {
      if (!valid()) {
-	  return false;
+          return false;
      }
 
      int listen_return = ::listen(mSock, MAXCONNECTIONS);
 
      if (listen_return == SOCKET_ERROR) {
-	  return false;
+          return false;
      }
 
      return true;
@@ -182,7 +182,7 @@ bool WinSocket::accept(Socket& newSock) const
   int addr_length = sizeof(newSockP->mAddr);
 
   SOCKET socket = ::accept(mSock, (sockaddr*) &(newSockP->mAddr), 
-			   (socklen_t*) &addr_length);
+                           (socklen_t*) &addr_length);
   
   newSockP->mSock = socket;
     
@@ -207,10 +207,10 @@ bool WinSocket::send(const void *msg, unsigned int len) const
      const char *buf    = static_cast<const char*>(msg);
      int status = ::send(mSock, buf, len, 0);
      if (status == SOCKET_ERROR) {
-	  return false;
+          return false;
      }
      else {
-	  return true;
+          return true;
      }
 }
 
@@ -228,15 +228,15 @@ int WinSocket::recv(void *msg, unsigned int len) const
      int status = ::recv(mSock, buf, len, 0);
 
      if (status == SOCKET_ERROR) {
-	  slog << "status = SOCKET_ERROR ::WSAGetLastError = " << 
-	    ::WSAGetLastError() << "  in WinSocket::recv()" << logEnd;
-	  return 0;
+          slog << "status = SOCKET_ERROR ::WSAGetLastError = " << 
+            ::WSAGetLastError() << "  in WinSocket::recv()" << logEnd;
+          return 0;
      }
      else if (status == 0) {
-	  return 0;
+          return 0;
      }
      else {
-	  return status;
+          return status;
      }
 }
 
@@ -254,17 +254,17 @@ int WinSocket::recvf(void *msg, int len) const
      int lastRead = 0;
 
      for (int pos = 0; pos < len; pos += lastRead) {
-	  lastRead = ::recv(mSock, buf + pos, len - pos, 0);
-	  if (lastRead < 0) {
-	    slog << "status == " << lastRead << " ::WSAGetLastError = " 
-		 << ::WSAGetLastError() << " in WinSocket::recvf()" 
-		 << logEnd;
-	    return totRead;
-	  }
-	  else if (lastRead == 0) {
-	       return totRead;
-	  }
-	  totRead += lastRead;
+          lastRead = ::recv(mSock, buf + pos, len - pos, 0);
+          if (lastRead < 0) {
+            slog << "status == " << lastRead << " ::WSAGetLastError = " 
+                 << ::WSAGetLastError() << " in WinSocket::recvf()" 
+                 << logEnd;
+            return totRead;
+          }
+          else if (lastRead == 0) {
+               return totRead;
+          }
+          totRead += lastRead;
      }
      return totRead;
 }
@@ -279,7 +279,7 @@ int WinSocket::recvf(void *msg, int len) const
 bool WinSocket::connect(const std::string host, const int port)
 {
      if (!valid() || host == "") {
-	  return false;
+          return false;
      }
 
      // tmp Is statically allocated (at least on Mac) so there is no need
@@ -293,10 +293,10 @@ bool WinSocket::connect(const std::string host, const int port)
      int address = htonl(*(unsigned int*)*tmp->h_addr_list);
      ostringstream ost;     
      ost << ((int)(address>>24)&0xFF) << "." 
-	 << ((int)(address>>16)&0xFF) << "."
-	 << ((int)(address>>8)&0xFF) << "." 
-	 << ((int)address&0xFF) << ":"
-	 << port;
+         << ((int)(address>>16)&0xFF) << "."
+         << ((int)(address>>8)&0xFF) << "." 
+         << ((int)address&0xFF) << ":"
+         << port;
      debug("Server is connecting to " << ost.str());
 
      int status = ::connect(mSock, (sockaddr*) &mAddr, sizeof(mAddr));
@@ -327,7 +327,7 @@ void WinSocket::set_non_blocking(const bool b)
 
   if ( ::ioctlsocket(mSock, FIONBIO, &opts) == SOCKET_ERROR ) {
     slog << "set_non_blocking failed with code: "  << ::WSAGetLastError() 
-	 << logEnd; 
+         << logEnd; 
   }
 }
 
@@ -342,9 +342,9 @@ std::string WinSocket::address() const
      ostringstream ost;
      u_long tmp = ::ntohl(mAddr.sin_addr.s_addr);
      ost << ((int)(tmp>>24)&0xFF) << "." 
-	 << ((int)(tmp>>16)&0xFF) << "."
-	 << ((int)(tmp>>8)&0xFF) << "." 
-	 << ((int)tmp&0xFF);
+         << ((int)(tmp>>16)&0xFF) << "."
+         << ((int)(tmp>>8)&0xFF) << "." 
+         << ((int)tmp&0xFF);
      return ost.str();
 }
 

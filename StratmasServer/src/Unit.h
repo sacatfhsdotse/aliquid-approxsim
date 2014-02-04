@@ -360,7 +360,7 @@ public:
       * \return True if this unit is capable, fals otherwise.
       */
      bool capable() const {
-	  return (initialStrength() > 0 && strength() / initialStrength() * 100 > mWithdrawThreshold);
+          return (initialStrength() > 0 && strength() / initialStrength() * 100 > mWithdrawThreshold);
      }
 
      /**
@@ -412,7 +412,7 @@ public:
      void registerSpotter(const PresenceObject& p);
      bool isSpotted();
      void kill(Unit& killer);
-	  
+          
      // Friends
      friend std::ostream &operator << (std::ostream& o, const Unit& u);
 };

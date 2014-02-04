@@ -22,20 +22,20 @@ using namespace std;
 IPAddress::IPAddress(const std::string& ip)
 {
      if (ip.length() < 7) {
-	  Error e;
-	  e << "'" << ip << "' is not a valid IP address.";
-	  throw e;
+          Error e;
+          e << "'" << ip << "' is not a valid IP address.";
+          throw e;
      }
 
      char dot;
      istringstream ist(ip);
      for (int i = 0; i < 4; i++) {
-	  ist >> mParts[i] >> dot;
-	  if (mParts[i] < 0 || mParts[i] > 255 || (dot != '.' && i < 3)) {
-	       Error e;
-	       e << "'" << ip << "' is not a valid IP address.";
-	       throw e;
-	  }
+          ist >> mParts[i] >> dot;
+          if (mParts[i] < 0 || mParts[i] > 255 || (dot != '.' && i < 3)) {
+               Error e;
+               e << "'" << ip << "' is not a valid IP address.";
+               throw e;
+          }
      }
 }
 
@@ -70,9 +70,9 @@ string IPAddress::toString() const
 bool IPAddress::operator == (const IPAddress& ip) const
 {
      for (int i = 0;  i < 4; i++) {
-	  if (mParts[i] != ip.mParts[i]) {
-	       return false;
-	  }
+          if (mParts[i] != ip.mParts[i]) {
+               return false;
+          }
      }
      return true;
 }
@@ -86,10 +86,10 @@ bool IPAddress::operator == (const IPAddress& ip) const
 bool IPAddress::operator == (const std::string& ip) const
 {
      try {
-	  return IPAddress(ip) == *this;
+          return IPAddress(ip) == *this;
      }
      catch (Error e) {
-	  return false;
+          return false;
      }
 }
 

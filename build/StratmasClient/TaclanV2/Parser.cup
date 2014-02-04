@@ -46,12 +46,12 @@ parser code {:
      * @param stream the taclan2 stream to parse.
      */
     public static Parser getParser(String streamName, Reader stream)
-	{
-	    Parser parser = new Parser(new Lexer(stream));
-	    parser.setLocation(streamName);
+        {
+            Parser parser = new Parser(new Lexer(stream));
+            parser.setLocation(streamName);
 
-	    return parser;
-	}
+            return parser;
+        }
 
     /**
      * Creates a new parser by opening a file using the users
@@ -60,10 +60,10 @@ parser code {:
      * @param filename the taclan2 file to parse.
      */
     public static Parser getParser(String filename) throws FileNotFoundException
-	{
-	    return getParser(filename, 
-			     new InputStreamReader(new FileInputStream(filename)));
-	}
+        {
+            return getParser(filename, 
+                             new InputStreamReader(new FileInputStream(filename)));
+        }
 
     /**
      * Creates a new parser by opening a file using the specified encoding.
@@ -72,34 +72,34 @@ parser code {:
      * @param encoding the encoding to use.
      */
     public static Parser getParser(String filename, String encoding) 
-	throws FileNotFoundException, UnsupportedEncodingException
-	{
-	    return getParser(filename, 
-			     new InputStreamReader(new FileInputStream(filename), 
-						   encoding));
-	}
+        throws FileNotFoundException, UnsupportedEncodingException
+        {
+            return getParser(filename, 
+                             new InputStreamReader(new FileInputStream(filename), 
+                                                   encoding));
+        }
 
     /**
      * Parses the file given when constructing the parser.
      */
     public void doParse() throws SemanticException, SyntaxException
-	{
-	    if (this.parsedDeclarationList == null) {
-		this.parsedDeclarationList = (ParsedDeclarationList) parse().value;
-		if (!errors.isEmpty()) {
-		    throw new CollectedErrorsException(errors);
-		}
-	    }
-	}
+        {
+            if (this.parsedDeclarationList == null) {
+                this.parsedDeclarationList = (ParsedDeclarationList) parse().value;
+                if (!errors.isEmpty()) {
+                    throw new CollectedErrorsException(errors);
+                }
+            }
+        }
 
     /**
      * Returns the parsedDeclarationList that the file resulted in.
      */
     public ParsedDeclarationList getParsedDeclarationList() throws SemanticException, SyntaxException
-	{
-	    doParse();
-	    return this.parsedDeclarationList;
-	}
+        {
+            doParse();
+            return this.parsedDeclarationList;
+        }
 
     /**
      * Performs type checking using the supplied TypeInformation 
@@ -109,13 +109,13 @@ parser code {:
      * conform to.
      */
     public void typeCheck(Declaration declaration, TypeInformation typeInformation) 
-	throws SemanticException, SyntaxException
-	{
-	    // Get document pseduotype 
-	    (new ParsedList(new SourcePosition(getLocation()), getParsedDeclarationList())).typeCheckImmidiates(declaration, typeInformation);
-	    //getParsedDeclarationList().bindReferences();
-	    //getParsedDeclarationList().typeCheckReferences(typeInformation, documentType);
-	}
+        throws SemanticException, SyntaxException
+        {
+            // Get document pseduotype 
+            (new ParsedList(new SourcePosition(getLocation()), getParsedDeclarationList())).typeCheckImmidiates(declaration, typeInformation);
+            //getParsedDeclarationList().bindReferences();
+            //getParsedDeclarationList().typeCheckReferences(typeInformation, documentType);
+        }
 
     /**
      * Returns a StratmasList containing the StratmasObjects the 
@@ -124,9 +124,9 @@ parser code {:
      * @param declaration the declaration to get.
      */
     public StratmasList getStratmasList(Declaration declaration) throws SemanticException, SyntaxException
-	{	    
-	    return (StratmasList) (new ParsedList(new SourcePosition(getLocation()), getParsedDeclarationList())).getStratmasObject(declaration);
-	}
+        {            
+            return (StratmasList) (new ParsedList(new SourcePosition(getLocation()), getParsedDeclarationList())).getStratmasObject(declaration);
+        }
     
     /**
      * Test method for the Parser class
@@ -135,33 +135,33 @@ parser code {:
      * file and the second a wsd-file specifying the types.
      */
     public static void main(String[] argv)
-	{
+        {
 
-	    // Check argv
-	    if (argv.length != 1) {
-		System.err.println("Usage: java Parser file");
-		System.exit(1);
-	    }
-	    try {
-		Parser parser = getParser(argv[0]);
-		parser.doParse();
-		TypeInformation typeInformation = 
-		    TypeFactory.getTypeInformation();
-		parser.typeCheck(TypeFactory.getType("Root").getSubElement("simulation"), 
-				 typeInformation);
-	    } catch (FileNotFoundException e) {
-		System.err.println(e.getMessage());
-		System.exit(1);
-	    } catch (Exception e) { 
-		e.printStackTrace(System.err);
-		System.err.println(e.getMessage() + "\nExiting... ");
-		System.exit(1);
-	    } catch (AssertionError e) { 
-		e.printStackTrace(System.err);
-		System.err.println(e.getMessage() + "\nExiting... ");
-		System.exit(1);
-	    }
-	}
+            // Check argv
+            if (argv.length != 1) {
+                System.err.println("Usage: java Parser file");
+                System.exit(1);
+            }
+            try {
+                Parser parser = getParser(argv[0]);
+                parser.doParse();
+                TypeInformation typeInformation = 
+                    TypeFactory.getTypeInformation();
+                parser.typeCheck(TypeFactory.getType("Root").getSubElement("simulation"), 
+                                 typeInformation);
+            } catch (FileNotFoundException e) {
+                System.err.println(e.getMessage());
+                System.exit(1);
+            } catch (Exception e) { 
+                e.printStackTrace(System.err);
+                System.err.println(e.getMessage() + "\nExiting... ");
+                System.exit(1);
+            } catch (AssertionError e) { 
+                e.printStackTrace(System.err);
+                System.err.println(e.getMessage() + "\nExiting... ");
+                System.exit(1);
+            }
+        }
 
     /**
      * Reports an error.
@@ -170,9 +170,9 @@ parser code {:
      * @param info the object associated with the error.
      */
     public void report_error(String message, Object info)
-	{
-	    this.registerError(constructSyntaxException(message, info));
-	}
+        {
+            this.registerError(constructSyntaxException(message, info));
+        }
 
     /**
      * Reports a fatal error to the user.
@@ -181,10 +181,10 @@ parser code {:
      * @param info the object associated with the error.
      */
     public void report_fatal_error(String message, Object info) 
-	throws SyntaxException
-	{
-	    throw constructSyntaxException(message, info);
-	}
+        throws SyntaxException
+        {
+            throw constructSyntaxException(message, info);
+        }
     
     /**
      * Registers an exception occured during parsing.
@@ -192,9 +192,9 @@ parser code {:
      * @param e the exception to register.
      */
     public void registerError(Exception e)
-	{
-	    this.errors.add(e);
-	}
+        {
+            this.errors.add(e);
+        }
     
     /**
      * Constructs a syntax error from the provided information
@@ -204,25 +204,25 @@ parser code {:
      */
 
     public SyntaxException constructSyntaxException(String message, Object info)
-	{
-	    StringBuffer errmsg = new StringBuffer();
-	    
-	    if (info instanceof Symbol) {
-		Symbol symbol = (Symbol) info;
-		if (symbol.value instanceof Symbol) {
-		    symbol = (Symbol) symbol.value;
-		}
-		SourcePosition srcpos = new SourcePosition(this.getLocation(), symbol);
-		errmsg.append(srcpos.toString() + ": At or near \"" + symbol.value.toString() + "\": ");
-	    }
-	    else {
-		errmsg.append(this.getLocation() + ": ");
-	    }
-	    
-	    errmsg.append(message);
+        {
+            StringBuffer errmsg = new StringBuffer();
+            
+            if (info instanceof Symbol) {
+                Symbol symbol = (Symbol) info;
+                if (symbol.value instanceof Symbol) {
+                    symbol = (Symbol) symbol.value;
+                }
+                SourcePosition srcpos = new SourcePosition(this.getLocation(), symbol);
+                errmsg.append(srcpos.toString() + ": At or near \"" + symbol.value.toString() + "\": ");
+            }
+            else {
+                errmsg.append(this.getLocation() + ": ");
+            }
+            
+            errmsg.append(message);
 
-	    return new SyntaxException(errmsg.toString());
-	}
+            return new SyntaxException(errmsg.toString());
+        }
 
 
     /**
@@ -231,17 +231,17 @@ parser code {:
      * @param source the location
      */    
     public void setLocation(String source) 
-	{
-	    this.location = source;
-	}
+        {
+            this.location = source;
+        }
 
     /**
      * Returns the location of the taclan file being parsed.
      */
     public String getLocation() 
-	{
-	    return this.location;
-	}
+        {
+            return this.location;
+        }
 :}
 
 

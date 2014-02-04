@@ -9,11 +9,11 @@
 
 namespace boost {
      namespace filesystem {
-	  class path;
+          class path;
      }
      namespace program_options {
-	  class options_description;
-	  class variables_map;
+          class options_description;
+          class variables_map;
      }
 };
 namespace fs = boost::filesystem;
@@ -75,8 +75,8 @@ private:
      // Note that the following two function are defined in two
      // separate files optionsPosix.cpp and optionsWin.cpp
      static void addPlatformOptions(po::options_description* invocation,
-				    po::options_description* configuration,
-				    po::options_description* development);
+                                    po::options_description* configuration,
+                                    po::options_description* development);
      static void handlePlatformOptions(po::variables_map* vm);
 
      static const fs::path& getInstallDir();

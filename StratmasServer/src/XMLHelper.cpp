@@ -63,7 +63,7 @@ string XMLHelper::nodeTypeToString(int i)
 string &XMLHelper::removeNamespace(string &s) {
      size_t pos = s.find(':');
      if (pos != string::npos) {
-	  s = s.substr(pos + 1);
+          s = s.substr(pos + 1);
      }
      return s;
 }
@@ -77,26 +77,26 @@ string &XMLHelper::removeNamespace(string &s) {
 string XMLHelper::encodeSpecialCharacters(const std::string& s) {
      string res;
      for (unsigned int i = 0; i < s.length(); i++) {
-	  switch (s[i]) {
-	  case '&':
-	       res += "&amp;";
-	       break;
-	  case '<':
-	       res += "&lt;";
-	       break;
-	  case '>':
-	       res += "&gt;";
-	       break;
-	  case '\'':
-	       res += "&apos;";
-	       break;
-	  case '"':
-	       res += "&quot;";
-	       break;
-	  default:
-	       res += s[i];
-	       break;
-	  }
+          switch (s[i]) {
+          case '&':
+               res += "&amp;";
+               break;
+          case '<':
+               res += "&lt;";
+               break;
+          case '>':
+               res += "&gt;";
+               break;
+          case '\'':
+               res += "&apos;";
+               break;
+          case '"':
+               res += "&quot;";
+               break;
+          default:
+               res += s[i];
+               break;
+          }
      }
      return res;
 }
@@ -110,14 +110,14 @@ string XMLHelper::encodeSpecialCharacters(const std::string& s) {
 string XMLHelper::encodeURLSpecialCharacters(const std::string& s) {
      string res;
      for (unsigned int i = 0; i < s.length(); i++) {
-	  switch (s[i]) {
-	  case ' ':
-	       res += "%20";
-	       break;
-	  default:
-	       res += s[i];
-	       break;
-	  }
+          switch (s[i]) {
+          case ' ':
+               res += "%20";
+               break;
+          default:
+               res += s[i];
+               break;
+          }
      }
      return res;
 }
@@ -171,62 +171,62 @@ Time XMLHelper::dateTimeToTime(const string& dateTime)
      memset(&ts, '0', sizeof(ts));
 
      if (dateTime.length() > 0) {
-	  char c;
-	  istringstream ist(dateTime);
-	  if (ist) {
-	       ist >> ts.tm_year >> c;
-	  }
-	  if (c == '-' && ist) {
-	       ist >> ts.tm_mon >> c;
-	  }
-	  if (c == '-' && ist) {
-	       ist >> ts.tm_mday >> c;
-	  }
-	  if (c == 'T' && ist) {
-	       ist >> ts.tm_hour >> c;
-	  }
-	  if (c == ':' && ist) {
-	       ist >> ts.tm_min >> c;
-	  }
-	  if (c == ':' && ist) {
-	       ist >> ts.tm_sec;
-	  }
-	  else {
-	       Error e;
-	       e << "'" << dateTime << "' is not a valid dateTime string.";
-	       throw e;
-	  }
-	  if (!ist.eof() && ist.peek() == '.') {
-	       double tmp;
-	       ist >> tmp;
-	       millis = static_cast<int>(tmp * 1000);
-	  }
-	  if (!ist.eof() && ist.peek() != 'Z') {
-	       ist >> tz_prefix;
-	       ist >> tz_hour >> c;
-	       if (!ist.eof() && c == ':') {
-		    ist >> tz_min;
-	       }
-	       else {
-		    Error e;
-		    e << "The dateTime '" << dateTime << "' has an invalid time zone format.";
-		    throw e;
-	       }
-	  }
+          char c;
+          istringstream ist(dateTime);
+          if (ist) {
+               ist >> ts.tm_year >> c;
+          }
+          if (c == '-' && ist) {
+               ist >> ts.tm_mon >> c;
+          }
+          if (c == '-' && ist) {
+               ist >> ts.tm_mday >> c;
+          }
+          if (c == 'T' && ist) {
+               ist >> ts.tm_hour >> c;
+          }
+          if (c == ':' && ist) {
+               ist >> ts.tm_min >> c;
+          }
+          if (c == ':' && ist) {
+               ist >> ts.tm_sec;
+          }
+          else {
+               Error e;
+               e << "'" << dateTime << "' is not a valid dateTime string.";
+               throw e;
+          }
+          if (!ist.eof() && ist.peek() == '.') {
+               double tmp;
+               ist >> tmp;
+               millis = static_cast<int>(tmp * 1000);
+          }
+          if (!ist.eof() && ist.peek() != 'Z') {
+               ist >> tz_prefix;
+               ist >> tz_hour >> c;
+               if (!ist.eof() && c == ':') {
+                    ist >> tz_min;
+               }
+               else {
+                    Error e;
+                    e << "The dateTime '" << dateTime << "' has an invalid time zone format.";
+                    throw e;
+               }
+          }
 
-	  ts.tm_year -= 1900;
-	  ts.tm_mon -= 1;
-	  // UTC is winter-time
-	  ts.tm_isdst = 0;
+          ts.tm_year -= 1900;
+          ts.tm_mon -= 1;
+          // UTC is winter-time
+          ts.tm_isdst = 0;
 
-	  int64_t tz_offset = (tz_hour * 3600 + tz_min * 60) * (tz_prefix == '-' ? -1 : 1);
+          int64_t tz_offset = (tz_hour * 3600 + tz_min * 60) * (tz_prefix == '-' ? -1 : 1);
 
-	  return Time(0, 0, 0, 0, static_cast<int64_t>((-tz_offset + mktime(&ts)) * 1000 + millis));
+          return Time(0, 0, 0, 0, static_cast<int64_t>((-tz_offset + mktime(&ts)) * 1000 + millis));
      }
      else {
-	  Error e;
-	  e << "dateTime string has length = 0";
-	  throw e;
+          Error e;
+          e << "dateTime string has length = 0";
+          throw e;
      }
 }
 
@@ -243,21 +243,21 @@ Time XMLHelper::dateTimeToTime(const string& dateTime)
  * \return The provided stream with the base64 string written to it.
  */
 template<class T> ostream& XMLHelper::base64Print(const T* const toEncode,
-						  int numElements,
-						  bool swapByteOrder,
-						  ostream& o)
+                                                  int numElements,
+                                                  bool swapByteOrder,
+                                                  ostream& o)
 {
      if (swapByteOrder) {
-	  T *swapped = new T[numElements];
-	  for (int i = 0; i < numElements; i++) {
-	       swapped[i] = toEncode[i];
-	       ByteSwap(swapped[i]);
-	  }
-	  base64Print(reinterpret_cast<const int8_t*>(swapped), numElements * sizeof(T), o);
-	  delete [] swapped;
+          T *swapped = new T[numElements];
+          for (int i = 0; i < numElements; i++) {
+               swapped[i] = toEncode[i];
+               ByteSwap(swapped[i]);
+          }
+          base64Print(reinterpret_cast<const int8_t*>(swapped), numElements * sizeof(T), o);
+          delete [] swapped;
      }
      else {
-	  base64Print(reinterpret_cast<const int8_t*>(toEncode), numElements * sizeof(T), o);
+          base64Print(reinterpret_cast<const int8_t*>(toEncode), numElements * sizeof(T), o);
      }
      return o;
 }
@@ -276,12 +276,12 @@ ostream& XMLHelper::base64Print(const int8_t* toEncode, int nBytesToEncode, ostr
      unsigned int encodedLength = 0;
      XMLSize_t outputlength;
      XMLByte* encoded = Base64::encode(reinterpret_cast<const XMLByte*>(toEncode),
-				       (const XMLSize_t)(nBytesToEncode / sizeof(XMLByte)), (XMLSize_t*)&encodedLength);
+                                       (const XMLSize_t)(nBytesToEncode / sizeof(XMLByte)), (XMLSize_t*)&encodedLength);
      
      if(!encodedLength) {
-	  Error e;
-	  e << "Couldn't encode to base64";
-	  throw e;
+          Error e;
+          e << "Couldn't encode to base64";
+          throw e;
      }
 
      o.write(reinterpret_cast<char*>(encoded), encodedLength * sizeof(XMLByte));
@@ -309,9 +309,9 @@ const XMLCh* XMLHelper::getXMLChString(const DOMElement &n, const char *tag)
 {
      DOMElement* elem = getFirstChildByTag(n, tag);
      for (DOMNode *child = elem->getFirstChild(); child != 0; child = child->getNextSibling()) {
-	  if (child->getNodeType() == DOMNode::TEXT_NODE) {
-	       return static_cast<DOMText*>(child)->getData();
-	  }
+          if (child->getNodeType() == DOMNode::TEXT_NODE) {
+               return static_cast<DOMText*>(child)->getData();
+          }
      }
      return 0;
 }
@@ -331,9 +331,9 @@ int XMLHelper::getIntAttribute(const DOMElement &n, const char *tag)
      char *endp = reinterpret_cast<char*>(4711);
      ret = strtol(id.str(), &endp, 10);
      if (endp == 0 && *endp != 0) {
-	  Error e;
-	  e << "Couldn't convert '" << id.str() << "' to an integer in Subscription::Subscription()";
-	  throw e;
+          Error e;
+          e << "Couldn't convert '" << id.str() << "' to an integer in Subscription::Subscription()";
+          throw e;
      }
 
      return ret;
@@ -397,15 +397,15 @@ bool XMLHelper::getBool(const DOMElement &n, const char *tag)
      string tmp;
      getString(n, tag, tmp);
      if (tmp == "true" || tmp == "1") {
-	  res = true;
+          res = true;
      }
      else if (tmp == "false" || tmp == "0") {
-	  res = false;
+          res = false;
      }
      else {
-	  Error e;
-	  e << "Invalid boolean value: '" << tmp << "' for element " << tag;
-	  throw e;
+          Error e;
+          e << "Invalid boolean value: '" << tmp << "' for element " << tag;
+          throw e;
      }
      return res;
 }
@@ -482,9 +482,9 @@ Shape *XMLHelper::getShape(const DOMElement &n, const char *tag, const Reference
 {
      DOMElement *shape = getFirstChildByTag(n, tag);
      if (!shape) {
-	  Error e;
-	  e << "No Shape element with tag '" << tag << "' found";
-	  throw e;
+          Error e;
+          e << "No Shape element with tag '" << tag << "' found";
+          throw e;
      }
      return getShape(*shape, scope);
 }
@@ -561,9 +561,9 @@ bool XMLHelper::getElementBoolValue(const DOMElement &n, const char *tag)
 {
      DOMElement *elem = getFirstChildByTag(n, tag);
      if (!elem) {
-	  Error e;
-	  e << "No " << tag << " tag in element " << StrX(n.getNodeName()).str();
-	  throw e;
+          Error e;
+          e << "No " << tag << " tag in element " << StrX(n.getNodeName()).str();
+          throw e;
      }
      return getBool(*elem, "value");
 }
@@ -583,9 +583,9 @@ double XMLHelper::getElementDoubleValue(const DOMElement &n, const char *tag)
 {
      DOMElement *elem = getFirstChildByTag(n, tag);
      if (!elem) {
-	  Error e;
-	  e << "No " << tag << " tag in element " << StrX(n.getNodeName()).str();
-	  throw e;
+          Error e;
+          e << "No " << tag << " tag in element " << StrX(n.getNodeName()).str();
+          throw e;
      }
      return getDouble(*elem, "value");
 }
@@ -605,9 +605,9 @@ int XMLHelper::getElementIntValue(const DOMElement &n, const char *tag)
 {
      DOMElement *elem = getFirstChildByTag(n, tag);
      if (!elem) {
-	  Error e;
-	  e << "No " << tag << " tag in element " << StrX(n.getNodeName()).str();
-	  throw e;
+          Error e;
+          e << "No " << tag << " tag in element " << StrX(n.getNodeName()).str();
+          throw e;
      }
      return getInt(*elem, "value");
 }
@@ -627,9 +627,9 @@ int64_t XMLHelper::getElementLongIntValue(const DOMElement &n, const char *tag)
 {
      DOMElement *elem = getFirstChildByTag(n, tag);
      if (!elem) {
-	  Error e;
-	  e << "No " << tag << " tag in element " << StrX(n.getNodeName()).str();
-	  throw e;
+          Error e;
+          e << "No " << tag << " tag in element " << StrX(n.getNodeName()).str();
+          throw e;
      }
      return getLongInt(*elem, "value");
 }
@@ -650,9 +650,9 @@ void XMLHelper::getElementStringValue(const DOMElement &n, const char *tag, stri
 {
      DOMElement *elem = getFirstChildByTag(n, tag);
      if (!elem) {
-	  Error e;
-	  e << "No " << tag << " tag in element " << StrX(n.getNodeName()).str();
-	  throw e;
+          Error e;
+          e << "No " << tag << " tag in element " << StrX(n.getNodeName()).str();
+          throw e;
      }
      getString(*elem, "value", outStr);
 }
@@ -672,7 +672,7 @@ Shape *XMLHelper::getShape(const DOMElement &n, const Reference& scope)
 
      // If no id is specified - use the tag of the element.
      if (id == "") {
-	  id = StrX(n.getTagName()).str();
+          id = StrX(n.getTagName()).str();
      }
 
      // Get the Reference to the shape to be created.
@@ -682,85 +682,85 @@ Shape *XMLHelper::getShape(const DOMElement &n, const Reference& scope)
 
      // Circle
      if (type == "sp:Circle") {
-	  DOMElement *e = getFirstChildByTag(n, "center");
-	  // Get radius and Lat Lng for center point
-	  res = new Circle(LatLng(getDouble(*e, "lat"), getDouble(*e, "lon")),
-			   getElementDoubleValue(n, "radius"), ref);
+          DOMElement *e = getFirstChildByTag(n, "center");
+          // Get radius and Lat Lng for center point
+          res = new Circle(LatLng(getDouble(*e, "lat"), getDouble(*e, "lon")),
+                           getElementDoubleValue(n, "radius"), ref);
      }
      // Polygon, e.g. a number of curves that must be of type sp:Line
      else if (type == "sp:Polygon") {
-	  vector<DOMElement*> curves;
-	  getChildElementsByTag(n, "curves", curves);
+          vector<DOMElement*> curves;
+          getChildElementsByTag(n, "curves", curves);
 
-	  gpc_polygon p = {0, 0, 0};
-	  gpc_vertex_list *aList = new gpc_vertex_list;
-	  aList->num_vertices = curves.size();
+          gpc_polygon p = {0, 0, 0};
+          gpc_vertex_list *aList = new gpc_vertex_list;
+          aList->num_vertices = curves.size();
 
-	  // Make sure we get the lines of the polygon in the right
-	  // order, e.g line(i).p2 == line(i+1).p1 etc.
-	  list<string> identifiers;
-	  std::map<const Point, Line*> lines; // Mapping between startpoint and line.
-	  Line* firstLine = 0;
-	  for (vector<DOMElement*>::iterator it = curves.begin(); it != curves.end(); it++) {
-	       StrX ctype((*it)->getAttribute(XStr("xsi:type").str()));
-	       if (ctype == "sp:Line") {
-		    Line* line = new Line(**it);
-		    if (!firstLine) {
-			 firstLine = line;
-		    }
-		    lines[line->p1()] = line;
-	       }
-	       else {
-		    // Should clean up memory here.
-		    Error e;
-		    e << "Invalid Curve type: '" << ctype << "' in Polygon";
-		    throw e;
-	       }
-	  }
-	  // It isn't really necessary to use the first line since we
-	  // should assume that the polygon contains no lines such
-	  // that p1 == p2. However, this saves us if we have such
-	  // line at the end of the polygon.
-	  Line* line = firstLine;
-	  aList->vertex = new gpc_vertex[aList->num_vertices];
-	  for(int i = 0; i < aList->num_vertices; i++) {
-	       identifiers.push_back(line->identifier());
-	       aList->vertex[i].x = line->p1().x();
-	       aList->vertex[i].y = line->p1().y();
-	       // The next line must be the one which startpoint is this line's endpoint.
-	       line = lines[line->p2()];
-	       if (line == 0) {
-		    Error e;
-		    e << "Null Line while creating Polygon. This may indicate that the sent\n";
-		    e << "polygon wasn't closed or that there is a roundoff error, e.g that\n";
-		    e << "there are at least one pair of consecutive lines i and i+1 such that\n";
-		    e << "line(i).p2 != line(i+1).p1";
-		    throw e;
-	       }
-	  }
-	  for (std::map<const Point, Line*>::iterator it = lines.begin(); it != lines.end(); it++) {
-	       delete it->second;
-	  }
-	  gpc_add_contour(&p, aList, false);
-	  delete [] aList->vertex;
-	  delete aList;
-	  res = new Polygon(p, identifiers, ref);
-	  Polygon::deallocGpcPolygon(p);
+          // Make sure we get the lines of the polygon in the right
+          // order, e.g line(i).p2 == line(i+1).p1 etc.
+          list<string> identifiers;
+          std::map<const Point, Line*> lines; // Mapping between startpoint and line.
+          Line* firstLine = 0;
+          for (vector<DOMElement*>::iterator it = curves.begin(); it != curves.end(); it++) {
+               StrX ctype((*it)->getAttribute(XStr("xsi:type").str()));
+               if (ctype == "sp:Line") {
+                    Line* line = new Line(**it);
+                    if (!firstLine) {
+                         firstLine = line;
+                    }
+                    lines[line->p1()] = line;
+               }
+               else {
+                    // Should clean up memory here.
+                    Error e;
+                    e << "Invalid Curve type: '" << ctype << "' in Polygon";
+                    throw e;
+               }
+          }
+          // It isn't really necessary to use the first line since we
+          // should assume that the polygon contains no lines such
+          // that p1 == p2. However, this saves us if we have such
+          // line at the end of the polygon.
+          Line* line = firstLine;
+          aList->vertex = new gpc_vertex[aList->num_vertices];
+          for(int i = 0; i < aList->num_vertices; i++) {
+               identifiers.push_back(line->identifier());
+               aList->vertex[i].x = line->p1().x();
+               aList->vertex[i].y = line->p1().y();
+               // The next line must be the one which startpoint is this line's endpoint.
+               line = lines[line->p2()];
+               if (line == 0) {
+                    Error e;
+                    e << "Null Line while creating Polygon. This may indicate that the sent\n";
+                    e << "polygon wasn't closed or that there is a roundoff error, e.g that\n";
+                    e << "there are at least one pair of consecutive lines i and i+1 such that\n";
+                    e << "line(i).p2 != line(i+1).p1";
+                    throw e;
+               }
+          }
+          for (std::map<const Point, Line*>::iterator it = lines.begin(); it != lines.end(); it++) {
+               delete it->second;
+          }
+          gpc_add_contour(&p, aList, false);
+          delete [] aList->vertex;
+          delete aList;
+          res = new Polygon(p, identifiers, ref);
+          Polygon::deallocGpcPolygon(p);
      }
      else if (type == "sp:Composite") {
-	  vector<DOMElement*> parts;
-	  getChildElementsByTag(n, "shapes", parts);
-	  CompositeShape *tmp = new CompositeShape(ref);
-	  const Reference &listRef = Reference::get(tmp->ref(), "shapes");
-	  for (vector<DOMElement*>::iterator it = parts.begin(); it != parts.end(); it++) {
-	       tmp->addShape(getShape(**it, listRef));
-	  }	  
-	  res = tmp;
+          vector<DOMElement*> parts;
+          getChildElementsByTag(n, "shapes", parts);
+          CompositeShape *tmp = new CompositeShape(ref);
+          const Reference &listRef = Reference::get(tmp->ref(), "shapes");
+          for (vector<DOMElement*>::iterator it = parts.begin(); it != parts.end(); it++) {
+               tmp->addShape(getShape(**it, listRef));
+          }          
+          res = tmp;
      }
      else {
-	  Error e;
-	  e << "Unknown Shape type : " << type;
-	  throw e;
+          Error e;
+          e << "Unknown Shape type : " << type;
+          throw e;
      }
      return res;
 }
@@ -777,13 +777,13 @@ Shape *XMLHelper::getShape(const DOMElement &n, const Reference& scope)
 inline DOMElement *XMLHelper::getFirstChildByTag(const DOMElement &n, const char *tag)
 {
      for (DOMNode *child = n.getFirstChild(); child != 0; child = child->getNextSibling()) {
-	  if (child->getNodeType() == DOMNode::ELEMENT_NODE) {
-	       DOMElement *elem = static_cast<DOMElement*>(child);
-	       StrX nodeName(elem->getNodeName());
-	       if (nodeName == tag) {
-		    return elem;
-	       }
-	  }
+          if (child->getNodeType() == DOMNode::ELEMENT_NODE) {
+               DOMElement *elem = static_cast<DOMElement*>(child);
+               StrX nodeName(elem->getNodeName());
+               if (nodeName == tag) {
+                    return elem;
+               }
+          }
      }
      return 0;
 }
@@ -814,13 +814,13 @@ DOMElement* XMLHelper::getFirstChildByTag(const DOMElement &n, const std::string
 void XMLHelper::getChildElementsByTag(const DOMElement &n, const char *tag, std::vector<DOMElement*> &ioV)
 {
      for (DOMNode *child = n.getFirstChild(); child != 0; child = child->getNextSibling()) {
-	  if (child->getNodeType() == DOMNode::ELEMENT_NODE) {
-	       DOMElement *elem = static_cast<DOMElement*>(child);
-	       StrX nodeName(elem->getNodeName());
-	       if (nodeName == tag) {
-		    ioV.push_back(elem);
-	       }
-	  }
+          if (child->getNodeType() == DOMNode::ELEMENT_NODE) {
+               DOMElement *elem = static_cast<DOMElement*>(child);
+               StrX nodeName(elem->getNodeName());
+               if (nodeName == tag) {
+                    ioV.push_back(elem);
+               }
+          }
      }
 }
 

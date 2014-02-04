@@ -1,4 +1,4 @@
-// 	$Id: ImportException.java,v 1.2 2005/03/30 22:22:21 dah Exp $
+//         $Id: ImportException.java,v 1.2 2005/03/30 22:22:21 dah Exp $
 /*
  * @(#)ImportException.java
  */
@@ -31,8 +31,8 @@ public class ImportException extends SemanticException
      */
     public ImportException(ParsedImport importation, String info)
     {
-	this.importation = importation;
-	this.info = info;
+        this.importation = importation;
+        this.info = info;
     }
 
     /**
@@ -40,6 +40,6 @@ public class ImportException extends SemanticException
      */
     public String getMessage()
     {
-	return importation.getPos().toString() + ": " + info;
+        return importation.getPos().toString() + ": " + info;
     }
 }

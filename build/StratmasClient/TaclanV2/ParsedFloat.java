@@ -1,4 +1,4 @@
-// 	$Id: ParsedFloat.java,v 1.4 2006/03/31 16:55:50 dah Exp $
+//         $Id: ParsedFloat.java,v 1.4 2006/03/31 16:55:50 dah Exp $
 /*
  * @(#)ParsedFloat.java
  */
@@ -29,8 +29,8 @@ public class ParsedFloat extends ParsedPrimitive
      */
     public ParsedFloat(SourcePosition pos, String value) throws SemanticException
     {
-	super(pos);
-	this.value = value;
+        super(pos);
+        this.value = value;
     }
 
     /**
@@ -38,6 +38,6 @@ public class ParsedFloat extends ParsedPrimitive
      */
     public String valueToString()
     {
-	return value;
+        return value;
     }
 }

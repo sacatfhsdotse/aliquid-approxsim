@@ -1,4 +1,4 @@
-// 	$Id: DocumentDefinition.java,v 1.1 2006/03/22 14:30:52 dah Exp $
+//         $Id: DocumentDefinition.java,v 1.1 2006/03/22 14:30:52 dah Exp $
 /*
  * @(#)DocumentDefinition.java
  */
@@ -26,7 +26,7 @@ public class DocumentDefinition extends Type
      * The model behind this DocumentDefinition
      */
     XSModel model;
-	
+        
     /**
      * Creates a new DocumentDefinition.
      * @param model the Model this DocumentDefinition mirrors.
@@ -34,11 +34,11 @@ public class DocumentDefinition extends Type
      */
     public DocumentDefinition(XSModel model, TypeInformation typeInformation)
     {
-	super(typeInformation);
-	this.model = model;
+        super(typeInformation);
+        this.model = model;
 
-	processElements();
-	processAttributes();
+        processElements();
+        processAttributes();
     }
 
     /**
@@ -46,10 +46,10 @@ public class DocumentDefinition extends Type
      */
     protected void processElements()
     {
-	XSNamedMap map = this.model.getComponents(XSConstants.ELEMENT_DECLARATION);
-	for (int i = 0; i < map.getLength(); i++) {
-	    processElementDeclaration((XSElementDeclaration) map.item(i));
-	}
+        XSNamedMap map = this.model.getComponents(XSConstants.ELEMENT_DECLARATION);
+        for (int i = 0; i < map.getLength(); i++) {
+            processElementDeclaration((XSElementDeclaration) map.item(i));
+        }
     }
 
     /**
@@ -57,10 +57,10 @@ public class DocumentDefinition extends Type
      */
     protected void processAttributes()
     {
-	XSNamedMap map = this.model.getComponents(XSConstants.ATTRIBUTE_DECLARATION);
-	for (int i = 0; i < map.getLength(); i++) {
-	    processAttributeUse((XSAttributeUse) map.item(i));
-	}
+        XSNamedMap map = this.model.getComponents(XSConstants.ATTRIBUTE_DECLARATION);
+        for (int i = 0; i < map.getLength(); i++) {
+            processAttributeUse((XSAttributeUse) map.item(i));
+        }
     }
 
     /**
@@ -69,10 +69,10 @@ public class DocumentDefinition extends Type
      */
     protected void processElementDeclaration(XSElementDeclaration declaration)
     {
-	TypeDefinition subtype = (TypeDefinition) this.typeInformation.getType(declaration.getTypeDefinition().getName(), 
-					  declaration.getTypeDefinition().getNamespace());
-	
-	appendSubElement(new Declaration(subtype, declaration.getName(), 1, 1, false));
+        TypeDefinition subtype = (TypeDefinition) this.typeInformation.getType(declaration.getTypeDefinition().getName(), 
+                                          declaration.getTypeDefinition().getNamespace());
+        
+        appendSubElement(new Declaration(subtype, declaration.getName(), 1, 1, false));
     }
 
     /**
@@ -80,7 +80,7 @@ public class DocumentDefinition extends Type
      */
     public String getName()
     {
-	return name;
+        return name;
     }
 
     /**
@@ -92,7 +92,7 @@ public class DocumentDefinition extends Type
      */
     public boolean canSubstitute(Type other)
     {
-	return this == other;
+        return this == other;
     }
 
     /**
@@ -100,7 +100,7 @@ public class DocumentDefinition extends Type
      */
     public String getNamespace()
     {
-	return "";
+        return "";
     }
 
     /**
@@ -108,7 +108,7 @@ public class DocumentDefinition extends Type
      */ 
     public Type getBaseType()
     {
-	return null;
+        return null;
     }
 }
 

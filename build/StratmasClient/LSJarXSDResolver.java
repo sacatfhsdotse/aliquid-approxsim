@@ -1,4 +1,4 @@
-// 	$Id: LSJarXSDResolver.java,v 1.4 2006/03/10 17:19:11 alexius Exp $
+//         $Id: LSJarXSDResolver.java,v 1.4 2006/03/10 17:19:11 alexius Exp $
 /*
  * @(#)Duration.java
  */
@@ -44,7 +44,7 @@ public class LSJarXSDResolver implements LSResourceResolver, XMLEntityResolver
      */
     public LSJarXSDResolver(XMLEntityResolver other)
     {
-	this.otherXMLEntityResolver = other;
+        this.otherXMLEntityResolver = other;
     }
 
     /**
@@ -54,7 +54,7 @@ public class LSJarXSDResolver implements LSResourceResolver, XMLEntityResolver
      */
     public LSJarXSDResolver(LSResourceResolver other)
     {
-	this.otherLSResourceResolver = other;
+        this.otherLSResourceResolver = other;
     }
 
     /**
@@ -87,20 +87,20 @@ public class LSJarXSDResolver implements LSResourceResolver, XMLEntityResolver
                                    String publicId, 
                                    String systemId, 
                                    String baseURI) {
-	if (otherLSResourceResolver != null) {
-	    LSInput res = otherLSResourceResolver.resolveResource(type, 
-								  namespaceURI,
-								  publicId,
-								  systemId,
-								  baseURI);
-	    if (res != null && (res.getByteStream() != null ||
-				res.getCharacterStream() != null)) {		
-		return res;
-	    }
-	}
+        if (otherLSResourceResolver != null) {
+            LSInput res = otherLSResourceResolver.resolveResource(type, 
+                                                                  namespaceURI,
+                                                                  publicId,
+                                                                  systemId,
+                                                                  baseURI);
+            if (res != null && (res.getByteStream() != null ||
+                                res.getCharacterStream() != null)) {                
+                return res;
+            }
+        }
 
-	// Failed try loading by resource:
-	return getStreamInput(systemId);
+        // Failed try loading by resource:
+        return getStreamInput(systemId);
     }
 
     /**
@@ -117,18 +117,18 @@ public class LSJarXSDResolver implements LSResourceResolver, XMLEntityResolver
     public XMLInputSource resolveEntity(XMLResourceIdentifier resourceIdentifier)
         throws XNIException, IOException
     {
-	// First try other entity resolver.
-	if (otherXMLEntityResolver != null) {
-	    XMLInputSource res = 
-		otherXMLEntityResolver.resolveEntity(resourceIdentifier);
-	    if (res != null && (res.getByteStream() != null ||
-				res.getCharacterStream() != null)) {		
-		return res;
-	    }
-	}
-	
-	// Failed try loading by resource:
-	return getStreamInput(resourceIdentifier);
+        // First try other entity resolver.
+        if (otherXMLEntityResolver != null) {
+            XMLInputSource res = 
+                otherXMLEntityResolver.resolveEntity(resourceIdentifier);
+            if (res != null && (res.getByteStream() != null ||
+                                res.getCharacterStream() != null)) {                
+                return res;
+            }
+        }
+        
+        // Failed try loading by resource:
+        return getStreamInput(resourceIdentifier);
     }
 
     /**
@@ -138,13 +138,13 @@ public class LSJarXSDResolver implements LSResourceResolver, XMLEntityResolver
      */
     public static StreamInput getStreamInput(XMLResourceIdentifier resourceIdentifier)
     {
-	 InputStream stream = LSJarXSDResolver.class.getResourceAsStream(StratmasConstants.JAR_SCHEMA_LOCATION + 
-									 resourceIdentifier.getLiteralSystemId());
-	 if (stream != null) {
-	      return new StreamInput(stream, resourceIdentifier.getLiteralSystemId());
-	 } else {
-	      return null;
-	 }
+         InputStream stream = LSJarXSDResolver.class.getResourceAsStream(StratmasConstants.JAR_SCHEMA_LOCATION + 
+                                                                         resourceIdentifier.getLiteralSystemId());
+         if (stream != null) {
+              return new StreamInput(stream, resourceIdentifier.getLiteralSystemId());
+         } else {
+              return null;
+         }
     }
 
     /**
@@ -154,13 +154,13 @@ public class LSJarXSDResolver implements LSResourceResolver, XMLEntityResolver
      */
     public static StreamInput getStreamInput(String systemId)
     {
-	 InputStream stream = LSJarXSDResolver.class.getResourceAsStream(StratmasConstants.JAR_SCHEMA_LOCATION + 
-									 systemId);
-	 if (stream != null) {
-	      return new StreamInput(stream, systemId);
-	 } else {
-	      return null;
-	 }
+         InputStream stream = LSJarXSDResolver.class.getResourceAsStream(StratmasConstants.JAR_SCHEMA_LOCATION + 
+                                                                         systemId);
+         if (stream != null) {
+              return new StreamInput(stream, systemId);
+         } else {
+              return null;
+         }
     }
 }
 
@@ -189,8 +189,8 @@ class StreamInput extends XMLInputSource implements LSInput
      */
     StreamInput(InputStream stream, String systemId)
     {
-	super(null, systemId, null);
-	setByteStream(stream);
+        super(null, systemId, null);
+        setByteStream(stream);
     }
 
     /**
@@ -201,8 +201,8 @@ class StreamInput extends XMLInputSource implements LSInput
      */
     StreamInput(InputStream stream, XMLResourceIdentifier identifier)
     {
-	super(identifier);
-	setByteStream(stream);
+        super(identifier);
+        setByteStream(stream);
     }
 
     /**
@@ -211,7 +211,7 @@ class StreamInput extends XMLInputSource implements LSInput
      */
     public String getStringData()
     {
-	return this.stringData;
+        return this.stringData;
     }
 
     /**
@@ -220,7 +220,7 @@ class StreamInput extends XMLInputSource implements LSInput
      */
     public void setStringData(String stringData)
     {
-	this.stringData = stringData;
+        this.stringData = stringData;
     }
 
     /**
@@ -231,7 +231,7 @@ class StreamInput extends XMLInputSource implements LSInput
      */
     public String getBaseURI()
     {
-	return this.baseURI;
+        return this.baseURI;
     }
 
     /**
@@ -242,7 +242,7 @@ class StreamInput extends XMLInputSource implements LSInput
      */
     public void setBaseURI(String baseURI)
     {
-	this.baseURI = baseURI;
+        this.baseURI = baseURI;
     }
 
     /**
@@ -252,7 +252,7 @@ class StreamInput extends XMLInputSource implements LSInput
      */
     public boolean getCertifiedText()
     {
-	return this.certifiedText;
+        return this.certifiedText;
     }
     
     /**
@@ -262,6 +262,6 @@ class StreamInput extends XMLInputSource implements LSInput
      */
     public void setCertifiedText(boolean certifiedText)
     {
-	this.certifiedText = certifiedText;
+        this.certifiedText = certifiedText;
     }
 }

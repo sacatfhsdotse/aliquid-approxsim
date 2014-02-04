@@ -263,36 +263,36 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param position_map the panning tool. 
      */
     public MapDrawer(StratMap basicMap, Region region, PositionMap position_map) {
-	super(basicMap, region);
-	
-	// filter for drawable elements
-	CombinedORFilter dFilter = new CombinedORFilter();
-	dFilter.add(new TypeFilter(TypeFactory.getType("MilitaryUnit"), true));
-	dFilter.add(new TypeFilter(TypeFactory.getType("AgencyTeam"), true));
-	dFilter.add(new TypeFilter(TypeFactory.getType("Activity"), true));
-	this.dragFilter = dFilter;
+        super(basicMap, region);
+        
+        // filter for drawable elements
+        CombinedORFilter dFilter = new CombinedORFilter();
+        dFilter.add(new TypeFilter(TypeFactory.getType("MilitaryUnit"), true));
+        dFilter.add(new TypeFilter(TypeFactory.getType("AgencyTeam"), true));
+        dFilter.add(new TypeFilter(TypeFactory.getType("Activity"), true));
+        this.dragFilter = dFilter;
 
-	// region associated with the map
-	region.addListener(this);
-	
-	// position map 
-	this.position_map = position_map;
-	this.position_map.setMap(this);
-	
-	// helper object used for creation of different kinds of menues in the map
-	menuCreator = new MapDrawerMenuCreator(basicMap.getClient(), this, region);
-	
-	// used for the drag action i DnD
-	source = new DragSource();
-	recognizer = source.createDefaultDragGestureRecognizer(glc, DnDConstants.ACTION_REFERENCE, this);
-	
-	// used for the drop action in DnD
-	dropTargetListener = new MapDrawerDropTarget(basicMap.getClient(), this, region);
-	target = new DropTarget(this, dropTargetListener);
-	this.setDropTarget(target);
-	
-	// import all elements and activities to the map
-	importMapElements();
+        // region associated with the map
+        region.addListener(this);
+        
+        // position map 
+        this.position_map = position_map;
+        this.position_map.setMap(this);
+        
+        // helper object used for creation of different kinds of menues in the map
+        menuCreator = new MapDrawerMenuCreator(basicMap.getClient(), this, region);
+        
+        // used for the drag action i DnD
+        source = new DragSource();
+        recognizer = source.createDefaultDragGestureRecognizer(glc, DnDConstants.ACTION_REFERENCE, this);
+        
+        // used for the drop action in DnD
+        dropTargetListener = new MapDrawerDropTarget(basicMap.getClient(), this, region);
+        target = new DropTarget(this, dropTargetListener);
+        this.setDropTarget(target);
+        
+        // import all elements and activities to the map
+        importMapElements();
     }
     
     /**
@@ -301,37 +301,37 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param gld needed for OpenGL.
      */
     public void display(GLAutoDrawable gld) {
-	GL gl = gld.getGL();
+        GL gl = gld.getGL();
 
-	//
-	int origDrawBuffer = -1;
-	if (doScreenShot()) {
-	    origDrawBuffer = GLScreenShotHandler.changeDrawBuffer(gld);
-	}
-	
-	// update orthographics view bounds
-	gl.glMatrixMode(GL.GL_PROJECTION);
-	gl.glLoadIdentity();
-	glu.gluOrtho2D(orts_box.getXmin(), orts_box.getXmax(), orts_box.getYmin(), orts_box.getYmax());
-	
-	// update graticules
-	if (update_graticules) {
-	    updateGraticuleList(gl);
-	    update_graticules = false;
-	}
-	
-	// update small map
-	position_map.update(orts_box);
-	
-	// draw the map
-	drawGraph(gld);
-	
-	if (doScreenShot()) {
-	    screenShot(gld);
-	    gl.glDrawBuffer(origDrawBuffer);
-	}
-	
-	updateRenderSelection(gld);
+        //
+        int origDrawBuffer = -1;
+        if (doScreenShot()) {
+            origDrawBuffer = GLScreenShotHandler.changeDrawBuffer(gld);
+        }
+        
+        // update orthographics view bounds
+        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glLoadIdentity();
+        glu.gluOrtho2D(orts_box.getXmin(), orts_box.getXmax(), orts_box.getYmin(), orts_box.getYmax());
+        
+        // update graticules
+        if (update_graticules) {
+            updateGraticuleList(gl);
+            update_graticules = false;
+        }
+        
+        // update small map
+        position_map.update(orts_box);
+        
+        // draw the map
+        drawGraph(gld);
+        
+        if (doScreenShot()) {
+            screenShot(gld);
+            gl.glDrawBuffer(origDrawBuffer);
+        }
+        
+        updateRenderSelection(gld);
     }
     
     /**
@@ -343,88 +343,88 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      */
     public void mouseClicked(MouseEvent e)
     {
-	mouseMovedTimer.cancel();
-	
-	// get window coordinates
-	int x = (int)e.getX();
-	int y = (int)e.getY(); 
+        mouseMovedTimer.cancel();
+        
+        // get window coordinates
+        int x = (int)e.getX();
+        int y = (int)e.getY(); 
 
-	setRenderSelectionArea(x, y);
-	
-	// convert the curent position to lon/lat
-	MapPoint p = convertToLonLat(x, y);
+        setRenderSelectionArea(x, y);
+        
+        // convert the curent position to lon/lat
+        MapPoint p = convertToLonLat(x, y);
 
-	// get projected coordinates	
-	Projection proj = basicMap.getProjection();
-	double xx = p.getProjectedPoint(proj).getX();
-	double yy = p.getProjectedPoint(proj).getY();
-	
-	// right mouse button
-	if (e.getButton() == MouseEvent.BUTTON3) {
-	    // create new menu
-	    JPopupMenu menu = new JPopupMenu();
-	    // get the submenu for the pointed regions
-	    JMenu submenu = menuCreator.getMenuForRegions();
-	    if (submenu != null) {
-		menu.add(submenu);
-	    }
-	    // get the submenu for the pointed military units
-	    submenu = menuCreator.getMenuForMilitaryUnits();
-	    if (submenu != null) {
-		menu.add(submenu);
-	    }
-	     // get the submenu for the postion of the pointed elements
-	    submenu = menuCreator.getMenuForElementsPosition();
-	    if (submenu != null) {
-		menu.add(submenu);
-	    }
-	    // get the submenu for the AOR
-	    submenu = menuCreator.getMenuForAOR();
-	    if (submenu != null) {
-		menu.add(submenu);
-	    }
-	    // get the submenu for the selected elements
-	    submenu = menuCreator.getMenuForElementsForSelection(true);
-	    if (submenu != null) {
-		menu.add(submenu);
-	    }
-	    // get the submenu for the unselected elements
-	    submenu = menuCreator.getMenuForElementsForSelection(false);
-	    if (submenu != null) {
-		menu.add(submenu);
-	    }
-	    // show the menu
-	    if (menu.getComponentCount() > 0) {
-		menu.show(this, x, y);
-	    }
-	}
-	// left mouse button
-	else if (e.getButton() == MouseEvent.BUTTON1){
-	    // show information of the pointed element
-	    if (e.getClickCount() == 2) {
-		// find all elemets located at the pointed location 
-		Vector pointedElements = mapElementsUnderCursor();
-		// if only one element found
-		if (pointedElements.size() == 1) {
-		    final TreeViewFrame frame = TreeView.getDefaultFrame((StratmasObject)pointedElements.firstElement());
-		    javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			    public void run() {
-				frame.setEditable(true);
-				frame.setVisible(true);
-			    }
-			});
-		}
-		else if (pointedElements.size() > 1) {
-		    // create menu
-		    JPopupMenu menu = new JPopupMenu();
-		    JMenu submenu = menuCreator.getMenuForElements(pointedElements);
-		    menu.add(submenu);
-		    menu.show(this, x, y);
-		}
-	    }
-	}
-	//
-	update();
+        // get projected coordinates        
+        Projection proj = basicMap.getProjection();
+        double xx = p.getProjectedPoint(proj).getX();
+        double yy = p.getProjectedPoint(proj).getY();
+        
+        // right mouse button
+        if (e.getButton() == MouseEvent.BUTTON3) {
+            // create new menu
+            JPopupMenu menu = new JPopupMenu();
+            // get the submenu for the pointed regions
+            JMenu submenu = menuCreator.getMenuForRegions();
+            if (submenu != null) {
+                menu.add(submenu);
+            }
+            // get the submenu for the pointed military units
+            submenu = menuCreator.getMenuForMilitaryUnits();
+            if (submenu != null) {
+                menu.add(submenu);
+            }
+             // get the submenu for the postion of the pointed elements
+            submenu = menuCreator.getMenuForElementsPosition();
+            if (submenu != null) {
+                menu.add(submenu);
+            }
+            // get the submenu for the AOR
+            submenu = menuCreator.getMenuForAOR();
+            if (submenu != null) {
+                menu.add(submenu);
+            }
+            // get the submenu for the selected elements
+            submenu = menuCreator.getMenuForElementsForSelection(true);
+            if (submenu != null) {
+                menu.add(submenu);
+            }
+            // get the submenu for the unselected elements
+            submenu = menuCreator.getMenuForElementsForSelection(false);
+            if (submenu != null) {
+                menu.add(submenu);
+            }
+            // show the menu
+            if (menu.getComponentCount() > 0) {
+                menu.show(this, x, y);
+            }
+        }
+        // left mouse button
+        else if (e.getButton() == MouseEvent.BUTTON1){
+            // show information of the pointed element
+            if (e.getClickCount() == 2) {
+                // find all elemets located at the pointed location 
+                Vector pointedElements = mapElementsUnderCursor();
+                // if only one element found
+                if (pointedElements.size() == 1) {
+                    final TreeViewFrame frame = TreeView.getDefaultFrame((StratmasObject)pointedElements.firstElement());
+                    javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                            public void run() {
+                                frame.setEditable(true);
+                                frame.setVisible(true);
+                            }
+                        });
+                }
+                else if (pointedElements.size() > 1) {
+                    // create menu
+                    JPopupMenu menu = new JPopupMenu();
+                    JMenu submenu = menuCreator.getMenuForElements(pointedElements);
+                    menu.add(submenu);
+                    menu.show(this, x, y);
+                }
+            }
+        }
+        //
+        update();
     }
     
     /**
@@ -434,25 +434,25 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param e the generated event.
      */
     public void mouseDragged(MouseEvent e) {
-	// get window coordinates
-	int x = (int)e.getX();
-	int y = (int)e.getY();
-	setRenderSelectionArea(x, y);
+        // get window coordinates
+        int x = (int)e.getX();
+        int y = (int)e.getY();
+        setRenderSelectionArea(x, y);
 
-	// convert to lon/lat
-	MapPoint p = convertToLonLat(x, y);
-	
-	// necessary for multi-screen enviroment
-	mouse_on = (x >= view_x && x <= view_x+view_width && y >= view_y && y <= view_y+view_height)? true : false;
-	// convert the current position to lon/lat
-	current_pos = convertToLonLat(x, y);
-	
-	if (System.currentTimeMillis() - latestUpdateTime > updateTimeDelay) {
-	    // display current position
-	    displayCurrentPosition(current_pos);
-	    // redraw
-	    update();
-	}
+        // convert to lon/lat
+        MapPoint p = convertToLonLat(x, y);
+        
+        // necessary for multi-screen enviroment
+        mouse_on = (x >= view_x && x <= view_x+view_width && y >= view_y && y <= view_y+view_height)? true : false;
+        // convert the current position to lon/lat
+        current_pos = convertToLonLat(x, y);
+        
+        if (System.currentTimeMillis() - latestUpdateTime > updateTimeDelay) {
+            // display current position
+            displayCurrentPosition(current_pos);
+            // redraw
+            update();
+        }
     }
     
     /**
@@ -462,66 +462,66 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param e event created by changing the position of the mouse on the map.
      */
     public void mouseMoved(MouseEvent e) {
-	// disable magnifying of the symbols
-	this.setShowingSymbolMagnification(false);
+        // disable magnifying of the symbols
+        this.setShowingSymbolMagnification(false);
 
-	// get window coordinates
-	int x = (int) e.getX();
-	int y = (int) e.getY();
+        // get window coordinates
+        int x = (int) e.getX();
+        int y = (int) e.getY();
 
-	setRenderSelectionArea(x, y);
-	
-	// check if the symbol magnifier should be turned on 
-	mouseMovedTimer.cancel();
-	if (isEnabledSymbolMagnifier()) {
-	    mouseMovedTimer = new java.util.Timer();
-	    final MapDrawer self = this;
-	    for (int i = 1; i <= magnifierSizeSteps; i++) {
-		final int foo = i;
-		mouseMovedTimer.schedule(new TimerTask() {
-			public void run() {
-			    self.setShowingSymbolMagnification(true);
-			    self.setMagnifierSizeScale((((double) (foo))/((double) self.getMagnifierSizeSteps())));
-			    self.update();
-			}
-			
-		    }, this.magnifierTimeout + (long) ((((double) (i))
-							/((double) getMagnifierSizeSteps())) * this.magnifierTimeout));
-	    }
-	}
-	
-	// necessary for multi-screen enviroment
-	mouse_on = (x >= view_x && x <= view_x+view_width && y >= view_y && y <= view_y+view_height)? true : false;
-	
-	// convert the current position to lon/lat
-	current_pos = convertToLonLat(x, y);
-	
-	if (System.currentTimeMillis() - latestUpdateTime > updateTimeDelay) {
-	    // display current position
-	    displayCurrentPosition(current_pos);
-	    // display the region under the mouse cursor
-	    Vector adVec = mapDrawableAdaptersUnderCursor(MapShapeAdapter.class);
-	    if (!adVec.isEmpty()) {
-		if (adVec.size() == 1) {
-		    displayPointedRegion(((Shape)((MapShapeAdapter)adVec.firstElement()).getObject()).getIdentifier()); 
-		}
-		else {
-		    int tmpIndex = 0;
-		    while (tmpIndex < adVec.size() && 
-			   !(((MapShapeAdapter)adVec.get(tmpIndex)).getObject() instanceof SimpleShape)) {
-			tmpIndex++;
-		    }
-		    if (tmpIndex < adVec.size()) {
-			displayPointedRegion(((Shape)((MapShapeAdapter)adVec.get(tmpIndex)).getObject()).getIdentifier());  
-		    }
-		}
-	    }
-	    else {
-		displayPointedRegion("");
-	    }
-	    // redraw
-	    update();
-	}
+        setRenderSelectionArea(x, y);
+        
+        // check if the symbol magnifier should be turned on 
+        mouseMovedTimer.cancel();
+        if (isEnabledSymbolMagnifier()) {
+            mouseMovedTimer = new java.util.Timer();
+            final MapDrawer self = this;
+            for (int i = 1; i <= magnifierSizeSteps; i++) {
+                final int foo = i;
+                mouseMovedTimer.schedule(new TimerTask() {
+                        public void run() {
+                            self.setShowingSymbolMagnification(true);
+                            self.setMagnifierSizeScale((((double) (foo))/((double) self.getMagnifierSizeSteps())));
+                            self.update();
+                        }
+                        
+                    }, this.magnifierTimeout + (long) ((((double) (i))
+                                                        /((double) getMagnifierSizeSteps())) * this.magnifierTimeout));
+            }
+        }
+        
+        // necessary for multi-screen enviroment
+        mouse_on = (x >= view_x && x <= view_x+view_width && y >= view_y && y <= view_y+view_height)? true : false;
+        
+        // convert the current position to lon/lat
+        current_pos = convertToLonLat(x, y);
+        
+        if (System.currentTimeMillis() - latestUpdateTime > updateTimeDelay) {
+            // display current position
+            displayCurrentPosition(current_pos);
+            // display the region under the mouse cursor
+            Vector adVec = mapDrawableAdaptersUnderCursor(MapShapeAdapter.class);
+            if (!adVec.isEmpty()) {
+                if (adVec.size() == 1) {
+                    displayPointedRegion(((Shape)((MapShapeAdapter)adVec.firstElement()).getObject()).getIdentifier()); 
+                }
+                else {
+                    int tmpIndex = 0;
+                    while (tmpIndex < adVec.size() && 
+                           !(((MapShapeAdapter)adVec.get(tmpIndex)).getObject() instanceof SimpleShape)) {
+                        tmpIndex++;
+                    }
+                    if (tmpIndex < adVec.size()) {
+                        displayPointedRegion(((Shape)((MapShapeAdapter)adVec.get(tmpIndex)).getObject()).getIdentifier());  
+                    }
+                }
+            }
+            else {
+                displayPointedRegion("");
+            }
+            // redraw
+            update();
+        }
     }
     
     /**
@@ -530,51 +530,51 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param se the occured event.
      */
     public void eventOccured(StratmasEvent se) {
-	// redraw the map 
-	if (se.isSubscriptionHandled()) {
-	    update();
-	}
-	// update the region
-	else if (se.isRegionUpdated()) {
-	    // update bounding box for the region
-	    box = region.getProjectedBounds();
-	    double dx = Math.abs(box.getXmax()-box.getXmin());
-	    double dy = Math.abs(box.getYmax()-box.getYmin());
-	    double xmin = box.getXmin()-dx/10;
-	    double ymin = box.getYmin()-dy/10;
-	    double xmax = box.getXmax()+dx/10;
-	    double ymax = box.getYmax()+dy/10;
-	    box = new BoundingBox(xmin, ymin, xmax, ymax, this.getProjection());
-	 
-	    // update orthographic view bounds and view center
-	    ort_box = (BoundingBox)box.clone();
-	    ort_xc = (ort_box.getXmax()+ort_box.getXmin())/2;
-	    ort_yc = (ort_box.getYmax()+ort_box.getYmin())/2;
-	 
-	    // update scaled orthographic view bounds and view center
-	    orts_box = (BoundingBox)box.clone();
-	 
-	    // get new orthographic view bounds such that aspect ratio is
-	    // equal to display window's
-	    ort_box = updateOrthographicBounds(view_width, view_height);
-	
-	    // new projection update positioning of symbols
-	    for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
-		((MapDrawableAdapter) e.nextElement()).invalidateDisplayList();
-	    }
-	    
-	    // update map scale
-	    zoom_and_scale.update();
-	    // update graticules
-	    update_graticules = true;
-	    //
-	    update();
-	}
-	// update the graticule lines
-	else if (se.areGraticulesUpdated()) {
-	    update_graticules = true;
-	    update();
-	}
+        // redraw the map 
+        if (se.isSubscriptionHandled()) {
+            update();
+        }
+        // update the region
+        else if (se.isRegionUpdated()) {
+            // update bounding box for the region
+            box = region.getProjectedBounds();
+            double dx = Math.abs(box.getXmax()-box.getXmin());
+            double dy = Math.abs(box.getYmax()-box.getYmin());
+            double xmin = box.getXmin()-dx/10;
+            double ymin = box.getYmin()-dy/10;
+            double xmax = box.getXmax()+dx/10;
+            double ymax = box.getYmax()+dy/10;
+            box = new BoundingBox(xmin, ymin, xmax, ymax, this.getProjection());
+         
+            // update orthographic view bounds and view center
+            ort_box = (BoundingBox)box.clone();
+            ort_xc = (ort_box.getXmax()+ort_box.getXmin())/2;
+            ort_yc = (ort_box.getYmax()+ort_box.getYmin())/2;
+         
+            // update scaled orthographic view bounds and view center
+            orts_box = (BoundingBox)box.clone();
+         
+            // get new orthographic view bounds such that aspect ratio is
+            // equal to display window's
+            ort_box = updateOrthographicBounds(view_width, view_height);
+        
+            // new projection update positioning of symbols
+            for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
+                ((MapDrawableAdapter) e.nextElement()).invalidateDisplayList();
+            }
+            
+            // update map scale
+            zoom_and_scale.update();
+            // update graticules
+            update_graticules = true;
+            //
+            update();
+        }
+        // update the graticule lines
+        else if (se.areGraticulesUpdated()) {
+            update_graticules = true;
+            update();
+        }
     }
     
     /*
@@ -583,50 +583,50 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param dge event created when a drag is started.
      */
     public void dragGestureRecognized(final DragGestureEvent dge) {
-	// cancel features
-	mouseMovedTimer.cancel();
-	this.setShowingSymbolMagnification(false);
-	// get location
-	int x = (int)(dge.getDragOrigin().getX());
-	int y = (int)(dge.getDragOrigin().getY());
-	// get elements
-	Vector v = dragFilter.filter(mapElementsUnderCursor());
-	// define cursor for the object 
-	Cursor c;
-	Toolkit tk = Toolkit.getDefaultToolkit();
-	// if there's anything to drag
-	if (!v.isEmpty()) {
-	    Image image = ((Icon)((StratmasObject) v.get(0)).getIcon()).getImage();
-	    Dimension bestsize = tk.getBestCursorSize(image.getWidth(null),image.getHeight(null));
-	    if (bestsize.width != 0 && v.size() == 1)
-		c = tk.createCustomCursor(image, new java.awt.Point(bestsize.width/2, bestsize.height/2), 
-					  ((StratmasObject) v.get(0)).toString());
-	    else
-		c = Cursor.getDefaultCursor();
-	    // only one element on the current location
-	    if (v.size() == 1) {
-		// set the dragged element
-		DraggedElement.setElement((StratmasObject) v.get(0));
-		// start the drag
-		source.startDrag(dge, c, (StratmasObject) v.get(0), new DragSourceAdapter(){});
-	    }
-	    // several elements on the current location
-	    else if (v.size() > 1) {
-		// create and show menu
-		menuCreator.getDraggedElementsMenu(dragFilter).show(this, x, y);
-	    }
-	}
+        // cancel features
+        mouseMovedTimer.cancel();
+        this.setShowingSymbolMagnification(false);
+        // get location
+        int x = (int)(dge.getDragOrigin().getX());
+        int y = (int)(dge.getDragOrigin().getY());
+        // get elements
+        Vector v = dragFilter.filter(mapElementsUnderCursor());
+        // define cursor for the object 
+        Cursor c;
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        // if there's anything to drag
+        if (!v.isEmpty()) {
+            Image image = ((Icon)((StratmasObject) v.get(0)).getIcon()).getImage();
+            Dimension bestsize = tk.getBestCursorSize(image.getWidth(null),image.getHeight(null));
+            if (bestsize.width != 0 && v.size() == 1)
+                c = tk.createCustomCursor(image, new java.awt.Point(bestsize.width/2, bestsize.height/2), 
+                                          ((StratmasObject) v.get(0)).toString());
+            else
+                c = Cursor.getDefaultCursor();
+            // only one element on the current location
+            if (v.size() == 1) {
+                // set the dragged element
+                DraggedElement.setElement((StratmasObject) v.get(0));
+                // start the drag
+                source.startDrag(dge, c, (StratmasObject) v.get(0), new DragSourceAdapter(){});
+            }
+            // several elements on the current location
+            else if (v.size() > 1) {
+                // create and show menu
+                menuCreator.getDraggedElementsMenu(dragFilter).show(this, x, y);
+            }
+        }
     }
     
     /**
      * Create the GUI and show it. 
      */
     public void createAndShowGUI(String frame_title) {
-	super.createAndShowGUI(frame_title);
-	// 
-	if (Debug.isInDebugMode()) {
-	    //MapDrawerDebugFrame.openMapDrawerDebugFrame(this);
-	}
+        super.createAndShowGUI(frame_title);
+        // 
+        if (Debug.isInDebugMode()) {
+            //MapDrawerDebugFrame.openMapDrawerDebugFrame(this);
+        }
     }
     
     /**
@@ -636,60 +636,60 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      */
     protected void updateRenderSelection(GLAutoDrawable gld)
     {
-	GL gl = gld.getGL();
-	
-	IntBuffer renderSelectionBuffer;
-	int renderSelectionBufferAllocationSize = 2048;
-	
-	int hits = -1;
+        GL gl = gld.getGL();
+        
+        IntBuffer renderSelectionBuffer;
+        int renderSelectionBufferAllocationSize = 2048;
+        
+        int hits = -1;
 
-	do {
-	    renderSelectionBuffer = BufferUtil.newIntBuffer(renderSelectionBufferAllocationSize);
-	    gl.glSelectBuffer(renderSelectionBuffer.capacity(), renderSelectionBuffer);
-	
-	    // Enable render selection.
-	    gl.glRenderMode(GL.GL_SELECT);
-	    
-	    // Init names.
-	    gl.glInitNames();
+        do {
+            renderSelectionBuffer = BufferUtil.newIntBuffer(renderSelectionBufferAllocationSize);
+            gl.glSelectBuffer(renderSelectionBuffer.capacity(), renderSelectionBuffer);
+        
+            // Enable render selection.
+            gl.glRenderMode(GL.GL_SELECT);
+            
+            // Init names.
+            gl.glInitNames();
 
-	    // Sets the selection area.
-	    gl.glMatrixMode(GL.GL_PROJECTION);
-	    gl.glPushMatrix();
-	    gl.glLoadIdentity();
+            // Sets the selection area.
+            gl.glMatrixMode(GL.GL_PROJECTION);
+            gl.glPushMatrix();
+            gl.glLoadIdentity();
 
-	    glu.gluOrtho2D(renderSelectionX - renderSelectionDeltaX/2, 
-			   renderSelectionX + renderSelectionDeltaX/2, 
-			   renderSelectionY - renderSelectionDeltaY/2,
-			   renderSelectionY + renderSelectionDeltaY/2);
-	    // Draw symbols.
-	    updateDrawnMapDrawablesList();
-	    gl.glCallLists(drawnMapDrawablesListBuf.capacity(), gl.GL_INT, drawnMapDrawablesListBuf);
-	    
-	    // draw the grid
-	    if (grid_based_pv && cell_layer != null) {
-		if (!cell_layer.isDisplayListUpdated()) {
-		    cell_layer.updateDisplayList(getProjection(), gld);
-		}
-		gl.glCallList(cell_layer.getDisplayList());
-	    }
-	    
-	    // Restore view
-	    gl.glMatrixMode(GL.GL_PROJECTION);
-	    gl.glPopMatrix();
-	    gl.glFlush();
-	    
-	    // End render selection mode.
-	    hits = gld.getGL().glRenderMode(GL.GL_RENDER);
-	    
-	    if (hits < 0) {
-		// To small selectionBuffer, try double size.
-		renderSelectionBufferAllocationSize = 
-		    renderSelectionBufferAllocationSize * 2;
-	    }
-	} while (hits < 0);
-	
-	this.latestRenderSelection = new RenderSelection(hits, renderSelectionBuffer, renderSelectionNames);
+            glu.gluOrtho2D(renderSelectionX - renderSelectionDeltaX/2, 
+                           renderSelectionX + renderSelectionDeltaX/2, 
+                           renderSelectionY - renderSelectionDeltaY/2,
+                           renderSelectionY + renderSelectionDeltaY/2);
+            // Draw symbols.
+            updateDrawnMapDrawablesList();
+            gl.glCallLists(drawnMapDrawablesListBuf.capacity(), gl.GL_INT, drawnMapDrawablesListBuf);
+            
+            // draw the grid
+            if (grid_based_pv && cell_layer != null) {
+                if (!cell_layer.isDisplayListUpdated()) {
+                    cell_layer.updateDisplayList(getProjection(), gld);
+                }
+                gl.glCallList(cell_layer.getDisplayList());
+            }
+            
+            // Restore view
+            gl.glMatrixMode(GL.GL_PROJECTION);
+            gl.glPopMatrix();
+            gl.glFlush();
+            
+            // End render selection mode.
+            hits = gld.getGL().glRenderMode(GL.GL_RENDER);
+            
+            if (hits < 0) {
+                // To small selectionBuffer, try double size.
+                renderSelectionBufferAllocationSize = 
+                    renderSelectionBufferAllocationSize * 2;
+            }
+        } while (hits < 0);
+        
+        this.latestRenderSelection = new RenderSelection(hits, renderSelectionBuffer, renderSelectionNames);
     }
 
     /**
@@ -703,14 +703,14 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      */
     protected void setRenderSelectionArea(int x, int y, int deltaX, int deltaY)
     {
-	MapPoint p = convertToLonLat(x, y);
-	this.renderSelectionX = p.getProjectedPoint(this.getProjection()).getX();
-	this.renderSelectionY = p.getProjectedPoint(this.getProjection()).getY();
-	this.renderSelectionDeltaY = deltaY;
-	this.renderSelectionDeltaX = deltaX;
+        MapPoint p = convertToLonLat(x, y);
+        this.renderSelectionX = p.getProjectedPoint(this.getProjection()).getX();
+        this.renderSelectionY = p.getProjectedPoint(this.getProjection()).getY();
+        this.renderSelectionDeltaY = deltaY;
+        this.renderSelectionDeltaX = deltaX;
 
-	this.renderSelectionMouseX = x;
-	this.renderSelectionMouseY = y;
+        this.renderSelectionMouseX = x;
+        this.renderSelectionMouseY = y;
     }
 
     /**
@@ -722,14 +722,14 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      */
     protected void setRenderSelectionArea(int x, int y)
     {
-	setRenderSelectionArea(x, y, 1, 1);
+        setRenderSelectionArea(x, y, 1, 1);
     }
     
     /**
      * Returns the render selection object.
      */
     public RenderSelection getRenderSelection() {
-	return latestRenderSelection;
+        return latestRenderSelection;
     }
     
     /**
@@ -741,7 +741,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      *         false otherwise.
      */
     public boolean registredOnMap(StratmasObject element) {
-	return mapDrawableAdapters.containsKey(element);
+        return mapDrawableAdapters.containsKey(element);
     }
     
     /**
@@ -749,7 +749,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * MapElementAdapter doesn't exist.
      */
     public MapElementAdapter getMapElementAdapter(StratmasObject element) {
-	return (MapElementAdapter)mapDrawableAdapters.get(element);
+        return (MapElementAdapter)mapDrawableAdapters.get(element);
     }
 
     /**
@@ -758,17 +758,17 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param element element or activity to check.
      */
     public boolean isElementDisplayed(StratmasObject element) {
-	// get adapter of the element
-	MapElementAdapter mea = getMapElementAdapter(element);
-	// get display list of the adapter
-	int dList = mea.getDisplayList();
-	// check if the display list is in drawnMapDrawablesList
-	for (int i = 0; i < drawnMapDrawablesListBuf.capacity(); i++) {
-	    if (drawnMapDrawablesListBuf.get(i) == dList) {
-		return true;
-	    }
-	}
-	return false;
+        // get adapter of the element
+        MapElementAdapter mea = getMapElementAdapter(element);
+        // get display list of the adapter
+        int dList = mea.getDisplayList();
+        // check if the display list is in drawnMapDrawablesList
+        for (int i = 0; i < drawnMapDrawablesListBuf.capacity(); i++) {
+            if (drawnMapDrawablesListBuf.get(i) == dList) {
+                return true;
+            }
+        }
+        return false;
     }
         
     /**
@@ -777,37 +777,37 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param filter the new filter.
      */
     public void setDrawnMapElementsFilter(StratmasObjectFilter filter) {
-	this.drawnMapElementsFilter = filter;	    
-	setIsDrawnMapDrawablesListUpdated(false);
-	update();
+        this.drawnMapElementsFilter = filter;            
+        setIsDrawnMapDrawablesListUpdated(false);
+        update();
     }
     
     /**
      * Returns the filter which decides which elements to draw on the map.
      */
     public StratmasObjectFilter getDrawnMapElementsFilter() {
-	return this.drawnMapElementsFilter;
+        return this.drawnMapElementsFilter;
     }
     
     /**
      *  Sets reference to the grid layer.
      */
     public void setGridLayer(GridLayer cell_layer) {
-	this.cell_layer = cell_layer;
-	menuCreator.setGridLayer(cell_layer);
-	// set renderSelectionName for the grid
-	cell_layer.setRenderSelectionName(getNewRenderSelectionName(cell_layer.getNrOfRenderSelectionNames()));
-	// update renderSelectionNames
-	renderSelectionNames.put(new Integer(cell_layer.getRenderSelectionName()), cell_layer);
-	//
-	cell_layer.updateActiveCells();
+        this.cell_layer = cell_layer;
+        menuCreator.setGridLayer(cell_layer);
+        // set renderSelectionName for the grid
+        cell_layer.setRenderSelectionName(getNewRenderSelectionName(cell_layer.getNrOfRenderSelectionNames()));
+        // update renderSelectionNames
+        renderSelectionNames.put(new Integer(cell_layer.getRenderSelectionName()), cell_layer);
+        //
+        cell_layer.updateActiveCells();
     }
     
     /**
      * Sets reference to actual color map controller.
      */
     public void setColorMap(ColorMap color_map) {
-	this.color_map = color_map;
+        this.color_map = color_map;
     }
     
     /**
@@ -816,9 +816,9 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param vis true to display location of the cities, false to hide it.
      */
     public void setCityLocationVisible(boolean vis) {
-	// dah - Implement here
-	show_city_location = vis;
-	update();
+        // dah - Implement here
+        show_city_location = vis;
+        update();
     }
     
     /**
@@ -828,28 +828,28 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      *           otherwise the region based representation is used.
      */
     public void setPVGrid(boolean ok) {
-	grid_based_pv = ok;
-	if (grid_based_pv) {
-	    // update the shape adapters
-	    for (Enumeration adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
-		MapDrawableAdapter mdAdapter = (MapDrawableAdapter) adapters.nextElement();
-		if (mdAdapter instanceof MapShapeAdapter && region.contains((Shape)mdAdapter.getObject())) {
-		    ((MapShapeAdapter) mdAdapter).setShapeAreaTransparent();
-		}
-	    }
-	}
-	else if (cell_layer != null) {
-	    // update the shape adapters
-	    for (Enumeration adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
-		MapDrawableAdapter mdAdapter = (MapDrawableAdapter) adapters.nextElement();
-		if (mdAdapter instanceof MapShapeAdapter && region.contains((Shape)mdAdapter.getObject())) {
-		    double value = cell_layer.getAverageValueForCells((Shape)mdAdapter.getObject());
-		    ((MapShapeAdapter) mdAdapter).setShapeAreaColor(color_map.getMappingColor(value));
-		}
-	    } 
-	}
-	// redraw
-	update();
+        grid_based_pv = ok;
+        if (grid_based_pv) {
+            // update the shape adapters
+            for (Enumeration adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
+                MapDrawableAdapter mdAdapter = (MapDrawableAdapter) adapters.nextElement();
+                if (mdAdapter instanceof MapShapeAdapter && region.contains((Shape)mdAdapter.getObject())) {
+                    ((MapShapeAdapter) mdAdapter).setShapeAreaTransparent();
+                }
+            }
+        }
+        else if (cell_layer != null) {
+            // update the shape adapters
+            for (Enumeration adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
+                MapDrawableAdapter mdAdapter = (MapDrawableAdapter) adapters.nextElement();
+                if (mdAdapter instanceof MapShapeAdapter && region.contains((Shape)mdAdapter.getObject())) {
+                    double value = cell_layer.getAverageValueForCells((Shape)mdAdapter.getObject());
+                    ((MapShapeAdapter) mdAdapter).setShapeAreaColor(color_map.getMappingColor(value));
+                }
+            } 
+        }
+        // redraw
+        update();
     }
            
     /**
@@ -858,16 +858,16 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param vis true to display the region borders.
      */
     public void setDrawRegionShapes(boolean vis) {
-	show_geo_region = vis;
-	// update the shape adapters
-	for (Enumeration adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
-	    MapDrawableAdapter mdAdapter = (MapDrawableAdapter) adapters.nextElement();
-	    if (mdAdapter instanceof MapShapeAdapter && region.contains((Shape)mdAdapter.getObject())) {
-		((MapShapeAdapter) mdAdapter).setShapeVisible(show_geo_region);
-	    }
-	} 
-	setIsDrawnMapDrawablesListUpdated(false);
-	update();
+        show_geo_region = vis;
+        // update the shape adapters
+        for (Enumeration adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
+            MapDrawableAdapter mdAdapter = (MapDrawableAdapter) adapters.nextElement();
+            if (mdAdapter instanceof MapShapeAdapter && region.contains((Shape)mdAdapter.getObject())) {
+                ((MapShapeAdapter) mdAdapter).setShapeVisible(show_geo_region);
+            }
+        } 
+        setIsDrawnMapDrawablesListUpdated(false);
+        update();
     }
     
     /**
@@ -876,8 +876,8 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param vis true to display the graticules.
      */
     public void setGraticulesVisible(boolean vis) {
-	show_graticules = vis;
-	update();
+        show_graticules = vis;
+        update();
     }
         
     /**
@@ -886,9 +886,9 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param s spacing between graticules.
      */
     public void setGraticuleSpacing(int s) {
-	spacing = s;
-	update_graticules = true;
-	update();
+        spacing = s;
+        update_graticules = true;
+        update();
     }
         
     /**
@@ -897,46 +897,46 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param sbox bouding box of scaled orthographic bounds.
      */
     public void setScaledBoundingBox(BoundingBox sbox) {
-	orts_box = (BoundingBox)sbox.clone();
-	
-	// Projection will change, so we need to update symbols if they are invariant.
-	if (getInvariantSymbolSize()) {
-	    for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
-		MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
-		if (mda instanceof MapElementAdapter) {
-		    ((MapElementAdapter)mda).invalidateSymbolList();
-		}
-	    }
-	}
-	update();
+        orts_box = (BoundingBox)sbox.clone();
+        
+        // Projection will change, so we need to update symbols if they are invariant.
+        if (getInvariantSymbolSize()) {
+            for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
+                MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
+                if (mda instanceof MapElementAdapter) {
+                    ((MapElementAdapter)mda).invalidateSymbolList();
+                }
+            }
+        }
+        update();
     }
     
     /**
      * Disposes the map window.
      */
     public void doDispose() {
-	mouseMovedTimer.cancel();
-	frame.dispose();
+        mouseMovedTimer.cancel();
+        frame.dispose();
     }
 
     /**
      * Notifies that the grid has to be updated.
      */
     public void setUpdatePVValues() {
-	cell_layer.invalidateDisplayList();
-	if (!grid_based_pv) {
-	    // update the shape adapters
-	    for (Enumeration adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
-		MapDrawableAdapter mdAdapter = (MapDrawableAdapter) adapters.nextElement();
-		if (mdAdapter instanceof MapShapeAdapter && region.contains((Shape)mdAdapter.getObject())) {
-		    double value = cell_layer.getAverageValueForCells((Shape)mdAdapter.getObject());
-		    ((MapShapeAdapter) mdAdapter).setShapeAreaColor(color_map.getMappingColor(value));
-		}
-	    } 
-	}
-	
-	// redraw
-	update();
+        cell_layer.invalidateDisplayList();
+        if (!grid_based_pv) {
+            // update the shape adapters
+            for (Enumeration adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
+                MapDrawableAdapter mdAdapter = (MapDrawableAdapter) adapters.nextElement();
+                if (mdAdapter instanceof MapShapeAdapter && region.contains((Shape)mdAdapter.getObject())) {
+                    double value = cell_layer.getAverageValueForCells((Shape)mdAdapter.getObject());
+                    ((MapShapeAdapter) mdAdapter).setShapeAreaColor(color_map.getMappingColor(value));
+                }
+            } 
+        }
+        
+        // redraw
+        update();
     }
     
     /**
@@ -944,7 +944,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * false otherwise.
      */
     public boolean gridBasedPV() {
-	return grid_based_pv;
+        return grid_based_pv;
     }
 
     /**
@@ -954,14 +954,14 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @return the drawn elements and activities currently under the cursor.
      */
     public Vector mapElementsUnderCursor() {
-	Vector res = new Vector();
-	for(Enumeration e = latestRenderSelection.getTopSelectionObjects().elements(); e.hasMoreElements();) {
-	    Object o = e.nextElement();
-	    if (o instanceof MapElementAdapter) {
-		res.add(((MapElementAdapter) o).getStratmasObject());
-	    }
-	}
-	return res;
+        Vector res = new Vector();
+        for(Enumeration e = latestRenderSelection.getTopSelectionObjects().elements(); e.hasMoreElements();) {
+            Object o = e.nextElement();
+            if (o instanceof MapElementAdapter) {
+                res.add(((MapElementAdapter) o).getStratmasObject());
+            }
+        }
+        return res;
     }
     
     /**
@@ -971,14 +971,14 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @return MapDrawables currently under the cursor on the map.
      */
     public Vector mapDrawableAdaptersUnderCursor() {
-	Vector res = new Vector();
-	for(Enumeration e = latestRenderSelection.getTopSelectionObjects().elements(); e.hasMoreElements();) {
-	    Object o = e.nextElement();
-	    if (o instanceof MapDrawableAdapter) {
-		res.add(o);
-	    }
-	}
-	return res;
+        Vector res = new Vector();
+        for(Enumeration e = latestRenderSelection.getTopSelectionObjects().elements(); e.hasMoreElements();) {
+            Object o = e.nextElement();
+            if (o instanceof MapDrawableAdapter) {
+                res.add(o);
+            }
+        }
+        return res;
     }
     
     /**
@@ -990,14 +990,14 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @return the list of elements.  
      */
     public Vector mapDrawableAdaptersUnderCursor(Class specifiedClass) {
-	Vector res = new Vector();
-	for(Enumeration e = latestRenderSelection.getTopSelectionObjects().elements(); e.hasMoreElements();) {
-	    Object o = e.nextElement();
-	    if (specifiedClass.isInstance(o)) {
-		res.add(o);
-	    }
-	}
-	return res;
+        Vector res = new Vector();
+        for(Enumeration e = latestRenderSelection.getTopSelectionObjects().elements(); e.hasMoreElements();) {
+            Object o = e.nextElement();
+            if (specifiedClass.isInstance(o)) {
+                res.add(o);
+            }
+        }
+        return res;
     }
 
     /**
@@ -1006,49 +1006,49 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param gld needed for OpenGL.
      */
     protected void drawGraph(GLAutoDrawable gld) {
-	GL gl = gld.getGL();
-	// clear the window
-	gl.glClear(GL.GL_COLOR_BUFFER_BIT);
-	// draw pv for each cell
-	if (grid_based_pv && cell_layer != null) {
-	    if (!cell_layer.isDisplayListUpdated()) {
-		cell_layer.updateDisplayList(getProjection(), gld);
-	    }
-	    gl.glCallList(cell_layer.getDisplayList());
-	}
+        GL gl = gld.getGL();
+        // clear the window
+        gl.glClear(GL.GL_COLOR_BUFFER_BIT);
+        // draw pv for each cell
+        if (grid_based_pv && cell_layer != null) {
+            if (!cell_layer.isDisplayListUpdated()) {
+                cell_layer.updateDisplayList(getProjection(), gld);
+            }
+            gl.glCallList(cell_layer.getDisplayList());
+        }
 
-	if (show_graticules) {
-	    // draw graticules
-	    gl.glCallList(graticuleDisplayList);
-	}
-	
-	if (show_elements) {
-	    // draw elements
-	    // Recompile changed elements
-	    Vector toUpdate = mapDrawableAdapterRecompilation;
-	    this.mapDrawableAdapterRecompilation = new Vector();
-	    for(Enumeration e = toUpdate.elements(); e.hasMoreElements();) {
-		MapDrawableAdapter adapter = (MapDrawableAdapter) e.nextElement();
-		int oldDisplayList = adapter.getDisplayList();
-		adapter.reCompile(basicMap.getProjection(), glc);
-		if (oldDisplayList != adapter.getDisplayList()) {
-		    removeMapDrawableDisplayList(oldDisplayList);
-		    addMapDrawableDisplayList(adapter.getDisplayList());
-		}
-	    }
-	    updateDrawnMapDrawablesList();
-	    gl.glCallLists(drawnMapDrawablesListBuf.capacity(), gl.GL_INT, drawnMapDrawablesListBuf);
-	    
-	    if (isShowingSymbolMagnification()) {
-		// magnify drawn elements
-		magnifyElements(gld);
-		// Restore view
-		gl.glMatrixMode(GL.GL_MODELVIEW);
-		gl.glPopMatrix();
-		gl.glMatrixMode(GL.GL_PROJECTION);
-		gl.glPopMatrix();
-	    }
-	}
+        if (show_graticules) {
+            // draw graticules
+            gl.glCallList(graticuleDisplayList);
+        }
+        
+        if (show_elements) {
+            // draw elements
+            // Recompile changed elements
+            Vector toUpdate = mapDrawableAdapterRecompilation;
+            this.mapDrawableAdapterRecompilation = new Vector();
+            for(Enumeration e = toUpdate.elements(); e.hasMoreElements();) {
+                MapDrawableAdapter adapter = (MapDrawableAdapter) e.nextElement();
+                int oldDisplayList = adapter.getDisplayList();
+                adapter.reCompile(basicMap.getProjection(), glc);
+                if (oldDisplayList != adapter.getDisplayList()) {
+                    removeMapDrawableDisplayList(oldDisplayList);
+                    addMapDrawableDisplayList(adapter.getDisplayList());
+                }
+            }
+            updateDrawnMapDrawablesList();
+            gl.glCallLists(drawnMapDrawablesListBuf.capacity(), gl.GL_INT, drawnMapDrawablesListBuf);
+            
+            if (isShowingSymbolMagnification()) {
+                // magnify drawn elements
+                magnifyElements(gld);
+                // Restore view
+                gl.glMatrixMode(GL.GL_MODELVIEW);
+                gl.glPopMatrix();
+                gl.glMatrixMode(GL.GL_PROJECTION);
+                gl.glPopMatrix();
+            }
+        }
     }
     
     /**
@@ -1058,33 +1058,33 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      */
     protected void showSubunits(StratmasObject so)
     {
-	final StratmasObject parent = so;
-	StratmasObjectFilter filter = new StratmasObjectFilter()
-	    {
-		/**
-		 * Returns true if the provided StratmasObject is a
-		 * descendant of parent and not a list and has a type
-		 * that may substitute parents type.
-		 *
-		 * @param sObj the object to test
-		 */
-		public boolean pass(StratmasObject sObj)
-		{
-		    return sObj != null &&
-			(! (sObj instanceof StratmasList)) &&
-			sObj.getType().canSubstitute(parent.getType()) && 
-			(sObj.getParent() != null && sObj.getParent().equals(parent));
-		}
-	    };
-	if (getDrawnMapElementsFilter() instanceof CombinedORFilter) {
-	    ((CombinedORFilter) getDrawnMapElementsFilter()).add(filter);
-	    setDrawnMapElementsFilter(getDrawnMapElementsFilter());
-	} else {
-	    CombinedORFilter orFilter = new CombinedORFilter();
-	    orFilter.add(getDrawnMapElementsFilter());
-	    orFilter.add(filter);
-	    setDrawnMapElementsFilter(orFilter);
-	}
+        final StratmasObject parent = so;
+        StratmasObjectFilter filter = new StratmasObjectFilter()
+            {
+                /**
+                 * Returns true if the provided StratmasObject is a
+                 * descendant of parent and not a list and has a type
+                 * that may substitute parents type.
+                 *
+                 * @param sObj the object to test
+                 */
+                public boolean pass(StratmasObject sObj)
+                {
+                    return sObj != null &&
+                        (! (sObj instanceof StratmasList)) &&
+                        sObj.getType().canSubstitute(parent.getType()) && 
+                        (sObj.getParent() != null && sObj.getParent().equals(parent));
+                }
+            };
+        if (getDrawnMapElementsFilter() instanceof CombinedORFilter) {
+            ((CombinedORFilter) getDrawnMapElementsFilter()).add(filter);
+            setDrawnMapElementsFilter(getDrawnMapElementsFilter());
+        } else {
+            CombinedORFilter orFilter = new CombinedORFilter();
+            orFilter.add(getDrawnMapElementsFilter());
+            orFilter.add(filter);
+            setDrawnMapElementsFilter(orFilter);
+        }
     }
     
     /**
@@ -1095,7 +1095,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param flag
      */
     void setShowingSymbolMagnification(boolean flag) {
-	this.showingSymbolMagnification = flag;
+        this.showingSymbolMagnification = flag;
     }
 
     /**
@@ -1104,14 +1104,14 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param scale
      */
     void setMagnifierSizeScale(double scale) {
-	this.magnifierSizeScale = scale;
+        this.magnifierSizeScale = scale;
     }
 
     /**
      * Returns the number of step the size of the magnifier panel is animated in.
      */
     int getMagnifierSizeSteps() {
-	return this.magnifierSizeSteps;
+        return this.magnifierSizeSteps;
     }
 
     /**
@@ -1119,28 +1119,28 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * currently rendered under the cursor should be drawn.
      */
     boolean isShowingSymbolMagnification() {
-	return this.showingSymbolMagnification;
+        return this.showingSymbolMagnification;
     }
 
     /**
      * Returns true if the symbol magnifier is enabled.
      */
     public boolean isEnabledSymbolMagnifier() {
-	return this.isEnabledSymbolMagnifier;
+        return this.isEnabledSymbolMagnifier;
     }
 
     /**
      * Sets whether the symbol magnifier should be enabled or not.
      */
     public void setIsEnabledSymbolMagnifier(boolean flag) {
-	this.isEnabledSymbolMagnifier = flag;
+        this.isEnabledSymbolMagnifier = flag;
     }
 
     /**
      * Returns true if the location drawing is enabled.
      */
     public boolean isEnabledLocation() {
-	return this.showLocation;
+        return this.showLocation;
     }
 
     /**
@@ -1149,16 +1149,16 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param flag the flag
      */
     public void setIsEnabledLocation(boolean flag) {
-	if (this.showLocation != flag) {
-	    this.showLocation = flag;
-	    for (Enumeration adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
-		MapDrawableAdapter mdAdapter = (MapDrawableAdapter) adapters.nextElement();
-		if (mdAdapter instanceof MapElementAdapter) {
-		    ((MapElementAdapter) mdAdapter).setDrawLocation(flag);
-		}
-	    }
-	    update();
-	}
+        if (this.showLocation != flag) {
+            this.showLocation = flag;
+            for (Enumeration adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
+                MapDrawableAdapter mdAdapter = (MapDrawableAdapter) adapters.nextElement();
+                if (mdAdapter instanceof MapElementAdapter) {
+                    ((MapElementAdapter) mdAdapter).setDrawLocation(flag);
+                }
+            }
+            update();
+        }
     }
 
     /**
@@ -1168,22 +1168,22 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param type the type of the object.
      */
     public void setIsEnabledLocation(boolean flag, Type type) {
-	for (Enumeration adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
-	    MapDrawableAdapter mdAdapter = (MapDrawableAdapter) adapters.nextElement();
-	    if (mdAdapter.getObject().getType().canSubstitute(type)) {
-		if (mdAdapter instanceof MapElementAdapter) {
-		    ((MapElementAdapter) mdAdapter).setDrawLocation(flag);
-		}
-	    }
-	}
-	update();
+        for (Enumeration adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
+            MapDrawableAdapter mdAdapter = (MapDrawableAdapter) adapters.nextElement();
+            if (mdAdapter.getObject().getType().canSubstitute(type)) {
+                if (mdAdapter instanceof MapElementAdapter) {
+                    ((MapElementAdapter) mdAdapter).setDrawLocation(flag);
+                }
+            }
+        }
+        update();
     }
     
     /**
      * Returns true if the location outline drawing is enabled.
      */
     public boolean isEnabledOutline() {
-	return this.showOutline;
+        return this.showOutline;
     }
 
     /**
@@ -1192,16 +1192,16 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param flag the flag
      */
     public void setIsEnabledOutline(boolean flag) {
-	if (this.showOutline != flag) {
-	    this.showOutline = flag;
-	    for (Enumeration adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
-		MapDrawableAdapter mdAdapter = (MapDrawableAdapter) adapters.nextElement();
-		if (mdAdapter instanceof MapElementAdapter) {
-		    ((MapElementAdapter) mdAdapter).setDrawLocationOutline(flag);
-		}
-	    }
-	    update();
-	}
+        if (this.showOutline != flag) {
+            this.showOutline = flag;
+            for (Enumeration adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
+                MapDrawableAdapter mdAdapter = (MapDrawableAdapter) adapters.nextElement();
+                if (mdAdapter instanceof MapElementAdapter) {
+                    ((MapElementAdapter) mdAdapter).setDrawLocationOutline(flag);
+                }
+            }
+            update();
+        }
     }
     
     /**
@@ -1211,109 +1211,109 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param type the type of the object.
      */
     public void setIsEnabledOutline(boolean flag, Type type) {
-	for (Enumeration adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
-	    MapDrawableAdapter mdAdapter = (MapDrawableAdapter) adapters.nextElement();
-	    if (mdAdapter.getObject().getType().canSubstitute(type)) {
-		if (mdAdapter instanceof MapElementAdapter) {
-		    ((MapElementAdapter) mdAdapter).setDrawLocationOutline(flag);
-		}
-	    }
-	}
-	update();
+        for (Enumeration adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
+            MapDrawableAdapter mdAdapter = (MapDrawableAdapter) adapters.nextElement();
+            if (mdAdapter.getObject().getType().canSubstitute(type)) {
+                if (mdAdapter instanceof MapElementAdapter) {
+                    ((MapElementAdapter) mdAdapter).setDrawLocationOutline(flag);
+                }
+            }
+        }
+        update();
     }
     
     /**
      * Update the list representing which drawables should be drawn
      */
     public void updateDrawnMapDrawablesList() {
-	if (!isDrawnMapDrawablesListUpdated()) {
-	    // Get all mapDrawableAdapters that should be drawn
-	    Vector v = this.drawnMapElementsFilter.filter(mapDrawableAdapters.elements());
-	    // add selected element
-	    for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements(); ) {
-		MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
-		if (mda instanceof MapElementAdapter) {
-		    MapElementAdapter mea = (MapElementAdapter)mda;
-		    if (mea.isSelected() && !v.contains(mea)) {
-			v.add(mea);
-		    }
-		}
-	    }
-	    // update activities with connection arrows
-	    for (Enumeration e = v.elements(); e.hasMoreElements(); ) {
-		MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
-		if (mda instanceof MapActivityAdapter) {
-		    MapActivityAdapter maa = (MapActivityAdapter)mda;
-		    if (maa.getOwner() != null && v.contains(getMapElementAdapter(maa.getOwner()))) {
-			maa.setArrowDisplayed(true);
-		    }
-		    else {
-			maa.setArrowDisplayed(false);
-		    }
-		    maa.reCompile(getProjection(), glc);
-		}
-	    }
-	    // update the list with the shapes
-	    if (show_geo_region || !grid_based_pv) {
-		for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements(); ) {
-		    MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
-		    if (mda instanceof MapShapeAdapter && region.contains((Shape)mda.getObject())) {
-			v.add((MapShapeAdapter)mda);
-		    }
-		}
-	    }
-	    
-	    // Sort the elements
-	    java.util.Collections.sort(v, mapDrawableAdapterComparator);
-	    int[] res = new int[v.size()];
-	    for (int i = 0; i < res.length; i++) {
-		MapDrawableAdapter mda = (MapDrawableAdapter) v.get(i);
-		res[i] = mda.getDisplayList();
-	    }
-	    // update the list of the drawn elements
-	    drawnMapDrawablesListBuf = BufferUtil.newIntBuffer(res.length);
-	    drawnMapDrawablesListBuf.put(res);
-	    drawnMapDrawablesListBuf.rewind();
-	    isDrawnMapDrawablesListUpdated = true;
-	}
+        if (!isDrawnMapDrawablesListUpdated()) {
+            // Get all mapDrawableAdapters that should be drawn
+            Vector v = this.drawnMapElementsFilter.filter(mapDrawableAdapters.elements());
+            // add selected element
+            for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements(); ) {
+                MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
+                if (mda instanceof MapElementAdapter) {
+                    MapElementAdapter mea = (MapElementAdapter)mda;
+                    if (mea.isSelected() && !v.contains(mea)) {
+                        v.add(mea);
+                    }
+                }
+            }
+            // update activities with connection arrows
+            for (Enumeration e = v.elements(); e.hasMoreElements(); ) {
+                MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
+                if (mda instanceof MapActivityAdapter) {
+                    MapActivityAdapter maa = (MapActivityAdapter)mda;
+                    if (maa.getOwner() != null && v.contains(getMapElementAdapter(maa.getOwner()))) {
+                        maa.setArrowDisplayed(true);
+                    }
+                    else {
+                        maa.setArrowDisplayed(false);
+                    }
+                    maa.reCompile(getProjection(), glc);
+                }
+            }
+            // update the list with the shapes
+            if (show_geo_region || !grid_based_pv) {
+                for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements(); ) {
+                    MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
+                    if (mda instanceof MapShapeAdapter && region.contains((Shape)mda.getObject())) {
+                        v.add((MapShapeAdapter)mda);
+                    }
+                }
+            }
+            
+            // Sort the elements
+            java.util.Collections.sort(v, mapDrawableAdapterComparator);
+            int[] res = new int[v.size()];
+            for (int i = 0; i < res.length; i++) {
+                MapDrawableAdapter mda = (MapDrawableAdapter) v.get(i);
+                res[i] = mda.getDisplayList();
+            }
+            // update the list of the drawn elements
+            drawnMapDrawablesListBuf = BufferUtil.newIntBuffer(res.length);
+            drawnMapDrawablesListBuf.put(res);
+            drawnMapDrawablesListBuf.rewind();
+            isDrawnMapDrawablesListUpdated = true;
+        }
     }
     
     /**
      * Adds a new MapDrawableAdapter to this map.
      */
     protected MapDrawableAdapter addMapDrawableAdapter(StratmasObject mapDrawable) {
-	MapDrawableAdapter drawableAdapter = MapDrawableAdapter.getMapDrawableAdapter(mapDrawable);
-	int renderSelectionName = getNewRenderSelectionName(drawableAdapter.getNrOfRenderSelectionNames());
-	drawableAdapter.setRenderSelectionName(renderSelectionName);
-	synchronized (mapDrawableAdapters) {
-	    mapDrawableAdapters.put(mapDrawable, drawableAdapter);
-	}
-	
-	if (drawableAdapter instanceof MapElementAdapter) {
-	    ((MapElementAdapter)drawableAdapter).setSymbolOpacity(getSymbolOpacity());
-	    ((MapElementAdapter)drawableAdapter).setSymbolScale(getSymbolScale());
-	    ((MapElementAdapter)drawableAdapter).setLocationOpacity(getLocationOpacity());
-	    ((MapElementAdapter)drawableAdapter).setDrawLocation(isEnabledLocation());
-	    ((MapElementAdapter)drawableAdapter).setDrawLocationOutline(isEnabledOutline());
-	    ((MapElementAdapter)drawableAdapter).setInvariantSymbolSize(getInvariantSymbolSize());
-	}
-	if (drawableAdapter instanceof ElementAdapter) {
-	    ((ElementAdapter)drawableAdapter).setIgnorePresent(getIgnorePresent());
-	}
-	if (drawableAdapter instanceof PopulationAdapter) {
-	    ((PopulationAdapter) drawableAdapter).setDrawElementName(getShowPopulationNames());
-	}
-	
-	renderSelectionNames.put(new Integer(renderSelectionName), drawableAdapter);
-	drawableAdapter.addMapDrawableAdapterListener(this);
-	synchronized (mapDrawableAdapterRecompilation) {
-	    mapDrawableAdapterRecompilation.add(drawableAdapter);
-	}
-	
-	addMapDrawableDisplayList(drawableAdapter.getDisplayList());
-	setIsDrawnMapDrawablesListUpdated(false);
+        MapDrawableAdapter drawableAdapter = MapDrawableAdapter.getMapDrawableAdapter(mapDrawable);
+        int renderSelectionName = getNewRenderSelectionName(drawableAdapter.getNrOfRenderSelectionNames());
+        drawableAdapter.setRenderSelectionName(renderSelectionName);
+        synchronized (mapDrawableAdapters) {
+            mapDrawableAdapters.put(mapDrawable, drawableAdapter);
+        }
+        
+        if (drawableAdapter instanceof MapElementAdapter) {
+            ((MapElementAdapter)drawableAdapter).setSymbolOpacity(getSymbolOpacity());
+            ((MapElementAdapter)drawableAdapter).setSymbolScale(getSymbolScale());
+            ((MapElementAdapter)drawableAdapter).setLocationOpacity(getLocationOpacity());
+            ((MapElementAdapter)drawableAdapter).setDrawLocation(isEnabledLocation());
+            ((MapElementAdapter)drawableAdapter).setDrawLocationOutline(isEnabledOutline());
+            ((MapElementAdapter)drawableAdapter).setInvariantSymbolSize(getInvariantSymbolSize());
+        }
+        if (drawableAdapter instanceof ElementAdapter) {
+            ((ElementAdapter)drawableAdapter).setIgnorePresent(getIgnorePresent());
+        }
+        if (drawableAdapter instanceof PopulationAdapter) {
+            ((PopulationAdapter) drawableAdapter).setDrawElementName(getShowPopulationNames());
+        }
+        
+        renderSelectionNames.put(new Integer(renderSelectionName), drawableAdapter);
+        drawableAdapter.addMapDrawableAdapterListener(this);
+        synchronized (mapDrawableAdapterRecompilation) {
+            mapDrawableAdapterRecompilation.add(drawableAdapter);
+        }
+        
+        addMapDrawableDisplayList(drawableAdapter.getDisplayList());
+        setIsDrawnMapDrawablesListUpdated(false);
 
-	return drawableAdapter;
+        return drawableAdapter;
     }
 
     /**
@@ -1322,22 +1322,22 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param flag true if population names should be shown.
      */
     public void setShowPopulationNames(boolean flag) {
-	if (getShowPopulationNames() != flag) {
-	    this.showPopulationNames = flag;
-	    for (Enumeration e = (new TypeFilter(TypeFactory.getType("Population"))).
-		     filter(mapDrawableAdapters.elements()).elements(); 
-		 e.hasMoreElements();) {
-		((PopulationAdapter) e.nextElement()).setDrawElementName(getShowPopulationNames());
-	    }
-	    update();
-	}
+        if (getShowPopulationNames() != flag) {
+            this.showPopulationNames = flag;
+            for (Enumeration e = (new TypeFilter(TypeFactory.getType("Population"))).
+                     filter(mapDrawableAdapters.elements()).elements(); 
+                 e.hasMoreElements();) {
+                ((PopulationAdapter) e.nextElement()).setDrawElementName(getShowPopulationNames());
+            }
+            update();
+        }
     }
 
     /**
      * Returns true if names of populations are drawn.
      */
     public boolean getShowPopulationNames() {
-	return this.showPopulationNames;
+        return this.showPopulationNames;
     }
 
     /**
@@ -1346,23 +1346,23 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param flag true if symbol-size should be invariant.
      */
     public void setInvariantSymbolSize(boolean flag) {
-	if (getInvariantSymbolSize() != flag) {
-	    this.invariantSymbolSize = flag;
-	    for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
-		MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
-		if (mda instanceof MapElementAdapter) {
-		    ((MapElementAdapter) mda).setInvariantSymbolSize(flag);
-		}
-	    }
-	    update();
-	}
+        if (getInvariantSymbolSize() != flag) {
+            this.invariantSymbolSize = flag;
+            for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
+                MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
+                if (mda instanceof MapElementAdapter) {
+                    ((MapElementAdapter) mda).setInvariantSymbolSize(flag);
+                }
+            }
+            update();
+        }
     }
 
     /**
      * Returns true if symbol-size should be invariant with regard to map scale.
      */
     public boolean getInvariantSymbolSize() {
-	return this.invariantSymbolSize;
+        return this.invariantSymbolSize;
     }
 
     /**
@@ -1372,22 +1372,22 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param symbolOpacity the new opacity.
      */
     public void setSymbolOpacity(double symbolOpacity) {
-	if (this.symbolOpacity != symbolOpacity) {
-	    this.symbolOpacity = symbolOpacity;
-	    for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
-		MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
-		if (mda instanceof MapElementAdapter) {
-		    ((MapElementAdapter) mda).setSymbolOpacity(getSymbolOpacity());
-		}
-	    }
-	}
+        if (this.symbolOpacity != symbolOpacity) {
+            this.symbolOpacity = symbolOpacity;
+            for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
+                MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
+                if (mda instanceof MapElementAdapter) {
+                    ((MapElementAdapter) mda).setSymbolOpacity(getSymbolOpacity());
+                }
+            }
+        }
     }
 
     /**
      * Returns the symbol opacity of this MapElementAdapter.
      */
     public double getSymbolOpacity() {
-	return this.symbolOpacity;
+        return this.symbolOpacity;
     }
 
     /**
@@ -1397,30 +1397,30 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param symbolScale the new opacity.
      */
     public void setSymbolScale(double symbolScale) {
-	if (this.symbolScale != symbolScale) {
-	    this.symbolScale = symbolScale;
-	    for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
-		MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
-		if (mda instanceof MapElementAdapter) {
-		    ((MapElementAdapter) mda).setSymbolScale(getSymbolScale());
-		}
-	    }
-	    update();
-	}
+        if (this.symbolScale != symbolScale) {
+            this.symbolScale = symbolScale;
+            for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
+                MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
+                if (mda instanceof MapElementAdapter) {
+                    ((MapElementAdapter) mda).setSymbolScale(getSymbolScale());
+                }
+            }
+            update();
+        }
     }
 
     /**
      * Returns the symbol scale of this MapElementAdapter.
      */
     public double getSymbolScale() {
-	return this.symbolScale;
+        return this.symbolScale;
     }
 
     /**
      * Returns the symbol opacity of this MapElementAdapter.
      */
     public double getLocationOpacity() {
-	return this.locationOpacity;
+        return this.locationOpacity;
     }
 
     /**
@@ -1430,15 +1430,15 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param locationOpacity the new opacity.
      */
     public void setLocationOpacity(double locationOpacity) {
-	if (this.locationOpacity != locationOpacity) {
-	    this.locationOpacity = locationOpacity;
-	    for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
-		MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
-		if (mda instanceof MapElementAdapter) {
-		    ((MapElementAdapter) mda).setLocationOpacity(getLocationOpacity());
-		}
-	    }
-	}
+        if (this.locationOpacity != locationOpacity) {
+            this.locationOpacity = locationOpacity;
+            for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
+                MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
+                if (mda instanceof MapElementAdapter) {
+                    ((MapElementAdapter) mda).setLocationOpacity(getLocationOpacity());
+                }
+            }
+        }
     }
 
     /**
@@ -1447,23 +1447,23 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param flag true if always draw.
      */
     protected void setIgnorePresent(boolean flag) {
-	if (flag != getIgnorePresent()) {
-	    this.ignorePresent = flag;
-	    for (Enumeration adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
-		MapDrawableAdapter adapter = (MapDrawableAdapter)adapters.nextElement();
-		if (adapter instanceof ElementAdapter) {
-		    ((ElementAdapter)adapter).setIgnorePresent(getIgnorePresent());
-		}
-	    }
-	    update();
-	}
+        if (flag != getIgnorePresent()) {
+            this.ignorePresent = flag;
+            for (Enumeration adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
+                MapDrawableAdapter adapter = (MapDrawableAdapter)adapters.nextElement();
+                if (adapter instanceof ElementAdapter) {
+                    ((ElementAdapter)adapter).setIgnorePresent(getIgnorePresent());
+                }
+            }
+            update();
+        }
     }
     
     /**
      * Returns true if  adapters always draw element, present or not
      */
     protected boolean getIgnorePresent() {
-	return this.ignorePresent;
+        return this.ignorePresent;
     }
 
     /**
@@ -1472,249 +1472,249 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param gld the GL context.
      */
     void screenShot(GLAutoDrawable gld) {
-	doScreenShot = false;
-	// Try shooting the screen.
-	try {
-	    GLScreenShotHandler.doGLScreenShot(gld);
-	} catch (RuntimeException e) {
+        doScreenShot = false;
+        // Try shooting the screen.
+        try {
+            GLScreenShotHandler.doGLScreenShot(gld);
+        } catch (RuntimeException e) {
 
-	    throw e;
-	}
+            throw e;
+        }
     }
 
     /**
      * Returns true if screenshot has been requested since the last redraw.
      */
     protected boolean doScreenShot() {
-	return this.doScreenShot;
+        return this.doScreenShot;
     }
     
     /**
      * Requests that a screenshot should be made.
      */
     public void setDoScreenShot() {
-	doScreenShot = true;
-	glc.validate();
-	glc.repaint(10);
+        doScreenShot = true;
+        glc.validate();
+        glc.repaint(10);
     }
 
     /**
      * Indicates that screenshot is finished.
      */
     protected void unSetDoScreenShot() {
-	doScreenShot = false;
+        doScreenShot = false;
     }
 
     /**
      * This method is used to magnify symbols currenly drawn on the map.
      */
     protected void magnifyElements(GLAutoDrawable gld) {
-	GL gl = gld.getGL();
-	Vector elements = mapDrawableAdaptersUnderCursor(MapElementAdapter.class);
-	if (elements.size() > 0) {
-	    // Draws a magnification of the symbols under the cursor
-	    
-	    // Some constants (at least presently...).
-	    double hTileSize = 50;
-	    double vTileSize = 50;
-	    
-	    double hTileSpacing = 5;
-	    double vTileSpacing = 5;
-	    int textLines = 4;
-	    double vTextSize = 10;
-	    double vTextSpace = textLines * vTextSize;
-	    // 104.76 is the GLUT monospace font width. 119.05
-	    // + 33.33 is the maximal height of the GLUT
-	    // monospace font.
-	    int charsPerLine = (int) (hTileSize / (104.76*vTextSize/(119.05 + 33.33)));
-	    
-	    double hSubPanelSize = hTileSize + hTileSpacing * 2;
-	    double vSubPanelSize = vTileSize + vTileSpacing + vTextSpace;
-	    
-	    int[] viewport = new int[4];
-	    gl.glGetIntegerv(GL.GL_VIEWPORT, viewport, 0);
-	    
-	    // Decide layout. 
-	    double aspectRatio = ((double) viewport[2]) / ((double) viewport[3]);
-	    double subPanelSizeRatio = hSubPanelSize / vSubPanelSize;
-	    
-	    int hTiles = (int) (Math.round(Math.sqrt((double) elements.size()) * aspectRatio / subPanelSizeRatio));		    
-	    hTiles = hTiles != 0 ? hTiles : 1;
-	    hTiles = hTiles > elements.size() ? elements.size() : hTiles;
-	    int vTiles = elements.size() / hTiles + 
-		(elements.size() % hTiles == 0 ? 0 : 1);
-	    
-	    double hPanelSize = hTiles * hSubPanelSize;
-	    double vPanelSize = vTiles * vSubPanelSize;
-	    
-	    gl.glMatrixMode(GL.GL_PROJECTION); 
-	    
-	    double symbolScale = 1.0d;
-	    if (getInvariantSymbolSize()) {
-		DoubleBuffer buf = BufferUtil.newDoubleBuffer(16);
-		gl.glGetDoublev(GL.GL_PROJECTION_MATRIX, buf);
-		symbolScale = 0.000004d/buf.get(0);
-	    }
-	    
-	    gl.glPushMatrix();
-	    gl.glLoadIdentity();
-	    
-	    glu.gluOrtho2D(0 - hPanelSize/2, 
-			   0 + hPanelSize/2, 
-			   0 - vPanelSize/2,
-			   0 + vPanelSize/2);
-	    
-	    double scale = this.magnifierSizeScale * 0.5d;
-	    if (vTiles <= hTiles) {
-		gl.glScaled(scale, scale * (vPanelSize/hPanelSize) * (((double) viewport[2])/((double) viewport[3])), 1.0d);
-	    } else {
-		gl.glScaled(scale * (hPanelSize/vPanelSize) * (((double) viewport[3])/((double) viewport[2])), scale, 1.0d);
-	    }
-	    
-	    // Extra bells and whistles
-	    //gl.glRotated((1.0d - this.magnifierSizeScale) * 180.0, 0.0d, 0.0d, 1.0d);
+        GL gl = gld.getGL();
+        Vector elements = mapDrawableAdaptersUnderCursor(MapElementAdapter.class);
+        if (elements.size() > 0) {
+            // Draws a magnification of the symbols under the cursor
+            
+            // Some constants (at least presently...).
+            double hTileSize = 50;
+            double vTileSize = 50;
+            
+            double hTileSpacing = 5;
+            double vTileSpacing = 5;
+            int textLines = 4;
+            double vTextSize = 10;
+            double vTextSpace = textLines * vTextSize;
+            // 104.76 is the GLUT monospace font width. 119.05
+            // + 33.33 is the maximal height of the GLUT
+            // monospace font.
+            int charsPerLine = (int) (hTileSize / (104.76*vTextSize/(119.05 + 33.33)));
+            
+            double hSubPanelSize = hTileSize + hTileSpacing * 2;
+            double vSubPanelSize = vTileSize + vTileSpacing + vTextSpace;
+            
+            int[] viewport = new int[4];
+            gl.glGetIntegerv(GL.GL_VIEWPORT, viewport, 0);
+            
+            // Decide layout. 
+            double aspectRatio = ((double) viewport[2]) / ((double) viewport[3]);
+            double subPanelSizeRatio = hSubPanelSize / vSubPanelSize;
+            
+            int hTiles = (int) (Math.round(Math.sqrt((double) elements.size()) * aspectRatio / subPanelSizeRatio));                    
+            hTiles = hTiles != 0 ? hTiles : 1;
+            hTiles = hTiles > elements.size() ? elements.size() : hTiles;
+            int vTiles = elements.size() / hTiles + 
+                (elements.size() % hTiles == 0 ? 0 : 1);
+            
+            double hPanelSize = hTiles * hSubPanelSize;
+            double vPanelSize = vTiles * vSubPanelSize;
+            
+            gl.glMatrixMode(GL.GL_PROJECTION); 
+            
+            double symbolScale = 1.0d;
+            if (getInvariantSymbolSize()) {
+                DoubleBuffer buf = BufferUtil.newDoubleBuffer(16);
+                gl.glGetDoublev(GL.GL_PROJECTION_MATRIX, buf);
+                symbolScale = 0.000004d/buf.get(0);
+            }
+            
+            gl.glPushMatrix();
+            gl.glLoadIdentity();
+            
+            glu.gluOrtho2D(0 - hPanelSize/2, 
+                           0 + hPanelSize/2, 
+                           0 - vPanelSize/2,
+                           0 + vPanelSize/2);
+            
+            double scale = this.magnifierSizeScale * 0.5d;
+            if (vTiles <= hTiles) {
+                gl.glScaled(scale, scale * (vPanelSize/hPanelSize) * (((double) viewport[2])/((double) viewport[3])), 1.0d);
+            } else {
+                gl.glScaled(scale * (hPanelSize/vPanelSize) * (((double) viewport[3])/((double) viewport[2])), scale, 1.0d);
+            }
+            
+            // Extra bells and whistles
+            //gl.glRotated((1.0d - this.magnifierSizeScale) * 180.0, 0.0d, 0.0d, 1.0d);
 
-	    gl.glMatrixMode(GL.GL_MODELVIEW); 
-	    gl.glPushMatrix();
-	    gl.glLoadIdentity();
-	    gl.glTranslated(-hPanelSize/2, -vPanelSize/2, 0);
-	    
-	    gl.glColor4d(1.0d, 1.0d, 1.0d, 0.2d);
-	    gl.glRectd(0, 0, hPanelSize, vPanelSize);
-	    
-	    Enumeration e = elements.elements();
-	    GLUT glut = new GLUT();
-	    for (int i = (vTiles - 1); i >= 0 && e.hasMoreElements(); i--) {
-		for (int j = 0; j < hTiles && e.hasMoreElements(); j++) {
-		    MapDrawableAdapter drawableAdapter = (MapDrawableAdapter) e.nextElement();
-		    if (drawableAdapter instanceof MapElementAdapter) {
-			MapElementAdapter elementAdapter = (MapElementAdapter) drawableAdapter;
-			// Position on tile.
-			gl.glMatrixMode(GL.GL_MODELVIEW);
-			gl.glPushMatrix();
-			gl.glTranslated(j * hSubPanelSize,
-					i * vSubPanelSize,
-					0.0d);
-			
-			// Draw tile background.
-			//gl.glColor4d(1.0d, 1.0d, 1.0d, 0.4d);
-			gl.glColor4d(1.0d, 1.0d, 1.0d, 0.4 + 0.6*(1.0 - getSymbolOpacity()));
-			gl.glRectd(hTileSpacing, vTileSpacing, 
-				   hSubPanelSize - hTileSpacing, 
-				   vSubPanelSize - vTileSpacing);
-		    
-			// Scale and draw symbol.
-			gl.glMatrixMode(GL.GL_MODELVIEW);	
-			gl.glPushMatrix();
-			// Symbols are drawn from center...
-			gl.glTranslated(hSubPanelSize/2, vTextSpace + vTileSize/2, 0);
-			
-			gl.glScaled(hTileSize/(elementAdapter.getHorizontalSymbolSize() * 
-					       elementAdapter.getSymbolScale()*symbolScale),
-				    hTileSize/(elementAdapter.getVerticalSymbolSize() * 
-					       elementAdapter.getSymbolScale()*symbolScale),
-				    1.0d);
-			
-			// Draw symbol.
-			gl.glCallList(elementAdapter.getSymbolDisplayList());
-			
-			gl.glMatrixMode(GL.GL_MODELVIEW);
-			gl.glPopMatrix();
-			
-			// Draw name of element. Check
-			// comments above for the meaning of
-			// the constants.
-			gl.glMatrixMode(GL.GL_MODELVIEW);
-			gl.glPushMatrix();
-			gl.glTranslated(hTileSpacing, vTextSpace - vTileSpacing, 0);
-			gl.glScaled(vTextSize/(119.05 + 33.33), 
-				    vTextSize/(119.05 + 33.33),
-				    1.0);
-			gl.glColor4d(0.0d, 0.0d, 0.0d, 1.0d);
-	
-			// Do not draw name if this is a population
-			// adapter and we show population names, since
-			// the name will then be a part of the symbol.
-			if (!(elementAdapter instanceof PopulationAdapter && getShowPopulationNames())) {
-			    try {
-				String str = elementAdapter.getGLUTIDString();
-				for (int k = 0; k < textLines && k * charsPerLine <= str.length(); k++) {
-				    if ((k + 1) * charsPerLine < str.length()) {
-					glut.glutStrokeString(GLUT.STROKE_MONO_ROMAN, 
-							      str.substring(k*charsPerLine, (k + 1)*charsPerLine));
-				    } else {
-					glut.glutStrokeString(GLUT.STROKE_MONO_ROMAN, 
-							      str.substring(k*charsPerLine, str.length()));
-				    }    
-				    gl.glTranslated(-(charsPerLine * 104.76d), -(119.05 + 33.33), 0.0);
-				}
-				
-			    } catch (UnsupportedEncodingException ex) {
-				Debug.err.println(ex.toString());
-			    }
-			}
-			gl.glMatrixMode(GL.GL_MODELVIEW);
-			gl.glPopMatrix();
-			
-			gl.glMatrixMode(GL.GL_MODELVIEW);
-			gl.glPopMatrix();
-		    }
-		}
-	    }
-	}
+            gl.glMatrixMode(GL.GL_MODELVIEW); 
+            gl.glPushMatrix();
+            gl.glLoadIdentity();
+            gl.glTranslated(-hPanelSize/2, -vPanelSize/2, 0);
+            
+            gl.glColor4d(1.0d, 1.0d, 1.0d, 0.2d);
+            gl.glRectd(0, 0, hPanelSize, vPanelSize);
+            
+            Enumeration e = elements.elements();
+            GLUT glut = new GLUT();
+            for (int i = (vTiles - 1); i >= 0 && e.hasMoreElements(); i--) {
+                for (int j = 0; j < hTiles && e.hasMoreElements(); j++) {
+                    MapDrawableAdapter drawableAdapter = (MapDrawableAdapter) e.nextElement();
+                    if (drawableAdapter instanceof MapElementAdapter) {
+                        MapElementAdapter elementAdapter = (MapElementAdapter) drawableAdapter;
+                        // Position on tile.
+                        gl.glMatrixMode(GL.GL_MODELVIEW);
+                        gl.glPushMatrix();
+                        gl.glTranslated(j * hSubPanelSize,
+                                        i * vSubPanelSize,
+                                        0.0d);
+                        
+                        // Draw tile background.
+                        //gl.glColor4d(1.0d, 1.0d, 1.0d, 0.4d);
+                        gl.glColor4d(1.0d, 1.0d, 1.0d, 0.4 + 0.6*(1.0 - getSymbolOpacity()));
+                        gl.glRectd(hTileSpacing, vTileSpacing, 
+                                   hSubPanelSize - hTileSpacing, 
+                                   vSubPanelSize - vTileSpacing);
+                    
+                        // Scale and draw symbol.
+                        gl.glMatrixMode(GL.GL_MODELVIEW);        
+                        gl.glPushMatrix();
+                        // Symbols are drawn from center...
+                        gl.glTranslated(hSubPanelSize/2, vTextSpace + vTileSize/2, 0);
+                        
+                        gl.glScaled(hTileSize/(elementAdapter.getHorizontalSymbolSize() * 
+                                               elementAdapter.getSymbolScale()*symbolScale),
+                                    hTileSize/(elementAdapter.getVerticalSymbolSize() * 
+                                               elementAdapter.getSymbolScale()*symbolScale),
+                                    1.0d);
+                        
+                        // Draw symbol.
+                        gl.glCallList(elementAdapter.getSymbolDisplayList());
+                        
+                        gl.glMatrixMode(GL.GL_MODELVIEW);
+                        gl.glPopMatrix();
+                        
+                        // Draw name of element. Check
+                        // comments above for the meaning of
+                        // the constants.
+                        gl.glMatrixMode(GL.GL_MODELVIEW);
+                        gl.glPushMatrix();
+                        gl.glTranslated(hTileSpacing, vTextSpace - vTileSpacing, 0);
+                        gl.glScaled(vTextSize/(119.05 + 33.33), 
+                                    vTextSize/(119.05 + 33.33),
+                                    1.0);
+                        gl.glColor4d(0.0d, 0.0d, 0.0d, 1.0d);
+        
+                        // Do not draw name if this is a population
+                        // adapter and we show population names, since
+                        // the name will then be a part of the symbol.
+                        if (!(elementAdapter instanceof PopulationAdapter && getShowPopulationNames())) {
+                            try {
+                                String str = elementAdapter.getGLUTIDString();
+                                for (int k = 0; k < textLines && k * charsPerLine <= str.length(); k++) {
+                                    if ((k + 1) * charsPerLine < str.length()) {
+                                        glut.glutStrokeString(GLUT.STROKE_MONO_ROMAN, 
+                                                              str.substring(k*charsPerLine, (k + 1)*charsPerLine));
+                                    } else {
+                                        glut.glutStrokeString(GLUT.STROKE_MONO_ROMAN, 
+                                                              str.substring(k*charsPerLine, str.length()));
+                                    }    
+                                    gl.glTranslated(-(charsPerLine * 104.76d), -(119.05 + 33.33), 0.0);
+                                }
+                                
+                            } catch (UnsupportedEncodingException ex) {
+                                Debug.err.println(ex.toString());
+                            }
+                        }
+                        gl.glMatrixMode(GL.GL_MODELVIEW);
+                        gl.glPopMatrix();
+                        
+                        gl.glMatrixMode(GL.GL_MODELVIEW);
+                        gl.glPopMatrix();
+                    }
+                }
+            }
+        }
     }
     
     /**
      * Imports all elements and activities to the map.
      */
     public void importMapElements() {
-	// Find the element-list in the scenario. Import all elements
-	// from that list and then add a listener that imports any
-	// additional elements added to elements
-	TypeFilter filter = new TypeFilter(TypeFactory.getType("Scenario"), true);
-	for (Enumeration e = filter.filterTree(basicMap.getClient().getRootObject()); e.hasMoreElements();) {
-	    StratmasObject scenario = (StratmasObject) e.nextElement();
-	    // Find lists that may generate new Elements and put a listener on it.
-	    for (Enumeration ee = scenario.children(); ee.hasMoreElements();) {
-		StratmasObject candidate = (StratmasObject) ee.nextElement();
-		if (candidate.getType().canSubstitute("Element") || candidate.getType().canSubstitute("Activity")) {
-		    if (candidate instanceof StratmasList) {
-			// Add any current elements and add a listener that imports any consequent ones.
-			for (Enumeration le = candidate.children(); le.hasMoreElements();) {
-			    addMapDrawable((StratmasObject) le.nextElement());
-			}
-			candidate.addEventListener(new StratmasEventListener()
-			    {
-				public void eventOccured(StratmasEvent subEvent)
-				{
-				    if (subEvent.isObjectAdded()) {
-					addMapDrawable((StratmasObject)subEvent.getArgument());
-				    } 
-				    else if (subEvent.isRemoved()) {
-					((StratmasObject) subEvent.getSource()).removeEventListener(this);
-				    } 
-				    else if (subEvent.isReplaced()) {
-					// UNTESTED - the replace code is untested 2005-09-22
-					Debug.err.println("FIXME - Replace behavior untested in MapDrawer");
-					((StratmasObject)subEvent.getSource()).removeEventListener(this);
-					((StratmasObject)subEvent.getArgument()).addEventListener(this);
-				    }			    
-				}
-			    });
-		    } else {
-			addMapDrawable((StratmasObject) candidate);
-		    }
-		}
-	    }
-	}
+        // Find the element-list in the scenario. Import all elements
+        // from that list and then add a listener that imports any
+        // additional elements added to elements
+        TypeFilter filter = new TypeFilter(TypeFactory.getType("Scenario"), true);
+        for (Enumeration e = filter.filterTree(basicMap.getClient().getRootObject()); e.hasMoreElements();) {
+            StratmasObject scenario = (StratmasObject) e.nextElement();
+            // Find lists that may generate new Elements and put a listener on it.
+            for (Enumeration ee = scenario.children(); ee.hasMoreElements();) {
+                StratmasObject candidate = (StratmasObject) ee.nextElement();
+                if (candidate.getType().canSubstitute("Element") || candidate.getType().canSubstitute("Activity")) {
+                    if (candidate instanceof StratmasList) {
+                        // Add any current elements and add a listener that imports any consequent ones.
+                        for (Enumeration le = candidate.children(); le.hasMoreElements();) {
+                            addMapDrawable((StratmasObject) le.nextElement());
+                        }
+                        candidate.addEventListener(new StratmasEventListener()
+                            {
+                                public void eventOccured(StratmasEvent subEvent)
+                                {
+                                    if (subEvent.isObjectAdded()) {
+                                        addMapDrawable((StratmasObject)subEvent.getArgument());
+                                    } 
+                                    else if (subEvent.isRemoved()) {
+                                        ((StratmasObject) subEvent.getSource()).removeEventListener(this);
+                                    } 
+                                    else if (subEvent.isReplaced()) {
+                                        // UNTESTED - the replace code is untested 2005-09-22
+                                        Debug.err.println("FIXME - Replace behavior untested in MapDrawer");
+                                        ((StratmasObject)subEvent.getSource()).removeEventListener(this);
+                                        ((StratmasObject)subEvent.getArgument()).addEventListener(this);
+                                    }                            
+                                }
+                            });
+                    } else {
+                        addMapDrawable((StratmasObject) candidate);
+                    }
+                }
+            }
+        }
     }
 
     /**
      * Updates this component, calls super and sets latestUpdateTimer.
      */
     public void update() {
-	super.update();
-	latestUpdateTime = System.currentTimeMillis();
+        super.update();
+        latestUpdateTime = System.currentTimeMillis();
     }
 }
 

@@ -51,8 +51,8 @@ ostream& Shape::cellsToXML(const BasicGrid& grid, bool swapEndian, ostream &o) c
      int32_t* index = new int32_t[coveredCells.size()];
      int i = 0;
      for (list<GridPos>::iterator it = coveredCells.begin(); it != coveredCells.end(); it++) {
-	  index[i] = grid.posToActive(it->r, it->c);
-	  i++;
+          index[i] = grid.posToActive(it->r, it->c);
+          i++;
      }
 
      o << "<reference>" << endl;
@@ -107,10 +107,10 @@ void Circle::boundingBox(double &t, double &l, double &b, double &r) const
 
      double junk;
      if (mProjected) {
-	  Projection::currentProjection()->coordToProj(cenCoord().lng(), t, junk, t);
-	  Projection::currentProjection()->coordToProj(cenCoord().lng(), b, junk, b);
-	  Projection::currentProjection()->coordToProj(l, cenCoord().lat(), l, junk);
-	  Projection::currentProjection()->coordToProj(r, cenCoord().lat(), r, junk);
+          Projection::currentProjection()->coordToProj(cenCoord().lng(), t, junk, t);
+          Projection::currentProjection()->coordToProj(cenCoord().lng(), b, junk, b);
+          Projection::currentProjection()->coordToProj(l, cenCoord().lat(), l, junk);
+          Projection::currentProjection()->coordToProj(r, cenCoord().lat(), r, junk);
      }
 }
 
@@ -125,7 +125,7 @@ ostream &Circle::toXML(ostream &o, std::string indent) const
 std::ostream &operator << (std::ostream &o, const Circle &c)
 {
      return o << "Circle with radius: " << c.mRadius << ", center (lat, lng): "
-	      << c.mCenter.lat() << ", " << c.mCenter.lng();
+              << c.mCenter.lat() << ", " << c.mCenter.lng();
 }
 
 /**
@@ -238,8 +238,8 @@ Polygon::Polygon(const Polygon &p) : Shape(p.ref())
 void Polygon::toProj(const Projection &proj)
 {
      if (!mProjected) {
-	  proj.coordToProj(mBoundary, mBoundary);
-	  mProjected = true;
+          proj.coordToProj(mBoundary, mBoundary);
+          mProjected = true;
      }
 }
 
@@ -252,8 +252,8 @@ void Polygon::toProj(const Projection &proj)
 void Polygon::toCoord(const Projection &proj)
 {
      if (mProjected) {
-	  proj.projToCoord(mBoundary, mBoundary);
-	  mProjected = false;
+          proj.projToCoord(mBoundary, mBoundary);
+          mProjected = false;
      }
 }
 
@@ -286,12 +286,12 @@ void Polygon::boundingBox(double &t, double &l, double &b, double &r) const
      maxx = minx;
      maxy = miny;
      for (int i = 0; i < mBoundary.num_contours; i++) {
-	  for (int j = 0; j < mBoundary.contour[i].num_vertices; j++) {
-	       minx = min(minx, mBoundary.contour[i].vertex[j].x);
-	       miny = min(miny, mBoundary.contour[i].vertex[j].y);
-	       maxx = max(maxx, mBoundary.contour[i].vertex[j].x);
-	       maxy = max(maxy, mBoundary.contour[i].vertex[j].y);
-	  }
+          for (int j = 0; j < mBoundary.contour[i].num_vertices; j++) {
+               minx = min(minx, mBoundary.contour[i].vertex[j].x);
+               miny = min(miny, mBoundary.contour[i].vertex[j].y);
+               maxx = max(maxx, mBoundary.contour[i].vertex[j].x);
+               maxy = max(maxy, mBoundary.contour[i].vertex[j].y);
+          }
      }
      t = maxy;
      l = minx;
@@ -310,10 +310,10 @@ void Polygon::move(double dx, double dy)
      Shape::toCoord();
 
      for (int i = 0; i < mBoundary.num_contours; i++) {
-	  for (int j = 0; j < mBoundary.contour[i].num_vertices; j++) {
-	       mBoundary.contour[i].vertex[j].x += dx;
-	       mBoundary.contour[i].vertex[j].y += dy;
-	  }
+          for (int j = 0; j < mBoundary.contour[i].num_vertices; j++) {
+               mBoundary.contour[i].vertex[j].x += dx;
+               mBoundary.contour[i].vertex[j].y += dy;
+          }
      }
 
      // Find the 'center' of this polygon e.g. calculate
@@ -341,36 +341,36 @@ ostream &Polygon::toXML(ostream &o, string indent) const
      double lat2;
      double lng2;
      for (int i = 0; i < mBoundary.num_contours; i++) {
-	  int numVert = mBoundary.contour[i].num_vertices;
-	  if (numVert > 0) {
-	       if (!mProjected) {
-		    lng1 = mBoundary.contour[i].vertex[0].x;
-		    lat1 = mBoundary.contour[i].vertex[0].y;
-	       }
-	       else {
-		    Projection::mCurrent->projToCoord(mBoundary.contour[i].vertex[0].x, 
-						      mBoundary.contour[i].vertex[0].y, lng1, lat1);
-	       }
-	  }
-	  list<string>::const_iterator it = mLineId.begin();
-	  for (int j = 1; j < numVert + 1; j++) {
-	       int jj = j % numVert;
-	       if (!mProjected) {
-		    lng2 = mBoundary.contour[i].vertex[jj].x;
-		    lat2 = mBoundary.contour[i].vertex[jj].y;
-	       }
-	       else {
-		    Projection::mCurrent->projToCoord(mBoundary.contour[i].vertex[jj].x, 
-						      mBoundary.contour[i].vertex[jj].y, lng2, lat2);
-	       }
-	       o << indent << "<curves xsi:type=\"sp:Line\" identifier=\"" << *it << "\">" << endl;
-	       o << indent + INDENT << "<p1 xsi:type=\"sp:Point\"><lat>" << lat1 << "</lat><lon>" << lng1 << "</lon></p1>" << endl;
-	       o << indent + INDENT << "<p2 xsi:type=\"sp:Point\"><lat>" << lat2 << "</lat><lon>" << lng2 << "</lon></p2>" << endl;
-	       o << indent << "</curves>" << endl;
-	       lat1 = lat2;
-	       lng1 = lng2;
-	       it++;
-	  }
+          int numVert = mBoundary.contour[i].num_vertices;
+          if (numVert > 0) {
+               if (!mProjected) {
+                    lng1 = mBoundary.contour[i].vertex[0].x;
+                    lat1 = mBoundary.contour[i].vertex[0].y;
+               }
+               else {
+                    Projection::mCurrent->projToCoord(mBoundary.contour[i].vertex[0].x, 
+                                                      mBoundary.contour[i].vertex[0].y, lng1, lat1);
+               }
+          }
+          list<string>::const_iterator it = mLineId.begin();
+          for (int j = 1; j < numVert + 1; j++) {
+               int jj = j % numVert;
+               if (!mProjected) {
+                    lng2 = mBoundary.contour[i].vertex[jj].x;
+                    lat2 = mBoundary.contour[i].vertex[jj].y;
+               }
+               else {
+                    Projection::mCurrent->projToCoord(mBoundary.contour[i].vertex[jj].x, 
+                                                      mBoundary.contour[i].vertex[jj].y, lng2, lat2);
+               }
+               o << indent << "<curves xsi:type=\"sp:Line\" identifier=\"" << *it << "\">" << endl;
+               o << indent + INDENT << "<p1 xsi:type=\"sp:Point\"><lat>" << lat1 << "</lat><lon>" << lng1 << "</lon></p1>" << endl;
+               o << indent + INDENT << "<p2 xsi:type=\"sp:Point\"><lat>" << lat2 << "</lat><lon>" << lng2 << "</lon></p2>" << endl;
+               o << indent << "</curves>" << endl;
+               lat1 = lat2;
+               lng1 = lng2;
+               it++;
+          }
      }
      return o;
 }
@@ -387,10 +387,10 @@ ostream &Polygon::toXML(ostream &o, string indent) const
 void Polygon::deallocGpcPolygon(gpc_polygon &p)
 {
      for (int i = 0; i < p.num_contours; i++) {
-	  if (p.contour[i].vertex) {
-	       delete [] p.contour[i].vertex;
-	       p.contour[i].vertex = 0;
-	  }
+          if (p.contour[i].vertex) {
+               delete [] p.contour[i].vertex;
+               p.contour[i].vertex = 0;
+          }
      }
      p.num_contours = 0;
      if (p.hole   ) { delete [] p.hole   ; p.hole    = 0; }
@@ -411,19 +411,19 @@ void Polygon::deepCopyGpcPolygon(gpc_polygon &dst, const gpc_polygon &src)
      memcpy(dst.hole, src.hole, src.num_contours * sizeof(int));
      memcpy(dst.contour, src.contour, src.num_contours * sizeof(gpc_vertex_list));
      for (int i = 0; i < src.num_contours; i++) {
-	  dst.contour[i].vertex = new gpc_vertex[src.contour[i].num_vertices];
-	  memcpy(dst.contour[i].vertex, src.contour[i].vertex, src.contour[i].num_vertices * sizeof(gpc_vertex));
+          dst.contour[i].vertex = new gpc_vertex[src.contour[i].num_vertices];
+          memcpy(dst.contour[i].vertex, src.contour[i].vertex, src.contour[i].num_vertices * sizeof(gpc_vertex));
      }
 }
 
 std::ostream &operator << (std::ostream &o, const Polygon &p)
 {
      for (int i = 0; i < p.mBoundary.num_contours; i++) {
-	  o << "Part " << i << std::endl;
-	  for (int j = 0; j < p.mBoundary.contour[i].num_vertices; j++) {
-	       o << p.mBoundary.contour[i].vertex[j].x << ", " << p.mBoundary.contour[i].vertex[j].y << "    ";
-	  }
-	  o << std::endl;
+          o << "Part " << i << std::endl;
+          for (int j = 0; j < p.mBoundary.contour[i].num_vertices; j++) {
+               o << p.mBoundary.contour[i].vertex[j].x << ", " << p.mBoundary.contour[i].vertex[j].y << "    ";
+          }
+          o << std::endl;
      }
      return o;
 }
@@ -434,7 +434,7 @@ std::ostream &operator << (std::ostream &o, const Polygon &p)
 CompositeShape::~CompositeShape()
 {
      for (map<string, Shape*>::iterator it = mShapes.begin(); it != mShapes.end(); it++) {
-	  delete it->second;
+          delete it->second;
      }
 }
 
@@ -458,10 +458,10 @@ void CompositeShape::addShape(Shape *s)
 void CompositeShape::toProj(const Projection &proj)
 {
      if (!mProjected) {
-	  for (map<string, Shape*>::iterator it = mShapes.begin(); it != mShapes.end(); it++) {
-	       it->second->toProj(proj);
-	  }
-	  mProjected = true;
+          for (map<string, Shape*>::iterator it = mShapes.begin(); it != mShapes.end(); it++) {
+               it->second->toProj(proj);
+          }
+          mProjected = true;
      }
 }
 
@@ -474,10 +474,10 @@ void CompositeShape::toProj(const Projection &proj)
 void CompositeShape::toCoord(const Projection &proj)
 {
      if (mProjected) {
-	  for (map<string, Shape*>::iterator it = mShapes.begin(); it != mShapes.end(); it++) {
-	       it->second->toCoord(proj);
-	  }
-	  mProjected = false;
+          for (map<string, Shape*>::iterator it = mShapes.begin(); it != mShapes.end(); it++) {
+               it->second->toCoord(proj);
+          }
+          mProjected = false;
      }
 }
 
@@ -493,9 +493,9 @@ void CompositeShape::cells(const BasicGrid& g, std::list<GridPos>& outCells) con
 {
      list<GridPos> tmp;
      for (map<string, Shape*>::const_iterator it = mShapes.begin(); it != mShapes.end(); it++) {
-	  it->second->cells(g, tmp);
-	  outCells.insert(outCells.end(), tmp.begin(), tmp.end());
-	  tmp.clear();
+          it->second->cells(g, tmp);
+          outCells.insert(outCells.end(), tmp.begin(), tmp.end());
+          tmp.clear();
      }
      outCells.sort();
      outCells.unique();
@@ -509,8 +509,8 @@ void CompositeShape::cells(const BasicGrid& g, std::list<GridPos>& outCells) con
 LatLng CompositeShape::cenCoord() const
 {
      if (!mCenterCalculated) {
-	  double tt, ll, bb, rr;
-	  boundingBox(tt, ll, bb, rr);   // Sets center...
+          double tt, ll, bb, rr;
+          boundingBox(tt, ll, bb, rr);   // Sets center...
      }
      return mCenter;
 }
@@ -526,21 +526,21 @@ LatLng CompositeShape::cenCoord() const
 void CompositeShape::boundingBox(double &t, double &l, double &b, double &r) const
 {
      if (!mShapes.empty()) {
-	  double tt, ll, bb, rr;
-	  mShapes.begin()->second->boundingBox(t, l, b, r);
-	  for (map<string, Shape*>::const_iterator it = ++mShapes.begin(); it != mShapes.end(); it++) {
-	       it->second->boundingBox(tt, ll, bb, rr);
-	       t = max(t, tt);
-	       l = min(l, ll);
-	       b = min(b, bb);
-	       r = max(r, rr);
-	  }     
-	  double cenx = l + (r - l) / 2;
-	  double ceny = b + (t - b) / 2;
-	  if (!mCenterCalculated) {
-	       mCenter = (mProjected ? ProjCoord(cenx, ceny).toLatLng() : LatLng(ceny, cenx));
-	       mCenterCalculated = true;
-	  }
+          double tt, ll, bb, rr;
+          mShapes.begin()->second->boundingBox(t, l, b, r);
+          for (map<string, Shape*>::const_iterator it = ++mShapes.begin(); it != mShapes.end(); it++) {
+               it->second->boundingBox(tt, ll, bb, rr);
+               t = max(t, tt);
+               l = min(l, ll);
+               b = min(b, bb);
+               r = max(r, rr);
+          }     
+          double cenx = l + (r - l) / 2;
+          double ceny = b + (t - b) / 2;
+          if (!mCenterCalculated) {
+               mCenter = (mProjected ? ProjCoord(cenx, ceny).toLatLng() : LatLng(ceny, cenx));
+               mCenterCalculated = true;
+          }
      }
 }
 
@@ -553,7 +553,7 @@ void CompositeShape::boundingBox(double &t, double &l, double &b, double &r) con
 void CompositeShape::move(double dx, double dy)
 {
      for (map<string, Shape*>::const_iterator it = mShapes.begin(); it != mShapes.end(); it++) {
-	  it->second->move(dx, dy);
+          it->second->move(dx, dy);
      }     
      mChanges++;
      mCenterCalculated = false;
@@ -581,7 +581,7 @@ Shape *CompositeShape::clone() const
      res->mCenterCalculated = mCenterCalculated;
      res->mChanges          = mChanges;
      for (map<string, Shape*>::const_iterator it = mShapes.begin(); it != mShapes.end(); it++) {
-	  res->addShape(it->second->clone());
+          res->addShape(it->second->clone());
      }     
      return res;
 }
@@ -589,9 +589,9 @@ Shape *CompositeShape::clone() const
 ostream &CompositeShape::toXML(ostream &o, string indent) const
 {
      for (map<string, Shape*>::const_iterator it = mShapes.begin(); it != mShapes.end(); it++) {
-	  o << indent << "<shapes xsi:type=\"sp:" << it->second->type() << "\" identifier=\"" << it->second->ref().name() << "\">" << endl;
-	  it->second->toXML(o, indent + INDENT);
-	  o << indent << "</shapes>" << endl;
+          o << indent << "<shapes xsi:type=\"sp:" << it->second->type() << "\" identifier=\"" << it->second->ref().name() << "\">" << endl;
+          it->second->toXML(o, indent + INDENT);
+          o << indent << "</shapes>" << endl;
      }     
      return o;
 }
@@ -607,13 +607,13 @@ void CompositeShape::getFlattened(std::vector<Shape*>& shapes) const
 {
      std::map<string, Shape*>::const_iterator it;
      for (it = mShapes.begin(); it != mShapes.end(); it++) {
-	  Shape* shape = it->second;
-	  if (shape->type() == "Composite") {
-	       dynamic_cast<CompositeShape*>(shape)->getFlattened(shapes);
-	  }
-	  else {
-	       shapes.push_back(shape);
-	  }
+          Shape* shape = it->second;
+          if (shape->type() == "Composite") {
+               dynamic_cast<CompositeShape*>(shape)->getFlattened(shapes);
+          }
+          else {
+               shapes.push_back(shape);
+          }
      }     
 }
 
@@ -635,22 +635,22 @@ const Shape *CompositeShape::getRegionForPoint(const ProjCoord &p) const {
      
      std::map<string, Shape*>::const_iterator it;
      for (it = mShapes.begin(); it != mShapes.end(); it++) {
-	  string type(it->second->type());
-	  if (type == "Polygon") {
-	       Polygon *poly = dynamic_cast<Polygon*>(it->second);
-	       gpc_polygon result;
-	       gpc_polygon_clip(GPC_INT, const_cast<gpc_polygon*>(&poly->boundary()), &notSoSingularPoint, &result);     
-	       if (result.num_contours != 0) {
-		    return poly;
-	       }
-	  }
-	  else if (type == "Composite") {
-	       CompositeShape *comp = dynamic_cast<CompositeShape*>(it->second);
-	       const Shape *ret = comp->getRegionForPoint(p);
-	       if (ret) {
-		    return comp;
-	       }
-	  }
+          string type(it->second->type());
+          if (type == "Polygon") {
+               Polygon *poly = dynamic_cast<Polygon*>(it->second);
+               gpc_polygon result;
+               gpc_polygon_clip(GPC_INT, const_cast<gpc_polygon*>(&poly->boundary()), &notSoSingularPoint, &result);     
+               if (result.num_contours != 0) {
+                    return poly;
+               }
+          }
+          else if (type == "Composite") {
+               CompositeShape *comp = dynamic_cast<CompositeShape*>(it->second);
+               const Shape *ret = comp->getRegionForPoint(p);
+               if (ret) {
+                    return comp;
+               }
+          }
      }
      return 0;
 }
@@ -671,38 +671,38 @@ Shape* CompositeShape::getPart(const Reference& toFind) const
      // Store the 'difference' between this shape's reference and the
      // given reference in a vector.
      for(; r != 0 && r->scope() != &ref(); r = r->scope()) {
-	  v.push_back(r);
+          v.push_back(r);
      }
 
      // 'r' != 0 if the given reference points out a descendant of this shape.
      if (r) {
-	  const CompositeShape* comp = this;
-	  for(vector<const Reference*>::reverse_iterator it = v.rbegin(); it != v.rend(); ++it) {
-	       if ((*it)->name() == "shapes") {
-		    continue;
-	       }
-	       // If we have a composite shape...
-	       if (comp) {
-		    // Try to find a child with the correct name.
-		    std::map<string, Shape*>::const_iterator mit = comp->mShapes.find((*it)->name());
-		    if (mit != mShapes.end()) {
-			 candidate = mit->second;
-			 // Continue if we can...
-			 comp = dynamic_cast<const CompositeShape*>(candidate);
-		    }
-		    else {
-			 // Can't find child so let's abort.
-			 candidate = 0;
-			 break;
-		    }
-	       }
-	       else {
-		    // Haven't reached the end of the reference trace
-		    // but we don't have a composit so let's abort.
-		    candidate = 0;
-		    break;
-	       }
-	  }
+          const CompositeShape* comp = this;
+          for(vector<const Reference*>::reverse_iterator it = v.rbegin(); it != v.rend(); ++it) {
+               if ((*it)->name() == "shapes") {
+                    continue;
+               }
+               // If we have a composite shape...
+               if (comp) {
+                    // Try to find a child with the correct name.
+                    std::map<string, Shape*>::const_iterator mit = comp->mShapes.find((*it)->name());
+                    if (mit != mShapes.end()) {
+                         candidate = mit->second;
+                         // Continue if we can...
+                         comp = dynamic_cast<const CompositeShape*>(candidate);
+                    }
+                    else {
+                         // Can't find child so let's abort.
+                         candidate = 0;
+                         break;
+                    }
+               }
+               else {
+                    // Haven't reached the end of the reference trace
+                    // but we don't have a composit so let's abort.
+                    candidate = 0;
+                    break;
+               }
+          }
      }
      return candidate;
 }

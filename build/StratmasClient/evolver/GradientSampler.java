@@ -1,4 +1,4 @@
-// 	$Id: GradientSampler.java,v 1.12 2005/11/02 22:18:48 dah Exp $
+//         $Id: GradientSampler.java,v 1.12 2005/11/02 22:18:48 dah Exp $
 /*
  * @(#)GradientSampler.java
  */
@@ -34,7 +34,7 @@ public class GradientSampler implements Sampler
      */
     public GradientSampler(boolean isMinimizing)
     {
-	this.isMinimizing = isMinimizing;
+        this.isMinimizing = isMinimizing;
     }
 
     /**
@@ -42,7 +42,7 @@ public class GradientSampler implements Sampler
      */
     public GradientSampler()
     {
-	this(false);
+        this(false);
     }
 
     /**
@@ -50,7 +50,7 @@ public class GradientSampler implements Sampler
      */
     public boolean isMinimizing()
     {
-	return this.isMinimizing;
+        return this.isMinimizing;
     }
 
     /**
@@ -64,13 +64,13 @@ public class GradientSampler implements Sampler
      */
     public ParameterInstanceSet getSample(Vector evaluations)
     {
-	if (evaluations.size() == 0) {
-	    return null;
-	} else if (evaluations.size() == 1) {
-	    return createRandomNeighbour((Evaluation) evaluations.get(0));
-	} else {
-	    return createGradientNeighbour(evaluations);
-	}
+        if (evaluations.size() == 0) {
+            return null;
+        } else if (evaluations.size() == 1) {
+            return createRandomNeighbour((Evaluation) evaluations.get(0));
+        } else {
+            return createGradientNeighbour(evaluations);
+        }
     }
 
     /**
@@ -81,28 +81,28 @@ public class GradientSampler implements Sampler
      */
     ParameterInstanceSet createGradientNeighbour(Vector evaluations)
     {
-	Hashtable gradients = 
-	    getBackwardDifference((Evaluation) evaluations.elementAt(evaluations.size() - 2), 
-				  (Evaluation) evaluations.elementAt(evaluations.size() - 1));
+        Hashtable gradients = 
+            getBackwardDifference((Evaluation) evaluations.elementAt(evaluations.size() - 2), 
+                                  (Evaluation) evaluations.elementAt(evaluations.size() - 1));
 
-	ParameterInstanceSet latest = 
-	    ((Evaluation) evaluations.elementAt(evaluations.size() - 1)).getParameterInstanceSet();
-	ParameterInstanceSet result = new ParameterInstanceSet();
-	// Add parameters from latest sample (adds in loop will
-	// replace those parameterinstances that has a gradient).
-	result.addAll(latest);
-	// Create new samples based on gradients.
-	for (Enumeration e = gradients.keys(); e.hasMoreElements();) {
-	    Parameter parameter = (Parameter) e.nextElement();
-	    Double gradient = (Double) gradients.get(parameter);
-	    if (gradient.isNaN() || gradient.isInfinite()) { 
-// 		Debug.err.println("Bad gradient for " + parameter.getName() + ": " + gradient);
-	    } else {
-		result.add(parameter.getGradientNeighbour(latest.getParameterInstance(parameter), gradient.doubleValue()));
-	    }
-	}
+        ParameterInstanceSet latest = 
+            ((Evaluation) evaluations.elementAt(evaluations.size() - 1)).getParameterInstanceSet();
+        ParameterInstanceSet result = new ParameterInstanceSet();
+        // Add parameters from latest sample (adds in loop will
+        // replace those parameterinstances that has a gradient).
+        result.addAll(latest);
+        // Create new samples based on gradients.
+        for (Enumeration e = gradients.keys(); e.hasMoreElements();) {
+            Parameter parameter = (Parameter) e.nextElement();
+            Double gradient = (Double) gradients.get(parameter);
+            if (gradient.isNaN() || gradient.isInfinite()) { 
+//                 Debug.err.println("Bad gradient for " + parameter.getName() + ": " + gradient);
+            } else {
+                result.add(parameter.getGradientNeighbour(latest.getParameterInstance(parameter), gradient.doubleValue()));
+            }
+        }
 
-	return result;
+        return result;
     }
 
     /**
@@ -113,38 +113,38 @@ public class GradientSampler implements Sampler
      */
     Hashtable getBackwardDifference(Evaluation backward, Evaluation center) 
     {
-	Hashtable res = new Hashtable();
+        Hashtable res = new Hashtable();
 
-	// Calculate the difference of the evaluation.
-	double eDiff = backward.getEvaluation().getParameter().getMetric().d(backward.getEvaluation(),
-									     center.getEvaluation());
-	eDiff *= 
-	    ((double) backward.getEvaluation().getParameter().getComparator().compare(backward.getEvaluation(),
-										      center.getEvaluation()));
+        // Calculate the difference of the evaluation.
+        double eDiff = backward.getEvaluation().getParameter().getMetric().d(backward.getEvaluation(),
+                                                                             center.getEvaluation());
+        eDiff *= 
+            ((double) backward.getEvaluation().getParameter().getComparator().compare(backward.getEvaluation(),
+                                                                                      center.getEvaluation()));
 
-	for (Enumeration e = backward.getParameterInstanceSet().getParameterInstances(); 
-	     e.hasMoreElements(); ) {
-	    ParameterInstance instance = (ParameterInstance) e.nextElement();
-	    // Calculate the difference of each particular parameter.
-	    double pDiff = instance.getParameter().getMetric().d(instance, center.getParameterInstanceSet().getParameterInstance(instance.getParameter()));
-	    pDiff *= ((double) instance.getParameter().getComparator().compare(instance, center.getParameterInstanceSet().getParameterInstance(instance.getParameter())));
-	    Double gradient = null;
-	    if (eDiff == 0.0d) {
-		// If no difference in eDiff double the length of previous step.
-		gradient = new Double(pDiff * 2);
-	    } else if (pDiff == 0.0d) {
-		// If standing still in dimension, continue to do so.
-		gradient = new Double(0.0);
-	    } else {
-		// Use some sort of scaled difference:
-		gradient = new Double(eDiff/pDiff);
-	    }
+        for (Enumeration e = backward.getParameterInstanceSet().getParameterInstances(); 
+             e.hasMoreElements(); ) {
+            ParameterInstance instance = (ParameterInstance) e.nextElement();
+            // Calculate the difference of each particular parameter.
+            double pDiff = instance.getParameter().getMetric().d(instance, center.getParameterInstanceSet().getParameterInstance(instance.getParameter()));
+            pDiff *= ((double) instance.getParameter().getComparator().compare(instance, center.getParameterInstanceSet().getParameterInstance(instance.getParameter())));
+            Double gradient = null;
+            if (eDiff == 0.0d) {
+                // If no difference in eDiff double the length of previous step.
+                gradient = new Double(pDiff * 2);
+            } else if (pDiff == 0.0d) {
+                // If standing still in dimension, continue to do so.
+                gradient = new Double(0.0);
+            } else {
+                // Use some sort of scaled difference:
+                gradient = new Double(eDiff/pDiff);
+            }
 
-// 	    Debug.err.println("eDiff = " + eDiff + " pDiff = " + pDiff + " gradient = " + gradient);
-	    res.put(instance.getParameter(), gradient);
-	}
-	
-	return res;
+//             Debug.err.println("eDiff = " + eDiff + " pDiff = " + pDiff + " gradient = " + gradient);
+            res.put(instance.getParameter(), gradient);
+        }
+        
+        return res;
     }
 
     /**
@@ -154,15 +154,15 @@ public class GradientSampler implements Sampler
      */
     ParameterInstanceSet createRandomNeighbour(Evaluation evaluation)
     {
-	Random random = new Random(System.currentTimeMillis());
+        Random random = new Random(System.currentTimeMillis());
 
-	ParameterInstanceSet result = new ParameterInstanceSet();
-	result.addAll(evaluation.getParameterInstanceSet());
-	for (Enumeration e = result.getParameterInstances(); e.hasMoreElements();) {
-	    ParameterInstance parameterInstance = (ParameterInstance) e.nextElement();
-	    double gradient = random.nextGaussian() - 0.5d;
-	    result.add(parameterInstance.getParameter().getGradientNeighbour(parameterInstance, gradient));
-	}
-	return result;
+        ParameterInstanceSet result = new ParameterInstanceSet();
+        result.addAll(evaluation.getParameterInstanceSet());
+        for (Enumeration e = result.getParameterInstances(); e.hasMoreElements();) {
+            ParameterInstance parameterInstance = (ParameterInstance) e.nextElement();
+            double gradient = random.nextGaussian() - 0.5d;
+            result.add(parameterInstance.getParameter().getGradientNeighbour(parameterInstance, gradient));
+        }
+        return result;
     }
 }

@@ -1,4 +1,4 @@
-// 	$Id: ParsedReference.java,v 1.6 2006/03/31 16:55:50 dah Exp $
+//         $Id: ParsedReference.java,v 1.6 2006/03/31 16:55:50 dah Exp $
 /*
  * @(#)ParsedElement.java
  */
@@ -46,9 +46,9 @@ public class ParsedReference extends ParsedPrimitive
      */
     public ParsedReference(ParsedIdentifier head) throws SemanticException
     {
-	super(head.getPos());
-	this.head = head;
-	this.tail = null;
+        super(head.getPos());
+        this.head = head;
+        this.tail = null;
     }
 
     /**
@@ -58,7 +58,7 @@ public class ParsedReference extends ParsedPrimitive
      */
     public void setTail(ParsedReference tail) 
     {
-	this.tail = tail;
+        this.tail = tail;
     }
 
     /**
@@ -68,7 +68,7 @@ public class ParsedReference extends ParsedPrimitive
      */
     public void setTarget(ParsedDeclaration target)
     {
-	this.target = target;
+        this.target = target;
     }
 
     /**
@@ -76,7 +76,7 @@ public class ParsedReference extends ParsedPrimitive
      */
     public ParsedDeclaration getTarget()
     {
-	return target;
+        return target;
     }
     
     /**
@@ -84,7 +84,7 @@ public class ParsedReference extends ParsedPrimitive
      */
     public ParsedIdentifier getHead()
     {
-	return head;
+        return head;
     }
 
     /**
@@ -92,7 +92,7 @@ public class ParsedReference extends ParsedPrimitive
      */
     public ParsedReference getTail()
     {
-	return tail;
+        return tail;
     }
 
     /**
@@ -102,12 +102,12 @@ public class ParsedReference extends ParsedPrimitive
      */
     public Vector bindReferences() throws SemanticException
     {
-	Vector res = new Vector();
-	if (target == null) {
-	    res.add(this);
-	}
+        Vector res = new Vector();
+        if (target == null) {
+            res.add(this);
+        }
 
-	return res;	
+        return res;        
     }
 
     /**
@@ -118,19 +118,19 @@ public class ParsedReference extends ParsedPrimitive
      */
     public void bind(ParsedDeclaration declaration) throws SemanticException
     {
-	// Check if there still is a tail to process.
-	if (this.getTail() != null) {
-	    ParsedDeclaration target = declaration.getDeclarations().getDeclaration(this.getTail().getHead());
-	    if (target != null) {
-		this.getTail().bind(declaration);
-		this.setTarget(this.getTail().getTarget());
-	    }
-	    else {
-		throw new UnresolvedReferenceException(this, declaration);
-	    }
-	} else {
-	    this.setTarget(declaration);
-	}
+        // Check if there still is a tail to process.
+        if (this.getTail() != null) {
+            ParsedDeclaration target = declaration.getDeclarations().getDeclaration(this.getTail().getHead());
+            if (target != null) {
+                this.getTail().bind(declaration);
+                this.setTarget(this.getTail().getTarget());
+            }
+            else {
+                throw new UnresolvedReferenceException(this, declaration);
+            }
+        } else {
+            this.setTarget(declaration);
+        }
     }
 
     /**
@@ -139,7 +139,7 @@ public class ParsedReference extends ParsedPrimitive
      */
     public boolean hasTail()
     {
-	return tail != null;
+        return tail != null;
     }
 
     /**
@@ -147,12 +147,12 @@ public class ParsedReference extends ParsedPrimitive
      */
     public String valueToString()
     {
-	if (this.getTail() != null) {
-	    return getHead().getName() + ":" + getTail().valueToString();
-	}
-	else {
-	    return getHead().getName();
-	}
+        if (this.getTail() != null) {
+            return getHead().getName() + ":" + getTail().valueToString();
+        }
+        else {
+            return getHead().getName();
+        }
     }
 
     /**
@@ -160,19 +160,19 @@ public class ParsedReference extends ParsedPrimitive
      */
     private Reference toReference()
     {
-	Vector vector = new Vector();
+        Vector vector = new Vector();
 
-	for (ParsedReference walker = this; walker != null; 
-	     walker = walker.getTail()) {
-	    vector.add(walker.getHead().getIdentifier());
-	}
-	
-	String[] ids = new String[vector.size()];
-	
-	for (int i = 0; i < vector.size(); i++) {
-	    ids[i] = (String) vector.get(i);
-	}
+        for (ParsedReference walker = this; walker != null; 
+             walker = walker.getTail()) {
+            vector.add(walker.getHead().getIdentifier());
+        }
+        
+        String[] ids = new String[vector.size()];
+        
+        for (int i = 0; i < vector.size(); i++) {
+            ids[i] = (String) vector.get(i);
+        }
 
-	return new Reference(ids);
+        return new Reference(ids);
     }
 }

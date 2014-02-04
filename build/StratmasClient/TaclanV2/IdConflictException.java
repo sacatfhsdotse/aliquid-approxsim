@@ -1,4 +1,4 @@
-// 	$Id: IdConflictException.java,v 1.2 2005/05/23 07:50:41 alexius Exp $
+//         $Id: IdConflictException.java,v 1.2 2005/05/23 07:50:41 alexius Exp $
 /*
  * @(#)IdConflictException.java
  */
@@ -24,13 +24,13 @@ public class IdConflictException extends SemanticException
      */
     public IdConflictException(ParsedIdentifier first, ParsedIdentifier second)
     {
-	this.first = first;
-	this.second = second;
+        this.first = first;
+        this.second = second;
     }
 
     public String getMessage()
     {
-	return second.getPos().toString() + ": Declaration of " + second.toString() +
-	    " conflicts with previous declaration at " + first.getPos().toString();
+        return second.getPos().toString() + ": Declaration of " + second.toString() +
+            " conflicts with previous declaration at " + first.getPos().toString();
     }    
 }

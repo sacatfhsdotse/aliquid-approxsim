@@ -1,4 +1,4 @@
-// 	$Id: ParameterInstance.java,v 1.3 2005/10/28 12:15:25 dah Exp $
+//         $Id: ParameterInstance.java,v 1.3 2005/10/28 12:15:25 dah Exp $
 /*
  * @(#)ParameterInstance.java
  */
@@ -33,8 +33,8 @@ public class ParameterInstance
      */
     public ParameterInstance(Parameter parameter, Object value)
     {
-	this.parameter = parameter;
-	this.value = value;
+        this.parameter = parameter;
+        this.value = value;
     }
     
     /**
@@ -42,7 +42,7 @@ public class ParameterInstance
      */
     public Parameter getParameter()
     {
-	return this.parameter;
+        return this.parameter;
     }
 
     /**
@@ -50,7 +50,7 @@ public class ParameterInstance
      */
     public Object getValue()
     {
-	return this.value;
+        return this.value;
     }
 
     /**
@@ -58,6 +58,6 @@ public class ParameterInstance
      */
     public String toString()
     {
-	return getParameter().toString(this);
+        return getParameter().toString(this);
     }
 }

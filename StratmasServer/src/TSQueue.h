@@ -57,12 +57,12 @@ inline void TSQueue<T>::enqueue(T t)
      boost::mutex::scoped_lock lk(mLock);   // Lock
      mQ.push(t);                            // Enqueue
      if (mQ.size() == 1) {                  // If the queue was empty 
-	  mEmpty.notify_one();              // Notify a waiting thread
+          mEmpty.notify_one();              // Notify a waiting thread
      }
      lk.unlock();                           // Unlock by lk's
-					    // destructor but use
-					    // explicit unlock for
-					    // clarity.
+                                            // destructor but use
+                                            // explicit unlock for
+                                            // clarity.
 }
 
 template<class T>
@@ -71,15 +71,15 @@ inline T TSQueue<T>::dequeue()
      boost::mutex::scoped_lock lk(mLock);   // Lock
 
      if (mQ.empty()) {                      // If the queue is empty...
-	  mEmpty.wait(lk);                  // ...block and wait
+          mEmpty.wait(lk);                  // ...block and wait
      }
      // Read, remove, unlock and return
      T t = mQ.front();
      mQ.pop();
      lk.unlock();                           // Unlock by lk's
-					    // destructor but use
-					    // explicit unlock for
-					    // clarity.
+                                            // destructor but use
+                                            // explicit unlock for
+                                            // clarity.
      return t;
 }
 

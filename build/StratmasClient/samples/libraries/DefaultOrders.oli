@@ -15,11 +15,11 @@
     </carriedOut>
     <location xsi:type="sp:Circle">
       <radius xsi:type="sp:Double">
-	<value>0.0</value>
+        <value>0.0</value>
       </radius>
       <center xsi:type="sp:Point">
-	<lat>0.0</lat>
-	<lon>0.0</lon>
+        <lat>0.0</lat>
+        <lon>0.0</lon>
       </center>
     </location>
   </identifiables>
@@ -36,11 +36,11 @@
     </carriedOut>
     <location xsi:type="sp:Circle">
       <radius xsi:type="sp:Double">
-	<value>0.0</value>
+        <value>0.0</value>
       </radius>
       <center xsi:type="sp:Point">
-	<lat>0.0</lat>
-	<lon>0.0</lon>
+        <lat>0.0</lat>
+        <lon>0.0</lon>
       </center>
     </location>
   </identifiables>

@@ -96,19 +96,19 @@ private:
       * \brief Sets values to default.
       */
      void setDefault() {
-	  for (int i = 0; i < SIZE; ++i) {
-	       mParameters[kEntries[i].index] = kEntries[i].defaultValue;
-	  }
+          for (int i = 0; i < SIZE; ++i) {
+               mParameters[kEntries[i].index] = kEntries[i].defaultValue;
+          }
      }
 
      void getDataFromDataObject(const DataObject& d) {
-	  const std::vector<DataObject*>& param = d.getChild("parameters")->objects();
-	  for (std::vector<DataObject*>::const_iterator it = param.begin(); it != param.end(); ++it) {
-	       typename std::map<std::string, ENUM>::iterator it2 = mNameToIndex.find((*it)->identifier());
-	       if (it2 != mNameToIndex.end()) {
-		    mParameters[it2->second] = (*it)->getDouble();
-	       }
-	  }
+          const std::vector<DataObject*>& param = d.getChild("parameters")->objects();
+          for (std::vector<DataObject*>::const_iterator it = param.begin(); it != param.end(); ++it) {
+               typename std::map<std::string, ENUM>::iterator it2 = mNameToIndex.find((*it)->identifier());
+               if (it2 != mNameToIndex.end()) {
+                    mParameters[it2->second] = (*it)->getDouble();
+               }
+          }
      }
 
 public:
@@ -122,44 +122,44 @@ public:
       * parameters that are required and types and default values.
       */
      TemplateParameterGroup(const DataObject& d,
-			    const ParameterGroupEntry* const groupEntries,
-			    int numGroupEntries,
-			    const ParameterEntry* const entries)
-	  : ParameterGroup(d),
-	  kGroupEntries(groupEntries),
-	  kNumGroupEntries(numGroupEntries),
-	  kEntries(entries) {
+                            const ParameterGroupEntry* const groupEntries,
+                            int numGroupEntries,
+                            const ParameterEntry* const entries)
+          : ParameterGroup(d),
+          kGroupEntries(groupEntries),
+          kNumGroupEntries(numGroupEntries),
+          kEntries(entries) {
 
-	  DataObject& pgs = *d.getChild("parameterGroups");
-	  for (int i = 0; i < kNumGroupEntries; ++i) {
-	       DataObject* pg = pgs.getChild(kGroupEntries[i].name);
-	       if (pg) {
-		    mParameterGroups[kGroupEntries[i].name] =
-			 dynamic_cast<ParameterGroup*>(SOFactory::createSimulationObject(*pg));
-	       }
-	       // Ignore non-required ParameterGroups.
-	  }
+          DataObject& pgs = *d.getChild("parameterGroups");
+          for (int i = 0; i < kNumGroupEntries; ++i) {
+               DataObject* pg = pgs.getChild(kGroupEntries[i].name);
+               if (pg) {
+                    mParameterGroups[kGroupEntries[i].name] =
+                         dynamic_cast<ParameterGroup*>(SOFactory::createSimulationObject(*pg));
+               }
+               // Ignore non-required ParameterGroups.
+          }
 
-	  DataObject& parameters = *d.getChild("parameters");
-	  for (int i = 0; i < SIZE; ++i) {
-	       DataObject* parameter = parameters.getChild(kEntries[i].name);
-	       if (parameter) {
-		    mNameToIndex[kEntries[i].name] = static_cast<ENUM>(kEntries[i].index);
-	       }
-	  }
+          DataObject& parameters = *d.getChild("parameters");
+          for (int i = 0; i < SIZE; ++i) {
+               DataObject* parameter = parameters.getChild(kEntries[i].name);
+               if (parameter) {
+                    mNameToIndex[kEntries[i].name] = static_cast<ENUM>(kEntries[i].index);
+               }
+          }
 
-	  setDefault();
-	  getDataFromDataObject(d);
+          setDefault();
+          getDataFromDataObject(d);
      }
 
      /**
       * Destructor.
       */
      virtual ~TemplateParameterGroup() {
-	  for (std::map<std::string, ParameterGroup*>::iterator it = mParameterGroups.begin();
-	       it != mParameterGroups.end(); ++it) {
-	       SOFactory::removeSimulationObject(it->second);
-	  }
+          for (std::map<std::string, ParameterGroup*>::iterator it = mParameterGroups.begin();
+               it != mParameterGroups.end(); ++it) {
+               SOFactory::removeSimulationObject(it->second);
+          }
      }
 
      /**
@@ -169,76 +169,76 @@ public:
       * starts.
       */
      virtual void prepareForSimulation() {
-	  ParameterGroup* pgp;
-	  // Add necessary parameter groups that wasn't present in the initial DataObject.
-	  for (int i = 0; i < kNumGroupEntries; ++i) {
-	       std::map<std::string, ParameterGroup*>::iterator it = mParameterGroups.find(kGroupEntries[i].name);
-	       if (it == mParameterGroups.end()) {
-		    const Type& pgType = Mapper::map(ref())->getType(); // Type: ParameterGroup
-		    const Reference& refToPgToBeCreated = 
-			 Reference::get(Reference::get(ref(), "parameterGroups"), kGroupEntries[i].name);
-		    pgp = dynamic_cast<ParameterGroup*>(SOFactory::createSimulationObject(refToPgToBeCreated, pgType));
-		    mParameterGroups[kGroupEntries[i].name] = pgp;
-	       }
-	  }
+          ParameterGroup* pgp;
+          // Add necessary parameter groups that wasn't present in the initial DataObject.
+          for (int i = 0; i < kNumGroupEntries; ++i) {
+               std::map<std::string, ParameterGroup*>::iterator it = mParameterGroups.find(kGroupEntries[i].name);
+               if (it == mParameterGroups.end()) {
+                    const Type& pgType = Mapper::map(ref())->getType(); // Type: ParameterGroup
+                    const Reference& refToPgToBeCreated = 
+                         Reference::get(Reference::get(ref(), "parameterGroups"), kGroupEntries[i].name);
+                    pgp = dynamic_cast<ParameterGroup*>(SOFactory::createSimulationObject(refToPgToBeCreated, pgType));
+                    mParameterGroups[kGroupEntries[i].name] = pgp;
+               }
+          }
 
-	  // Add necessary parameters that wasn't present in the initial DataObject.
-	  for (int i = 0; i < SIZE; ++i) {
-	       typename std::map<std::string, ENUM>::iterator it = mNameToIndex.find(kEntries[i].name);
-	       if (it == mNameToIndex.end()) {
-		    const Type& pType = TypeFactory::getType(kEntries[i].type);
-		    const Reference& refToPToBeCreated = Reference::get(Reference::get(ref(), "parameters"),
-									 kEntries[i].name);
-		    SOFactory::createSimpleInList(refToPToBeCreated, pType);
-		    mNameToIndex[kEntries[i].name] = static_cast<ENUM>(kEntries[i].index);
-	       }
-	  }
+          // Add necessary parameters that wasn't present in the initial DataObject.
+          for (int i = 0; i < SIZE; ++i) {
+               typename std::map<std::string, ENUM>::iterator it = mNameToIndex.find(kEntries[i].name);
+               if (it == mNameToIndex.end()) {
+                    const Type& pType = TypeFactory::getType(kEntries[i].type);
+                    const Reference& refToPToBeCreated = Reference::get(Reference::get(ref(), "parameters"),
+                                                                         kEntries[i].name);
+                    SOFactory::createSimpleInList(refToPToBeCreated, pType);
+                    mNameToIndex[kEntries[i].name] = static_cast<ENUM>(kEntries[i].index);
+               }
+          }
 
-	  for (std::map<std::string, ParameterGroup*>::iterator it = mParameterGroups.begin();
-	       it != mParameterGroups.end(); ++it) {
-	       it->second->prepareForSimulation();
-	  }
+          for (std::map<std::string, ParameterGroup*>::iterator it = mParameterGroups.begin();
+               it != mParameterGroups.end(); ++it) {
+               it->second->prepareForSimulation();
+          }
      }
 
      void addObject(DataObject& toAdd, int64_t initiator) {
-	  debug("ParameterGroup " << ref() << " ignoring added object " << toAdd.ref().name());
+          debug("ParameterGroup " << ref() << " ignoring added object " << toAdd.ref().name());
      }
 
      void removeObject(const Reference& toRemove, int64_t initiator) {
-	  typename std::map<std::string, ENUM>::iterator it = mNameToIndex.find(toRemove.name());
-	  if (it != mNameToIndex.end()) {
-	       // Mustn't remove required parameter so let's add it again.
-	       DataObject* d = Mapper::map(toRemove);
-	       DataObject* addAgain = d->clone();
-	       SOFactory::simulationObjectRemoved(toRemove, initiator);
-	       SOFactory::createSimple(*addAgain);
-	  }
-	  else {
-	       typename std::map<std::string, ParameterGroup*>::iterator it = mParameterGroups.find(toRemove.name());
-	       if (it != mParameterGroups.end()) {
-		    // Mustn't remove required parameter groups so let's add it again.
-		    DataObject* d = Mapper::map(toRemove);
-		    DataObject* addAgain = d->clone();
-		    SOFactory::removeSimulationObject(it->second, initiator);
-		    mParameterGroups[toRemove.name()] =
-			 dynamic_cast<ParameterGroup*>(SOFactory::createSimulationObject(*addAgain));
-	       }
-	  }
+          typename std::map<std::string, ENUM>::iterator it = mNameToIndex.find(toRemove.name());
+          if (it != mNameToIndex.end()) {
+               // Mustn't remove required parameter so let's add it again.
+               DataObject* d = Mapper::map(toRemove);
+               DataObject* addAgain = d->clone();
+               SOFactory::simulationObjectRemoved(toRemove, initiator);
+               SOFactory::createSimple(*addAgain);
+          }
+          else {
+               typename std::map<std::string, ParameterGroup*>::iterator it = mParameterGroups.find(toRemove.name());
+               if (it != mParameterGroups.end()) {
+                    // Mustn't remove required parameter groups so let's add it again.
+                    DataObject* d = Mapper::map(toRemove);
+                    DataObject* addAgain = d->clone();
+                    SOFactory::removeSimulationObject(it->second, initiator);
+                    mParameterGroups[toRemove.name()] =
+                         dynamic_cast<ParameterGroup*>(SOFactory::createSimulationObject(*addAgain));
+               }
+          }
      }
 
      void replaceObject(DataObject& newObject, int64_t initiator) {
-	  debug("ParameterGroup " << ref() << " ignoring to replace object " << newObject.identifier());
+          debug("ParameterGroup " << ref() << " ignoring to replace object " << newObject.identifier());
      }
 
      void modify(const DataObject& d) {
-	  typename std::map<std::string, ENUM>::iterator it = mNameToIndex.find(d.identifier());
-	  if (it != mNameToIndex.end()) {
-	       mParameters[it->second] = d.getDouble();
-	       debug("Setting " << it->first << " to " << mParameters[it->second]);
-	  }
-	  else {
-	       debug("No updatable attribute '" << d.identifier() << "' in '" << ref() << "'. Ignoring...");
-	  }
+          typename std::map<std::string, ENUM>::iterator it = mNameToIndex.find(d.identifier());
+          if (it != mNameToIndex.end()) {
+               mParameters[it->second] = d.getDouble();
+               debug("Setting " << it->first << " to " << mParameters[it->second]);
+          }
+          else {
+               debug("No updatable attribute '" << d.identifier() << "' in '" << ref() << "'. Ignoring...");
+          }
      }
 
      /**
@@ -247,13 +247,13 @@ public:
       * \param b The Buffer to extract data to.
       */
      void extract(Buffer &b) const {
-	  DataObject& parameters = *b.map(ref())->getChild("parameters");
-	  for (int i = 0; i < SIZE; ++i) {
-	       DataObject* parameter = parameters.getChild(kEntries[i].name);
-	       if (parameter) {
-		    parameter->setDouble(mParameters[kEntries[i].index]);
-	       }
-	  }
+          DataObject& parameters = *b.map(ref())->getChild("parameters");
+          for (int i = 0; i < SIZE; ++i) {
+               DataObject* parameter = parameters.getChild(kEntries[i].name);
+               if (parameter) {
+                    parameter->setDouble(mParameters[kEntries[i].index]);
+               }
+          }
      }
 
      /**
@@ -273,17 +273,17 @@ public:
      double param(ENUM i) const { return mParameters[i]; }
 
      std::ostream& printMe(std::ostream& o, std::string indent) const {
-	  o << indent << ref().name();
-	  indent += "  ";
-	  for (std::map<std::string, ParameterGroup*>::const_iterator it = mParameterGroups.begin();
-	       it != mParameterGroups.end(); ++it) {
-	       o << std::endl;
-	       it->second->printMe(o, indent);
-	  }
-	  for (typename std::map<std::string, ENUM>::const_iterator it = mNameToIndex.begin(); it != mNameToIndex.end(); ++it) {
-	       o << std::endl << indent << it->first << ": " << mParameters[it->second];
-	  }
-	  return o;
+          o << indent << ref().name();
+          indent += "  ";
+          for (std::map<std::string, ParameterGroup*>::const_iterator it = mParameterGroups.begin();
+               it != mParameterGroups.end(); ++it) {
+               o << std::endl;
+               it->second->printMe(o, indent);
+          }
+          for (typename std::map<std::string, ENUM>::const_iterator it = mNameToIndex.begin(); it != mNameToIndex.end(); ++it) {
+               o << std::endl << indent << it->first << ": " << mParameters[it->second];
+          }
+          return o;
      }
 };
 

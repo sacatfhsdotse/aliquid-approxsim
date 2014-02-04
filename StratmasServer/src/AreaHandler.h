@@ -41,7 +41,7 @@ struct EdgeState {
      int EndX;              ///< For debugging purposes.
      int EndY;              ///< For debugging purposes.
 /*      friend std::ostream &operator<<(std::ostream &os, const EdgeState &e) { */
-/* 	  return os << e.X << ", " << e.StartY << " to " << e.EndX << ", " << e.EndY; */
+/*           return os << e.X << ", " << e.StartY << " to " << e.EndX << ", " << e.EndY; */
 /*      } */
 };
 
@@ -90,13 +90,13 @@ public:
      /**
       * \brief Creates an areahandler for a grid with the specified parameters.
       *
-      * \param rows Number of rows in the grid.	   
+      * \param rows Number of rows in the grid.           
       * \param cols Number of columns in the grid. 
-      * \param t    Top coordinate.		   
-      * \param b    Bottom coordinate.		   
-      * \param l    Leftmost coordinate.	   
-      * \param r    Rightmost coordinate.	   
-      * \param dx   The width of a cell.	   
+      * \param t    Top coordinate.                   
+      * \param b    Bottom coordinate.                   
+      * \param l    Leftmost coordinate.           
+      * \param r    Rightmost coordinate.           
+      * \param dx   The width of a cell.           
       * \param dy   The height of a cell.          
       * \param cs   The cells side in meters.
       */

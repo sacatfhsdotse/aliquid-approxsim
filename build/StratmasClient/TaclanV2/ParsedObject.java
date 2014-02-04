@@ -1,4 +1,4 @@
-// 	$Id: ParsedObject.java,v 1.1 2005/02/03 10:20:58 dah Exp $
+//         $Id: ParsedObject.java,v 1.1 2005/02/03 10:20:58 dah Exp $
 /*
  * @(#)ParsedObject.java
  */
@@ -26,7 +26,7 @@ public abstract class ParsedObject
     */
     public ParsedObject(SourcePosition pos)
     {
-	this.pos = pos;
+        this.pos = pos;
     }
 
     /**
@@ -34,6 +34,6 @@ public abstract class ParsedObject
      */    
     public SourcePosition getPos()
     {
-	return pos;
+        return pos;
     }
 }

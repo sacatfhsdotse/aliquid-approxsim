@@ -1,4 +1,4 @@
-// 	$Id: StratmasIntegerParameter.java,v 1.4 2006/04/10 09:45:55 dah Exp $
+//         $Id: StratmasIntegerParameter.java,v 1.4 2006/04/10 09:45:55 dah Exp $
 /*
  * @(#)StratmasIntegerParameter.java
  */
@@ -28,7 +28,7 @@ import StratmasClient.communication.StratmasObjectSubscription;
 */
 
 public class StratmasIntegerParameter extends LongParameter implements StratmasObjectParameter, 
-									 SimulationEvaluatorTargetFactory
+                                                                         SimulationEvaluatorTargetFactory
 {
     /**
      * The StratmasObject backing this parameter.
@@ -42,8 +42,8 @@ public class StratmasIntegerParameter extends LongParameter implements StratmasO
      */
     public StratmasIntegerParameter(StratmasInteger object)
     {
-	super(object.getReference().toString());
-	setStratmasObject(object);
+        super(object.getReference().toString());
+        setStratmasObject(object);
     }
 
 
@@ -53,31 +53,31 @@ public class StratmasIntegerParameter extends LongParameter implements StratmasO
      */
     public SimulationEvaluatorTarget createSimulationEvaluatorTarget()
     {
-	return new DefaultSimulationEvaluatorTarget()
-	    {
-		/**
-		 * Creates the subscription of this target. This
-		 * subscription is required to, in some way, make sure
-		 * update() is called whenever the subscription is
-		 * updated.
-		 */
-		Subscription createSubscription()
-		{
-// 		    return new GenralSubscription((StratmasObject) getStratmasObject().clone(), 
-// 						   getStratmasObject().getReference());
-		     return new StratmasObjectSubscription(StratmasObjectFactory.cloneObject(getStratmasObject()),
-							   getStratmasObject().getReference());
-		}
+        return new DefaultSimulationEvaluatorTarget()
+            {
+                /**
+                 * Creates the subscription of this target. This
+                 * subscription is required to, in some way, make sure
+                 * update() is called whenever the subscription is
+                 * updated.
+                 */
+                Subscription createSubscription()
+                {
+//                     return new GenralSubscription((StratmasObject) getStratmasObject().clone(), 
+//                                                    getStratmasObject().getReference());
+                     return new StratmasObjectSubscription(StratmasObjectFactory.cloneObject(getStratmasObject()),
+                                                           getStratmasObject().getReference());
+                }
 
-		/**
-		 * Creates the ParameterInstance acting as evaluation in the
-		 * Evaluations created by the SimulationEvaluator.
-		 */
-		public ParameterInstance createEvaluation()
-		{
-		    return getParameterInstance(((StratmasObjectSubscription) getSubscription()).object());
-		}
-	    };
+                /**
+                 * Creates the ParameterInstance acting as evaluation in the
+                 * Evaluations created by the SimulationEvaluator.
+                 */
+                public ParameterInstance createEvaluation()
+                {
+                    return getParameterInstance(((StratmasObjectSubscription) getSubscription()).object());
+                }
+            };
     }
 
     /**
@@ -85,7 +85,7 @@ public class StratmasIntegerParameter extends LongParameter implements StratmasO
      */ 
     public Reference getReference()
     {
-	return getStratmasObject().getReference();
+        return getStratmasObject().getReference();
     }
 
     /**
@@ -93,7 +93,7 @@ public class StratmasIntegerParameter extends LongParameter implements StratmasO
      */ 
     public StratmasObject getStratmasObject()
     {
-	return this.stratmasObject;
+        return this.stratmasObject;
     }
 
     /**
@@ -103,22 +103,22 @@ public class StratmasIntegerParameter extends LongParameter implements StratmasO
      */ 
     public void setStratmasObject(StratmasObject object)
     {
-	if (object != null) {
-	    object.addEventListener(new StratmasEventListener()
-	    {
-		public void eventOccured(StratmasEvent event)
-		{
-		    if (event.isRemoved()) {
+        if (object != null) {
+            object.addEventListener(new StratmasEventListener()
+            {
+                public void eventOccured(StratmasEvent event)
+                {
+                    if (event.isRemoved()) {
                         ((StratmasObject) event.getSource()).removeEventListener(this);
-			setStratmasObject(null);
-		    } else if (event.isReplaced()) {
-			setStratmasObject((StratmasObject) event.getArgument());
-		    }
-		}
-	    });
-	}
+                        setStratmasObject(null);
+                    } else if (event.isReplaced()) {
+                        setStratmasObject((StratmasObject) event.getArgument());
+                    }
+                }
+            });
+        }
 
-	this.stratmasObject = object;
+        this.stratmasObject = object;
     }
 
     /**
@@ -133,26 +133,26 @@ public class StratmasIntegerParameter extends LongParameter implements StratmasO
      * @param gradient the gradient.
      */ 
     public ParameterInstance getGradientNeighbour(ParameterInstance instance, 
-						  double gradient)
+                                                  double gradient)
     {
-	// Force at least one step.
-	if (gradient != 0.0d && 
-	    Math.abs(gradient) < 1.0) {
-	    if (gradient > 0) {
-		gradient = 1.0;
-	    } else {
-		gradient = -1.0;
-	    }
-	}
+        // Force at least one step.
+        if (gradient != 0.0d && 
+            Math.abs(gradient) < 1.0) {
+            if (gradient > 0) {
+                gradient = 1.0;
+            } else {
+                gradient = -1.0;
+            }
+        }
 
-	StratmasInteger neighbour = (StratmasInteger)
-	    StratmasObjectFactory.cloneObject((StratmasInteger) instance.getValue());
-	long newValue = (long) (neighbour.getValue() + gradient);
-	newValue = newValue > 0 ? newValue : 0;
+        StratmasInteger neighbour = (StratmasInteger)
+            StratmasObjectFactory.cloneObject((StratmasInteger) instance.getValue());
+        long newValue = (long) (neighbour.getValue() + gradient);
+        newValue = newValue > 0 ? newValue : 0;
 
-	neighbour.setValue(newValue);
-	
-	return getParameterInstance(neighbour);
+        neighbour.setValue(newValue);
+        
+        return getParameterInstance(neighbour);
     }
    
     /**
@@ -163,6 +163,6 @@ public class StratmasIntegerParameter extends LongParameter implements StratmasO
      */
     long getLong(ParameterInstance instance)
     {
-	return ((StratmasInteger) instance.getValue()).getValue();
+        return ((StratmasInteger) instance.getValue()).getValue();
     }
 }

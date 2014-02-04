@@ -24,7 +24,7 @@ public abstract class Subscription extends XMLHelper {
       * Creates a Subscription with a unique id.
       */
      protected Subscription() {
-	  mId = newId();
+          mId = newId();
      }
 
      /**
@@ -33,7 +33,7 @@ public abstract class Subscription extends XMLHelper {
       * @param id The id for the Subscription to be created.
       */
      protected Subscription(int id) {
-	  mId = id;
+          mId = id;
      }
 
      /**
@@ -42,7 +42,7 @@ public abstract class Subscription extends XMLHelper {
       * @return The id of this Subscription.
       */
      public int id() {
-	  return mId;
+          return mId;
      }
 
      /**
@@ -52,7 +52,7 @@ public abstract class Subscription extends XMLHelper {
       * @return The newly generated id.
       */
      private synchronized int newId() {
-	  return smCurrentId++;
+          return smCurrentId++;
      }
 
      /**
@@ -72,7 +72,7 @@ public abstract class Subscription extends XMLHelper {
       * representation of this subscription.
       */
      public String getTag() {
-	  return "subscription";
+          return "subscription";
      }
 
      /**
@@ -83,12 +83,12 @@ public abstract class Subscription extends XMLHelper {
       * object appended to it.
       */
      public StringBuffer toXML(StringBuffer b) {
-	  b.append(NL).append("<").append(getTag());
-	  b.append(" xsi:type=\"sp:").append(getTypeAsString());
-	  b.append("\" id=\"").append(mId).append("\">");
-	  bodyXML(b);
-	  b.append("</").append(getTag()).append(">");
-	  return b;
+          b.append(NL).append("<").append(getTag());
+          b.append(" xsi:type=\"sp:").append(getTypeAsString());
+          b.append("\" id=\"").append(mId).append("\">");
+          bodyXML(b);
+          b.append("</").append(getTag()).append(">");
+          return b;
      }
 }
 

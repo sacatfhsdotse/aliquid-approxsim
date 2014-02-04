@@ -17,9 +17,9 @@ SOMap SOMapper::mMap;
  */
 void SOMapper::reg(SimulationObject* c) {
      if (mMap.find(&c->ref()) != mMap.end()) {
-	  Error e;
-	  e << "Tried to register SimulationObject with Reference '" << c->ref() << "' twice";
-	  throw e;
+          Error e;
+          e << "Tried to register SimulationObject with Reference '" << c->ref() << "' twice";
+          throw e;
      }
      mMap[&c->ref()] = c;
 }
@@ -33,7 +33,7 @@ void SOMapper::reg(SimulationObject* c) {
 void SOMapper::extract(Buffer& b)
 {
      for (SOMap::iterator it = mMap.begin(); it != mMap.end(); it++) {
-	  it->second->extract(b);
+          it->second->extract(b);
      }
 }
 
@@ -45,7 +45,7 @@ void SOMapper::extract(Buffer& b)
  */
 std::ostream& operator << (std::ostream& o, const SOMapper& m) {
      for (SOMap::const_iterator it = m.mMap.begin(); it != m.mMap.end(); it++) {
-	  o << *it->first << std::endl;
+          o << *it->first << std::endl;
      }
      return o;
 }

@@ -1,4 +1,4 @@
-// 	$Id: StratmasObjectAdapter.java,v 1.39 2006/08/31 14:45:12 alexius Exp $
+//         $Id: StratmasObjectAdapter.java,v 1.39 2006/08/31 14:45:12 alexius Exp $
 /*
  * @(#)StratmasObjectAdapter.java
  */
@@ -46,9 +46,9 @@ import StratmasClient.object.StratmasEventListener;
  * @author  Daniel Ahlin
 */
 public class StratmasObjectAdapter implements MutableTreeNode, 
-					      TreeModel, 
-					      StratmasEventListener,
-					      StratmasClient.filter.StratmasObjectAdapter
+                                              TreeModel, 
+                                              StratmasEventListener,
+                                              StratmasClient.filter.StratmasObjectAdapter
 {
     /**
      * The StratmasObject this adapter adapts.
@@ -104,7 +104,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     protected StratmasObjectAdapter(StratmasObject stratmasObject)
     {
-	this.setUserObject(stratmasObject);
+        this.setUserObject(stratmasObject);
     }
 
     /**
@@ -113,10 +113,10 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      * @param stratmasObject the object to adapt.
      */
     protected StratmasObjectAdapter(StratmasObject stratmasObject, 
-				    StratmasObjectFilter filter)
+                                    StratmasObjectFilter filter)
     {
-	this.setUserObject(stratmasObject);
-	this.filter = filter;
+        this.setUserObject(stratmasObject);
+        this.filter = filter;
     }
 
     /**
@@ -124,13 +124,13 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     protected Vector getChildren()
     {
-	synchronized (this) {
-	    if (children == null) {
-		createChildren();
-	    }
-	}
-	
-	return children;
+        synchronized (this) {
+            if (children == null) {
+                createChildren();
+            }
+        }
+        
+        return children;
     }
 
     /**
@@ -138,40 +138,40 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     protected void createChildren()
     {
-	if (stratmasObject == null) {
-	    this.children = new Vector();
-	} else {
-	    this.children = new Vector();
-	    
-	    if (filter == null) {
-		for (Enumeration e = stratmasObject.children(); e.hasMoreElements();) {
-		    silentAdd(StratmasObjectAdapter.getStratmasObjectAdapter((StratmasObject) e.nextElement()), this.children.size());
-		}
-		
-		if (stratmasObject instanceof StratmasList) {
-		    sort();
-		}
-	    } else {
-		for (Enumeration e = stratmasObject.children(); e.hasMoreElements();) {
-		    StratmasObject sObj = (StratmasObject) e.nextElement();
-		    if (sObj instanceof StratmasList) {
-			// Must listen to the invisible list in order
-			// to receive add events for objects in the
-			// list that passes the filter.
-			if (filter.pass(sObj)) {
- 			    addInvisibleListListener(new InvisibleListListener(this, (StratmasList)sObj));
-			}
-			for (Enumeration i = sObj.children(); i.hasMoreElements();) {
-			    silentAdd(StratmasObjectAdapter.getStratmasObjectAdapter((StratmasObject) i.nextElement(), filter), this.children.size()); 
-			}
-		    } else {
-			silentAdd(StratmasObjectAdapter.getStratmasObjectAdapter(sObj, filter), this.children.size());
-		    }
-		}
-		
-		sort();
-	    }
-	}
+        if (stratmasObject == null) {
+            this.children = new Vector();
+        } else {
+            this.children = new Vector();
+            
+            if (filter == null) {
+                for (Enumeration e = stratmasObject.children(); e.hasMoreElements();) {
+                    silentAdd(StratmasObjectAdapter.getStratmasObjectAdapter((StratmasObject) e.nextElement()), this.children.size());
+                }
+                
+                if (stratmasObject instanceof StratmasList) {
+                    sort();
+                }
+            } else {
+                for (Enumeration e = stratmasObject.children(); e.hasMoreElements();) {
+                    StratmasObject sObj = (StratmasObject) e.nextElement();
+                    if (sObj instanceof StratmasList) {
+                        // Must listen to the invisible list in order
+                        // to receive add events for objects in the
+                        // list that passes the filter.
+                        if (filter.pass(sObj)) {
+                             addInvisibleListListener(new InvisibleListListener(this, (StratmasList)sObj));
+                        }
+                        for (Enumeration i = sObj.children(); i.hasMoreElements();) {
+                            silentAdd(StratmasObjectAdapter.getStratmasObjectAdapter((StratmasObject) i.nextElement(), filter), this.children.size()); 
+                        }
+                    } else {
+                        silentAdd(StratmasObjectAdapter.getStratmasObjectAdapter(sObj, filter), this.children.size());
+                    }
+                }
+                
+                sort();
+            }
+        }
     }
 
     /**
@@ -179,27 +179,27 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     public synchronized void sort()
     {
-	Comparator comparator = new Comparator() {
-		public int compare(Object o1, Object o2)
-		{
-		    StratmasObjectAdapter sObj1 = (StratmasObjectAdapter) o1;
-		    StratmasObjectAdapter sObj2 = (StratmasObjectAdapter) o2;
-		    
-		    if (sObj1.getUserObject().getType().equals(sObj2.getUserObject().getType())) {
-			return sObj1.getUserObject().getIdentifier().compareTo
-			    (sObj2.getUserObject().getIdentifier());
-		    } else {
-			return 0;
-		    }
-		}
-		
-		public boolean equals(Object o) 
-		{
-		    return o.getClass() == this.getClass();
-		}
-	    };
-	
-	Collections.sort(children, comparator);
+        Comparator comparator = new Comparator() {
+                public int compare(Object o1, Object o2)
+                {
+                    StratmasObjectAdapter sObj1 = (StratmasObjectAdapter) o1;
+                    StratmasObjectAdapter sObj2 = (StratmasObjectAdapter) o2;
+                    
+                    if (sObj1.getUserObject().getType().equals(sObj2.getUserObject().getType())) {
+                        return sObj1.getUserObject().getIdentifier().compareTo
+                            (sObj2.getUserObject().getIdentifier());
+                    } else {
+                        return 0;
+                    }
+                }
+                
+                public boolean equals(Object o) 
+                {
+                    return o.getClass() == this.getClass();
+                }
+            };
+        
+        Collections.sort(children, comparator);
     }
     
     /**
@@ -209,7 +209,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     protected void add(StratmasObjectAdapter child)
     {
-	add(child, getChildren().size());
+        add(child, getChildren().size());
     }
     
     /**
@@ -220,9 +220,9 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     protected void add(StratmasObjectAdapter child, int index)
     {
-	if (silentAdd(child, index)) {
-	    sendTreeNodeAddedEvent(child);
-	}
+        if (silentAdd(child, index)) {
+            sendTreeNodeAddedEvent(child);
+        }
     }
 
     /**
@@ -234,14 +234,14 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     protected boolean silentAdd(StratmasObjectAdapter child, int index)
     {
-	if (filter == null ||
-	    filter.pass(child.getUserObject())) {
-	    getChildren().add(index, child);
-	    child.setParent(this);
-	    return true;
-	} else {
-	    return false;
-	}
+        if (filter == null ||
+            filter.pass(child.getUserObject())) {
+            getChildren().add(index, child);
+            child.setParent(this);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -251,7 +251,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     protected void add(StratmasObject child)
     {
-	add(child, getChildren().size());
+        add(child, getChildren().size());
     }
     
     
@@ -262,11 +262,11 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     protected void add(StratmasObject child, int index)
     {
-	if (filter != null) {
-	    add(StratmasObjectAdapter.getStratmasObjectAdapter(child, filter), index);
-	} else {
-	    add(StratmasObjectAdapter.getStratmasObjectAdapter(child), index);
-	}
+        if (filter != null) {
+            add(StratmasObjectAdapter.getStratmasObjectAdapter(child, filter), index);
+        } else {
+            add(StratmasObjectAdapter.getStratmasObjectAdapter(child), index);
+        }
     }
 
     /**
@@ -274,7 +274,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     public Enumeration children()
     {
-	return getChildren().elements();
+        return getChildren().elements();
     }
     
     /**
@@ -282,15 +282,15 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     public boolean getAllowsChildren()
     {
-	// HACK create children here to prevent reentrancy problems
-	// with the JTree HiearchyCache
-	getChildren();
+        // HACK create children here to prevent reentrancy problems
+        // with the JTree HiearchyCache
+        getChildren();
 
-	if (stratmasObject == null) {
-	    return false;
-	} else {
-	    return !stratmasObject.isLeaf();
-	}
+        if (stratmasObject == null) {
+            return false;
+        } else {
+            return !stratmasObject.isLeaf();
+        }
     }
     
     /**
@@ -300,7 +300,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     public TreeNode getChildAt(int childIndex)
     {
-	return (StratmasObjectAdapter) getChildren().elementAt(childIndex);
+        return (StratmasObjectAdapter) getChildren().elementAt(childIndex);
     }
 
     /** 
@@ -311,7 +311,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     public Object getChild(Object parent, int index)
     {
-	return ((StratmasObjectAdapter) parent).getChildAt(index);
+        return ((StratmasObjectAdapter) parent).getChildAt(index);
     }
 
     /**
@@ -320,7 +320,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     public Object getRoot()
     {
-	return this;
+        return this;
     }
 
     /**
@@ -328,7 +328,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     public TreeNode getParent()
     {
-	return parent();
+        return parent();
     }
 
     /**
@@ -336,10 +336,10 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     public boolean equals(Object o)
     {
-	if (o instanceof StratmasObjectAdapter) {
-	    return stratmasObject == ((StratmasObjectAdapter) o).stratmasObject;
-	}
-	return false;
+        if (o instanceof StratmasObjectAdapter) {
+            return stratmasObject == ((StratmasObjectAdapter) o).stratmasObject;
+        }
+        return false;
     }
      
 
@@ -348,7 +348,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     public int getChildCount()
     {
-	return getChildren().size();
+        return getChildren().size();
     }
 
     /**
@@ -358,7 +358,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     public int getChildCount(Object parent)
     {
-	return ((StratmasObjectAdapter) parent).getChildCount();
+        return ((StratmasObjectAdapter) parent).getChildCount();
     }
 
     /**
@@ -369,7 +369,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     public int getIndex(TreeNode node)
     {
-	return getChildren().indexOf(node);
+        return getChildren().indexOf(node);
     }
 
     /** 
@@ -380,7 +380,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     public int getIndexOfChild(Object parent, Object child)
     {
-	return ((StratmasObjectAdapter) parent).getIndex((StratmasObjectAdapter) child);
+        return ((StratmasObjectAdapter) parent).getIndex((StratmasObjectAdapter) child);
     }
 
     /**
@@ -390,52 +390,52 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     public void eventOccured(StratmasEvent event)
     {
-	if (event.isValueChanged()) {
-	    sendTreeNodesChangedEvent();
-	} else if (event.isRemoved()) {
-	    if (getUserObject() != null) {
-		getUserObject().removeEventListener(this);
-	    }
-	    //getUserObject().removeEventListener(this);
-	    sendTreeNodeRemovedEvent();
-	    if (getParent() != null) {
-		parent.remove(this);
-	    }
-	    stratmasObject = null;
-	} else if (event.isObjectAdded()) {
-	    // Only interested in this if getChildren has been called,
-	    // else we will pick it up when the first getChildren
-	    // triggers the childCreate function. This is not really
-	    // thread safe. Maybe better to call getChildren here.
-	    if (this.children != null) {
-		add((StratmasObject) event.getArgument());
-	    }
-	} else if (event.isChildChanged()) {
-	     // HACK special handling of children affecting the look of
-	     // the parent icon.
-	     StratmasObject child = (StratmasObject) event.getArgument();	    
-	     if (child.getIdentifier().equals("symbolIDCode")) {
-		  sendTreeNodesChangedEvent();
-	     }
-	} else if (event.isReplaced()) {
-	    getUserObject().removeEventListener(this);
-	    StratmasObjectAdapter parent = (StratmasObjectAdapter)getParent();
-	    if (parent != null) {
-		//System.out.println("index before = "+getParent().getIndex(this));
-		int ind = getParent().getIndex(this);
-		sendTreeNodeRemovedEvent();
-		parent.remove(this);
-		parent.add((StratmasObject)event.getArgument(), ind);
-	    }
-	    else {
-		 StratmasObject o = (StratmasObject)event.getArgument();
-		 setUserObject(o);
-		 for (Enumeration en = o.children(); en.hasMoreElements(); ) {
-		      add((StratmasObject)en.nextElement());
-		 }
-		 sendTreeNodesChangedEvent();
-	    }
-	}
+        if (event.isValueChanged()) {
+            sendTreeNodesChangedEvent();
+        } else if (event.isRemoved()) {
+            if (getUserObject() != null) {
+                getUserObject().removeEventListener(this);
+            }
+            //getUserObject().removeEventListener(this);
+            sendTreeNodeRemovedEvent();
+            if (getParent() != null) {
+                parent.remove(this);
+            }
+            stratmasObject = null;
+        } else if (event.isObjectAdded()) {
+            // Only interested in this if getChildren has been called,
+            // else we will pick it up when the first getChildren
+            // triggers the childCreate function. This is not really
+            // thread safe. Maybe better to call getChildren here.
+            if (this.children != null) {
+                add((StratmasObject) event.getArgument());
+            }
+        } else if (event.isChildChanged()) {
+             // HACK special handling of children affecting the look of
+             // the parent icon.
+             StratmasObject child = (StratmasObject) event.getArgument();            
+             if (child.getIdentifier().equals("symbolIDCode")) {
+                  sendTreeNodesChangedEvent();
+             }
+        } else if (event.isReplaced()) {
+            getUserObject().removeEventListener(this);
+            StratmasObjectAdapter parent = (StratmasObjectAdapter)getParent();
+            if (parent != null) {
+                //System.out.println("index before = "+getParent().getIndex(this));
+                int ind = getParent().getIndex(this);
+                sendTreeNodeRemovedEvent();
+                parent.remove(this);
+                parent.add((StratmasObject)event.getArgument(), ind);
+            }
+            else {
+                 StratmasObject o = (StratmasObject)event.getArgument();
+                 setUserObject(o);
+                 for (Enumeration en = o.children(); en.hasMoreElements(); ) {
+                      add((StratmasObject)en.nextElement());
+                 }
+                 sendTreeNodesChangedEvent();
+            }
+        }
     }
 
     /**
@@ -443,30 +443,30 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     protected void sendTreeNodesChangedEvent()
     {
-	TreeModelEvent event = buildTreeNodesChangedEvent();
-	StratmasObjectAdapter model = (StratmasObjectAdapter) event.getSource();
-	model.fireTreeNodesChanged(event);
+        TreeModelEvent event = buildTreeNodesChangedEvent();
+        StratmasObjectAdapter model = (StratmasObjectAdapter) event.getSource();
+        model.fireTreeNodesChanged(event);
     }
-	
+        
     /**
      * Builds a TreeModelEvent by traversing the adapter-tree to the top
      */    
     protected TreeModelEvent buildTreeNodesChangedEvent()
     {
-	if (getParent() != null) {
-	    Object[] children = {this};
-	    int[] childIndices = {getParent().getIndex(this)};
-	    Vector ancestors = new Vector();
-	    for (StratmasObjectAdapter walker = (StratmasObjectAdapter) getParent();
-		 walker != null; walker = (StratmasObjectAdapter) walker.getParent()) {
-		ancestors.add(0, walker);
-	    }
-	    Object[] path = ancestors.toArray();
+        if (getParent() != null) {
+            Object[] children = {this};
+            int[] childIndices = {getParent().getIndex(this)};
+            Vector ancestors = new Vector();
+            for (StratmasObjectAdapter walker = (StratmasObjectAdapter) getParent();
+                 walker != null; walker = (StratmasObjectAdapter) walker.getParent()) {
+                ancestors.add(0, walker);
+            }
+            Object[] path = ancestors.toArray();
 
-	    return new TreeModelEvent(path[0], path, childIndices, children);	    
-	} else {
-	    return new TreeModelEvent(this, new Object[] {this}, null, null);
-	}
+            return new TreeModelEvent(path[0], path, childIndices, children);            
+        } else {
+            return new TreeModelEvent(this, new Object[] {this}, null, null);
+        }
     }
 
     /**
@@ -476,12 +476,12 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     protected void sendTreeNodeAddedEvent(StratmasObjectAdapter object)
     {
-	TreeModelEvent event = 
-	    buildTreeNodeAddedEvent(object);
-	StratmasObjectAdapter model = (StratmasObjectAdapter) event.getSource();
-	model.fireTreeNodesInserted(event);
+        TreeModelEvent event = 
+            buildTreeNodeAddedEvent(object);
+        StratmasObjectAdapter model = (StratmasObjectAdapter) event.getSource();
+        model.fireTreeNodesInserted(event);
     }
-	
+        
     /**
      * Builds a TreeModelEvent by traversing the adapter-tree to the top
      *
@@ -489,16 +489,16 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */    
     protected TreeModelEvent buildTreeNodeAddedEvent(StratmasObjectAdapter object)
     {
-	Object[] children = {object};
-	int[] childIndices = {getIndex(object)};
-	Vector ancestors = new Vector();
-	for (StratmasObjectAdapter walker = this;
-	     walker != null; walker = (StratmasObjectAdapter) walker.getParent()) {
-	    ancestors.add(0, walker);
-	}
-	Object[] path = ancestors.toArray();
+        Object[] children = {object};
+        int[] childIndices = {getIndex(object)};
+        Vector ancestors = new Vector();
+        for (StratmasObjectAdapter walker = this;
+             walker != null; walker = (StratmasObjectAdapter) walker.getParent()) {
+            ancestors.add(0, walker);
+        }
+        Object[] path = ancestors.toArray();
 
-	return new TreeModelEvent(path[0], path, childIndices, children);
+        return new TreeModelEvent(path[0], path, childIndices, children);
     }
 
     /**
@@ -506,31 +506,31 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     protected void sendTreeNodeRemovedEvent()
     {
-	TreeModelEvent event = 
-	    buildTreeNodeRemovedEvent();
-	StratmasObjectAdapter model = (StratmasObjectAdapter) event.getSource();
-	model.fireTreeNodesRemoved(event);
+        TreeModelEvent event = 
+            buildTreeNodeRemovedEvent();
+        StratmasObjectAdapter model = (StratmasObjectAdapter) event.getSource();
+        model.fireTreeNodesRemoved(event);
     }
-	
+        
     /**
      * Builds a TreeModelEvent by traversing the adapter-tree to the top
      */    
     protected TreeModelEvent buildTreeNodeRemovedEvent()
     {
-	if (getParent() != null) {
-	    Object[] children = {this};
-	    //int[] childIndices = {getParent().getIndex(this)};
-	    Vector ancestors = new Vector();
-	    for (StratmasObjectAdapter walker = (StratmasObjectAdapter) getParent();
-		 walker != null; walker = (StratmasObjectAdapter) walker.getParent()) {
-		ancestors.add(0, walker);
-	    }
-	    Object[] path = ancestors.toArray();
-	    int[] childIndices = {getParent().getIndex(this)};
-	    return new TreeModelEvent(path[0], path, childIndices, children);	    
-	} else {
-	    return new TreeModelEvent(this, new Object[] {this}, null, null);
-	}
+        if (getParent() != null) {
+            Object[] children = {this};
+            //int[] childIndices = {getParent().getIndex(this)};
+            Vector ancestors = new Vector();
+            for (StratmasObjectAdapter walker = (StratmasObjectAdapter) getParent();
+                 walker != null; walker = (StratmasObjectAdapter) walker.getParent()) {
+                ancestors.add(0, walker);
+            }
+            Object[] path = ancestors.toArray();
+            int[] childIndices = {getParent().getIndex(this)};
+            return new TreeModelEvent(path[0], path, childIndices, children);            
+        } else {
+            return new TreeModelEvent(this, new Object[] {this}, null, null);
+        }
     }
     
     /**
@@ -541,7 +541,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
         Object[] listeners = getEventListenerList().getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
             if (listeners[i] == TreeModelListener.class) {
-		((TreeModelListener)listeners[i + 1]).treeNodesChanged(event);
+                ((TreeModelListener)listeners[i + 1]).treeNodesChanged(event);
             }
         }
     }
@@ -554,7 +554,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
         Object[] listeners = getEventListenerList().getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
             if (listeners[i] == TreeModelListener.class) {
-		((TreeModelListener)listeners[i + 1]).treeNodesInserted(event);
+                ((TreeModelListener)listeners[i + 1]).treeNodesInserted(event);
             }
         }
     }
@@ -567,7 +567,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
         Object[] listeners = getEventListenerList().getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
             if (listeners[i] == TreeModelListener.class) {
-		((TreeModelListener)listeners[i + 1]).treeNodesRemoved(event);
+                ((TreeModelListener)listeners[i + 1]).treeNodesRemoved(event);
             }
         }
     }
@@ -580,7 +580,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
         Object[] listeners = getEventListenerList().getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
             if (listeners[i] == TreeModelListener.class) {
-		((TreeModelListener)listeners[i + 1]).treeStructureChanged(event);
+                ((TreeModelListener)listeners[i + 1]).treeStructureChanged(event);
             }
         }
     }
@@ -592,10 +592,10 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      * @param selected true if it's selected.
      */
     public void setSelected(boolean selected) {
-	 this.selected = selected;
-	 if (stratmasObject != null) {
-	     stratmasObject.fireSelected(selected);
-	 }
+         this.selected = selected;
+         if (stratmasObject != null) {
+             stratmasObject.fireSelected(selected);
+         }
     }
 
 
@@ -603,7 +603,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      * Returns true if the node is currently selected, otherwise false.
      */
     public boolean isSelected() {
-	return selected;
+        return selected;
     }
 
     /**
@@ -611,15 +611,15 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     public boolean isLeaf()
     {
-	// HACK create children here to prevent reentrancy problems
-	// with the JTree HiearchyCache
-	getChildren();
-	StratmasObject object = getStratmasObject();
-	if (object != null) {
-	    return object.isLeaf();
-	} else {
-	    return true;
-	}
+        // HACK create children here to prevent reentrancy problems
+        // with the JTree HiearchyCache
+        getChildren();
+        StratmasObject object = getStratmasObject();
+        if (object != null) {
+            return object.isLeaf();
+        } else {
+            return true;
+        }
     }
 
     /**
@@ -629,7 +629,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     public boolean isLeaf(Object node)
     {
-	return ((StratmasObjectAdapter) node).isLeaf();
+        return ((StratmasObjectAdapter) node).isLeaf();
     }
 
     /**
@@ -638,7 +638,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     public TreeNode parent() 
     {
-	return parent;
+        return parent;
     }
 
     /**
@@ -648,7 +648,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     public void setParent(MutableTreeNode newParent)
     {
-	this.parent = newParent;
+        this.parent = newParent;
     }
 
     /**
@@ -656,7 +656,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     public boolean hasParent()
     {
-	return this.getParent() != null;
+        return this.getParent() != null;
     }
 
     /**
@@ -664,7 +664,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     private EventListenerList getEventListenerList()
     {
-	return this.eventListenerList;
+        return this.eventListenerList;
     }
 
     /**
@@ -674,7 +674,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     private void addEventListener(EventListener listener)
     {
-	this.getEventListenerList().add(TreeModelListener.class, listener);
+        this.getEventListenerList().add(TreeModelListener.class, listener);
     }
 
     /**
@@ -684,7 +684,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     private void removeEventListener(EventListener listener)
     {
-	this.getEventListenerList().remove(TreeModelListener.class, listener);
+        this.getEventListenerList().remove(TreeModelListener.class, listener);
     }
 
     /**
@@ -694,7 +694,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     public void addTreeModelListener(TreeModelListener listener)
     {
-	this.addEventListener(listener);
+        this.addEventListener(listener);
     }
 
     /**
@@ -705,7 +705,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     public void removeTreeModelListener(TreeModelListener listener)
     {
-	this.removeEventListener(listener);
+        this.removeEventListener(listener);
     }
 
     /**
@@ -717,8 +717,8 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     public void valueForPathChanged(TreePath path, Object newValue)
     {
-	StratmasObjectAdapter sObj = (StratmasObjectAdapter) path.getLastPathComponent();
-	sObj.update(newValue);
+        StratmasObjectAdapter sObj = (StratmasObjectAdapter) path.getLastPathComponent();
+        sObj.update(newValue);
     }
 
     /**
@@ -727,30 +727,30 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */   
     public void update(Object o)
     {
-	if (stratmasObject == null) {
-	    return;
-	}
+        if (stratmasObject == null) {
+            return;
+        }
 
-	if (o instanceof String) {
-	    if (stratmasObject instanceof StratmasSimple) {
-		try {
-		    ((StratmasSimple) stratmasObject).valueFromString(o.toString(), this);
-		} catch (ParseException e) {
-		    JOptionPane.showMessageDialog((JFrame) null, "Parse error:\nUnable to assign \"" + 
-						  o + "\" to a/an " + 
-						  getStratmasObject().getType().getName(), 
-						  "Parse Error", JOptionPane.ERROR_MESSAGE);
-		}
-	    } else {
-		if (stratmasObject.getParent() != null &&
-		    stratmasObject.getParent() instanceof StratmasList) {
-		    stratmasObject.setIdentifier(o.toString());
-		}
-	    }
-	}
-	else {
-	    System.err.println("Don't know how to update using a " + o.getClass().toString());
-	}
+        if (o instanceof String) {
+            if (stratmasObject instanceof StratmasSimple) {
+                try {
+                    ((StratmasSimple) stratmasObject).valueFromString(o.toString(), this);
+                } catch (ParseException e) {
+                    JOptionPane.showMessageDialog((JFrame) null, "Parse error:\nUnable to assign \"" + 
+                                                  o + "\" to a/an " + 
+                                                  getStratmasObject().getType().getName(), 
+                                                  "Parse Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                if (stratmasObject.getParent() != null &&
+                    stratmasObject.getParent() instanceof StratmasList) {
+                    stratmasObject.setIdentifier(o.toString());
+                }
+            }
+        }
+        else {
+            System.err.println("Don't know how to update using a " + o.getClass().toString());
+        }
     }
 
     /*
@@ -761,7 +761,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     public void insert(MutableTreeNode child, int index)
     {
-	getChildren().add(index, child);
+        getChildren().add(index, child);
     }
     
     /**
@@ -771,7 +771,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */    
     public void remove(int index)
     {
-	getChildren().remove(index);
+        getChildren().remove(index);
     }
 
     /**
@@ -781,7 +781,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     public void remove(MutableTreeNode node)
     {
-	getChildren().remove(node);
+        getChildren().remove(node);
     }
     
     /**
@@ -789,14 +789,14 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     public void removeFromParent()
     {
-	if (getParent() != null) {
-	    parent.remove(this);
-	}
+        if (getParent() != null) {
+            parent.remove(this);
+        }
     }
     
     public StratmasObject getUserObject()
     {
-	return getStratmasObject();
+        return getStratmasObject();
     }
 
     /**
@@ -804,7 +804,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */    
     public StratmasObject getStratmasObject()
     {
-	return stratmasObject;
+        return stratmasObject;
     }
 
     /**
@@ -813,16 +813,16 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */    
     public String toEditableString()
     {
-	if (stratmasObject == null) {
-	    return "";
-	}
+        if (stratmasObject == null) {
+            return "";
+        }
 
-	if (stratmasObject instanceof StratmasSimple) {
-	    return ((StratmasSimple) stratmasObject).valueToPrettyString();
-	}
-	else {
-	    return stratmasObject.getIdentifier();
-	}
+        if (stratmasObject instanceof StratmasSimple) {
+            return ((StratmasSimple) stratmasObject).valueToPrettyString();
+        }
+        else {
+            return stratmasObject.getIdentifier();
+        }
     }
 
     /**
@@ -830,17 +830,17 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      * this value.
      */    
     public String getTextTag()
-    {	
-	if (stratmasObject != null) {
-	    if (stratmasObject.isLeaf()) {
-		return stratmasObject.toString();
-	    }
-	    else {
-		return stratmasObject.getIdentifier();
-	    }
-	} else {
-	    return null;
-	}
+    {        
+        if (stratmasObject != null) {
+            if (stratmasObject.isLeaf()) {
+                return stratmasObject.toString();
+            }
+            else {
+                return stratmasObject.getIdentifier();
+            }
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -848,12 +848,12 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      * this value.
      */    
     public Icon getIcon()
-    {	
-	if (stratmasObject != null) {
-	    return stratmasObject.getIcon();
-	} else {
-	    return null;
-	}
+    {        
+        if (stratmasObject != null) {
+            return stratmasObject.getIcon();
+        } else {
+            return null;
+        }
     }
 
     
@@ -864,24 +864,24 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */     
     public void setUserObject(Object object)
     {
-	StratmasObject oldObject = getUserObject();
-	if (oldObject != null) {
-	    oldObject.removeEventListener(this);
-	}
+        StratmasObject oldObject = getUserObject();
+        if (oldObject != null) {
+            oldObject.removeEventListener(this);
+        }
 
-	this.stratmasObject = (StratmasObject) object;	
+        this.stratmasObject = (StratmasObject) object;        
 
-	if (object != null) {
-	    this.stratmasObject.addEventListener(this);
-	}
-	else if (invisibleListListeners != null) {
-	    // The user object will (should... must!) be set to null
-	    // when the adapter is destroyed.
-	    for (Iterator it = invisibleListListeners.iterator(); it.hasNext(); ) {
-		((InvisibleListListener)it.next()).dispose();
-	    }
-	    invisibleListListeners.clear();
-	}
+        if (object != null) {
+            this.stratmasObject.addEventListener(this);
+        }
+        else if (invisibleListListeners != null) {
+            // The user object will (should... must!) be set to null
+            // when the adapter is destroyed.
+            for (Iterator it = invisibleListListeners.iterator(); it.hasNext(); ) {
+                ((InvisibleListListener)it.next()).dispose();
+            }
+            invisibleListListeners.clear();
+        }
     }
 
     /**
@@ -892,21 +892,21 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      * @param stratmasObject the stratmasObject to adapt.
      */
     public static StratmasObjectAdapter getStratmasObjectAdapter(StratmasObject stratmasObject) {
-	if (stratmasObject.getType().canSubstitute("Point")) {
-	    return new PointAdapter(stratmasObject);
-	} 
-	else if (stratmasObject.getType().canSubstitute("ParameterGroup")) {
-	    StratmasObjectFilter filter = new StratmasObjectFilter() {
-		    public boolean pass(StratmasObject o) {
-			return (o.getType().canSubstitute("ParameterGroup") ||
-				o.getType().canSubstitute("SimpleType"));
-		    }
-		};
-	    return getStratmasObjectAdapter(stratmasObject, filter);
-	} 
-	else {
-	    return new StratmasObjectAdapter(stratmasObject);
-	} 
+        if (stratmasObject.getType().canSubstitute("Point")) {
+            return new PointAdapter(stratmasObject);
+        } 
+        else if (stratmasObject.getType().canSubstitute("ParameterGroup")) {
+            StratmasObjectFilter filter = new StratmasObjectFilter() {
+                    public boolean pass(StratmasObject o) {
+                        return (o.getType().canSubstitute("ParameterGroup") ||
+                                o.getType().canSubstitute("SimpleType"));
+                    }
+                };
+            return getStratmasObjectAdapter(stratmasObject, filter);
+        } 
+        else {
+            return new StratmasObjectAdapter(stratmasObject);
+        } 
     }
     
      /**
@@ -918,24 +918,24 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      * @param stratmasFilter the filter for this object.
      */
     public static StratmasObjectAdapter getStratmasObjectAdapter(StratmasObject stratmasObject, 
-								 StratmasObjectFilter stratmasFilter) {
-	if (stratmasObject.getType().canSubstitute("Point")) {
-	    return new PointAdapter(stratmasObject, stratmasFilter);
-	} 
-	else if (stratmasObject.getType().canSubstitute("ParameterGroup")) {
-	    final StratmasObjectFilter fStratmasFilter = stratmasFilter;
-	    StratmasObjectFilter filter = new StratmasObjectFilter() {
-		    public boolean pass(StratmasObject o) {
-			return (fStratmasFilter.pass(o) &&
-				(o.getType().canSubstitute("ParameterGroup") || 
-				 o.getType().canSubstitute("SimpleType")));
-		    }
-		};
-	    return new StratmasObjectAdapter(stratmasObject, filter);
-	} 
-	else {
-	    return new StratmasObjectAdapter(stratmasObject, stratmasFilter);
-	} 
+                                                                 StratmasObjectFilter stratmasFilter) {
+        if (stratmasObject.getType().canSubstitute("Point")) {
+            return new PointAdapter(stratmasObject, stratmasFilter);
+        } 
+        else if (stratmasObject.getType().canSubstitute("ParameterGroup")) {
+            final StratmasObjectFilter fStratmasFilter = stratmasFilter;
+            StratmasObjectFilter filter = new StratmasObjectFilter() {
+                    public boolean pass(StratmasObject o) {
+                        return (fStratmasFilter.pass(o) &&
+                                (o.getType().canSubstitute("ParameterGroup") || 
+                                 o.getType().canSubstitute("SimpleType")));
+                    }
+                };
+            return new StratmasObjectAdapter(stratmasObject, filter);
+        } 
+        else {
+            return new StratmasObjectAdapter(stratmasObject, stratmasFilter);
+        } 
     }
     
     /**
@@ -944,13 +944,13 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      * @return tree path of this adapter.
      */
     public TreePath getTreePath() {
-	Vector ancestors = new Vector();
-	for (StratmasObjectAdapter walker = (StratmasObjectAdapter) this;
-	     walker != null; walker = (StratmasObjectAdapter) walker.getParent()) {
-	    ancestors.add(0, walker);
-	}
-	Object[] path = ancestors.toArray();
-	return new TreePath(path);
+        Vector ancestors = new Vector();
+        for (StratmasObjectAdapter walker = (StratmasObjectAdapter) this;
+             walker != null; walker = (StratmasObjectAdapter) walker.getParent()) {
+            ancestors.add(0, walker);
+        }
+        Object[] path = ancestors.toArray();
+        return new TreePath(path);
     }
 
     /**
@@ -959,19 +959,19 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     void dispose()
     {
-	// Synchronized to avoid that getChildren() creates the vector
-	// we are emptying.
-	synchronized (this) {
-	    // If any children, dispose them first;
-	    if (children != null) {
-		for (Enumeration e = children(); e.hasMoreElements();) {
-		    ((StratmasObjectAdapter) e.nextElement()).dispose();
-		}
-	    }
-	    // Removes the eventlistener on the StratmasObject, will
-	    // also make getChildren return an empty vector.
-	    setUserObject(null);
-	}
+        // Synchronized to avoid that getChildren() creates the vector
+        // we are emptying.
+        synchronized (this) {
+            // If any children, dispose them first;
+            if (children != null) {
+                for (Enumeration e = children(); e.hasMoreElements();) {
+                    ((StratmasObjectAdapter) e.nextElement()).dispose();
+                }
+            }
+            // Removes the eventlistener on the StratmasObject, will
+            // also make getChildren return an empty vector.
+            setUserObject(null);
+        }
     }
 
     /**
@@ -986,10 +986,10 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      * @param listener the listener to add.
      */
     private void addInvisibleListListener(InvisibleListListener listener) {
-	if (invisibleListListeners == null) {
-	    invisibleListListeners = new Vector();
-	}
-	invisibleListListeners.add(listener);
+        if (invisibleListListeners == null) {
+            invisibleListListeners = new Vector();
+        }
+        invisibleListListeners.add(listener);
     }
 
     /**
@@ -998,10 +998,10 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      * @param listener the listener to remove.
      */
     void removeInvisibleListListener(InvisibleListListener listener) {
-	invisibleListListeners.remove(listener);
-	if (invisibleListListeners.isEmpty()) {
-	    invisibleListListeners = null;
-	}
+        invisibleListListeners.remove(listener);
+        if (invisibleListListeners.isEmpty()) {
+            invisibleListListeners = null;
+        }
     }
 }
 
@@ -1034,17 +1034,17 @@ class InvisibleListListener implements StratmasEventListener {
      * @param toWatch The list to listen to.
      */
     InvisibleListListener(StratmasObjectAdapter toNotify, StratmasList toWatch) {
-	this.adapter = toNotify;
-	this.object = toWatch;
-	object.addEventListener(this);
+        this.adapter = toNotify;
+        this.object = toWatch;
+        object.addEventListener(this);
     }
 
     /**
      * Cleans up after this listener.
      */
     public void dispose() {
-	object.removeEventListener(this);
-	object = null;
+        object.removeEventListener(this);
+        object = null;
     }
 
     /**
@@ -1053,18 +1053,18 @@ class InvisibleListListener implements StratmasEventListener {
      * @param event the event causing the call.
      */
     public void eventOccured(StratmasEvent event) {
- 	if (event.isObjectAdded()) {
-	    adapter.add((StratmasObject)event.getArgument());
-	}
- 	else if (event.isRemoved()) {
-	    dispose();
-	    adapter.removeInvisibleListListener(this);
-	    adapter = null;
-	}
- 	else if (event.isReplaced()) {
-	    object.removeEventListener(this);
-	    object = (StratmasList)event.getArgument();
-	    object.addEventListener(this);
-	}
+         if (event.isObjectAdded()) {
+            adapter.add((StratmasObject)event.getArgument());
+        }
+         else if (event.isRemoved()) {
+            dispose();
+            adapter.removeInvisibleListListener(this);
+            adapter = null;
+        }
+         else if (event.isReplaced()) {
+            object.removeEventListener(this);
+            object = (StratmasList)event.getArgument();
+            object.addEventListener(this);
+        }
     }
 }

@@ -22,17 +22,17 @@ City::City(const DataObject& d) : Element(d)
 {
      const vector<DataObject*>& grps = d.getChild("ethnicGroups")->objects();
      for (vector<DataObject*>::const_iterator it = grps.begin(); it != grps.end(); it++) {
-	  const DataObject& dr = **it;
-	  mPop[&dr.getChild("ethnicity")->getReference()] = dr.getChild("inhabitants")->getDouble();
+          const DataObject& dr = **it;
+          mPop[&dr.getChild("ethnicity")->getReference()] = dr.getChild("inhabitants")->getDouble();
      }
 
      for (std::map<const Reference*, double>::iterator it = mPop.begin(); it != mPop.end(); it++) {
-	  mPVs.push_back(PVModification(eAllPopulation, *EthnicFaction::faction(*it->first), it->second));
+          mPVs.push_back(PVModification(eAllPopulation, *EthnicFaction::faction(*it->first), it->second));
      }
 
      double totPop = 0;
      for(std::map<const Reference*, double>::iterator it = mPop.begin(); it != mPop.end(); ++it) {
-	  totPop += it->second;
+          totPop += it->second;
      }
      mPop[&EthnicFaction::all().ref()] = totPop;
 }
@@ -47,9 +47,9 @@ double City::population(int f) const
 {
      Faction* fp = EthnicFaction::faction(f);
      if (!fp) {
-	  Error e;
-	  e << "No EthnicFaction for index " << f;
-	  throw e;
+          Error e;
+          e << "No EthnicFaction for index " << f;
+          throw e;
      }
      return population(*fp);
 }
@@ -77,7 +77,7 @@ ostream &operator << (ostream &o, const City &c)
 {
      o << "City " << c.ref() << ", population:";
      for (std::map<const Reference*, double>::const_iterator it = c.mPop.begin(); it != c.mPop.end(); it++) {
-	  o << endl << "  " << *it->first << " - " << it->second;
+          o << endl << "  " << *it->first << " - " << it->second;
      }
      return o;
 }

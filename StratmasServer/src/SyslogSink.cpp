@@ -30,10 +30,10 @@ void SyslogSink::sink(const LogMessage* const message)
 SyslogSink* SyslogSink::createSyslogSink(const std::string& ident)
 {
      if (!sSyslogOpened) {
-	  sIdent = ident;
-	  ::openlog(sIdent.c_str(), LOG_ODELAY | LOG_CONS | LOG_PID, 
-		    LOG_DAEMON);
-	  sSyslogOpened = true;
+          sIdent = ident;
+          ::openlog(sIdent.c_str(), LOG_ODELAY | LOG_CONS | LOG_PID, 
+                    LOG_DAEMON);
+          sSyslogOpened = true;
      }
 
      return new SyslogSink();

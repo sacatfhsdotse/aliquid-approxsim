@@ -1,4 +1,4 @@
-// 	$Id: TreeView.java,v 1.3 2006/03/31 16:55:52 dah Exp $
+//         $Id: TreeView.java,v 1.3 2006/03/31 16:55:52 dah Exp $
 
 /*
  * @(#)TreeView.java
@@ -62,29 +62,29 @@ public class TreeView extends JTree
      */
     public TreeView(TreeViewModel root)
     {
-	super(root);
-	
-	setCellRenderer(new TreeViewCellRenderer());
-	//setCellEditor(new TreeViewCellEditor());
-	initZoom();
-	initMouseListener();
-	getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-	setEditable(true);
-	setTransferHandler(new StratmasTransferHandler());
-	setDragEnabled(true);
+        super(root);
+        
+        setCellRenderer(new TreeViewCellRenderer());
+        //setCellEditor(new TreeViewCellEditor());
+        initZoom();
+        initMouseListener();
+        getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        setEditable(true);
+        setTransferHandler(new StratmasTransferHandler());
+        setDragEnabled(true);
 
-	getInputMap().put(KeyStroke.getKeyStroke("ctrl X"),
-			  getTransferHandler().getCutAction().getValue(Action.NAME));
-	getInputMap().put(KeyStroke.getKeyStroke("ctrl C"),
-			  getTransferHandler().getCopyAction().getValue(Action.NAME));
-	getInputMap().put(KeyStroke.getKeyStroke("ctrl V"),
-			  getTransferHandler().getPasteAction().getValue(Action.NAME));
-	getActionMap().put(getTransferHandler().getCutAction().getValue(Action.NAME),
-			   getTransferHandler().getCutAction());
-	getActionMap().put(getTransferHandler().getCopyAction().getValue(Action.NAME),
-			   getTransferHandler().getCopyAction());
-	getActionMap().put(getTransferHandler().getPasteAction().getValue(Action.NAME),
-			   getTransferHandler().getPasteAction());
+        getInputMap().put(KeyStroke.getKeyStroke("ctrl X"),
+                          getTransferHandler().getCutAction().getValue(Action.NAME));
+        getInputMap().put(KeyStroke.getKeyStroke("ctrl C"),
+                          getTransferHandler().getCopyAction().getValue(Action.NAME));
+        getInputMap().put(KeyStroke.getKeyStroke("ctrl V"),
+                          getTransferHandler().getPasteAction().getValue(Action.NAME));
+        getActionMap().put(getTransferHandler().getCutAction().getValue(Action.NAME),
+                           getTransferHandler().getCutAction());
+        getActionMap().put(getTransferHandler().getCopyAction().getValue(Action.NAME),
+                           getTransferHandler().getCopyAction());
+        getActionMap().put(getTransferHandler().getPasteAction().getValue(Action.NAME),
+                           getTransferHandler().getPasteAction());
     }
 
     /**
@@ -93,16 +93,16 @@ public class TreeView extends JTree
      */
     void initMouseListener()
     {
-	this.addMouseListener(new MouseInputAdapter() 
-	    {
-		public void mousePressed(MouseEvent e)
-		{
-		    if (e.isPopupTrigger()) {
-			    showPopup(e.getX(),
-				      e.getY());
-		    }
-		}
-	    });
+        this.addMouseListener(new MouseInputAdapter() 
+            {
+                public void mousePressed(MouseEvent e)
+                {
+                    if (e.isPopupTrigger()) {
+                            showPopup(e.getX(),
+                                      e.getY());
+                    }
+                }
+            });
     }
     
     /**
@@ -110,33 +110,33 @@ public class TreeView extends JTree
      */
     protected void initZoom()
     {
-	getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP, 
-						 ActionEvent.CTRL_MASK),
-			  "ZoomIn");
-	getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN, 
-						 ActionEvent.CTRL_MASK), 
-			  "ZoomOut");
-	
-	getActionMap().put("ZoomIn",
-			   new AbstractAction("Zoom In", 
-					      new ImageIcon(StratmasClient.treeview.TreeView.class.getResource("images/zoom_in.png"))) 
-			   {
-			       public void actionPerformed(ActionEvent e) 
-			       {
-				   scalePreferedIconSize(1.1);
-			       }
-			   });
-	
-	getActionMap().put("ZoomOut",
-			   new AbstractAction("Zoom Out", 
-					      new ImageIcon(StratmasClient.treeview.TreeView.class.getResource("images/zoom_out.png"))) 
-			   { 
-			       
-			       public void actionPerformed(ActionEvent e) 
-			       {
-				   scalePreferedIconSize(0.9);
-			       }
-			   });
+        getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP, 
+                                                 ActionEvent.CTRL_MASK),
+                          "ZoomIn");
+        getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN, 
+                                                 ActionEvent.CTRL_MASK), 
+                          "ZoomOut");
+        
+        getActionMap().put("ZoomIn",
+                           new AbstractAction("Zoom In", 
+                                              new ImageIcon(StratmasClient.treeview.TreeView.class.getResource("images/zoom_in.png"))) 
+                           {
+                               public void actionPerformed(ActionEvent e) 
+                               {
+                                   scalePreferedIconSize(1.1);
+                               }
+                           });
+        
+        getActionMap().put("ZoomOut",
+                           new AbstractAction("Zoom Out", 
+                                              new ImageIcon(StratmasClient.treeview.TreeView.class.getResource("images/zoom_out.png"))) 
+                           { 
+                               
+                               public void actionPerformed(ActionEvent e) 
+                               {
+                                   scalePreferedIconSize(0.9);
+                               }
+                           });
     }
 
     /**
@@ -148,7 +148,7 @@ public class TreeView extends JTree
      */
     protected Object pointToObject(Point point)
     {
-	return pointToObject((int) point.getX(), (int) point.getY());
+        return pointToObject((int) point.getX(), (int) point.getY());
     }
 
     /**
@@ -161,13 +161,13 @@ public class TreeView extends JTree
      */
     protected Object pointToObject(int x, int y)
     {
-	TreePath path = getPathForLocation(x, y);
+        TreePath path = getPathForLocation(x, y);
 
-	if (path != null) {
-	    return path.getLastPathComponent();
-	} else {
-	    return getModel().getRoot();
-	}
+        if (path != null) {
+            return path.getLastPathComponent();
+        } else {
+            return getModel().getRoot();
+        }
     }
 
     /**
@@ -179,10 +179,10 @@ public class TreeView extends JTree
      */
     protected void showPopup(int x, int y)
     {
-	JPopupMenu popup = createPopup(pointToObject(x, y));
-	if (popup != null) {
-	    popup.show(this, x, y);
-	}
+        JPopupMenu popup = createPopup(pointToObject(x, y));
+        if (popup != null) {
+            popup.show(this, x, y);
+        }
     }
 
     /**
@@ -192,75 +192,75 @@ public class TreeView extends JTree
      */
     public JPopupMenu createPopup(StratmasObject object)
     {
-	final StratmasObject sObj = object;
+        final StratmasObject sObj = object;
 
-	
-	Vector actions = sObj.getActions();
-	JPopupMenu popup = new JPopupMenu(sObj.getIdentifier().toString());
-	
-	popup.add(new AbstractAction("View branch in separate tree")
-	    {
-		public void actionPerformed(ActionEvent e)
-		{
-		    final TreeViewFrame frame = 
-			TreeView.getDefaultFrame(sObj);
-		    frame.setEditable(isEditable());
-		    if (getTopLevelAncestor() instanceof ClientMainFrame) {
-			((ClientMainFrame) getTopLevelAncestor()).tabFrame(frame);
-		    } else {
-			SwingUtilities.invokeLater(new Runnable() 
-			    {
-				public void run() 
-				{
-				    frame.setVisible(true);
-				}
-			    });
-		    }
-		}
-	    });
-	popup.add(new AbstractAction("View only " + sObj.getType().getName() + "(s)")
-	    {
-		TypeFilter filter = new TypeFilter(sObj.getType());
-		public void actionPerformed(ActionEvent e)
-		{
-		    final TreeViewFrame frame = 
-			TreeView.getDefaultFrame(sObj, filter);
-		    frame.setEditable(isEditable());
-		    if (getTopLevelAncestor() instanceof ClientMainFrame) {
-			((ClientMainFrame) getTopLevelAncestor()).tabFrame(frame);
-		    } else {
-			SwingUtilities.invokeLater(new Runnable() 
-			    {
-				public void run() 
-				{
-				    frame.setVisible(true);
-				}
-			    });
-		    }
-		}
-	    });
-	    
-	popup.add(new JSeparator());
-	
-	// Add cut and copy actions.
-	popup.add(getTransferHandler().getCutAction());
-	popup.add(getTransferHandler().getCopyAction());
-	popup.add(new JSeparator());
-	
-	
-	
-	for (Enumeration e = actions.elements(); e.hasMoreElements();) {
-	    StratmasAbstractAction action = (StratmasAbstractAction)
-		e.nextElement();
-	    if (!isEditable()) {
-		if (action.isMutator()) {
-		    action.setEnabled(false);
-		}
-	    }
-	    popup.add(action);
-	}
+        
+        Vector actions = sObj.getActions();
+        JPopupMenu popup = new JPopupMenu(sObj.getIdentifier().toString());
+        
+        popup.add(new AbstractAction("View branch in separate tree")
+            {
+                public void actionPerformed(ActionEvent e)
+                {
+                    final TreeViewFrame frame = 
+                        TreeView.getDefaultFrame(sObj);
+                    frame.setEditable(isEditable());
+                    if (getTopLevelAncestor() instanceof ClientMainFrame) {
+                        ((ClientMainFrame) getTopLevelAncestor()).tabFrame(frame);
+                    } else {
+                        SwingUtilities.invokeLater(new Runnable() 
+                            {
+                                public void run() 
+                                {
+                                    frame.setVisible(true);
+                                }
+                            });
+                    }
+                }
+            });
+        popup.add(new AbstractAction("View only " + sObj.getType().getName() + "(s)")
+            {
+                TypeFilter filter = new TypeFilter(sObj.getType());
+                public void actionPerformed(ActionEvent e)
+                {
+                    final TreeViewFrame frame = 
+                        TreeView.getDefaultFrame(sObj, filter);
+                    frame.setEditable(isEditable());
+                    if (getTopLevelAncestor() instanceof ClientMainFrame) {
+                        ((ClientMainFrame) getTopLevelAncestor()).tabFrame(frame);
+                    } else {
+                        SwingUtilities.invokeLater(new Runnable() 
+                            {
+                                public void run() 
+                                {
+                                    frame.setVisible(true);
+                                }
+                            });
+                    }
+                }
+            });
+            
+        popup.add(new JSeparator());
+        
+        // Add cut and copy actions.
+        popup.add(getTransferHandler().getCutAction());
+        popup.add(getTransferHandler().getCopyAction());
+        popup.add(new JSeparator());
+        
+        
+        
+        for (Enumeration e = actions.elements(); e.hasMoreElements();) {
+            StratmasAbstractAction action = (StratmasAbstractAction)
+                e.nextElement();
+            if (!isEditable()) {
+                if (action.isMutator()) {
+                    action.setEnabled(false);
+                }
+            }
+            popup.add(action);
+        }
 
-	return popup;
+        return popup;
     }
 
     /**
@@ -270,11 +270,11 @@ public class TreeView extends JTree
      */
     public JPopupMenu createPopup(Object object)
     {
-	if (object instanceof StratmasObject) {
-	    return createPopup((StratmasObject) object);
-	} else {
-	    return null;
-	}
+        if (object instanceof StratmasObject) {
+            return createPopup((StratmasObject) object);
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -286,27 +286,27 @@ public class TreeView extends JTree
      */
     public void scalePreferedIconSize(double scale)
     {
-	int newWidth = (int) (preferedIconSize.getWidth() * scale);
-	int newHeight = (int) (preferedIconSize.getHeight() * scale);
-	
-	// make sure we actually increase/decrease
-	if (scale > 1) {
-	    if (newWidth == (int) preferedIconSize.getWidth()) {
-		newWidth++;
-	    }
-	    if (newHeight == (int) preferedIconSize.getHeight()) {
-		newHeight++;
-	    }
-	} else if (scale < 1) {
-	    if (newWidth == (int) preferedIconSize.getWidth()) {
-		newWidth--;
-	    }
-	    if (newHeight == (int) preferedIconSize.getHeight()) {
-		newHeight--;
-	    }
-	}
+        int newWidth = (int) (preferedIconSize.getWidth() * scale);
+        int newHeight = (int) (preferedIconSize.getHeight() * scale);
+        
+        // make sure we actually increase/decrease
+        if (scale > 1) {
+            if (newWidth == (int) preferedIconSize.getWidth()) {
+                newWidth++;
+            }
+            if (newHeight == (int) preferedIconSize.getHeight()) {
+                newHeight++;
+            }
+        } else if (scale < 1) {
+            if (newWidth == (int) preferedIconSize.getWidth()) {
+                newWidth--;
+            }
+            if (newHeight == (int) preferedIconSize.getHeight()) {
+                newHeight--;
+            }
+        }
 
-	setPreferedIconSize(newWidth, newHeight);
+        setPreferedIconSize(newWidth, newHeight);
     }
 
     /**
@@ -319,12 +319,12 @@ public class TreeView extends JTree
      */
     public void setPreferedIconSize(int width, int height)
     {
-	if (width > 0 && height > 0) {
-	    preferedIconSize.setSize(width, height);
-	    
-	    setRowHeight((int) preferedIconSize.getHeight());
-	    validate();
-	}
+        if (width > 0 && height > 0) {
+            preferedIconSize.setSize(width, height);
+            
+            setRowHeight((int) preferedIconSize.getHeight());
+            validate();
+        }
     }
 
     /**
@@ -333,7 +333,7 @@ public class TreeView extends JTree
      */
     public Dimension getPreferedIconSize()
     {
-	return preferedIconSize;
+        return preferedIconSize;
     }
     
     /**
@@ -343,7 +343,7 @@ public class TreeView extends JTree
      */    
     public static TreeViewFrame getDefaultFrame(StratmasObject root)
     {
-	return new TreeViewFrame(getDefaultTreeView(root));
+        return new TreeViewFrame(getDefaultTreeView(root));
     }
 
     /**
@@ -353,9 +353,9 @@ public class TreeView extends JTree
      * @param filter the object to use as root for this tree.
      */    
     public static TreeViewFrame getDefaultFrame(StratmasObject root, 
-						StratmasObjectFilter filter)
-    {	
-	return new TreeViewFrame(getDefaultTreeView(root, filter));
+                                                StratmasObjectFilter filter)
+    {        
+        return new TreeViewFrame(getDefaultTreeView(root, filter));
     }
 
     /**
@@ -366,13 +366,13 @@ public class TreeView extends JTree
      */
     public static TreeView getDefaultTreeView(StratmasObject root)
     {
-	final TreeView view = new TreeView(new TreeViewModel(root));
-	view.setShowsRootHandles(false);
-	if (root instanceof StratmasList) {
-	    view.setRootVisible(true);
-	}
+        final TreeView view = new TreeView(new TreeViewModel(root));
+        view.setShowsRootHandles(false);
+        if (root instanceof StratmasList) {
+            view.setRootVisible(true);
+        }
 
-	return view;
+        return view;
     }
 
     /**
@@ -382,16 +382,16 @@ public class TreeView extends JTree
      * @param root the object to use as root for this tree.
      */
     public static TreeView getDefaultTreeView(StratmasObject root, 
-					      StratmasObjectFilter filter)
+                                              StratmasObjectFilter filter)
     {
-	TreeView view = new TreeView(new TreeViewModel(root));
-	view.setShowsRootHandles(false);
-	// By defualt, dont show root handle for lists.
-	if (root instanceof StratmasList) {
-	    view.setRootVisible(false);
-	}
-	
-	return view;
+        TreeView view = new TreeView(new TreeViewModel(root));
+        view.setShowsRootHandles(false);
+        // By defualt, dont show root handle for lists.
+        if (root instanceof StratmasList) {
+            view.setRootVisible(false);
+        }
+        
+        return view;
     }
 
 }

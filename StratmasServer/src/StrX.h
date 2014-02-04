@@ -51,13 +51,13 @@ public:
       * given encoding.
       */
      static void setEncoding(const XMLCh* encoding, unsigned int maxCharSize) {
-	  sMaxCharSize = maxCharSize;
-	  XMLTransService::Codes res;
-	  XMLTranscoder* tmp = XMLPlatformUtils::fgTransService->makeNewTranscoderFor(encoding, res, kBlockSize);
-	  if (sTranscoder) {
-	       delete sTranscoder;
-	  }
-	  sTranscoder = tmp;
+          sMaxCharSize = maxCharSize;
+          XMLTransService::Codes res;
+          XMLTranscoder* tmp = XMLPlatformUtils::fgTransService->makeNewTranscoderFor(encoding, res, kBlockSize);
+          if (sTranscoder) {
+               delete sTranscoder;
+          }
+          sTranscoder = tmp;
      }
      
      /**
@@ -69,13 +69,13 @@ public:
       * given encoding.
       */
      static void setEncoding(const char* encoding, unsigned int maxCharSize) {
-	  sMaxCharSize = maxCharSize;
-	  XMLTransService::Codes res;
-	  XMLTranscoder* tmp = XMLPlatformUtils::fgTransService->makeNewTranscoderFor(encoding, res, kBlockSize);
-	  if (sTranscoder) {
-	       delete sTranscoder;
-	  }
-	  sTranscoder = tmp;
+          sMaxCharSize = maxCharSize;
+          XMLTransService::Codes res;
+          XMLTranscoder* tmp = XMLPlatformUtils::fgTransService->makeNewTranscoderFor(encoding, res, kBlockSize);
+          if (sTranscoder) {
+               delete sTranscoder;
+          }
+          sTranscoder = tmp;
      }
      
      /**
@@ -133,43 +133,43 @@ public :
       * \param toTranscode The string to transcode
       */
      StrX(const XMLCh* const toTranscode) : mLongStr(0) {
-	  int maxCharSize = TranscoderWrapper::getMaxCharSize();
-	  unsigned int charsEaten;
-	  unsigned int charsToTranscode = XMLString::stringLen(toTranscode) + 1;
-	  if (charsToTranscode <= kBlock / maxCharSize) {
-	       TranscoderWrapper::getTranscoder()->transcodeTo(toTranscode,
-							       (const XMLSize_t)charsToTranscode,
-							       (XMLByte*)mStr,
-							       (const XMLSize_t)kBlock,
-							       (XMLSize_t &)charsEaten,
-							       XMLTranscoder::UnRep_RepChar);
-	  }
-	  else {
-	       mLongStr = new char[charsToTranscode * sizeof(XMLCh)];
-	       unsigned int chunkSize;
-	       char* writeHere = mLongStr;
-	       unsigned int readBytes;
-	       for (unsigned int i = 0; i < charsToTranscode; i += charsEaten) {
-		    chunkSize = (charsToTranscode - i < TranscoderWrapper::getBlockSize() ? 
-				 charsToTranscode - i : TranscoderWrapper::getBlockSize());
-		    readBytes = TranscoderWrapper::getTranscoder()->transcodeTo(toTranscode + i,
-										(const XMLSize_t)chunkSize,
-										(XMLByte*)writeHere,
-										(const XMLSize_t)(charsToTranscode - i) * maxCharSize,
-										(XMLSize_t &)charsEaten,
-										XMLTranscoder::UnRep_RepChar);
-		    writeHere += readBytes;
-	       }
-	  }
+          int maxCharSize = TranscoderWrapper::getMaxCharSize();
+          unsigned int charsEaten;
+          unsigned int charsToTranscode = XMLString::stringLen(toTranscode) + 1;
+          if (charsToTranscode <= kBlock / maxCharSize) {
+               TranscoderWrapper::getTranscoder()->transcodeTo(toTranscode,
+                                                               (const XMLSize_t)charsToTranscode,
+                                                               (XMLByte*)mStr,
+                                                               (const XMLSize_t)kBlock,
+                                                               (XMLSize_t &)charsEaten,
+                                                               XMLTranscoder::UnRep_RepChar);
+          }
+          else {
+               mLongStr = new char[charsToTranscode * sizeof(XMLCh)];
+               unsigned int chunkSize;
+               char* writeHere = mLongStr;
+               unsigned int readBytes;
+               for (unsigned int i = 0; i < charsToTranscode; i += charsEaten) {
+                    chunkSize = (charsToTranscode - i < TranscoderWrapper::getBlockSize() ? 
+                                 charsToTranscode - i : TranscoderWrapper::getBlockSize());
+                    readBytes = TranscoderWrapper::getTranscoder()->transcodeTo(toTranscode + i,
+                                                                                (const XMLSize_t)chunkSize,
+                                                                                (XMLByte*)writeHere,
+                                                                                (const XMLSize_t)(charsToTranscode - i) * maxCharSize,
+                                                                                (XMLSize_t &)charsEaten,
+                                                                                XMLTranscoder::UnRep_RepChar);
+                    writeHere += readBytes;
+               }
+          }
      }
 
      /**
       * \brief Destructor
       */
      ~StrX() {
-	  if (mLongStr) {
-	       delete [] mLongStr;
-	  }
+          if (mLongStr) {
+               delete [] mLongStr;
+          }
      }
      
      /**
@@ -228,38 +228,38 @@ private:
       * \param toTranscode The string to transcode.
       */
      void transcode(const char* const toTranscode) {
-	  if (mLongStr) {
-	       delete [] mLongStr;
-	  }
-	  unsigned int bytesEaten;
-	  unsigned int bytesToTranscode = strlen(toTranscode) + 1;
-	  if (bytesToTranscode <= kBlock) {
-	       mLongStr = 0;
-	       TranscoderWrapper::getTranscoder()->transcodeFrom((XMLByte*)toTranscode,
-								 (const XMLSize_t)bytesToTranscode,
-								 mStr,
-								 (const XMLSize_t)kBlock,
-								 (XMLSize_t &)bytesEaten,
-								 mNumBytesPerChar);
-	  }
-	  else {
-	       mLongStr = new XMLCh[bytesToTranscode];
-	       unsigned char* numBytesPerChar = new unsigned char[bytesToTranscode];
-	       XMLCh* writeHere = mLongStr;
-	       unsigned int readChars;
-	       unsigned int chunkSize;
-	       for (unsigned int i = 0; i < bytesToTranscode; i += bytesEaten) {
-		    chunkSize = (bytesToTranscode - i < TranscoderWrapper::getBlockSize() ? 
-				 bytesToTranscode - i : TranscoderWrapper::getBlockSize());
-		    readChars = TranscoderWrapper::getTranscoder()->transcodeFrom((XMLByte*)(toTranscode + i),
-										  (const XMLSize_t)chunkSize,
-										  writeHere,
-										  (const XMLSize_t)bytesToTranscode - i,
-										  (XMLSize_t &)bytesEaten,
-										  numBytesPerChar);
-		    writeHere += readChars;
-	       }
-	  }
+          if (mLongStr) {
+               delete [] mLongStr;
+          }
+          unsigned int bytesEaten;
+          unsigned int bytesToTranscode = strlen(toTranscode) + 1;
+          if (bytesToTranscode <= kBlock) {
+               mLongStr = 0;
+               TranscoderWrapper::getTranscoder()->transcodeFrom((XMLByte*)toTranscode,
+                                                                 (const XMLSize_t)bytesToTranscode,
+                                                                 mStr,
+                                                                 (const XMLSize_t)kBlock,
+                                                                 (XMLSize_t &)bytesEaten,
+                                                                 mNumBytesPerChar);
+          }
+          else {
+               mLongStr = new XMLCh[bytesToTranscode];
+               unsigned char* numBytesPerChar = new unsigned char[bytesToTranscode];
+               XMLCh* writeHere = mLongStr;
+               unsigned int readChars;
+               unsigned int chunkSize;
+               for (unsigned int i = 0; i < bytesToTranscode; i += bytesEaten) {
+                    chunkSize = (bytesToTranscode - i < TranscoderWrapper::getBlockSize() ? 
+                                 bytesToTranscode - i : TranscoderWrapper::getBlockSize());
+                    readChars = TranscoderWrapper::getTranscoder()->transcodeFrom((XMLByte*)(toTranscode + i),
+                                                                                  (const XMLSize_t)chunkSize,
+                                                                                  writeHere,
+                                                                                  (const XMLSize_t)bytesToTranscode - i,
+                                                                                  (XMLSize_t &)bytesEaten,
+                                                                                  numBytesPerChar);
+                    writeHere += readChars;
+               }
+          }
      }
 
 public:
@@ -270,7 +270,7 @@ public:
       * \param toTranscode The string to transcode
       */
      XStr(const char* const toTranscode) : mLongStr(0) {
-	  transcode(toTranscode);
+          transcode(toTranscode);
      }
      /**
       * \brief Constructor that transcodes a std::string to an XMLCh
@@ -279,16 +279,16 @@ public:
       * \param toTranscode The string to transcode
       */
      XStr(const std::string toTranscode) : mLongStr(0) {
-	  transcode(toTranscode.c_str());
+          transcode(toTranscode.c_str());
      }
 
      /**
       * \brief Destructor
       */
      ~XStr() {
-	  if (mLongStr) {
-	       delete [] mLongStr;
-	  }
+          if (mLongStr) {
+               delete [] mLongStr;
+          }
      }
 
      /**

@@ -1,4 +1,4 @@
-// 	$Id: MilitaryUnitAdapter.java,v 1.7 2006/04/18 13:01:16 dah Exp $
+//         $Id: MilitaryUnitAdapter.java,v 1.7 2006/04/18 13:01:16 dah Exp $
 /*
  * @(#)MilitaryUnitAdapter.java
  */
@@ -37,7 +37,7 @@ public class MilitaryUnitAdapter extends ElementAdapter
      */
     protected MilitaryUnitAdapter(StratmasObject element)
     {
-	super(element);
+        super(element);
     }
 
     /**
@@ -48,7 +48,7 @@ public class MilitaryUnitAdapter extends ElementAdapter
      */
     protected MilitaryUnitAdapter(StratmasObject element, int renderSelectionName)
     {
-	super(element, renderSelectionName);
+        super(element, renderSelectionName);
     }
 
     /**
@@ -60,18 +60,18 @@ public class MilitaryUnitAdapter extends ElementAdapter
      */
     protected void childChanged(StratmasEvent event)
     {
-	super.childChanged(event);
-	
-	StratmasObject child = (StratmasObject) event.getArgument();
-	if (child.getIdentifier().equals("personnel")) {
-	    isLocationUpdated = false;
-	    fireAdapterUpdated();
-	} else if (child.getIdentifier().equals("symbolIDCode")) {
-	    isSymbolUpdated = false;
-	    // Color may have changed, so update location as well.
-	    isLocationUpdated = false;
-	    fireAdapterUpdated();
-	}
+        super.childChanged(event);
+        
+        StratmasObject child = (StratmasObject) event.getArgument();
+        if (child.getIdentifier().equals("personnel")) {
+            isLocationUpdated = false;
+            fireAdapterUpdated();
+        } else if (child.getIdentifier().equals("symbolIDCode")) {
+            isSymbolUpdated = false;
+            // Color may have changed, so update location as well.
+            isLocationUpdated = false;
+            fireAdapterUpdated();
+        }
     }
 
     /**
@@ -81,28 +81,28 @@ public class MilitaryUnitAdapter extends ElementAdapter
      */
     protected GLUtessellatorCallback getLocationTessellatorCallback(GLAutoDrawable gld)
     {
-	final GL gl = gld.getGL();
-	
-	SymbolIDCode idCode = (SymbolIDCode) getStratmasObject().getChild("symbolIDCode");
-	long personnel = ((StratmasInteger) getStratmasObject().getChild("personnel")).getValue();
-	
-	final double[] color = getLocationColor(idCode);
-	return new GLUtessellatorCallbackAdapter() 
-	    {
-		public void vertex(Object data) 
-		{
-		    double[] p = (double[]) data;
-		    gl.glColor4d(1.0d, 1.0d, 1.0d, 0.0d);
-		    gl.glVertex2dv(p, 0);
-		}
-		public void begin(int type)
-		{
-		    gl.glBegin(type);
-		}
-		public void end() 
-		{
-		    gl.glEnd();
-		}
-	    };
+        final GL gl = gld.getGL();
+        
+        SymbolIDCode idCode = (SymbolIDCode) getStratmasObject().getChild("symbolIDCode");
+        long personnel = ((StratmasInteger) getStratmasObject().getChild("personnel")).getValue();
+        
+        final double[] color = getLocationColor(idCode);
+        return new GLUtessellatorCallbackAdapter() 
+            {
+                public void vertex(Object data) 
+                {
+                    double[] p = (double[]) data;
+                    gl.glColor4d(1.0d, 1.0d, 1.0d, 0.0d);
+                    gl.glVertex2dv(p, 0);
+                }
+                public void begin(int type)
+                {
+                    gl.glBegin(type);
+                }
+                public void end() 
+                {
+                    gl.glEnd();
+                }
+            };
     }
 }

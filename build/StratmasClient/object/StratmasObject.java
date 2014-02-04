@@ -1,4 +1,4 @@
-// 	$Id: StratmasObject.java,v 1.11 2006/09/27 12:56:07 alexius Exp $
+//         $Id: StratmasObject.java,v 1.11 2006/09/27 12:56:07 alexius Exp $
 /*
  * @(#)StratmasObject.java
  */
@@ -66,16 +66,16 @@ public abstract class StratmasObject implements Transferable
      * A copy of an empty enumeration to use for children().
      */
     static Enumeration emptyEnumeration = new 
-	Enumeration() {
-	    public boolean hasMoreElements() 
-	    {
-		return false;
-	    }
-	    public Object nextElement() throws NoSuchElementException
-	    {
-		throw new NoSuchElementException("No more elements.");
-	    }
-	};
+        Enumeration() {
+            public boolean hasMoreElements() 
+            {
+                return false;
+            }
+            public Object nextElement() throws NoSuchElementException
+            {
+                throw new NoSuchElementException("No more elements.");
+            }
+        };
 
     /**
      * Returns the identifier of this object.
@@ -102,11 +102,11 @@ public abstract class StratmasObject implements Transferable
      */
     public Declaration getDeclaration()
     {
-	if (getParent() == null) {
-	    return null;
-	} else {
-	    return getParent().getType().getSubElement(getTag());
-	}
+        if (getParent() == null) {
+            return null;
+        } else {
+            return getParent().getType().getSubElement(getTag());
+        }
     }
 
     /**
@@ -114,12 +114,12 @@ public abstract class StratmasObject implements Transferable
      */ 
     public Reference getReference()
     {
-	if (getParent() == null) {
-	    return new Reference(new String[] {getIdentifier()});
-	}
-	else {
-	    return new Reference(getParent().getReference(), getIdentifier());
-	}
+        if (getParent() == null) {
+            return new Reference(new String[] {getIdentifier()});
+        }
+        else {
+            return new Reference(getParent().getReference(), getIdentifier());
+        }
     }
 
     /**
@@ -132,7 +132,7 @@ public abstract class StratmasObject implements Transferable
      */
     public StratmasObject getChild(int index)
     {
-	return null;
+        return null;
     }
 
     /**
@@ -145,7 +145,7 @@ public abstract class StratmasObject implements Transferable
      */
     public StratmasObject getChild(String identifier)
     {
-	return null;
+        return null;
     }
 
     /**
@@ -153,7 +153,7 @@ public abstract class StratmasObject implements Transferable
      */
     public int getChildCount()
     {
-	return 0;
+        return 0;
     }
 
     /**
@@ -161,7 +161,7 @@ public abstract class StratmasObject implements Transferable
      */
     public boolean hasChildren()
     {
-	return getChildCount() > 0;
+        return getChildCount() > 0;
     }
 
     /**
@@ -171,7 +171,7 @@ public abstract class StratmasObject implements Transferable
      */
     public boolean hasChild(String id) 
     {
-	return getChild(id) != null;
+        return getChild(id) != null;
     }
 
     /**
@@ -179,7 +179,7 @@ public abstract class StratmasObject implements Transferable
      */
     public Enumeration children()
     {
-	return emptyEnumeration;
+        return emptyEnumeration;
     }
 
     /**
@@ -190,7 +190,7 @@ public abstract class StratmasObject implements Transferable
      */
     public int getIndexOfChild(StratmasObject child)
     {
-	return -1;
+        return -1;
     }
 
     /**
@@ -198,7 +198,7 @@ public abstract class StratmasObject implements Transferable
      */
     public boolean isLeaf()
     {
-	return true;
+        return true;
     }
 
     /**
@@ -207,8 +207,8 @@ public abstract class StratmasObject implements Transferable
      * @param part the StratmasObject to add.
      */
     public void add(StratmasObject part)
-    {	
-	add(part, null);
+    {        
+        add(part, null);
     }
 
     /**
@@ -234,9 +234,9 @@ public abstract class StratmasObject implements Transferable
      */
     public void add(Vector parts)
     {
-	for (Enumeration ps = parts.elements(); ps.hasMoreElements();) {
-	    this.add((StratmasObject) ps.nextElement());
-	}
+        for (Enumeration ps = parts.elements(); ps.hasMoreElements();) {
+            this.add((StratmasObject) ps.nextElement());
+        }
     }
 
     /**
@@ -255,8 +255,8 @@ public abstract class StratmasObject implements Transferable
      * @param initiator The initiator of the Event.
      */
     public void childChanged(StratmasObject child, Object initiator) 
-    {	
-	fireChildChanged(child, initiator);
+    {        
+        fireChildChanged(child, initiator);
     }
 
     /**
@@ -290,7 +290,7 @@ public abstract class StratmasObject implements Transferable
      */
     public boolean hasParent()
     {
-	return getParent() != null;
+        return getParent() != null;
     }
 
     /**
@@ -298,11 +298,11 @@ public abstract class StratmasObject implements Transferable
      */
     public void remove()
     {
-	if (getParent() != null) {
-	    getParent().remove(this);
-	} else {
-	    fireRemoved(null);
-	}
+        if (getParent() != null) {
+            getParent().remove(this);
+        } else {
+            fireRemoved(null);
+        }
     }
 
     /**
@@ -334,7 +334,7 @@ public abstract class StratmasObject implements Transferable
      */
     public String toString()
     {
-	return getIdentifier();
+        return getIdentifier();
     }
 
 //     /**
@@ -355,14 +355,14 @@ public abstract class StratmasObject implements Transferable
      */
     public String getTag()
     {
-	// Can not use this.getDeclaration().getName() here since getDeclaration uses
-	// getTag().
+        // Can not use this.getDeclaration().getName() here since getDeclaration uses
+        // getTag().
 
-	if (getParent() instanceof StratmasList) {
-	    return getParent().getTag();
-	} else {
-	    return getIdentifier();
-	}
+        if (getParent() instanceof StratmasList) {
+            return getParent().getTag();
+        } else {
+            return getIdentifier();
+        }
     }
 
     /**
@@ -374,7 +374,7 @@ public abstract class StratmasObject implements Transferable
      */
     public String toXML() 
     {
-	return toXML(new StringBuffer()).toString();
+        return toXML(new StringBuffer()).toString();
     }
 
     /**
@@ -388,15 +388,15 @@ public abstract class StratmasObject implements Transferable
      */
     public StringBuffer toXML(StringBuffer b) 
     {
-	b.append(NL).append("<").append(getTag());
-	b.append(" xsi:type=\"sp:").append(getType().getName());
-	if (getParent() instanceof StratmasList) {
-	    b.append("\" identifier=\"").append(XMLHelper.encodeSpecialCharacters(getIdentifier()));
-	}
-	b.append("\">");
-	bodyXML(b);
-	b.append("</").append(getTag()).append(">");
-	return b;
+        b.append(NL).append("<").append(getTag());
+        b.append(" xsi:type=\"sp:").append(getType().getName());
+        if (getParent() instanceof StratmasList) {
+            b.append("\" identifier=\"").append(XMLHelper.encodeSpecialCharacters(getIdentifier()));
+        }
+        b.append("\">");
+        bodyXML(b);
+        b.append("</").append(getTag()).append(">");
+        return b;
      }
     
     /**
@@ -418,9 +418,9 @@ public abstract class StratmasObject implements Transferable
      */
     protected static StratmasGUIConstructor getGUIConstructor(Declaration declaration)
     {
-	throw new AssertionError("GUIConstructor for " + 
-				 declaration.getType().getName() + 
-				 " not implemented.");
+        throw new AssertionError("GUIConstructor for " + 
+                                 declaration.getType().getName() + 
+                                 " not implemented.");
     }
 
     /**
@@ -431,9 +431,9 @@ public abstract class StratmasObject implements Transferable
      */
     protected static StratmasVectorConstructor getVectorConstructor(Declaration declaration)
     {
-	throw new AssertionError("VectorConstructor for " + 
-				 declaration.getType().getName() + 
-				 " not implemented.");
+        throw new AssertionError("VectorConstructor for " + 
+                                 declaration.getType().getName() + 
+                                 " not implemented.");
     }
     
     /**
@@ -443,8 +443,8 @@ public abstract class StratmasObject implements Transferable
      */
     protected static StratmasObject domCreate(Element n)
     {
-	throw new AssertionError("DomConstructor for " + n.getAttribute("xsi:type")
-				 + " not implemented.");
+        throw new AssertionError("DomConstructor for " + n.getAttribute("xsi:type")
+                                 + " not implemented.");
     }
     
     /**
@@ -456,8 +456,8 @@ public abstract class StratmasObject implements Transferable
      */
     protected static StratmasObject defaultCreate(Declaration declaration)
     {
-	throw new AssertionError("DomConstructor for " + declaration.getType().getName()
-				 + " not implemented.");
+        throw new AssertionError("DomConstructor for " + declaration.getType().getName()
+                                 + " not implemented.");
     }
 
     /**
@@ -470,7 +470,7 @@ public abstract class StratmasObject implements Transferable
      */
     public DataFlavor[] getTransferDataFlavors() 
     {
-	 return new DataFlavor[] {STRATMAS_OBJECT_FLAVOR, DataFlavor.stringFlavor};
+         return new DataFlavor[] {STRATMAS_OBJECT_FLAVOR, DataFlavor.stringFlavor};
     }
 
 
@@ -479,8 +479,8 @@ public abstract class StratmasObject implements Transferable
      */
     public boolean isDataFlavorSupported(DataFlavor flavor) 
     {
- 	return STRATMAS_OBJECT_FLAVOR.match(flavor) ||
-	    DataFlavor.stringFlavor.match(flavor);
+         return STRATMAS_OBJECT_FLAVOR.match(flavor) ||
+            DataFlavor.stringFlavor.match(flavor);
     }
     
     
@@ -488,22 +488,22 @@ public abstract class StratmasObject implements Transferable
      * Return this object.
      */
     public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException  {
-	 if (!isDataFlavorSupported(flavor)) {
-	      throw new UnsupportedFlavorException(flavor);
-	 }
-	 if (flavor.match(DataFlavor.stringFlavor)) {
-	      StringBuffer b = new StringBuffer();
-	      b.append(StratmasConstants.xmlFileHeader);
-	      b.append("<identifiables xsi:type=\"sp:").append(getType().getName());
-	      b.append("\" identifier=\"").append(getIdentifier()).append("\">");
-	      bodyXML(b);
-	      b.append("</identifiables>");
-	      b.append(StratmasConstants.xmlFileFooter);
-	      return b.toString();
-	 }
-	 else {
-	      return this;
-	 }
+         if (!isDataFlavorSupported(flavor)) {
+              throw new UnsupportedFlavorException(flavor);
+         }
+         if (flavor.match(DataFlavor.stringFlavor)) {
+              StringBuffer b = new StringBuffer();
+              b.append(StratmasConstants.xmlFileHeader);
+              b.append("<identifiables xsi:type=\"sp:").append(getType().getName());
+              b.append("\" identifier=\"").append(getIdentifier()).append("\">");
+              bodyXML(b);
+              b.append("</identifiables>");
+              b.append(StratmasConstants.xmlFileFooter);
+              return b.toString();
+         }
+         else {
+              return this;
+         }
     }
 
     /**
@@ -512,14 +512,14 @@ public abstract class StratmasObject implements Transferable
      * @return The STRATMAS_OBJECT_FLAVOR.
      */
      public static final DataFlavor createStratmasObjectFlavor() {
-	  DataFlavor flavor = null;
-	  try {
-	       flavor = new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType);
-	  }
-	  catch (ClassNotFoundException e) {
-	       System.err.println("Couldn't create STRATMAS_OBJECT_FLAVOR");
-	  }
-	  return flavor;
+          DataFlavor flavor = null;
+          try {
+               flavor = new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType);
+          }
+          catch (ClassNotFoundException e) {
+               System.err.println("Couldn't create STRATMAS_OBJECT_FLAVOR");
+          }
+          return flavor;
      }
     
     
@@ -531,7 +531,7 @@ public abstract class StratmasObject implements Transferable
      */
     public Enumeration getFilteredChildren(StratmasObjectFilter filter)
     {
-	return getFilteredChildren(filter, new Vector()).elements();
+        return getFilteredChildren(filter, new Vector()).elements();
     }
     
     /**
@@ -543,15 +543,15 @@ public abstract class StratmasObject implements Transferable
      */
     private Vector getFilteredChildren(StratmasObjectFilter filter, Vector v)
     {
-	if (filter.pass(this)) {
-	    v.add(this);
-	}
-	for (Enumeration e = children(); e.hasMoreElements();) {
-	    StratmasObject sObj = (StratmasObject) e.nextElement();
-	    sObj.getFilteredChildren(filter, v);
-	}
+        if (filter.pass(this)) {
+            v.add(this);
+        }
+        for (Enumeration e = children(); e.hasMoreElements();) {
+            StratmasObject sObj = (StratmasObject) e.nextElement();
+            sObj.getFilteredChildren(filter, v);
+        }
 
-	return v;
+        return v;
     }
 
     /**
@@ -560,7 +560,7 @@ public abstract class StratmasObject implements Transferable
      */
     public String toTaclanV2()
     {
-	return this.toTaclanV2StringBuffer(new StringBuffer()).toString();
+        return this.toTaclanV2StringBuffer(new StringBuffer()).toString();
     }
 
     /**
@@ -571,7 +571,7 @@ public abstract class StratmasObject implements Transferable
      */
     protected StringBuffer toTaclanV2StringBuffer(StringBuffer buf)
     {
-	return toTaclanV2StringBuffer(buf, "");
+        return toTaclanV2StringBuffer(buf, "");
     }
 
 
@@ -584,21 +584,21 @@ public abstract class StratmasObject implements Transferable
      */
     protected StringBuffer toTaclanV2StringBuffer(StringBuffer buf, String indent)
     {
-	buf.append(indent + getType().toTaclanV2() + " " + 
-		   Identifier.toTaclanV2(getIdentifier()) + " {");
-	if (! isLeaf()) {
-	    for (Enumeration cs = children(); cs.hasMoreElements();) {
-		buf.append("\n");
-		((StratmasObject) cs.nextElement()).toTaclanV2StringBuffer(buf,
-									 indent + 
-									 TACLANV2_INDENTATION);
-	    }
-	    buf.append("\n"  + indent + "}");
-	} else {
-	    buf.append("}");
-	}
-	
-	return buf;
+        buf.append(indent + getType().toTaclanV2() + " " + 
+                   Identifier.toTaclanV2(getIdentifier()) + " {");
+        if (! isLeaf()) {
+            for (Enumeration cs = children(); cs.hasMoreElements();) {
+                buf.append("\n");
+                ((StratmasObject) cs.nextElement()).toTaclanV2StringBuffer(buf,
+                                                                         indent + 
+                                                                         TACLANV2_INDENTATION);
+            }
+            buf.append("\n"  + indent + "}");
+        } else {
+            buf.append("}");
+        }
+        
+        return buf;
     }
 
     /**
@@ -610,7 +610,7 @@ public abstract class StratmasObject implements Transferable
      */
     protected Object clone() 
     {
-	throw new AssertionError("clone() for object of type " + getType().toString() + " not implemented");
+        throw new AssertionError("clone() for object of type " + getType().toString() + " not implemented");
      }
 
     /**
@@ -623,7 +623,7 @@ public abstract class StratmasObject implements Transferable
      */
     public void update(Element n, Timestamp t) 
     {
-	Debug.err.println("Update in StratmasObject for type " + getType().getName());
+        Debug.err.println("Update in StratmasObject for type " + getType().getName());
     }
 
     /**
@@ -631,12 +631,12 @@ public abstract class StratmasObject implements Transferable
      */
     public StratmasObject getRoot()
     {
-	StratmasObject walker = this;
-	while(walker.getParent() != null) {
-	    walker = walker.getParent();
-	}
-	
-	return walker;
+        StratmasObject walker = this;
+        while(walker.getParent() != null) {
+            walker = walker.getParent();
+        }
+        
+        return walker;
     }
 
     /**
@@ -646,12 +646,12 @@ public abstract class StratmasObject implements Transferable
      */
     public boolean isAncestor(StratmasObject obj)
     {
-	StratmasObject walker = getParent();
-	while(walker != null && !walker.equals(obj)) {
-	    walker = walker.getParent();
-	}
-	
-	return walker != null;
+        StratmasObject walker = getParent();
+        while(walker != null && !walker.equals(obj)) {
+            walker = walker.getParent();
+        }
+        
+        return walker != null;
     }
     
     /**
@@ -662,21 +662,21 @@ public abstract class StratmasObject implements Transferable
      */
     public StratmasObject getYoungestCommonAncestor(StratmasObject other)
     {
-	HashSet set = new HashSet();
-	
-	for (StratmasObject walker = other; walker != null; 
-	     walker = walker.getParent()) {
-	    set.add(walker);
-	}
+        HashSet set = new HashSet();
+        
+        for (StratmasObject walker = other; walker != null; 
+             walker = walker.getParent()) {
+            set.add(walker);
+        }
 
-	for (StratmasObject walker = this; walker != null;
-	     walker = walker.getParent()) {
-	    if (set.contains(walker)) {
-		return walker;
-	    }
-	}
-	
-	return null;	
+        for (StratmasObject walker = this; walker != null;
+             walker = walker.getParent()) {
+            if (set.contains(walker)) {
+                return walker;
+            }
+        }
+        
+        return null;        
     }
     
     /**
@@ -686,15 +686,15 @@ public abstract class StratmasObject implements Transferable
      */
     public boolean canAdd(StratmasObject object)
     {
-	Declaration declaration = 
-	    getType().getSubElement(object.getIdentifier().toString());
-	if (declaration != null &&
-	    object.getType().canSubstitute(declaration.getType())) {
-	    // Now, make sure object is not an ancestor of this.
-	    return !isAncestor(object);
-	}
-	
-	return false;
+        Declaration declaration = 
+            getType().getSubElement(object.getIdentifier().toString());
+        if (declaration != null &&
+            object.getType().canSubstitute(declaration.getType())) {
+            // Now, make sure object is not an ancestor of this.
+            return !isAncestor(object);
+        }
+        
+        return false;
     }
 
     /**
@@ -747,6 +747,6 @@ public abstract class StratmasObject implements Transferable
 
 //     protected void finalize()
 //     {
-//  	System.err.println("Finalizing " + this.toString());
+//          System.err.println("Finalizing " + this.toString());
 //     }
 }

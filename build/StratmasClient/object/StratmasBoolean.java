@@ -34,8 +34,8 @@ public class StratmasBoolean extends StratmasSimple
      */
     protected StratmasBoolean(String identifier, Type type, boolean value)
     {
-	super(identifier, type);
-	this.value = value;
+        super(identifier, type);
+        this.value = value;
     }
 
     /**
@@ -46,8 +46,8 @@ public class StratmasBoolean extends StratmasSimple
      */
     protected StratmasBoolean(Declaration declaration, boolean value)
     {
-	super(declaration);
-	this.value = value;
+        super(declaration);
+        this.value = value;
     }
 
     /**
@@ -55,12 +55,12 @@ public class StratmasBoolean extends StratmasSimple
      */
     public String valueToString()
     {
-	return Boolean.toString(this.value);
+        return Boolean.toString(this.value);
     }
 
     public boolean getValue()
     {
-	return value;
+        return value;
     }
 
     /**
@@ -72,8 +72,8 @@ public class StratmasBoolean extends StratmasSimple
      */
     private void setValue(boolean newValue, Object initiator)
     {
-	this.value = newValue;
-	fireValueChanged(initiator);
+        this.value = newValue;
+        fireValueChanged(initiator);
     }
 
     /**
@@ -85,20 +85,20 @@ public class StratmasBoolean extends StratmasSimple
      */
     public void valueFromString(String str, Object initiator) throws ParseException
     {
-	 boolean test;
-	 if (str.equals("true") || str.equals("1")) {
-	      test = true;
-	 }
-	 else if (str.equals("false") || str.equals("0")) {
-	      test = false;
-	 }
-	 else {
-	     throw new ParseException("Couldn't create Boolean from the string '" + str + "'", 0);
-	 }
+         boolean test;
+         if (str.equals("true") || str.equals("1")) {
+              test = true;
+         }
+         else if (str.equals("false") || str.equals("0")) {
+              test = false;
+         }
+         else {
+             throw new ParseException("Couldn't create Boolean from the string '" + str + "'", 0);
+         }
 
-	 if(test != getValue()) {
-	      setValue(test, initiator);
-	 }
+         if(test != getValue()) {
+              setValue(test, initiator);
+         }
     }
 
     /**
@@ -109,7 +109,7 @@ public class StratmasBoolean extends StratmasSimple
      */
     protected static StratmasGUIConstructor getGUIConstructor(Declaration declaration)
     {
-	return new StratmasBooleanGUIConstructor(declaration); 
+        return new StratmasBooleanGUIConstructor(declaration); 
     }
     
     /**
@@ -119,13 +119,13 @@ public class StratmasBoolean extends StratmasSimple
      */
     protected static StratmasObject domCreate(Element n)
     {
-	try {
-	    return new StratmasBoolean(Identifier.getIdentifier(n),
-				       TypeFactory.getType(n),
-				       XMLHelper.getBoolean(n, "value"));
-	} catch (NumberFormatException e) {
-	    return null;
-	}	
+        try {
+            return new StratmasBoolean(Identifier.getIdentifier(n),
+                                       TypeFactory.getType(n),
+                                       XMLHelper.getBoolean(n, "value"));
+        } catch (NumberFormatException e) {
+            return null;
+        }        
     }
 
     /**
@@ -137,7 +137,7 @@ public class StratmasBoolean extends StratmasSimple
      */
     protected static StratmasObject defaultCreate(Declaration declaration)
     {
-	return new StratmasBoolean(declaration, false);
+        return new StratmasBoolean(declaration, false);
     }
     
     /**
@@ -148,7 +148,7 @@ public class StratmasBoolean extends StratmasSimple
      * @return A clone of this object.
      */
      protected Object clone() {
-	  return new StratmasBoolean(identifier, type, value);
+          return new StratmasBoolean(identifier, type, value);
      }
 }
 
@@ -171,7 +171,7 @@ class StratmasBooleanGUIConstructor extends StratmasGUIConstructor
      */
     public StratmasBooleanGUIConstructor(Declaration declaration)
     {
-	super(declaration);
+        super(declaration);
     }
 
     /**
@@ -179,10 +179,10 @@ class StratmasBooleanGUIConstructor extends StratmasGUIConstructor
      */    
     protected void buildPanel()
     {
-	this.add(new javax.swing.JLabel(declaration.getName()));
-	this.field = new javax.swing.JComboBox(new Boolean[] {new Boolean(true), 
-							      new Boolean(false)});	
-	this.add(this.field);
+        this.add(new javax.swing.JLabel(declaration.getName()));
+        this.field = new javax.swing.JComboBox(new Boolean[] {new Boolean(true), 
+                                                              new Boolean(false)});        
+        this.add(this.field);
     }
 
     /**
@@ -190,7 +190,7 @@ class StratmasBooleanGUIConstructor extends StratmasGUIConstructor
      */
     protected void createStratmasObject()
     {
-	setStratmasObject(new StratmasBoolean(this.declaration, 
-					      ((Boolean) field.getSelectedItem()).booleanValue()));
+        setStratmasObject(new StratmasBoolean(this.declaration, 
+                                              ((Boolean) field.getSelectedItem()).booleanValue()));
     }
 }

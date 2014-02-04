@@ -34,7 +34,7 @@ Buffer::~Buffer()
      if (mSimClone) { delete mSimClone; }
      if (mGridDataHandler) { delete mGridDataHandler; }
      for (vector<Update*>::iterator it = mUpdates.begin(); it != mUpdates.end(); it++) {
-	  delete *it;
+          delete *it;
      }
 }
 
@@ -72,10 +72,10 @@ const CombatGrid& Buffer::combatGrid() const
  * contain the values for the specified cells.
  */
 void Buffer::layer(const std::string& lay,
-		   const Reference& fac,
-		   int size,
-		   int32_t* index,
-		   double*& outData)
+                   const Reference& fac,
+                   int size,
+                   int32_t* index,
+                   double*& outData)
 {
      mGridDataHandler->layer(lay, fac, size, index, outData);
 }
@@ -91,16 +91,16 @@ void Buffer::layer(const std::string& lay,
 void Buffer::put(DataObject* d)
 {
      if (mSimulation) {
-	  delete mSimClone;            // Delete clone of old simulation.
-	  delete mSimulation;
-	  mResetCount++;
+          delete mSimClone;            // Delete clone of old simulation.
+          delete mSimulation;
+          mResetCount++;
      }
      mSimulation = d;
      mSimClone = mSimulation->clone();
      mSimulationName = mSimulation->ref().name();
      if (mGridDataHandler) {
-	  delete mGridDataHandler;
-	  mGridDataHandler = 0;
+          delete mGridDataHandler;
+          mGridDataHandler = 0;
      }
 }
 
@@ -128,8 +128,8 @@ void Buffer::put(vector<Update*> updates)
  */
 void Buffer::reset() {
      if (mGridDataHandler) {
-	  delete mGridDataHandler;
-	  mGridDataHandler = 0;
+          delete mGridDataHandler;
+          mGridDataHandler = 0;
      }
      mResetCount++;
 }
@@ -150,7 +150,7 @@ void Buffer::reset() {
 void Buffer::extractGridData(GridDataHandler* gdh)
 {
      if (!mGridDataHandler) {
-	  mGridDataHandler = gdh;
+          mGridDataHandler = gdh;
      }
      mGridDataHandler->extractGridData();
 }
@@ -166,33 +166,33 @@ void Buffer::transferUpdatesToSimulation()
      
      std::vector<Error> errors;     
      for (vector<Update*>::iterator it = mUpdates.begin(); it != mUpdates.end(); it++) {
-	  try {
-	       Update& u = **it;
-	       SimulationObject* target = SOMapper::map(u.getTargetRef());
-	       if (target) {
-		    debug("Trying to update target " << target->ref());
-		    target->update(u);
-	       }
-	       else {
-		    Error e;
-		    e << "Update failed. Couldn't find target SimulationObject '" << u.getTargetRef();
-		    e << "' for update of child '" << u.getReference().name() << "'";
-		    throw e;
-	       }
-	  } catch (Error& e) {
-	       errors.push_back(e);
-	  }
+          try {
+               Update& u = **it;
+               SimulationObject* target = SOMapper::map(u.getTargetRef());
+               if (target) {
+                    debug("Trying to update target " << target->ref());
+                    target->update(u);
+               }
+               else {
+                    Error e;
+                    e << "Update failed. Couldn't find target SimulationObject '" << u.getTargetRef();
+                    e << "' for update of child '" << u.getReference().name() << "'";
+                    throw e;
+               }
+          } catch (Error& e) {
+               errors.push_back(e);
+          }
      }
 
      for (vector<Update*>::iterator it = mUpdates.begin(); it != mUpdates.end(); it++) {
-	  delete *it;
+          delete *it;
      }
 
      mUpdates.clear();
      lock.unlock();
 
      if (!errors.empty()) {
-	  throw errors;
+          throw errors;
      }
 }
 

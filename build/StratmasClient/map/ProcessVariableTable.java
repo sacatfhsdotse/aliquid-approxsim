@@ -55,7 +55,7 @@ public class ProcessVariableTable extends JTable implements MouseListener, Strat
      * The different colors used for the factions.
      */
     public static final Color[] colors = {Color.BLUE, Color.RED, Color.GRAY, Color.MAGENTA, Color.ORANGE, 
-					  Color.CYAN, Color.PINK, Color.YELLOW, Color.GREEN};
+                                          Color.CYAN, Color.PINK, Color.YELLOW, Color.GREEN};
     /**
      * The used colors.
      */
@@ -80,29 +80,29 @@ public class ProcessVariableTable extends JTable implements MouseListener, Strat
      * @param shape the shape of the actual region. 
      */
     public ProcessVariableTable(Client client, Shape shape) {
-	super();
+        super();
 
-	// set references
-	this.client = client;
-	this.processVariables = client.getProcessVariables();
-	this.factions = client.getFactions();
-	this.regionId = shape.getReference().getIdentifier().trim();
-	
-	// colors used for the factions
-	usedColors = new Color[factions.size() + 1];
-	
-	// subscribe to data from the region
-	actualValues = Visualizer.addListenerToRegionData(shape, this);
-	
-	// set up the table
-	setModel(new ProcessVariableTableModel(processVariables, factions));
-	setShowGrid(false);
-	setCellSelectionEnabled(true);
-	setBackground(getTableHeader().getBackground());
-	addMouseListener(this);
-	setPreferredScrollableViewportSize(new Dimension(300, 100));
-	
-	// set up the columns
+        // set references
+        this.client = client;
+        this.processVariables = client.getProcessVariables();
+        this.factions = client.getFactions();
+        this.regionId = shape.getReference().getIdentifier().trim();
+        
+        // colors used for the factions
+        usedColors = new Color[factions.size() + 1];
+        
+        // subscribe to data from the region
+        actualValues = Visualizer.addListenerToRegionData(shape, this);
+        
+        // set up the table
+        setModel(new ProcessVariableTableModel(processVariables, factions));
+        setShowGrid(false);
+        setCellSelectionEnabled(true);
+        setBackground(getTableHeader().getBackground());
+        addMouseListener(this);
+        setPreferredScrollableViewportSize(new Dimension(300, 100));
+        
+        // set up the columns
         initColumns();
     }
 
@@ -110,36 +110,36 @@ public class ProcessVariableTable extends JTable implements MouseListener, Strat
      * Removes the listener.
      */
     public void remove() {
- 	// remove this listener
-	Visualizer.removeListenerFromRegionData(actualValues, this);
+         // remove this listener
+        Visualizer.removeListenerFromRegionData(actualValues, this);
     }
     
     /**
      * Resets the table.
      */
     public void reset() {
-	for (int i = 0; i < processVariables.size(); i++) {
-	    ProcessVariableDescription pvd = (ProcessVariableDescription)processVariables.get(i);
-	    int row = getRow(pvd.getName());
-	    int col = getColumn(StratmasConstants.factionAll);
-	    setValueAt("0", row, col);
-	    if (pvd.hasFactions()) {
-		for (int j  = 0; j < factions.size(); j++) {
-		    row = getRow(pvd.getName());
-		    col = getColumn(((StratmasObject)factions.get(j)).getReference().getIdentifier().trim());
-		    setValueAt("0", row, col);
-		}
-	    }
-	}
+        for (int i = 0; i < processVariables.size(); i++) {
+            ProcessVariableDescription pvd = (ProcessVariableDescription)processVariables.get(i);
+            int row = getRow(pvd.getName());
+            int col = getColumn(StratmasConstants.factionAll);
+            setValueAt("0", row, col);
+            if (pvd.hasFactions()) {
+                for (int j  = 0; j < factions.size(); j++) {
+                    row = getRow(pvd.getName());
+                    col = getColumn(((StratmasObject)factions.get(j)).getReference().getIdentifier().trim());
+                    setValueAt("0", row, col);
+                }
+            }
+        }
     }
     
     /**
      * Updates the table.
      */
     public void eventOccured(StratmasEvent e) {
-	if (e.getSource().equals(actualValues)) {
-	    update(actualValues.getPV());
-	}
+        if (e.getSource().equals(actualValues)) {
+            update(actualValues.getPV());
+        }
     }
     
     /**
@@ -148,25 +148,25 @@ public class ProcessVariableTable extends JTable implements MouseListener, Strat
      * @param table actual table.
      */
     private void initColumns() {
-	// local variables
-    	Random rand = new Random();
-	// set different color for each column
+        // local variables
+            Random rand = new Random();
+        // set different color for each column
         for (int i = 2; i < getModel().getColumnCount(); i++) {
-	    int j = i - 2;
-	    // get column
-	    TableColumn column = getColumnModel().getColumn(i);
-	    // get new color
-	    Color color = (j < colors.length)? colors[j] : new Color(rand.nextFloat(), rand.nextFloat(), rand.nextFloat());
-	    // paint header and cell component
-	    DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
-	    cellRenderer.setForeground(color);
-	    cellRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
-	    column.setCellRenderer(cellRenderer);
-	    column.setHeaderRenderer(new HeaderRenderer(color));
-	    usedColors[j] = color;
-	}
-	// sort the table
-	((ProcessVariableTableModel)getModel()).sort();
+            int j = i - 2;
+            // get column
+            TableColumn column = getColumnModel().getColumn(i);
+            // get new color
+            Color color = (j < colors.length)? colors[j] : new Color(rand.nextFloat(), rand.nextFloat(), rand.nextFloat());
+            // paint header and cell component
+            DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
+            cellRenderer.setForeground(color);
+            cellRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
+            column.setCellRenderer(cellRenderer);
+            column.setHeaderRenderer(new HeaderRenderer(color));
+            usedColors[j] = color;
+        }
+        // sort the table
+        ((ProcessVariableTableModel)getModel()).sort();
     }
     
     /**
@@ -175,49 +175,49 @@ public class ProcessVariableTable extends JTable implements MouseListener, Strat
      * @param elements list of values for all process variables and all factions. 
      */
     public void update(Hashtable elements) {
-	//
-	for (int i = 0; i < processVariables.size(); i++) {
-	    ProcessVariableDescription pvd = (ProcessVariableDescription)processVariables.get(i);
-	    Hashtable h = (Hashtable)elements.get(pvd.getName());
-	    if (h != null) {
-		Number num = (Number)h.get(StratmasConstants.factionAll);
-		// faction "All"
-		if (num != null) {
-		    int row = getRow(pvd.getName());
-		    int col = getColumn(StratmasConstants.factionAll);
-		    if (row != -1 && col != -1) {
-			setValueAt(numToString(num), row, col);
-		    }
-		}
-		// the other factions
-		if (pvd.hasFactions()) {
-		    for (int j  = 0; j < factions.size(); j++) {
-			num = (Number)h.get(((StratmasObject)factions.get(j)).getReference().getIdentifier().trim());
-			if (num != null) {
-			    int row = getRow(pvd.getName());
-			    int col = getColumn(((StratmasObject)factions.get(j)).getReference().getIdentifier().trim());
-			    if (row != -1 && col != -1) {
-				setValueAt(numToString(num), row, col);
-			    }
-			}
-		    }
-		}
-	    }
-	}
+        //
+        for (int i = 0; i < processVariables.size(); i++) {
+            ProcessVariableDescription pvd = (ProcessVariableDescription)processVariables.get(i);
+            Hashtable h = (Hashtable)elements.get(pvd.getName());
+            if (h != null) {
+                Number num = (Number)h.get(StratmasConstants.factionAll);
+                // faction "All"
+                if (num != null) {
+                    int row = getRow(pvd.getName());
+                    int col = getColumn(StratmasConstants.factionAll);
+                    if (row != -1 && col != -1) {
+                        setValueAt(numToString(num), row, col);
+                    }
+                }
+                // the other factions
+                if (pvd.hasFactions()) {
+                    for (int j  = 0; j < factions.size(); j++) {
+                        num = (Number)h.get(((StratmasObject)factions.get(j)).getReference().getIdentifier().trim());
+                        if (num != null) {
+                            int row = getRow(pvd.getName());
+                            int col = getColumn(((StratmasObject)factions.get(j)).getReference().getIdentifier().trim());
+                            if (row != -1 && col != -1) {
+                                setValueAt(numToString(num), row, col);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
-	
+        
     /**
      * Returns the  row which contains the given process variable.
      *
      * @param str name of the process variable.
      */
     private int getRow(String str) {
-	for (int i = 0; i < getRowCount(); i++) {
-	    if (getValueAt(i, 0).equals(str)) {
-		return i;
-	    }
-	}
-	return -1;
+        for (int i = 0; i < getRowCount(); i++) {
+            if (getValueAt(i, 0).equals(str)) {
+                return i;
+            }
+        }
+        return -1;
     }
     
     /**
@@ -226,12 +226,12 @@ public class ProcessVariableTable extends JTable implements MouseListener, Strat
      * @param str name of the faction.
      */
     private int getColumn(String str) {
-	for (int i = 0; i < getColumnCount(); i++) {
-	    if (getColumnName(i).equals(str)) {
-		return i;
-	    }
-	}
-	return -1;
+        for (int i = 0; i < getColumnCount(); i++) {
+            if (getColumnName(i).equals(str)) {
+                return i;
+            }
+        }
+        return -1;
     }
     
     /**
@@ -243,35 +243,35 @@ public class ProcessVariableTable extends JTable implements MouseListener, Strat
      * @return String representation of the number.
      */
     private String numToString(Object obj) {
-	// the integers
-	if (obj.getClass().getName().equals("java.lang.Integer")) {
-	    int i = ((Integer)obj).intValue();
-	    String s = ((Integer)obj).toString();
-	    // appropriate format if number is too long
-	    if (i > Math.abs(999999)) {
-		DecimalFormat resultFormat = new DecimalFormat("00E0");
-		s = resultFormat.format(i);
-	    }
-	    return s;
-	}
-	// the doubles
-	else {
-	    double d = ((Double)obj).doubleValue();
-	    if (d > Math.abs(999999)) {
-		DecimalFormat resultFormat = new DecimalFormat("00E0");
-		return resultFormat.format(d);
-	    }
-	    else if (d >= Math.abs(0.1) || d == 0.0) {
-		// only two decimals 
-		DecimalFormat resultFormat = new DecimalFormat("0.00");
-	        return resultFormat.format(d);
-	    }
-	    else {
-		//
-		DecimalFormat resultFormat = new DecimalFormat("0.0E0");
-		return  resultFormat.format(d);
-	    }
-	}
+        // the integers
+        if (obj.getClass().getName().equals("java.lang.Integer")) {
+            int i = ((Integer)obj).intValue();
+            String s = ((Integer)obj).toString();
+            // appropriate format if number is too long
+            if (i > Math.abs(999999)) {
+                DecimalFormat resultFormat = new DecimalFormat("00E0");
+                s = resultFormat.format(i);
+            }
+            return s;
+        }
+        // the doubles
+        else {
+            double d = ((Double)obj).doubleValue();
+            if (d > Math.abs(999999)) {
+                DecimalFormat resultFormat = new DecimalFormat("00E0");
+                return resultFormat.format(d);
+            }
+            else if (d >= Math.abs(0.1) || d == 0.0) {
+                // only two decimals 
+                DecimalFormat resultFormat = new DecimalFormat("0.00");
+                return resultFormat.format(d);
+            }
+            else {
+                //
+                DecimalFormat resultFormat = new DecimalFormat("0.0E0");
+                return  resultFormat.format(d);
+            }
+        }
     }
     
     /**
@@ -282,12 +282,12 @@ public class ProcessVariableTable extends JTable implements MouseListener, Strat
      * @param colors the colors for the curves in the graph.
      */
     public ProcessVariableXYGraph createGraph(ProcessVariableDescription pv, String[] fac, Color[] colors) {
-	// create a graph 
-	ProcessVariableXYGraph graph = new ProcessVariableXYGraph(client.getTimeline(), actualValues, pv, fac, colors, regionId);
-	// add the graph to the list of all graphs
-	Visualizer.addGraph(graph); 
-	
-	return graph;
+        // create a graph 
+        ProcessVariableXYGraph graph = new ProcessVariableXYGraph(client.getTimeline(), actualValues, pv, fac, colors, regionId);
+        // add the graph to the list of all graphs
+        Visualizer.addGraph(graph); 
+        
+        return graph;
     }
     
     /**
@@ -297,38 +297,38 @@ public class ProcessVariableTable extends JTable implements MouseListener, Strat
      * @param pvTable the table where the sorting process is initialized. 
      */
     public static void layoutGraph(ProcessVariableXYGraph graph, ProcessVariableTable pvTable) {
-	boolean done = false;
-	// put the graph in the grid of graphs
-	for (int i = 0; i < Visualizer.locationGrid.length; i++) {
-	    for (int j = 0; j < Visualizer.locationGrid[0].length; j++) {
-		if (!done && Visualizer.locationGrid[i][j] == null) {
-		    int x = j * ProcessVariableXYGraph.DEFAULT_WIDTH;
-		    int y = i * ProcessVariableXYGraph.DEFAULT_HEIGHT;
-		    Rectangle graphRectangle = new Rectangle(x, y, ProcessVariableXYGraph.DEFAULT_WIDTH, 
-							     ProcessVariableXYGraph.DEFAULT_HEIGHT);
-		    Rectangle thisRectangle = new Rectangle((int)pvTable.getTopLevelAncestor().getLocationOnScreen().getX(), 
-							    (int)pvTable.getTopLevelAncestor().getLocationOnScreen().getY(), 
-							    pvTable.getTopLevelAncestor().getWidth(), 
-							    pvTable.getTopLevelAncestor().getHeight());
-		    // check that the graph doesn't cover the table
-		    if (!graphRectangle.intersects(thisRectangle)) {
-			graph.setGraphLocation(x, y);
-			Visualizer.locationGrid[i][j] = graph;
-			done = true;
-		    }
-		}
-	    }
-	}
-	// in case the grid is filled with graphs
-	if (!done) {
-	    int x = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 2;
-	    int y = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 2;
-	    if (Visualizer.getGraphs().size() % 2 == 0) {
-		x = x + 100;
-		y = y + 100;
-	    }
-	    graph.setGraphLocation(x, y);
-	}
+        boolean done = false;
+        // put the graph in the grid of graphs
+        for (int i = 0; i < Visualizer.locationGrid.length; i++) {
+            for (int j = 0; j < Visualizer.locationGrid[0].length; j++) {
+                if (!done && Visualizer.locationGrid[i][j] == null) {
+                    int x = j * ProcessVariableXYGraph.DEFAULT_WIDTH;
+                    int y = i * ProcessVariableXYGraph.DEFAULT_HEIGHT;
+                    Rectangle graphRectangle = new Rectangle(x, y, ProcessVariableXYGraph.DEFAULT_WIDTH, 
+                                                             ProcessVariableXYGraph.DEFAULT_HEIGHT);
+                    Rectangle thisRectangle = new Rectangle((int)pvTable.getTopLevelAncestor().getLocationOnScreen().getX(), 
+                                                            (int)pvTable.getTopLevelAncestor().getLocationOnScreen().getY(), 
+                                                            pvTable.getTopLevelAncestor().getWidth(), 
+                                                            pvTable.getTopLevelAncestor().getHeight());
+                    // check that the graph doesn't cover the table
+                    if (!graphRectangle.intersects(thisRectangle)) {
+                        graph.setGraphLocation(x, y);
+                        Visualizer.locationGrid[i][j] = graph;
+                        done = true;
+                    }
+                }
+            }
+        }
+        // in case the grid is filled with graphs
+        if (!done) {
+            int x = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 2;
+            int y = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 2;
+            if (Visualizer.getGraphs().size() % 2 == 0) {
+                x = x + 100;
+                y = y + 100;
+            }
+            graph.setGraphLocation(x, y);
+        }
     }
     
     /**
@@ -337,57 +337,57 @@ public class ProcessVariableTable extends JTable implements MouseListener, Strat
      * @param pvTable the table where the sorting process is initialized.  
      */
     public static void layoutAllGraphs(ProcessVariableTable pvTable) {
-	// reset the grid of initial loactions for the graphs
-	Visualizer.resetLocationGrid();
-	for (int i = 0; i < Visualizer.getGraphs().size(); i++) {
-	    layoutGraph((ProcessVariableXYGraph)Visualizer.getGraphs().get(i), pvTable);
-	}
+        // reset the grid of initial loactions for the graphs
+        Visualizer.resetLocationGrid();
+        for (int i = 0; i < Visualizer.getGraphs().size(); i++) {
+            layoutGraph((ProcessVariableXYGraph)Visualizer.getGraphs().get(i), pvTable);
+        }
     }
     
     /**
      * Opens one/several graphical window(s) when double clicking to a non-empty cell in the table.
      */
     public void mouseClicked(MouseEvent e) {
-	// if double clicked
-	if (e.getClickCount() == 2) {
-	    int row = getSelectedRow();
-	    int col = getSelectedColumn();
-	    // get the model
-	    ProcessVariableTableModel model = (ProcessVariableTableModel)getModel();
-	    // create default arrays
-	    String[] fac = new String[1];
-	    Color[] colors = new Color[1];
-	    // create one graph
-	    if (col != getColumnModel().getColumnIndex("Category")) {
-		ProcessVariableDescription pv = model.getProcessVariable(row);
-		// graph containing all the factions
-		if (col == getColumnModel().getColumnIndex("PV") && pv.hasFactions()) {
-		    layoutAllFactionsGraph(pv);
-		}
-		// graph containing faction "All"
-		else if (col == 0 || col == 2){
-		    layoutOneFactionGraph(pv, StratmasConstants.factionAll, usedColors[0]);
-		}
-		// graph containing specific faction
-		else if (pv.hasFactions()) {
-		    String actFaction = ((StratmasObject)factions.get(col-3)).getReference().getIdentifier().trim();
-		    layoutOneFactionGraph(pv, actFaction, usedColors[col - 2]);
-		}
-	    }
-	    // create graphs for all process variables within the category with all factions
-	    else {
-		Vector pvs = model.getProcessVariables((String)model.getValueAt(row, col));
-		for (int i = 0; i < pvs.size(); i++) {
-		    ProcessVariableDescription pv = (ProcessVariableDescription)pvs.get(i);
-		    if (pv.hasFactions()) {
-			layoutAllFactionsGraph(pv);
-		    }
-		    else{
-			layoutOneFactionGraph(pv, StratmasConstants.factionAll, usedColors[0]);
-		    }
-		}
-	    }
-	}    
+        // if double clicked
+        if (e.getClickCount() == 2) {
+            int row = getSelectedRow();
+            int col = getSelectedColumn();
+            // get the model
+            ProcessVariableTableModel model = (ProcessVariableTableModel)getModel();
+            // create default arrays
+            String[] fac = new String[1];
+            Color[] colors = new Color[1];
+            // create one graph
+            if (col != getColumnModel().getColumnIndex("Category")) {
+                ProcessVariableDescription pv = model.getProcessVariable(row);
+                // graph containing all the factions
+                if (col == getColumnModel().getColumnIndex("PV") && pv.hasFactions()) {
+                    layoutAllFactionsGraph(pv);
+                }
+                // graph containing faction "All"
+                else if (col == 0 || col == 2){
+                    layoutOneFactionGraph(pv, StratmasConstants.factionAll, usedColors[0]);
+                }
+                // graph containing specific faction
+                else if (pv.hasFactions()) {
+                    String actFaction = ((StratmasObject)factions.get(col-3)).getReference().getIdentifier().trim();
+                    layoutOneFactionGraph(pv, actFaction, usedColors[col - 2]);
+                }
+            }
+            // create graphs for all process variables within the category with all factions
+            else {
+                Vector pvs = model.getProcessVariables((String)model.getValueAt(row, col));
+                for (int i = 0; i < pvs.size(); i++) {
+                    ProcessVariableDescription pv = (ProcessVariableDescription)pvs.get(i);
+                    if (pv.hasFactions()) {
+                        layoutAllFactionsGraph(pv);
+                    }
+                    else{
+                        layoutOneFactionGraph(pv, StratmasConstants.factionAll, usedColors[0]);
+                    }
+                }
+            }
+        }    
     }
     
     /**
@@ -398,10 +398,10 @@ public class ProcessVariableTable extends JTable implements MouseListener, Strat
      * @param color the color of the faction curve in the graph.
      */
     private void layoutOneFactionGraph(ProcessVariableDescription pv, String faction, Color color) {
-	String[] fac = {faction};
-	Color[] colors = {color};
-	ProcessVariableXYGraph graph = createGraph(pv, fac, colors); 
-	layoutGraph(graph, this);
+        String[] fac = {faction};
+        Color[] colors = {color};
+        ProcessVariableXYGraph graph = createGraph(pv, fac, colors); 
+        layoutGraph(graph, this);
     }
     
     /**
@@ -410,16 +410,16 @@ public class ProcessVariableTable extends JTable implements MouseListener, Strat
      * @param pv the actual process variable.
      */
     private void layoutAllFactionsGraph(ProcessVariableDescription pv) {
-	// get all factions incl. faction "All"
-	String[] fac = new String[factions.size() + 1];
-	fac[0] = StratmasConstants.factionAll;
-	for (int i = 0; i < factions.size(); i++) {
-	    fac[i+1] = ((StratmasObject)factions.get(i)).getReference().getIdentifier().trim();
-	}
-	// create the graph
-	ProcessVariableXYGraph graph = createGraph(pv, fac, usedColors); 
-	// layout the graph
-	layoutGraph(graph, this);
+        // get all factions incl. faction "All"
+        String[] fac = new String[factions.size() + 1];
+        fac[0] = StratmasConstants.factionAll;
+        for (int i = 0; i < factions.size(); i++) {
+            fac[i+1] = ((StratmasObject)factions.get(i)).getReference().getIdentifier().trim();
+        }
+        // create the graph
+        ProcessVariableXYGraph graph = createGraph(pv, fac, usedColors); 
+        // layout the graph
+        layoutGraph(graph, this);
     }
     
     /**
@@ -461,10 +461,10 @@ class HeaderRenderer extends DefaultTableCellRenderer {
      * The constructor.
      */
     public HeaderRenderer(Color foregroundColor) {
-	this.foregroundColor = foregroundColor;
+        this.foregroundColor = foregroundColor;
         setHorizontalAlignment(SwingConstants.CENTER);
         setOpaque(true);
-	
+        
         // This call is needed because DefaultTableCellRenderer calls setBorder()
         // in its constructor, which is executed after updateUI()
         setBorder(UIManager.getBorder("TableHeader.cellBorder"));
@@ -482,13 +482,13 @@ class HeaderRenderer extends DefaultTableCellRenderer {
      * Returns the cell.
      */
     public Component getTableCellRendererComponent(JTable table, Object value,
-						   boolean selected, boolean focused, int row, int column) {
+                                                   boolean selected, boolean focused, int row, int column) {
         JTableHeader h = table != null ? table.getTableHeader() : null;
-	
+        
         if (h != null) {
             setEnabled(h.isEnabled());         
             setComponentOrientation(h.getComponentOrientation());
-	    
+            
             setForeground(foregroundColor);
             setBackground(h.getBackground());
             setFont(h.getFont());
@@ -497,14 +497,14 @@ class HeaderRenderer extends DefaultTableCellRenderer {
             /* Use sensible values instead of random leftover values from the last call */
             setEnabled(true);
             setComponentOrientation(ComponentOrientation.UNKNOWN);
-	    
+            
             setForeground(foregroundColor);
             setBackground(UIManager.getColor("TableHeader.background"));
             setFont(UIManager.getFont("TableHeader.font"));
         }
 
         setValue(value);
-	
+        
         return this;
     }
 }

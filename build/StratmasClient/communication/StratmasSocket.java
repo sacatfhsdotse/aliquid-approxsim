@@ -31,7 +31,7 @@ public class StratmasSocket {
 
      /** Default constructor. */
      public StratmasSocket() {
-	  mId = -1;
+          mId = -1;
      }
 
     /**
@@ -39,12 +39,12 @@ public class StratmasSocket {
      */
     public int getPort()
     {
-	if (mSocket != null && mSocket.getRemoteSocketAddress() != null &&
-	    mSocket.getRemoteSocketAddress() instanceof InetSocketAddress) {
-	    return ((InetSocketAddress) mSocket.getRemoteSocketAddress()).getPort(); 
-	} else {
-	    return 0;
-	}
+        if (mSocket != null && mSocket.getRemoteSocketAddress() != null &&
+            mSocket.getRemoteSocketAddress() instanceof InetSocketAddress) {
+            return ((InetSocketAddress) mSocket.getRemoteSocketAddress()).getPort(); 
+        } else {
+            return 0;
+        }
     }
 
     /**
@@ -52,12 +52,12 @@ public class StratmasSocket {
      */
     public String getHost()
     {
-	if (mSocket != null && mSocket.getRemoteSocketAddress() != null &&
-	    mSocket.getRemoteSocketAddress() instanceof InetSocketAddress) {
-	    return ((InetSocketAddress) mSocket.getRemoteSocketAddress()).getHostName(); 
-	} else {
-	    return null;
-	}
+        if (mSocket != null && mSocket.getRemoteSocketAddress() != null &&
+            mSocket.getRemoteSocketAddress() instanceof InetSocketAddress) {
+            return ((InetSocketAddress) mSocket.getRemoteSocketAddress()).getHostName(); 
+        } else {
+            return null;
+        }
     }
 
      /**
@@ -77,20 +77,20 @@ public class StratmasSocket {
 
      /** Closes the socket. */
      public void close() {
-	  try {
-	       if (mOut != null) {
-		    mOut.close();
-	       }
-	       if (mIn != null) {
-		    mIn.close();
-	       }
-	       if (mSocket != null) {
-		    mSocket.close();
-	       }
-	  } catch (IOException e) {
-	       System.err.println("Error when closing socket and socket streams");
-	       System.exit(1);
-	  }
+          try {
+               if (mOut != null) {
+                    mOut.close();
+               }
+               if (mIn != null) {
+                    mIn.close();
+               }
+               if (mSocket != null) {
+                    mSocket.close();
+               }
+          } catch (IOException e) {
+               System.err.println("Error when closing socket and socket streams");
+               System.exit(1);
+          }
      }
 
 
@@ -101,9 +101,9 @@ public class StratmasSocket {
       * @param port The port to connect to.
       */
      public void connect(String host, int port) throws IOException {
-	  mSocket = new Socket(host, port);
-	  mOut = new DataOutputStream(new BufferedOutputStream(mSocket.getOutputStream()));
-	  mIn = new DataInputStream(new BufferedInputStream(mSocket.getInputStream()));
+          mSocket = new Socket(host, port);
+          mOut = new DataOutputStream(new BufferedOutputStream(mSocket.getOutputStream()));
+          mIn = new DataInputStream(new BufferedInputStream(mSocket.getInputStream()));
      }
      
      /**
@@ -112,14 +112,14 @@ public class StratmasSocket {
       * @param msg The message to be sent (xml).
       */
      public void sendMessage(String msg) throws IOException {
-	  byte [] flk = msg.getBytes("ISO-8859-1");
+          byte [] flk = msg.getBytes("ISO-8859-1");
 
-	  // 64 bit
-	  long length = msg.length();
-	  mOut.writeLong(flk.length);
-	  mOut.writeLong(mId);
-	  mOut.write(flk, 0, flk.length);
-	  mOut.flush();
+          // 64 bit
+          long length = msg.length();
+          mOut.writeLong(flk.length);
+          mOut.writeLong(mId);
+          mOut.write(flk, 0, flk.length);
+          mOut.flush();
      }
 
      /**
@@ -129,10 +129,10 @@ public class StratmasSocket {
       * @return The message received (xml).
       */
      public String recvMessage() throws IOException {
-	  long length = mIn.readLong();
-	  mId = mIn.readLong();
-	  byte [] tmp = new byte[new Long(length).intValue()];
-	  mIn.readFully(tmp);
-	  return new String(tmp, "ISO-8859-1");
+          long length = mIn.readLong();
+          mId = mIn.readLong();
+          byte [] tmp = new byte[new Long(length).intValue()];
+          mIn.readFully(tmp);
+          return new String(tmp, "ISO-8859-1");
      }
 }

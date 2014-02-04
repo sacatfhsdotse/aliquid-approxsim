@@ -78,7 +78,7 @@ public:
       * \param w The weight. 
       */
      void addMember(const GridCell* c, double w = 1.0) { 
-	  mMembers.push_back(std::pair<double, const GridCell*>(w, c));
+          mMembers.push_back(std::pair<double, const GridCell*>(w, c));
      }
 
      const std::vector<std::pair<double, const GridCell*> >& members() const { return mMembers; }

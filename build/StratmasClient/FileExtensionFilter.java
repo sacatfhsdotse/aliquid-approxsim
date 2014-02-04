@@ -28,7 +28,7 @@ public class FileExtensionFilter extends FileFilter {
       * @param extension The extension to pass.
       */
      public FileExtensionFilter(String extension) {
-	  this(extension, null);
+          this(extension, null);
      }
 
      /**
@@ -39,14 +39,14 @@ public class FileExtensionFilter extends FileFilter {
       * @param description The description of the filter.
       */
      public FileExtensionFilter(String extension, String description) {
-	  if (extension == null) {
-	       throw new AssertionError("Not allowed to create FileExtensionFilter with 'null' as extension.");
-	  }
-	  else if (extension.charAt(0) == '.') {
-	       extension = extension.substring(1);
-	  }
-	  this.extension = extension;
-	  this.description = description;
+          if (extension == null) {
+               throw new AssertionError("Not allowed to create FileExtensionFilter with 'null' as extension.");
+          }
+          else if (extension.charAt(0) == '.') {
+               extension = extension.substring(1);
+          }
+          this.extension = extension;
+          this.description = description;
      }
 
      /**
@@ -56,15 +56,15 @@ public class FileExtensionFilter extends FileFilter {
       * @return True if the file passes, false otherwise.
       */
      public boolean accept(File f) {
-	  if (f.isDirectory()) {
-	       return true;
-	  }
-	  else if (extension == null) {
-	       return (f.getName().indexOf('.') == -1);
-	  }
-	  else {
-	       return extension.equalsIgnoreCase(getExtension(f));
-	  }
+          if (f.isDirectory()) {
+               return true;
+          }
+          else if (extension == null) {
+               return (f.getName().indexOf('.') == -1);
+          }
+          else {
+               return extension.equalsIgnoreCase(getExtension(f));
+          }
      }
 
      /**
@@ -73,17 +73,17 @@ public class FileExtensionFilter extends FileFilter {
       * @return The description of the filter.
       */
      public String getDescription() {
-	  if (description == null) {
-	       description = (extension == null ? "Files without extension" : "." + extension + " files");
-	  }
-	  return description;
+          if (description == null) {
+               description = (extension == null ? "Files without extension" : "." + extension + " files");
+          }
+          return description;
      }
     
     /**
      * Returns the extension of the files.
      */
     public String getExtension() {
-	return extension;
+        return extension;
     }
 
      /**
@@ -93,13 +93,13 @@ public class FileExtensionFilter extends FileFilter {
       * @return The extension of the provided file.
       */
      public static String getExtension(File f) {
-	  String ext = null;
-	  String s = f.getName();
-	  int i = s.lastIndexOf('.');
-	  
-	  if (i > 0 &&  i < s.length() - 1) {
-	       ext = s.substring(i+1).toLowerCase();
-	  }
-	  return ext;
+          String ext = null;
+          String s = f.getName();
+          int i = s.lastIndexOf('.');
+          
+          if (i > 0 &&  i < s.length() - 1) {
+               ext = s.substring(i+1).toLowerCase();
+          }
+          return ext;
      }
 }

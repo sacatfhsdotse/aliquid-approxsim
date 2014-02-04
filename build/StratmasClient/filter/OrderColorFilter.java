@@ -18,21 +18,21 @@ public class OrderColorFilter extends RGBImageFilter {
      * Creates new filter. 
      */
     protected OrderColorFilter(Color color) {
-	this.color = color;
-	canFilterIndexColorModel = true;
+        this.color = color;
+        canFilterIndexColorModel = true;
     }
     
     /**
      * Returns new OrderColorFilter.
      */
     public static ImageFilter getFilter(Color color) {
-	return new OrderColorFilter(color);
+        return new OrderColorFilter(color);
     }
     
     /**
      * Converts each pixel of the image into the color of the order.
      */
     public int filterRGB(int x, int y, int rgb) {
-	return color.getRGB();
+        return color.getRGB();
     }
 }

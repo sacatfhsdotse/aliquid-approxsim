@@ -27,20 +27,20 @@ public class ShapeValuePair {
      * Creates new pair.
      */ 
     public ShapeValuePair(Shape shape, double value, boolean esri) {
-	this.shape = shape;
-	this.value = value;
-	isEsri = esri;
-	creationTime = System.currentTimeMillis();
+        this.shape = shape;
+        this.value = value;
+        isEsri = esri;
+        creationTime = System.currentTimeMillis();
     }
     
     /**
      * Creates new pair.
      */ 
     public ShapeValuePair(Shape shape, double value, boolean esri, long cTime) {
-	this.shape = shape;
-	this.value = value;
-	isEsri = esri;
-	creationTime = cTime;
+        this.shape = shape;
+        this.value = value;
+        isEsri = esri;
+        creationTime = cTime;
     }
     
 
@@ -48,34 +48,34 @@ public class ShapeValuePair {
      * Returns the value.
      */
     public double getValue() {
-	return value;
+        return value;
     }
     
     /**
      * Returns the shape.
      */
     public Shape getShape() {
-	return shape;
+        return shape;
     }
     
     /**
      * Returns the time of creation of the object. 
      */
     public long getCreationTime() {
-	return creationTime;
+        return creationTime;
     }
     
     /**
      * True for ESRI shapes.
      */
     public boolean isEsri() {
-	return isEsri;
+        return isEsri;
     }
     
     /**
      * Displays the values.
      */
     public String toString() {
-	return shape.getReference().toString() + " - " + String.valueOf(value);
+        return shape.getReference().toString() + " - " + String.valueOf(value);
     }
 }

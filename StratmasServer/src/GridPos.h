@@ -23,7 +23,7 @@ public:
      inline bool operator <  (const GridPos &p) const { return ((r < p.r) || ( (r == p.r) && (c < p.c) )); }
      /// \brief For debugging purposes.
      friend std::ostream &operator<<(std::ostream &os, const GridPos &p) {
-	  return os << "r: " << p.r << ", c: " << p.c;
+          return os << "r: " << p.r << ", c: " << p.c;
      }
 };
 

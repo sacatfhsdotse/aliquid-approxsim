@@ -29,15 +29,15 @@ class ProcessVariableInitialValues {
      * Used to compare ShapeValuePair objects wrt the time of creation.
      */
     private Comparator creationTimeComparator = new Comparator() {
-	    public int compare(Object o1, Object o2) {
-		ShapeValuePair svp1 = (ShapeValuePair)o1;
-		ShapeValuePair svp2 = (ShapeValuePair)o2;
-		long cTime1 = svp1.getCreationTime();   //System.out.println(shapes);
+            public int compare(Object o1, Object o2) {
+                ShapeValuePair svp1 = (ShapeValuePair)o1;
+                ShapeValuePair svp2 = (ShapeValuePair)o2;
+                long cTime1 = svp1.getCreationTime();   //System.out.println(shapes);
 
-		long cTime2 = svp2.getCreationTime();
-		return (cTime1 > cTime2)? 1 : -1;
-	    }
-	};
+                long cTime2 = svp2.getCreationTime();
+                return (cTime1 > cTime2)? 1 : -1;
+            }
+        };
     
     /**
      * Creates new object.
@@ -47,19 +47,19 @@ class ProcessVariableInitialValues {
      * @param shapeValues a key-value list where keys are Shape objects and values are lists of ShapeValuePair objects.
      */
     public ProcessVariableInitialValues(ProcessVariableDescription processVariable, StratmasObject faction, Hashtable shapeValues) {
-	this.processVariable = processVariable;
-	this.faction = faction;
-	// put all shapes and values in the list
-	for (Enumeration e = shapeValues.elements();e.hasMoreElements();) {
-	    Vector shValues = (Vector)e.nextElement();
-	    for (int i = 0; i < shValues.size(); i++) { 
-		if (!shapeList.contains(shValues.get(i))) {
-		    shapeList.add(shValues.get(i));
-		}
-	    }
-	}
-	// sort the list
-	Collections.sort(shapeList, creationTimeComparator);
+        this.processVariable = processVariable;
+        this.faction = faction;
+        // put all shapes and values in the list
+        for (Enumeration e = shapeValues.elements();e.hasMoreElements();) {
+            Vector shValues = (Vector)e.nextElement();
+            for (int i = 0; i < shValues.size(); i++) { 
+                if (!shapeList.contains(shValues.get(i))) {
+                    shapeList.add(shValues.get(i));
+                }
+            }
+        }
+        // sort the list
+        Collections.sort(shapeList, creationTimeComparator);
     }
 
     /**
@@ -70,50 +70,50 @@ class ProcessVariableInitialValues {
      * @param shapeList a sorted list of ShapeValuePair objects.
      */
     public ProcessVariableInitialValues(ProcessVariableDescription processVariable, StratmasObject faction, Vector shapeList) {
-	this.processVariable = processVariable;
-	this.faction = faction;
-	this.shapeList = shapeList;
+        this.processVariable = processVariable;
+        this.faction = faction;
+        this.shapeList = shapeList;
     }
     
     public ProcessVariableInitialValues(ProcessVariableDescription processVariable, StratmasObject faction) {
-	this.processVariable = processVariable;
-	this.faction = faction;
+        this.processVariable = processVariable;
+        this.faction = faction;
     }
 
     /**
      * Returns the process variable.
      */
     public ProcessVariableDescription getProcessVariable() {
-	return processVariable;
+        return processVariable;
     }
     
     /**
      * Returns the faction.
      */
     public StratmasObject getFaction() {
-	return faction;
+        return faction;
     }
 
     /**
      * Returns the sorted list of ShapeValuePair objects.
      */
     public Vector getOrderedListOfShapes() {
-	return shapeList;
+        return shapeList;
     }
     
     /**
      *  Returns the values of this object as a String.
      */
     public String toString() {
-	String hasFac = String.valueOf(processVariable.hasFactions());
-	String min = String.valueOf(processVariable.getMin());
-	String max = String.valueOf(processVariable.getMax());
-	String pv = new String("process variable : " + processVariable.getName() + " " + processVariable.getCategory() + " " + hasFac + " " + min + " " + max + "\n");
-	String facStr = (faction == null)? new String("") : new String("faction : " + faction.getReference().toString() + "\n");
-	String shapes = new String("List of shape - value pairs : \n");
-	for (int i = 0; i < shapeList.size(); i++) {
-	    shapes = shapes.concat(((ShapeValuePair)shapeList.get(i)).toString() + "\n");
-	}
-	return pv + facStr + shapes;
+        String hasFac = String.valueOf(processVariable.hasFactions());
+        String min = String.valueOf(processVariable.getMin());
+        String max = String.valueOf(processVariable.getMax());
+        String pv = new String("process variable : " + processVariable.getName() + " " + processVariable.getCategory() + " " + hasFac + " " + min + " " + max + "\n");
+        String facStr = (faction == null)? new String("") : new String("faction : " + faction.getReference().toString() + "\n");
+        String shapes = new String("List of shape - value pairs : \n");
+        for (int i = 0; i < shapeList.size(); i++) {
+            shapes = shapes.concat(((ShapeValuePair)shapeList.get(i)).toString() + "\n");
+        }
+        return pv + facStr + shapes;
     }
 }

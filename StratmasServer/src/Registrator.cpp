@@ -24,20 +24,20 @@
  * \param sPort the port of the server.
  */
 Registrator::Registrator(std::string dHost, int dPort, 
-			 std::string sHost, int sPort) :
-	  dispatcherHost(dHost), dispatcherPort(dPort), port(sPort) 
+                         std::string sHost, int sPort) :
+          dispatcherHost(dHost), dispatcherPort(dPort), port(sPort) 
 {
      // Special handling if listening to the any-address:
      if (sHost.empty()) {
-	  char self[40];
-	  if (gethostname(self, 40) < 0) {
-	       perror(Environment::getProgramName().c_str());
-	       exit(1);
-	  } else {
-	       host = std::string(self);
-	  }
+          char self[40];
+          if (gethostname(self, 40) < 0) {
+               perror(Environment::getProgramName().c_str());
+               exit(1);
+          } else {
+               host = std::string(self);
+          }
      } else {
-	  host = sHost;
+          host = sHost;
      }
 }
 
@@ -47,22 +47,22 @@ Registrator::Registrator(std::string dHost, int dPort,
 bool Registrator::registerServerOnce() {
      std::ostringstream ost;
      ost << "<?xml version=\"1.0\"?>"
-	  "<dispatcherRequest " 
-	  "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
-	  "xsi:type=\"RegistrationRequest\">"
-	  "<stratmasServer>"
-	  "<host>" << host << "</host>"
-	  "<port>" << port << "</port>" 
-	  "<hasActiveClient>false</hasActiveClient>"
-	  "<isPending>true</isPending>"
-	  "</stratmasServer>"
-	  "</dispatcherRequest>";
+          "<dispatcherRequest " 
+          "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
+          "xsi:type=\"RegistrationRequest\">"
+          "<stratmasServer>"
+          "<host>" << host << "</host>"
+          "<port>" << port << "</port>" 
+          "<hasActiveClient>false</hasActiveClient>"
+          "<isPending>true</isPending>"
+          "</stratmasServer>"
+          "</dispatcherRequest>";
      try {
-	  DispatcherSocket socket(dispatcherHost, dispatcherPort);
-	  socket.sendDispatcherMessage(ost.str());
-	  return true;
+          DispatcherSocket socket(dispatcherHost, dispatcherPort);
+          socket.sendDispatcherMessage(ost.str());
+          return true;
      } catch (SocketException e) {
-	  return false;
+          return false;
      }
 }
 
@@ -72,11 +72,11 @@ bool Registrator::registerServerOnce() {
 bool Registrator::registerServer(int tries)
 {
      for (int i = 0; i < tries; i++) {
-	  if (registerServerOnce()) {
-	       return true;
-	  } else {
-	       Environment::milliSleep(1000);
-	  }
+          if (registerServerOnce()) {
+               return true;
+          } else {
+               Environment::milliSleep(1000);
+          }
      }
 
      return false;
@@ -92,7 +92,7 @@ bool DispatcherSocket::sendDispatcherMessage(const std::string msg) {
      int32_t len = htonl(msg.size());
 
      if (!send(&len, 4)) {
-	  return false; 
+          return false; 
      }
      
      return send(msg.c_str(), msg.size());
@@ -109,10 +109,10 @@ DispatcherSocket::DispatcherSocket(std::string host, int port)
      : Socket()
 {
      if (!Socket::create()) {
-	  throw SocketException("Could not create client socket.");
+          throw SocketException("Could not create client socket.");
      }
      
      if (!Socket::connect(host, port)) {
-	  throw SocketException("Could not bind to port.");
+          throw SocketException("Could not bind to port.");
      }
 }

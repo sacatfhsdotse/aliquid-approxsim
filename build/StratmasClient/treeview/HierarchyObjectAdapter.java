@@ -46,20 +46,20 @@ public class HierarchyObjectAdapter extends StratmasObjectAdapter {
       * @param filter The filter used to filter out objects.
       */
      public HierarchyObjectAdapter(StratmasObject obj, StratmasObjectFilter filter) {
-	  if (!filter.pass(obj) && !(obj instanceof StratmasList)) {
-	       throw new AssertionError("Object " + obj + " of type " + obj.getType().getName() +
-					" does not pass through filter " + filter);
-	  }
-	  
-	  this.setUserObject(obj);
-	  this.filter = filter;
+          if (!filter.pass(obj) && !(obj instanceof StratmasList)) {
+               throw new AssertionError("Object " + obj + " of type " + obj.getType().getName() +
+                                        " does not pass through filter " + filter);
+          }
+          
+          this.setUserObject(obj);
+          this.filter = filter;
 
-	  if (obj instanceof StratmasList) {
-	       mCopyForSim = StratmasObjectFactory.cloneObject(obj);
-	  }
-	  else {
- 	      typeDependentInit(obj.getType());
-	  }
+          if (obj instanceof StratmasList) {
+               mCopyForSim = StratmasObjectFactory.cloneObject(obj);
+          }
+          else {
+               typeDependentInit(obj.getType());
+          }
 
      }
 
@@ -68,27 +68,27 @@ public class HierarchyObjectAdapter extends StratmasObjectAdapter {
      */
     protected void createChildren()
     {
-	if (stratmasObject == null) {
-	    this.children = new Vector();
-	} else {
-	    this.children = new Vector();
-	    for (Enumeration e = stratmasObject.children(); e.hasMoreElements(); ) {
-		StratmasObject sObj = (StratmasObject)e.nextElement();
-		if (sObj instanceof StratmasList) {
-		    for (Enumeration i = sObj.children(); i.hasMoreElements(); ) {
-			StratmasObject objInList = (StratmasObject)i.nextElement();
-			if (filter.pass(objInList)) {
-			    silentAdd(new HierarchyObjectAdapter(objInList, filter), this.children.size());
-			}
-		    }
-		} 
-		else if (filter.pass(sObj)) {
-		    silentAdd(new HierarchyObjectAdapter(sObj, filter), this.children.size());
-		}
-	    }
-	    
-	    sort();
-	}
+        if (stratmasObject == null) {
+            this.children = new Vector();
+        } else {
+            this.children = new Vector();
+            for (Enumeration e = stratmasObject.children(); e.hasMoreElements(); ) {
+                StratmasObject sObj = (StratmasObject)e.nextElement();
+                if (sObj instanceof StratmasList) {
+                    for (Enumeration i = sObj.children(); i.hasMoreElements(); ) {
+                        StratmasObject objInList = (StratmasObject)i.nextElement();
+                        if (filter.pass(objInList)) {
+                            silentAdd(new HierarchyObjectAdapter(objInList, filter), this.children.size());
+                        }
+                    }
+                } 
+                else if (filter.pass(sObj)) {
+                    silentAdd(new HierarchyObjectAdapter(sObj, filter), this.children.size());
+                }
+            }
+            
+            sort();
+        }
     }
 
      /**
@@ -98,15 +98,15 @@ public class HierarchyObjectAdapter extends StratmasObjectAdapter {
       * @param t The Type to perform initialization for.
       */
      private void typeDependentInit(Type t) {
-	  if (t.getName().equals("MilitaryUnit")) {
-	       StratmasObject o = getUserObject();
-	       mCopyForSim = StratmasObjectFactory.cloneObject(o);
-	       // But we don't want the children and it's easier to
-	       // remove the list and add a new one instead of
-	       // removing all the elements in the list.
-	       mCopyForSim.getChild("subunits").remove();
-	       mCopyForSim.add(StratmasObjectFactory.createList(TypeFactory.getType("MilitaryUnit").getSubElement("subunits")));
-	  }
+          if (t.getName().equals("MilitaryUnit")) {
+               StratmasObject o = getUserObject();
+               mCopyForSim = StratmasObjectFactory.cloneObject(o);
+               // But we don't want the children and it's easier to
+               // remove the list and add a new one instead of
+               // removing all the elements in the list.
+               mCopyForSim.getChild("subunits").remove();
+               mCopyForSim.add(StratmasObjectFactory.createList(TypeFactory.getType("MilitaryUnit").getSubElement("subunits")));
+          }
      }
 
      /**
@@ -115,7 +115,7 @@ public class HierarchyObjectAdapter extends StratmasObjectAdapter {
       * @return The simulation copy of the adapted object.
       */
      public StratmasObject getCopyForSim() {
-	  return mCopyForSim;
+          return mCopyForSim;
      }
 
      /**
@@ -124,7 +124,7 @@ public class HierarchyObjectAdapter extends StratmasObjectAdapter {
       * @return The used flag.
       */
      public boolean isUsed() {
-	  return mUsed;
+          return mUsed;
      }
 
      /**
@@ -133,14 +133,14 @@ public class HierarchyObjectAdapter extends StratmasObjectAdapter {
       * @param used New value for the used flag.
       */
      public void setUsed(boolean used) {
-	  mUsed = used;
+          mUsed = used;
      }
 
      public void unselectRecursively() {
-	  for (Enumeration en = children(); en.hasMoreElements(); ) {
-	       ((HierarchyObjectAdapter)en.nextElement()).unselectRecursively();
-	  }
-	  getCopyForSim().fireSelected(false);
+          for (Enumeration en = children(); en.hasMoreElements(); ) {
+               ((HierarchyObjectAdapter)en.nextElement()).unselectRecursively();
+          }
+          getCopyForSim().fireSelected(false);
      }
 
 
@@ -150,11 +150,11 @@ public class HierarchyObjectAdapter extends StratmasObjectAdapter {
       * @return Some info on the adapted object.
       */
      public String toString() {
-	  String ret = getUserObject().toString() + " --- " + getCopyForSim().toString();
-	  for (Enumeration en = children(); en.hasMoreElements(); ) {
-	       ret += "\n" + en.nextElement().toString();
-	  }
-	  return ret;
+          String ret = getUserObject().toString() + " --- " + getCopyForSim().toString();
+          for (Enumeration en = children(); en.hasMoreElements(); ) {
+               ret += "\n" + en.nextElement().toString();
+          }
+          return ret;
      }
 
     /**
@@ -164,7 +164,7 @@ public class HierarchyObjectAdapter extends StratmasObjectAdapter {
      */
     protected void add(StratmasObject child, int index)
     {
-	 add(new HierarchyObjectAdapter(child, filter), index);
+         add(new HierarchyObjectAdapter(child, filter), index);
     }
 
 }

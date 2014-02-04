@@ -1,4 +1,4 @@
-// 	$Id: Circle.java,v 1.6 2006/05/11 16:43:03 alexius Exp $
+//         $Id: Circle.java,v 1.6 2006/05/11 16:43:03 alexius Exp $
 /*
  * @(#)Circle.java
  */
@@ -50,11 +50,11 @@ public class Circle extends SimpleShape
      */
     protected Circle(String identifier, Point position, StratmasDecimal radius)
     {
-	super(identifier, TypeFactory.getType("Circle"));
-	this.position = position;
-	this.radius = radius;
-	this.add(radius);
-	this.add(position);
+        super(identifier, TypeFactory.getType("Circle"));
+        this.position = position;
+        this.radius = radius;
+        this.add(radius);
+        this.add(position);
     }
 
     /**
@@ -66,7 +66,7 @@ public class Circle extends SimpleShape
      */
     protected Circle(Declaration declaration, Point position, StratmasDecimal radius)
     {
-	this(declaration.getName(), position, radius);
+        this(declaration.getName(), position, radius);
     }
 
     /**
@@ -76,7 +76,7 @@ public class Circle extends SimpleShape
      */
     public Point getCenter() 
     {
-	return position;
+        return position;
     }
 
     /**
@@ -86,14 +86,14 @@ public class Circle extends SimpleShape
      */
     public double getRadius() 
     {
-	 return radius.getValue();
+         return radius.getValue();
     }
     
      /**
       * Sets the radius of the circle.
       */
      public void setRadius(double radius) {
-	  this.radius.setValue(radius, this);
+          this.radius.setValue(radius, this);
      }
      
     /**
@@ -103,53 +103,53 @@ public class Circle extends SimpleShape
      */
     protected Polygon constructPolygon(double error)
     {
-	// Get minimal number of partitions acceptable with the
-	// specified error. Always use at least three lines, never more than 100.
-	int partitions = (int) Math.ceil(Math.PI/(Math.acos((getRadius() - error)/getRadius())));
-	partitions = partitions >= 3 ? partitions : 3;
-	if (partitions > 100) {
-	    partitions = 100;
-	    //Debug.err.println(getClass().getName() + ": Clamping approximated polygon to " + 
-	    //		      partitions + " segments.");
-	}
-	double angleStep = 2*Math.PI/((double) partitions);
+        // Get minimal number of partitions acceptable with the
+        // specified error. Always use at least three lines, never more than 100.
+        int partitions = (int) Math.ceil(Math.PI/(Math.acos((getRadius() - error)/getRadius())));
+        partitions = partitions >= 3 ? partitions : 3;
+        if (partitions > 100) {
+            partitions = 100;
+            //Debug.err.println(getClass().getName() + ": Clamping approximated polygon to " + 
+            //                      partitions + " segments.");
+        }
+        double angleStep = 2*Math.PI/((double) partitions);
 
-	// Get center
-	double centerLat = getCenter().getLat();
-	double centerLon = getCenter().getLon();	
-	// The radius in degrees
-	double latDistance = getRadius() / 111000;
-	double lonDistance = latDistance / 
-	    Math.cos(Math.toRadians(centerLat));
+        // Get center
+        double centerLat = getCenter().getLat();
+        double centerLon = getCenter().getLon();        
+        // The radius in degrees
+        double latDistance = getRadius() / 111000;
+        double lonDistance = latDistance / 
+            Math.cos(Math.toRadians(centerLat));
 
 
-	// Create lines
-	Vector lines = new Vector();
-	// First line along degreeLine
-	double startLat = centerLat + latDistance*Math.sin(0);
-	double startLon = centerLon + lonDistance*Math.cos(0);
-	double lon1 = startLon;
-	double lat1 = startLat;
-	for (int i = 1; i < partitions; i++) {
-	    double angle = ((double) i) * angleStep;
-	    double lat2 = centerLat + latDistance*Math.sin(angle);
-	    double lon2 = centerLon + lonDistance*Math.cos(angle);
-	    lines.add(StratmasObjectFactory.createLine(Integer.toString(i), 
-			       StratmasObjectFactory.createPoint("p1", lat1, lon1),
-			       StratmasObjectFactory.createPoint("p2", lat2, lon2)));
-	    lat1 = lat2;
-	    lon1 = lon2;
-	}
-	// Tie polygon together
-	lines.add(StratmasObjectFactory.createLine(Integer.toString(partitions), 
-			   StratmasObjectFactory.createPoint("p1", lat1, lon1),
-			   StratmasObjectFactory.createPoint("p2", startLat, startLon)));
-	
-	
-	Vector v = new Vector();
-	v.add(new StratmasList("curves", TypeFactory.getType("Line"), 
-			       lines));
-	return new Polygon("Approximation of " + getIdentifier(), v);
+        // Create lines
+        Vector lines = new Vector();
+        // First line along degreeLine
+        double startLat = centerLat + latDistance*Math.sin(0);
+        double startLon = centerLon + lonDistance*Math.cos(0);
+        double lon1 = startLon;
+        double lat1 = startLat;
+        for (int i = 1; i < partitions; i++) {
+            double angle = ((double) i) * angleStep;
+            double lat2 = centerLat + latDistance*Math.sin(angle);
+            double lon2 = centerLon + lonDistance*Math.cos(angle);
+            lines.add(StratmasObjectFactory.createLine(Integer.toString(i), 
+                               StratmasObjectFactory.createPoint("p1", lat1, lon1),
+                               StratmasObjectFactory.createPoint("p2", lat2, lon2)));
+            lat1 = lat2;
+            lon1 = lon2;
+        }
+        // Tie polygon together
+        lines.add(StratmasObjectFactory.createLine(Integer.toString(partitions), 
+                           StratmasObjectFactory.createPoint("p1", lat1, lon1),
+                           StratmasObjectFactory.createPoint("p2", startLat, startLon)));
+        
+        
+        Vector v = new Vector();
+        v.add(new StratmasList("curves", TypeFactory.getType("Line"), 
+                               lines));
+        return new Polygon("Approximation of " + getIdentifier(), v);
     }
 
     /**
@@ -157,23 +157,23 @@ public class Circle extends SimpleShape
      */
     public BoundingBox createBoundingBox()
     {
-	// 111000 == the distance in meters between every latitude degree.
-	double latDistance = getRadius() / 111000;
-	double lonDistance = latDistance / 
-	    Math.cos(Math.toRadians(getCenter().getLat()));
-	
-	return new BoundingBox (getCenter().getLon() - lonDistance,
-				getCenter().getLat() - latDistance,
-				getCenter().getLon() + lonDistance,
-				getCenter().getLat() + latDistance);
+        // 111000 == the distance in meters between every latitude degree.
+        double latDistance = getRadius() / 111000;
+        double lonDistance = latDistance / 
+            Math.cos(Math.toRadians(getCenter().getLat()));
+        
+        return new BoundingBox (getCenter().getLon() - lonDistance,
+                                getCenter().getLat() - latDistance,
+                                getCenter().getLon() + lonDistance,
+                                getCenter().getLat() + latDistance);
     }
 
     /**
      * Returns the bounding box with respect to its projected parts. 
       */
     public BoundingBox getBoundingBox(Projection proj)
-    {		
-	return this.constructPolygon(1).getBoundingBox(proj);
+    {                
+        return this.constructPolygon(1).getBoundingBox(proj);
     }
 
      /**
@@ -185,7 +185,7 @@ public class Circle extends SimpleShape
       * @param dy The distance to move given in degrees latitude.
       */
      public void move(double dx, double dy) {
-	  position.move(dx, dy);
+          position.move(dx, dy);
      }
 
      /**
@@ -197,7 +197,7 @@ public class Circle extends SimpleShape
       * @param lat The latitude of the new location.
       */
      public void moveTo(double lng, double lat) {
-	  position.moveTo(lng, lat);
+          position.moveTo(lng, lat);
      }
 
 
@@ -210,7 +210,7 @@ public class Circle extends SimpleShape
      */
     protected static StratmasVectorConstructor getVectorConstructor(Declaration declaration)
     {
-	return new CircleVectorConstructor(declaration);
+        return new CircleVectorConstructor(declaration);
     }
     
     /**
@@ -222,14 +222,14 @@ public class Circle extends SimpleShape
      */
     protected static StratmasObject defaultCreate(Declaration declaration)
     {
-	Vector newParts = new Vector();
-	for (java.util.Iterator it = declaration.getType().getSubElements().iterator(); it.hasNext(); ) {
-	    Declaration dec = (Declaration)it.next();
-	    if (dec.isSingular()) {
-		newParts.add(StratmasObjectFactory.defaultCreate(dec));
-	    }
-	}
-	return getVectorConstructor(declaration).getStratmasObject(newParts);
+        Vector newParts = new Vector();
+        for (java.util.Iterator it = declaration.getType().getSubElements().iterator(); it.hasNext(); ) {
+            Declaration dec = (Declaration)it.next();
+            if (dec.isSingular()) {
+                newParts.add(StratmasObjectFactory.defaultCreate(dec));
+            }
+        }
+        return getVectorConstructor(declaration).getStratmasObject(newParts);
     }
 
     /**
@@ -241,12 +241,12 @@ public class Circle extends SimpleShape
      */
     protected static StratmasObject domCreate(Element n)
     {
-	return 
-	    new Circle(Identifier.getIdentifier(n),
-		       (Point)
-		       StratmasObjectFactory.domCreate(XMLHelper.getFirstChildByTag(n, "center")),
-		       (StratmasDecimal) 
-		       StratmasObjectFactory.domCreate(XMLHelper.getFirstChildByTag(n, "radius")));
+        return 
+            new Circle(Identifier.getIdentifier(n),
+                       (Point)
+                       StratmasObjectFactory.domCreate(XMLHelper.getFirstChildByTag(n, "center")),
+                       (StratmasDecimal) 
+                       StratmasObjectFactory.domCreate(XMLHelper.getFirstChildByTag(n, "radius")));
     }
     
     /**
@@ -259,7 +259,7 @@ public class Circle extends SimpleShape
      * @return A clone of this object.
      */
      protected Object clone() {
-	  return new Circle(identifier, (Point) getCenter().clone(), (StratmasDecimal) radius.clone());
+          return new Circle(identifier, (Point) getCenter().clone(), (StratmasDecimal) radius.clone());
      }
 
     /**
@@ -272,13 +272,13 @@ public class Circle extends SimpleShape
      */
     public void update(Element n, Timestamp t) 
     {
-	if (getType().equals(TypeFactory.getType(n))) {
-	    position.update(XMLHelper.getFirstChildByTag(n, "center"), t);
-	    radius.update(XMLHelper.getFirstChildByTag(n, "radius"), t);
-	}
-	else {
-	    replace(StratmasObjectFactory.domCreate(n), n);
-	}
+        if (getType().equals(TypeFactory.getType(n))) {
+            position.update(XMLHelper.getFirstChildByTag(n, "center"), t);
+            radius.update(XMLHelper.getFirstChildByTag(n, "radius"), t);
+        }
+        else {
+            replace(StratmasObjectFactory.domCreate(n), n);
+        }
     }
 }
 
@@ -298,7 +298,7 @@ class CircleVectorConstructor extends StratmasVectorConstructor
      */
     public CircleVectorConstructor(Declaration declaration)
     {
-	super(declaration);
+        super(declaration);
     }
 
     /**
@@ -308,20 +308,20 @@ class CircleVectorConstructor extends StratmasVectorConstructor
      */
     public StratmasObject getStratmasObject(Vector parts)
     {
-	StratmasObject position = (StratmasObject) parts.get(0);
-	StratmasObject radius = (StratmasObject) parts.get(1);
-	
-	if (!position.getIdentifier().equals("center")) {
-	    StratmasObject temp = position;
-	    position = radius;
-	    radius = temp;
-	}
-	
-	if (!position.getIdentifier().equals("center") ||
-	    !radius.getIdentifier().equals("radius")) {
-	    throw new AssertionError("Internal Circle transport error.");
-	}
+        StratmasObject position = (StratmasObject) parts.get(0);
+        StratmasObject radius = (StratmasObject) parts.get(1);
+        
+        if (!position.getIdentifier().equals("center")) {
+            StratmasObject temp = position;
+            position = radius;
+            radius = temp;
+        }
+        
+        if (!position.getIdentifier().equals("center") ||
+            !radius.getIdentifier().equals("radius")) {
+            throw new AssertionError("Internal Circle transport error.");
+        }
 
-	return new Circle(this.getDeclaration(), (Point) position, ((StratmasDecimal) radius));
+        return new Circle(this.getDeclaration(), (Point) position, ((StratmasDecimal) radius));
     }
 }

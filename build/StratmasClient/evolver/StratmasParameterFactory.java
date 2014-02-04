@@ -1,4 +1,4 @@
-// 	$Id: StratmasParameterFactory.java,v 1.4 2006/03/22 14:30:50 dah Exp $
+//         $Id: StratmasParameterFactory.java,v 1.4 2006/03/22 14:30:50 dah Exp $
 /*
  * @(#)StratmasParametersFactory.java
  */
@@ -33,7 +33,7 @@ public class StratmasParameterFactory implements ParameterFactory
      */
     public StratmasParameterFactory() 
     {
-	this.typeMapping = createTypeMapping();
+        this.typeMapping = createTypeMapping();
     }
 
     /**
@@ -49,12 +49,12 @@ public class StratmasParameterFactory implements ParameterFactory
      */
     public Parameter getParameter(Object object)
     {
-	// Only handle StratmasObjects.
-	if (!(object instanceof StratmasObject)) {
-	    return null;
-	}
-	
-	return getParameter((StratmasObject) object);
+        // Only handle StratmasObjects.
+        if (!(object instanceof StratmasObject)) {
+            return null;
+        }
+        
+        return getParameter((StratmasObject) object);
     }
 
     /**
@@ -65,7 +65,7 @@ public class StratmasParameterFactory implements ParameterFactory
      */
     public Parameter getParameter(StratmasObject stratmasObject)
     {
-	return getTypeParameter(stratmasObject);
+        return getTypeParameter(stratmasObject);
     }
     
     /**
@@ -73,7 +73,7 @@ public class StratmasParameterFactory implements ParameterFactory
      */
     public Hashtable getTypeMapping()
     {
-	return this.typeMapping;
+        return this.typeMapping;
     }
 
     /**
@@ -82,16 +82,16 @@ public class StratmasParameterFactory implements ParameterFactory
      */
     public Parameter getTypeParameter(StratmasObject object)
     {
-	// Find youngest base type with a mapping
-	for (Type walker = object.getType(); 
-	     walker != null; walker = walker.getBaseType()) {
-	    ParameterFactory parameterFactory = (ParameterFactory) getTypeMapping().get(walker);
-	    if (parameterFactory != null) {
-		return parameterFactory.getParameter(object);
-	    }
-	}
+        // Find youngest base type with a mapping
+        for (Type walker = object.getType(); 
+             walker != null; walker = walker.getBaseType()) {
+            ParameterFactory parameterFactory = (ParameterFactory) getTypeMapping().get(walker);
+            if (parameterFactory != null) {
+                return parameterFactory.getParameter(object);
+            }
+        }
 
-	return null;
+        return null;
     }
 
     /**
@@ -99,53 +99,53 @@ public class StratmasParameterFactory implements ParameterFactory
      */
     Hashtable createTypeMapping()
     {
-	Hashtable mapping = new Hashtable();
-	
-	mapping.put(TypeFactory.getType("Double"), 
-		    new ParameterFactory() 
-		    {
-			public Parameter getParameter(Object o) 
-			{
-			    StratmasDecimal sObj = (StratmasDecimal) o;
-			    if (isBadDecimal(sObj)) {
-				return null;
-			    } else {
-				return new StratmasDecimalParameter((StratmasDecimal) o);
-			    }
-			}
-		    });
-	mapping.put(TypeFactory.getType("double", "http://www.w3.org/2001/XMLSchema"), 
-		    new ParameterFactory() 
-		    {
-			public Parameter getParameter(Object o) 
-			{
-			    StratmasDecimal sObj = (StratmasDecimal) o;
-			    if (isBadDecimal(sObj)) {
-				return null;
-			    } else {
-				return new StratmasDecimalParameter((StratmasDecimal) o);
-			    }
-			}
-		    });
-	mapping.put(TypeFactory.getType("NonNegativeInteger"), 
-		    new ParameterFactory() 
-		    {
-			public Parameter getParameter(Object o) 
-			{
-			    return new StratmasIntegerParameter((StratmasInteger) o);
-			}
-		    });
-	// Ground type type hiearchy.
-	mapping.put(TypeFactory.getType("anyType", "http://www.w3.org/2001/XMLSchema"), 
-		    new ParameterFactory() 
-		    {
-			public Parameter getParameter(Object o) 
-			{
-			    return null;
-			}
-		    });
+        Hashtable mapping = new Hashtable();
+        
+        mapping.put(TypeFactory.getType("Double"), 
+                    new ParameterFactory() 
+                    {
+                        public Parameter getParameter(Object o) 
+                        {
+                            StratmasDecimal sObj = (StratmasDecimal) o;
+                            if (isBadDecimal(sObj)) {
+                                return null;
+                            } else {
+                                return new StratmasDecimalParameter((StratmasDecimal) o);
+                            }
+                        }
+                    });
+        mapping.put(TypeFactory.getType("double", "http://www.w3.org/2001/XMLSchema"), 
+                    new ParameterFactory() 
+                    {
+                        public Parameter getParameter(Object o) 
+                        {
+                            StratmasDecimal sObj = (StratmasDecimal) o;
+                            if (isBadDecimal(sObj)) {
+                                return null;
+                            } else {
+                                return new StratmasDecimalParameter((StratmasDecimal) o);
+                            }
+                        }
+                    });
+        mapping.put(TypeFactory.getType("NonNegativeInteger"), 
+                    new ParameterFactory() 
+                    {
+                        public Parameter getParameter(Object o) 
+                        {
+                            return new StratmasIntegerParameter((StratmasInteger) o);
+                        }
+                    });
+        // Ground type type hiearchy.
+        mapping.put(TypeFactory.getType("anyType", "http://www.w3.org/2001/XMLSchema"), 
+                    new ParameterFactory() 
+                    {
+                        public Parameter getParameter(Object o) 
+                        {
+                            return null;
+                        }
+                    });
 
-	return mapping;
+        return mapping;
     }
 
     /**
@@ -153,13 +153,13 @@ public class StratmasParameterFactory implements ParameterFactory
      */
     private boolean isBadDecimal(StratmasDecimal d)
     {
-	for (StratmasObject walker = d; walker != null; 
-	     walker = walker.getParent()) {
-	    if (walker.getType().canSubstitute("Shape")) {
-		return true;
-	    }
-	}
+        for (StratmasObject walker = d; walker != null; 
+             walker = walker.getParent()) {
+            if (walker.getType().canSubstitute("Shape")) {
+                return true;
+            }
+        }
 
-	return false;
+        return false;
     }
 }

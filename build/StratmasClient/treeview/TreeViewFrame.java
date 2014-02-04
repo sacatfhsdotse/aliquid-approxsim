@@ -1,4 +1,4 @@
-// 	$Id: TreeViewFrame.java,v 1.13 2006/07/31 10:19:12 alexius Exp $
+//         $Id: TreeViewFrame.java,v 1.13 2006/07/31 10:19:12 alexius Exp $
 
 /*
  * @(#)TreeViewFrame.java
@@ -53,16 +53,16 @@ public class TreeViewFrame extends JFrame implements StratmasEventListener
      */
     public TreeViewFrame(TreeView treeView)
     {
-	super(((StratmasObjectAdapter) treeView.getModel()).getUserObject().getIdentifier());
-	setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-	this.treeView = treeView;
-	getContentPane().add(new JScrollPane(getTreeView()));
-	setIconImage(getRootObject().getIcon().getImage());
-	updateMenu();
-	updateToolBar();
-	getRootObject().addEventListener(this);
+        super(((StratmasObjectAdapter) treeView.getModel()).getUserObject().getIdentifier());
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.treeView = treeView;
+        getContentPane().add(new JScrollPane(getTreeView()));
+        setIconImage(getRootObject().getIcon().getImage());
+        updateMenu();
+        updateToolBar();
+        getRootObject().addEventListener(this);
 
-	pack();
+        pack();
     }
 
     /**
@@ -73,18 +73,18 @@ public class TreeViewFrame extends JFrame implements StratmasEventListener
      */
     public void eventOccured(StratmasEvent event)
     {
-	if (event.isValueChanged() || 
-	    event.isObjectAdded()) {
-	    updateMenu();
-	} else if (event.isRemoved()) {
-	    ((StratmasObject) event.getSource()).removeEventListener(this);
-	    dispose();
-	} else if (event.isIdentifierChanged()) {
-	     setTitle(((StratmasObject)event.getSource()).getIdentifier());
-	} else if (event.isReplaced()) {
-	     throw new AssertionError("Replace behavior not implemented");
-	} 
-	
+        if (event.isValueChanged() || 
+            event.isObjectAdded()) {
+            updateMenu();
+        } else if (event.isRemoved()) {
+            ((StratmasObject) event.getSource()).removeEventListener(this);
+            dispose();
+        } else if (event.isIdentifierChanged()) {
+             setTitle(((StratmasObject)event.getSource()).getIdentifier());
+        } else if (event.isReplaced()) {
+             throw new AssertionError("Replace behavior not implemented");
+        } 
+        
     }
 
     /**
@@ -92,43 +92,43 @@ public class TreeViewFrame extends JFrame implements StratmasEventListener
      */
     public StratmasObject getRootObject() 
     {
-	return ((StratmasObjectAdapter) treeView.getModel()).getUserObject();
+        return ((StratmasObjectAdapter) treeView.getModel()).getUserObject();
     }
 
     /**
      * Updates the menu of this frame.
      */
     public void updateMenu()
-    {	
-	JMenuBar res = new JMenuBar();
-	JMenu menu = new JMenu("Actions", true);
+    {        
+        JMenuBar res = new JMenuBar();
+        JMenu menu = new JMenu("Actions", true);
 
-	
-	getRootObject().getActionGroup().addToMenu(menu, isEditable());
-// 	for (Enumeration e = getActions().elements(); e.hasMoreElements();) {
-// 	    menu.add((Action) e.nextElement());
-// 	}
-	menu.addSeparator();
-	menu.add(new AbstractAction("Close") 
-	    {
-		public void actionPerformed(ActionEvent e) 
-		{
-		    if (getTreeView().getTopLevelAncestor() instanceof TreeViewFrame) {
-			((TreeViewFrame) getTreeView().getTopLevelAncestor()).dispose();
-		    } else {
-			if (getTreeView().getParent() != null) {
-			    getTreeView().getParent().remove(getTreeView());
-			    getTreeView().getParent().validate();
-			    getTreeView().getParent().repaint();
-			}
-		    }
-		}
-	    });
-	
-	res.add(menu);
+        
+        getRootObject().getActionGroup().addToMenu(menu, isEditable());
+//         for (Enumeration e = getActions().elements(); e.hasMoreElements();) {
+//             menu.add((Action) e.nextElement());
+//         }
+        menu.addSeparator();
+        menu.add(new AbstractAction("Close") 
+            {
+                public void actionPerformed(ActionEvent e) 
+                {
+                    if (getTreeView().getTopLevelAncestor() instanceof TreeViewFrame) {
+                        ((TreeViewFrame) getTreeView().getTopLevelAncestor()).dispose();
+                    } else {
+                        if (getTreeView().getParent() != null) {
+                            getTreeView().getParent().remove(getTreeView());
+                            getTreeView().getParent().validate();
+                            getTreeView().getParent().repaint();
+                        }
+                    }
+                }
+            });
+        
+        res.add(menu);
 
-	setJMenuBar(res);
-	validate();	
+        setJMenuBar(res);
+        validate();        
     }
 
     /**
@@ -136,19 +136,19 @@ public class TreeViewFrame extends JFrame implements StratmasEventListener
      */
     public void updateToolBar()
     {
-	if (toolBar == null) {
-	    toolBar = new JToolBar();
-	    getContentPane().add(toolBar, BorderLayout.PAGE_START);
-	} else {
-	    toolBar.removeAll();
-	}
-	
-	if (getTreeView().getActionMap().get("ZoomIn") != null) {
-	    toolBar.add(getTreeView().getActionMap().get("ZoomIn"));
-	}
-	if (getTreeView().getActionMap().get("ZoomOut") != null) {
-	    toolBar.add(getTreeView().getActionMap().get("ZoomOut"));
-	}
+        if (toolBar == null) {
+            toolBar = new JToolBar();
+            getContentPane().add(toolBar, BorderLayout.PAGE_START);
+        } else {
+            toolBar.removeAll();
+        }
+        
+        if (getTreeView().getActionMap().get("ZoomIn") != null) {
+            toolBar.add(getTreeView().getActionMap().get("ZoomIn"));
+        }
+        if (getTreeView().getActionMap().get("ZoomOut") != null) {
+            toolBar.add(getTreeView().getActionMap().get("ZoomOut"));
+        }
     }
 
 //     /**
@@ -156,21 +156,21 @@ public class TreeViewFrame extends JFrame implements StratmasEventListener
 //      */
 //     public Vector getActions()
 //     {
-// 	Vector res = new Vector();
-	
-// 	for (Enumeration e = getRootObject().getActions().elements(); 
-// 	     e.hasMoreElements();) {
-// 	    StratmasAbstractAction action = (StratmasAbstractAction)
-// 		e.nextElement();
-// 	    if (!isEditable()) {
-// 		if (action.isMutator()) {
-// 		    action.setEnabled(false);
-// 		}
-// 	    }
-// 	    res.add(action);
-// 	}
+//         Vector res = new Vector();
+        
+//         for (Enumeration e = getRootObject().getActions().elements(); 
+//              e.hasMoreElements();) {
+//             StratmasAbstractAction action = (StratmasAbstractAction)
+//                 e.nextElement();
+//             if (!isEditable()) {
+//                 if (action.isMutator()) {
+//                     action.setEnabled(false);
+//                 }
+//             }
+//             res.add(action);
+//         }
 
-// 	return res;
+//         return res;
 //     }
 
     /**
@@ -178,7 +178,7 @@ public class TreeViewFrame extends JFrame implements StratmasEventListener
      */
     public boolean isEditable()
     {
-	return getTreeView().isEditable();
+        return getTreeView().isEditable();
     }
 
     /**
@@ -186,10 +186,10 @@ public class TreeViewFrame extends JFrame implements StratmasEventListener
      */
     public void dispose()
     {
-	getRootObject().removeEventListener(this);
-	setJMenuBar(null);
-	this.treeView = null;
-	super.dispose();
+        getRootObject().removeEventListener(this);
+        setJMenuBar(null);
+        this.treeView = null;
+        super.dispose();
     }
 
     /**
@@ -199,8 +199,8 @@ public class TreeViewFrame extends JFrame implements StratmasEventListener
      */
     public void setEditable(boolean editable)
     {
-	getTreeView().setEditable(editable);
-	updateMenu();
+        getTreeView().setEditable(editable);
+        updateMenu();
     }
 
     /**
@@ -208,6 +208,6 @@ public class TreeViewFrame extends JFrame implements StratmasEventListener
      */
     public TreeView getTreeView()
     {
-	return treeView;
+        return treeView;
     }
 }

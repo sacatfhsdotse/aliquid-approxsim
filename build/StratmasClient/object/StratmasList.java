@@ -1,4 +1,4 @@
-// 	$Id: StratmasList.java,v 1.7 2006/07/31 10:18:44 alexius Exp $
+//         $Id: StratmasList.java,v 1.7 2006/07/31 10:18:44 alexius Exp $
 /*
  * @(#)StratmasList.java
  */
@@ -41,7 +41,7 @@ public class StratmasList extends DefaultComplex
      */
     protected StratmasList(String identifier, Type type, Vector elements)
     {
-	 super(identifier, type, elements);
+         super(identifier, type, elements);
     }
 
     /**
@@ -52,8 +52,8 @@ public class StratmasList extends DefaultComplex
      */
     protected StratmasList(Declaration declaration, Vector parts)
     {
-	super(declaration, parts);
-	this.declaration = declaration;
+        super(declaration, parts);
+        this.declaration = declaration;
     }
 
     /**
@@ -63,7 +63,7 @@ public class StratmasList extends DefaultComplex
      */
     protected StratmasList(Declaration declaration)
     {
-	this(declaration, new Vector());
+        this(declaration, new Vector());
     }
 
     /**
@@ -73,10 +73,10 @@ public class StratmasList extends DefaultComplex
      */
     protected void setParent(StratmasObject parent)
     {
-	super.setParent(parent);
-	if (getParent() != null) {
-	    this.declaration = ((StratmasObject) getParent()).getType().getSubElement(getTag());
-	}
+        super.setParent(parent);
+        if (getParent() != null) {
+            this.declaration = ((StratmasObject) getParent()).getType().getSubElement(getTag());
+        }
     }
 
     /**
@@ -87,7 +87,7 @@ public class StratmasList extends DefaultComplex
      */
     public Declaration getDeclaration()
     {
-	return this.declaration;
+        return this.declaration;
     }
 
     /**
@@ -99,7 +99,7 @@ public class StratmasList extends DefaultComplex
      * @return The exact same StringBuffer b.
      */
     public StringBuffer toXML(StringBuffer b) {
-	return bodyXML(b);
+        return bodyXML(b);
     }
     
     /**
@@ -113,10 +113,10 @@ public class StratmasList extends DefaultComplex
      */
     public StringBuffer bodyXML(StringBuffer b) 
     {
-	for (Iterator it = parts.iterator(); it.hasNext(); ) {
-	    ((StratmasObject) it.next()).toXML(b);
-	}
-	return b;
+        for (Iterator it = parts.iterator(); it.hasNext(); ) {
+            ((StratmasObject) it.next()).toXML(b);
+        }
+        return b;
     }
 
     /**
@@ -127,7 +127,7 @@ public class StratmasList extends DefaultComplex
      */
     protected static StratmasGUIConstructor getGUIConstructor(Declaration declaration)
     {
-	return new StratmasListGUIConstructor(declaration);
+        return new StratmasListGUIConstructor(declaration);
     }
 
     /**
@@ -138,7 +138,7 @@ public class StratmasList extends DefaultComplex
      */
     protected static StratmasVectorConstructor getVectorConstructor(Declaration declaration)
     {
-	return new StratmasListVectorConstructor(declaration);
+        return new StratmasListVectorConstructor(declaration);
     }
     
     /**
@@ -150,20 +150,20 @@ public class StratmasList extends DefaultComplex
      */
     protected StringBuffer toTaclanV2StringBuffer(StringBuffer buf, String indent)
     {
-	buf.append(indent + Identifier.toTaclanV2(getIdentifier()) + " = {");
-	if (! isLeaf()) {
-	    for (Enumeration cs = children(); cs.hasMoreElements();) {
-		buf.append("\n");
-		((StratmasObject) cs.nextElement()).toTaclanV2StringBuffer(buf,
-									   indent + 
-									   TACLANV2_INDENTATION);
-	    }
-	    buf.append("\n"  + indent + "}");
-	} else {
-	    buf.append("}");
-	}
+        buf.append(indent + Identifier.toTaclanV2(getIdentifier()) + " = {");
+        if (! isLeaf()) {
+            for (Enumeration cs = children(); cs.hasMoreElements();) {
+                buf.append("\n");
+                ((StratmasObject) cs.nextElement()).toTaclanV2StringBuffer(buf,
+                                                                           indent + 
+                                                                           TACLANV2_INDENTATION);
+            }
+            buf.append("\n"  + indent + "}");
+        } else {
+            buf.append("}");
+        }
 
-	return buf;
+        return buf;
     }
 
     /**
@@ -176,13 +176,13 @@ public class StratmasList extends DefaultComplex
      * @param part the StratmasObject to add.
      */
      public void addWithUniqueIdentifier(StratmasObject part) {
-	  int num = 1;
-	  String baseId = part.getIdentifier();
-	  while (getChild(part.getIdentifier()) != null) {
-	       num++;
-	       part.setIdentifier(baseId + " " + num);
-	  }
-	  super.add(part);
+          int num = 1;
+          String baseId = part.getIdentifier();
+          while (getChild(part.getIdentifier()) != null) {
+               num++;
+               part.setIdentifier(baseId + " " + num);
+          }
+          super.add(part);
      }
 
     /**
@@ -192,11 +192,11 @@ public class StratmasList extends DefaultComplex
      *
      * @param child the child that changed
      */
-     public void childChanged(StratmasObject child, Object initiator) {	
-	  if (getParent() != null) {
-	       getParent().childChanged(this, initiator);
-	  }
-	  fireChildChanged(child, initiator);
+     public void childChanged(StratmasObject child, Object initiator) {        
+          if (getParent() != null) {
+               getParent().childChanged(this, initiator);
+          }
+          fireChildChanged(child, initiator);
      }
 
     /**
@@ -209,11 +209,11 @@ public class StratmasList extends DefaultComplex
      * @return A clone of this object.
      */
      protected Object clone() {
-	  Vector elements = new Vector();
-	  for (Enumeration en = children(); en.hasMoreElements(); ) {
-	       elements.add(((StratmasObject)en.nextElement()).clone());
-	  }
-	  return new StratmasList(identifier, type, elements);
+          Vector elements = new Vector();
+          for (Enumeration en = children(); en.hasMoreElements(); ) {
+               elements.add(((StratmasObject)en.nextElement()).clone());
+          }
+          return new StratmasList(identifier, type, elements);
      }
 
     /**
@@ -221,9 +221,9 @@ public class StratmasList extends DefaultComplex
      */
     public boolean isFull()
     {
-	return getDeclaration() != null && 
-	    !getDeclaration().isUnbounded() && 
-	    getChildCount() >= getDeclaration().getMaxOccurs();
+        return getDeclaration() != null && 
+            !getDeclaration().isUnbounded() && 
+            getChildCount() >= getDeclaration().getMaxOccurs();
     }
 
      /**
@@ -233,11 +233,11 @@ public class StratmasList extends DefaultComplex
       * @param newIdentifier The new identifier.
       */
      public void childIdentifierChange(String oldIdentifier, String newIdentifier) {
-	  // Should be synchronized in some way!!!
-	  Object o = partsHash.remove(oldIdentifier);
-	  if (o != null) {
-	       partsHash.put(newIdentifier, o);
-	  }
+          // Should be synchronized in some way!!!
+          Object o = partsHash.remove(oldIdentifier);
+          if (o != null) {
+               partsHash.put(newIdentifier, o);
+          }
      }
 
 //     /**
@@ -245,54 +245,54 @@ public class StratmasList extends DefaultComplex
 //      */
 //     public Vector getActions()
 //     {
-// 	Vector res = super.getActions();
-	
-// 	Vector candidates = new Vector();
+//         Vector res = super.getActions();
+        
+//         Vector candidates = new Vector();
 
-// 	if (!isFull()) {
-// 	    candidates.add(getType());
-// 	    candidates.addAll(getType().getExpandedDerived());
-// 	    for (Enumeration e = candidates.elements(); 
-// 		 e.hasMoreElements();) {
-// 		Type type = (Type) e.nextElement();
-// 		if (!type.isAbstract()) {
-// 		    // "Unlist" the declaration.
-// 		    final StratmasList self = this;
-// 		    final Declaration declaration;
-// 		    if (getDeclaration() != null) {
-// 			declaration = (Declaration) getDeclaration().clone(type);
-// 			declaration.setMinOccurs(1);
-// 			declaration.setMaxOccurs(1);
-// 			declaration.setUnbounded(false);
-// 		    } else {
-// 			declaration = new Declaration(type, 
-// 						      type.getName(), 
-// 						      1, 1, false);
-// 		    }
-		    
-// 		    res.add(new StratmasAbstractAction("Add " + declaration.getType().getName(), true)
-// 			{
-// 			    public void actionPerformed(ActionEvent e)
-// 			    {
-// 				StratmasObject newObject = StratmasObjectFactory.defaultCreate(declaration);
-// 				if (newObject != null) {
-// 				    addWithUniqueIdentifier(newObject);
-// 				} else {
-// 				    StratmasGUIConstructorDialog dialog = 
-// 					StratmasGUIConstructor.buildDialog(StratmasObjectFactory.guiCreate(declaration), false);
-// 				    dialog.setVisible(true);
-// 				    newObject = dialog.getStratmasObject();
-// 				    if (newObject != null) {
-// 					addWithUniqueIdentifier(newObject);
-// 				    }
-// 				}
-// 			    }
-// 			});
-// 		}
-// 	    }
-	    
-// 	}
-// 	return res;
+//         if (!isFull()) {
+//             candidates.add(getType());
+//             candidates.addAll(getType().getExpandedDerived());
+//             for (Enumeration e = candidates.elements(); 
+//                  e.hasMoreElements();) {
+//                 Type type = (Type) e.nextElement();
+//                 if (!type.isAbstract()) {
+//                     // "Unlist" the declaration.
+//                     final StratmasList self = this;
+//                     final Declaration declaration;
+//                     if (getDeclaration() != null) {
+//                         declaration = (Declaration) getDeclaration().clone(type);
+//                         declaration.setMinOccurs(1);
+//                         declaration.setMaxOccurs(1);
+//                         declaration.setUnbounded(false);
+//                     } else {
+//                         declaration = new Declaration(type, 
+//                                                       type.getName(), 
+//                                                       1, 1, false);
+//                     }
+                    
+//                     res.add(new StratmasAbstractAction("Add " + declaration.getType().getName(), true)
+//                         {
+//                             public void actionPerformed(ActionEvent e)
+//                             {
+//                                 StratmasObject newObject = StratmasObjectFactory.defaultCreate(declaration);
+//                                 if (newObject != null) {
+//                                     addWithUniqueIdentifier(newObject);
+//                                 } else {
+//                                     StratmasGUIConstructorDialog dialog = 
+//                                         StratmasGUIConstructor.buildDialog(StratmasObjectFactory.guiCreate(declaration), false);
+//                                     dialog.setVisible(true);
+//                                     newObject = dialog.getStratmasObject();
+//                                     if (newObject != null) {
+//                                         addWithUniqueIdentifier(newObject);
+//                                     }
+//                                 }
+//                             }
+//                         });
+//                 }
+//             }
+            
+//         }
+//         return res;
 //     }
     
     /**
@@ -300,11 +300,11 @@ public class StratmasList extends DefaultComplex
      */
     public ActionGroup getActionGroup()
     {
-	ActionGroup ag = super.getActionGroup();
-	if (!isFull() && getDeclaration() != null) {
-	    ag.add(getAddActionGroupForListDec(this, getDeclaration()));
-	}
-	return ag;
+        ActionGroup ag = super.getActionGroup();
+        if (!isFull() && getDeclaration() != null) {
+            ag.add(getAddActionGroupForListDec(this, getDeclaration()));
+        }
+        return ag;
     }
 
     /**
@@ -314,21 +314,21 @@ public class StratmasList extends DefaultComplex
      */
     public boolean canAdd(StratmasObject object)
     {
-	if (object.getType().canSubstitute(getType())) {
-	    Declaration declaration = getDeclaration();
-	    if (declaration != null) {
-		// Now, make sure there is room and object is not an
-		// ancestor of this.
-		return !isFull() && !isAncestor(object);
-	    } else {
-		// No declaration, means we can't check multiplicity
-		// constraints. Assume there are none. Then only check
-		// ancestry.
-		return !object.isAncestor(this);
-	    }
-	}
-	
-	return false;
+        if (object.getType().canSubstitute(getType())) {
+            Declaration declaration = getDeclaration();
+            if (declaration != null) {
+                // Now, make sure there is room and object is not an
+                // ancestor of this.
+                return !isFull() && !isAncestor(object);
+            } else {
+                // No declaration, means we can't check multiplicity
+                // constraints. Assume there are none. Then only check
+                // ancestry.
+                return !object.isAncestor(this);
+            }
+        }
+        
+        return false;
     }
 }
 
@@ -348,7 +348,7 @@ class StratmasListVectorConstructor extends StratmasVectorConstructor {
       * @param declaration the declaration to use.
       */
      public StratmasListVectorConstructor(Declaration declaration) {
-	  super(declaration);
+          super(declaration);
      }
 
      /**
@@ -357,6 +357,6 @@ class StratmasListVectorConstructor extends StratmasVectorConstructor {
       * @param parts the parts to use in constructing the object.
       */
      public StratmasObject getStratmasObject(Vector parts) {
-	  return new StratmasList(this.getDeclaration(), parts);
+          return new StratmasList(this.getDeclaration(), parts);
      }
 }

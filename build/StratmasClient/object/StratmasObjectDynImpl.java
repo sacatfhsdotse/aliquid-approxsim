@@ -1,4 +1,4 @@
-// 	$Id: StratmasObjectDynImpl.java,v 1.4 2006/05/05 17:56:10 dah Exp $
+//         $Id: StratmasObjectDynImpl.java,v 1.4 2006/05/05 17:56:10 dah Exp $
 /*
  * @(#)StratmasObject.java
  */
@@ -57,8 +57,8 @@ abstract class StratmasObjectDynImpl extends StratmasObjectImpl
      */
     StratmasObjectDynImpl(String identifier, Type type)
     {
-	super(identifier);
-	this.type = type;
+        super(identifier);
+        this.type = type;
     }
     
     /**
@@ -68,7 +68,7 @@ abstract class StratmasObjectDynImpl extends StratmasObjectImpl
      */
     StratmasObjectDynImpl(Declaration declaration)
     {
-	this(declaration.getName(), declaration.getType());
+        this(declaration.getName(), declaration.getType());
     }
 
     /**
@@ -82,8 +82,8 @@ abstract class StratmasObjectDynImpl extends StratmasObjectImpl
      *  object.
      */
      StratmasObjectDynImpl(Declaration declaration, String identifier) {
-	  this(declaration);
-	  setIdentifier(identifier);
+          this(declaration);
+          setIdentifier(identifier);
      }
 
     /**
@@ -91,7 +91,7 @@ abstract class StratmasObjectDynImpl extends StratmasObjectImpl
      */
     public Type getType()
     {
-	return this.type;
+        return this.type;
     }
 
     /**
@@ -99,10 +99,10 @@ abstract class StratmasObjectDynImpl extends StratmasObjectImpl
      */
     public Icon getIcon()
     {
-	if (this.icon == null) {
-	    createIcon();
-	}
-	return this.icon;
+        if (this.icon == null) {
+            createIcon();
+        }
+        return this.icon;
     }
 
     /**
@@ -110,7 +110,7 @@ abstract class StratmasObjectDynImpl extends StratmasObjectImpl
      */
     public void createIcon()
     {
-	this.icon = Icon.getIcon(this);
+        this.icon = Icon.getIcon(this);
     }
 
     /**
@@ -121,9 +121,9 @@ abstract class StratmasObjectDynImpl extends StratmasObjectImpl
      */
     protected void setParent(StratmasObject parent)
     {
-	super.setParent(parent);
-	if (this.icon != null) {
-	    createIcon();
-	}
+        super.setParent(parent);
+        if (this.icon != null) {
+            createIcon();
+        }
     }
 }

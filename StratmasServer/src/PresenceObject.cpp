@@ -22,20 +22,20 @@ using namespace std;
 void PresenceObject::affect(vector<PresenceObject*>& potentialVictims) const
 {
      for (vector<PresenceObject*>::iterator it = potentialVictims.begin();
-	  it != potentialVictims.end(); it++) {
-	  Unit& victim = (*it)->unit();
-	  if(unit().isHostileTowards(victim)) {
-	       if (victim.untouchable()) {
-		    victim.registerSpotter(*this);
-	       }
-	       else {
-		    if (!unit().untouchable()) {
-			 victim.registerEnemy(*this);
-		    }
-		    else {
-			 unit().registerPotentialAmbush(**it, fraction());
-		    }
-	       }
-	  }
+          it != potentialVictims.end(); it++) {
+          Unit& victim = (*it)->unit();
+          if(unit().isHostileTowards(victim)) {
+               if (victim.untouchable()) {
+                    victim.registerSpotter(*this);
+               }
+               else {
+                    if (!unit().untouchable()) {
+                         victim.registerEnemy(*this);
+                    }
+                    else {
+                         unit().registerPotentialAmbush(**it, fraction());
+                    }
+               }
+          }
      }
 }

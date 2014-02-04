@@ -32,14 +32,14 @@ PresenceObject* PresenceObjectAllocator::create(int c, Unit& u, double f)
 {
      PresenceObject* res = 0;
      if (mFree.empty()) {
-	  res = new PresenceObject(c, u, f);
-	  mUsed.insert(res);
+          res = new PresenceObject(c, u, f);
+          mUsed.insert(res);
      }
      else {
-	  res = *mFree.begin();
-	  res->set(c, u, f);
-	  mFree.erase(mFree.begin());
-	  mUsed.insert(res);
+          res = *mFree.begin();
+          res->set(c, u, f);
+          mFree.erase(mFree.begin());
+          mUsed.insert(res);
      }
      return res;
 }
@@ -54,19 +54,19 @@ PresenceObject* PresenceObjectAllocator::create(int c, Unit& u, double f)
 void PresenceObjectAllocator::dismiss(PresenceObject* p)
 {
      if (mUsed.find(p) == mUsed.end()) {
-	  Error e;
-	  if (mFree.find(p) != mFree.end()) {
-	       e << "Tried to dismiss already dismissed PresenceObject";
-	  }
-	  else {
-	       e << "Tried to dismiss PresenceObject that wasn't ";
-	       e << "created by the PresenceObjectAllocator";
-	  }
-	  throw e;
+          Error e;
+          if (mFree.find(p) != mFree.end()) {
+               e << "Tried to dismiss already dismissed PresenceObject";
+          }
+          else {
+               e << "Tried to dismiss PresenceObject that wasn't ";
+               e << "created by the PresenceObjectAllocator";
+          }
+          throw e;
      }
      else {
-	  mUsed.erase(p);
-	  mFree.insert(p);
+          mUsed.erase(p);
+          mFree.insert(p);
      }
 }
 
@@ -78,10 +78,10 @@ void PresenceObjectAllocator::reset()
 {
      set<PresenceObject*>::iterator it;
      for (it = mUsed.begin(); it != mUsed.end(); it++) {
-	  delete *it;
+          delete *it;
      }
      for (it = mFree.begin(); it != mFree.end(); it++) {
-	  delete *it;
+          delete *it;
      }
      mUsed.clear();
      mFree.clear();

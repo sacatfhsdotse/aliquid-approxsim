@@ -1,4 +1,4 @@
-// 	$Id: DefaultComplex.java,v 1.11 2006/10/03 14:32:02 alexius Exp $
+//         $Id: DefaultComplex.java,v 1.11 2006/10/03 14:32:02 alexius Exp $
 /*
  * @(#)DefaultComplex.java
  */
@@ -57,8 +57,8 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     protected DefaultComplex(String identifier, Type type, Vector parts)
     {
-	super(identifier, type);
-	this.add(parts);
+        super(identifier, type);
+        this.add(parts);
     }
 
     /**
@@ -69,7 +69,7 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     protected DefaultComplex(String identifier, Type type)
     {
-	super(identifier, type);
+        super(identifier, type);
     }
 
     /**
@@ -79,7 +79,7 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     protected DefaultComplex(Declaration declaration)
     {
-	super(declaration);
+        super(declaration);
     }
     
     /**
@@ -94,8 +94,8 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     protected DefaultComplex(Declaration declaration, String identifier) 
     {
-	this(declaration);
-	setIdentifier(identifier);
+        this(declaration);
+        setIdentifier(identifier);
     }
 
     /**
@@ -106,8 +106,8 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     protected DefaultComplex(Declaration declaration, Vector parts)
     {
-	super(declaration);
-	this.add(parts);
+        super(declaration);
+        this.add(parts);
     }
     
     /**
@@ -115,7 +115,7 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     public Enumeration children()
     {
-	return this.parts.elements();
+        return this.parts.elements();
     }
     
     /**
@@ -123,7 +123,7 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     public boolean isLeaf()
     {
-	return false;
+        return false;
     }
     
     /**
@@ -131,7 +131,7 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     public int getChildCount()
     {
-	return this.parts.size();
+        return this.parts.size();
     }
 
     /**
@@ -145,14 +145,14 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     public StringBuffer bodyXML(StringBuffer b) 
     {
-	for (Iterator it = getType().getSubElements().iterator(); it.hasNext(); ) {
-	    Declaration dec = (Declaration)it.next();
-	    StratmasObject child = getChild(dec.getName());
-	    if (child != null) {
-		child.toXML(b);
-	    }
-	}
-	return b;
+        for (Iterator it = getType().getSubElements().iterator(); it.hasNext(); ) {
+            Declaration dec = (Declaration)it.next();
+            StratmasObject child = getChild(dec.getName());
+            if (child != null) {
+                child.toXML(b);
+            }
+        }
+        return b;
     }
 
     /**
@@ -163,7 +163,7 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     protected static StratmasGUIConstructor getGUIConstructor(Declaration declaration)
     {
-	return new StratmasComplexGUIConstructor(declaration);
+        return new StratmasComplexGUIConstructor(declaration);
     }
 
     /**
@@ -174,7 +174,7 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     protected static StratmasVectorConstructor getVectorConstructor(Declaration declaration)
     {
-	return new DefaultComplexVectorConstructor(declaration);
+        return new DefaultComplexVectorConstructor(declaration);
     }
     
     /**
@@ -188,18 +188,18 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     protected static StratmasObject defaultCreate(Declaration declaration)
     {
-	Vector newParts = new Vector();
-	for (Iterator it = declaration.getType().getSubElements().iterator();
-	     it.hasNext(); ) {
-	    Declaration dec = (Declaration)it.next();
-	    if (dec.isSingular()) {
-		newParts.add(StratmasObjectFactory.defaultCreate(dec));
-	    }
-	    else if (dec.isUnbounded()) {
-		newParts.add(new StratmasList(dec, new Vector()));
-	    }
-	}
-	return new DefaultComplex(declaration, newParts);
+        Vector newParts = new Vector();
+        for (Iterator it = declaration.getType().getSubElements().iterator();
+             it.hasNext(); ) {
+            Declaration dec = (Declaration)it.next();
+            if (dec.isSingular()) {
+                newParts.add(StratmasObjectFactory.defaultCreate(dec));
+            }
+            else if (dec.isUnbounded()) {
+                newParts.add(new StratmasList(dec, new Vector()));
+            }
+        }
+        return new DefaultComplex(declaration, newParts);
     }
     
     /**
@@ -211,30 +211,30 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     protected static StratmasObject domCreate(Element n)
     {
-	  Type myType = TypeFactory.getType(n);
-	  Vector newParts = new Vector();
-	  for (Iterator it = myType.getSubElements().iterator(); it.hasNext(); ) {
-	      Declaration dec = (Declaration)it.next();
-	      if (dec.isUnbounded()) {
-		  Vector listElems = new Vector();
-		  Vector elems = XMLHelper.getChildElementsByTag(n, dec.getName());
-		  for (Iterator it2 = elems.iterator(); it2.hasNext(); ) {
-		      Element elem = (Element)it2.next();
-		      listElems.add(StratmasObjectFactory.domCreate(elem));
-		  }
-		  // Create list
-		  newParts.add(StratmasObjectFactory.createList(dec, listElems));
-	      }
-	      else {
-		  Element elem = XMLHelper.getFirstChildByTag(n, dec.getName());
-		  if (elem != null) {
-		      StratmasObject no = StratmasObjectFactory.domCreate(elem);
-		      newParts.add(StratmasObjectFactory.domCreate(elem));
-		  }
-	      }
-	  }
-	  return StratmasObjectFactory.create(Identifier.getIdentifier(n), 
-					      myType, newParts);
+          Type myType = TypeFactory.getType(n);
+          Vector newParts = new Vector();
+          for (Iterator it = myType.getSubElements().iterator(); it.hasNext(); ) {
+              Declaration dec = (Declaration)it.next();
+              if (dec.isUnbounded()) {
+                  Vector listElems = new Vector();
+                  Vector elems = XMLHelper.getChildElementsByTag(n, dec.getName());
+                  for (Iterator it2 = elems.iterator(); it2.hasNext(); ) {
+                      Element elem = (Element)it2.next();
+                      listElems.add(StratmasObjectFactory.domCreate(elem));
+                  }
+                  // Create list
+                  newParts.add(StratmasObjectFactory.createList(dec, listElems));
+              }
+              else {
+                  Element elem = XMLHelper.getFirstChildByTag(n, dec.getName());
+                  if (elem != null) {
+                      StratmasObject no = StratmasObjectFactory.domCreate(elem);
+                      newParts.add(StratmasObjectFactory.domCreate(elem));
+                  }
+              }
+          }
+          return StratmasObjectFactory.create(Identifier.getIdentifier(n), 
+                                              myType, newParts);
     }
 
     /**
@@ -244,7 +244,7 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     public StratmasObject getChild(String id) 
     {
-	return (StratmasObject) partsHash.get(id);
+        return (StratmasObject) partsHash.get(id);
     }
 
     /**
@@ -254,7 +254,7 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     public void remove(StratmasObject child) 
     {
-	remove(child, null);
+        remove(child, null);
     }
     
     /**
@@ -265,9 +265,9 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     public void remove(StratmasObject child, Object initiator) 
     {
-	parts.remove(child);
-	partsHash.remove(child.getIdentifier());
-	child.fireRemoved(initiator);
+        parts.remove(child);
+        partsHash.remove(child.getIdentifier());
+        child.fireRemoved(initiator);
     }
      
     /**
@@ -275,9 +275,9 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     public void removeAllChildren() 
     {
-	while (!parts.isEmpty()) {
-	    remove((StratmasObject)parts.firstElement());
-	}
+        while (!parts.isEmpty()) {
+            remove((StratmasObject)parts.firstElement());
+        }
     }
     
     /**
@@ -291,7 +291,7 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     public void orderPreservingAdd(StratmasObject part)
     {
-	orderPreservingAdd(part, null);
+        orderPreservingAdd(part, null);
     }
 
     /**
@@ -305,8 +305,8 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     public void orderPreservingAdd(StratmasObject part, Object initiator)
     {
-	silentOrderPreservingAdd(part);
-	fireObjectAdded(part, initiator);
+        silentOrderPreservingAdd(part);
+        fireObjectAdded(part, initiator);
     }
 
     /**
@@ -320,55 +320,55 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     private void silentOrderPreservingAdd(StratmasObject part)
     {
-	if (!Identifier.isAnonymous(part.getIdentifier())) {
-	    StratmasObject prevPart = getChild(part.getIdentifier());
-	    if (prevPart != null) {
-		// Remove previous part.
-		 this.remove(prevPart);
-	    } 
+        if (!Identifier.isAnonymous(part.getIdentifier())) {
+            StratmasObject prevPart = getChild(part.getIdentifier());
+            if (prevPart != null) {
+                // Remove previous part.
+                 this.remove(prevPart);
+            } 
 
-	    int indexOfNewElement = -1;
-	    int currentIndex      = 0;
-	    String partName = part.getIdentifier();
-	    Vector subDecs = getType().getSubElements();
+            int indexOfNewElement = -1;
+            int currentIndex      = 0;
+            String partName = part.getIdentifier();
+            Vector subDecs = getType().getSubElements();
 
-	    // Get the name objName of element i in the parts
-	    // vector. Go through subelements of this StratmasComplex'
-	    // Type. If objName matches the part's name then we know i
-	    // is the index where to insert the new part. If objName
-	    // matches the name of the subelement we grab the next
-	    // object from the parts vector and starts over. If no
-	    // index is found when the outer loop exits we know we
-	    // should add the new part to the end of the parts vector.
-	    for(int i = 0; i < parts.size() && indexOfNewElement == -1; i++) {
-		 StratmasObject obj = (StratmasObject)parts.elementAt(i);
-		 String objName = obj.getIdentifier();
-		 for (int j = currentIndex; j < subDecs.size(); j++) {
-		      String decName = ((Declaration)subDecs.elementAt(j)).getName();
-		      if (decName.equals(partName)) {
-			  indexOfNewElement = i;
-			  break;
-		      }
-		      else if (decName.equals(objName)) {
-			  currentIndex = j++;
-			  break;
-		      }
-		 }
-		 
-	    }
-	    // Add to both tables.
-	    if (indexOfNewElement == -1) {
-		 parts.add(part);
-	    }
-	    else {
-		parts.insertElementAt(part, indexOfNewElement);
-	    }
+            // Get the name objName of element i in the parts
+            // vector. Go through subelements of this StratmasComplex'
+            // Type. If objName matches the part's name then we know i
+            // is the index where to insert the new part. If objName
+            // matches the name of the subelement we grab the next
+            // object from the parts vector and starts over. If no
+            // index is found when the outer loop exits we know we
+            // should add the new part to the end of the parts vector.
+            for(int i = 0; i < parts.size() && indexOfNewElement == -1; i++) {
+                 StratmasObject obj = (StratmasObject)parts.elementAt(i);
+                 String objName = obj.getIdentifier();
+                 for (int j = currentIndex; j < subDecs.size(); j++) {
+                      String decName = ((Declaration)subDecs.elementAt(j)).getName();
+                      if (decName.equals(partName)) {
+                          indexOfNewElement = i;
+                          break;
+                      }
+                      else if (decName.equals(objName)) {
+                          currentIndex = j++;
+                          break;
+                      }
+                 }
+                 
+            }
+            // Add to both tables.
+            if (indexOfNewElement == -1) {
+                 parts.add(part);
+            }
+            else {
+                parts.insertElementAt(part, indexOfNewElement);
+            }
 
-	    partsHash.put(part.getIdentifier(), part);
-	    part.setParent(this);
-	} else {
-	    throw new AssertionError("Anonymous objects are deprecated.");
-	}
+            partsHash.put(part.getIdentifier(), part);
+            part.setParent(this);
+        } else {
+            throw new AssertionError("Anonymous objects are deprecated.");
+        }
     }
 
     /**
@@ -382,7 +382,7 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     public void add(StratmasObject part, Object initiator)
     {
-	orderPreservingAdd(part, initiator);
+        orderPreservingAdd(part, initiator);
     }
 
     /**
@@ -393,20 +393,20 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     public void fireRemoved(Object initiator) 
     {
-	// Guaranteed to return a non-null array
-	Object[] listeners = getListenerList();
-	if (listeners.length > 0) {
-	    // Notify listeners about my own removal.
-	    StratmasEvent event = StratmasEvent.getRemoved(this, initiator);
-	    for (int i = listeners.length - 2; i >= 0; i -= 2) {
-		((StratmasEventListener) listeners[i + 1]).eventOccured(event);
-	    }
-	}
-	
-	// The children must be removed too.
-	for (Enumeration en = children(); en.hasMoreElements(); ) {
-	    ((StratmasObject)en.nextElement()).fireRemoved(initiator);
-	}
+        // Guaranteed to return a non-null array
+        Object[] listeners = getListenerList();
+        if (listeners.length > 0) {
+            // Notify listeners about my own removal.
+            StratmasEvent event = StratmasEvent.getRemoved(this, initiator);
+            for (int i = listeners.length - 2; i >= 0; i -= 2) {
+                ((StratmasEventListener) listeners[i + 1]).eventOccured(event);
+            }
+        }
+        
+        // The children must be removed too.
+        for (Enumeration en = children(); en.hasMoreElements(); ) {
+            ((StratmasObject)en.nextElement()).fireRemoved(initiator);
+        }
     }
 
     /**
@@ -420,11 +420,11 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     protected Object clone()
     {
-	Vector elements = new Vector();
-	for (Enumeration en = children(); en.hasMoreElements(); ) {
-	    elements.add(((StratmasObject)en.nextElement()).clone());
-	}
-	return new DefaultComplex(identifier, type, elements);
+        Vector elements = new Vector();
+        for (Enumeration en = children(); en.hasMoreElements(); ) {
+            elements.add(((StratmasObject)en.nextElement()).clone());
+        }
+        return new DefaultComplex(identifier, type, elements);
     }
     
     /**
@@ -437,53 +437,53 @@ class DefaultComplex extends StratmasObjectDynImpl
       */
     public void update(Element n, Timestamp t) 
     {
-	Vector v = XMLHelper.getChildElementsByTag(n, "update");
-	for (Iterator it = v.iterator(); it.hasNext(); ) {
-	    Element elem = (Element)it.next();
-	    String type = elem.getAttribute("xsi:type");
-	    String id = Identifier.getIdentifier(elem);
-	    if (type.equals("sp:UpdateScope")) {
-		StratmasObject obj = getChild(id);
-		if (obj != null) {
-		    obj.update(elem, t);
-		} else {
-		    Debug.err.println("No updatable child " + 
-				      elem.getAttribute("identifier") + 
-				      " in " + getReference());
-		}
-	    } else if (type.equals("sp:UpdateAdd")) {
-		Element newObjElem = XMLHelper.getFirstChildByTag(elem, "identifiable");
-		orderPreservingAdd(StratmasObjectFactory.domCreate(newObjElem), elem);
-	    } else if (type.equals("sp:UpdateRemove")) {
-		StratmasObject obj = getChild(id);
-		if (obj != null) {
-		    remove(obj, elem);
-		} else {
-		    Debug.err.println("No removeable child " + 
-				      elem.getAttribute("identifier") + 
-				      " in " + getReference());
-		}
-	    } else if (type.equals("sp:UpdateReplace")) {
-		StratmasObject obj = getChild(id);
-		if (obj != null) {
-		    Element newObjElem = XMLHelper.getFirstChildByTag(elem, "newObject");
-		    obj.replace(StratmasObjectFactory.domCreate(newObjElem), elem);
-		} else {
-		    Debug.err.println("No removeable child " + 
-				      elem.getAttribute("identifier") + 
-				      " in " + getReference());
-		}
-	    } else if (type.equals("sp:UpdateModify")) {
-		StratmasObject obj = getChild(id);
-		if (obj != null) {
-		    obj.update(XMLHelper.getFirstChildByTag(elem, "newValue"), t);
-		} else {
-		    Debug.err.println("No updatable child " + 
-				      elem.getAttribute("identifier") + 
-				      " in " + getReference());
-		}
-	    }
-	}
+        Vector v = XMLHelper.getChildElementsByTag(n, "update");
+        for (Iterator it = v.iterator(); it.hasNext(); ) {
+            Element elem = (Element)it.next();
+            String type = elem.getAttribute("xsi:type");
+            String id = Identifier.getIdentifier(elem);
+            if (type.equals("sp:UpdateScope")) {
+                StratmasObject obj = getChild(id);
+                if (obj != null) {
+                    obj.update(elem, t);
+                } else {
+                    Debug.err.println("No updatable child " + 
+                                      elem.getAttribute("identifier") + 
+                                      " in " + getReference());
+                }
+            } else if (type.equals("sp:UpdateAdd")) {
+                Element newObjElem = XMLHelper.getFirstChildByTag(elem, "identifiable");
+                orderPreservingAdd(StratmasObjectFactory.domCreate(newObjElem), elem);
+            } else if (type.equals("sp:UpdateRemove")) {
+                StratmasObject obj = getChild(id);
+                if (obj != null) {
+                    remove(obj, elem);
+                } else {
+                    Debug.err.println("No removeable child " + 
+                                      elem.getAttribute("identifier") + 
+                                      " in " + getReference());
+                }
+            } else if (type.equals("sp:UpdateReplace")) {
+                StratmasObject obj = getChild(id);
+                if (obj != null) {
+                    Element newObjElem = XMLHelper.getFirstChildByTag(elem, "newObject");
+                    obj.replace(StratmasObjectFactory.domCreate(newObjElem), elem);
+                } else {
+                    Debug.err.println("No removeable child " + 
+                                      elem.getAttribute("identifier") + 
+                                      " in " + getReference());
+                }
+            } else if (type.equals("sp:UpdateModify")) {
+                StratmasObject obj = getChild(id);
+                if (obj != null) {
+                    obj.update(XMLHelper.getFirstChildByTag(elem, "newValue"), t);
+                } else {
+                    Debug.err.println("No updatable child " + 
+                                      elem.getAttribute("identifier") + 
+                                      " in " + getReference());
+                }
+            }
+        }
     }
 
 //     /**
@@ -491,38 +491,38 @@ class DefaultComplex extends StratmasObjectDynImpl
 //      */
 //     public Vector getActions()
 //     {
-// 	Vector res = super.getActions();
-// 	// Ugly hack
-// 	if (! (this instanceof StratmasList)) {
-// 	    final DefaultComplex self = this;	
-// 	    // Offer to add attributes that are not present.	
-// 	    for (Enumeration e = getType().getSubElements().elements();
-// 		 e.hasMoreElements();) {
-// 		final Declaration declaration = (Declaration) e.nextElement();
-		
-// 		if (!hasChild(declaration.getName())) {
-// 		    res.add(new StratmasAbstractAction("Add " + declaration.getName(), true)  
-// 			{
-// 			    public void actionPerformed(ActionEvent e)
-// 			    {
-// 				StratmasObject newObject = StratmasObjectFactory.defaultCreate(declaration);
-// 				if (newObject != null) {
-// 				    add(newObject);
-// 				} else {
-// 				    StratmasGUIConstructorDialog dialog = 
-// 					StratmasGUIConstructor.buildDialog(StratmasObjectFactory.guiCreate(declaration), true);
-// 				    dialog.setVisible(true);
-// 				    newObject = dialog.getStratmasObject();
-// 				    if (newObject != null) {
-// 					add(newObject);
-// 				    }
-// 				}
-// 			    }
-// 			});
-// 		}
-// 	    }
-// 	}	
-// 	return res;
+//         Vector res = super.getActions();
+//         // Ugly hack
+//         if (! (this instanceof StratmasList)) {
+//             final DefaultComplex self = this;        
+//             // Offer to add attributes that are not present.        
+//             for (Enumeration e = getType().getSubElements().elements();
+//                  e.hasMoreElements();) {
+//                 final Declaration declaration = (Declaration) e.nextElement();
+                
+//                 if (!hasChild(declaration.getName())) {
+//                     res.add(new StratmasAbstractAction("Add " + declaration.getName(), true)  
+//                         {
+//                             public void actionPerformed(ActionEvent e)
+//                             {
+//                                 StratmasObject newObject = StratmasObjectFactory.defaultCreate(declaration);
+//                                 if (newObject != null) {
+//                                     add(newObject);
+//                                 } else {
+//                                     StratmasGUIConstructorDialog dialog = 
+//                                         StratmasGUIConstructor.buildDialog(StratmasObjectFactory.guiCreate(declaration), true);
+//                                     dialog.setVisible(true);
+//                                     newObject = dialog.getStratmasObject();
+//                                     if (newObject != null) {
+//                                         add(newObject);
+//                                     }
+//                                 }
+//                             }
+//                         });
+//                 }
+//             }
+//         }        
+//         return res;
 //     }
 
     /**
@@ -530,37 +530,37 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     public ActionGroup getActionGroup()
     {
-	ActionGroup ag = super.getActionGroup();
-	if (! (this instanceof StratmasList)) {
-	    final DefaultComplex self = this;	
+        ActionGroup ag = super.getActionGroup();
+        if (! (this instanceof StratmasList)) {
+            final DefaultComplex self = this;        
 
-	    for (Enumeration e = getType().getSubElements().elements(); e.hasMoreElements(); ) {
-		final Declaration dec = (Declaration) e.nextElement();
-		if (!hasChild(dec.getName())) {
-		    ag.add(new ActionGroup("Add " + dec.getName(), true, false) {
-			    public void actionPerformed(ActionEvent e) {
-				StratmasObject newObject = StratmasObjectFactory.defaultCreate(dec);
-				if (newObject != null) {
-				    self.orderPreservingAdd(newObject);
-				}
-				else {
-				    StratmasGUIConstructorDialog dialog = 
-					StratmasGUIConstructor.buildDialog(StratmasObjectFactory.guiCreate(dec), true);
-				    dialog.setVisible(true);
-				    newObject = dialog.getStratmasObject();
-				    if (newObject != null) {
-					self.orderPreservingAdd(newObject);
-				    }
-				}
-			    }
-			});
-		}
-		else if (dec.isList()) {
-		    ag.add(getAddActionGroupForListDec((StratmasList)getChild(dec.getName()), dec));
-		}
-	    }
-	}	
-	return ag;
+            for (Enumeration e = getType().getSubElements().elements(); e.hasMoreElements(); ) {
+                final Declaration dec = (Declaration) e.nextElement();
+                if (!hasChild(dec.getName())) {
+                    ag.add(new ActionGroup("Add " + dec.getName(), true, false) {
+                            public void actionPerformed(ActionEvent e) {
+                                StratmasObject newObject = StratmasObjectFactory.defaultCreate(dec);
+                                if (newObject != null) {
+                                    self.orderPreservingAdd(newObject);
+                                }
+                                else {
+                                    StratmasGUIConstructorDialog dialog = 
+                                        StratmasGUIConstructor.buildDialog(StratmasObjectFactory.guiCreate(dec), true);
+                                    dialog.setVisible(true);
+                                    newObject = dialog.getStratmasObject();
+                                    if (newObject != null) {
+                                        self.orderPreservingAdd(newObject);
+                                    }
+                                }
+                            }
+                        });
+                }
+                else if (dec.isList()) {
+                    ag.add(getAddActionGroupForListDec((StratmasList)getChild(dec.getName()), dec));
+                }
+            }
+        }        
+        return ag;
     }
 
     /**
@@ -579,48 +579,48 @@ class DefaultComplex extends StratmasObjectDynImpl
      * this list grouped by type.
      */
     protected static ActionGroup getAddActionGroupForListDec(StratmasList listToAddTo, Declaration declaration) {
-	final StratmasList fListToAddTo = listToAddTo;
-	final Declaration fDec = declaration;
-	ActionGroup ret;
-	Type t = fDec.getType();
-	ActionGroup agToAdd = new ActionGroup("Add " + t.getName() + " to " + fDec.getName(), true, false) {
-		public void actionPerformed(ActionEvent e) {
-		    Declaration toCreate = (Declaration)fDec.clone();
-		    toCreate.setMinOccurs(1);
-		    toCreate.setMaxOccurs(1);
-		    toCreate.setUnbounded(false);
-		    
-		    StratmasObject newObject = StratmasObjectFactory.defaultCreate(toCreate);
-		    if (newObject != null) {
-			newObject.setIdentifier("new " + newObject.getType().getName());
-			fListToAddTo.addWithUniqueIdentifier(newObject);
-		    }
-		    else {
-			StratmasGUIConstructorDialog dialog = 
-			    StratmasGUIConstructor.buildDialog(StratmasObjectFactory.guiCreate(toCreate), true);
-			dialog.setVisible(true);
-			newObject = dialog.getStratmasObject();
-			if (newObject != null) {
-			    fListToAddTo.addWithUniqueIdentifier(newObject);
-			}
-		    }
-		}
-	    };
-	
-	Enumeration en = t.getDerived();
-	if (en.hasMoreElements()) {
-	    ret = new ActionGroup("Add " + t.getName(), true, true);
-	    if (!t.isAbstract()) {
-		ret.add(agToAdd);
-	    }
-	    for (; en.hasMoreElements(); ) {
-		ret.add(getAddActionGroupForListDec(fListToAddTo, fDec.clone((Type)en.nextElement())));
-	    }
-	}
-	else {
-	    ret = agToAdd;
-	}
-	return ret;
+        final StratmasList fListToAddTo = listToAddTo;
+        final Declaration fDec = declaration;
+        ActionGroup ret;
+        Type t = fDec.getType();
+        ActionGroup agToAdd = new ActionGroup("Add " + t.getName() + " to " + fDec.getName(), true, false) {
+                public void actionPerformed(ActionEvent e) {
+                    Declaration toCreate = (Declaration)fDec.clone();
+                    toCreate.setMinOccurs(1);
+                    toCreate.setMaxOccurs(1);
+                    toCreate.setUnbounded(false);
+                    
+                    StratmasObject newObject = StratmasObjectFactory.defaultCreate(toCreate);
+                    if (newObject != null) {
+                        newObject.setIdentifier("new " + newObject.getType().getName());
+                        fListToAddTo.addWithUniqueIdentifier(newObject);
+                    }
+                    else {
+                        StratmasGUIConstructorDialog dialog = 
+                            StratmasGUIConstructor.buildDialog(StratmasObjectFactory.guiCreate(toCreate), true);
+                        dialog.setVisible(true);
+                        newObject = dialog.getStratmasObject();
+                        if (newObject != null) {
+                            fListToAddTo.addWithUniqueIdentifier(newObject);
+                        }
+                    }
+                }
+            };
+        
+        Enumeration en = t.getDerived();
+        if (en.hasMoreElements()) {
+            ret = new ActionGroup("Add " + t.getName(), true, true);
+            if (!t.isAbstract()) {
+                ret.add(agToAdd);
+            }
+            for (; en.hasMoreElements(); ) {
+                ret.add(getAddActionGroupForListDec(fListToAddTo, fDec.clone((Type)en.nextElement())));
+            }
+        }
+        else {
+            ret = agToAdd;
+        }
+        return ret;
     }
 
     /**
@@ -632,26 +632,26 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     protected void replaceChild(StratmasObject oldObj, StratmasObject newObj, Object initiator) 
     {
-	if (!oldObj.getType().canSubstitute(TypeFactory.getType("ValueType"))) {
-	    throw new AssertionError("Replace not supported for other types than ValueType descendants");
-	}
-	if (!oldObj.getIdentifier().equals(newObj.getIdentifier())) {
-	    Debug.err.println("Changing identifier from " + newObj.getIdentifier() +
-			      " to " + oldObj.getIdentifier());
-	    newObj.setIdentifier(oldObj.getIdentifier());
-	}
-	parts.remove(oldObj);
-	partsHash.remove(oldObj.getIdentifier());
-	
-	// Must remove the children...
-	for (Enumeration en = oldObj.children(); en.hasMoreElements(); ) {
-	    ((StratmasObject)en.nextElement()).fireRemoved(initiator);
-	}
-	
-	// Add new element without generating an add-event.
-	silentOrderPreservingAdd(newObj);
-	
-	// Tell about replacement.
-	fireChildChanged(newObj, this);
+        if (!oldObj.getType().canSubstitute(TypeFactory.getType("ValueType"))) {
+            throw new AssertionError("Replace not supported for other types than ValueType descendants");
+        }
+        if (!oldObj.getIdentifier().equals(newObj.getIdentifier())) {
+            Debug.err.println("Changing identifier from " + newObj.getIdentifier() +
+                              " to " + oldObj.getIdentifier());
+            newObj.setIdentifier(oldObj.getIdentifier());
+        }
+        parts.remove(oldObj);
+        partsHash.remove(oldObj.getIdentifier());
+        
+        // Must remove the children...
+        for (Enumeration en = oldObj.children(); en.hasMoreElements(); ) {
+            ((StratmasObject)en.nextElement()).fireRemoved(initiator);
+        }
+        
+        // Add new element without generating an add-event.
+        silentOrderPreservingAdd(newObj);
+        
+        // Tell about replacement.
+        fireChildChanged(newObj, this);
     }    
 }

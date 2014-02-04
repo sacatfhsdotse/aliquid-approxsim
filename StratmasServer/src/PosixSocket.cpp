@@ -59,7 +59,7 @@ bool PosixSocket::close()
   int status = ::close(mSock);
   if (status < 0) {
     slog << "Error closing socket: " << errno << " " << strerror(errno) 
-	 << logEnd;
+         << logEnd;
     return false;
   } else {
     return true;
@@ -81,10 +81,10 @@ bool PosixSocket::create()
      //debug("mSock == " << mSock << std::endl)
 
      if (valid()) {
-	  const int on = 1;
-	  if (setsockopt(mSock, SOL_SOCKET, SO_REUSEADDR, (const char*)&on, sizeof(on)) != -1) {
-	       ret = true;
-	  }
+          const int on = 1;
+          if (setsockopt(mSock, SOL_SOCKET, SO_REUSEADDR, (const char*)&on, sizeof(on)) != -1) {
+               ret = true;
+          }
      }
      return ret;
 }
@@ -100,18 +100,18 @@ bool PosixSocket::create()
 bool PosixSocket::bind(const char *host, int port)
 {
      if (!valid()) {
-	  return false;
+          return false;
      }
 
      struct hostent *tmp = 0;
      if (host) {
-	  // tmp Is statically allocated (at least on Mac) so there is no need
-	  // to deallocate it.
-	  tmp = gethostbyname(host);
-	  if (!tmp) {
-	       slog << "Invalid interface '" << host << "'. Setting interface to localhost." << logEnd;
-	       tmp = gethostbyname("localhost");
-	  }
+          // tmp Is statically allocated (at least on Mac) so there is no need
+          // to deallocate it.
+          tmp = gethostbyname(host);
+          if (!tmp) {
+               slog << "Invalid interface '" << host << "'. Setting interface to localhost." << logEnd;
+               tmp = gethostbyname("localhost");
+          }
      }
      
      mAddr.sin_family      = AF_INET;
@@ -123,8 +123,8 @@ bool PosixSocket::bind(const char *host, int port)
      int bindRet = ::bind(mSock, (struct sockaddr*)(&mAddr), sizeof(mAddr));
 
      if (bindRet == -1) {
-	  slog << "errno: " << errno << " - " << strerror(errno) << logEnd;
-	  return false;
+          slog << "errno: " << errno << " - " << strerror(errno) << logEnd;
+          return false;
      }
 
      return true;
@@ -139,13 +139,13 @@ bool PosixSocket::bind(const char *host, int port)
 bool PosixSocket::listen() const
 {
      if (!valid()) {
-	  return false;
+          return false;
      }
 
      int listen_return = ::listen(mSock, MAXCONNECTIONS);
 
      if (listen_return == -1) {
-	  return false;
+          return false;
      }
 
      return true;
@@ -166,7 +166,7 @@ bool PosixSocket::accept(Socket& newSock) const
   int addr_length = sizeof(newSockP->mAddr);
 
   int socket = ::accept(mSock, (sockaddr*) &(newSockP->mAddr), 
-			(socklen_t*) &addr_length);
+                        (socklen_t*) &addr_length);
   
   newSockP->mSock = socket;
     
@@ -190,10 +190,10 @@ bool PosixSocket::send(const void *msg, unsigned int len) const
 {
      int sent = ::send(mSock, msg, len, 0);
      if (sent == -1) {
-	  return false;
+          return false;
      }
      else {
-	  return true;
+          return true;
      }
 }
 
@@ -210,15 +210,15 @@ int PosixSocket::recv(void *msg, unsigned int len) const
      int status = ::recv(mSock, msg, len, 0);
 
      if (status == -1) {
-	  slog << "status = -1   errno = " << errno << " - " 
-	       << strerror(errno) << "  in PosixSocket::recv()" << logEnd;
-	  return 0;
+          slog << "status = -1   errno = " << errno << " - " 
+               << strerror(errno) << "  in PosixSocket::recv()" << logEnd;
+          return 0;
      }
      else if (status == 0) {
-	  return 0;
+          return 0;
      }
      else {
-	  return status;
+          return status;
      }
 }
 
@@ -236,17 +236,17 @@ int PosixSocket::recvf(void *msg, int len) const
      int lastRead = 0;
 
      for (int pos = 0; pos < len; pos += lastRead) {
-	  lastRead = ::recv(mSock, buf + pos, len - pos, 0);
-	  if (lastRead < 0) {
-	       slog << "status == " << lastRead << " errno = " << errno 
-		    << " - " << strerror(errno) 
-		    << "  in PosixSocket::recvf()" << logEnd;
-	       return totRead;
-	  }
-	  else if (lastRead == 0) {
-	       return totRead;
-	  }
-	  totRead += lastRead;
+          lastRead = ::recv(mSock, buf + pos, len - pos, 0);
+          if (lastRead < 0) {
+               slog << "status == " << lastRead << " errno = " << errno 
+                    << " - " << strerror(errno) 
+                    << "  in PosixSocket::recvf()" << logEnd;
+               return totRead;
+          }
+          else if (lastRead == 0) {
+               return totRead;
+          }
+          totRead += lastRead;
      }
      return totRead;
 }
@@ -263,7 +263,7 @@ int PosixSocket::recvf(void *msg, int len) const
 bool PosixSocket::connect(const std::string host, const int port)
 {
      if (!valid() || host == "") {
-	  return false;
+          return false;
      }
      
      // tmp Is statically allocated (at least on Mac) so there is no need
@@ -278,19 +278,19 @@ bool PosixSocket::connect(const std::string host, const int port)
      int address = htonl(*(unsigned int*)*tmp->h_addr_list);
      ostringstream ost;     
      ost << ((int)(address>>24)&0xFF) << "." 
-	 << ((int)(address>>16)&0xFF) << "."
-	 << ((int)(address>>8)&0xFF) << "." 
-	 << ((int)address&0xFF) << ":"
-	 << port;
+         << ((int)(address>>16)&0xFF) << "."
+         << ((int)(address>>8)&0xFF) << "." 
+         << ((int)address&0xFF) << ":"
+         << port;
      debug("Server is connecting to " << ost.str());
 
      int status = ::connect(mSock, (sockaddr*) &mAddr, sizeof(mAddr));
 
      if ( status == 0 )
-	  return true;
+          return true;
      else {
-	  slog << "errno: " << errno << " - " << strerror(errno) << logEnd;
-	  return false;
+          slog << "errno: " << errno << " - " << strerror(errno) << logEnd;
+          return false;
      }
 }
 
@@ -304,14 +304,14 @@ void PosixSocket::set_non_blocking(const bool b)
      int opts = fcntl(mSock, F_GETFL);
 
      if (opts < 0) {
-	  return;
+          return;
      }
 
      if (b) {
-	  opts = ( opts | O_NONBLOCK );
+          opts = ( opts | O_NONBLOCK );
      }
      else {
-	  opts = ( opts & ~O_NONBLOCK );
+          opts = ( opts & ~O_NONBLOCK );
      }
      fcntl(mSock, F_SETFL, opts);
 }
@@ -327,7 +327,7 @@ std::string PosixSocket::address() const
      ostringstream ost;
      uint32_t tmp = ntohl(mAddr.sin_addr.s_addr);
      ost << ((int)(tmp>>24)&0xFF) << "." << ((int)(tmp>>16)&0xFF) << "."
-	 << ((int)(tmp>>8)&0xFF) << "." << ((int)tmp&0xFF);
+         << ((int)(tmp>>8)&0xFF) << "." << ((int)tmp&0xFF);
      return ost.str();
 }
 

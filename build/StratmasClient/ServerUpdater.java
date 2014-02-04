@@ -47,13 +47,13 @@ public class ServerUpdater implements StratmasEventListener {
       * @param obj The provided object.
       */
      private void listenTo(StratmasObject obj) {
-	  obj.addEventListener(this);
-	  mListenedObjects.add(obj);
-	  if (!obj.getType().canSubstitute("ValueType") || obj instanceof StratmasList) {
-	       for (Enumeration en = obj.children(); en.hasMoreElements(); ) {
-		    listenTo((StratmasObject)en.nextElement());
-	       }
-	  }
+          obj.addEventListener(this);
+          mListenedObjects.add(obj);
+          if (!obj.getType().canSubstitute("ValueType") || obj instanceof StratmasList) {
+               for (Enumeration en = obj.children(); en.hasMoreElements(); ) {
+                    listenTo((StratmasObject)en.nextElement());
+               }
+          }
      }
 
      /**
@@ -62,11 +62,11 @@ public class ServerUpdater implements StratmasEventListener {
       * @param obj The provided object.
       */
      private void stopListenTo(StratmasObject obj) {
-	  obj.removeEventListener(this);
-	  mListenedObjects.remove(obj);
-	  for (Enumeration en = obj.children(); en.hasMoreElements(); ) {
-	       stopListenTo((StratmasObject)en.nextElement());
-	  }
+          obj.removeEventListener(this);
+          mListenedObjects.remove(obj);
+          for (Enumeration en = obj.children(); en.hasMoreElements(); ) {
+               stopListenTo((StratmasObject)en.nextElement());
+          }
      }
 
      /**
@@ -81,8 +81,8 @@ public class ServerUpdater implements StratmasEventListener {
       * handled differently when the Controller class is rewritten.
       */
     public ServerUpdater(ServerConnection sc, StratmasObject root, Controller controller) {
-	mUH = new UpdateHandler(sc, controller);
-	  listenTo(root);
+        mUH = new UpdateHandler(sc, controller);
+          listenTo(root);
      }
 
      /**
@@ -92,11 +92,11 @@ public class ServerUpdater implements StratmasEventListener {
       * isn't active.
       */
      public void inactivate() {
-	  for (Iterator it = mListenedObjects.iterator(); it.hasNext(); ) {
-	       ((StratmasObject)it.next()).removeEventListener(this);
-	  }
-	  mListenedObjects.removeAllElements();
-	  mUH.kill();
+          for (Iterator it = mListenedObjects.iterator(); it.hasNext(); ) {
+               ((StratmasObject)it.next()).removeEventListener(this);
+          }
+          mListenedObjects.removeAllElements();
+          mUH.kill();
      }
 
      /**
@@ -107,7 +107,7 @@ public class ServerUpdater implements StratmasEventListener {
       * @param type The type of update (add, remove, replace or update).
       */
      private void sendUpdate(StratmasObject o, String type) {
-	  mUH.enqueueUpdate(o, type);
+          mUH.enqueueUpdate(o, type);
      }
 
      /**
@@ -118,53 +118,53 @@ public class ServerUpdater implements StratmasEventListener {
       * @param e The event that occured.
       */
      public void eventOccured(StratmasEvent e) {
-	  StratmasObject obj = (StratmasObject)e.getSource();
-	  boolean serverUpdate = e.getInitiator() instanceof org.w3c.dom.Element;
-	  //	  Debug.err.println("event " + e + ", " + ((StratmasObject)e.getSource()).getIdentifier());
-	  // We should update the server if the initiator isn't a dom
-	  // element (e.g. the server) and the event is a valueChanged
-	  // event or a childChanged event sent from a non-list and if
-	  // the source is a ValueType descendant.
-	  if (!serverUpdate &&
-	      (e.isValueChanged() || 
-	       e.isChildChanged() && !(obj instanceof StratmasList)) &&
-	      obj.getType().canSubstitute(TypeFactory.getType("ValueType"))) {
-	       // Wait until we have closed polygons before we send any updates.
-	       if ((obj instanceof Polygon && !((Polygon)obj).isClosed()) ||
-		   (obj instanceof Composite && ((Composite)obj).hasUnclosed())) {
-		    return;
-	       }
-	       sendUpdate(obj, UpdateMessage.MODIFY);
-	  }
-	  else if (e.isObjectAdded()) {
-	       StratmasObject added = (StratmasObject)e.getArgument();
-	       listenTo(added);
-	       if (!serverUpdate) {
-		    sendUpdate(added, UpdateMessage.ADD);
-	       }
-	  }
-	  else if (e.isReplaced()) {
-	       stopListenTo((StratmasObject)e.getSource());
-	       StratmasObject newObj = (StratmasObject)e.getArgument();
-	       listenTo(newObj);
-	       if (!serverUpdate && newObj.getType().canSubstitute(TypeFactory.getType("ValueType"))) {
-		    sendUpdate(newObj, UpdateMessage.REPLACE);
-	       }
-	  }
-	  else if (e.isRemoved()) {
-	       StratmasObject removed = (StratmasObject)e.getSource();
-	       stopListenTo(removed);
-	       if (!serverUpdate) {
-		    // Don't have to send updates for removed required elements.
-		    if (removed.getParent() != null) {
-			 Declaration dec = removed.getParent().getType().getSubElement(removed.getIdentifier().toString());
-			 if (dec != null && dec.isSingular()) {
-			      return;
-			 }
-		    }
-		    sendUpdate(removed, UpdateMessage.REMOVE);
-	       }
-	  }
+          StratmasObject obj = (StratmasObject)e.getSource();
+          boolean serverUpdate = e.getInitiator() instanceof org.w3c.dom.Element;
+          //          Debug.err.println("event " + e + ", " + ((StratmasObject)e.getSource()).getIdentifier());
+          // We should update the server if the initiator isn't a dom
+          // element (e.g. the server) and the event is a valueChanged
+          // event or a childChanged event sent from a non-list and if
+          // the source is a ValueType descendant.
+          if (!serverUpdate &&
+              (e.isValueChanged() || 
+               e.isChildChanged() && !(obj instanceof StratmasList)) &&
+              obj.getType().canSubstitute(TypeFactory.getType("ValueType"))) {
+               // Wait until we have closed polygons before we send any updates.
+               if ((obj instanceof Polygon && !((Polygon)obj).isClosed()) ||
+                   (obj instanceof Composite && ((Composite)obj).hasUnclosed())) {
+                    return;
+               }
+               sendUpdate(obj, UpdateMessage.MODIFY);
+          }
+          else if (e.isObjectAdded()) {
+               StratmasObject added = (StratmasObject)e.getArgument();
+               listenTo(added);
+               if (!serverUpdate) {
+                    sendUpdate(added, UpdateMessage.ADD);
+               }
+          }
+          else if (e.isReplaced()) {
+               stopListenTo((StratmasObject)e.getSource());
+               StratmasObject newObj = (StratmasObject)e.getArgument();
+               listenTo(newObj);
+               if (!serverUpdate && newObj.getType().canSubstitute(TypeFactory.getType("ValueType"))) {
+                    sendUpdate(newObj, UpdateMessage.REPLACE);
+               }
+          }
+          else if (e.isRemoved()) {
+               StratmasObject removed = (StratmasObject)e.getSource();
+               stopListenTo(removed);
+               if (!serverUpdate) {
+                    // Don't have to send updates for removed required elements.
+                    if (removed.getParent() != null) {
+                         Declaration dec = removed.getParent().getType().getSubElement(removed.getIdentifier().toString());
+                         if (dec != null && dec.isSingular()) {
+                              return;
+                         }
+                    }
+                    sendUpdate(removed, UpdateMessage.REMOVE);
+               }
+          }
      }
 }
 
@@ -210,9 +210,9 @@ class UpdateHandler implements Runnable {
       * handled differently when the Controller class is rewritten.
       */
     public UpdateHandler(ServerConnection serverConnection, Controller controller) {
-	mController = controller;
-	  mSC = serverConnection;
-	  (new Thread(this)).start();
+        mController = controller;
+          mSC = serverConnection;
+          (new Thread(this)).start();
      }
 
      /**
@@ -223,60 +223,60 @@ class UpdateHandler implements Runnable {
       * @param type The type of update (add, remove, replace or update).
       */
      public void enqueueUpdate(StratmasObject o, String type) {
-	  mQueue.enqueue(new Update(o, type));
+          mQueue.enqueue(new Update(o, type));
      }
 
      /**
       * Terminates the Thread running this UpdateHandler
       */
      public void kill() {
-	  mQuit = true;
-	  mQueue.enqueue(null);
+          mQuit = true;
+          mQueue.enqueue(null);
      }
 
      /**
       * The main loop.
       */
      public void run() {
-	  while (true) {
-	       UpdateMessage msg = new UpdateMessage();
-	       Update u = (Update)mQueue.blockingDequeue();
-	       if (mQuit) {
-		    break;
-	       }
-	       msg.addUpdate(u);
-	       long firstDequeueTime = System.currentTimeMillis();
-	       do {
-		    u = (Update)mQueue.dequeue();
-		    if (mQuit) {
-			 break;
-		    }
-		    else if (u != null) {
-			 msg.addUpdate(u);
-		    }
-	       } while (System.currentTimeMillis() - firstDequeueTime < sDelayms);
-	       // Send
-	       if (mSC != null) {
-		   // Disconnect if an update failed in order to avoid
-		   // locking the client in "continous_step"
-		   // mode. Should be handled differently when the
-		   // Controller class is rewritten.
-		   msg.addEventListener(new StratmasClient.communication.DefaultStratmasMessageListener() {
-			   public void errorOccurred(StratmasClient.communication.StratmasMessageEvent e) {
-			       mController.updateSimulationMode("disconnect");
-			   }
-		       });
-		    mSC.send(msg);
-	       }
-	       else {
-		    try {
-			 Thread.sleep(1000);
-		    } catch (InterruptedException e) {
-		    }
-	       }
-	  }
+          while (true) {
+               UpdateMessage msg = new UpdateMessage();
+               Update u = (Update)mQueue.blockingDequeue();
+               if (mQuit) {
+                    break;
+               }
+               msg.addUpdate(u);
+               long firstDequeueTime = System.currentTimeMillis();
+               do {
+                    u = (Update)mQueue.dequeue();
+                    if (mQuit) {
+                         break;
+                    }
+                    else if (u != null) {
+                         msg.addUpdate(u);
+                    }
+               } while (System.currentTimeMillis() - firstDequeueTime < sDelayms);
+               // Send
+               if (mSC != null) {
+                   // Disconnect if an update failed in order to avoid
+                   // locking the client in "continous_step"
+                   // mode. Should be handled differently when the
+                   // Controller class is rewritten.
+                   msg.addEventListener(new StratmasClient.communication.DefaultStratmasMessageListener() {
+                           public void errorOccurred(StratmasClient.communication.StratmasMessageEvent e) {
+                               mController.updateSimulationMode("disconnect");
+                           }
+                       });
+                    mSC.send(msg);
+               }
+               else {
+                    try {
+                         Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                    }
+               }
+          }
      }
 }
 
-	  
+          
 

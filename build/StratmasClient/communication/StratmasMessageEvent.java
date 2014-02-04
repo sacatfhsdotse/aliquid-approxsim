@@ -20,7 +20,7 @@ public class StratmasMessageEvent extends java.util.EventObject {
       * StratmasMessage that generated the event.
       */
      public StratmasMessageEvent(StratmasMessage source) {
-	  super(source);
+          super(source);
      }
 
      /**
@@ -29,6 +29,6 @@ public class StratmasMessageEvent extends java.util.EventObject {
       * @return The message that generated this event.
       */
      public StratmasMessage getMessage() {
-	  return (StratmasMessage)getSource();
+          return (StratmasMessage)getSource();
      }
 }

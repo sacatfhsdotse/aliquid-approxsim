@@ -30,13 +30,13 @@ class MemEntityResolver : public XMLEntityResolver, public EntityResolver {
      virtual InputSource* resolve(const XMLCh *const publicId);
  public:
      MemEntityResolver(XMLEntityResolver* xmlEntityResolverFallback = 0,
-		       EntityResolver* entityResolverFallback = 0);
+                       EntityResolver* entityResolverFallback = 0);
      virtual ~MemEntityResolver();
 
      virtual InputSource* resolveEntity(const XMLCh *const publicId, 
-					const XMLCh *const systemId);
+                                        const XMLCh *const systemId);
      virtual InputSource* resolveEntity(XMLResourceIdentifier 
-					*resourceIdentifier);
+                                        *resourceIdentifier);
      virtual InputSource* resolve(const std::string& publicId);
 };
 

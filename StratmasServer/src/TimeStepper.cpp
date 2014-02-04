@@ -24,12 +24,12 @@ ConstantStepper::ConstantStepper(const DataObject &d)
 void ConstantStepper::update(const Update& u)
 {
      if (u.getType() == Update::eModify && u.getReference().name() == "dt") {
-	  mDt = u.getObject()->getTime();
+          mDt = u.getObject()->getTime();
      }
      else {
-	  Error e;
-	  e << "No updatable attribute '" << u.getReference().name() << "' in '" << ref() << "'";
-	  throw e;
+          Error e;
+          e << "No updatable attribute '" << u.getReference().name() << "' in '" << ref() << "'";
+          throw e;
      }
 }
 

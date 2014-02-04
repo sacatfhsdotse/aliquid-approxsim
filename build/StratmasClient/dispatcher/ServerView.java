@@ -1,4 +1,4 @@
-// 	$Id: ServerView.java,v 1.3 2006/01/25 15:37:14 alexius Exp $
+//         $Id: ServerView.java,v 1.3 2006/01/25 15:37:14 alexius Exp $
 
 /*
  * @(#)ServerView.java
@@ -111,63 +111,63 @@ public class ServerView extends JTree
      */
     public ServerView(StratmasDispatcher dispatcher)
     {
-	super(dispatcher.getServers());
-	final ServerView self = this;
-	this.stratmasDispatcher = dispatcher;
+        super(dispatcher.getServers());
+        final ServerView self = this;
+        this.stratmasDispatcher = dispatcher;
 
-	// Add listener that ensures that added top level components
-	// are shown when isRootVisible == false. And that the tree is
-	// collapsed if no more objects are to be shown
-	getModel().addTreeModelListener(new TreeModelListener() 
-	    {
-		public void treeNodesChanged(TreeModelEvent e) {}
-		public void treeNodesInserted(TreeModelEvent e) 
-		{
- 		    if (!self.isRootVisible() && e.getTreePath().getPathCount() == 1) {
- 			TreePath path = new TreePath(self.getModel().getRoot());
- 			self.expandPath(path);
- 		    }
-		}
-		public void treeNodesRemoved(TreeModelEvent e) 
-		{
-		    if (!self.isRootVisible() && e.getTreePath().getPathCount() == 1 &&
-			self.getModel().getChildCount(self.getModel().getRoot()) <= 1) {
- 			TreePath path = new TreePath(self.getModel().getRoot());
- 			self.collapsePath(path);
- 		    }
-		}
-		public void treeStructureChanged(TreeModelEvent e) {}		
-	    });
+        // Add listener that ensures that added top level components
+        // are shown when isRootVisible == false. And that the tree is
+        // collapsed if no more objects are to be shown
+        getModel().addTreeModelListener(new TreeModelListener() 
+            {
+                public void treeNodesChanged(TreeModelEvent e) {}
+                public void treeNodesInserted(TreeModelEvent e) 
+                {
+                     if (!self.isRootVisible() && e.getTreePath().getPathCount() == 1) {
+                         TreePath path = new TreePath(self.getModel().getRoot());
+                         self.expandPath(path);
+                     }
+                }
+                public void treeNodesRemoved(TreeModelEvent e) 
+                {
+                    if (!self.isRootVisible() && e.getTreePath().getPathCount() == 1 &&
+                        self.getModel().getChildCount(self.getModel().getRoot()) <= 1) {
+                         TreePath path = new TreePath(self.getModel().getRoot());
+                         self.collapsePath(path);
+                     }
+                }
+                public void treeStructureChanged(TreeModelEvent e) {}                
+            });
 
-	ServerViewCellRenderer renderer = 
-	    new ServerViewCellRenderer(this, 
-				       new ImageIcon(busyServerImage.getScaledInstance(getPreferedIconWidth(), getPreferedIconHeight(), Image.SCALE_SMOOTH)),
-				       new ImageIcon(availableServerImage.getScaledInstance(getPreferedIconWidth(), getPreferedIconHeight(), Image.SCALE_SMOOTH)));
-	this.setCellRenderer(renderer);
-			
-	initActions();
+        ServerViewCellRenderer renderer = 
+            new ServerViewCellRenderer(this, 
+                                       new ImageIcon(busyServerImage.getScaledInstance(getPreferedIconWidth(), getPreferedIconHeight(), Image.SCALE_SMOOTH)),
+                                       new ImageIcon(availableServerImage.getScaledInstance(getPreferedIconWidth(), getPreferedIconHeight(), Image.SCALE_SMOOTH)));
+        this.setCellRenderer(renderer);
+                        
+        initActions();
 
-	this.addMouseListener(new MouseInputAdapter() 
-	    {
-		public void mousePressed(MouseEvent e)
-		{
-		    if (e.getButton() == MouseEvent.BUTTON3) {
-			TreePath selPath = self.getPathForLocation(e.getX(), 
-								   e.getY());
-			if(selPath != null) {
-			    self.showPopup(e.getX(),
-					   e.getY(),
-					   (DefaultMutableTreeNode) 
-					   selPath.getLastPathComponent());
-			} else {
-			    self.showPopup(e.getX(),
-					   e.getY(),
-					   (DefaultMutableTreeNode)
-					   self.getModel().getRoot());
-			}
-		    }
-		}
-	    });
+        this.addMouseListener(new MouseInputAdapter() 
+            {
+                public void mousePressed(MouseEvent e)
+                {
+                    if (e.getButton() == MouseEvent.BUTTON3) {
+                        TreePath selPath = self.getPathForLocation(e.getX(), 
+                                                                   e.getY());
+                        if(selPath != null) {
+                            self.showPopup(e.getX(),
+                                           e.getY(),
+                                           (DefaultMutableTreeNode) 
+                                           selPath.getLastPathComponent());
+                        } else {
+                            self.showPopup(e.getX(),
+                                           e.getY(),
+                                           (DefaultMutableTreeNode)
+                                           self.getModel().getRoot());
+                        }
+                    }
+                }
+            });
     }
     
     /**
@@ -175,64 +175,64 @@ public class ServerView extends JTree
      */
     protected void initActions()
     {
-	final ServerView self = this;
-	getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP, 
-						 ActionEvent.CTRL_MASK),
-			  "ZoomIn");
-	getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN, 
-						 ActionEvent.CTRL_MASK), 
-			  "ZoomOut");
+        final ServerView self = this;
+        getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP, 
+                                                 ActionEvent.CTRL_MASK),
+                          "ZoomIn");
+        getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN, 
+                                                 ActionEvent.CTRL_MASK), 
+                          "ZoomOut");
 
-	getActionMap().put("ZoomIn",
-			   new AbstractAction("Zoom In", 
-					      new ImageIcon(ServerView.class.getResource("images/zoom_in.png"))) 
-			   { 
-			       public void actionPerformed(ActionEvent e) 
-			       {
-				   scalePreferedIconSize(1.1);
-			       }
-			   });
-	
-	getActionMap().put("ZoomOut",
-			   new AbstractAction("Zoom Out", 
-					      new ImageIcon(ServerView.class.getResource("images/zoom_out.png"))) 
-			   { 
-			       
-			       public void actionPerformed(ActionEvent e) 
-			       {
-				   scalePreferedIconSize(0.9);
-			       }
-			   });
-	getActionMap().put("Refresh",
-			   new AbstractAction("Refresh", 
-					      new ImageIcon(new ImageIcon(ServerView.class.getResource("images/refresh.png")).getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH))) 
-			   { 
-			       
-			       public void actionPerformed(ActionEvent e) 
-			       {
-				   Thread worker = new Thread()
-				       {
-					   public void run()
-					   {
-					       refreshServers();
-					   }
-				       };
-				   worker.start();
-				   Thread monitor = new Thread()
-				       {
-					   public void run()
-					   {
-					       ProgressMonitor widget = 
-  						   new ProgressMonitor(self, 
-  								   "Fetching server list", 
-  								   "", 0, 100); 
-					   }
-				       };
-				   monitor.start();
+        getActionMap().put("ZoomIn",
+                           new AbstractAction("Zoom In", 
+                                              new ImageIcon(ServerView.class.getResource("images/zoom_in.png"))) 
+                           { 
+                               public void actionPerformed(ActionEvent e) 
+                               {
+                                   scalePreferedIconSize(1.1);
+                               }
+                           });
+        
+        getActionMap().put("ZoomOut",
+                           new AbstractAction("Zoom Out", 
+                                              new ImageIcon(ServerView.class.getResource("images/zoom_out.png"))) 
+                           { 
+                               
+                               public void actionPerformed(ActionEvent e) 
+                               {
+                                   scalePreferedIconSize(0.9);
+                               }
+                           });
+        getActionMap().put("Refresh",
+                           new AbstractAction("Refresh", 
+                                              new ImageIcon(new ImageIcon(ServerView.class.getResource("images/refresh.png")).getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH))) 
+                           { 
+                               
+                               public void actionPerformed(ActionEvent e) 
+                               {
+                                   Thread worker = new Thread()
+                                       {
+                                           public void run()
+                                           {
+                                               refreshServers();
+                                           }
+                                       };
+                                   worker.start();
+                                   Thread monitor = new Thread()
+                                       {
+                                           public void run()
+                                           {
+                                               ProgressMonitor widget = 
+                                                     new ProgressMonitor(self, 
+                                                                     "Fetching server list", 
+                                                                     "", 0, 100); 
+                                           }
+                                       };
+                                   monitor.start();
 
-				   
-			       }
-			   });
+                                   
+                               }
+                           });
     }
 
     /**
@@ -240,10 +240,10 @@ public class ServerView extends JTree
      */
     public void refreshServers() 
     {
-	DefaultMutableTreeNode newRoot = new DefaultMutableTreeNode("root");
-	JTree.DynamicUtilTreeNode.createChildren(newRoot, getStratmasDispatcher().getServers());
-	DefaultTreeModel newModel =  new DefaultTreeModel(newRoot, false);
-	setModel(newModel);
+        DefaultMutableTreeNode newRoot = new DefaultMutableTreeNode("root");
+        JTree.DynamicUtilTreeNode.createChildren(newRoot, getStratmasDispatcher().getServers());
+        DefaultTreeModel newModel =  new DefaultTreeModel(newRoot, false);
+        setModel(newModel);
     }
 
     /**
@@ -255,7 +255,7 @@ public class ServerView extends JTree
      */
     protected DefaultMutableTreeNode pointToObject(Point point)
     {
-	return pointToObject((int) point.getX(), (int) point.getY());
+        return pointToObject((int) point.getX(), (int) point.getY());
     }
 
     /**
@@ -268,13 +268,13 @@ public class ServerView extends JTree
      */
     protected DefaultMutableTreeNode pointToObject(int x, int y)
     {
-	TreePath path = getPathForLocation(x, y);
+        TreePath path = getPathForLocation(x, y);
 
-	if (path != null) {
-	    return ((DefaultMutableTreeNode) path.getLastPathComponent());
-	} else {
-	    return ((DefaultMutableTreeNode) getModel().getRoot());
-	}
+        if (path != null) {
+            return ((DefaultMutableTreeNode) path.getLastPathComponent());
+        } else {
+            return ((DefaultMutableTreeNode) getModel().getRoot());
+        }
     }
 
     /*
@@ -288,47 +288,47 @@ public class ServerView extends JTree
      */
     protected void showPopup(int x, int y, DefaultMutableTreeNode objectAdapter)
     {
-	if (objectAdapter.getUserObject() instanceof StratmasServer) {	
-	    JPopupMenu popup = new JPopupMenu(objectAdapter.toString());
-	    final StratmasServer server = (StratmasServer) objectAdapter.getUserObject();
-	    if (server.getSimulations().size() != 0) {
-		for (Enumeration e = server.getSimulations().elements(); 
-		     e.hasMoreElements();) {
-		    AbstractAction action = new AbstractAction(e.nextElement().toString())
-			{
-			    public void actionPerformed(ActionEvent event)
-			    {
-				Client.getClient().setServerName(server.getHost());
-				Client.getClient().setServerPort(server.getPort());
-				StratmasDialog.showProgressBarDialog(null, 
-								     "Initializing - passive mode ...");
-				new Thread() 
-				{
-				    public void run() 
-				    {
-					Client.getClient().getRootObjectFromServer();
-					StratmasDialog.quitProgressBarDialog();
-				    }
-				}.start();
-			    }
-			};
-		    action.setEnabled(Client.getClient().getRootObject().getChildCount() == 0);
-		    action.putValue(Action.SHORT_DESCRIPTION, 
-				    "Click to passively watch scenario.");
-		    popup.add(action);
-		}
-	    } else {
-		AbstractAction action = new AbstractAction("No simulations")
-		    {
-			public void actionPerformed(ActionEvent e)
-			{
-			}
-		    };
-		action.setEnabled(false);
-		popup.add(action);
-	    }	
-	    popup.show(this, x, y);
-	}
+        if (objectAdapter.getUserObject() instanceof StratmasServer) {        
+            JPopupMenu popup = new JPopupMenu(objectAdapter.toString());
+            final StratmasServer server = (StratmasServer) objectAdapter.getUserObject();
+            if (server.getSimulations().size() != 0) {
+                for (Enumeration e = server.getSimulations().elements(); 
+                     e.hasMoreElements();) {
+                    AbstractAction action = new AbstractAction(e.nextElement().toString())
+                        {
+                            public void actionPerformed(ActionEvent event)
+                            {
+                                Client.getClient().setServerName(server.getHost());
+                                Client.getClient().setServerPort(server.getPort());
+                                StratmasDialog.showProgressBarDialog(null, 
+                                                                     "Initializing - passive mode ...");
+                                new Thread() 
+                                {
+                                    public void run() 
+                                    {
+                                        Client.getClient().getRootObjectFromServer();
+                                        StratmasDialog.quitProgressBarDialog();
+                                    }
+                                }.start();
+                            }
+                        };
+                    action.setEnabled(Client.getClient().getRootObject().getChildCount() == 0);
+                    action.putValue(Action.SHORT_DESCRIPTION, 
+                                    "Click to passively watch scenario.");
+                    popup.add(action);
+                }
+            } else {
+                AbstractAction action = new AbstractAction("No simulations")
+                    {
+                        public void actionPerformed(ActionEvent e)
+                        {
+                        }
+                    };
+                action.setEnabled(false);
+                popup.add(action);
+            }        
+            popup.show(this, x, y);
+        }
     }
     
     
@@ -339,9 +339,9 @@ public class ServerView extends JTree
      */    
     public static ServerViewFrame getDefaultFrame(StratmasDispatcher dispatcher)
     {
-	ServerViewFrame res = 
-	    new ServerViewFrame(getDefaultServerView(dispatcher));
-	return res;
+        ServerViewFrame res = 
+            new ServerViewFrame(getDefaultServerView(dispatcher));
+        return res;
     }
 
     /**
@@ -352,10 +352,10 @@ public class ServerView extends JTree
      */
     public static ServerView getDefaultServerView(StratmasDispatcher dispatcher)
     {
-	final ServerView view = new ServerView(dispatcher);
-	//view.setShowsRootHandles(false);
+        final ServerView view = new ServerView(dispatcher);
+        //view.setShowsRootHandles(false);
 
-	return view;
+        return view;
     }
 
     /**
@@ -363,7 +363,7 @@ public class ServerView extends JTree
      */
     public int getPreferedIconWidth()
     {
-	return preferedIconWidth;
+        return preferedIconWidth;
     }
 
     /**
@@ -371,7 +371,7 @@ public class ServerView extends JTree
      */
     public int getPreferedIconHeight()
     {
-	return preferedIconHeight;
+        return preferedIconHeight;
     }
 
     /**
@@ -383,28 +383,28 @@ public class ServerView extends JTree
      */
     public void scalePreferedIconSize(double scale)
     {
-	int newWidth = (int) (getPreferedIconWidth() * scale);
-	int newHeight = (int) (getPreferedIconHeight() * scale);
-	
-	// make sure we actually increase/decrease
-	if (scale > 1) {
-	    if (newWidth == getPreferedIconWidth()) {
-		newWidth++;
-	    }
-	    if (newHeight == getPreferedIconHeight()) {
-		newHeight++;
-	    }
-	} else if (scale < 1) {
-	    if (newWidth == getPreferedIconWidth()) {
-		newWidth--;
-	    }
-	    if (newHeight == getPreferedIconHeight()) {
-		newHeight--;
-	    }
-	}
+        int newWidth = (int) (getPreferedIconWidth() * scale);
+        int newHeight = (int) (getPreferedIconHeight() * scale);
+        
+        // make sure we actually increase/decrease
+        if (scale > 1) {
+            if (newWidth == getPreferedIconWidth()) {
+                newWidth++;
+            }
+            if (newHeight == getPreferedIconHeight()) {
+                newHeight++;
+            }
+        } else if (scale < 1) {
+            if (newWidth == getPreferedIconWidth()) {
+                newWidth--;
+            }
+            if (newHeight == getPreferedIconHeight()) {
+                newHeight--;
+            }
+        }
 
 
-	setPreferedIconSize(newWidth, newHeight);
+        setPreferedIconSize(newWidth, newHeight);
     }
 
     /**
@@ -415,21 +415,21 @@ public class ServerView extends JTree
      */
     public void setPreferedIconSize(int width, int height)
     {
-	if (width > 0 || height > 0) {
-	    if (width > 0) {
-		preferedIconWidth = width;
-	    }
-	    if (height > 0) {
-		preferedIconHeight = height;
-		setRowHeight(preferedIconHeight);
-	    }
+        if (width > 0 || height > 0) {
+            if (width > 0) {
+                preferedIconWidth = width;
+            }
+            if (height > 0) {
+                preferedIconHeight = height;
+                setRowHeight(preferedIconHeight);
+            }
 
-	    ((ServerViewCellRenderer) getCellRenderer()).setBusyServerIcon(new ImageIcon(busyServerImage.getScaledInstance(getPreferedIconWidth(), getPreferedIconHeight(), Image.SCALE_SMOOTH)));
-	    ((ServerViewCellRenderer) getCellRenderer()).setAvailableServerIcon(new ImageIcon(availableServerImage.getScaledInstance(getPreferedIconWidth(), getPreferedIconHeight(), Image.SCALE_SMOOTH)));
-	    //((ServerViewCellRenderer) getCellRenderer()).setFont(((ServerViewCellRenderer) getCellRenderer()).getFont().deriveFont(0.95f * ((float) getPreferedIconHeight())));
-	    
-	    validate();
-	}
+            ((ServerViewCellRenderer) getCellRenderer()).setBusyServerIcon(new ImageIcon(busyServerImage.getScaledInstance(getPreferedIconWidth(), getPreferedIconHeight(), Image.SCALE_SMOOTH)));
+            ((ServerViewCellRenderer) getCellRenderer()).setAvailableServerIcon(new ImageIcon(availableServerImage.getScaledInstance(getPreferedIconWidth(), getPreferedIconHeight(), Image.SCALE_SMOOTH)));
+            //((ServerViewCellRenderer) getCellRenderer()).setFont(((ServerViewCellRenderer) getCellRenderer()).getFont().deriveFont(0.95f * ((float) getPreferedIconHeight())));
+            
+            validate();
+        }
     }
     
     /**
@@ -437,7 +437,7 @@ public class ServerView extends JTree
      */
     public StratmasDispatcher getStratmasDispatcher()
     {
-	return this.stratmasDispatcher;
+        return this.stratmasDispatcher;
     }
 }
 
@@ -465,11 +465,11 @@ class ServerViewCellRenderer extends DefaultTreeCellRenderer
      * @param serverView the serverView this renderer will render for.
      */
     ServerViewCellRenderer(ServerView serverView, ImageIcon busyServerIcon,
-			   ImageIcon availableServerIcon)
+                           ImageIcon availableServerIcon)
     {
-	this.serverView = serverView;
-	this.busyServerIcon = busyServerIcon;
-	this.availableServerIcon = availableServerIcon;
+        this.serverView = serverView;
+        this.busyServerIcon = busyServerIcon;
+        this.availableServerIcon = availableServerIcon;
     }
 
     /**
@@ -479,7 +479,7 @@ class ServerViewCellRenderer extends DefaultTreeCellRenderer
      */
     public void setBusyServerIcon(ImageIcon icon)
     {
-	this.busyServerIcon = icon;
+        this.busyServerIcon = icon;
     }
 
     /**
@@ -489,7 +489,7 @@ class ServerViewCellRenderer extends DefaultTreeCellRenderer
      */
     public void setAvailableServerIcon(ImageIcon icon)
     {
-	this.availableServerIcon = icon;
+        this.availableServerIcon = icon;
     }
 
     /**
@@ -497,47 +497,47 @@ class ServerViewCellRenderer extends DefaultTreeCellRenderer
      * the specified tree.
      */
     public java.awt.Component getTreeCellRendererComponent(JTree tree,
-							   Object value,
-							   boolean sel,
-							   boolean expanded,
-							   boolean leaf,
-							   int row,
-							   boolean hasFocus) 
+                                                           Object value,
+                                                           boolean sel,
+                                                           boolean expanded,
+                                                           boolean leaf,
+                                                           int row,
+                                                           boolean hasFocus) 
     {
-	DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
 
-	if (node.getUserObject() instanceof StratmasServer) {
-	    
-	    StratmasServer server = (StratmasServer) node.getUserObject();
-	    this.hasFocus = hasFocus;
-	    setText(server.toString());
-	    
-	    if (sel) {
-		setForeground(getTextSelectionColor());
-	    } else {
-		setForeground(getTextNonSelectionColor());
-	    }
-	    
-	    ImageIcon icon = null;
-	    if (server.getSimulations().size() != 0) {
-		icon = busyServerIcon;
-	    } else {
-		icon = availableServerIcon;
-	    }
-	    
-	    setIcon(icon);
-	    setLeafIcon(icon);
-	    setOpenIcon(icon);
-	    setClosedIcon(icon);
-	    
-	    setComponentOrientation(tree.getComponentOrientation());
-	    
-	    selected = sel;
-	    
-	    return this;
-	} else {
-	    return super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
-	}
+        if (node.getUserObject() instanceof StratmasServer) {
+            
+            StratmasServer server = (StratmasServer) node.getUserObject();
+            this.hasFocus = hasFocus;
+            setText(server.toString());
+            
+            if (sel) {
+                setForeground(getTextSelectionColor());
+            } else {
+                setForeground(getTextNonSelectionColor());
+            }
+            
+            ImageIcon icon = null;
+            if (server.getSimulations().size() != 0) {
+                icon = busyServerIcon;
+            } else {
+                icon = availableServerIcon;
+            }
+            
+            setIcon(icon);
+            setLeafIcon(icon);
+            setOpenIcon(icon);
+            setClosedIcon(icon);
+            
+            setComponentOrientation(tree.getComponentOrientation());
+            
+            selected = sel;
+            
+            return this;
+        } else {
+            return super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
+        }
     }
 }
 

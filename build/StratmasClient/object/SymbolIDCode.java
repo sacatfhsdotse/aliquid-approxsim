@@ -1,4 +1,4 @@
-// 	$Id: SymbolIDCode.java,v 1.4 2006/05/16 09:10:48 alexius Exp $
+//         $Id: SymbolIDCode.java,v 1.4 2006/05/16 09:10:48 alexius Exp $
 /*
  * @(#)SymbolIDCode.java
  */
@@ -40,8 +40,8 @@ public class SymbolIDCode extends StratmasSimple
      */
     protected SymbolIDCode(String identifier, Type type, String value) throws ParseException
     {
-	 super(identifier, type);
-	 setValue(value, this);
+         super(identifier, type);
+         setValue(value, this);
     }
     
     /**
@@ -52,15 +52,15 @@ public class SymbolIDCode extends StratmasSimple
      */
     protected SymbolIDCode(Declaration declaration, String value) throws ParseException
     {
-	  super(declaration);
-	  setValue(value, this);
+          super(declaration);
+          setValue(value, this);
     }
 
     /**
      * Returns the string representation of the value part of this object.
      */
     public String valueToString() {
-	return value;
+        return value;
     }
     
     /**
@@ -69,7 +69,7 @@ public class SymbolIDCode extends StratmasSimple
      * @return The symbolIDCode.
      */
     protected String getValue() {
-	return value;
+        return value;
     }
 
     /**
@@ -80,20 +80,20 @@ public class SymbolIDCode extends StratmasSimple
      */
     private void setValue(String newValue, Object initiator) throws ParseException
     {
-	 String trimmedValue = newValue.trim();
-	 if (trimmedValue.length() != 15) {
-	      throw new ParseException("'" + trimmedValue + "' is an illegal Symbol ID code", 15);
-	 }
-	 else if (!trimmedValue.equals(this.value)) {
-	      this.value = trimmedValue;
-	      // HACK if there is a parent of this symbolcode, update its
-	      // icon.
-	      if (getParent() != null && getParent() instanceof StratmasObjectImpl) {
-		   ((StratmasObjectDynImpl) getParent()).createIcon();
-	      }
-	
-	      fireValueChanged(initiator);
-	 }
+         String trimmedValue = newValue.trim();
+         if (trimmedValue.length() != 15) {
+              throw new ParseException("'" + trimmedValue + "' is an illegal Symbol ID code", 15);
+         }
+         else if (!trimmedValue.equals(this.value)) {
+              this.value = trimmedValue;
+              // HACK if there is a parent of this symbolcode, update its
+              // icon.
+              if (getParent() != null && getParent() instanceof StratmasObjectImpl) {
+                   ((StratmasObjectDynImpl) getParent()).createIcon();
+              }
+        
+              fireValueChanged(initiator);
+         }
     }
 
     /**
@@ -104,7 +104,7 @@ public class SymbolIDCode extends StratmasSimple
      */
     public void valueFromString(String str, Object initiator) throws ParseException
     {
-	 setValue(str, initiator);
+         setValue(str, initiator);
     }
 
    
@@ -118,10 +118,10 @@ public class SymbolIDCode extends StratmasSimple
       * object's body appended to it.
       */
      public StringBuffer bodyXML(StringBuffer b) {
-	  b.append(NL).append("<value>");
-	  b.append("<value>").append(valueToString()).append("</value>");
-	  b.append("</value>");
-	  return b;
+          b.append(NL).append("<value>");
+          b.append("<value>").append(valueToString()).append("</value>");
+          b.append("</value>");
+          return b;
      }
     
      /**
@@ -131,7 +131,7 @@ public class SymbolIDCode extends StratmasSimple
       * @param declaration the declaration for which the object is created.
       */
      protected static StratmasVectorConstructor getVectorConstructor(Declaration declaration) {
-	  return new SymbolIDCodeVectorConstructor(declaration);
+          return new SymbolIDCodeVectorConstructor(declaration);
      }
 
     /**
@@ -141,13 +141,13 @@ public class SymbolIDCode extends StratmasSimple
       */
     protected static StratmasObject domCreate(Element n)
     {
-	 try {
-	      return new SymbolIDCode(Identifier.getIdentifier(n),
-				      TypeFactory.getType(n),
-				      XMLHelper.getString(XMLHelper.getFirstChildByTag(n, "value"), "value"));
-	 } catch (ParseException e) {
-	       throw new AssertionError("Error creating SymbolIDCode from DOM element: " + e.getMessage());
-	 }
+         try {
+              return new SymbolIDCode(Identifier.getIdentifier(n),
+                                      TypeFactory.getType(n),
+                                      XMLHelper.getString(XMLHelper.getFirstChildByTag(n, "value"), "value"));
+         } catch (ParseException e) {
+               throw new AssertionError("Error creating SymbolIDCode from DOM element: " + e.getMessage());
+         }
     }
 
     /**
@@ -158,11 +158,11 @@ public class SymbolIDCode extends StratmasSimple
      * @param declaration The declaration for which the object is created.
      */
      protected static StratmasObject defaultCreate(Declaration declaration) {
-	  try {
-	       return new SymbolIDCode(declaration, "---------------");
-	  } catch (ParseException e) {
-	       throw new AssertionError("This is highly unlikely to occur...");
-	  }
+          try {
+               return new SymbolIDCode(declaration, "---------------");
+          } catch (ParseException e) {
+               throw new AssertionError("This is highly unlikely to occur...");
+          }
      }
 
     /**
@@ -174,10 +174,10 @@ public class SymbolIDCode extends StratmasSimple
      */
     protected StringBuffer toTaclanV2StringBuffer(StringBuffer buf, String indent)
     {
-	buf.append(indent + Identifier.toTaclanV2(getIdentifier()) + " = " + 
-		   getType().toTaclanV2() + " {\n" + indent + indent + "value = " +
-		   "\"" + getValue() + "\"\n" + indent + "}");
-	return buf;
+        buf.append(indent + Identifier.toTaclanV2(getIdentifier()) + " = " + 
+                   getType().toTaclanV2() + " {\n" + indent + indent + "value = " +
+                   "\"" + getValue() + "\"\n" + indent + "}");
+        return buf;
     }
 
     /**
@@ -188,11 +188,11 @@ public class SymbolIDCode extends StratmasSimple
      * @return A clone of this object.
      */
      protected Object clone() {
-	  try {
-	       return new SymbolIDCode(identifier, type, getValue());
-	  } catch (ParseException e) {
-	       throw new AssertionError("This is highly unlikely to occur...");
-	  }
+          try {
+               return new SymbolIDCode(identifier, type, getValue());
+          } catch (ParseException e) {
+               throw new AssertionError("This is highly unlikely to occur...");
+          }
      }
 
     /**
@@ -203,7 +203,7 @@ public class SymbolIDCode extends StratmasSimple
      */
     protected static StratmasGUIConstructor getGUIConstructor(Declaration declaration)
     {
-	return new SymbolIDCodeGUIConstructor(declaration); 
+        return new SymbolIDCodeGUIConstructor(declaration); 
     }
 
 
@@ -217,11 +217,11 @@ public class SymbolIDCode extends StratmasSimple
      */
     public void update(Element n, Timestamp t)
     {
-	try {
-	    valueFromString(XMLHelper.getString(XMLHelper.getFirstChildByTag(n, "value"), "value"), n);
-	} catch (ParseException e) {
-	    throw new AssertionError("Error updating from DOM element: " + e.getMessage());
-	}
+        try {
+            valueFromString(XMLHelper.getString(XMLHelper.getFirstChildByTag(n, "value"), "value"), n);
+        } catch (ParseException e) {
+            throw new AssertionError("Error updating from DOM element: " + e.getMessage());
+        }
     }
 }
 
@@ -240,7 +240,7 @@ class SymbolIDCodeVectorConstructor extends StratmasVectorConstructor {
       * @param declaration the declaration to use.
       */
      public SymbolIDCodeVectorConstructor(Declaration declaration) {
-	  super(declaration);
+          super(declaration);
      }
 
      /**
@@ -249,13 +249,13 @@ class SymbolIDCodeVectorConstructor extends StratmasVectorConstructor {
       * @param parts the parts to use in constructing the object.
       */
      public StratmasObject getStratmasObject(java.util.Vector parts) {
-	  SymbolIDCode ret = null;
-	  String symbolIDCode = ((StratmasString)parts.get(0)).valueToString();
-	  try {
-	       ret = new SymbolIDCode(this.getDeclaration(), symbolIDCode);
-	  } catch (ParseException e) {
-	  }
-	  return ret;
+          SymbolIDCode ret = null;
+          String symbolIDCode = ((StratmasString)parts.get(0)).valueToString();
+          try {
+               ret = new SymbolIDCode(this.getDeclaration(), symbolIDCode);
+          } catch (ParseException e) {
+          }
+          return ret;
      }
 }
 
@@ -276,7 +276,7 @@ class SymbolIDCodeGUIConstructor extends StratmasGUIConstructor
      */
     public SymbolIDCodeGUIConstructor(Declaration declaration)
     {
-	super(declaration);
+        super(declaration);
     }
 
    /**
@@ -284,9 +284,9 @@ class SymbolIDCodeGUIConstructor extends StratmasGUIConstructor
      */    
     protected void buildPanel()
     {
-	this.add(new javax.swing.JLabel(declaration.getName()));
-	this.field = new javax.swing.JTextField(10);
-	this.add(this.field);
+        this.add(new javax.swing.JLabel(declaration.getName()));
+        this.field = new javax.swing.JTextField(10);
+        this.add(this.field);
     }
 
     /**
@@ -294,12 +294,12 @@ class SymbolIDCodeGUIConstructor extends StratmasGUIConstructor
      */
     protected void createStratmasObject()
     {
-	if (field.getText().length() == 15) {
-	     try {
-		  setStratmasObject(new SymbolIDCode(this.declaration, field.getText()));
-	     } catch (ParseException e) {
-	     }
-	} else {
-	}
+        if (field.getText().length() == 15) {
+             try {
+                  setStratmasObject(new SymbolIDCode(this.declaration, field.getText()));
+             } catch (ParseException e) {
+             }
+        } else {
+        }
     }
 }

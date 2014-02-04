@@ -1,4 +1,4 @@
-// 	$Id: StratmasDecimalParameter.java,v 1.8 2006/04/10 09:45:55 dah Exp $
+//         $Id: StratmasDecimalParameter.java,v 1.8 2006/04/10 09:45:55 dah Exp $
 /*
  * @(#)StratmasDecimalParameter.java
  */
@@ -28,7 +28,7 @@ import StratmasClient.communication.StratmasObjectSubscription;
 */
 
 public class StratmasDecimalParameter extends DoubleParameter implements StratmasObjectParameter, 
-									 SimulationEvaluatorTargetFactory
+                                                                         SimulationEvaluatorTargetFactory
 {
     /**
      * The StratmasObject backing this parameter.
@@ -42,8 +42,8 @@ public class StratmasDecimalParameter extends DoubleParameter implements Stratma
      */
     public StratmasDecimalParameter(StratmasDecimal object)
     {
-	super(object.getReference().toString());
-	setStratmasObject(object);
+        super(object.getReference().toString());
+        setStratmasObject(object);
     }
 
 
@@ -53,31 +53,31 @@ public class StratmasDecimalParameter extends DoubleParameter implements Stratma
      */
     public SimulationEvaluatorTarget createSimulationEvaluatorTarget()
     {
-	return new DefaultSimulationEvaluatorTarget()
-	    {
-		/**
-		 * Creates the subscription of this target. This
-		 * subscription is required to, in some way, make sure
-		 * update() is called whenever the subscription is
-		 * updated.
-		 */
-		Subscription createSubscription()
-		{
-// 		    return new GeneralSubscription((StratmasObject) getStratmasObject().clone(), 
-// 						   getStratmasObject().getReference());
-		     return new StratmasObjectSubscription(StratmasObjectFactory.cloneObject(getStratmasObject()),
-							   getStratmasObject().getReference());
-		}
+        return new DefaultSimulationEvaluatorTarget()
+            {
+                /**
+                 * Creates the subscription of this target. This
+                 * subscription is required to, in some way, make sure
+                 * update() is called whenever the subscription is
+                 * updated.
+                 */
+                Subscription createSubscription()
+                {
+//                     return new GeneralSubscription((StratmasObject) getStratmasObject().clone(), 
+//                                                    getStratmasObject().getReference());
+                     return new StratmasObjectSubscription(StratmasObjectFactory.cloneObject(getStratmasObject()),
+                                                           getStratmasObject().getReference());
+                }
 
-		/**
-		 * Creates the ParameterInstance acting as evaluation in the
-		 * Evaluations created by the SimulationEvaluator.
-		 */
-		public ParameterInstance createEvaluation()
-		{
-		    return getParameterInstance(((StratmasObjectSubscription) getSubscription()).object());
-		}
-	    };
+                /**
+                 * Creates the ParameterInstance acting as evaluation in the
+                 * Evaluations created by the SimulationEvaluator.
+                 */
+                public ParameterInstance createEvaluation()
+                {
+                    return getParameterInstance(((StratmasObjectSubscription) getSubscription()).object());
+                }
+            };
     }
 
     /**
@@ -85,7 +85,7 @@ public class StratmasDecimalParameter extends DoubleParameter implements Stratma
      */ 
     public Reference getReference()
     {
-	return getStratmasObject().getReference();
+        return getStratmasObject().getReference();
     }
 
     /**
@@ -93,7 +93,7 @@ public class StratmasDecimalParameter extends DoubleParameter implements Stratma
      */ 
     public StratmasObject getStratmasObject()
     {
-	return this.stratmasObject;
+        return this.stratmasObject;
     }
 
     /**
@@ -103,22 +103,22 @@ public class StratmasDecimalParameter extends DoubleParameter implements Stratma
      */ 
     public void setStratmasObject(StratmasObject object)
     {
-	if (object != null) {
-	    object.addEventListener(new StratmasEventListener()
-	    {
-		public void eventOccured(StratmasEvent event)
-		{
-		    if (event.isRemoved()) {
+        if (object != null) {
+            object.addEventListener(new StratmasEventListener()
+            {
+                public void eventOccured(StratmasEvent event)
+                {
+                    if (event.isRemoved()) {
                         ((StratmasObject) event.getSource()).removeEventListener(this);
-			setStratmasObject(null);
-		    } else if (event.isReplaced()) {
-			setStratmasObject((StratmasObject) event.getArgument());
-		    }
-		}
-	    });
-	}
+                        setStratmasObject(null);
+                    } else if (event.isReplaced()) {
+                        setStratmasObject((StratmasObject) event.getArgument());
+                    }
+                }
+            });
+        }
 
-	this.stratmasObject = object;
+        this.stratmasObject = object;
     }
 
     /**
@@ -130,13 +130,13 @@ public class StratmasDecimalParameter extends DoubleParameter implements Stratma
      * @param gradient the gradient.
      */ 
     public ParameterInstance getGradientNeighbour(ParameterInstance instance, 
-						  double gradient)
+                                                  double gradient)
     {
-	StratmasDecimal neighbour = (StratmasDecimal)
-	    StratmasObjectFactory.cloneObject(((StratmasDecimal) instance.getValue()));
-	neighbour.setValue(neighbour.getValue() + gradient);
-	
-	return getParameterInstance(neighbour);
+        StratmasDecimal neighbour = (StratmasDecimal)
+            StratmasObjectFactory.cloneObject(((StratmasDecimal) instance.getValue()));
+        neighbour.setValue(neighbour.getValue() + gradient);
+        
+        return getParameterInstance(neighbour);
     }
     
     /**
@@ -147,6 +147,6 @@ public class StratmasDecimalParameter extends DoubleParameter implements Stratma
      */
     double getDouble(ParameterInstance instance)
     {
-	return ((StratmasDecimal) instance.getValue()).getValue();
+        return ((StratmasDecimal) instance.getValue()).getValue();
     }
 }

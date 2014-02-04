@@ -1,4 +1,4 @@
-// 	$Id: MissingDeclarationException.java,v 1.5 2006/03/22 14:30:49 dah Exp $
+//         $Id: MissingDeclarationException.java,v 1.5 2006/03/22 14:30:49 dah Exp $
 /*
  * @(#)MissingDeclarationException.java
  */
@@ -30,8 +30,8 @@ public class MissingDeclarationException extends SemanticException
      */
     public MissingDeclarationException(Declaration declaration, String information)
     {
-	this.declaration = declaration;
-	this.information = information;
+        this.declaration = declaration;
+        this.information = information;
     }
 
     /**
@@ -42,9 +42,9 @@ public class MissingDeclarationException extends SemanticException
      */
     public void setScopeIfMissing(ParsedDeclaration scope)
     {
-	if (this.scope == null) {
-	    this.scope = scope;
-	}
+        if (this.scope == null) {
+            this.scope = scope;
+        }
     }
 
 
@@ -53,15 +53,15 @@ public class MissingDeclarationException extends SemanticException
      */
     public String toString()
     {
-	if (this.scope != null) {
-	    return this.scope.getPos().toString() + ": '" + this.scope.getType().getName() + 
-		"' requires a '" + this.declaration.getName() + 
-		"' entry. " + information;
-	}
-	else {
-	    return "Missing a '" + this.declaration.getType().getName() + 
-		"' entry. " + information;
-	}
+        if (this.scope != null) {
+            return this.scope.getPos().toString() + ": '" + this.scope.getType().getName() + 
+                "' requires a '" + this.declaration.getName() + 
+                "' entry. " + information;
+        }
+        else {
+            return "Missing a '" + this.declaration.getType().getName() + 
+                "' entry. " + information;
+        }
     }
 
 
@@ -70,6 +70,6 @@ public class MissingDeclarationException extends SemanticException
      */
     public String getMessage()
     {
-	return toString();
+        return toString();
     }
 }

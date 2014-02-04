@@ -1,4 +1,4 @@
-// 	$Id: ConnectionHandler.java,v 1.4 2005/10/07 12:57:21 dah Exp $
+//         $Id: ConnectionHandler.java,v 1.4 2005/10/07 12:57:21 dah Exp $
 
 /*
  * @(#)ConnectionHandler.java
@@ -41,7 +41,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  *
  * @version 1, $Date: 2005/10/07 12:57:21 $
  * @author  Daniel Ahlin
-*/	
+*/        
 public class ConnectionHandler implements Runnable
 {
     /**
@@ -78,21 +78,21 @@ public class ConnectionHandler implements Runnable
      * The default handler (for requests with no registred handler).
      */
     static ElementHandler defaultElementHandler = new ElementHandler()
-	{
-	    /**
-	     * Handles an unjknown request by logging it and being very quiet.
-	     *
-	     * @param request the element to handle
-	     * @param reply the reply which will be sent back.
-	     * @param handler the connection handler this handler belongs to.
-	     */
-	    public boolean handle(Element request, Element reply, ConnectionHandler handler)
-	    {
-		StratmasDispatcher.log("Unknown element type: " + 
-				       request.getAttribute("xsi:type"));
-		return false;
-	    }
-	};
+        {
+            /**
+             * Handles an unjknown request by logging it and being very quiet.
+             *
+             * @param request the element to handle
+             * @param reply the reply which will be sent back.
+             * @param handler the connection handler this handler belongs to.
+             */
+            public boolean handle(Element request, Element reply, ConnectionHandler handler)
+            {
+                StratmasDispatcher.log("Unknown element type: " + 
+                                       request.getAttribute("xsi:type"));
+                return false;
+            }
+        };
 
     /**
      * Creates a new ConnectionHandler
@@ -102,8 +102,8 @@ public class ConnectionHandler implements Runnable
      */
     public ConnectionHandler(SocketChannel socketChannel, StratmasDispatcher dispatcher)
     {
-	this.socketChannel = socketChannel;
-	this.dispatcher = dispatcher;
+        this.socketChannel = socketChannel;
+        this.dispatcher = dispatcher;
     }
 
     /**
@@ -111,25 +111,25 @@ public class ConnectionHandler implements Runnable
      */
     private static DOMImplementationLS createDomImplementationLS()
     {
-	try {
-	    System.setProperty(DOMImplementationRegistry.PROPERTY,
-			       "org.apache.xerces.dom.DOMImplementationSourceImpl");
-	    DOMImplementationRegistry registry = 
-		DOMImplementationRegistry.newInstance();
-	    return (DOMImplementationLS)registry.getDOMImplementation("LS");
-	} catch (ClassNotFoundException e) {
-	    System.err.println("Unable to find DOM Parser: " + e.getMessage());
-	    System.exit(1);
-	    return null;
-	} catch (InstantiationException e) {
-	    System.err.println("Unable to find DOM Parser: " + e.getMessage());
-	    System.exit(1);
-	    return null;
-	} catch (IllegalAccessException e) {
-	    System.err.println("Unable to find DOM Parser: " + e.getMessage());
-	    System.exit(1);
-	    return null;
-	}
+        try {
+            System.setProperty(DOMImplementationRegistry.PROPERTY,
+                               "org.apache.xerces.dom.DOMImplementationSourceImpl");
+            DOMImplementationRegistry registry = 
+                DOMImplementationRegistry.newInstance();
+            return (DOMImplementationLS)registry.getDOMImplementation("LS");
+        } catch (ClassNotFoundException e) {
+            System.err.println("Unable to find DOM Parser: " + e.getMessage());
+            System.exit(1);
+            return null;
+        } catch (InstantiationException e) {
+            System.err.println("Unable to find DOM Parser: " + e.getMessage());
+            System.exit(1);
+            return null;
+        } catch (IllegalAccessException e) {
+            System.err.println("Unable to find DOM Parser: " + e.getMessage());
+            System.exit(1);
+            return null;
+        }
 
     }
 
@@ -138,34 +138,34 @@ public class ConnectionHandler implements Runnable
      */
     public LSParser createParser()
     {
-	LSParser parser = 
-	    domImplementationLS.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, 
-					       "http://www.w3.org/2001/XMLSchema");
-	parser.getDomConfig().setParameter("error-handler", new DOMErrorHandler() 
-	    {
-		/**
-		 * This method is called on the error handler when an error occurs.
-		 *
-		 * @param error the error;
-		 */
-		public boolean handleError(DOMError error)
-		{
-		    throw new LSException(LSException.PARSE_ERR, 
-					  error.getMessage());
+        LSParser parser = 
+            domImplementationLS.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, 
+                                               "http://www.w3.org/2001/XMLSchema");
+        parser.getDomConfig().setParameter("error-handler", new DOMErrorHandler() 
+            {
+                /**
+                 * This method is called on the error handler when an error occurs.
+                 *
+                 * @param error the error;
+                 */
+                public boolean handleError(DOMError error)
+                {
+                    throw new LSException(LSException.PARSE_ERR, 
+                                          error.getMessage());
 
-		}
-	    });
+                }
+            });
 
-	parser.getDomConfig().setParameter("schema-location", DISPATCHER_PROTOCOL);
-	parser.getDomConfig().setParameter("validate", Boolean.TRUE);
-	parser.getDomConfig().setParameter("namespaces", Boolean.TRUE);
+        parser.getDomConfig().setParameter("schema-location", DISPATCHER_PROTOCOL);
+        parser.getDomConfig().setParameter("validate", Boolean.TRUE);
+        parser.getDomConfig().setParameter("namespaces", Boolean.TRUE);
 
-	LSResourceResolver prevResolver = 
-	    (LSResourceResolver) parser.getDomConfig().getParameter("resource-resolver");
-	parser.getDomConfig().setParameter("resource-resolver", 
-					   new LSJarXSDResolver(prevResolver));
+        LSResourceResolver prevResolver = 
+            (LSResourceResolver) parser.getDomConfig().getParameter("resource-resolver");
+        parser.getDomConfig().setParameter("resource-resolver", 
+                                           new LSJarXSDResolver(prevResolver));
 
-	return parser;
+        return parser;
     }
 
     /**
@@ -173,7 +173,7 @@ public class ConnectionHandler implements Runnable
      */
     public SocketChannel getSocketChannel()
     {
-	return this.socketChannel;
+        return this.socketChannel;
     }
 
     /**
@@ -181,7 +181,7 @@ public class ConnectionHandler implements Runnable
      */
     public StratmasDispatcher getDispatcher()
     {
-	return this.dispatcher;
+        return this.dispatcher;
     }
 
     /**
@@ -190,49 +190,49 @@ public class ConnectionHandler implements Runnable
      */
     public void run()
     {
-	LSInput parserInput = domImplementationLS.createLSInput();
-	LSOutput replyOutput = domImplementationLS.createLSOutput();
-	try {	    
-	    try {
-		// Read length:
-		ByteBuffer header = ByteBuffer.allocate(4);
-		for(int r = 0; r < 4; r += getSocketChannel().read(header));
-		header.rewind();
-		int length = header.getInt();
-		ByteBuffer messageBuf = ByteBuffer.allocate(length);
-		for(int r = 0; r < length; r += getSocketChannel().read(messageBuf));
-		ByteArrayInputStream byteStream = new ByteArrayInputStream(messageBuf.array());
-		parserInput.setByteStream(byteStream);		
-		Document reply = handle(createParser().parse(parserInput).getDocumentElement());
-		if (reply != null && reply.getDocumentElement() != null) {
-		    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		    replyOutput.setByteStream(outputStream);
-		    reply.normalize();
-		    domImplementationLS.createLSSerializer().write(reply, replyOutput);
-		    byte[] array = outputStream.toByteArray();
-		    ByteBuffer byteBuffer = ByteBuffer.allocate(4 + array.length);
-		    byteBuffer.putInt(array.length);
-		    byteBuffer.put(array);
-		    byteBuffer.rewind();
-		    for(int w = 0; w < 4 + array.length; w += getSocketChannel().write(byteBuffer));
-		}
-	    } catch (org.w3c.dom.ls.LSException e) {
-		StratmasDispatcher.log("Parse error recieving from " + 
-				       getSocketChannel().socket().getRemoteSocketAddress() +
-				       ": " + e.getMessage());
-	    }
-	    getSocketChannel().close();
-	} catch (IOException e) {
-	    StratmasDispatcher.log("Error recieiving from " + 
-				   getSocketChannel().socket().getRemoteSocketAddress() + 
-				   ":" + e.getMessage());
-	    try {
-		getSocketChannel().close();
-	    } catch (IOException ex) {
-		StratmasDispatcher.log(ex.getMessage() + "\nFatal error, exiting...");
-		System.exit(1);
-	    }
-	}	
+        LSInput parserInput = domImplementationLS.createLSInput();
+        LSOutput replyOutput = domImplementationLS.createLSOutput();
+        try {            
+            try {
+                // Read length:
+                ByteBuffer header = ByteBuffer.allocate(4);
+                for(int r = 0; r < 4; r += getSocketChannel().read(header));
+                header.rewind();
+                int length = header.getInt();
+                ByteBuffer messageBuf = ByteBuffer.allocate(length);
+                for(int r = 0; r < length; r += getSocketChannel().read(messageBuf));
+                ByteArrayInputStream byteStream = new ByteArrayInputStream(messageBuf.array());
+                parserInput.setByteStream(byteStream);                
+                Document reply = handle(createParser().parse(parserInput).getDocumentElement());
+                if (reply != null && reply.getDocumentElement() != null) {
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    replyOutput.setByteStream(outputStream);
+                    reply.normalize();
+                    domImplementationLS.createLSSerializer().write(reply, replyOutput);
+                    byte[] array = outputStream.toByteArray();
+                    ByteBuffer byteBuffer = ByteBuffer.allocate(4 + array.length);
+                    byteBuffer.putInt(array.length);
+                    byteBuffer.put(array);
+                    byteBuffer.rewind();
+                    for(int w = 0; w < 4 + array.length; w += getSocketChannel().write(byteBuffer));
+                }
+            } catch (org.w3c.dom.ls.LSException e) {
+                StratmasDispatcher.log("Parse error recieving from " + 
+                                       getSocketChannel().socket().getRemoteSocketAddress() +
+                                       ": " + e.getMessage());
+            }
+            getSocketChannel().close();
+        } catch (IOException e) {
+            StratmasDispatcher.log("Error recieiving from " + 
+                                   getSocketChannel().socket().getRemoteSocketAddress() + 
+                                   ":" + e.getMessage());
+            try {
+                getSocketChannel().close();
+            } catch (IOException ex) {
+                StratmasDispatcher.log(ex.getMessage() + "\nFatal error, exiting...");
+                System.exit(1);
+            }
+        }        
     }
 
     /**
@@ -240,43 +240,43 @@ public class ConnectionHandler implements Runnable
      */
     private static Hashtable createElementHandlers()
     {
-	Hashtable res = new Hashtable();
+        Hashtable res = new Hashtable();
 
-	res.put("RegistrationRequest", new ElementHandler()
-	    {
-		/**
-		 * Handles a registration request by registering the
-		 * server described in the provided element.
-		 *
-		 * @param request the request to handle
-		 * @param reply the reply which will be sent back.
-		 * @param handler the connection handler this handler belongs to.
-		 */
-		public boolean handle(Element request, Element reply, ConnectionHandler handler)
-		{
-		    handler.getDispatcher().registerServer(StratmasServer.fromDOMElement((Element) request.getElementsByTagName("stratmasServer").item(0)));
-		    return false;
-		}
-	    });
-	res.put("ListRequest", new ElementHandler()
-	    {
-		/**
-		 * Handles a list request by doing nothing the
-		 * server described in the provided element.
-		 *
-		 * @param request the request to handle
-		 * @param reply the reply which will be sent back.
-		 * @param handler the connection handler this handler belongs to.
-		 */
-		public boolean handle(Element request, Element reply, ConnectionHandler handler)
-		{		    
-		    reply.setAttribute("xsi:type", "ListReply");
-		    handler.getDispatcher().addServersToElement(reply);
-		    return true;
-		}
-	    });
+        res.put("RegistrationRequest", new ElementHandler()
+            {
+                /**
+                 * Handles a registration request by registering the
+                 * server described in the provided element.
+                 *
+                 * @param request the request to handle
+                 * @param reply the reply which will be sent back.
+                 * @param handler the connection handler this handler belongs to.
+                 */
+                public boolean handle(Element request, Element reply, ConnectionHandler handler)
+                {
+                    handler.getDispatcher().registerServer(StratmasServer.fromDOMElement((Element) request.getElementsByTagName("stratmasServer").item(0)));
+                    return false;
+                }
+            });
+        res.put("ListRequest", new ElementHandler()
+            {
+                /**
+                 * Handles a list request by doing nothing the
+                 * server described in the provided element.
+                 *
+                 * @param request the request to handle
+                 * @param reply the reply which will be sent back.
+                 * @param handler the connection handler this handler belongs to.
+                 */
+                public boolean handle(Element request, Element reply, ConnectionHandler handler)
+                {                    
+                    reply.setAttribute("xsi:type", "ListReply");
+                    handler.getDispatcher().addServersToElement(reply);
+                    return true;
+                }
+            });
 
-	return res;
+        return res;
     }
 
     /**
@@ -288,31 +288,31 @@ public class ConnectionHandler implements Runnable
      */
     Document handle(Element request)
     {
-	StratmasDispatcher.log(request.getAttribute("xsi:type") + " from " +
-			       getSocketChannel().socket().getRemoteSocketAddress());
-	ElementHandler handler = 
-	    (ElementHandler) elementHandlers.get(request.getAttribute("xsi:type"));
-	if (handler == null) {
-	    handler = defaultElementHandler;
-	}
+        StratmasDispatcher.log(request.getAttribute("xsi:type") + " from " +
+                               getSocketChannel().socket().getRemoteSocketAddress());
+        ElementHandler handler = 
+            (ElementHandler) elementHandlers.get(request.getAttribute("xsi:type"));
+        if (handler == null) {
+            handler = defaultElementHandler;
+        }
 
-	Document reply = null;
-	try {
-	    reply = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-	    reply.createEntityReference("xsi");
-	    Element element = reply.createElement("dispatcherReply");
-	    element.setAttribute("xmlns:xsi", XML_SCHEMA_NS);
-	    element.setAttribute("xsi:type", "DispatcherReply");
-	    reply.appendChild(element);
-	    boolean sendReply = handler.handle(request, reply.getDocumentElement(), this);
-	    if (!sendReply) {
-		reply = null;
-	    }
-	} catch (javax.xml.parsers.ParserConfigurationException e) {
-	    System.err.println(e.getMessage());
-	}
+        Document reply = null;
+        try {
+            reply = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+            reply.createEntityReference("xsi");
+            Element element = reply.createElement("dispatcherReply");
+            element.setAttribute("xmlns:xsi", XML_SCHEMA_NS);
+            element.setAttribute("xsi:type", "DispatcherReply");
+            reply.appendChild(element);
+            boolean sendReply = handler.handle(request, reply.getDocumentElement(), this);
+            if (!sendReply) {
+                reply = null;
+            }
+        } catch (javax.xml.parsers.ParserConfigurationException e) {
+            System.err.println(e.getMessage());
+        }
 
-	return reply;
+        return reply;
     }
 }
 

@@ -21,8 +21,8 @@ public class TSQueue {
       * @param o The Object to be enqueued.
       */
      public synchronized void enqueue(Object o) {
-	  mLL.addLast(o);
-	  notifyAll();
+          mLL.addLast(o);
+          notifyAll();
      }
 
      /**
@@ -32,7 +32,7 @@ public class TSQueue {
       * null if the queue is empty.
       */
      public synchronized Object dequeue() {
-	  return (isEmpty() ? null : mLL.removeFirst());
+          return (isEmpty() ? null : mLL.removeFirst());
      }
 
      /**
@@ -43,20 +43,20 @@ public class TSQueue {
       * @return The Object with the highest priority in the queue.
       */
      public synchronized Object blockingDequeue() {
-	  while (isEmpty()) {
-	       try {
-		    wait();
-	       } catch (InterruptedException e) {
-	       }
-	  }
-	  return mLL.removeFirst();
+          while (isEmpty()) {
+               try {
+                    wait();
+               } catch (InterruptedException e) {
+               }
+          }
+          return mLL.removeFirst();
      }
 
      /**
       * Removes all entries in the queue
       */
      public synchronized void clear() {
-	  mLL.clear();
+          mLL.clear();
      }
 
      /**
@@ -65,7 +65,7 @@ public class TSQueue {
       * @return true if the queue is empty, false otherwise.
       */
      public boolean isEmpty() {
-	  return mLL.isEmpty();
+          return mLL.isEmpty();
      }
 
      /**
@@ -74,6 +74,6 @@ public class TSQueue {
       * @return The number of elements in the queue.
       */
      public int size() {
-	  return mLL.size();
+          return mLL.size();
      }
 }

@@ -17,8 +17,8 @@ public class CombinedORFilter extends CombinedFilter
      * @param filters the filters that will make up this filter
      */
     public CombinedORFilter(Vector filters)
-    {	
-	super(filters);
+    {        
+        super(filters);
     }
     
     /**
@@ -26,8 +26,8 @@ public class CombinedORFilter extends CombinedFilter
      *
      */
     public CombinedORFilter()
-    {	
-	super();
+    {        
+        super();
     }
 
     /**
@@ -37,15 +37,15 @@ public class CombinedORFilter extends CombinedFilter
      */
     public boolean pass(StratmasObject sObj)
     {
-	boolean res = false;
-	
-	for (Enumeration e = getFilters(); e.hasMoreElements();) {
-	    if (((StratmasObjectFilter) e.nextElement()).pass(sObj)) {
-		res = true;
-		break;
-	    }
-	}
-	
-	return applyInverted(res);
+        boolean res = false;
+        
+        for (Enumeration e = getFilters(); e.hasMoreElements();) {
+            if (((StratmasObjectFilter) e.nextElement()).pass(sObj)) {
+                res = true;
+                break;
+            }
+        }
+        
+        return applyInverted(res);
     }
 }

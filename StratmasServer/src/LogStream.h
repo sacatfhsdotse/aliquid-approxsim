@@ -69,13 +69,13 @@ public:
       */
      template<class T> LogMessage& operator << (T t) 
      { 
-	  mMessage << t; 
-	  return *this;  
+          mMessage << t; 
+          return *this;  
      }
 
      const std::string getMessage() const 
      {
-	  return mMessage.str();
+          return mMessage.str();
      }; 
 
      LogMessage& operator << (const LogEnd& end);
@@ -117,10 +117,10 @@ public:
       */
      virtual void sink(const LogMessage* const message)
      {
-	  Lock lock(mutex());
-	  std::cerr << getTimeStamp() << ": " << 
-	       message->getMessage() << std::endl;
-	  lock.unlock();
+          Lock lock(mutex());
+          std::cerr << getTimeStamp() << ": " << 
+               message->getMessage() << std::endl;
+          lock.unlock();
      }
 };
 
@@ -175,8 +175,8 @@ public:
       */
      virtual void postMessage(LogMessage* message)
      {
-	  mLogSink->sink(message);
-	  delete message;
+          mLogSink->sink(message);
+          delete message;
      }
 
      /**
@@ -191,10 +191,10 @@ public:
       */
      virtual void setLogSink(LogSink* newSink)
      {
-	  LogSink* tmp = mLogSink;
-	  mLogSink = newSink;
+          LogSink* tmp = mLogSink;
+          mLogSink = newSink;
 
-	  delete tmp;
+          delete tmp;
      }
 
      /**
@@ -206,9 +206,9 @@ public:
       */
      template<class T> LogMessage& operator << (T t)
      {
-	       LogMessage* message = new LogMessage(this);
-	       *message << t;
-	       return *message;
+               LogMessage* message = new LogMessage(this);
+               *message << t;
+               return *message;
      }
 };
 

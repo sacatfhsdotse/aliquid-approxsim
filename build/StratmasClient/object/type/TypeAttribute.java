@@ -1,4 +1,4 @@
-// 	$Id: TypeAttribute.java,v 1.1 2006/03/22 14:30:52 dah Exp $
+//         $Id: TypeAttribute.java,v 1.1 2006/03/22 14:30:52 dah Exp $
 /*
  * @(#)TypeAttribute.java
  */
@@ -35,8 +35,8 @@ public class TypeAttribute
      */
     public TypeAttribute(Type type, String name)
     {
-	this.type = type;
-	this.name = name;
+        this.type = type;
+        this.name = name;
     }
 
 
@@ -46,7 +46,7 @@ public class TypeAttribute
      */
     public String toString() 
     {
-	return type.getName() + "\t\t" + getName() + " (Attribute)";
+        return type.getName() + "\t\t" + getName() + " (Attribute)";
     }
 
     /** 
@@ -54,7 +54,7 @@ public class TypeAttribute
      */
     public String getName()
     {
-	return name;
+        return name;
     }
 }
 

@@ -1,4 +1,4 @@
-// 	$Id: GuiSamplerFactory.java,v 1.1 2005/11/01 16:50:47 dah Exp $
+//         $Id: GuiSamplerFactory.java,v 1.1 2005/11/01 16:50:47 dah Exp $
 /*
  * @(#)GuiSamplerFactory.java
  */
@@ -38,37 +38,37 @@ public class GuiSamplerFactory extends JPanel implements SamplerFactory
      */
     public GuiSamplerFactory()
     {
-	setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-	
-	ButtonGroup group = new ButtonGroup();
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        
+        ButtonGroup group = new ButtonGroup();
 
-	JRadioButton min = new JRadioButton(new AbstractAction("Minimize")
-	    {
-		public void actionPerformed(ActionEvent event)
-		{
-		    setMinimizing(true);
-		}
-	    });
-	JRadioButton max = new JRadioButton(new AbstractAction("Maximize")
-	    {
-		public void actionPerformed(ActionEvent event)
-		{
-		    setMinimizing(false);
-		}
-	    });
-	group.add(min);
-	group.add(max);
-	min.setSelected(isMinimizing());
+        JRadioButton min = new JRadioButton(new AbstractAction("Minimize")
+            {
+                public void actionPerformed(ActionEvent event)
+                {
+                    setMinimizing(true);
+                }
+            });
+        JRadioButton max = new JRadioButton(new AbstractAction("Maximize")
+            {
+                public void actionPerformed(ActionEvent event)
+                {
+                    setMinimizing(false);
+                }
+            });
+        group.add(min);
+        group.add(max);
+        min.setSelected(isMinimizing());
 
-	JPanel panel = new JPanel();
-	panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-	panel.add(min);
-	panel.add(max);
-	
-	add(panel);
-	
-	setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Search Strategy"),
-						     BorderFactory.createEmptyBorder(5,5,5,5)));
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        panel.add(min);
+        panel.add(max);
+        
+        add(panel);
+        
+        setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Search Strategy"),
+                                                     BorderFactory.createEmptyBorder(5,5,5,5)));
     }
 
     /**
@@ -77,7 +77,7 @@ public class GuiSamplerFactory extends JPanel implements SamplerFactory
      */
     public boolean isMinimizing()
     {
-	return this.isMinimizing;
+        return this.isMinimizing;
     }
 
     /**
@@ -88,7 +88,7 @@ public class GuiSamplerFactory extends JPanel implements SamplerFactory
      */
     public void setMinimizing(boolean flag)
     {
-	this.isMinimizing = flag;
+        this.isMinimizing = flag;
     }
 
     /**
@@ -96,6 +96,6 @@ public class GuiSamplerFactory extends JPanel implements SamplerFactory
      */
     public Sampler getSampler()
     {
-	return new GradientSampler(isMinimizing());
+        return new GradientSampler(isMinimizing());
     }
 }

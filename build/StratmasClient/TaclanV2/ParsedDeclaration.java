@@ -1,4 +1,4 @@
-// 	$Id: ParsedDeclaration.java,v 1.9 2006/03/31 16:55:50 dah Exp $
+//         $Id: ParsedDeclaration.java,v 1.9 2006/03/31 16:55:50 dah Exp $
 /*
  * @(#)ParsedDeclaration.java
  */
@@ -48,13 +48,13 @@ public class ParsedDeclaration extends ParsedObject
      *@param declarations the subdeclarations of the declaration.
     */
     public ParsedDeclaration(SourcePosition pos, ParsedIdentifier type, 
-			     ParsedIdentifier identifier, ParsedDeclarationList declarations)
-	throws SemanticException
+                             ParsedIdentifier identifier, ParsedDeclarationList declarations)
+        throws SemanticException
     {
-	super(pos);
-	this.type = type;
-	setIdentifier(identifier);
-	this.declarations = declarations;
+        super(pos);
+        this.type = type;
+        setIdentifier(identifier);
+        this.declarations = declarations;
     }
 
     /**
@@ -64,7 +64,7 @@ public class ParsedDeclaration extends ParsedObject
      */
     public void setIdentifier(ParsedIdentifier identifier)
     {
-	this.identifier = identifier;
+        this.identifier = identifier;
     }
 
     /**
@@ -72,7 +72,7 @@ public class ParsedDeclaration extends ParsedObject
      */
     public ParsedIdentifier getIdentifier()
     {
-	return identifier;
+        return identifier;
     }
 
     /**
@@ -80,7 +80,7 @@ public class ParsedDeclaration extends ParsedObject
      */
     public boolean isAnonymous()
     {
-	return identifier.isAnonymous();
+        return identifier.isAnonymous();
     }
 
     /**
@@ -88,7 +88,7 @@ public class ParsedDeclaration extends ParsedObject
      */
     protected ParsedDeclarationList getDeclarations() 
     {
-	return declarations;
+        return declarations;
     }
 
     /**
@@ -99,12 +99,12 @@ public class ParsedDeclaration extends ParsedObject
      */
     public ParsedDeclaration getDeclaration(ParsedReference reference)
     {
-	return declarations.getDeclaration(reference);
+        return declarations.getDeclaration(reference);
     }
 
     public ParsedIdentifier getType()
     {
-	return type;
+        return type;
     }
 
     /**
@@ -115,29 +115,29 @@ public class ParsedDeclaration extends ParsedObject
      */
     public void typeCheckImmidiates(Declaration definedDeclaration, TypeInformation typeInformation) throws SemanticException
     {
-	Type definedType = definedDeclaration.getType();
-	Type actualType = typeInformation.getType(getType().getName());
-	if (actualType != null) {
-	    // Check if the declared type is an acceptable substitute for definedType
-	    if (actualType.canSubstitute(definedType)) {
-		// Check subdeclarations
-		try {
-		    getDeclarations().typeCheckImmidiates(actualType, typeInformation);
-		}
-		catch (SemanticException e) {
-		    // Claim unclaimed errors.
-		    e.claimUnclaimed(this);
-		    throw e;
-		}
-	    }
-	    else {
-		throw new TypeErrorException(this, ": " + actualType.getName() + 
-					     " may not serve as a substitute for " + 
-					     definedType.getName());
-	    }
-	} else {
-	    throw new TypeErrorException(this, "Unknown type: '" + getType().getName() + "'");
-	}
+        Type definedType = definedDeclaration.getType();
+        Type actualType = typeInformation.getType(getType().getName());
+        if (actualType != null) {
+            // Check if the declared type is an acceptable substitute for definedType
+            if (actualType.canSubstitute(definedType)) {
+                // Check subdeclarations
+                try {
+                    getDeclarations().typeCheckImmidiates(actualType, typeInformation);
+                }
+                catch (SemanticException e) {
+                    // Claim unclaimed errors.
+                    e.claimUnclaimed(this);
+                    throw e;
+                }
+            }
+            else {
+                throw new TypeErrorException(this, ": " + actualType.getName() + 
+                                             " may not serve as a substitute for " + 
+                                             definedType.getName());
+            }
+        } else {
+            throw new TypeErrorException(this, "Unknown type: '" + getType().getName() + "'");
+        }
     }
 
     /**
@@ -146,8 +146,8 @@ public class ParsedDeclaration extends ParsedObject
      */
     public Vector bindReferences() throws SemanticException
     {
-	// Bind references in the subdeclarations.
-	return getDeclarations().bindReferences();
+        // Bind references in the subdeclarations.
+        return getDeclarations().bindReferences();
     }
     
     /**
@@ -157,13 +157,13 @@ public class ParsedDeclaration extends ParsedObject
      * @param typeInformation the TypeInformation to use.
      */
     public void typeCheckReferences(Type definedType, TypeInformation typeInformation) throws SemanticException
-    {	
-// 	Type type = typeInformation.getType(getType());
-// 	if (type != null) {
-// 	    getDeclarations().typeCheckReferences(type, typeInformation);
-// 	} else {
-// 	    throw new TypeErrorException(this, "Unknown type: '" + getType.toString() + "'");
-// 	}
+    {        
+//         Type type = typeInformation.getType(getType());
+//         if (type != null) {
+//             getDeclarations().typeCheckReferences(type, typeInformation);
+//         } else {
+//             throw new TypeErrorException(this, "Unknown type: '" + getType.toString() + "'");
+//         }
     }
 
     /**
@@ -171,29 +171,29 @@ public class ParsedDeclaration extends ParsedObject
      */
     public String toString()
     {
-	StringBuffer buf = new StringBuffer();
-	if (getType() != null) {
-	    buf.append(getType().getName());
-	    if (!getIdentifier().isAnonymous()) {
-		buf.append(" '" + getIdentifier().getName() + "'");
-	    }	    
-	} else {
-	    if (!getIdentifier().isAnonymous()) {
-		buf.append("'" + getIdentifier().getName() + "'");
-	    }
-	}
-	
-	buf.append(" {");
+        StringBuffer buf = new StringBuffer();
+        if (getType() != null) {
+            buf.append(getType().getName());
+            if (!getIdentifier().isAnonymous()) {
+                buf.append(" '" + getIdentifier().getName() + "'");
+            }            
+        } else {
+            if (!getIdentifier().isAnonymous()) {
+                buf.append("'" + getIdentifier().getName() + "'");
+            }
+        }
+        
+        buf.append(" {");
 
-	String declStr = this.getDeclarations().toString();
-	if (declStr.length() != 0) {
-	    buf.append(declStr.replaceAll("\n", "\n  ") + "\n}");
-	}
-	else {
-	    buf.append("}");
-	}
+        String declStr = this.getDeclarations().toString();
+        if (declStr.length() != 0) {
+            buf.append(declStr.replaceAll("\n", "\n  ") + "\n}");
+        }
+        else {
+            buf.append("}");
+        }
 
-	return buf.toString();
+        return buf.toString();
     }
 
     /**
@@ -203,15 +203,15 @@ public class ParsedDeclaration extends ParsedObject
      */
     public StratmasObject getStratmasObject(Declaration declaration) throws SemanticException
     {
-	// The actual Type of this type:
-	Type actualType = declaration.getType().getTypeInformation().getType(this.getType().getName());
-	// Create the declaration that actually reflects this type:
-	Declaration nDecl = declaration.clone(actualType);
-	try { 
-	    return StratmasObjectFactory.vectorCreate(nDecl).getStratmasObject(this.getDeclarations().getStratmasObjects(actualType));
-	} catch (MissingDeclarationException e) {
-	    e.setScopeIfMissing(this);
-	    throw e;
-	}
+        // The actual Type of this type:
+        Type actualType = declaration.getType().getTypeInformation().getType(this.getType().getName());
+        // Create the declaration that actually reflects this type:
+        Declaration nDecl = declaration.clone(actualType);
+        try { 
+            return StratmasObjectFactory.vectorCreate(nDecl).getStratmasObject(this.getDeclarations().getStratmasObjects(actualType));
+        } catch (MissingDeclarationException e) {
+            e.setScopeIfMissing(this);
+            throw e;
+        }
     }
 }

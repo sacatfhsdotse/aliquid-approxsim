@@ -54,23 +54,23 @@ void Declaration::init(XSParticle& particle, XSDContent* xsdcontent, const Type*
      mUnbounded = particle.getMaxOccursUnbounded();
      XSElementDeclaration* dec = particle.getElementTerm();
      if (dec) {
-	  StrX name(dec->getName());
-	  mName = name.str();
-	  if (type) {
-	       mType = type;
-	  }
-	  else if (xsdcontent) {
-	       mType = &xsdcontent->getType(StrX(dec->getTypeDefinition()->getName()).str(),
-					    StrX(dec->getTypeDefinition()->getNamespace()).str());
-	  }
-	  else {
-	       Error e("Neither Type nor XSDContent in Declaration constructor.");
-	       throw e;
-	  }
+          StrX name(dec->getName());
+          mName = name.str();
+          if (type) {
+               mType = type;
+          }
+          else if (xsdcontent) {
+               mType = &xsdcontent->getType(StrX(dec->getTypeDefinition()->getName()).str(),
+                                            StrX(dec->getTypeDefinition()->getNamespace()).str());
+          }
+          else {
+               Error e("Neither Type nor XSDContent in Declaration constructor.");
+               throw e;
+          }
      }
      else {
-	  Error e("No XSElementDeclaration in Declaration constructor.");
-	  throw e;
+          Error e("No XSElementDeclaration in Declaration constructor.");
+          throw e;
      }
 }
 

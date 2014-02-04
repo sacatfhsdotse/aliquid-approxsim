@@ -32,7 +32,7 @@ Reference::Reference(const Reference& ref) {
 Reference::~Reference() {
      std::map<const std::string, const Reference*>::iterator it;
      for (it = mChildren.begin(); it != mChildren.end(); it++) {
-	  delete it->second;
+          delete it->second;
      }
 }
 
@@ -43,12 +43,12 @@ Reference::~Reference() {
 void Reference::cleanUp() {
      std::map<const std::string, const Reference*>::iterator it;
      for (it = root().mChildren.begin(); it != root().mChildren.end(); it++) {
-	  delete it->second;
+          delete it->second;
      }
      root().mChildren.clear();
 
      for (it = nullRef().mChildren.begin(); it != nullRef().mChildren.end(); it++) {
-	  delete it->second;
+          delete it->second;
      }
      nullRef().mChildren.clear();
 }
@@ -65,12 +65,12 @@ const Reference& Reference::get(const Reference& scope, const std::string& name)
      std::map<const std::string, const Reference*>::const_iterator it;
      it = scope.mChildren.find(name);
      if (it == scope.mChildren.end()) {
-	  const Reference *r = new Reference(scope, name);
-	  scope.mChildren[r->mName] = r;
-	  return *r;
+          const Reference *r = new Reference(scope, name);
+          scope.mChildren[r->mName] = r;
+          return *r;
      }
      else {
-	  return *it->second;
+          return *it->second;
      }
 }
 
@@ -82,9 +82,9 @@ const Reference& Reference::get(const Reference& scope, const std::string& name)
  */
 const Reference &Reference::get(const DOMElement* n) {
      if (!n) {
-	  Error e;
-	  e << "Invalid Stratmas message. Null element node in Reference::Reference()";
-	  throw e;
+          Error e;
+          e << "Invalid Stratmas message. Null element node in Reference::Reference()";
+          throw e;
      }
      
      std::string name;
@@ -94,12 +94,12 @@ const Reference &Reference::get(const DOMElement* n) {
      // Recursion - We have a scope, so call get(DOMElement*) for
      // the DOMElement representing that scope.
      if (scopeElem) {
-	  return get(get(scopeElem), name);
+          return get(get(scopeElem), name);
      }
      // Base case - no scope => Reference is a child of the root
      // Reference.
      else {
-	  return get(root(), name);
+          return get(root(), name);
      }
 }
 
@@ -112,12 +112,12 @@ const Reference &Reference::get(const DOMElement* n) {
  */
 std::ostream& Reference::toXML(std::ostream& o, std::string indent) const {
      if(mScope) {
-	  o << indent << "<name>" << XMLHelper::encodeSpecialCharacters(mName) << "</name>";
-	  if (mScope->mScope) {
-	       o << std::endl << indent << "<scope>" << std::endl;
-	       mScope->toXML(o, indent + INDENT) << std::endl;
-	       o << indent << "</scope>";
-	  }
+          o << indent << "<name>" << XMLHelper::encodeSpecialCharacters(mName) << "</name>";
+          if (mScope->mScope) {
+               o << std::endl << indent << "<scope>" << std::endl;
+               mScope->toXML(o, indent + INDENT) << std::endl;
+               o << indent << "</scope>";
+          }
      }
      return o;
 }
@@ -131,7 +131,7 @@ std::ostream& Reference::toXML(std::ostream& o, std::string indent) const {
  */
 std::ostream &operator << (std::ostream& o, const Reference& r) {
      if (r.mScope) {
-	  o << *r.mScope << ":";
+          o << *r.mScope << ":";
      }
      return o << r.mName;
 }

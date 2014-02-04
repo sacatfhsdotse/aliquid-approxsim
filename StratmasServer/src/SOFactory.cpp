@@ -45,7 +45,7 @@ void SOFactory::fireObjectAdded(const Reference& ref, int64_t initiator)
 {
      set<SOFactoryListener*>& listeners = mListeners[ref.scope()];
      for (set<SOFactoryListener*>::iterator it = listeners.begin(); it != listeners.end(); it++) {
-	  (*it)->objectAdded(ref, initiator);
+          (*it)->objectAdded(ref, initiator);
      }
 }
 
@@ -63,7 +63,7 @@ void SOFactory::fireObjectRemoved(const Reference& ref, int64_t initiator)
 {
      set<SOFactoryListener*>& listeners = mListeners[ref.scope()];
      for (set<SOFactoryListener*>::iterator it = listeners.begin(); it != listeners.end(); it++) {
-	  (*it)->objectRemoved(ref, initiator);
+          (*it)->objectRemoved(ref, initiator);
      }
 }
 
@@ -81,48 +81,48 @@ SimulationObject* SOFactory::createSimulationObject(const DataObject& d, int64_t
 {
      static bool firstTime = true;
      if (firstTime) {
-	  firstTime = false;
- 	  sCreatorMap["AmbushOrder"                  ] = createAmbushOrder;
- 	  sCreatorMap["AttackOrder"                  ] = createAttackOrder;
-	  sCreatorMap["Population"                   ] = createCity;
- 	  sCreatorMap["StratmasCityDistribution"     ] = createCityDistribution;
- 	  sCreatorMap["CommonScenario"               ] = createCommonScenario;
- 	  sCreatorMap["CommonSimulation"             ] = createCommonSimulation;
- 	  sCreatorMap["ConstantStepper"              ] = createConstantStepper;
- 	  sCreatorMap["ControlOrder"                 ] = createCustomPVModification; 
- 	  sCreatorMap["CustomAgencyTeam"             ] = createCustomAgencyTeam;
-	  sCreatorMap["CustomAreaOrder"              ] = createCustomPVModification;
- 	  sCreatorMap["CustomPVModification"         ] = createCustomPVModification;
- 	  sCreatorMap["DefendOrder"                  ] = createDefendOrder;
- 	  sCreatorMap["Disease"                      ] = createDisease;
-	  sCreatorMap["EthnicFaction"                ] = createEthnicFaction;
-// 	  sCreatorMap["FactionRelation"              ] = createFactionRelation;
- 	  sCreatorMap["FoodAgencyTeam"               ] = createFoodAgencyTeam;
- 	  sCreatorMap["FreedomOfMovementOrder"       ] = createCustomPVModification;
- 	  sCreatorMap["GoToOrder"                    ] = createGoToOrder;
- 	  sCreatorMap["HealthAgencyTeam"             ] = createHealthAgencyTeam;
-	  sCreatorMap["MilitaryFaction"              ] = createMilitaryFaction;
- 	  sCreatorMap["ModelParameters"              ] = createModelParameters;
- 	  sCreatorMap["NormalDistribution"           ] = createNormalDistribution;
- 	  sCreatorMap["ParameterGroup"               ] = createParameterGroup;
- 	  sCreatorMap["PoliceAgencyTeam"             ] = createPoliceAgencyTeam;
- 	  sCreatorMap["PresenceOrder"                ] = createCustomPVModification;
- 	  sCreatorMap["ProvideCivilianFunctionsOrder"] = createCustomPVModification;
- 	  sCreatorMap["RandomUniformDistribution"    ] = createRandomUniformDistribution;
- 	  sCreatorMap["Region"                       ] = createRegion;
- 	  sCreatorMap["SecureOrder"                  ] = createCustomPVModification;
- 	  sCreatorMap["ShelterAgencyTeam"            ] = createShelterAgencyTeam;
- 	  sCreatorMap["SquarePartitioner"            ] = createSquarePartitioner;
- 	  sCreatorMap["TerroristAttackOrder"         ] = createTerroristAttackOrder;
- 	  sCreatorMap["UniformDistribution"          ] = createUniformDistribution;
- 	  sCreatorMap["MilitaryUnit"                 ] = createUnit;
- 	  sCreatorMap["WaterAgencyTeam"              ] = createWaterAgencyTeam;
+          firstTime = false;
+           sCreatorMap["AmbushOrder"                  ] = createAmbushOrder;
+           sCreatorMap["AttackOrder"                  ] = createAttackOrder;
+          sCreatorMap["Population"                   ] = createCity;
+           sCreatorMap["StratmasCityDistribution"     ] = createCityDistribution;
+           sCreatorMap["CommonScenario"               ] = createCommonScenario;
+           sCreatorMap["CommonSimulation"             ] = createCommonSimulation;
+           sCreatorMap["ConstantStepper"              ] = createConstantStepper;
+           sCreatorMap["ControlOrder"                 ] = createCustomPVModification; 
+           sCreatorMap["CustomAgencyTeam"             ] = createCustomAgencyTeam;
+          sCreatorMap["CustomAreaOrder"              ] = createCustomPVModification;
+           sCreatorMap["CustomPVModification"         ] = createCustomPVModification;
+           sCreatorMap["DefendOrder"                  ] = createDefendOrder;
+           sCreatorMap["Disease"                      ] = createDisease;
+          sCreatorMap["EthnicFaction"                ] = createEthnicFaction;
+//           sCreatorMap["FactionRelation"              ] = createFactionRelation;
+           sCreatorMap["FoodAgencyTeam"               ] = createFoodAgencyTeam;
+           sCreatorMap["FreedomOfMovementOrder"       ] = createCustomPVModification;
+           sCreatorMap["GoToOrder"                    ] = createGoToOrder;
+           sCreatorMap["HealthAgencyTeam"             ] = createHealthAgencyTeam;
+          sCreatorMap["MilitaryFaction"              ] = createMilitaryFaction;
+           sCreatorMap["ModelParameters"              ] = createModelParameters;
+           sCreatorMap["NormalDistribution"           ] = createNormalDistribution;
+           sCreatorMap["ParameterGroup"               ] = createParameterGroup;
+           sCreatorMap["PoliceAgencyTeam"             ] = createPoliceAgencyTeam;
+           sCreatorMap["PresenceOrder"                ] = createCustomPVModification;
+           sCreatorMap["ProvideCivilianFunctionsOrder"] = createCustomPVModification;
+           sCreatorMap["RandomUniformDistribution"    ] = createRandomUniformDistribution;
+           sCreatorMap["Region"                       ] = createRegion;
+           sCreatorMap["SecureOrder"                  ] = createCustomPVModification;
+           sCreatorMap["ShelterAgencyTeam"            ] = createShelterAgencyTeam;
+           sCreatorMap["SquarePartitioner"            ] = createSquarePartitioner;
+           sCreatorMap["TerroristAttackOrder"         ] = createTerroristAttackOrder;
+           sCreatorMap["UniformDistribution"          ] = createUniformDistribution;
+           sCreatorMap["MilitaryUnit"                 ] = createUnit;
+           sCreatorMap["WaterAgencyTeam"              ] = createWaterAgencyTeam;
      }
      std::map<std::string, SimulationObject*(*)(const DataObject&)>::iterator it = sCreatorMap.find(d.getType().getName());
      if (it == sCreatorMap.end()) {
-	  Error e;
-	  e << "Unknown object type '" << d.getType().getName() << "' in SOFactory.";
-	  throw e;
+          Error e;
+          e << "Unknown object type '" << d.getType().getName() << "' in SOFactory.";
+          throw e;
      }
      SimulationObject* so = (*it->second)(d);
      d.reg();
@@ -149,15 +149,15 @@ SimulationObject* SOFactory::createSimulationObject(const Reference& ref, const 
      DataObject* created = 0;
      DataObject* parent = Mapper::map(*ref.scope());
      if (dynamic_cast<ComplexDataObject*>(parent)) {
-	  // Parent is Complex so the object to be created must be optional.
-	  created = DataObjectFactory::addOptional(*parent, ref.name());
+          // Parent is Complex so the object to be created must be optional.
+          created = DataObjectFactory::addOptional(*parent, ref.name());
      }
      else {
-	  created = DataObjectFactory::createDataObject(ref, type);
-	  if (ContainerDataObject* c = dynamic_cast<ContainerDataObject*>(parent)) {
-	       // Parent is not Complex so the order does not matter.
-	       c->add(created);
-	  }
+          created = DataObjectFactory::createDataObject(ref, type);
+          if (ContainerDataObject* c = dynamic_cast<ContainerDataObject*>(parent)) {
+               // Parent is not Complex so the order does not matter.
+               c->add(created);
+          }
      }
      return createSimulationObject(*created);
 }
@@ -211,14 +211,14 @@ void SOFactory::createSimple(DataObject& d, int64_t initiator)
 {
      const Reference& refToParent = *d.ref().scope();
      if (ContainerDataObject* cdo = dynamic_cast<ContainerDataObject*>(Mapper::map(refToParent))) {
-	  cdo->add(&d);
-	  d.reg();
-	  fireObjectAdded(d.ref(), initiator);
+          cdo->add(&d);
+          d.reg();
+          fireObjectAdded(d.ref(), initiator);
      }
      else {
-	  Error e;
-	  e << "No ContainerDataObject with Reference '" << refToParent << "'";
-	  throw e;
+          Error e;
+          e << "No ContainerDataObject with Reference '" << refToParent << "'";
+          throw e;
      }
 }
 
@@ -231,12 +231,12 @@ void SOFactory::createSimple(DataObject& d, int64_t initiator)
 void SOFactory::removeSimulationObject(SimulationObject *o, int64_t initiator)
 {
      if (o) {
-	  const Reference& toRemove = o->ref();
-	  delete o;
-	  if (SOMapper::map(toRemove)) {
-	       SOMapper::dereg(toRemove);
-	       simulationObjectRemoved(toRemove, initiator);
-	  }
+          const Reference& toRemove = o->ref();
+          delete o;
+          if (SOMapper::map(toRemove)) {
+               SOMapper::dereg(toRemove);
+               simulationObjectRemoved(toRemove, initiator);
+          }
      }
 }
 
@@ -251,7 +251,7 @@ void SOFactory::removeListener(const Reference& ref, SOFactoryListener& listener
      set<SOFactoryListener*>& listeners = mListeners[&ref];
      listeners.erase(&listener);
      if (listeners.empty()) {
-	  mListeners.erase(&ref);
+          mListeners.erase(&ref);
      }
 }
 
@@ -268,17 +268,17 @@ void SOFactory::simulationObjectRemoved(const Reference& ref, int64_t initiator)
 {
      DataObject* d = Mapper::map(ref);
      if (d) {
-	  fireObjectRemoved(ref, initiator);
-	  d->dereg();
-	  ContainerDataObject* parent = d->getParent();
-	  if (parent) {
-	       parent->remove(d->identifier());
-	  }
+          fireObjectRemoved(ref, initiator);
+          d->dereg();
+          ContainerDataObject* parent = d->getParent();
+          if (parent) {
+               parent->remove(d->identifier());
+          }
      }
      else {
-	  Error e;
-	  e << "SOFactory tried to delete SimulationObject '" << ref << "'without registered DataObject.";
-	  throw e;
+          Error e;
+          e << "SOFactory tried to delete SimulationObject '" << ref << "'without registered DataObject.";
+          throw e;
      }
 }
 
@@ -300,31 +300,31 @@ SimulationObject* SOFactory::simulationObjectReplaced(DataObject& newObj, int64_
      SimulationObject* ret = 0;
      DataObject* old = Mapper::map(newObj.ref());
      if (old) {
-	  if (newObj.getType().canSubstitute("ValueType")) {
-	       fireObjectRemoved(old->ref(), initiator);
-	       old->dereg();
-	       ContainerDataObject* parent = old->getParent();
-	       
-	       if (parent) {
-		    parent->replace(&newObj);
-	       }
-	       else {
-		    Error e;
-		    e << "Replacing DataObject " << old->ref() << " without parent";
-		    throw e;
-	       }
-	       newObj.reg();
-	       fireObjectAdded(newObj.ref(), initiator);
-	  }
-	  else {
-	       removeSimulationObject(SOMapper::map(newObj.ref()), initiator);
-	       ret = createSimulationObject(newObj, initiator);
-	  }
+          if (newObj.getType().canSubstitute("ValueType")) {
+               fireObjectRemoved(old->ref(), initiator);
+               old->dereg();
+               ContainerDataObject* parent = old->getParent();
+               
+               if (parent) {
+                    parent->replace(&newObj);
+               }
+               else {
+                    Error e;
+                    e << "Replacing DataObject " << old->ref() << " without parent";
+                    throw e;
+               }
+               newObj.reg();
+               fireObjectAdded(newObj.ref(), initiator);
+          }
+          else {
+               removeSimulationObject(SOMapper::map(newObj.ref()), initiator);
+               ret = createSimulationObject(newObj, initiator);
+          }
      }
      else {
-	  Error e;
-	  e << "SOFactory tried to replace non registered DataObject '" << newObj.ref() << "'.";
-	  throw e;
+          Error e;
+          e << "SOFactory tried to replace non registered DataObject '" << newObj.ref() << "'.";
+          throw e;
      }
      return ret;
 }
@@ -548,18 +548,18 @@ SimulationObject* SOFactory::createNormalDistribution(const DataObject& d)
 SimulationObject* SOFactory::createParameterGroup(const DataObject& d)
 {
      if (d.identifier() == "Food Model") {
-	  return new FoodModelParameters(d);
+          return new FoodModelParameters(d);
      }
      else if (d.identifier() == "Insurgent Model") {
-	  return new InsurgentModelParameters(d);
+          return new InsurgentModelParameters(d);
      }
      else if (d.identifier() == "parameters") {
-	  return new DefaultParameterGroup(d);
+          return new DefaultParameterGroup(d);
      }
      else {
-	  Error e;
-	  e << "'" << d.identifier() << "' is not a valid ParameterGroup.";
-	  throw e;
+          Error e;
+          e << "'" << d.identifier() << "' is not a valid ParameterGroup.";
+          throw e;
      }
 }
  

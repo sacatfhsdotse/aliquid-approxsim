@@ -72,23 +72,23 @@ public class TimelineActivityTable extends JTable implements MouseListener{
      * @param timeline reference to the timeline.
      */
     public TimelineActivityTable(Timeline timeline) {
-	super(new TimelineActivityTableModel(timeline));
-	((TimelineActivityTableModel)getModel()).setTableHeader(getTableHeader());
-	
-	// set reference to the timeline
-	this.timeline = timeline;
-	
-	// add mouse listener
-	addMouseListener(this);
-	
-	// set the different parameters
-	setShowHorizontalLines(false);
-	setRowSelectionAllowed(true);
-	setColumnSelectionAllowed(true);
-	setIntercellSpacing(new Dimension(0,0));
-	setOpaque(false);
-	setDefaultRenderer(Object.class, new ActivityTableCellRenderer());
-	getTableHeader().setForeground(Color.BLUE);
+        super(new TimelineActivityTableModel(timeline));
+        ((TimelineActivityTableModel)getModel()).setTableHeader(getTableHeader());
+        
+        // set reference to the timeline
+        this.timeline = timeline;
+        
+        // add mouse listener
+        addMouseListener(this);
+        
+        // set the different parameters
+        setShowHorizontalLines(false);
+        setRowSelectionAllowed(true);
+        setColumnSelectionAllowed(true);
+        setIntercellSpacing(new Dimension(0,0));
+        setOpaque(false);
+        setDefaultRenderer(Object.class, new ActivityTableCellRenderer());
+        getTableHeader().setForeground(Color.BLUE);
     }
     
     /**
@@ -96,40 +96,40 @@ public class TimelineActivityTable extends JTable implements MouseListener{
      * the right mouse button on it's identifier in the table.
      */
     public void mouseClicked(MouseEvent e) {
-	if (e.getButton() == MouseEvent.BUTTON3) {
-	    // get window coordinates
-	    java.awt.Point p = e.getPoint();
-	    // get the row and the column numbers of the clicked cell 
-	    int row = rowAtPoint(p);
-	    int col = columnAtPoint(p);
-	    // column for the activities
-	    if (col == 0) {
-		StratmasObject so = getActivity(row);
-		// create the menu
-		JPopupMenu menu = new JPopupMenu();
-		// open new window with the information about the selected object
-		menu.add(getShowInformationItem(so));
-		menu.addSeparator();
-		// remove the selected activity
-		menu.add(getRemoveActivityItem(so));
-		menu.show(this, (int)p.getX(), (int)p.getY());
-	    }
-	    // clumn for the resources
-	    else if (col == 3) {
-		try {
-		    StratmasObject so = getActivity(row).getParent().getParent();
-		    if (so.getType().canSubstitute("MilitaryUnit")) {
-			// create the menu
-			JPopupMenu menu = new JPopupMenu();
-			// open new window with the information about the selected object
-			menu.add(getShowInformationItem(so)); 
-			menu.show(this, (int)p.getX(), (int)p.getY());
-		    }
-		}
-		catch (NullPointerException exc) {
-		}
-	    }
-	}
+        if (e.getButton() == MouseEvent.BUTTON3) {
+            // get window coordinates
+            java.awt.Point p = e.getPoint();
+            // get the row and the column numbers of the clicked cell 
+            int row = rowAtPoint(p);
+            int col = columnAtPoint(p);
+            // column for the activities
+            if (col == 0) {
+                StratmasObject so = getActivity(row);
+                // create the menu
+                JPopupMenu menu = new JPopupMenu();
+                // open new window with the information about the selected object
+                menu.add(getShowInformationItem(so));
+                menu.addSeparator();
+                // remove the selected activity
+                menu.add(getRemoveActivityItem(so));
+                menu.show(this, (int)p.getX(), (int)p.getY());
+            }
+            // clumn for the resources
+            else if (col == 3) {
+                try {
+                    StratmasObject so = getActivity(row).getParent().getParent();
+                    if (so.getType().canSubstitute("MilitaryUnit")) {
+                        // create the menu
+                        JPopupMenu menu = new JPopupMenu();
+                        // open new window with the information about the selected object
+                        menu.add(getShowInformationItem(so)); 
+                        menu.show(this, (int)p.getX(), (int)p.getY());
+                    }
+                }
+                catch (NullPointerException exc) {
+                }
+            }
+        }
     }
 
     /**
@@ -156,8 +156,8 @@ public class TimelineActivityTable extends JTable implements MouseListener{
      * Returns true if the table contains the activity.
      */
     public boolean contains(StratmasObject activity) {
-	TimelineActivityTableModel tableModel = (TimelineActivityTableModel)getModel();
-	return tableModel.getActivities().contains(activity);
+        TimelineActivityTableModel tableModel = (TimelineActivityTableModel)getModel();
+        return tableModel.getActivities().contains(activity);
     }
     
     /**
@@ -166,8 +166,8 @@ public class TimelineActivityTable extends JTable implements MouseListener{
      * @param activity the activity.
      */
     public void addActivity(StratmasObject activity) {
-	TimelineActivityTableModel tableModel = (TimelineActivityTableModel)getModel();
-	tableModel.add(activity);
+        TimelineActivityTableModel tableModel = (TimelineActivityTableModel)getModel();
+        tableModel.add(activity);
     }
     
     /**
@@ -177,8 +177,8 @@ public class TimelineActivityTable extends JTable implements MouseListener{
      * @param activity the activity.
      */
     public void addSortedActivity(StratmasObject activity) {
-	TimelineActivityTableModel tableModel = (TimelineActivityTableModel)getModel();
-	tableModel.addSorted(activity);
+        TimelineActivityTableModel tableModel = (TimelineActivityTableModel)getModel();
+        tableModel.addSorted(activity);
     }
     
     /**
@@ -187,31 +187,31 @@ public class TimelineActivityTable extends JTable implements MouseListener{
      * @param activity the activity.
      */
     public void removeActivity(StratmasObject activity) {
-	TimelineActivityTableModel tableModel = (TimelineActivityTableModel)getModel();
-	tableModel.remove(activity);
+        TimelineActivityTableModel tableModel = (TimelineActivityTableModel)getModel();
+        tableModel.remove(activity);
     }
     
     /**
      * Removes all activities from the table.
      */
     public void removeAllActivities() {
-	TimelineActivityTableModel tableModel = (TimelineActivityTableModel)getModel();
-	tableModel.removeAll();
+        TimelineActivityTableModel tableModel = (TimelineActivityTableModel)getModel();
+        tableModel.removeAll();
     }
     
     /**
      * Removes the table.
      */
     public void remove() {
-	timeline = null;
-	removeAllActivities();
+        timeline = null;
+        removeAllActivities();
     }
     
     /**
      * Resets the table.
      */
     public void reset() {
-	((TimelineActivityTableModel)getModel()).reset();	
+        ((TimelineActivityTableModel)getModel()).reset();        
     }
     
     /**
@@ -222,11 +222,11 @@ public class TimelineActivityTable extends JTable implements MouseListener{
      * @return the activity at the specified row in the table.
      */
     public StratmasObject getActivity(int row) {
-	Vector activities = ((TimelineActivityTableModel)getModel()).getActivities();
-	if (activities.size() > row) {
-	    return (StratmasObject) activities.get(row);
-	}
-	return null;
+        Vector activities = ((TimelineActivityTableModel)getModel()).getActivities();
+        if (activities.size() > row) {
+            return (StratmasObject) activities.get(row);
+        }
+        return null;
     }
     
     /**
@@ -238,7 +238,7 @@ public class TimelineActivityTable extends JTable implements MouseListener{
      *         is not contained in the table, -1 is returned.
      */
     public int getRow(StratmasObject activity) {
-	return ((TimelineActivityTableModel)getModel()).getActivities().indexOf(activity);
+        return ((TimelineActivityTableModel)getModel()).getActivities().indexOf(activity);
     }
     
     /**
@@ -249,7 +249,7 @@ public class TimelineActivityTable extends JTable implements MouseListener{
      * @return the background of the given row.
      */
     public Color getBackground(int row) {
-	return (row % 2 == 0) ? TimelineConstants.LIGHT : TimelineConstants.LIGHTER;
+        return (row % 2 == 0) ? TimelineConstants.LIGHT : TimelineConstants.LIGHTER;
     } 
     
     /**
@@ -258,17 +258,17 @@ public class TimelineActivityTable extends JTable implements MouseListener{
      * @param simulation the parent node of all resources.
      */
     public void updateResources(StratmasObject root) {
-	ActivityTableComboBox militaryUnitsComboBox = 
-	    ((TimelineActivityTableModel)getModel()).getMilitaryUnitsComboBox();
-	// add all military units 
-	TypeFilter filter = new TypeFilter(TypeFactory.getType("MilitaryUnit"), true);
-	Enumeration mUnits = filter.filterTree(root);
-	for (; mUnits.hasMoreElements(); ) {
-	    StratmasObject scom = (StratmasObject)mUnits.nextElement();
-	    if (scom.getType().canSubstitute("MilitaryUnit") && !(scom instanceof StratmasList)) {
-		militaryUnitsComboBox.addResource(scom);
-	    }
-	}
+        ActivityTableComboBox militaryUnitsComboBox = 
+            ((TimelineActivityTableModel)getModel()).getMilitaryUnitsComboBox();
+        // add all military units 
+        TypeFilter filter = new TypeFilter(TypeFactory.getType("MilitaryUnit"), true);
+        Enumeration mUnits = filter.filterTree(root);
+        for (; mUnits.hasMoreElements(); ) {
+            StratmasObject scom = (StratmasObject)mUnits.nextElement();
+            if (scom.getType().canSubstitute("MilitaryUnit") && !(scom instanceof StratmasList)) {
+                militaryUnitsComboBox.addResource(scom);
+            }
+        }
         getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(militaryUnitsComboBox));
     }
     
@@ -276,34 +276,34 @@ public class TimelineActivityTable extends JTable implements MouseListener{
      * Returns the menu item used to show information about an activity.
      */
     private JMenuItem getShowInformationItem(StratmasObject so) {
-	final StratmasObject fso = so;
-	JMenuItem item = new JMenuItem("More information about "+so.getIdentifier().trim());
-	item.addActionListener(new AbstractAction() {
-		public void actionPerformed(ActionEvent event) {
-		    final TreeViewFrame frame = TreeView.getDefaultFrame(fso);
-		    frame.setEditable(true);
-		    javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			    public void run() {
-				frame.setVisible(true);
-			    }
-			});
-		}
-	    });
-	return item;
+        final StratmasObject fso = so;
+        JMenuItem item = new JMenuItem("More information about "+so.getIdentifier().trim());
+        item.addActionListener(new AbstractAction() {
+                public void actionPerformed(ActionEvent event) {
+                    final TreeViewFrame frame = TreeView.getDefaultFrame(fso);
+                    frame.setEditable(true);
+                    javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                            public void run() {
+                                frame.setVisible(true);
+                            }
+                        });
+                }
+            });
+        return item;
     }
 
     /**
      * Returns the menu item used to remove an activity.
      */
     private JMenuItem getRemoveActivityItem(StratmasObject so) {
-	final StratmasObject fso = so;
-	JMenuItem removeActivityItem = new JMenuItem("Remove "+so.getIdentifier().trim());
-	removeActivityItem .addActionListener(new AbstractAction() {
-		public void actionPerformed(ActionEvent event) {
-		    fso.remove();
-		}
-	    });
-	return removeActivityItem;
+        final StratmasObject fso = so;
+        JMenuItem removeActivityItem = new JMenuItem("Remove "+so.getIdentifier().trim());
+        removeActivityItem .addActionListener(new AbstractAction() {
+                public void actionPerformed(ActionEvent event) {
+                    fso.remove();
+                }
+            });
+        return removeActivityItem;
     } 
     
 }

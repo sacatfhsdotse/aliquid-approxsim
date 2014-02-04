@@ -1,4 +1,4 @@
-// 	$Id: GuiIterationsStopperFactory.java,v 1.1 2005/11/01 16:50:47 dah Exp $
+//         $Id: GuiIterationsStopperFactory.java,v 1.1 2005/11/01 16:50:47 dah Exp $
 /*
  * @(#)GuiIterationsStopperFactory.java
  */
@@ -38,23 +38,23 @@ abstract public class GuiIterationsStopperFactory extends JPanel implements Stop
      */
     public GuiIterationsStopperFactory(String name)
     {
-	setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-	SpinnerNumberModel spinnerModel = 
-	    new SpinnerNumberModel(getIterations(), 0, Integer.MAX_VALUE, 1);
-	JSpinner spinner = new JSpinner(spinnerModel);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        SpinnerNumberModel spinnerModel = 
+            new SpinnerNumberModel(getIterations(), 0, Integer.MAX_VALUE, 1);
+        JSpinner spinner = new JSpinner(spinnerModel);
 
-	spinnerModel.addChangeListener(new ChangeListener()
-	    {
-		public void stateChanged(ChangeEvent event)
-		{
-		    setIterations(((SpinnerNumberModel) event.getSource()).getNumber().intValue());
-		}
-	    });		
-	add(spinner);
+        spinnerModel.addChangeListener(new ChangeListener()
+            {
+                public void stateChanged(ChangeEvent event)
+                {
+                    setIterations(((SpinnerNumberModel) event.getSource()).getNumber().intValue());
+                }
+            });                
+        add(spinner);
 
-	String string = name != null ? name + " " : "";
-	setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(string + "Iterations"),
-						     BorderFactory.createEmptyBorder(5,5,5,5)));
+        String string = name != null ? name + " " : "";
+        setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(string + "Iterations"),
+                                                     BorderFactory.createEmptyBorder(5,5,5,5)));
     }
 
     /**
@@ -63,7 +63,7 @@ abstract public class GuiIterationsStopperFactory extends JPanel implements Stop
      */
     public GuiIterationsStopperFactory()
     {
-	this(null);
+        this(null);
     }
 
     /**
@@ -71,7 +71,7 @@ abstract public class GuiIterationsStopperFactory extends JPanel implements Stop
      */
     public int getIterations()
     {
-	return this.iterations;
+        return this.iterations;
     }
 
     /**
@@ -81,7 +81,7 @@ abstract public class GuiIterationsStopperFactory extends JPanel implements Stop
      */
     public void setIterations(int iterations)
     {
-	this.iterations = iterations;
+        this.iterations = iterations;
     }
 
     /**

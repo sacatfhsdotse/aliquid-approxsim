@@ -31,17 +31,17 @@
 
     <unjar dest="${build}" src="${externaljars}/resolver.jar">
         <patternset>
-	    <exclude name="META-INF/**"/>
+            <exclude name="META-INF/**"/>
         </patternset>
     </unjar>
     <unjar dest="${build}" src="${externaljars}/xercesImpl.jar">
         <patternset>
-	    <exclude name="META-INF/**"/>
+            <exclude name="META-INF/**"/>
         </patternset>
     </unjar>
     <unjar dest="${build}" src="${externaljars}/xml-apis.jar">
         <patternset>
-	    <exclude name="META-INF/**"/>
+            <exclude name="META-INF/**"/>
         </patternset>
     </unjar>
 
@@ -50,7 +50,7 @@
          basedir="${build}">
        <manifest>
           <attribute name="Main-Class" 
-	   value="${ant.project.name}/StratmasDispatcher"/>
+           value="${ant.project.name}/StratmasDispatcher"/>
        </manifest>
     </jar>
   </target>

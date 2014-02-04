@@ -35,7 +35,7 @@ public abstract class XMLHelper {
       * @return An XML representation of this object.
       */
      public String toXML() {
-	  return toXML(new StringBuffer()).toString();
+          return toXML(new StringBuffer()).toString();
      }
 
      /**
@@ -46,11 +46,11 @@ public abstract class XMLHelper {
       * object appended to it.
       */
      public StringBuffer toXML(StringBuffer b) {
-	  b.append(NL).append("<").append(getTag());
-	  b.append(" xsi:type=\"sp:").append(getTypeAsString()).append("\">");
-	  bodyXML(b);
-	  b.append(NL).append("</").append(getTag()).append(">");
-	  return b;
+          b.append(NL).append("<").append(getTag());
+          b.append(" xsi:type=\"sp:").append(getTypeAsString()).append("\">");
+          bodyXML(b);
+          b.append(NL).append("</").append(getTag()).append(">");
+          return b;
      }
 
      /**
@@ -61,6 +61,6 @@ public abstract class XMLHelper {
       * object's body appended to it.
       */
      public StringBuffer bodyXML(StringBuffer b) {
-	  return b;
+          return b;
      }
 }

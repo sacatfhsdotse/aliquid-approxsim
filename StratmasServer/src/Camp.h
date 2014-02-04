@@ -26,10 +26,10 @@ public:
       * \param nFactions The total number of Factions excluding the 'all' Faction.
       */
      inline Camp(const Reference &ref, const Shape &location, int nFactions) : Element(ref, location) {
-	  mPopulation = new double[nFactions + 1];
-	  for (int i = 0; i < nFactions + 1; i++) {
-	       mPopulation[i] = 0;
-	  }
+          mPopulation = new double[nFactions + 1];
+          for (int i = 0; i < nFactions + 1; i++) {
+               mPopulation[i] = 0;
+          }
      }
      
      /// Destructor

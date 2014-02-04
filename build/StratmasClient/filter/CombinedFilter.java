@@ -1,4 +1,4 @@
-// 	$Id: CombinedFilter.java,v 1.4 2006/03/30 10:13:30 amfi Exp $
+//         $Id: CombinedFilter.java,v 1.4 2006/03/30 10:13:30 amfi Exp $
 /*
  * @(#)Combinedfilter.java
  */
@@ -30,9 +30,9 @@ public class CombinedFilter extends StratmasObjectFilter
      * @param filters the filters that will make up this filter
      */
     public CombinedFilter(Vector filters)
-    {	
-	super();
-	this.add(filters);
+    {        
+        super();
+        this.add(filters);
     }
 
     /**
@@ -40,8 +40,8 @@ public class CombinedFilter extends StratmasObjectFilter
      *
      */
     public CombinedFilter()
-    {	
-	this(new Vector());
+    {        
+        this(new Vector());
     }
 
     /**
@@ -51,21 +51,21 @@ public class CombinedFilter extends StratmasObjectFilter
      */
     public boolean pass(StratmasObject sObj)
     {
-	boolean res = true;
-	
-	for (Enumeration e = getFilters(); e.hasMoreElements();) {
-	    if (! ((StratmasObjectFilter) e.nextElement()).pass(sObj)) {
-		res = false;
-		break;
-	    }
-	}
+        boolean res = true;
+        
+        for (Enumeration e = getFilters(); e.hasMoreElements();) {
+            if (! ((StratmasObjectFilter) e.nextElement()).pass(sObj)) {
+                res = false;
+                break;
+            }
+        }
 
-	return applyInverted(res);
+        return applyInverted(res);
     }
 
     public void addFilter(StratmasObjectFilter filter)
     {
-	this.filters.add(filter);
+        this.filters.add(filter);
     }
 
     /**
@@ -75,7 +75,7 @@ public class CombinedFilter extends StratmasObjectFilter
      */
     public void add(StratmasObjectFilter filter)
     {
-	this.filters.add(filter);
+        this.filters.add(filter);
     }
 
     /**
@@ -85,9 +85,9 @@ public class CombinedFilter extends StratmasObjectFilter
      */
     public void add(Vector filters)
     {
-	for (Enumeration e = filters.elements(); e.hasMoreElements();) {
-	    add((StratmasObjectFilter) e.nextElement());
-	}
+        for (Enumeration e = filters.elements(); e.hasMoreElements();) {
+            add((StratmasObjectFilter) e.nextElement());
+        }
     }
 
     /**
@@ -97,7 +97,7 @@ public class CombinedFilter extends StratmasObjectFilter
      */
     public void remove(StratmasObjectFilter filter)
     {
-	this.filters.remove(filter);
+        this.filters.remove(filter);
     }
 
 
@@ -106,6 +106,6 @@ public class CombinedFilter extends StratmasObjectFilter
      */
     public Enumeration getFilters()
     {
-	return this.filters.elements();
+        return this.filters.elements();
     }
 }

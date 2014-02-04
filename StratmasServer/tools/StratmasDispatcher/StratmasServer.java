@@ -1,4 +1,4 @@
-// 	$Id: StratmasServer.java,v 1.8 2006/09/05 14:38:48 dah Exp $
+//         $Id: StratmasServer.java,v 1.8 2006/09/05 14:38:48 dah Exp $
 
 /*
  * @(#)StratmasServer.java
@@ -67,11 +67,11 @@ public class StratmasServer
      */
     public StratmasServer(String host, int port)
     {
-	this.host = host;
-	this.port = port;
-	Thread monitorThread = new Thread(new ServerMonitor(this), "ServerMonitor: " + toString());
-	monitorThread.start();
-	setSimulations(new Vector());
+        this.host = host;
+        this.port = port;
+        Thread monitorThread = new Thread(new ServerMonitor(this), "ServerMonitor: " + toString());
+        monitorThread.start();
+        setSimulations(new Vector());
     }
 
     /**
@@ -81,13 +81,13 @@ public class StratmasServer
      */
     public boolean equals(Object o)
     {
-	if (o instanceof StratmasServer) {
-	    StratmasServer so = (StratmasServer) o;
-	    return getHost().equals(so.getHost()) &&
-		getPort() == so.getPort();
-	} else {
-	    return false;
-	}	
+        if (o instanceof StratmasServer) {
+            StratmasServer so = (StratmasServer) o;
+            return getHost().equals(so.getHost()) &&
+                getPort() == so.getPort();
+        } else {
+            return false;
+        }        
     }
     
     /**
@@ -96,7 +96,7 @@ public class StratmasServer
      */
     public int hashCode()
     {
-	return toString().hashCode();
+        return toString().hashCode();
     }
 
     /**
@@ -104,7 +104,7 @@ public class StratmasServer
      */
     public String getHost()
     {
-	return this.host;
+        return this.host;
     }
 
     /**
@@ -112,7 +112,7 @@ public class StratmasServer
      */
     public int getPort()
     {
-	return this.port;
+        return this.port;
     }
 
     /**
@@ -120,7 +120,7 @@ public class StratmasServer
      */
     public Vector getSimulations()
     {
-	return this.simulations;
+        return this.simulations;
     }
 
     /**
@@ -128,7 +128,7 @@ public class StratmasServer
      */
     protected void setSimulations(Vector v)
     {
-	this.simulations = v;
+        this.simulations = v;
     }
 
     /**
@@ -136,7 +136,7 @@ public class StratmasServer
      */
     protected void markAsBad()
     {
-	this.bad = true;
+        this.bad = true;
     }
 
     /**
@@ -144,7 +144,7 @@ public class StratmasServer
      */
     public boolean isBad()
     {
-	return this.bad;
+        return this.bad;
     }
 
     /**
@@ -152,7 +152,7 @@ public class StratmasServer
      */
     public boolean isGood()
     {
-	return this.good;
+        return this.good;
     }
 
     /**
@@ -160,7 +160,7 @@ public class StratmasServer
      */
     public boolean isPending()
     {
-	return this.pending;
+        return this.pending;
     }
 
     /**
@@ -170,7 +170,7 @@ public class StratmasServer
      */
     public void setPending(boolean flag)
     {
-	this.pending = flag;
+        this.pending = flag;
     }
 
     /**
@@ -180,7 +180,7 @@ public class StratmasServer
      */
     public void setGood(boolean flag)
     {
-	this.good = flag;
+        this.good = flag;
     }
 
     /**
@@ -190,7 +190,7 @@ public class StratmasServer
      */
     public void setHasActiveClient(boolean flag)
     {
-	this.hasActiveClient = flag;
+        this.hasActiveClient = flag;
     }
 
     /**
@@ -198,7 +198,7 @@ public class StratmasServer
      */
     public boolean hasActiveClient()
     {
-	return this.hasActiveClient;
+        return this.hasActiveClient;
     }
 
     /**
@@ -208,31 +208,31 @@ public class StratmasServer
      */
     public Element toDOMElement(Document document)
     {
-	Element element = document.createElement("stratmasServer");
-	Element hostElement = document.createElement("host");
-	hostElement.appendChild(document.createTextNode(getHost()));
-	Element portElement = document.createElement("port");
-	portElement.appendChild(document.createTextNode(Integer.toString(getPort())));
+        Element element = document.createElement("stratmasServer");
+        Element hostElement = document.createElement("host");
+        hostElement.appendChild(document.createTextNode(getHost()));
+        Element portElement = document.createElement("port");
+        portElement.appendChild(document.createTextNode(Integer.toString(getPort())));
 
-	element.appendChild(hostElement);
-	element.appendChild(portElement);
+        element.appendChild(hostElement);
+        element.appendChild(portElement);
 
-	Element hasActiveClientElement = document.createElement("hasActiveClient");
-	hasActiveClientElement.appendChild(document.createTextNode(Boolean.toString(hasActiveClient())));
-	element.appendChild(hasActiveClientElement);
+        Element hasActiveClientElement = document.createElement("hasActiveClient");
+        hasActiveClientElement.appendChild(document.createTextNode(Boolean.toString(hasActiveClient())));
+        element.appendChild(hasActiveClientElement);
 
-	Element isPendingElement = document.createElement("isPending");
-	isPendingElement.appendChild(document.createTextNode(Boolean.toString(isPending())));
-	element.appendChild(isPendingElement);
+        Element isPendingElement = document.createElement("isPending");
+        isPendingElement.appendChild(document.createTextNode(Boolean.toString(isPending())));
+        element.appendChild(isPendingElement);
 
-	for (Enumeration e = getSimulations().elements(); e.hasMoreElements();) {
-	    String id = (String) e.nextElement();
-	    Element simElement = document.createElement("simulation");
-	    simElement.appendChild(document.createTextNode(id));
-	    element.appendChild(simElement);
-	}
+        for (Enumeration e = getSimulations().elements(); e.hasMoreElements();) {
+            String id = (String) e.nextElement();
+            Element simElement = document.createElement("simulation");
+            simElement.appendChild(document.createTextNode(id));
+            element.appendChild(simElement);
+        }
 
-	return element;
+        return element;
     }
 
     /**
@@ -242,16 +242,16 @@ public class StratmasServer
      */
     public static StratmasServer fromDOMElement(Element element)
     {
-	String host = element.getElementsByTagName("host").item(0).getFirstChild().getNodeValue();
-	int port = Integer.parseInt(element.getElementsByTagName("port").item(0).getFirstChild().getNodeValue());
-	boolean hasActive = (Boolean.valueOf(element.getElementsByTagName("port").item(0).getFirstChild().getNodeValue())).booleanValue();
-	
-	StratmasServer res = new StratmasServer(host, port);
-	if (res != null) {
-	    res.setHasActiveClient(hasActive);
-	}
+        String host = element.getElementsByTagName("host").item(0).getFirstChild().getNodeValue();
+        int port = Integer.parseInt(element.getElementsByTagName("port").item(0).getFirstChild().getNodeValue());
+        boolean hasActive = (Boolean.valueOf(element.getElementsByTagName("port").item(0).getFirstChild().getNodeValue())).booleanValue();
+        
+        StratmasServer res = new StratmasServer(host, port);
+        if (res != null) {
+            res.setHasActiveClient(hasActive);
+        }
 
-	return res;
+        return res;
     }
 
     /**
@@ -259,7 +259,7 @@ public class StratmasServer
      */
     public String toString()
     {
-	return getHost() + ":" + getPort();
+        return getHost() + ":" + getPort();
     }
 
     /**
@@ -270,20 +270,20 @@ public class StratmasServer
      */
     public boolean udateFromLoadQueryResponse(Element element)
     {
-	Element activeElement = (Element) element.getElementsByTagName("hasActiveClient").item(0);
-	if (activeElement != null) {
-	    setHasActiveClient(Boolean.valueOf(activeElement.getFirstChild().getNodeValue()).booleanValue());
-	} else {
-	    return false;
-	}
+        Element activeElement = (Element) element.getElementsByTagName("hasActiveClient").item(0);
+        if (activeElement != null) {
+            setHasActiveClient(Boolean.valueOf(activeElement.getFirstChild().getNodeValue()).booleanValue());
+        } else {
+            return false;
+        }
 
-	NodeList simulations = element.getElementsByTagName("simulation");
-	Vector sims = new Vector();
-	for (int i = 0; i < simulations.getLength(); i++) {
-	    sims.add(simulations.item(i).getFirstChild().getNodeValue());
-	}		    		    
-	setSimulations(sims);		    
+        NodeList simulations = element.getElementsByTagName("simulation");
+        Vector sims = new Vector();
+        for (int i = 0; i < simulations.getLength(); i++) {
+            sims.add(simulations.item(i).getFirstChild().getNodeValue());
+        }                                        
+        setSimulations(sims);                    
 
-	return true;
+        return true;
     }
 }

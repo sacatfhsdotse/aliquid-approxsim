@@ -1,4 +1,4 @@
-// 	$Id: DefaultServerSession.java,v 1.8 2006/03/22 14:30:50 dah Exp $
+//         $Id: DefaultServerSession.java,v 1.8 2006/03/22 14:30:50 dah Exp $
 /*
  * @(#)ServerSession.java
  */
@@ -42,8 +42,8 @@ public class DefaultServerSession implements ServerSession
      */
     DefaultServerSession(StratmasSocket socket)
     {
-	this.connection = new ServerConnection(socket);
-	open();
+        this.connection = new ServerConnection(socket);
+        open();
     }
 
     /**
@@ -53,7 +53,7 @@ public class DefaultServerSession implements ServerSession
      */
     public void registerSubscription(Subscription subscription) throws ServerException
     {
-	getConnection().getSubscriptionHandler().blockingRegSubscription(subscription);
+        getConnection().getSubscriptionHandler().blockingRegSubscription(subscription);
     }
 
     /**
@@ -65,7 +65,7 @@ public class DefaultServerSession implements ServerSession
      */
     public void initialize(StratmasObject root) throws ServerException
     {
-	send(new InitializationMessage(root));
+        send(new InitializationMessage(root));
     }
 
     /**
@@ -75,20 +75,20 @@ public class DefaultServerSession implements ServerSession
      */
     public void close() throws ServerException
     {
-	// Take out the handlers from the connection, in case the
-	// connection decides to nullify their entries.
-	XMLHandler xmlHandler = getConnection().getXMLHandler();
-	SubscriptionHandler subscriptionHandler = 
-	    getConnection().getSubscriptionHandler();
+        // Take out the handlers from the connection, in case the
+        // connection decides to nullify their entries.
+        XMLHandler xmlHandler = getConnection().getXMLHandler();
+        SubscriptionHandler subscriptionHandler = 
+            getConnection().getSubscriptionHandler();
 
-	send(new DisconnectMessage());
+        send(new DisconnectMessage());
 
-	// Kill handlers.
-	xmlHandler.kill();
-	subscriptionHandler.kill();
-	getConnection().kill();
+        // Kill handlers.
+        xmlHandler.kill();
+        subscriptionHandler.kill();
+        getConnection().kill();
 
-	getConnection().socket().close();
+        getConnection().socket().close();
     }
 
     /**
@@ -97,9 +97,9 @@ public class DefaultServerSession implements ServerSession
      */
     public void open()
     {
-	getConnection().start();
-	getConnection().getXMLHandler().start();
-	new SubscriptionHandler(getConnection()).start();
+        getConnection().start();
+        getConnection().getXMLHandler().start();
+        new SubscriptionHandler(getConnection()).start();
     }
 
     /**
@@ -108,7 +108,7 @@ public class DefaultServerSession implements ServerSession
      */
     ServerConnection getConnection() 
     {
-	return this.connection;
+        return this.connection;
     }
 
     
@@ -119,7 +119,7 @@ public class DefaultServerSession implements ServerSession
      */
     public void step() throws ServerException
     {
-	send(new StepMessage(1, false));
+        send(new StepMessage(1, false));
     }
 
     /**
@@ -131,41 +131,41 @@ public class DefaultServerSession implements ServerSession
      * @throws ServerException on communication error.
      */
     public void updateObject(final Reference reference, final StratmasObject object) 
-	throws ServerException
+        throws ServerException
     {
-	send(new StratmasMessage()
-	    {
-		/**
-		 * Returns a string representation of the type of this message.
-		 *
-		 * @return A string representation of the type of this message.
-		 */
-		public String getTypeAsString()
-		{
-		    return "UpdateServerMessage";
-		}
-		
-		/**
-		 * Creates an XML representation of the body of this object.
-		 *
-		 * @param b The StringBuffer to write to.
-		 * @return The StringBuffer b with an XML representation of this
-		 * object's body appended to it.
-		 */
-		public StringBuffer bodyXML(StringBuffer b) 
-		{
-		    b.append(NL).append("<update xsi:type=\"sp:ServerUpdateModify\">");
-		    b.append(NL).append("<reference>");
-		    reference.bodyXML(b);
-		    b.append(NL).append("</reference>");
-		    b.append(NL).append("<newValue xsi:type=\"sp:").append(object.getType().getName());
-		    b.append("\" identifier=\"").append(object.getIdentifier()).append("\">");
-		    object.bodyXML(b);
-		    b.append(NL).append("</newValue>");
-		    b.append(NL).append("</update>");
-		    return b;
-		}
-	    });	
+        send(new StratmasMessage()
+            {
+                /**
+                 * Returns a string representation of the type of this message.
+                 *
+                 * @return A string representation of the type of this message.
+                 */
+                public String getTypeAsString()
+                {
+                    return "UpdateServerMessage";
+                }
+                
+                /**
+                 * Creates an XML representation of the body of this object.
+                 *
+                 * @param b The StringBuffer to write to.
+                 * @return The StringBuffer b with an XML representation of this
+                 * object's body appended to it.
+                 */
+                public StringBuffer bodyXML(StringBuffer b) 
+                {
+                    b.append(NL).append("<update xsi:type=\"sp:ServerUpdateModify\">");
+                    b.append(NL).append("<reference>");
+                    reference.bodyXML(b);
+                    b.append(NL).append("</reference>");
+                    b.append(NL).append("<newValue xsi:type=\"sp:").append(object.getType().getName());
+                    b.append("\" identifier=\"").append(object.getIdentifier()).append("\">");
+                    object.bodyXML(b);
+                    b.append(NL).append("</newValue>");
+                    b.append(NL).append("</update>");
+                    return b;
+                }
+            });        
     }
 
     /**
@@ -176,7 +176,7 @@ public class DefaultServerSession implements ServerSession
      */
     public void send(StratmasMessage message) throws ServerException
     {
-	getConnection().blockingSend(message);
+        getConnection().blockingSend(message);
     }
 
     /**
@@ -184,7 +184,7 @@ public class DefaultServerSession implements ServerSession
      */
     public String toString()
     {
-	return getConnection().socket().getHost() + ":" + getConnection().socket().getPort();
+        return getConnection().socket().getHost() + ":" + getConnection().socket().getPort();
     }
 
     /**
@@ -193,14 +193,14 @@ public class DefaultServerSession implements ServerSession
      */
     public static ServerSession allocateSession()
     {
-	StratmasDispatcher dispatcher = StratmasDispatcher.getDefaultDispatcher();
-	if (dispatcher != null) { 
-	    StratmasSocket socket = dispatcher.allocateServer(10);
-	    if (socket != null) {
-		return new DefaultServerSession(socket);
-	    }
-	}
+        StratmasDispatcher dispatcher = StratmasDispatcher.getDefaultDispatcher();
+        if (dispatcher != null) { 
+            StratmasSocket socket = dispatcher.allocateServer(10);
+            if (socket != null) {
+                return new DefaultServerSession(socket);
+            }
+        }
 
-	return null;
+        return null;
     }
 }

@@ -27,8 +27,8 @@ public class StepMessage extends StratmasMessage {
      * executed detached.
      */
      public StepMessage(int steps, boolean detached) {
-	  mSteps = steps;
-	  mDetached = detached;
+          mSteps = steps;
+          mDetached = detached;
      }
 
     /**
@@ -37,7 +37,7 @@ public class StepMessage extends StratmasMessage {
      * @return A string representation of the type of this message.
      */
      public String getTypeAsString() {
-	  return "StepMessage";
+          return "StepMessage";
      }
 
      /**
@@ -48,8 +48,8 @@ public class StepMessage extends StratmasMessage {
       * object's body appended to it.
       */
      public StringBuffer bodyXML(StringBuffer b) {
-	  b.append(NL).append("<numberOfTimesteps>").append(mSteps).append("</numberOfTimesteps>");
-	  b.append(NL).append("<detached>").append(mDetached).append("</detached>");
-	  return b;
+          b.append(NL).append("<numberOfTimesteps>").append(mSteps).append("</numberOfTimesteps>");
+          b.append(NL).append("<detached>").append(mDetached).append("</detached>");
+          return b;
      }
 }

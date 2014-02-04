@@ -47,12 +47,12 @@ public:
       * \param c The DataObject to register.
       */
      static void reg(const DataObject* c) {
-	  if (mMap.find(&c->ref()) != mMap.end()) {
-	       Error e;
-	       e << "Tried to register Reference '" << c->ref() << "' twice";
-	       throw e;
-	  }
-	  mMap[&c->ref()] = const_cast<DataObject*>(c);
+          if (mMap.find(&c->ref()) != mMap.end()) {
+               Error e;
+               e << "Tried to register Reference '" << c->ref() << "' twice";
+               throw e;
+          }
+          mMap[&c->ref()] = const_cast<DataObject*>(c);
      }
 
      /**
@@ -61,7 +61,7 @@ public:
       * \param d The DataObject to deregister.
       */
      static void dereg(const DataObject& d) {
-	  mMap.erase(&d.ref());
+          mMap.erase(&d.ref());
      }
 
      /**
@@ -73,19 +73,19 @@ public:
       * such DataObject was found..
       */
      static DataObject* map(const Reference& ref) {
-	  DataObject *ret = 0;
-	  MapType::const_iterator it = mMap.find(&ref);
-	  if (it != mMap.end()) {
-	       ret = it->second;
-	  }
-	  return ret;
+          DataObject *ret = 0;
+          MapType::const_iterator it = mMap.find(&ref);
+          if (it != mMap.end()) {
+               ret = it->second;
+          }
+          return ret;
      }
 
      /**
       * \brief Erases all mappings.
       */
      inline static void clear() {
-	  mMap.clear();
+          mMap.clear();
      }
 
      /**
@@ -95,11 +95,11 @@ public:
       * \param m The Mapper to print.
       */
      friend std::ostream& operator << (std::ostream& o, const Mapper& m) {
-	  MapType::const_iterator it2;
-	  for (it2 = m.mMap.begin(); it2 != m.mMap.end(); it2++) {
-	       o << *it2->first << std::endl;
-	  }
-	  return o;
+          MapType::const_iterator it2;
+          for (it2 = m.mMap.begin(); it2 != m.mMap.end(); it2++) {
+               o << *it2->first << std::endl;
+          }
+          return o;
      }
 };
 

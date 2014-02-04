@@ -33,7 +33,7 @@ public:
      bool addValidIP(const std::string& ipToAdd);
      bool isValidIP(const std::string& ipToValidate);
      virtual bool isValidClient(const Socket* socket) { 
-	  return isValidIP(socket->address());
+          return isValidIP(socket->address());
      }
      int numValidIPs() const { return mIPSet.size(); }
 };

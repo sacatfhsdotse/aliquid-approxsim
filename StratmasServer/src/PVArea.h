@@ -94,27 +94,27 @@ inline int PVModification::type(int t)
 {
      static bool firstTime = true;
      if (firstTime) {
-	  sPVTypeMap[eAllPopulation          ] = eSum;
-	  sPVTypeMap[eAllDisplaced           ] = eSum;
-	  sPVTypeMap[eAllSheltered           ] = eSum;
-	  sPVTypeMap[eAllProtected           ] = eSum;
-	  sPVTypeMap[eAllInsurgents          ] = eSum;
-	  sPVTypeMap[eAllSuppliedWater       ] = eSum;
-	  sPVTypeMap[eAllDailyDead           ] = eSum;
-	  sPVTypeMap[eAllTotalDead           ] = eSum;
-	  sPVTypeMap[eAllViolence            ] = eMean;
-	  sPVTypeMap[eAllPerceivedThreat     ] = eMean;
-	  sPVTypeMap[eAllFractionNoMedical   ] = eMean;
-	  sPVTypeMap[eAllFractionNoWork      ] = eMean;
-	  sPVTypeMap[eAllEthnicTension       ] = eMean;
-	  sPVTypeMap[eAllFractionCrimeVictims] = eMean;
-	  sPVTypeMap[eAllFoodDays            ] = eMean;
-	  sPVTypeMap[eAllFractionNoFood      ] = eMean;
-	  sPVTypeMap[eAllWaterDays           ] = eMean;
-	  sPVTypeMap[eAllFractionNoWater     ] = eMean;
-	  sPVTypeMap[eAllFractionInfected    ] = eMean;
-	  sPVTypeMap[eAllFractionRecovered   ] = eMean;
-	  sPVTypeMap[eAllInfrastructure      ] = eMean;
+          sPVTypeMap[eAllPopulation          ] = eSum;
+          sPVTypeMap[eAllDisplaced           ] = eSum;
+          sPVTypeMap[eAllSheltered           ] = eSum;
+          sPVTypeMap[eAllProtected           ] = eSum;
+          sPVTypeMap[eAllInsurgents          ] = eSum;
+          sPVTypeMap[eAllSuppliedWater       ] = eSum;
+          sPVTypeMap[eAllDailyDead           ] = eSum;
+          sPVTypeMap[eAllTotalDead           ] = eSum;
+          sPVTypeMap[eAllViolence            ] = eMean;
+          sPVTypeMap[eAllPerceivedThreat     ] = eMean;
+          sPVTypeMap[eAllFractionNoMedical   ] = eMean;
+          sPVTypeMap[eAllFractionNoWork      ] = eMean;
+          sPVTypeMap[eAllEthnicTension       ] = eMean;
+          sPVTypeMap[eAllFractionCrimeVictims] = eMean;
+          sPVTypeMap[eAllFoodDays            ] = eMean;
+          sPVTypeMap[eAllFractionNoFood      ] = eMean;
+          sPVTypeMap[eAllWaterDays           ] = eMean;
+          sPVTypeMap[eAllFractionNoWater     ] = eMean;
+          sPVTypeMap[eAllFractionInfected    ] = eMean;
+          sPVTypeMap[eAllFractionRecovered   ] = eMean;
+          sPVTypeMap[eAllInfrastructure      ] = eMean;
      }
      std::map<int, int>::iterator it = sPVTypeMap.find(t);
      return (it == sPVTypeMap.end() ? eUnknown : it->second);

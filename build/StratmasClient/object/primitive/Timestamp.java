@@ -55,7 +55,7 @@ public class Timestamp {
       * @param ms The number of milliseconds.
       */
      public Timestamp(long ms) {
-	  mMilliSecs = ms;
+          mMilliSecs = ms;
      }
      
      /**
@@ -64,7 +64,7 @@ public class Timestamp {
       * @return The number of milliseconds.
       */
      public long getMilliSecs() {
-	  return mMilliSecs;
+          return mMilliSecs;
      }
 
     /**
@@ -72,27 +72,27 @@ public class Timestamp {
      */
     private static DateFormat createOutputFormat()
     {
-	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS Z");
-	format.setLenient(true);
-	return format;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS Z");
+        format.setLenient(true);
+        return format;
     }
 
     /**
      * Creates the formatter used for XML output.
      */
-    private static DateFormat createXMLOutputFormat() {	 
-	 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-	 format.setTimeZone(UTCTimeZone);
-	 return format;
+    private static DateFormat createXMLOutputFormat() {         
+         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+         format.setTimeZone(UTCTimeZone);
+         return format;
     }
 
     /**
      * Creates the date format for this object.
      */
     private static DateFormat createDateFormat() {
-	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-	format.setLenient(true);
-	return format;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        format.setLenient(true);
+        return format;
     }
 
     /**
@@ -101,7 +101,7 @@ public class Timestamp {
      */
     public Timestamp add(Duration duration)
     {
-	return new Timestamp(mMilliSecs + duration.getMilliSecs());
+        return new Timestamp(mMilliSecs + duration.getMilliSecs());
     }
 
     /**
@@ -109,10 +109,10 @@ public class Timestamp {
      */
     public boolean equals(Object o)
     {
-	if (o instanceof Timestamp) {
-	    return ((Timestamp) o).getMilliSecs() == getMilliSecs();
-	}
-	return false;
+        if (o instanceof Timestamp) {
+            return ((Timestamp) o).getMilliSecs() == getMilliSecs();
+        }
+        return false;
     }
 
     /**
@@ -121,7 +121,7 @@ public class Timestamp {
      */
     public int hashCode()
     {
-	return (int)(this.getMilliSecs()^(this.getMilliSecs()>>>32));
+        return (int)(this.getMilliSecs()^(this.getMilliSecs()>>>32));
     }
 
      /**
@@ -131,12 +131,12 @@ public class Timestamp {
       * @return A string representation of this Timestamp.
       */
      public String toString() {
-	// DateFormat is not threadsafe, use a clone instead
-	DateFormat myCopy = null;
-	synchronized (Timestamp.outputFormat) {
-	    myCopy = (DateFormat) Timestamp.outputFormat.clone();
-	};
-	return myCopy.format(new java.util.Date(mMilliSecs));
+        // DateFormat is not threadsafe, use a clone instead
+        DateFormat myCopy = null;
+        synchronized (Timestamp.outputFormat) {
+            myCopy = (DateFormat) Timestamp.outputFormat.clone();
+        };
+        return myCopy.format(new java.util.Date(mMilliSecs));
      }
 
      /**
@@ -147,12 +147,12 @@ public class Timestamp {
       * @return A string representation of this Timestamp.
       */
      public String toDateTimeString() {
-	// DateFormat is not threadsafe, use a clone instead
-	DateFormat myCopy = null;
-	synchronized (Timestamp.xmlOutputFormat) {
-	    myCopy = (DateFormat) Timestamp.xmlOutputFormat.clone();
-	};
-	return myCopy.format(new java.util.Date(mMilliSecs)) + "Z";
+        // DateFormat is not threadsafe, use a clone instead
+        DateFormat myCopy = null;
+        synchronized (Timestamp.xmlOutputFormat) {
+            myCopy = (DateFormat) Timestamp.xmlOutputFormat.clone();
+        };
+        return myCopy.format(new java.util.Date(mMilliSecs)) + "Z";
      }
 
     /**
@@ -162,32 +162,32 @@ public class Timestamp {
      */
     public static Timestamp parseTimestamp(String str) throws ParseException
     {
-	// Just a number means number of milliseconds.
-	if (str.matches("[0-9]+")) {
-	    return new Timestamp(Long.parseLong(str));
-	}
-	// XML Schema dateTime format.
-	try {
-	     return new Timestamp(parseDateTime(str).getTime());
-	} catch (ParseException e) {
-	}
+        // Just a number means number of milliseconds.
+        if (str.matches("[0-9]+")) {
+            return new Timestamp(Long.parseLong(str));
+        }
+        // XML Schema dateTime format.
+        try {
+             return new Timestamp(parseDateTime(str).getTime());
+        } catch (ParseException e) {
+        }
 
-	try {
-	     // DateFormat is not threadsafe, use a clone instead
-	     DateFormat myCopy = null;
-	     synchronized (Timestamp.outputFormat) {
-		  myCopy = (DateFormat) Timestamp.outputFormat.clone();
-	     }
-	     return new Timestamp(myCopy.parse(str).getTime());
-	} catch (ParseException e) {
-	}
+        try {
+             // DateFormat is not threadsafe, use a clone instead
+             DateFormat myCopy = null;
+             synchronized (Timestamp.outputFormat) {
+                  myCopy = (DateFormat) Timestamp.outputFormat.clone();
+             }
+             return new Timestamp(myCopy.parse(str).getTime());
+        } catch (ParseException e) {
+        }
 
-	// Only date format.
-	DateFormat myCopy = null;
-	synchronized (Timestamp.dateFormat) {
-	     myCopy = (DateFormat)Timestamp.dateFormat.clone();
-	}
-	return new Timestamp(myCopy.parse(str).getTime());
+        // Only date format.
+        DateFormat myCopy = null;
+        synchronized (Timestamp.dateFormat) {
+             myCopy = (DateFormat)Timestamp.dateFormat.clone();
+        }
+        return new Timestamp(myCopy.parse(str).getTime());
     }
 
      /**
@@ -200,68 +200,68 @@ public class Timestamp {
       * @throws ParseException If parsing fails.
       */
      public static Date parseDateTime(String dateTime) throws ParseException {
-	  SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-	  dateTimeFormat.setTimeZone(UTCTimeZone);
+          SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+          dateTimeFormat.setTimeZone(UTCTimeZone);
 
-	  ParsePosition p = new ParsePosition(0);
-	  Date date = dateTimeFormat.parse(dateTime, p);
-	  if (date == null) {
-	       throw new ParseException("'" + dateTime + "' is not a valid dateTime.",  p.getErrorIndex());
-	  }
-	  
-	  String rest = dateTime.substring(p.getIndex());
-	  
-	  int millis = 0;
-	  int tzOffset = 0;
-	  // Check for milliseconds and time zone
-	  int tzStart = 0;
-	  int plus    = rest.indexOf("+");
-	  int minus   = rest.indexOf("-");
-	  int zed     = rest.indexOf("Z"); // Zulu time i.e UTC.
-	  if (rest.length() > 0 && rest.charAt(0) == '.') {
-	       // Handle milliseconds
-	       double dmillis;
-	       try {
-		    if (zed > 0) {
-			 dmillis = Double.parseDouble(rest.substring(0, zed));
-			 tzStart = rest.length();
-		    }
-		    else if (plus > 0) {
-			 dmillis = Double.parseDouble(rest.substring(0, plus));
-			 tzStart = plus;
-		    }
-		    else if (minus > 0) {
-			 dmillis = Double.parseDouble(rest.substring(0, minus));
-			 tzStart = minus;
-		    }
-		    else { 
-			 dmillis = Double.parseDouble(rest);
-			 tzStart = rest.length();
-		    }
-	       } catch (NumberFormatException e) {
-		    throw new ParseException("Unable to read milliseconds from the string '" + rest + "'.", 0);
-	       }
-	       millis = (int)(dmillis * 1000);
-	  }
-	  if (zed == -1) {
-	       // Time zone.
-	       if (rest.length() > tzStart) {
-		    try {
-			 int tzHour = Integer.parseInt(rest.substring(tzStart + 1, tzStart + 3));
-			 int tzMin  = Integer.parseInt(rest.substring(tzStart + 4));
-			 tzOffset = (tzHour * 3600000 + tzMin * 60000) * (plus != -1 ? 1 : -1);
-		    } catch (NumberFormatException e) {
-			 throw new ParseException("'" + rest.substring(tzStart) + "' is not a valid time zone format.", 0);
-		    }
-	       }
-	       else {
-		    tzOffset = defaultTimeZone.getOffset(new Date().getTime());
-	       }
-	  }
-	  Calendar cal = Calendar.getInstance();
-	  cal.setTime(date);
-	  cal.add(Calendar.MILLISECOND, millis - tzOffset);
-	  return cal.getTime();
+          ParsePosition p = new ParsePosition(0);
+          Date date = dateTimeFormat.parse(dateTime, p);
+          if (date == null) {
+               throw new ParseException("'" + dateTime + "' is not a valid dateTime.",  p.getErrorIndex());
+          }
+          
+          String rest = dateTime.substring(p.getIndex());
+          
+          int millis = 0;
+          int tzOffset = 0;
+          // Check for milliseconds and time zone
+          int tzStart = 0;
+          int plus    = rest.indexOf("+");
+          int minus   = rest.indexOf("-");
+          int zed     = rest.indexOf("Z"); // Zulu time i.e UTC.
+          if (rest.length() > 0 && rest.charAt(0) == '.') {
+               // Handle milliseconds
+               double dmillis;
+               try {
+                    if (zed > 0) {
+                         dmillis = Double.parseDouble(rest.substring(0, zed));
+                         tzStart = rest.length();
+                    }
+                    else if (plus > 0) {
+                         dmillis = Double.parseDouble(rest.substring(0, plus));
+                         tzStart = plus;
+                    }
+                    else if (minus > 0) {
+                         dmillis = Double.parseDouble(rest.substring(0, minus));
+                         tzStart = minus;
+                    }
+                    else { 
+                         dmillis = Double.parseDouble(rest);
+                         tzStart = rest.length();
+                    }
+               } catch (NumberFormatException e) {
+                    throw new ParseException("Unable to read milliseconds from the string '" + rest + "'.", 0);
+               }
+               millis = (int)(dmillis * 1000);
+          }
+          if (zed == -1) {
+               // Time zone.
+               if (rest.length() > tzStart) {
+                    try {
+                         int tzHour = Integer.parseInt(rest.substring(tzStart + 1, tzStart + 3));
+                         int tzMin  = Integer.parseInt(rest.substring(tzStart + 4));
+                         tzOffset = (tzHour * 3600000 + tzMin * 60000) * (plus != -1 ? 1 : -1);
+                    } catch (NumberFormatException e) {
+                         throw new ParseException("'" + rest.substring(tzStart) + "' is not a valid time zone format.", 0);
+                    }
+               }
+               else {
+                    tzOffset = defaultTimeZone.getOffset(new Date().getTime());
+               }
+          }
+          Calendar cal = Calendar.getInstance();
+          cal.setTime(date);
+          cal.add(Calendar.MILLISECOND, millis - tzOffset);
+          return cal.getTime();
      }
 }
 

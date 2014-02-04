@@ -75,25 +75,25 @@ void Simulation::prepareForSimulation()
      // Generate random seed if we didn't get any from the client.
      DataObject* randomSeed = myself.getChild("randomSeed");
      if (!randomSeed) {
-	  SOFactory::createOptionalSimpleIn(myself, "randomSeed");
-	  randomSeed = myself.getChild("randomSeed");
-	  randomSeed->setInt64_t(mRandomSeed);
+          SOFactory::createOptionalSimpleIn(myself, "randomSeed");
+          randomSeed = myself.getChild("randomSeed");
+          randomSeed->setInt64_t(mRandomSeed);
      }
      setRandomSeed(mRandomSeed);
 
      // Generate ModelParameters if we didn't get any from the client.
      if (!mModelParameters) {
-	  const Type& modParmType = myself.getType().getSubElement("modelParameters")->getType();
-	  const Reference& refToModParm = Reference::get(ref(),"modelParameters");
-	  mModelParameters = dynamic_cast<ModelParameters*>(SOFactory::createSimulationObject(refToModParm, modParmType));
-	  mModelParameters->setDefault();
+          const Type& modParmType = myself.getType().getSubElement("modelParameters")->getType();
+          const Reference& refToModParm = Reference::get(ref(),"modelParameters");
+          mModelParameters = dynamic_cast<ModelParameters*>(SOFactory::createSimulationObject(refToModParm, modParmType));
+          mModelParameters->setDefault();
      }
      mScenario->prepareForSimulation(*mGridPartitioner, *mModelParameters, mStartTime);
 
 //      if (!mParameters) {
-// 	  const Type& pgType = myself.getType().getSubElement("parameters")->getType();
-// 	  const Reference& refToPgToBeCreated = Reference::get(ref(), "parameters");
-// 	  mParameters = dynamic_cast<ParameterGroup*>(SOFactory::createSimulationObject(refToPgToBeCreated, pgType));
+//           const Type& pgType = myself.getType().getSubElement("parameters")->getType();
+//           const Reference& refToPgToBeCreated = Reference::get(ref(), "parameters");
+//           mParameters = dynamic_cast<ParameterGroup*>(SOFactory::createSimulationObject(refToPgToBeCreated, pgType));
 //      }
 //      mParameters->prepareForSimulation();
 }
@@ -136,18 +136,18 @@ void Simulation::addObject(DataObject& toAdd, int64_t initiator)
 {
      const Type& type = toAdd.getType();
      if (type.canSubstitute("NonNegativeInteger")) {
-	  SOFactory::createSimple(toAdd, initiator);
-	  mRandomSeed = toAdd.getInt64_t();
-	  setRandomSeed(mRandomSeed);
+          SOFactory::createSimple(toAdd, initiator);
+          mRandomSeed = toAdd.getInt64_t();
+          setRandomSeed(mRandomSeed);
      }
      else if (type.canSubstitute("ModelParameters")) {
-	  mModelParameters = dynamic_cast<ModelParameters*>(SOFactory::createSimulationObject(toAdd, initiator));
+          mModelParameters = dynamic_cast<ModelParameters*>(SOFactory::createSimulationObject(toAdd, initiator));
      }
 //      else if (type.canSubstitute("ParameterGroup")) {
-// 	  mParameters = dynamic_cast<ParameterGroup*>(SOFactory::createSimulationObject(toAdd, initiator));
+//           mParameters = dynamic_cast<ParameterGroup*>(SOFactory::createSimulationObject(toAdd, initiator));
 //      }
      else {
-	  UpdatableSOAdapter::addObject(toAdd, initiator);
+          UpdatableSOAdapter::addObject(toAdd, initiator);
      }
 }
 
@@ -162,32 +162,32 @@ void Simulation::removeObject(const Reference& toRemove, int64_t initiator)
 {
      DataObject* d = Mapper::map(toRemove);
      if (!d) {
-	  Error e;
-	  e << "Tried to remove non existing DataObject '" << toRemove << "' from '" << ref() << "'";
-	  throw e;
+          Error e;
+          e << "Tried to remove non existing DataObject '" << toRemove << "' from '" << ref() << "'";
+          throw e;
      }
      const Type& type = d->getType();
      if (type.canSubstitute("NonNegativeInteger")) {
-	  // Shouldn't be able to remove randomSeed so let's add it again.
-	  DataObject* addAgain = d->clone();
-	  SOFactory::simulationObjectRemoved(toRemove, initiator);
-	  SOFactory::createSimple(*addAgain);
+          // Shouldn't be able to remove randomSeed so let's add it again.
+          DataObject* addAgain = d->clone();
+          SOFactory::simulationObjectRemoved(toRemove, initiator);
+          SOFactory::createSimple(*addAgain);
      }
      else if (type.canSubstitute("ModelParameters")) {
-	  // Shouldn't be able to remove modelParameters so let's add it again.
-	  DataObject* addAgain = d->clone();
-	  SOFactory::removeSimulationObject(mModelParameters, initiator);
-	  addObject(*addAgain, -1);
+          // Shouldn't be able to remove modelParameters so let's add it again.
+          DataObject* addAgain = d->clone();
+          SOFactory::removeSimulationObject(mModelParameters, initiator);
+          addObject(*addAgain, -1);
      }
 //      else if (type.canSubstitute("ParameterGroup")) {
-// 	  // Shouldn't be able to remove ParameterGroup so let's add it again.
-// 	  DataObject* addAgain = d->clone();
-// 	  SOFactory::removeSimulationObject(mParameters, initiator);
-// 	  addObject(*addAgain, -1);
-// 	  mParameters->prepareForSimulation();
+//           // Shouldn't be able to remove ParameterGroup so let's add it again.
+//           DataObject* addAgain = d->clone();
+//           SOFactory::removeSimulationObject(mParameters, initiator);
+//           addObject(*addAgain, -1);
+//           mParameters->prepareForSimulation();
 //      }
      else {
-	  UpdatableSOAdapter::removeObject(toRemove, initiator);
+          UpdatableSOAdapter::removeObject(toRemove, initiator);
      }
 }
 
@@ -200,11 +200,11 @@ void Simulation::modify(const DataObject& d)
 {
      const string& attr = d.identifier();
      if (attr == "startTime") {
-	  mStartTime = d.getTime();
+          mStartTime = d.getTime();
      }
      else if (attr == "randomSeed") {
-	  mRandomSeed = d.getInt64_t();
-	  setRandomSeed(mRandomSeed);
+          mRandomSeed = d.getInt64_t();
+          setRandomSeed(mRandomSeed);
      }
 }
 
@@ -222,15 +222,15 @@ void Simulation::reset(const DataObject& d)
      mStartTime = d.getChild("startTime")->getTime();
      mRandomSeed = (d.getChild("randomSeed") ? d.getChild("randomSeed")->getInt64_t() : mRandomSeed);
      if (DataObject* o = d.getChild("modelParameters")) {
-	  mModelParameters->reset(*o);
+          mModelParameters->reset(*o);
      }
      else {
-	  SOFactory::removeSimulationObject(mModelParameters);
-	  const Type& modParmType = d.getType().getSubElement("modelParameters")->getType();
-	  mModelParameters = 
-	       dynamic_cast<ModelParameters*>(SOFactory::createSimulationObject(Reference::get(ref(),"modelParameters"),
-										modParmType));
-	  mModelParameters->setDefault();
+          SOFactory::removeSimulationObject(mModelParameters);
+          const Type& modParmType = d.getType().getSubElement("modelParameters")->getType();
+          mModelParameters = 
+               dynamic_cast<ModelParameters*>(SOFactory::createSimulationObject(Reference::get(ref(),"modelParameters"),
+                                                                                modParmType));
+          mModelParameters->setDefault();
      }
 
      sSimTime = mStartTime;

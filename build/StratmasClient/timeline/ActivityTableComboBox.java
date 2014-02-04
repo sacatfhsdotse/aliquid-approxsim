@@ -29,26 +29,26 @@ public class ActivityTableComboBox extends JComboBox implements StratmasEventLis
      * Creates new combo box.
      */
     public ActivityTableComboBox() {
-	super();
-	this.setBackground(Color.WHITE);
-	this.setFont(this.getFont().deriveFont(Font.PLAIN));
+        super();
+        this.setBackground(Color.WHITE);
+        this.setFont(this.getFont().deriveFont(Font.PLAIN));
     }
     
     /**
      * Updates the list.
      */
     public synchronized void eventOccured(StratmasEvent e) {
-	StratmasObject so = (StratmasObject)e.getSource();
-	if (e.isIdentifierChanged()) {
-	    removeResource(so, (String)e.getArgument());
-	    addResource(so);
-	}
-	else if (e.isRemoved()) {
-	    removeResource(so, so.getIdentifier());  
-	}
-	else if (e.isObjectAdded()) {
-	    addResource(so);
-	}
+        StratmasObject so = (StratmasObject)e.getSource();
+        if (e.isIdentifierChanged()) {
+            removeResource(so, (String)e.getArgument());
+            addResource(so);
+        }
+        else if (e.isRemoved()) {
+            removeResource(so, so.getIdentifier());  
+        }
+        else if (e.isObjectAdded()) {
+            addResource(so);
+        }
     }
     
     /**
@@ -57,32 +57,32 @@ public class ActivityTableComboBox extends JComboBox implements StratmasEventLis
      * @param resource a military unit.
      */
     public void addResource(StratmasObject resource) {
-	// a resource with the similar identifier already exists in the list
-	if (resources.containsKey(resource.getIdentifier())) {
-	    Vector resVec = (Vector)resources.get(resource.getIdentifier());
-	    if (!resVec.contains(resource)) {
-		resVec.add(resource);
-	    }
-	}
-	// no resources with the similar identifier exist in the list
-	else {
-	    Vector refVec = new Vector();
-	    refVec.add(resource);
-	    resources.put(resource.getIdentifier(), refVec);
-	    // update the combo box
-	    int i = 1;
-	    while (i < getItemCount() && resource.getIdentifier().compareTo((String)getItemAt(i)) > 0) {
-		i++;
-	    }
-	    if (i < getItemCount()) {
-		((DefaultComboBoxModel)this.getModel()).insertElementAt(resource.getIdentifier(), i);
-	    }
-	    else {
-		this.addItem(resource.getIdentifier());
-	    }
-	}
-	// listen to the resource
-	resource.addEventListener(this);
+        // a resource with the similar identifier already exists in the list
+        if (resources.containsKey(resource.getIdentifier())) {
+            Vector resVec = (Vector)resources.get(resource.getIdentifier());
+            if (!resVec.contains(resource)) {
+                resVec.add(resource);
+            }
+        }
+        // no resources with the similar identifier exist in the list
+        else {
+            Vector refVec = new Vector();
+            refVec.add(resource);
+            resources.put(resource.getIdentifier(), refVec);
+            // update the combo box
+            int i = 1;
+            while (i < getItemCount() && resource.getIdentifier().compareTo((String)getItemAt(i)) > 0) {
+                i++;
+            }
+            if (i < getItemCount()) {
+                ((DefaultComboBoxModel)this.getModel()).insertElementAt(resource.getIdentifier(), i);
+            }
+            else {
+                this.addItem(resource.getIdentifier());
+            }
+        }
+        // listen to the resource
+        resource.addEventListener(this);
     } 
 
     /**
@@ -92,38 +92,38 @@ public class ActivityTableComboBox extends JComboBox implements StratmasEventLis
      * @param identifier the key of the resource in the list.
      */
     public void removeResource(StratmasObject resource, String identifier) {
-	if (resources.containsKey(identifier)) {
-	    Vector res = (Vector)resources.get(identifier);
-	    res.remove(resource);
-	    // remove the identifier from the list
-	    if (res.isEmpty()) {
-		resources.remove(identifier);
-		// update the combo box
-		this.removeItem(identifier);
-	    }
-	    // remove the listener
-	    resource.removeEventListener(this);
-	}
+        if (resources.containsKey(identifier)) {
+            Vector res = (Vector)resources.get(identifier);
+            res.remove(resource);
+            // remove the identifier from the list
+            if (res.isEmpty()) {
+                resources.remove(identifier);
+                // update the combo box
+                this.removeItem(identifier);
+            }
+            // remove the listener
+            resource.removeEventListener(this);
+        }
     } 
     
     /**
      * Returns the resources with the given identifier.
      */
     public Vector getResources(String id) {
-	return (Vector)resources.get(id);
+        return (Vector)resources.get(id);
     } 
     
     /**
      * Returns true if the list contains the resource.
      */
     public boolean contains(StratmasObject resource) {
-	if (resources.containsKey(resource.getIdentifier())) {
-	    Vector res = getResources(resource.getIdentifier());
-	    if (res.contains(resource)) {
-		return true;
-	    }
-	}
-	return false;
+        if (resources.containsKey(resource.getIdentifier())) {
+            Vector res = getResources(resource.getIdentifier());
+            if (res.contains(resource)) {
+                return true;
+            }
+        }
+        return false;
     }
     
 }

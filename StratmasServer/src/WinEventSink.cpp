@@ -21,18 +21,18 @@ void WinEventSink::sink(const LogMessage* const message)
      LPCSTR msg = str.c_str();
      BOOL res;
      res = ReportEvent(sHandle,                   // event log handle
-		       EVENTLOG_INFORMATION_TYPE, // event type
-		       0,                         // category zero
-		       0,                         // event identifier
-		       NULL,                      // user security identifier
-		       1,                         // one substitution string
-		       0,                         // data?
-		       &msg,                      // pointer to string array
-		       NULL);                     // pointer to data
+                       EVENTLOG_INFORMATION_TYPE, // event type
+                       0,                         // category zero
+                       0,                         // event identifier
+                       NULL,                      // user security identifier
+                       1,                         // one substitution string
+                       0,                         // data?
+                       &msg,                      // pointer to string array
+                       NULL);                     // pointer to data
      if (res == 0) {
-	  // std:cerr most likely won't work, no other option though.
-	  std::cerr << "Log post failed: \"" << GetLastError() 
-		    << "\"" << std::endl;
+          // std:cerr most likely won't work, no other option though.
+          std::cerr << "Log post failed: \"" << GetLastError() 
+                    << "\"" << std::endl;
      }
 }
 
@@ -45,18 +45,18 @@ void WinEventSink::sink(const LogMessage* const message)
 WinEventSink* WinEventSink::createWinEventSink(const std::string& sourceName)
 {
      if (!sEventSourcedRegistered) {
-	  sSourceName = sourceName;
-	  sHandle = RegisterEventSource(sServerName.empty() ? 
-					0 : sServerName.c_str(),  
-					TEXT(sSourceName.c_str()));
-	  if (sHandle == 0) {
-	       // Try to warn, (but cerr may be closed at this point)
-	       std::cerr << "Unable to set up logging, error: "
-			 << GetLastError() << ". Exting...";
-	       exit(1);
-	  }
+          sSourceName = sourceName;
+          sHandle = RegisterEventSource(sServerName.empty() ? 
+                                        0 : sServerName.c_str(),  
+                                        TEXT(sSourceName.c_str()));
+          if (sHandle == 0) {
+               // Try to warn, (but cerr may be closed at this point)
+               std::cerr << "Unable to set up logging, error: "
+                         << GetLastError() << ". Exting...";
+               exit(1);
+          }
 
-	  sEventSourcedRegistered = true;
+          sEventSourcedRegistered = true;
      }
 
      return new WinEventSink();

@@ -1,4 +1,4 @@
-// 	$Id: ServerViewFrame.java,v 1.1 2005/09/27 19:08:08 dah Exp $
+//         $Id: ServerViewFrame.java,v 1.1 2005/09/27 19:08:08 dah Exp $
 
 /*
  * @(#)ServerViewFrame.java
@@ -49,24 +49,24 @@ public class ServerViewFrame extends JFrame
      */
     public ServerViewFrame(ServerView serverView)
     {
-	super("Availiable Servers");
-	setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-	this.serverView = serverView;
-	getContentPane().add(new JScrollPane(getServerView()));
-	setIconImage(new ImageIcon(ServerViewFrame.class.getResource("images/server.png")).getImage());
-	updateMenu();
-	updateToolBar();
+        super("Availiable Servers");
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.serverView = serverView;
+        getContentPane().add(new JScrollPane(getServerView()));
+        setIconImage(new ImageIcon(ServerViewFrame.class.getResource("images/server.png")).getImage());
+        updateMenu();
+        updateToolBar();
 
-	pack();
+        pack();
     }
 
     /**
      * Updates the menu of this frame.
      */
     public void updateMenu()
-    {	
-	JMenuBar res = new JMenuBar();
-	setJMenuBar(res);
+    {        
+        JMenuBar res = new JMenuBar();
+        setJMenuBar(res);
     }
 
     /**
@@ -74,22 +74,22 @@ public class ServerViewFrame extends JFrame
      */
     public void updateToolBar()
     {
-	if (toolBar == null) {
-	    toolBar = new JToolBar();
-	    getContentPane().add(toolBar, BorderLayout.PAGE_START);
-	} else {
-	    toolBar.removeAll();
-	}
-	
-	if (getServerView().getActionMap().get("Refresh") != null) {
-	    toolBar.add(getServerView().getActionMap().get("Refresh"));
-	}
-	if (getServerView().getActionMap().get("ZoomIn") != null) {
-	    toolBar.add(getServerView().getActionMap().get("ZoomIn"));
-	}
-	if (getServerView().getActionMap().get("ZoomOut") != null) {
-	    toolBar.add(getServerView().getActionMap().get("ZoomOut"));
-	}
+        if (toolBar == null) {
+            toolBar = new JToolBar();
+            getContentPane().add(toolBar, BorderLayout.PAGE_START);
+        } else {
+            toolBar.removeAll();
+        }
+        
+        if (getServerView().getActionMap().get("Refresh") != null) {
+            toolBar.add(getServerView().getActionMap().get("Refresh"));
+        }
+        if (getServerView().getActionMap().get("ZoomIn") != null) {
+            toolBar.add(getServerView().getActionMap().get("ZoomIn"));
+        }
+        if (getServerView().getActionMap().get("ZoomOut") != null) {
+            toolBar.add(getServerView().getActionMap().get("ZoomOut"));
+        }
     }
 
     /**
@@ -97,6 +97,6 @@ public class ServerViewFrame extends JFrame
      */
     public ServerView getServerView()
     {
-	return this.serverView;
+        return this.serverView;
     }
 }

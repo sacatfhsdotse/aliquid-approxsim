@@ -94,37 +94,37 @@ public class ProcessVariableTablePanel extends JPanel {
      * Used to compare the graphs wrt the category of the process variable.
      */
     public static Comparator GRAPH_COMPARATOR = new Comparator() {
-	    public int compare(Object o1, Object o2) {
-		ProcessVariableXYGraph graph1 = (ProcessVariableXYGraph)o1;
-		ProcessVariableXYGraph graph2 = (ProcessVariableXYGraph)o2;
-		String c1 = graph1.getProcessVariable().getCategory();
-		String c2 = graph2.getProcessVariable().getCategory();
-		if (c1.equals(c2)) {
-		    String n1 = graph1.getProcessVariable().getName();
-		    String n2 = graph2.getProcessVariable().getName();
-		    return n1.compareTo(n2);
-		}
-		else {
-		    if (c1.equals(ProcessVariableTablePanel.getMainCategory())) {
-			return -1;
-		    }
-		    else if (c2.equals(ProcessVariableTablePanel.getMainCategory())) {
-			return 1;
-		    }
-		    else {
-			for (int i = 0; i < MapConstants.pvCategories.length; i++) {
-			    if (c1.equals(MapConstants.pvCategories[i])) {
-				return -1;
-			    }
-			    else if (c2.equals(MapConstants.pvCategories[i])) {
-				return 1;
-			    }
-			}
-			return c1.compareTo(c2); 
-		    }
-		}
-	    }
-	};
+            public int compare(Object o1, Object o2) {
+                ProcessVariableXYGraph graph1 = (ProcessVariableXYGraph)o1;
+                ProcessVariableXYGraph graph2 = (ProcessVariableXYGraph)o2;
+                String c1 = graph1.getProcessVariable().getCategory();
+                String c2 = graph2.getProcessVariable().getCategory();
+                if (c1.equals(c2)) {
+                    String n1 = graph1.getProcessVariable().getName();
+                    String n2 = graph2.getProcessVariable().getName();
+                    return n1.compareTo(n2);
+                }
+                else {
+                    if (c1.equals(ProcessVariableTablePanel.getMainCategory())) {
+                        return -1;
+                    }
+                    else if (c2.equals(ProcessVariableTablePanel.getMainCategory())) {
+                        return 1;
+                    }
+                    else {
+                        for (int i = 0; i < MapConstants.pvCategories.length; i++) {
+                            if (c1.equals(MapConstants.pvCategories[i])) {
+                                return -1;
+                            }
+                            else if (c2.equals(MapConstants.pvCategories[i])) {
+                                return 1;
+                            }
+                        }
+                        return c1.compareTo(c2); 
+                    }
+                }
+            }
+        };
     
     /**
      * Creates a table of process variables and faction over a region.
@@ -133,56 +133,56 @@ public class ProcessVariableTablePanel extends JPanel {
      * @param shape the shape of the actual region. 
      */
     public ProcessVariableTablePanel(Client client, Shape shape) {
-	// set references
-	this.shape = shape;
-	this.regionId = shape.getReference().getIdentifier().trim();
-	
-	// create the table
-	JPanel tablePanel = new JPanel();
-	tablePanel.setLayout(new BoxLayout(tablePanel, BoxLayout.Y_AXIS));
-	table = new ProcessVariableTable(client, shape);
-	
-	// add scroll pane
-	JScrollPane scrollPane = new JScrollPane(table);
-	tablePanel.add(scrollPane);
-	TitledBorder titledBorder = BorderFactory.createTitledBorder("PV Values");
-	tablePanel.setBorder(BorderFactory.createCompoundBorder(titledBorder,
-								 BorderFactory.createEmptyBorder(2, 5, 2, 5)));
-	
-	// area info
-	JPanel areaPanel = new JPanel();
-	areaPanel.setLayout(new BoxLayout(areaPanel, BoxLayout.X_AXIS));
-	area = new JLabel(regionId);
-	area.setFont(area.getFont().deriveFont(Font.PLAIN));
-	areaPanel.add(area);
-	areaPanel.add(Box.createHorizontalGlue());
-	areaPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Actual Area"),
-								BorderFactory.createEmptyBorder(2, 15, 2, 15)));
-	
-	// button panel
-	JPanel buttonPanel = new JPanel();
-	buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-	exit.setFont(exit.getFont().deriveFont(Font.PLAIN));
-	final ProcessVariableTablePanel self = this;
-	exit.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-		    self.remove();
-		}
-	    });
-	buttonPanel.add(exit);
-	buttonPanel.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
-	
-	JPanel downPanel = new JPanel();
-	downPanel.setLayout(new BoxLayout(downPanel, BoxLayout.X_AXIS));
-	downPanel.add(areaPanel);
-	downPanel.add(buttonPanel);
-	
-	// set layout
-	setLayout(new BorderLayout());
-	add(tablePanel, BorderLayout.CENTER);
-	add(downPanel, BorderLayout.SOUTH);
-	
-	showGUI();
+        // set references
+        this.shape = shape;
+        this.regionId = shape.getReference().getIdentifier().trim();
+        
+        // create the table
+        JPanel tablePanel = new JPanel();
+        tablePanel.setLayout(new BoxLayout(tablePanel, BoxLayout.Y_AXIS));
+        table = new ProcessVariableTable(client, shape);
+        
+        // add scroll pane
+        JScrollPane scrollPane = new JScrollPane(table);
+        tablePanel.add(scrollPane);
+        TitledBorder titledBorder = BorderFactory.createTitledBorder("PV Values");
+        tablePanel.setBorder(BorderFactory.createCompoundBorder(titledBorder,
+                                                                 BorderFactory.createEmptyBorder(2, 5, 2, 5)));
+        
+        // area info
+        JPanel areaPanel = new JPanel();
+        areaPanel.setLayout(new BoxLayout(areaPanel, BoxLayout.X_AXIS));
+        area = new JLabel(regionId);
+        area.setFont(area.getFont().deriveFont(Font.PLAIN));
+        areaPanel.add(area);
+        areaPanel.add(Box.createHorizontalGlue());
+        areaPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Actual Area"),
+                                                                BorderFactory.createEmptyBorder(2, 15, 2, 15)));
+        
+        // button panel
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        exit.setFont(exit.getFont().deriveFont(Font.PLAIN));
+        final ProcessVariableTablePanel self = this;
+        exit.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    self.remove();
+                }
+            });
+        buttonPanel.add(exit);
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
+        
+        JPanel downPanel = new JPanel();
+        downPanel.setLayout(new BoxLayout(downPanel, BoxLayout.X_AXIS));
+        downPanel.add(areaPanel);
+        downPanel.add(buttonPanel);
+        
+        // set layout
+        setLayout(new BorderLayout());
+        add(tablePanel, BorderLayout.CENTER);
+        add(downPanel, BorderLayout.SOUTH);
+        
+        showGUI();
     }
 
     /**
@@ -191,158 +191,158 @@ public class ProcessVariableTablePanel extends JPanel {
     public void showGUI() {
         // create and set up the window
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-	
-	final ProcessVariableTablePanel self = this;
-	frame.addWindowListener(new java.awt.event.WindowAdapter() {
-		public void windowClosing(java.awt.event.WindowEvent e) {
-		    self.remove();
-		  }
-	    });
-	
-	//
-	JMenuBar menuBar = new JMenuBar();
-	menuBar.add(createOptionsMenu(table));
-	frame.setJMenuBar(menuBar);
+        
+        final ProcessVariableTablePanel self = this;
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+                public void windowClosing(java.awt.event.WindowEvent e) {
+                    self.remove();
+                  }
+            });
+        
+        //
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.add(createOptionsMenu(table));
+        frame.setJMenuBar(menuBar);
 
         // set up the content pane
         setOpaque(true); //content panes must be opaque
         frame.setContentPane(this);
-	
+        
         // display the window
-	frame.pack();
-	frame.setResizable(true);
-	
-	// thread safety recomendation
-	SwingUtilities.invokeLater(new Runnable() {
-		public void run() {
-		    frame.setVisible(true);
-		}
-	    }
-				   );
+        frame.pack();
+        frame.setResizable(true);
+        
+        // thread safety recomendation
+        SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    frame.setVisible(true);
+                }
+            }
+                                   );
     }
     
     /**
      * Removes this panel.
      */
     public void remove() {
- 	table.remove();
-	// remove the object form the list of tables
- 	Visualizer.removeTable(this);
- 	// dispose the frame
-	frame.dispose();
+         table.remove();
+        // remove the object form the list of tables
+         Visualizer.removeTable(this);
+         // dispose the frame
+        frame.dispose();
     }
     
     /**
      * Resets the table.
      */
     public void reset() {
-	table.reset();
+        table.reset();
     }
     
     /**
      * Returns the option menu for the selection on the main category.
      */
     public static JMenu createOptionsMenu(ProcessVariableTable pvTable) {
-	final ProcessVariableTable fTable = pvTable;
-	JMenu optionsMenu = new JMenu("Options");
-	optionsMenu.setFont(optionsMenu.getFont().deriveFont(Font.PLAIN));
-	JMenu categorySubmenu = new JMenu("Main category");
-	categorySubmenu.setFont(categorySubmenu.getFont().deriveFont(Font.PLAIN));
-	optionsMenu.add(categorySubmenu);
-	ButtonGroup categoryButtonGroup = new ButtonGroup();
-	// the main category is unspecified
-	JRadioButtonMenuItem unspecifiedButton = new JRadioButtonMenuItem(new AbstractAction("Unspecified") {
-		public void actionPerformed(ActionEvent e) {
-		    ProcessVariableTablePanel.setMainCategory("Unspecified");
-		    Visualizer.sortTables();
-		    Visualizer.sortGraphs();
-		    ProcessVariableTable.layoutAllGraphs(fTable);
-		}
-	    });
-	unspecifiedButton.setFont(unspecifiedButton.getFont().deriveFont(Font.PLAIN));
-	categoryButtonGroup.add(unspecifiedButton);
-	categorySubmenu.add(unspecifiedButton);
-	if (ProcessVariableTablePanel.getMainCategory().equals("Unspecified")) {
-	    unspecifiedButton.setSelected(true);
-	}
-	// the other categories
-	for (int i = 0; i < MapConstants.pvCategories.length; i++) {
-	    final int ii = i;
-	    JRadioButtonMenuItem categoryButton = new JRadioButtonMenuItem(new AbstractAction(MapConstants.pvCategories[i]) {
-		    public void actionPerformed(ActionEvent e) {
-			ProcessVariableTablePanel.setMainCategory(MapConstants.pvCategories[ii]);
-			Visualizer.sortTables();
-			Visualizer.sortGraphs();
-			ProcessVariableTable.layoutAllGraphs(fTable);
-		    }
-		});
-	    categoryButton.setFont(categoryButton.getFont().deriveFont(Font.PLAIN));
-	    categoryButtonGroup.add(categoryButton);
-	    categorySubmenu.add(categoryButton);
-	    if (ProcessVariableTablePanel.getMainCategory().equals(MapConstants.pvCategories[i])) {
-		categoryButton.setSelected(true);
-	    }
-	}
-	
-	JMenu sortSubmenu = new JMenu("Sort graphs");
-	sortSubmenu.setFont(sortSubmenu.getFont().deriveFont(Font.PLAIN));
-	optionsMenu.add(sortSubmenu);
-	JMenuItem sortByCategoryItem = new JMenuItem(new AbstractAction("By category") {
-		public void actionPerformed(ActionEvent e) {
-		    Visualizer.sortGraphs();
-		    ProcessVariableTable.layoutAllGraphs(fTable);
-		}
-	    });
-	sortByCategoryItem.setFont(sortByCategoryItem.getFont().deriveFont(Font.PLAIN));
-	sortSubmenu.add(sortByCategoryItem);
-	
-	return optionsMenu;
+        final ProcessVariableTable fTable = pvTable;
+        JMenu optionsMenu = new JMenu("Options");
+        optionsMenu.setFont(optionsMenu.getFont().deriveFont(Font.PLAIN));
+        JMenu categorySubmenu = new JMenu("Main category");
+        categorySubmenu.setFont(categorySubmenu.getFont().deriveFont(Font.PLAIN));
+        optionsMenu.add(categorySubmenu);
+        ButtonGroup categoryButtonGroup = new ButtonGroup();
+        // the main category is unspecified
+        JRadioButtonMenuItem unspecifiedButton = new JRadioButtonMenuItem(new AbstractAction("Unspecified") {
+                public void actionPerformed(ActionEvent e) {
+                    ProcessVariableTablePanel.setMainCategory("Unspecified");
+                    Visualizer.sortTables();
+                    Visualizer.sortGraphs();
+                    ProcessVariableTable.layoutAllGraphs(fTable);
+                }
+            });
+        unspecifiedButton.setFont(unspecifiedButton.getFont().deriveFont(Font.PLAIN));
+        categoryButtonGroup.add(unspecifiedButton);
+        categorySubmenu.add(unspecifiedButton);
+        if (ProcessVariableTablePanel.getMainCategory().equals("Unspecified")) {
+            unspecifiedButton.setSelected(true);
+        }
+        // the other categories
+        for (int i = 0; i < MapConstants.pvCategories.length; i++) {
+            final int ii = i;
+            JRadioButtonMenuItem categoryButton = new JRadioButtonMenuItem(new AbstractAction(MapConstants.pvCategories[i]) {
+                    public void actionPerformed(ActionEvent e) {
+                        ProcessVariableTablePanel.setMainCategory(MapConstants.pvCategories[ii]);
+                        Visualizer.sortTables();
+                        Visualizer.sortGraphs();
+                        ProcessVariableTable.layoutAllGraphs(fTable);
+                    }
+                });
+            categoryButton.setFont(categoryButton.getFont().deriveFont(Font.PLAIN));
+            categoryButtonGroup.add(categoryButton);
+            categorySubmenu.add(categoryButton);
+            if (ProcessVariableTablePanel.getMainCategory().equals(MapConstants.pvCategories[i])) {
+                categoryButton.setSelected(true);
+            }
+        }
+        
+        JMenu sortSubmenu = new JMenu("Sort graphs");
+        sortSubmenu.setFont(sortSubmenu.getFont().deriveFont(Font.PLAIN));
+        optionsMenu.add(sortSubmenu);
+        JMenuItem sortByCategoryItem = new JMenuItem(new AbstractAction("By category") {
+                public void actionPerformed(ActionEvent e) {
+                    Visualizer.sortGraphs();
+                    ProcessVariableTable.layoutAllGraphs(fTable);
+                }
+            });
+        sortByCategoryItem.setFont(sortByCategoryItem.getFont().deriveFont(Font.PLAIN));
+        sortSubmenu.add(sortByCategoryItem);
+        
+        return optionsMenu;
     }
     
     /**
      * Sets the main category of the process variables.
      */
     public static void setMainCategory(String mainCategory) {
-	pvCategory = mainCategory;
+        pvCategory = mainCategory;
     }
     
     /**
      * Sets the location of the table panel.
      */
     public void setTableLocation(java.awt.Point point) {
-	frame.setLocation(point);
+        frame.setLocation(point);
     }
     
     /**
      * Sets the size of the table panel.
      */
     public void setTableSize(Dimension size) {
-	frame.setSize(size);
+        frame.setSize(size);
     }
     
     /**
      * Returns the main category of the process variables. 
      */
     public static String getMainCategory() {
-	return pvCategory;
+        return pvCategory;
     }
     
     /**
      * Returns the table. 
      */
     public ProcessVariableTable getTable() {
-	return table;
+        return table;
     }
     
     /**
      * Returns the parameters needed to re-create this table panel.
      */
     public Hashtable getParameters() {
-	Hashtable hTable = new Hashtable();
-	hTable.put("shape", shape);
-	hTable.put("location", frame.getLocationOnScreen());
-	hTable.put("size", frame.getSize());
-	return hTable;
+        Hashtable hTable = new Hashtable();
+        hTable.put("shape", shape);
+        hTable.put("location", frame.getLocationOnScreen());
+        hTable.put("size", frame.getSize());
+        return hTable;
     }
     
 }

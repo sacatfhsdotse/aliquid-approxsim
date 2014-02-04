@@ -262,10 +262,10 @@ public:
       * \param dy The movement in y-direction in degrees latitude
       */
      void move(double dx, double dy) {
-	  if (dx != 0 || dy != 0) {
-	       mCenter = LatLng(mCenter.lat() + dy, mCenter.lng() + dx);
-	       mChanges++;
-	  }
+          if (dx != 0 || dy != 0) {
+               mCenter = LatLng(mCenter.lat() + dy, mCenter.lng() + dx);
+               mChanges++;
+          }
      }
 
      /**
@@ -274,10 +274,10 @@ public:
       * \param newPos The position to move to.
       */
      void move(LatLng newPos) {
-	  if (newPos != mCenter) {
-	       mCenter = newPos;
-	       mChanges++;
-	  }
+          if (newPos != mCenter) {
+               mCenter = newPos;
+               mChanges++;
+          }
      }
 
      /**
@@ -286,10 +286,10 @@ public:
       * \return A newly allocated copy of this Shape.
       */
      Shape* clone() const {
-	  Circle *r = new Circle(mCenter, mRadius, ref());
-	  r->mProjected = mProjected;
-	  r->mChanges = mChanges;
-	  return r;
+          Circle *r = new Circle(mCenter, mRadius, ref());
+          r->mProjected = mProjected;
+          r->mChanges = mChanges;
+          return r;
      }
 
      /**

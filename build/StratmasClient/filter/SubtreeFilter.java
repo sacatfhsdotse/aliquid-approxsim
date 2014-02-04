@@ -15,7 +15,7 @@ public class SubtreeFilter extends StratmasObjectFilter {
      * Create the filter.
      */
     public SubtreeFilter(StratmasObject root) {
-	this.root = root;
+        this.root = root;
     }
 
     /**
@@ -24,7 +24,7 @@ public class SubtreeFilter extends StratmasObjectFilter {
      * @param sObj the object to test
      */
     public boolean pass(StratmasObject sObj) {
-	return sObj.equals(root) || sObj.isAncestor(root);
+        return sObj.equals(root) || sObj.isAncestor(root);
     }
     
 }

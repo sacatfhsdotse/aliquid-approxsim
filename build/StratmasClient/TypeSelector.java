@@ -1,4 +1,4 @@
-// 	$Id: TypeSelector.java,v 1.2 2006/03/22 14:30:42 dah Exp $
+//         $Id: TypeSelector.java,v 1.2 2006/03/22 14:30:42 dah Exp $
 /*
  * @(#)TypeSelector.java
  */
@@ -31,8 +31,8 @@ public class TypeSelector extends JComboBox
      */
     public TypeSelector(Type type)
     {
-	super();
-	expandDerived(type);
+        super();
+        expandDerived(type);
     }
 
     /**
@@ -42,12 +42,12 @@ public class TypeSelector extends JComboBox
      */    
     protected void expandDerived(Type type)
     {
-	addType(type);
-	for (Enumeration ts = 
-		 type.getExpandedDerived().elements(); ts.hasMoreElements();) {
-	    Type t = (Type) ts.nextElement();
-	    addType(t);
-	}
+        addType(type);
+        for (Enumeration ts = 
+                 type.getExpandedDerived().elements(); ts.hasMoreElements();) {
+            Type t = (Type) ts.nextElement();
+            addType(t);
+        }
     }
 
     /**
@@ -57,10 +57,10 @@ public class TypeSelector extends JComboBox
      */
     protected void addType(Type type)
     {
-	if (!type.isAbstract()) {
-	    this.types.add(type);
-	    this.addItem(type.getName());
-	}
+        if (!type.isAbstract()) {
+            this.types.add(type);
+            this.addItem(type.getName());
+        }
     }
     
     /**
@@ -68,6 +68,6 @@ public class TypeSelector extends JComboBox
      */
     public Type getSelectedType()
     {
-	return (Type) this.types.get(this.getSelectedIndex());
+        return (Type) this.types.get(this.getSelectedIndex());
     }
 }

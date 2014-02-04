@@ -238,127 +238,127 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      * @param timeline reference to the timeline.
      */
     public TimelineActivityPanel(Timeline timeline, TimelinePanel timelinePanel) {
-	super(timeline, timelinePanel);
+        super(timeline, timelinePanel);
 
-	// initialize the area bounds
-	xmin = 0;
-	xmax = canvas.getWidth();
-	ymin = 0;
-	ymax = canvas.getHeight();
-	
-	// create the table of activities
-	activityTable = new TimelineActivityTable(timeline);
+        // initialize the area bounds
+        xmin = 0;
+        xmax = canvas.getWidth();
+        ymin = 0;
+        ymax = canvas.getHeight();
+        
+        // create the table of activities
+        activityTable = new TimelineActivityTable(timeline);
 
-	// add the canvas to a panel
-	JPanel canvasPanel = new JPanel();
-	canvasPanel.setLayout(new BorderLayout());
-	canvasPanel.add(canvas, BorderLayout.CENTER);
-	canvasPanel.setPreferredSize(new Dimension(0,0));
-	canvasPanel.setMinimumSize(new Dimension(0,0));
-	
-	// create the scroll bar
-	scrollBar = new JScrollBar(JScrollBar.VERTICAL, 0, 0, 0, 0);
-	final TimelineActivityTable ftable = activityTable;
-	final TimelineActivityPanel self = this;
-	final GLCanvas fcanvas = canvas;
-	scrollBar.addAdjustmentListener(new AdjustmentListener() {
-		public void adjustmentValueChanged(AdjustmentEvent e) {
-		    if (ftable.getRowCount() > 0) {
-			Rectangle visArea = ftable.getVisibleRect();
-			int yTrans =  scrollBar.getValue()*ftable.getRowHeight(0) - (int) visArea.getY();
-			if (visArea.getHeight() + ftable.getRowHeight(0) * scrollBar.getValue() > ftable.getHeight()) {
-			    yTrans = (int) (ftable.getHeight() - (visArea.getHeight() + visArea.getY()));
-			}
-			visArea.translate(0, yTrans);
-			// update the viewport of the panel
-			self.updateViewport(visArea);
-		    }
-		}
-	    });
+        // add the canvas to a panel
+        JPanel canvasPanel = new JPanel();
+        canvasPanel.setLayout(new BorderLayout());
+        canvasPanel.add(canvas, BorderLayout.CENTER);
+        canvasPanel.setPreferredSize(new Dimension(0,0));
+        canvasPanel.setMinimumSize(new Dimension(0,0));
+        
+        // create the scroll bar
+        scrollBar = new JScrollBar(JScrollBar.VERTICAL, 0, 0, 0, 0);
+        final TimelineActivityTable ftable = activityTable;
+        final TimelineActivityPanel self = this;
+        final GLCanvas fcanvas = canvas;
+        scrollBar.addAdjustmentListener(new AdjustmentListener() {
+                public void adjustmentValueChanged(AdjustmentEvent e) {
+                    if (ftable.getRowCount() > 0) {
+                        Rectangle visArea = ftable.getVisibleRect();
+                        int yTrans =  scrollBar.getValue()*ftable.getRowHeight(0) - (int) visArea.getY();
+                        if (visArea.getHeight() + ftable.getRowHeight(0) * scrollBar.getValue() > ftable.getHeight()) {
+                            yTrans = (int) (ftable.getHeight() - (visArea.getHeight() + visArea.getY()));
+                        }
+                        visArea.translate(0, yTrans);
+                        // update the viewport of the panel
+                        self.updateViewport(visArea);
+                    }
+                }
+            });
 
-	// create a viewport for the table
-	view = new JViewport();
-	view.setBackground(TimelineConstants.LIGHTER);
-	view.setView(activityTable);
+        // create a viewport for the table
+        view = new JViewport();
+        view.setBackground(TimelineConstants.LIGHTER);
+        view.setView(activityTable);
 
-	// set panel for the activity table
-	activityTable.getTableHeader().setMaximumSize(new Dimension(Integer.MAX_VALUE, 25));
-	activityTable.getTableHeader().setMinimumSize(new Dimension(0, 25));
-	activityTable.getTableHeader().setPreferredSize(new Dimension(Integer.MAX_VALUE, 25));
+        // set panel for the activity table
+        activityTable.getTableHeader().setMaximumSize(new Dimension(Integer.MAX_VALUE, 25));
+        activityTable.getTableHeader().setMinimumSize(new Dimension(0, 25));
+        activityTable.getTableHeader().setPreferredSize(new Dimension(Integer.MAX_VALUE, 25));
 
-	JPanel tablePanel = new JPanel(new BorderLayout());
-	tablePanel.add(activityTable.getTableHeader(), BorderLayout.NORTH);
-	tablePanel.add(view, BorderLayout.CENTER);
-	
-	// create the labels	
-	tickLabel = new TickLabel(TickLabel.SOUTH, Color.BLUE);
-	textLabel = new ScaleTextLabel(timelinePanel, Color.BLUE);
-	
-	JPanel scaleValues = new JPanel(new BorderLayout());
-	scaleValues.add(textLabel, BorderLayout.CENTER);
-	scaleValues.add(tickLabel, BorderLayout.SOUTH);
+        JPanel tablePanel = new JPanel(new BorderLayout());
+        tablePanel.add(activityTable.getTableHeader(), BorderLayout.NORTH);
+        tablePanel.add(view, BorderLayout.CENTER);
+        
+        // create the labels        
+        tickLabel = new TickLabel(TickLabel.SOUTH, Color.BLUE);
+        textLabel = new ScaleTextLabel(timelinePanel, Color.BLUE);
+        
+        JPanel scaleValues = new JPanel(new BorderLayout());
+        scaleValues.add(textLabel, BorderLayout.CENTER);
+        scaleValues.add(tickLabel, BorderLayout.SOUTH);
 
-	tickLabel.setPreferredSize(new Dimension(100, 6));
-	textLabel.setPreferredSize(new Dimension(100, (int)(getFont().getSize() * 1.5)));
-	
-	scaleValues.setMaximumSize(new Dimension(Integer.MAX_VALUE, 25));
-	scaleValues.setMinimumSize(new Dimension(0, 25));
-	scaleValues.setPreferredSize(new Dimension(Integer.MAX_VALUE, 25));
-	scaleValues.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
+        tickLabel.setPreferredSize(new Dimension(100, 6));
+        textLabel.setPreferredSize(new Dimension(100, (int)(getFont().getSize() * 1.5)));
+        
+        scaleValues.setMaximumSize(new Dimension(Integer.MAX_VALUE, 25));
+        scaleValues.setMinimumSize(new Dimension(0, 25));
+        scaleValues.setPreferredSize(new Dimension(Integer.MAX_VALUE, 25));
+        scaleValues.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
 
-	JPanel cPanel = new JPanel(new SpringLayout());
-	cPanel.add(scaleValues);
-	cPanel.add(canvasPanel);
-	SpringUtilities.makeCompactGrid(cPanel, 2, 1, 0, 0, 0, 0);
+        JPanel cPanel = new JPanel(new SpringLayout());
+        cPanel.add(scaleValues);
+        cPanel.add(canvasPanel);
+        SpringUtilities.makeCompactGrid(cPanel, 2, 1, 0, 0, 0, 0);
 
-	// arrange the split pane
-	JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tablePanel, cPanel);
-	splitPane.setOneTouchExpandable(false);
-	splitPane.setDividerLocation(300);
-	splitPane.setDividerSize(5);
-	splitPane.setResizeWeight(1);
-	splitPane.setBackground(TimelineConstants.LIGHTER);
-	final JScrollBar fScrollBar = scrollBar;
-	splitPane.addComponentListener(new ComponentAdapter() {
-		public void componentResized(ComponentEvent e) {
-		    // update the scroll bar
-		    self.updateScrollBar();
-		    // adjust the viewport
-		    if (fScrollBar.getValue() == fScrollBar.getMaximum()) {
-			Rectangle visArea = ftable.getVisibleRect();
-			int yTrans =  (int) (ftable.getHeight() - (visArea.getY() + visArea.getHeight()));
-			visArea.translate(0, yTrans);
-			// update the viewport of the panel
-			self.updateViewport(visArea);
-		    }
-		} 
-	    });
-	tablePanel.setMinimumSize(new Dimension(0, 0));
-	cPanel.setMinimumSize(new Dimension(scrollBar.getWidth(), 0));
+        // arrange the split pane
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tablePanel, cPanel);
+        splitPane.setOneTouchExpandable(false);
+        splitPane.setDividerLocation(300);
+        splitPane.setDividerSize(5);
+        splitPane.setResizeWeight(1);
+        splitPane.setBackground(TimelineConstants.LIGHTER);
+        final JScrollBar fScrollBar = scrollBar;
+        splitPane.addComponentListener(new ComponentAdapter() {
+                public void componentResized(ComponentEvent e) {
+                    // update the scroll bar
+                    self.updateScrollBar();
+                    // adjust the viewport
+                    if (fScrollBar.getValue() == fScrollBar.getMaximum()) {
+                        Rectangle visArea = ftable.getVisibleRect();
+                        int yTrans =  (int) (ftable.getHeight() - (visArea.getY() + visArea.getHeight()));
+                        visArea.translate(0, yTrans);
+                        // update the viewport of the panel
+                        self.updateViewport(visArea);
+                    }
+                } 
+            });
+        tablePanel.setMinimumSize(new Dimension(0, 0));
+        cPanel.setMinimumSize(new Dimension(scrollBar.getWidth(), 0));
 
-	JLabel dummyLabel = new JLabel();
-	dummyLabel.setPreferredSize(new Dimension(1, 25));
-	JPanel scrollBarPanel = new JPanel(new BorderLayout());
-	scrollBarPanel.add(scrollBar, BorderLayout.CENTER);
-	scrollBarPanel.add(dummyLabel, BorderLayout.NORTH);
+        JLabel dummyLabel = new JLabel();
+        dummyLabel.setPreferredSize(new Dimension(1, 25));
+        JPanel scrollBarPanel = new JPanel(new BorderLayout());
+        scrollBarPanel.add(scrollBar, BorderLayout.CENTER);
+        scrollBarPanel.add(dummyLabel, BorderLayout.NORTH);
 
-	setLayout(new BorderLayout());
-	add(splitPane, BorderLayout.CENTER);
-	add(scrollBarPanel, BorderLayout.EAST);
-	setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
-	
-	// create filter for the activities 
-	CombinedORFilter dfilter = new CombinedORFilter();
-	dfilter.add(new TypeFilter(TypeFactory.getType("Activity"), true));
-	drag_filter = dfilter;
-	
-	// used for drag action in DnD
-	source = new DragSource();
-	recognizer = source.createDefaultDragGestureRecognizer(canvas, DnDConstants.ACTION_REFERENCE, this);
-	
-	// used for drop action in DnD
-	DropTargetListener dropTargetListener = new TimelineDropTarget(timeline);
-	canvas.setDropTarget(new DropTarget(this, dropTargetListener));
+        setLayout(new BorderLayout());
+        add(splitPane, BorderLayout.CENTER);
+        add(scrollBarPanel, BorderLayout.EAST);
+        setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+        
+        // create filter for the activities 
+        CombinedORFilter dfilter = new CombinedORFilter();
+        dfilter.add(new TypeFilter(TypeFactory.getType("Activity"), true));
+        drag_filter = dfilter;
+        
+        // used for drag action in DnD
+        source = new DragSource();
+        recognizer = source.createDefaultDragGestureRecognizer(canvas, DnDConstants.ACTION_REFERENCE, this);
+        
+        // used for drop action in DnD
+        DropTargetListener dropTargetListener = new TimelineDropTarget(timeline);
+        canvas.setDropTarget(new DropTarget(this, dropTargetListener));
     }
     
     /**
@@ -367,39 +367,39 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      * @param gld needed when opengl is used. 
      */
     public void init(GLAutoDrawable gld) {
-	GL gl = gld.getGL();
-	
-	// set the background color
-	float r = TimelineConstants.LIGHTER.getRed()/255.0f;
-	float g = TimelineConstants.LIGHTER.getGreen()/255.0f;
-	float b = TimelineConstants.LIGHTER.getBlue()/255.0f;
-	gld.getGL().glClearColor(r, g, b, 0.0f);
-	
-	// set hints
-	gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST); 
-	
-	// enable smoothing for lines
-	gl.glEnable(GL.GL_LINE_SMOOTH);
-	
-	// enable shading
-	gl.glShadeModel(GL.GL_SMOOTH);
-	
-	// enable blending
-	gl.glEnable(GL.GL_BLEND);
-	gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
-	
-	// set actual matrix
-	gl.glMatrixMode(GL.GL_PROJECTION);
-	gl.glLoadIdentity();
-	
-	// initialize bounding box
-	glu.gluOrtho2D(xmin, xmax, ymin, ymax);
-	
-	// update the activities 
-	for (Enumeration e = drawnActivities.elements(); e.hasMoreElements(); ) {
-	    ((ActivityAdapter)e.nextElement()).setSymbolUpdated(false);
-	}
-	updateActivityDisplayLists(gld);
+        GL gl = gld.getGL();
+        
+        // set the background color
+        float r = TimelineConstants.LIGHTER.getRed()/255.0f;
+        float g = TimelineConstants.LIGHTER.getGreen()/255.0f;
+        float b = TimelineConstants.LIGHTER.getBlue()/255.0f;
+        gld.getGL().glClearColor(r, g, b, 0.0f);
+        
+        // set hints
+        gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST); 
+        
+        // enable smoothing for lines
+        gl.glEnable(GL.GL_LINE_SMOOTH);
+        
+        // enable shading
+        gl.glShadeModel(GL.GL_SMOOTH);
+        
+        // enable blending
+        gl.glEnable(GL.GL_BLEND);
+        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+        
+        // set actual matrix
+        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glLoadIdentity();
+        
+        // initialize bounding box
+        glu.gluOrtho2D(xmin, xmax, ymin, ymax);
+        
+        // update the activities 
+        for (Enumeration e = drawnActivities.elements(); e.hasMoreElements(); ) {
+            ((ActivityAdapter)e.nextElement()).setSymbolUpdated(false);
+        }
+        updateActivityDisplayLists(gld);
     }
 
     /**
@@ -408,26 +408,26 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      * @param gld needed when opengl is used. 
      */
     public void display(GLAutoDrawable gld) {
-	GL gl = gld.getGL();
-	
-	// set actual matrix
-	gl.glMatrixMode(GL.GL_PROJECTION);
-	gl.glLoadIdentity();
-	
-	// set bounding box
-	glu.gluOrtho2D(xmin, xmax, ymin, ymax);
-	
-	// update list of displayed activities
-	if (update_activity_list) {
-	    updateActivityDisplayLists(gld);
-	    update_activity_list = false;
-	}
-	
-	// draw the color map
-	drawGraph(gld.getGL());
-	
-	// update the render selection 
-	updateRenderSelection(gld);
+        GL gl = gld.getGL();
+        
+        // set actual matrix
+        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glLoadIdentity();
+        
+        // set bounding box
+        glu.gluOrtho2D(xmin, xmax, ymin, ymax);
+        
+        // update list of displayed activities
+        if (update_activity_list) {
+            updateActivityDisplayLists(gld);
+            update_activity_list = false;
+        }
+        
+        // draw the color map
+        drawGraph(gld.getGL());
+        
+        // update the render selection 
+        updateRenderSelection(gld);
     }
     
     /**
@@ -440,12 +440,12 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      * @param height height of the display area.
      */
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
-	// update the viewport
-	xmax = xmin + width;
-	ymax = ymin + height;
-	
-	// update 
-	updateActivityDisplayLists(drawable);
+        // update the viewport
+        xmax = xmin + width;
+        ymax = ymin + height;
+        
+        // update 
+        updateActivityDisplayLists(drawable);
     }
     
     /**
@@ -460,55 +460,55 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      */
     private void updateRenderSelection(GLAutoDrawable gld)
     {
-	GL gl = gld.getGL();
-	
-	IntBuffer render_selection_buffer;
-	int render_selection_buffer_allocation_size = 2048;
-	
-	int hits = -1;
+        GL gl = gld.getGL();
+        
+        IntBuffer render_selection_buffer;
+        int render_selection_buffer_allocation_size = 2048;
+        
+        int hits = -1;
 
-	do {
-	    render_selection_buffer = BufferUtil.newIntBuffer(render_selection_buffer_allocation_size);
-	    gl.glSelectBuffer(render_selection_buffer.capacity(), render_selection_buffer);
-	    
-	    // Enable render selection.
-	    gl.glRenderMode(GL.GL_SELECT);
-	    
-	    // Init names.
-	    gl.glInitNames();
-	    
-	    // Sets the selection area.
-	    gl.glMatrixMode(GL.GL_PROJECTION);
-	    gl.glPushMatrix();
-	    gl.glLoadIdentity();
+        do {
+            render_selection_buffer = BufferUtil.newIntBuffer(render_selection_buffer_allocation_size);
+            gl.glSelectBuffer(render_selection_buffer.capacity(), render_selection_buffer);
+            
+            // Enable render selection.
+            gl.glRenderMode(GL.GL_SELECT);
+            
+            // Init names.
+            gl.glInitNames();
+            
+            // Sets the selection area.
+            gl.glMatrixMode(GL.GL_PROJECTION);
+            gl.glPushMatrix();
+            gl.glLoadIdentity();
 
-	    glu.gluOrtho2D(render_selection_x - render_selection_dx / 2, 
-			   render_selection_x + render_selection_dx / 2, 
-			   render_selection_y - render_selection_dy / 2,
-			   render_selection_y + render_selection_dy / 2);
+            glu.gluOrtho2D(render_selection_x - render_selection_dx / 2, 
+                           render_selection_x + render_selection_dx / 2, 
+                           render_selection_y - render_selection_dy / 2,
+                           render_selection_y + render_selection_dy / 2);
 
-	    // Draw symbols.
-	    updateActivityDisplayLists(gld);
+            // Draw symbols.
+            updateActivityDisplayLists(gld);
 
-	    // Draw activities
-	    for (Enumeration e = drawnActivities.elements(); e.hasMoreElements(); ) {
-	    	gl.glCallList(((ActivityAdapter)e.nextElement()).getActivityDisplayList());
-	    }
-	    	    
-	    // Restore view
-	    gl.glMatrixMode(GL.GL_PROJECTION);
-	    gl.glPopMatrix();
-	    gl.glFlush();
-	    
-	    // End render selection mode.
-	    hits = gl.glRenderMode(GL.GL_RENDER);
-	    
-	    if (hits < 0) {
-		// To small selectionBuffer, try double size.
-		render_selection_buffer_allocation_size = render_selection_buffer_allocation_size * 2;
-	    }
-	} while (hits < 0);
-	latest_render_selection = new RenderSelection(hits, render_selection_buffer, render_selection_names);
+            // Draw activities
+            for (Enumeration e = drawnActivities.elements(); e.hasMoreElements(); ) {
+                    gl.glCallList(((ActivityAdapter)e.nextElement()).getActivityDisplayList());
+            }
+                        
+            // Restore view
+            gl.glMatrixMode(GL.GL_PROJECTION);
+            gl.glPopMatrix();
+            gl.glFlush();
+            
+            // End render selection mode.
+            hits = gl.glRenderMode(GL.GL_RENDER);
+            
+            if (hits < 0) {
+                // To small selectionBuffer, try double size.
+                render_selection_buffer_allocation_size = render_selection_buffer_allocation_size * 2;
+            }
+        } while (hits < 0);
+        latest_render_selection = new RenderSelection(hits, render_selection_buffer, render_selection_names);
     }
     
     /**
@@ -521,16 +521,16 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      * screen coordinates.
      */
     private void setRenderSelectionArea(int x, int y, int deltax, int deltay) {
-	this.render_selection_x = x;
-	this.render_selection_y = y;
-	this.render_selection_dy = deltay;
-	this.render_selection_dx = deltax;
+        this.render_selection_x = x;
+        this.render_selection_y = y;
+        this.render_selection_dy = deltay;
+        this.render_selection_dx = deltax;
 
-	this.render_selection_mouse_x = x;
-	this.render_selection_mouse_y = y;
-	
-	update_render_selection = true;
-	update();
+        this.render_selection_mouse_x = x;
+        this.render_selection_mouse_y = y;
+        
+        update_render_selection = true;
+        update();
     }
 
     /**
@@ -541,7 +541,7 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      * screen coordinates.
      */
     private void setRenderSelectionArea(int x, int y) {
-	setRenderSelectionArea(x, y, 5, 5);
+        setRenderSelectionArea(x, y, 5, 5);
     }
     
     /**
@@ -550,67 +550,67 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      * @param root the ancestor of all resources.
      */
     public void updateActivityTable(StratmasObject root) {
-	activityTable.updateResources(root);
+        activityTable.updateResources(root);
     }
 
     /**
      * Updates the scale values.
      */
     public void updateScaleValues() {
-	textLabel.update(timelinePanel.getDisplayedStartTime(), timelinePanel.getDisplayedEndTime());
+        textLabel.update(timelinePanel.getDisplayedStartTime(), timelinePanel.getDisplayedEndTime());
     }
     
     /**
      * Updates the paint ticks.
      */
     public void updateScaleTicks() {
-	tickLabel.update((int)(timelinePanel.getDisplayedEndTime() - timelinePanel.getDisplayedStartTime()));
+        tickLabel.update((int)(timelinePanel.getDisplayedEndTime() - timelinePanel.getDisplayedStartTime()));
     }
     
     /**
      * Updates the viewport of the activity panel.
      */
     public void updateViewport(Rectangle visArea) {
-	// set the first visible table row in the viewport
-	firstVisibleRow = (int)(visArea.getY() / activityTable.getRowHeight(0));
-	// set the viewport of the activity table
-	visibleTableArea = visArea;
-	// idicate that the viewport is changed
-	visibleTableAreaChanged = true;
-	// if table displayed only
-	if (canvas.getWidth() == 0 || canvas.getHeight() == 0) {
-	    activityTable.scrollRectToVisible(visibleTableArea);
-	}
-	// update the panel
-	updateActivityList();
+        // set the first visible table row in the viewport
+        firstVisibleRow = (int)(visArea.getY() / activityTable.getRowHeight(0));
+        // set the viewport of the activity table
+        visibleTableArea = visArea;
+        // idicate that the viewport is changed
+        visibleTableAreaChanged = true;
+        // if table displayed only
+        if (canvas.getWidth() == 0 || canvas.getHeight() == 0) {
+            activityTable.scrollRectToVisible(visibleTableArea);
+        }
+        // update the panel
+        updateActivityList();
     }
 
     /**
      * Updates the filter of the activities with respect to time.
      */
     public void updateActivityTimeFilter(StratmasObjectFilter filter, int indicator) {
-	if (indicator == TimelineConstants.ADD) {
-	    activityTimeFilter.add(filter);
-	}
-	else if (indicator == TimelineConstants.REMOVE) {
-	    activityTimeFilter.remove(filter); 
-	}
-	// 
-	updateDrawnActivitiesList();
+        if (indicator == TimelineConstants.ADD) {
+            activityTimeFilter.add(filter);
+        }
+        else if (indicator == TimelineConstants.REMOVE) {
+            activityTimeFilter.remove(filter); 
+        }
+        // 
+        updateDrawnActivitiesList();
     }
     
     /**
      * Updates the filter of the activities with respect to resource.
      */
     public void updateActivityTypeFilter(StratmasObjectFilter filter, int indicator) {
-	if (indicator == TimelineConstants.ADD) {
-	    activityTypeFilter.add(filter);
-	}
-	else if (indicator == TimelineConstants.REMOVE) {
-	    activityTypeFilter.remove(filter); 
-	}
-	// 
-	updateDrawnActivitiesList();
+        if (indicator == TimelineConstants.ADD) {
+            activityTypeFilter.add(filter);
+        }
+        else if (indicator == TimelineConstants.REMOVE) {
+            activityTypeFilter.remove(filter); 
+        }
+        // 
+        updateDrawnActivitiesList();
     }
     
     /**
@@ -618,65 +618,65 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      * the activities are filtered with the actual filter.
      */
     public void updateDrawnActivitiesList() {
-	// add all activities which pass the filter
-	for (Enumeration e = timeline.getActivityAdapters().elements(); e.hasMoreElements();) {
-	    ActivityAdapter adapter = (ActivityAdapter)e.nextElement();
-	    if (activityTimeFilter.pass(adapter.getActivity()) && activityTypeFilter.pass(adapter.getActivity())) {
-		if (!activityTable.contains(adapter.getActivity())) {
-		    activityTable.addSortedActivity(adapter.getActivity());
-		    drawnActivities.put(adapter.getActivity(), adapter);
-		    //
-		    updateScrollBar();
-		}
-	    }
-	    else if (activityTable.contains(adapter.getActivity())) {
-		activityTable.removeActivity(adapter.getActivity());
-		drawnActivities.remove(adapter.getActivity());	
-		//
-		updateScrollBar();
-	    }
-	}
-	//
-	updateActivityList();	
+        // add all activities which pass the filter
+        for (Enumeration e = timeline.getActivityAdapters().elements(); e.hasMoreElements();) {
+            ActivityAdapter adapter = (ActivityAdapter)e.nextElement();
+            if (activityTimeFilter.pass(adapter.getActivity()) && activityTypeFilter.pass(adapter.getActivity())) {
+                if (!activityTable.contains(adapter.getActivity())) {
+                    activityTable.addSortedActivity(adapter.getActivity());
+                    drawnActivities.put(adapter.getActivity(), adapter);
+                    //
+                    updateScrollBar();
+                }
+            }
+            else if (activityTable.contains(adapter.getActivity())) {
+                activityTable.removeActivity(adapter.getActivity());
+                drawnActivities.remove(adapter.getActivity());        
+                //
+                updateScrollBar();
+            }
+        }
+        //
+        updateActivityList();        
     }
   
     /**
      * Updates the scroll bar in the timeline.
      */
     public void updateScrollBar() {
-	int nrOfActivityLines = activityTable.getRowCount();
-	int height = (canvas.getHeight() > 0) ? canvas.getHeight() : view.getHeight();
-	int nrOfDisplayedLines = (nrOfActivityLines > 0) ?  height / activityTable.getRowHeight() : 0;
-	scrollBar.setMaximum(Math.max(0, nrOfActivityLines - nrOfDisplayedLines));
-	// show the scroll bar
-	final boolean visible = (nrOfActivityLines > nrOfDisplayedLines) ? true : false;
-	final JScrollBar fScrollBar = scrollBar;
-	SwingUtilities.invokeLater (new Runnable() {
-		public void run() {
-		    fScrollBar.setVisible(visible);
-		}
-	    });
+        int nrOfActivityLines = activityTable.getRowCount();
+        int height = (canvas.getHeight() > 0) ? canvas.getHeight() : view.getHeight();
+        int nrOfDisplayedLines = (nrOfActivityLines > 0) ?  height / activityTable.getRowHeight() : 0;
+        scrollBar.setMaximum(Math.max(0, nrOfActivityLines - nrOfDisplayedLines));
+        // show the scroll bar
+        final boolean visible = (nrOfActivityLines > nrOfDisplayedLines) ? true : false;
+        final JScrollBar fScrollBar = scrollBar;
+        SwingUtilities.invokeLater (new Runnable() {
+                public void run() {
+                    fScrollBar.setVisible(visible);
+                }
+            });
     }
     
     /**
      * Updates the list of the activities.
      */
     public void updateActivityDisplayLists(GLAutoDrawable gld) {
-	for (Enumeration e = drawnActivities.elements(); e.hasMoreElements(); ) {
-	    ActivityAdapter adapter = (ActivityAdapter)e.nextElement();
-	    if (!adapter.isSymbolUpdated()) {
-		adapter.updateSymbolDisplayLists(gld);
-	    }
-	    adapter.updateActivityDisplayList(this, gld.getGL());
-	}
+        for (Enumeration e = drawnActivities.elements(); e.hasMoreElements(); ) {
+            ActivityAdapter adapter = (ActivityAdapter)e.nextElement();
+            if (!adapter.isSymbolUpdated()) {
+                adapter.updateSymbolDisplayLists(gld);
+            }
+            adapter.updateActivityDisplayList(this, gld.getGL());
+        }
     }
     
     /**
      * Updates the list of the activities.
      */
     public void updateActivityList() {
-	update_activity_list = true;
-	update();
+        update_activity_list = true;
+        update();
     }
     
     /**
@@ -685,62 +685,62 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      * @param adapter to be added to the sorted list.
      */
     public void updateActivityList(ActivityAdapter adapter, int indicator) {
-	// add new activity 
-	if (indicator == TimelineConstants.ADD) {
-	    // add new render selection names
-	    render_selection_names.put(new Integer(adapter.getRenderSelectionName()), adapter);
-	    render_selection_names.put(new Integer(adapter.getLeftArrowRenderSelectionName()), adapter);
-	    render_selection_names.put(new Integer(adapter.getRightArrowRenderSelectionName()), adapter);
-	    //filtered adapters only
-	    if (activityTimeFilter.pass(adapter.getActivity()) && activityTypeFilter.pass(adapter.getActivity())) {
-		// add the adapter to the list
-		if (!drawnActivities.contains(adapter)) {
-		    drawnActivities.put(adapter.getActivity(), adapter);
-		}
-		// add the activity to the table
-		activityTable.addActivity(adapter.getActivity());
-	    }
-	}
-	// remove the activity
-	else if (indicator == TimelineConstants.REMOVE) {
-	    // remove the render selection names
-	    render_selection_names.remove(new Integer(adapter.getRenderSelectionName()));  
-	    render_selection_names.remove(new Integer(adapter.getLeftArrowRenderSelectionName()));  
-	    render_selection_names.remove(new Integer(adapter.getRightArrowRenderSelectionName()));
-	    // remove the adapter to the list
-	    if (drawnActivities.contains(adapter)) {
-		drawnActivities.remove(adapter.getActivity());
-	    }
-	    // remove the activity to the table
-	    activityTable.removeActivity(adapter.getActivity());
-	}
+        // add new activity 
+        if (indicator == TimelineConstants.ADD) {
+            // add new render selection names
+            render_selection_names.put(new Integer(adapter.getRenderSelectionName()), adapter);
+            render_selection_names.put(new Integer(adapter.getLeftArrowRenderSelectionName()), adapter);
+            render_selection_names.put(new Integer(adapter.getRightArrowRenderSelectionName()), adapter);
+            //filtered adapters only
+            if (activityTimeFilter.pass(adapter.getActivity()) && activityTypeFilter.pass(adapter.getActivity())) {
+                // add the adapter to the list
+                if (!drawnActivities.contains(adapter)) {
+                    drawnActivities.put(adapter.getActivity(), adapter);
+                }
+                // add the activity to the table
+                activityTable.addActivity(adapter.getActivity());
+            }
+        }
+        // remove the activity
+        else if (indicator == TimelineConstants.REMOVE) {
+            // remove the render selection names
+            render_selection_names.remove(new Integer(adapter.getRenderSelectionName()));  
+            render_selection_names.remove(new Integer(adapter.getLeftArrowRenderSelectionName()));  
+            render_selection_names.remove(new Integer(adapter.getRightArrowRenderSelectionName()));
+            // remove the adapter to the list
+            if (drawnActivities.contains(adapter)) {
+                drawnActivities.remove(adapter.getActivity());
+            }
+            // remove the activity to the table
+            activityTable.removeActivity(adapter.getActivity());
+        }
 
-	//update the scroll bar
-	updateScrollBar();
-	
-	update();
+        //update the scroll bar
+        updateScrollBar();
+        
+        update();
     }
     
     /**
      * Resets the panel.
      */
     public void reset() {
-	// remove the displayed activities
-	drawnActivities.clear();
-	activityTable.reset();
+        // remove the displayed activities
+        drawnActivities.clear();
+        activityTable.reset();
 
-	// redraw
-	update();
+        // redraw
+        update();
     }
     
     /**
      * Removes the panel.
      */
     public void remove() {
-	super.remove();
-	drawnActivities.clear();
-	render_selection_names.clear();
-	activityTable.remove();
+        super.remove();
+        drawnActivities.clear();
+        render_selection_names.clear();
+        activityTable.remove();
     }
     
     /**
@@ -748,25 +748,25 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      * The given time is counted from 1.1.1970.
      */
     public int getXCoordinate(long msecs) {
-	// get the bounds of the displayed interval
-	long tstart = timelinePanel.getDisplayedStartTime();
-	long tend = timelinePanel.getDisplayedEndTime();
-	return (int)convertCurrentTimeToProjectedX(timelinePanel.millisecondsToTimeUnit(msecs - timeline.getSimStartTime()));
+        // get the bounds of the displayed interval
+        long tstart = timelinePanel.getDisplayedStartTime();
+        long tend = timelinePanel.getDisplayedEndTime();
+        return (int)convertCurrentTimeToProjectedX(timelinePanel.millisecondsToTimeUnit(msecs - timeline.getSimStartTime()));
     }
     
     /**
      * Retuns the y-coordinate of the timeline panel where the adapter will be displayed.
      */
     public int getYCoordinate(ActivityAdapter adapter) {
-	// get y-coordinate according to the Java's coordinate system
-	int rowNr = activityTable.getRow(adapter.getActivity());
-	if (rowNr >= 0) {
-	    int javaY = (int) (rowNr * activityTable.getRowHeight(rowNr) + activityTable.getRowHeight(rowNr) / 2 
-			       - visibleTableArea.getY()); 
-	    // convert to the OpenGL coordinate system 
-	    return ymax - javaY;
-	}
-	return -1;
+        // get y-coordinate according to the Java's coordinate system
+        int rowNr = activityTable.getRow(adapter.getActivity());
+        if (rowNr >= 0) {
+            int javaY = (int) (rowNr * activityTable.getRowHeight(rowNr) + activityTable.getRowHeight(rowNr) / 2 
+                               - visibleTableArea.getY()); 
+            // convert to the OpenGL coordinate system 
+            return ymax - javaY;
+        }
+        return -1;
     }
     
     /**
@@ -774,73 +774,73 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      * activity table. Also the rows not completely visible are counted.
      */
     public int getNrOfDisplayedActivities() {
-	// all activities are displayed
-	if (view.getHeight() > activityTable.getHeight()) {
-	    return activityTable.getRowCount();
-	}
-	// the activities currenly visible
-	else {
-	    return view.getHeight()/activityTable.getRowHeight(0) + 1;
-	}
+        // all activities are displayed
+        if (view.getHeight() > activityTable.getHeight()) {
+            return activityTable.getRowCount();
+        }
+        // the activities currenly visible
+        else {
+            return view.getHeight()/activityTable.getRowHeight(0) + 1;
+        }
     }
     
     /**
      * Draw all the graphic elements.
      */
     protected void drawGraph(GL gl) {
-	// clear the window
-	gl.glClear(GL.GL_COLOR_BUFFER_BIT);
+        // clear the window
+        gl.glClear(GL.GL_COLOR_BUFFER_BIT);
 
-	// adjust drawing of the activities in the timeline canvas - from the top or from the bottom
-	boolean rev  = (scrollBar.getValue() == scrollBar.getMaximum() && view.getHeight() < activityTable.getHeight()) ? 
-	    true : false;
-	
-	// draw the activities and the valid background for each activity
-	int startRow = (rev) ? activityTable.getRowCount() - 1 : firstVisibleRow;
-	int endRow   = (rev) ? startRow - getNrOfDisplayedActivities() + 1 : startRow + getNrOfDisplayedActivities() - 1; 
-	int y1       = (rev) ? canvas.getHeight() - activityTable.getRowHeight(startRow): 0;
-	int i        = startRow;
-	boolean cont = (!drawnActivities.isEmpty()) ? true : false;
-	while (cont) {
-	    int y2 = y1 + activityTable.getRowHeight(i);
-	    // draw the background
-	    Color col = activityTable.getBackground(i);
-	    gl.glColor3f(col.getRed() / 255f, col.getGreen() / 255f, col.getBlue() / 255f);
-	    gl.glBegin(GL.GL_QUADS);
-	    gl.glVertex2d(xmin, ymax - y1);
-	    gl.glVertex2d(xmax, ymax - y1);
-	    gl.glVertex2d(xmax, ymax - y2);
-	    gl.glVertex2d(xmin, ymax - y2);
-	    gl.glEnd();
-	    // draw the activity
-	    StratmasObject activity = activityTable.getActivity(i);
-	    if (activity != null) {
-		gl.glCallList(((ActivityAdapter)drawnActivities.get(activity)).getActivityDisplayList());
-	    }
-	    //
-	    i    = (rev) ? i - 1 : i + 1;
-	    y1   = (rev) ? y1 - activityTable.getRowHeight(i) : y2;
-	    cont = (rev && i < endRow) ? false : (!rev && i > endRow) ? false : true; 
-	}
-	
-	// update the viewport of the activity table
-	if (visibleTableAreaChanged) {
-	    visibleTableAreaChanged = false;
-	    activityTable.scrollRectToVisible(visibleTableArea);
-	}
-	
-	// display current simulation time
-	long t2x = convertCurrentTimeToProjectedX(timelinePanel.getDisplayedStartTime());
-	long ct2x = convertCurrentTimeToProjectedX(timelinePanel.millisecondsToTimeUnit(timeline.getRelativeCurrentTime()));
-	if (t2x <= ct2x) {
-	    gl.glColor4f(0.9f, 0.7f, 0.4f, 0.3f);
-	    gl.glBegin(GL.GL_POLYGON);
-	    gl.glVertex2d(t2x, ymin);
-	    gl.glVertex2d(Math.max(ct2x, t2x), ymin);
-	    gl.glVertex2d(Math.max(ct2x, t2x), ymax);
-	    gl.glVertex2d(t2x, ymax);
-	    gl.glEnd();
-	}
+        // adjust drawing of the activities in the timeline canvas - from the top or from the bottom
+        boolean rev  = (scrollBar.getValue() == scrollBar.getMaximum() && view.getHeight() < activityTable.getHeight()) ? 
+            true : false;
+        
+        // draw the activities and the valid background for each activity
+        int startRow = (rev) ? activityTable.getRowCount() - 1 : firstVisibleRow;
+        int endRow   = (rev) ? startRow - getNrOfDisplayedActivities() + 1 : startRow + getNrOfDisplayedActivities() - 1; 
+        int y1       = (rev) ? canvas.getHeight() - activityTable.getRowHeight(startRow): 0;
+        int i        = startRow;
+        boolean cont = (!drawnActivities.isEmpty()) ? true : false;
+        while (cont) {
+            int y2 = y1 + activityTable.getRowHeight(i);
+            // draw the background
+            Color col = activityTable.getBackground(i);
+            gl.glColor3f(col.getRed() / 255f, col.getGreen() / 255f, col.getBlue() / 255f);
+            gl.glBegin(GL.GL_QUADS);
+            gl.glVertex2d(xmin, ymax - y1);
+            gl.glVertex2d(xmax, ymax - y1);
+            gl.glVertex2d(xmax, ymax - y2);
+            gl.glVertex2d(xmin, ymax - y2);
+            gl.glEnd();
+            // draw the activity
+            StratmasObject activity = activityTable.getActivity(i);
+            if (activity != null) {
+                gl.glCallList(((ActivityAdapter)drawnActivities.get(activity)).getActivityDisplayList());
+            }
+            //
+            i    = (rev) ? i - 1 : i + 1;
+            y1   = (rev) ? y1 - activityTable.getRowHeight(i) : y2;
+            cont = (rev && i < endRow) ? false : (!rev && i > endRow) ? false : true; 
+        }
+        
+        // update the viewport of the activity table
+        if (visibleTableAreaChanged) {
+            visibleTableAreaChanged = false;
+            activityTable.scrollRectToVisible(visibleTableArea);
+        }
+        
+        // display current simulation time
+        long t2x = convertCurrentTimeToProjectedX(timelinePanel.getDisplayedStartTime());
+        long ct2x = convertCurrentTimeToProjectedX(timelinePanel.millisecondsToTimeUnit(timeline.getRelativeCurrentTime()));
+        if (t2x <= ct2x) {
+            gl.glColor4f(0.9f, 0.7f, 0.4f, 0.3f);
+            gl.glBegin(GL.GL_POLYGON);
+            gl.glVertex2d(t2x, ymin);
+            gl.glVertex2d(Math.max(ct2x, t2x), ymin);
+            gl.glVertex2d(Math.max(ct2x, t2x), ymax);
+            gl.glVertex2d(t2x, ymax);
+            gl.glEnd();
+        }
     }
     
     /**
@@ -850,27 +850,27 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      * @param e the mouse event.
      */
     public void mouseClicked(MouseEvent e) {
-	// get source
-	Object src = e.getSource();
-	int x = (int)e.getX();
-	int y = (int)e.getY();
-	// left mouse button
-	if (e.getButton() == MouseEvent.BUTTON1) {
-	    // show the information for the chosen activity
-	    if (e.getClickCount() == 2 && !elementsUnderCursor().isEmpty()) {
-		StratmasObject activity = getActivityUnderCursor();
-		// if an activity is found
-		if (activity != null) {
-		    final TreeViewFrame frame = TreeView.getDefaultFrame(activity);
-		    frame.setEditable(true);
-		    javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			    public void run() {
-				frame.setVisible(true);
-			    }
-			});
-		}
-	    }
-	}
+        // get source
+        Object src = e.getSource();
+        int x = (int)e.getX();
+        int y = (int)e.getY();
+        // left mouse button
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            // show the information for the chosen activity
+            if (e.getClickCount() == 2 && !elementsUnderCursor().isEmpty()) {
+                StratmasObject activity = getActivityUnderCursor();
+                // if an activity is found
+                if (activity != null) {
+                    final TreeViewFrame frame = TreeView.getDefaultFrame(activity);
+                    frame.setEditable(true);
+                    javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                            public void run() {
+                                frame.setVisible(true);
+                            }
+                        });
+                }
+            }
+        }
     }
     
     /**
@@ -879,44 +879,44 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      * @param e the mouse event.
      */
     public void mousePressed(MouseEvent e) {
-	Object src = e.getSource();
-	// check if the client is passive
-	boolean passive = timeline.getClient().isConnected() && !timeline.getClient().isActive();
-	// only if the client is active
-	if (src.equals(canvas) && !passive) {
-	    // get x window coordinate
-	    int x = (int)e.getX();
-	    int y = (int)e.getY();
-	    // get the bounds of the displayed time interval
-	    long tstart = timelinePanel.getDisplayedStartTime();
-	    long tend = timelinePanel.getDisplayedEndTime();
-	    // update render selection list
-	    setRenderSelectionArea(x, ymax - y);
-	    // initialize updating of the activity time interval
-	    if (!elementsUnderCursor().isEmpty()) {
-		// check if no activity symbols are under the cursor otherwise abort the action
-		boolean validAction = (getActivityUnderCursor() == null);
-		// if no activity symbols are under the cursor but an arrow
-		if (validAction) {
-		    // left arrow
-		    if (getLeftArrowUnderCursor() != null) {
-			ActivityAdapter tmpAdapter = (ActivityAdapter)drawnActivities.get(getLeftArrowUnderCursor());
-			if (tmpAdapter.getLeftArrowPointedTime() >= timeline.getCurrentTime()) {
-			    active_adapter = tmpAdapter;
-			    active_render_selection_name = active_adapter.getLeftArrowRenderSelectionName();
-			}
-		    }
-		    // right arrow
-		    else if (getRightArrowUnderCursor() != null) {
-			ActivityAdapter tmpAdapter = (ActivityAdapter)drawnActivities.get(getRightArrowUnderCursor());
-			if (tmpAdapter.getRightArrowPointedTime() >= timeline.getCurrentTime()) {
-			    active_adapter = tmpAdapter;
-			    active_render_selection_name = active_adapter.getRightArrowRenderSelectionName();
-			}
-		    }
-		}
-	    }
-	}
+        Object src = e.getSource();
+        // check if the client is passive
+        boolean passive = timeline.getClient().isConnected() && !timeline.getClient().isActive();
+        // only if the client is active
+        if (src.equals(canvas) && !passive) {
+            // get x window coordinate
+            int x = (int)e.getX();
+            int y = (int)e.getY();
+            // get the bounds of the displayed time interval
+            long tstart = timelinePanel.getDisplayedStartTime();
+            long tend = timelinePanel.getDisplayedEndTime();
+            // update render selection list
+            setRenderSelectionArea(x, ymax - y);
+            // initialize updating of the activity time interval
+            if (!elementsUnderCursor().isEmpty()) {
+                // check if no activity symbols are under the cursor otherwise abort the action
+                boolean validAction = (getActivityUnderCursor() == null);
+                // if no activity symbols are under the cursor but an arrow
+                if (validAction) {
+                    // left arrow
+                    if (getLeftArrowUnderCursor() != null) {
+                        ActivityAdapter tmpAdapter = (ActivityAdapter)drawnActivities.get(getLeftArrowUnderCursor());
+                        if (tmpAdapter.getLeftArrowPointedTime() >= timeline.getCurrentTime()) {
+                            active_adapter = tmpAdapter;
+                            active_render_selection_name = active_adapter.getLeftArrowRenderSelectionName();
+                        }
+                    }
+                    // right arrow
+                    else if (getRightArrowUnderCursor() != null) {
+                        ActivityAdapter tmpAdapter = (ActivityAdapter)drawnActivities.get(getRightArrowUnderCursor());
+                        if (tmpAdapter.getRightArrowPointedTime() >= timeline.getCurrentTime()) {
+                            active_adapter = tmpAdapter;
+                            active_render_selection_name = active_adapter.getRightArrowRenderSelectionName();
+                        }
+                    }
+                }
+            }
+        }
     }
     
     /**
@@ -925,15 +925,15 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      * @param e the mouse event.
      */
     public void mouseReleased(MouseEvent e) {
-	// get x window coordinate
-	int x = (int)e.getX();
-	int y = (int)e.getY();
-	// ends updating of the activity under the cursor
-	if (active_adapter != null) {
-	    active_adapter.updateActivityTimes();
-	    active_adapter = null;
-	}
-	
+        // get x window coordinate
+        int x = (int)e.getX();
+        int y = (int)e.getY();
+        // ends updating of the activity under the cursor
+        if (active_adapter != null) {
+            active_adapter.updateActivityTimes();
+            active_adapter = null;
+        }
+        
     }
     
     /**
@@ -942,34 +942,34 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      * @param e the mouse event.
      */
     public void mouseDragged(MouseEvent e) {
-	Object src = e.getSource();
-	// check if the client is pasive
-	boolean passive = timeline.getClient().isConnected() && !timeline.getClient().isActive();
-	// if the client is active
-	if (src.equals(canvas) && !passive) {
-	    // get x window coordinate
-	    int x = (int)Math.round(e.getX());
-	    int y = (int)Math.round(e.getY());
-	    // update render selection list
-	    setRenderSelectionArea(x, ymax - y);
-	    // updates the activity under the cursor
-	    if (active_adapter != null && active_adapter.getActivity().getChild("end") != null) {
-		// updates the start time of the activity
-		if (active_adapter.isLeftArrowRenderSelectionName(active_render_selection_name)) {
-		    long t = timelinePanel.timeToMilliseconds(convertWindowXToCurrentTime(x)) + timeline.getSimStartTime();
-		    if (t < active_adapter.getRightArrowPointedTime() && t >= timeline.getCurrentTime()) {
-			active_adapter.setLeftArrowPointedTime(t);
-		    }
-		}
-		// updates the end time of the activity
-		else if (active_adapter.isRightArrowRenderSelectionName(active_render_selection_name)) {
-		    long t = timelinePanel.timeToMilliseconds(convertWindowXToCurrentTime(x)) + timeline.getSimStartTime();
-		    if (t > active_adapter.getLeftArrowPointedTime() && t >= timeline.getCurrentTime()) {
-			active_adapter.setRightArrowPointedTime(t);
-		    }
-		}
-	    }
-	}
+        Object src = e.getSource();
+        // check if the client is pasive
+        boolean passive = timeline.getClient().isConnected() && !timeline.getClient().isActive();
+        // if the client is active
+        if (src.equals(canvas) && !passive) {
+            // get x window coordinate
+            int x = (int)Math.round(e.getX());
+            int y = (int)Math.round(e.getY());
+            // update render selection list
+            setRenderSelectionArea(x, ymax - y);
+            // updates the activity under the cursor
+            if (active_adapter != null && active_adapter.getActivity().getChild("end") != null) {
+                // updates the start time of the activity
+                if (active_adapter.isLeftArrowRenderSelectionName(active_render_selection_name)) {
+                    long t = timelinePanel.timeToMilliseconds(convertWindowXToCurrentTime(x)) + timeline.getSimStartTime();
+                    if (t < active_adapter.getRightArrowPointedTime() && t >= timeline.getCurrentTime()) {
+                        active_adapter.setLeftArrowPointedTime(t);
+                    }
+                }
+                // updates the end time of the activity
+                else if (active_adapter.isRightArrowRenderSelectionName(active_render_selection_name)) {
+                    long t = timelinePanel.timeToMilliseconds(convertWindowXToCurrentTime(x)) + timeline.getSimStartTime();
+                    if (t > active_adapter.getLeftArrowPointedTime() && t >= timeline.getCurrentTime()) {
+                        active_adapter.setRightArrowPointedTime(t);
+                    }
+                }
+            }
+        }
     }
         
     /**
@@ -978,14 +978,14 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      * @param e the mouse event.
      */
     public void mouseMoved(MouseEvent e) {
-	Object src = e.getSource();
-	if (src.equals(canvas)) {
-	    // get x window coordinate
-	    int x = (int)e.getX();
-	    int y = (int)e.getY();
-	    // update render selection list
-	    setRenderSelectionArea(x, ymax - y);
-	}
+        Object src = e.getSource();
+        if (src.equals(canvas)) {
+            // get x window coordinate
+            int x = (int)e.getX();
+            int y = (int)e.getY();
+            // update render selection list
+            setRenderSelectionArea(x, ymax - y);
+        }
     }
     
     /**
@@ -993,43 +993,43 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      */
     public void dragGestureRecognized(final DragGestureEvent dge)
     {
-	// check if the client is passive
-	boolean passive = timeline.getClient().isConnected() && !timeline.getClient().isActive();
-	// dragging enabled only for active client 
-	if (!passive) {
-	    // get the location
-	    int x = (int)(dge.getDragOrigin().getX());
-	    int y = (int)(dge.getDragOrigin().getY());
-	    // get the selected element
-	    StratmasObject selectedActivity = getActivityUnderCursor();
-	    // check if the activity can be dragged
-	    boolean draggable = false;
-	    if (selectedActivity != null && drag_filter.pass(selectedActivity)) {
-		boolean startOk = ((StratmasTimestamp)selectedActivity.getChild("start")).getValue().getMilliSecs() >= 
-		    timeline.getCurrentTime();
-		boolean endOk = (StratmasTimestamp)selectedActivity.getChild("end") == null || 
-		    ((StratmasTimestamp)selectedActivity.getChild("end")).getValue().getMilliSecs() >= timeline.getCurrentTime();
-		draggable = startOk && endOk;
-	    }
-	    if (draggable) {
-		// define cursor for the object 
-		Cursor c;
-		Toolkit tk = Toolkit.getDefaultToolkit();
-		Image image = ((Icon) selectedActivity.getIcon()).getImage();
-		Dimension bestsize = tk.getBestCursorSize(image.getWidth(null), image.getHeight(null));
-		if (bestsize.width != 0) {
-		    c = tk.createCustomCursor(image, new java.awt.Point(bestsize.width/2,  bestsize.height/2), 
-					      selectedActivity.toString());
-		}
-		else {
-		    c = Cursor.getDefaultCursor();
-		}
-		// set the dragged element
-		DraggedElement.setElement(selectedActivity);
-		// start the drag
-		source.startDrag(dge, c, selectedActivity, new DragSourceAdapter(){});
-	    }
-	}
+        // check if the client is passive
+        boolean passive = timeline.getClient().isConnected() && !timeline.getClient().isActive();
+        // dragging enabled only for active client 
+        if (!passive) {
+            // get the location
+            int x = (int)(dge.getDragOrigin().getX());
+            int y = (int)(dge.getDragOrigin().getY());
+            // get the selected element
+            StratmasObject selectedActivity = getActivityUnderCursor();
+            // check if the activity can be dragged
+            boolean draggable = false;
+            if (selectedActivity != null && drag_filter.pass(selectedActivity)) {
+                boolean startOk = ((StratmasTimestamp)selectedActivity.getChild("start")).getValue().getMilliSecs() >= 
+                    timeline.getCurrentTime();
+                boolean endOk = (StratmasTimestamp)selectedActivity.getChild("end") == null || 
+                    ((StratmasTimestamp)selectedActivity.getChild("end")).getValue().getMilliSecs() >= timeline.getCurrentTime();
+                draggable = startOk && endOk;
+            }
+            if (draggable) {
+                // define cursor for the object 
+                Cursor c;
+                Toolkit tk = Toolkit.getDefaultToolkit();
+                Image image = ((Icon) selectedActivity.getIcon()).getImage();
+                Dimension bestsize = tk.getBestCursorSize(image.getWidth(null), image.getHeight(null));
+                if (bestsize.width != 0) {
+                    c = tk.createCustomCursor(image, new java.awt.Point(bestsize.width/2,  bestsize.height/2), 
+                                              selectedActivity.toString());
+                }
+                else {
+                    c = Cursor.getDefaultCursor();
+                }
+                // set the dragged element
+                DraggedElement.setElement(selectedActivity);
+                // start the drag
+                source.startDrag(dge, c, selectedActivity, new DragSourceAdapter(){});
+            }
+        }
     }
     
     /**
@@ -1041,16 +1041,16 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      */
     public Hashtable elementsUnderCursor()
     {
-	Hashtable res = new Hashtable();
-	Vector selected_objects = latest_render_selection.getTopSelectionObjects();
-	int[] selected_names = latest_render_selection.getTopSelectionNames();
-	for(int i = 0; i < selected_objects.size(); i++) {
-	    Object o = selected_objects.get(i);
-	    if (o instanceof ActivityAdapter) {
-		res.put(new Integer(selected_names[i]), o);
-	    }
-	}
-	return res;
+        Hashtable res = new Hashtable();
+        Vector selected_objects = latest_render_selection.getTopSelectionObjects();
+        int[] selected_names = latest_render_selection.getTopSelectionNames();
+        for(int i = 0; i < selected_objects.size(); i++) {
+            Object o = selected_objects.get(i);
+            if (o instanceof ActivityAdapter) {
+                res.put(new Integer(selected_names[i]), o);
+            }
+        }
+        return res;
     }
     
     /**
@@ -1058,15 +1058,15 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      * no such activity null is returned.
      */
     public StratmasObject getLeftArrowUnderCursor() {
-	for (Enumeration e = elementsUnderCursor().keys(); e.hasMoreElements(); ) {
-	    Integer key = (Integer) e.nextElement();
-	    ActivityAdapter adapter = (ActivityAdapter) elementsUnderCursor().get(key);
-	    int renderSelectionName = key.intValue();
-	    if (adapter.isLeftArrowRenderSelectionName(renderSelectionName)) {
-		return adapter.getStratmasObject();
-	    }
-	}
-	return null;
+        for (Enumeration e = elementsUnderCursor().keys(); e.hasMoreElements(); ) {
+            Integer key = (Integer) e.nextElement();
+            ActivityAdapter adapter = (ActivityAdapter) elementsUnderCursor().get(key);
+            int renderSelectionName = key.intValue();
+            if (adapter.isLeftArrowRenderSelectionName(renderSelectionName)) {
+                return adapter.getStratmasObject();
+            }
+        }
+        return null;
     }
     
     /**
@@ -1074,15 +1074,15 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      * no such activity null is returned.
      */
     public StratmasObject getRightArrowUnderCursor() {
-	for (Enumeration e = elementsUnderCursor().keys(); e.hasMoreElements(); ) {
-	    Integer key = (Integer) e.nextElement();
-	    ActivityAdapter adapter = (ActivityAdapter) elementsUnderCursor().get(key);
-	    int renderSelectionName = key.intValue();
-	    if (adapter.isRightArrowRenderSelectionName(renderSelectionName)) {
-		return adapter.getStratmasObject();
-	    }
-	}
-	return null;
+        for (Enumeration e = elementsUnderCursor().keys(); e.hasMoreElements(); ) {
+            Integer key = (Integer) e.nextElement();
+            ActivityAdapter adapter = (ActivityAdapter) elementsUnderCursor().get(key);
+            int renderSelectionName = key.intValue();
+            if (adapter.isRightArrowRenderSelectionName(renderSelectionName)) {
+                return adapter.getStratmasObject();
+            }
+        }
+        return null;
     }
     
     /**
@@ -1090,15 +1090,15 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      * no such activity null is returned.
      */
     public StratmasObject getActivityUnderCursor() {
-	for (Enumeration e = elementsUnderCursor().keys(); e.hasMoreElements(); ) {
-	    Integer key = (Integer) e.nextElement();
-	    ActivityAdapter adapter = (ActivityAdapter) elementsUnderCursor().get(key);
-	    int renderSelectionName = key.intValue();
-	    if (adapter.isRenderSelectionName(renderSelectionName)) {
-		return adapter.getStratmasObject();
-	    }
-	}
-	return null;
+        for (Enumeration e = elementsUnderCursor().keys(); e.hasMoreElements(); ) {
+            Integer key = (Integer) e.nextElement();
+            ActivityAdapter adapter = (ActivityAdapter) elementsUnderCursor().get(key);
+            int renderSelectionName = key.intValue();
+            if (adapter.isRenderSelectionName(renderSelectionName)) {
+                return adapter.getStratmasObject();
+            }
+        }
+        return null;
     }
     
 }

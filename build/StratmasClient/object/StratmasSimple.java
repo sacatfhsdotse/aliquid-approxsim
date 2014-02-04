@@ -1,4 +1,4 @@
-// 	$Id: StratmasSimple.java,v 1.3 2006/04/10 09:45:55 dah Exp $
+//         $Id: StratmasSimple.java,v 1.3 2006/04/10 09:45:55 dah Exp $
 /*
  * @(#)StratmasSimple.java
  */
@@ -42,8 +42,8 @@ public abstract class StratmasSimple extends StratmasObjectImpl
      */
     protected StratmasSimple(String identifier, Type type)
     {
-	super(identifier);
-	this.type = type;
+        super(identifier);
+        this.type = type;
     }
 
     /**
@@ -53,7 +53,7 @@ public abstract class StratmasSimple extends StratmasObjectImpl
      */
     protected StratmasSimple(Declaration declaration)
     {
-	this(declaration.getName(), declaration.getType());
+        this(declaration.getName(), declaration.getType());
     }
 
     /**
@@ -68,8 +68,8 @@ public abstract class StratmasSimple extends StratmasObjectImpl
      */
     protected StratmasSimple(Declaration declaration, String identifier)
     {
-	this(declaration);
-	setIdentifier(identifier);
+        this(declaration);
+        setIdentifier(identifier);
     }
     
     /**
@@ -77,7 +77,7 @@ public abstract class StratmasSimple extends StratmasObjectImpl
      */
     public Type getType()
     {
-	return this.type;
+        return this.type;
     }
 
     /**
@@ -94,7 +94,7 @@ public abstract class StratmasSimple extends StratmasObjectImpl
      * parsable to this type.
      */
     public abstract void valueFromString(String str, Object initiator) 
-	throws ParseException;
+        throws ParseException;
 
     /**
      * Tries to update the value from the provided string.
@@ -105,7 +105,7 @@ public abstract class StratmasSimple extends StratmasObjectImpl
      */
     public void valueFromString(String str) throws ParseException
     {
-	valueFromString(str, null);
+        valueFromString(str, null);
     }
 
     /**
@@ -113,7 +113,7 @@ public abstract class StratmasSimple extends StratmasObjectImpl
      */
     public String valueToPrettyString()
     {
-	return valueToString();
+        return valueToString();
     }
 
     /**
@@ -121,7 +121,7 @@ public abstract class StratmasSimple extends StratmasObjectImpl
      */
     public String toString()
     {
-	return getIdentifier() + ": " + this.valueToPrettyString();
+        return getIdentifier() + ": " + this.valueToPrettyString();
     }
 
     /**
@@ -135,10 +135,10 @@ public abstract class StratmasSimple extends StratmasObjectImpl
      */
     public StringBuffer bodyXML(StringBuffer b)
     {
-	b.append(NL).append("<value>");
-	b.append(XMLHelper.encodeSpecialCharacters(valueToString()));
-	b.append("</value>");
-	return b;
+        b.append(NL).append("<value>");
+        b.append(XMLHelper.encodeSpecialCharacters(valueToString()));
+        b.append("</value>");
+        return b;
     }
     
     /**
@@ -150,9 +150,9 @@ public abstract class StratmasSimple extends StratmasObjectImpl
      */
     protected StringBuffer toTaclanV2StringBuffer(StringBuffer buf, String indent)
     {
-	buf.append(indent + Identifier.toTaclanV2(getIdentifier()) + " = " + 
-		   valueToString());
-	return buf;
+        buf.append(indent + Identifier.toTaclanV2(getIdentifier()) + " = " + 
+                   valueToString());
+        return buf;
     }
     
     /**
@@ -160,21 +160,21 @@ public abstract class StratmasSimple extends StratmasObjectImpl
      */
     protected void fireValueChanged(Object initiator)
     {
-	// Always tell parent that we have changed (if we have one).
-	if (getParent() != null) {
-	    getParent().childChanged(this, initiator);
-	}
-	
-	// Guaranteed to return a non-null array
-	Object[] listeners = getListenerList();
-	if (listeners.length > 0) {
-	    if (listeners.length > 0) {
-		StratmasEvent event = StratmasEvent.getValueChanged(this, initiator);
-		for (int i = listeners.length - 2; i >= 0; i -= 2) {
-		    ((StratmasEventListener) listeners[i + 1]).eventOccured(event);
-		}
-	    }
-	}
+        // Always tell parent that we have changed (if we have one).
+        if (getParent() != null) {
+            getParent().childChanged(this, initiator);
+        }
+        
+        // Guaranteed to return a non-null array
+        Object[] listeners = getListenerList();
+        if (listeners.length > 0) {
+            if (listeners.length > 0) {
+                StratmasEvent event = StratmasEvent.getValueChanged(this, initiator);
+                for (int i = listeners.length - 2; i >= 0; i -= 2) {
+                    ((StratmasEventListener) listeners[i + 1]).eventOccured(event);
+                }
+            }
+        }
     }
     
     /**
@@ -187,12 +187,12 @@ public abstract class StratmasSimple extends StratmasObjectImpl
      */
     public void update(Element n, Timestamp t)
     {
-	try {
-	    valueFromString(XMLHelper.getString(n, "value"), n);
-	} catch (ParseException e) {
-	    throw new AssertionError("Error updating from DOM element: " + 
-				     e.getMessage());
-	}
+        try {
+            valueFromString(XMLHelper.getString(n, "value"), n);
+        } catch (ParseException e) {
+            throw new AssertionError("Error updating from DOM element: " + 
+                                     e.getMessage());
+        }
     }
 
     /**
@@ -200,6 +200,6 @@ public abstract class StratmasSimple extends StratmasObjectImpl
      */
     public Icon getIcon()
     {
-	return Icon.getIcon(this);
+        return Icon.getIcon(this);
     }
 }

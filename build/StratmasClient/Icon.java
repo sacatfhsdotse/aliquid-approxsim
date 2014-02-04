@@ -1,4 +1,4 @@
-// 	$Id: Icon.java,v 1.8 2006/03/22 14:30:41 dah Exp $
+//         $Id: Icon.java,v 1.8 2006/03/22 14:30:41 dah Exp $
 /*
  * @(#)Icon.java
  */
@@ -40,7 +40,7 @@ public class Icon extends ImageIcon
      */
     public Icon(URL location)
     {
-	super(location);
+        super(location);
     }
 
     /**
@@ -50,7 +50,7 @@ public class Icon extends ImageIcon
      */
     public Icon(Image image)
     {
-	super(image);
+        super(image);
     }
 
     /**
@@ -60,7 +60,7 @@ public class Icon extends ImageIcon
      */
     public static Icon getIcon(StratmasObject obj)
     {
-	return IconFactory.getIcon(obj);
+        return IconFactory.getIcon(obj);
     }
 
     /**
@@ -72,7 +72,7 @@ public class Icon extends ImageIcon
      */
     public Icon getScaledInstance(int width, int height, int hints)
     {
-	return new Icon(getImage().getScaledInstance(width, height, hints));
+        return new Icon(getImage().getScaledInstance(width, height, hints));
     }
 
     /**
@@ -82,7 +82,7 @@ public class Icon extends ImageIcon
      */
     public Icon getScaledInstance(int width, int height)
     {
-	return getScaledInstance(new Dimension(width, height));
+        return getScaledInstance(new Dimension(width, height));
     }
 
     /**
@@ -91,14 +91,14 @@ public class Icon extends ImageIcon
      */
     public Icon getScaledInstance(Dimension dim)
     {
-	synchronized (cache) {
-	    Icon cached = (Icon) cache.get(dim);
-	    if (cached == null) {
-		cached = getScaledInstance(dim.width, dim.height, 
-					   Image.SCALE_SMOOTH);//DEFAULT);;
-		cache.put(dim, cached);
-	    }
-	    return cached;
-	}
+        synchronized (cache) {
+            Icon cached = (Icon) cache.get(dim);
+            if (cached == null) {
+                cached = getScaledInstance(dim.width, dim.height, 
+                                           Image.SCALE_SMOOTH);//DEFAULT);;
+                cache.put(dim, cached);
+            }
+            return cached;
+        }
     }    
 }

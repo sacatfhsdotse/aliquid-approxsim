@@ -1,4 +1,4 @@
-// 	$Id: StratmasComplexGUIConstructor.java,v 1.1 2006/03/22 14:30:51 dah Exp $
+//         $Id: StratmasComplexGUIConstructor.java,v 1.1 2006/03/22 14:30:51 dah Exp $
 /*
  * @(#)StratmasObject.java
  */
@@ -48,7 +48,7 @@ public class StratmasComplexGUIConstructor extends StratmasGUIConstructor
      */
     public StratmasComplexGUIConstructor(Declaration declaration, boolean useChooser)
     {
-	super(declaration, useChooser);
+        super(declaration, useChooser);
     }
 
     /**
@@ -61,7 +61,7 @@ public class StratmasComplexGUIConstructor extends StratmasGUIConstructor
      */
     public StratmasComplexGUIConstructor(Declaration declaration)
     {
-	super(declaration);
+        super(declaration);
     }
    
     /**
@@ -69,14 +69,14 @@ public class StratmasComplexGUIConstructor extends StratmasGUIConstructor
      */    
     protected void buildPanel() 
     {
-	if (subDeclarations == null) {
-	    subDeclarations = new Vector();
-	}
-	setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-	for (Enumeration ss = getType().getSubElements().elements(); 
-	     ss.hasMoreElements();) {
-	    processSubDeclaration((Declaration) ss.nextElement());
-	}
+        if (subDeclarations == null) {
+            subDeclarations = new Vector();
+        }
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        for (Enumeration ss = getType().getSubElements().elements(); 
+             ss.hasMoreElements();) {
+            processSubDeclaration((Declaration) ss.nextElement());
+        }
     }
 
     /**
@@ -86,9 +86,9 @@ public class StratmasComplexGUIConstructor extends StratmasGUIConstructor
      */
     protected void processSubDeclaration(Declaration subDeclaration)
     {
-	StratmasGUIConstructor c = StratmasObjectFactory.guiCreate(subDeclaration);
-	subDeclarations.add(c);
-	add(c);
+        StratmasGUIConstructor c = StratmasObjectFactory.guiCreate(subDeclaration);
+        subDeclarations.add(c);
+        add(c);
     }
     
     /**
@@ -96,37 +96,37 @@ public class StratmasComplexGUIConstructor extends StratmasGUIConstructor
      */
     protected void createStratmasObject()
     {
-	Vector contents = new Vector();
-	Vector unFinished = new Vector();
+        Vector contents = new Vector();
+        Vector unFinished = new Vector();
 
-	for (Enumeration ss = this.subDeclarations.elements(); 
-	     ss.hasMoreElements();) {
-	    StratmasGUIConstructor s = 
-		(StratmasGUIConstructor) ss.nextElement();
-	    StratmasObject sObj = s.getStratmasObject();
-	    if (sObj == null && s.getDeclaration().getMinOccurs() != 0) {
-		unFinished.add(s.getDeclaration().getName());
-	    } else if (sObj != null) {
-		contents.add(sObj);
-	    }
-	}
-	
-	if (unFinished.isEmpty()) {
-	    Declaration decl = getDeclaration().clone(getType());
-	    StratmasVectorConstructor vectorConstructor = 
-		StratmasObjectFactory.vectorCreate(decl);
-	    this.result = vectorConstructor.getStratmasObject(getIdentifier(), contents);
-	} else {
-	    String errmsg = "The following required items are missing:";
-	    for (Enumeration ss = unFinished.elements(); ss.hasMoreElements();) {
-		errmsg = errmsg + "\n" + ss.nextElement().toString();	    
-	    }
-	    JOptionPane.showMessageDialog(null, errmsg, 
-					  this.getType().getName() + 
-					  " is not complete", 
-					  JOptionPane.WARNING_MESSAGE);	    	    
-	    this.result = null;
-	}
+        for (Enumeration ss = this.subDeclarations.elements(); 
+             ss.hasMoreElements();) {
+            StratmasGUIConstructor s = 
+                (StratmasGUIConstructor) ss.nextElement();
+            StratmasObject sObj = s.getStratmasObject();
+            if (sObj == null && s.getDeclaration().getMinOccurs() != 0) {
+                unFinished.add(s.getDeclaration().getName());
+            } else if (sObj != null) {
+                contents.add(sObj);
+            }
+        }
+        
+        if (unFinished.isEmpty()) {
+            Declaration decl = getDeclaration().clone(getType());
+            StratmasVectorConstructor vectorConstructor = 
+                StratmasObjectFactory.vectorCreate(decl);
+            this.result = vectorConstructor.getStratmasObject(getIdentifier(), contents);
+        } else {
+            String errmsg = "The following required items are missing:";
+            for (Enumeration ss = unFinished.elements(); ss.hasMoreElements();) {
+                errmsg = errmsg + "\n" + ss.nextElement().toString();            
+            }
+            JOptionPane.showMessageDialog(null, errmsg, 
+                                          this.getType().getName() + 
+                                          " is not complete", 
+                                          JOptionPane.WARNING_MESSAGE);                        
+            this.result = null;
+        }
     }
 }
 

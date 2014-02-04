@@ -22,10 +22,10 @@ public class MilitaryCodeFilter extends StratmasObjectFilter
      * Creates a new MilitaryCodeFilter 
      */
     public MilitaryCodeFilter(char letter, int position)
-    {	
-	super();
-	this.letter = letter;
-	this.position = position;
+    {        
+        super();
+        this.letter = letter;
+        this.position = position;
     }
     
     /**
@@ -35,16 +35,16 @@ public class MilitaryCodeFilter extends StratmasObjectFilter
      */
     public boolean pass(StratmasObject sObj)
     {
-	if (sObj.getType().getName().equals("MilitaryUnit")) {
-	    try {
-		SymbolIDCode code = (SymbolIDCode)sObj.getChild("symbolIDCode");
-		if (code.valueToString().charAt(position) == letter) {
-		    return true;
-		}
-	    }
-	    catch (RuntimeException e) {
-	    }
-	}
-	return false;
+        if (sObj.getType().getName().equals("MilitaryUnit")) {
+            try {
+                SymbolIDCode code = (SymbolIDCode)sObj.getChild("symbolIDCode");
+                if (code.valueToString().charAt(position) == letter) {
+                    return true;
+                }
+            }
+            catch (RuntimeException e) {
+            }
+        }
+        return false;
     }
 }

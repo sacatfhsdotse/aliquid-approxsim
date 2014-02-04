@@ -19,7 +19,7 @@ public class ConnectMessage extends StratmasMessage {
      * @return A string representation of the type of this message.
      */
      public String getTypeAsString() {
-	  return "ConnectMessage";
+          return "ConnectMessage";
      }
 
      /**
@@ -30,7 +30,7 @@ public class ConnectMessage extends StratmasMessage {
       * object's body appended to it.
       */
      public StringBuffer bodyXML(StringBuffer b) {
-	  b.append(NL).append("<bigEndian>true</bigEndian>");
-	  return b;
+          b.append(NL).append("<bigEndian>true</bigEndian>");
+          return b;
      }
 }

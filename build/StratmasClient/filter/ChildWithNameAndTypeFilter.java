@@ -22,10 +22,10 @@ public class ChildWithNameAndTypeFilter extends StratmasObjectFilter {
       * @param name The child name to filter for.
       * @param type The child type to filter for.
       */
-     public ChildWithNameAndTypeFilter(String name, Type type) {	
-	  super();
-	  mName = name;
-	  mType = type;
+     public ChildWithNameAndTypeFilter(String name, Type type) {        
+          super();
+          mName = name;
+          mType = type;
      }
      
      /**
@@ -34,12 +34,12 @@ public class ChildWithNameAndTypeFilter extends StratmasObjectFilter {
       * @param sObj the object to test
       */
      public boolean pass(StratmasObject sObj) {
-	  StratmasObject child = sObj.getChild(mName);
-	  if (child == null) {
-	       return false;
-	  }
-	  else {
-	       return (mType == null || child.getType().canSubstitute(mType));
-	  }
+          StratmasObject child = sObj.getChild(mName);
+          if (child == null) {
+               return false;
+          }
+          else {
+               return (mType == null || child.getType().canSubstitute(mType));
+          }
      }
 }

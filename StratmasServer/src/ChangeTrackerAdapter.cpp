@@ -235,9 +235,9 @@ ContainerChangeTrackerAdapter::ContainerChangeTrackerAdapter(const Reference& re
      // root DataObject but when the Simulation gets created (or
      // explicitly added) we will be notified.
      if (d) {
-	  for (vector<DataObject*>::const_iterator it = d->objects().begin(); it != d->objects().end(); it++) {
-	       addChild((*it)->ref());
-	  }
+          for (vector<DataObject*>::const_iterator it = d->objects().begin(); it != d->objects().end(); it++) {
+               addChild((*it)->ref());
+          }
      }
      SOFactory::addListener(mReference, *this);
 }
@@ -246,7 +246,7 @@ ContainerChangeTrackerAdapter::~ContainerChangeTrackerAdapter()
 {
      SOFactory::removeListener(mReference, *this);
      for (std::map<const Reference*, ChangeTrackerAdapter*>::iterator it =  mChildren.begin(); it != mChildren.end(); it++) {
-	  delete it->second;
+          delete it->second;
      }
 }
 
@@ -274,14 +274,14 @@ bool ContainerChangeTrackerAdapter::addable(const Reference& ref)
 void ContainerChangeTrackerAdapter::addChild(const Reference& ref)
 {
      if (addable(ref)) {
-	  if (mChildren.find(&ref) == mChildren.end()) {
-	       mChildren[&ref] = ChangeTrackerAdapterFactory::createChangeTrackerAdapter(ref, mId);
-	  }
-	  else {
-	       Error e;
-	       e << "Tried to add ChangeTrackerAdapter for object '" << ref << "' twice.";
-	       throw e;
-	  }
+          if (mChildren.find(&ref) == mChildren.end()) {
+               mChildren[&ref] = ChangeTrackerAdapterFactory::createChangeTrackerAdapter(ref, mId);
+          }
+          else {
+               Error e;
+               e << "Tried to add ChangeTrackerAdapter for object '" << ref << "' twice.";
+               throw e;
+          }
      }
 }
 
@@ -293,14 +293,14 @@ void ContainerChangeTrackerAdapter::addChild(const Reference& ref)
 void ContainerChangeTrackerAdapter::removeChild(const Reference& ref)
 {
      if (addable(ref)) {
-	  std::map<const Reference*, ChangeTrackerAdapter*>::iterator it = mChildren.find(&ref);
-	  if (it != mChildren.end()) {
-	       delete it->second;
-	       mChildren.erase(it);
-	  }
-	  else {
-	       debug("Removed change adapter for " << ref << " twice!!! But it's ok...");
-	  }
+          std::map<const Reference*, ChangeTrackerAdapter*>::iterator it = mChildren.find(&ref);
+          if (it != mChildren.end()) {
+               delete it->second;
+               mChildren.erase(it);
+          }
+          else {
+               debug("Removed change adapter for " << ref << " twice!!! But it's ok...");
+          }
      }
 }
 
@@ -329,25 +329,25 @@ void ContainerChangeTrackerAdapter::objectAdded(const Reference& ref, int64_t in
      // Shouldn't count updates from the client this object is
      // tracking changes for as changes.
      if (initiator == mId) {
-	  addChild(ref);
+          addChild(ref);
      }
      else {
-	  std::map<const Reference*, char>::iterator it = mChanges.find(&ref);
-	  if (it == mChanges.end()) {
-	       mChanges[&ref] = 'a';
-	       debug("---Object " << ref << " added -> 'a'");
-	  }
-	  else if (it->second == 'r') {
-	       mChanges[&ref] = 'x';
-	       debug("---Object " << ref << " added -> 'x'");
-	  }
-	  else {
-	       Error e;
-	       e << "Tried to add '" << ref << "' to '" << mReference;
-	       e << "' that already has an 'added' entry for that object.";
-	       throw e;
-	  }
-	  // Adapter for the new object will be added during toXML()-call.
+          std::map<const Reference*, char>::iterator it = mChanges.find(&ref);
+          if (it == mChanges.end()) {
+               mChanges[&ref] = 'a';
+               debug("---Object " << ref << " added -> 'a'");
+          }
+          else if (it->second == 'r') {
+               mChanges[&ref] = 'x';
+               debug("---Object " << ref << " added -> 'x'");
+          }
+          else {
+               Error e;
+               e << "Tried to add '" << ref << "' to '" << mReference;
+               e << "' that already has an 'added' entry for that object.";
+               throw e;
+          }
+          // Adapter for the new object will be added during toXML()-call.
      }
 }
 
@@ -363,23 +363,23 @@ void ContainerChangeTrackerAdapter::objectRemoved(const Reference& ref, int64_t 
      // Shouldn't count updates from the client this object is
      // tracking changes for as changes.
      if (initiator != mId) {
-	  // We shouldn't save changes for pruned branches.
-	  std::map<const Reference*, ChangeTrackerAdapter*>::iterator it = mChildren.find(&ref);
-	  if (it != mChildren.end()) {
-	       std::map<const Reference*, char>::iterator it = mChanges.find(&ref);
-	       if (it == mChanges.end() || it->second == 'x') {
-		    mChanges[&ref] = 'r';
-	       }
-	       else if (it->second == 'a') {
-		    mChanges.erase(&ref);
-	       }
-	       else {
-		    Error e;
-		    e << "Tried to remove '" << ref << "' to '" << mReference;
-		    e << "' that already has a 'remove' entry for that object.";
-		    throw e;
-	       }
-	  }
+          // We shouldn't save changes for pruned branches.
+          std::map<const Reference*, ChangeTrackerAdapter*>::iterator it = mChildren.find(&ref);
+          if (it != mChildren.end()) {
+               std::map<const Reference*, char>::iterator it = mChanges.find(&ref);
+               if (it == mChanges.end() || it->second == 'x') {
+                    mChanges[&ref] = 'r';
+               }
+               else if (it->second == 'a') {
+                    mChanges.erase(&ref);
+               }
+               else {
+                    Error e;
+                    e << "Tried to remove '" << ref << "' to '" << mReference;
+                    e << "' that already has a 'remove' entry for that object.";
+                    throw e;
+               }
+          }
      }
      // Always remove adapter directly.
      removeChild(ref);
@@ -399,18 +399,18 @@ void ContainerChangeTrackerAdapter::objectRemoved(const Reference& ref, int64_t 
 bool ContainerChangeTrackerAdapter::changed() const
 {
      if (!mChanged) {
-	  if (!mChanges.empty()) {
-	       mChanged = true;
-	  }
-	  else {
-	       for (std::map<const Reference*, ChangeTrackerAdapter*>::const_iterator it = mChildren.begin();
-		    it != mChildren.end(); it++) {
-		    if (it->second->changed()) {
-			 mChanged = true;
-			 break;
-		    }
-	       }
-	  }
+          if (!mChanges.empty()) {
+               mChanged = true;
+          }
+          else {
+               for (std::map<const Reference*, ChangeTrackerAdapter*>::const_iterator it = mChildren.begin();
+                    it != mChildren.end(); it++) {
+                    if (it->second->changed()) {
+                         mChanged = true;
+                         break;
+                    }
+               }
+          }
      }
      return mChanged;
 }
@@ -422,42 +422,42 @@ ostream& ContainerChangeTrackerAdapter::toXML(ostream& o, string indent)
      // First handle changed objects. Notice that there should be no
      // change adapters for added (yet) or removed objects.
      for (std::map<const Reference*, ChangeTrackerAdapter*>::iterator it = mChildren.begin(); it != mChildren.end(); it++) {
-	  ChangeTrackerAdapter& child = *it->second;
-	  if (child.changed()) {
-	       child.toXML(o, indent + INDENT);
-	  }
+          ChangeTrackerAdapter& child = *it->second;
+          if (child.changed()) {
+               child.toXML(o, indent + INDENT);
+          }
      }
      // Handle added, removed and replaced obejcts.
      for (std::map<const Reference*, char>::iterator it = mChanges.begin(); it != mChanges.end(); it++) {
-	  if (it->second == 'a') {
-	       DataObject& added = *Mapper::map(*it->first);
-	       o << indent << INDENT << "<update xsi:type=\"sp:UpdateAdd\" identifier=\"" << added.identifier() << "\">" << endl;
-	       o << indent << INDENT << INDENT << "<identifiable xsi:type=\"sp:" << added.getType().getName()
-		 << "\" identifier=\"" << added.identifier() << "\">" << endl;
-	       added.bodyXML(o, indent + INDENT + INDENT + INDENT);
-	       o << indent << INDENT << INDENT << "</identifiable>" << endl;
-	       o << indent << INDENT << "</update>" << endl;
+          if (it->second == 'a') {
+               DataObject& added = *Mapper::map(*it->first);
+               o << indent << INDENT << "<update xsi:type=\"sp:UpdateAdd\" identifier=\"" << added.identifier() << "\">" << endl;
+               o << indent << INDENT << INDENT << "<identifiable xsi:type=\"sp:" << added.getType().getName()
+                 << "\" identifier=\"" << added.identifier() << "\">" << endl;
+               added.bodyXML(o, indent + INDENT + INDENT + INDENT);
+               o << indent << INDENT << INDENT << "</identifiable>" << endl;
+               o << indent << INDENT << "</update>" << endl;
 
-	       // Change tracker adapter for added object.
-	       addChild(*it->first);
-	  }
-	  else if (it->second == 'r') {
-	       o << indent << INDENT<< "<update xsi:type=\"sp:UpdateRemove\" identifier=\""
-		 << it->first->name() << "\"></update>" << endl;
-	  }
-	  else {
-	       DataObject& r = *Mapper::map(*it->first);
-	       o << indent << INDENT << "<update xsi:type=\"sp:UpdateReplace\" identifier=\"" << r.identifier() << "\">" << endl;
-	       o << indent << INDENT << INDENT << "<newObject xsi:type=\"sp:" << r.getType().getName() << "\">" << endl;
-	       r.bodyXML(o, indent + INDENT + INDENT + INDENT);
-	       o << indent << INDENT << INDENT << "</newObject>" << endl;
-	       o << indent << INDENT << "</update>" << endl;
+               // Change tracker adapter for added object.
+               addChild(*it->first);
+          }
+          else if (it->second == 'r') {
+               o << indent << INDENT<< "<update xsi:type=\"sp:UpdateRemove\" identifier=\""
+                 << it->first->name() << "\"></update>" << endl;
+          }
+          else {
+               DataObject& r = *Mapper::map(*it->first);
+               o << indent << INDENT << "<update xsi:type=\"sp:UpdateReplace\" identifier=\"" << r.identifier() << "\">" << endl;
+               o << indent << INDENT << INDENT << "<newObject xsi:type=\"sp:" << r.getType().getName() << "\">" << endl;
+               r.bodyXML(o, indent + INDENT + INDENT + INDENT);
+               o << indent << INDENT << INDENT << "</newObject>" << endl;
+               o << indent << INDENT << "</update>" << endl;
 
-	       // Change tracker adapter for added object. It is here
-	       // assumed that replace is implemented as remove + add
-	       // for ChangeTrackerAdapters.
-	       addChild(*it->first);
-	  }
+               // Change tracker adapter for added object. It is here
+               // assumed that replace is implemented as remove + add
+               // for ChangeTrackerAdapters.
+               addChild(*it->first);
+          }
      }
      o << indent << "</update>" << endl;
 
@@ -480,43 +480,43 @@ ChangeTrackerAdapter* ChangeTrackerAdapterFactory::createChangeTrackerAdapter(co
      ChangeTrackerAdapter* ret = 0;
      DataObject* d = Mapper::map(r);
      if (d) {
- 	  if (StratmasBool* o = dynamic_cast<StratmasBool*>(d)) {
- 	       ret = new BoolChangeTrackerAdapter(*o);
- 	  }
- 	  else if (StratmasDouble* o = dynamic_cast<StratmasDouble*>(d)) {
- 	       ret = new DoubleChangeTrackerAdapter(*o);
- 	  }
- 	  else if (StratmasInt64_t* o = dynamic_cast<StratmasInt64_t*>(d)) {
- 	       ret = new Int64_tChangeTrackerAdapter(*o);
- 	  }
-	  else if (StratmasReference* o = dynamic_cast<StratmasReference*>(d)) {
-	       ret = new ReferenceChangeTrackerAdapter(*o);
-	  }
-	  else if (StratmasShape* o = dynamic_cast<StratmasShape*>(d)) {
-	       ret = new ShapeChangeTrackerAdapter(*o);
-	  }
- 	  else if (StratmasString* o = dynamic_cast<StratmasString*>(d)) {
- 	       ret = new StringChangeTrackerAdapter(*o);
- 	  }
-	  else if (SymbolIDCode* o = dynamic_cast<SymbolIDCode*>(d)) {
-	       ret = new SymbolIDCodeChangeTrackerAdapter(*o);
-	  }
- 	  else if (StratmasTime* o = dynamic_cast<StratmasTime*>(d)) {
- 	       ret = new TimeChangeTrackerAdapter(*o);
- 	  }
-	  else if (dynamic_cast<ContainerDataObject*>(d)) {
-	       ret = new ContainerChangeTrackerAdapter(r, id);
-	  }
-	  else {
-	       Error e;
-	       e << "No ChangeTrackerAdapter available for object " << d->ref();
-	       throw e;
-	  }
+           if (StratmasBool* o = dynamic_cast<StratmasBool*>(d)) {
+                ret = new BoolChangeTrackerAdapter(*o);
+           }
+           else if (StratmasDouble* o = dynamic_cast<StratmasDouble*>(d)) {
+                ret = new DoubleChangeTrackerAdapter(*o);
+           }
+           else if (StratmasInt64_t* o = dynamic_cast<StratmasInt64_t*>(d)) {
+                ret = new Int64_tChangeTrackerAdapter(*o);
+           }
+          else if (StratmasReference* o = dynamic_cast<StratmasReference*>(d)) {
+               ret = new ReferenceChangeTrackerAdapter(*o);
+          }
+          else if (StratmasShape* o = dynamic_cast<StratmasShape*>(d)) {
+               ret = new ShapeChangeTrackerAdapter(*o);
+          }
+           else if (StratmasString* o = dynamic_cast<StratmasString*>(d)) {
+                ret = new StringChangeTrackerAdapter(*o);
+           }
+          else if (SymbolIDCode* o = dynamic_cast<SymbolIDCode*>(d)) {
+               ret = new SymbolIDCodeChangeTrackerAdapter(*o);
+          }
+           else if (StratmasTime* o = dynamic_cast<StratmasTime*>(d)) {
+                ret = new TimeChangeTrackerAdapter(*o);
+           }
+          else if (dynamic_cast<ContainerDataObject*>(d)) {
+               ret = new ContainerChangeTrackerAdapter(r, id);
+          }
+          else {
+               Error e;
+               e << "No ChangeTrackerAdapter available for object " << d->ref();
+               throw e;
+          }
      }
      else {
-	  Error e;
-	  e << "Couldn't find DataObject for reference: '" << r << "'";
-	  throw e;
+          Error e;
+          e << "Couldn't find DataObject for reference: '" << r << "'";
+          throw e;
      }
      return ret;
 }

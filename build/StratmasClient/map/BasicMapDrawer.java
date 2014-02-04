@@ -58,7 +58,7 @@ import StratmasClient.proj.MGRSConversion;
  * @author Amir Filipovic, Daniel Ahlin
  */
 public abstract class BasicMapDrawer extends JPanel implements GLEventListener, MapDrawableAdapterListener, 
-							       MouseListener, MouseMotionListener
+                                                               MouseListener, MouseMotionListener
 {
     /**
      * The reference to the map container.
@@ -238,45 +238,45 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @param region the region displayed on the map.
      */
     public BasicMapDrawer(BasicMap basicMap, Region region) {
-	// create JOGL canvas
+        // create JOGL canvas
         GLCapabilities glcaps = new GLCapabilities();
-	glcaps.setHardwareAccelerated(true);
-	glcaps.setStencilBits(1);
+        glcaps.setHardwareAccelerated(true);
+        glcaps.setStencilBits(1);
         glc = new GLCanvas(glcaps);
-	glc.addGLEventListener(this);
-	glc.addMouseListener(this);
-	glc.addMouseMotionListener(this);
+        glc.addGLEventListener(this);
+        glc.addMouseListener(this);
+        glc.addMouseMotionListener(this);
 
-	// initialize the list of display lists for drawables
-	initMapDrawableDisplayLists();
-	
-	// reference to the map container
-	this.basicMap = basicMap;
-	
-	// region associated with the map
-	this.region = region;
-	for (Enumeration e = region.getShapes().elements();e.hasMoreElements();) {
-	    Shape s = (Shape)e.nextElement();
-	    addMapDrawableAdapter(s);  
-	}
-	
-	// increase bounding box for the region
-	box = region.getProjectedBounds();
-	double dx = Math.abs(box.getXmax()-box.getXmin());
-	double dy = Math.abs(box.getYmax()-box.getYmin());
-	double xmin = box.getXmin()-dx/10;
-	double ymin = box.getYmin()-dy/10;
-	double xmax = box.getXmax()+dx/10;
-	double ymax = box.getYmax()+dy/10;
-	box = new BoundingBox(xmin, ymin, xmax, ymax, this.getProjection());
-	
-	// initialize orthographic view bounds and view center
-	ort_box = (BoundingBox)box.clone();
-	ort_xc = (ort_box.getXmax()+ort_box.getXmin())/2;
-	ort_yc = (ort_box.getYmax()+ort_box.getYmin())/2;
+        // initialize the list of display lists for drawables
+        initMapDrawableDisplayLists();
+        
+        // reference to the map container
+        this.basicMap = basicMap;
+        
+        // region associated with the map
+        this.region = region;
+        for (Enumeration e = region.getShapes().elements();e.hasMoreElements();) {
+            Shape s = (Shape)e.nextElement();
+            addMapDrawableAdapter(s);  
+        }
+        
+        // increase bounding box for the region
+        box = region.getProjectedBounds();
+        double dx = Math.abs(box.getXmax()-box.getXmin());
+        double dy = Math.abs(box.getYmax()-box.getYmin());
+        double xmin = box.getXmin()-dx/10;
+        double ymin = box.getYmin()-dy/10;
+        double xmax = box.getXmax()+dx/10;
+        double ymax = box.getYmax()+dy/10;
+        box = new BoundingBox(xmin, ymin, xmax, ymax, this.getProjection());
+        
+        // initialize orthographic view bounds and view center
+        ort_box = (BoundingBox)box.clone();
+        ort_xc = (ort_box.getXmax()+ort_box.getXmin())/2;
+        ort_yc = (ort_box.getYmax()+ort_box.getYmin())/2;
 
-	// initialize scaled orthographic view bounds and view center
-	orts_box = (BoundingBox)box.clone();
+        // initialize scaled orthographic view bounds and view center
+        orts_box = (BoundingBox)box.clone();
     }
     
     /**
@@ -285,42 +285,42 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @param gld needed for OpenGL.
      */
     public void init(GLAutoDrawable gld) {
-	GL gl = gld.getGL();
-	
-	// set the background color
-	float[] bColor = backgroundColor.getRGBComponents(null);
-	gl.glClearColor(bColor[0], bColor[1], bColor[2], bColor[3]);
-	
-	// enable smoothing for lines
-	gl.glEnable(GL.GL_LINE_SMOOTH);
-	
-	// enable shading
-	gl.glShadeModel(GL.GL_SMOOTH);
-	
-	// enable blending
-	gl.glEnable(GL.GL_BLEND);
-	gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
-	
-	// set actual matrix
-	gl.glMatrixMode(GL.GL_PROJECTION);
-	gl.glLoadIdentity();
-	
-	// initialize bounding box
-	glu.gluOrtho2D(ort_box.getXmin(), ort_box.getXmax(), ort_box.getYmin(), ort_box.getYmax());
-	
-	// update the display list of the graticule lines
-	updateGraticuleList(gl);
-	
-	// Possibly new GL,  reregister all mapDrawableAdapters
-	for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
-	    ((MapDrawableAdapter) e.nextElement()).invalidateAllLists();
-	}
-	
-	int[] viewport = new int[4];
-	gl.glGetIntegerv(GL.GL_VIEWPORT, viewport, 0);
-	reshape(gld, viewport[0], viewport[1], viewport[2], viewport[3]);
-	
-	update();	
+        GL gl = gld.getGL();
+        
+        // set the background color
+        float[] bColor = backgroundColor.getRGBComponents(null);
+        gl.glClearColor(bColor[0], bColor[1], bColor[2], bColor[3]);
+        
+        // enable smoothing for lines
+        gl.glEnable(GL.GL_LINE_SMOOTH);
+        
+        // enable shading
+        gl.glShadeModel(GL.GL_SMOOTH);
+        
+        // enable blending
+        gl.glEnable(GL.GL_BLEND);
+        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+        
+        // set actual matrix
+        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glLoadIdentity();
+        
+        // initialize bounding box
+        glu.gluOrtho2D(ort_box.getXmin(), ort_box.getXmax(), ort_box.getYmin(), ort_box.getYmax());
+        
+        // update the display list of the graticule lines
+        updateGraticuleList(gl);
+        
+        // Possibly new GL,  reregister all mapDrawableAdapters
+        for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
+            ((MapDrawableAdapter) e.nextElement()).invalidateAllLists();
+        }
+        
+        int[] viewport = new int[4];
+        gl.glGetIntegerv(GL.GL_VIEWPORT, viewport, 0);
+        reshape(gld, viewport[0], viewport[1], viewport[2], viewport[3]);
+        
+        update();        
     }
 
     /**
@@ -329,18 +329,18 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @param gld needed for OpenGL.
      */
     public void display(GLAutoDrawable gld) {
-	GL gl = gld.getGL();
+        GL gl = gld.getGL();
 
-	// update orthographics view bounds
-	gl.glMatrixMode(GL.GL_PROJECTION);
-	gl.glLoadIdentity();
-	glu.gluOrtho2D(orts_box.getXmin(), orts_box.getXmax(), orts_box.getYmin(), orts_box.getYmax());
+        // update orthographics view bounds
+        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glLoadIdentity();
+        glu.gluOrtho2D(orts_box.getXmin(), orts_box.getXmax(), orts_box.getYmin(), orts_box.getYmax());
 
-	// update graticules
-	updateGraticuleList(gl);
-	
-	// draw the map
-	drawGraph(gld);
+        // update graticules
+        updateGraticuleList(gl);
+        
+        // draw the map
+        drawGraph(gld);
     }
 
     /**
@@ -353,38 +353,38 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @param height height of the display area.
      */
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
-	// get new orthographic view bounds such that aspect ratio is
-	// equal to display window's
-	BoundingBox tmpBox = updateOrthographicBounds(width, height);
-	// update the display area if the bounds are valid
-	if (tmpBox.isValid() && width > minDisplayAreaWidth && height > minDisplayAreaHeight) {
-	    // update the orthographic bounds
-	    ort_box = tmpBox;
-	    // update window size
-	    view_x = x;
-	    view_y = y;
-	    view_width = width;
-	    view_height = height;
-	    // update the size of the frame
-	    frame_width  = frame.getWidth();
-	    frame_height = frame.getHeight();
-	    if (zoom_and_scale != null) {
-		// update map scale
-		zoom_and_scale.update();
-	    }
-	}
-	// restore the display area with the latest valid bounds
-	else {
-	    frame.setBounds(frame.getX(), frame.getY(), frame_width, frame_height);
-	    frame.validate();
- 	}
+        // get new orthographic view bounds such that aspect ratio is
+        // equal to display window's
+        BoundingBox tmpBox = updateOrthographicBounds(width, height);
+        // update the display area if the bounds are valid
+        if (tmpBox.isValid() && width > minDisplayAreaWidth && height > minDisplayAreaHeight) {
+            // update the orthographic bounds
+            ort_box = tmpBox;
+            // update window size
+            view_x = x;
+            view_y = y;
+            view_width = width;
+            view_height = height;
+            // update the size of the frame
+            frame_width  = frame.getWidth();
+            frame_height = frame.getHeight();
+            if (zoom_and_scale != null) {
+                // update map scale
+                zoom_and_scale.update();
+            }
+        }
+        // restore the display area with the latest valid bounds
+        else {
+            frame.setBounds(frame.getX(), frame.getY(), frame_width, frame_height);
+            frame.validate();
+         }
     }
     
     /**
      * Not implemented. Part of GLEventListener interface.
      */
     public void displayChanged(GLAutoDrawable drawable, boolean modeChanged, 
-			       boolean deviceChanged) {
+                               boolean deviceChanged) {
     }
 
     /**
@@ -394,7 +394,7 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @param drawableAdapter the MapDrawableAdapter whose object is being removed.
      */
     public void mapDrawableAdapterRemoved(MapDrawableAdapter drawableAdapter) {
-	removeMapDrawableAdapter(drawableAdapter);
+        removeMapDrawableAdapter(drawableAdapter);
     }
     
     /**
@@ -404,12 +404,12 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @param drawableAdapter the MapDrawableAdapter that needs to be updated.
      */
     public void mapDrawableAdapterUpdated(MapDrawableAdapter drawableAdapter) {
-	synchronized (mapDrawableAdapterRecompilation) {
-	    mapDrawableAdapterRecompilation.add(drawableAdapter);
-	    // update the list 
-	    setIsDrawnMapDrawablesListUpdated(false);
-	}
-	update();
+        synchronized (mapDrawableAdapterRecompilation) {
+            mapDrawableAdapterRecompilation.add(drawableAdapter);
+            // update the list 
+            setIsDrawnMapDrawablesListUpdated(false);
+        }
+        update();
     }
 
     /**
@@ -420,7 +420,7 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      */
     public void mapDrawableAdapterChildAdded(StratmasObject object)
     {
-	addMapDrawable(object);
+        addMapDrawable(object);
     }
     
     /**
@@ -435,7 +435,7 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @param e the event created by entering the map.
      */
     public void mouseEntered(MouseEvent e) {
-	mouse_on = true;
+        mouse_on = true;
     }
     
     /**
@@ -444,20 +444,20 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @param e event created by exiting the map.
      */
     public void mouseExited(MouseEvent e) {
-	mouse_on = false;
-	// display current position
-	displayCurrentPosition(new MapPoint(0,0));
-	// display pointed region
-	displayPointedRegion("");
-	// redraw
-	update();
+        mouse_on = false;
+        // display current position
+        displayCurrentPosition(new MapPoint(0,0));
+        // display pointed region
+        displayPointedRegion("");
+        // redraw
+        update();
     }
     
     /**
      * Not implemented. Part of MouseListener interface.
      */
     public void mousePressed(MouseEvent e) {
-    }	
+    }        
     
     /**
      * Not implemented. Part of MouseListener interface.
@@ -477,21 +477,21 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @param e event created by changing the position of the mouse cursor on the map.
      */
     public void mouseMoved(MouseEvent e) {
-	// get window coordinates
-	int x = (int) e.getX();
-	int y = (int) e.getY();
+        // get window coordinates
+        int x = (int) e.getX();
+        int y = (int) e.getY();
 
-	// necessary for multi-screen enviroment
-	mouse_on = (x >= view_x && x <= view_x + view_width && y >= view_y && y <= view_y + view_height)? true : false;
+        // necessary for multi-screen enviroment
+        mouse_on = (x >= view_x && x <= view_x + view_width && y >= view_y && y <= view_y + view_height)? true : false;
 
-	// convert the current position to lon/lat
-	current_pos = convertToLonLat(x, y);
+        // convert the current position to lon/lat
+        current_pos = convertToLonLat(x, y);
 
-	// display current position
-	displayCurrentPosition(current_pos);
-	
-	// redraw
-	update();
+        // display current position
+        displayCurrentPosition(current_pos);
+        
+        // redraw
+        update();
     }
 
     /**
@@ -500,67 +500,67 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @param frame_title the title of the map.
      */
     public void createAndShowGUI(String frame_title) {
-	// create and set up the window
+        // create and set up the window
         frame.setTitle(frame_title);
-	frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-	
-	// add a listener to the frame
-	final BasicMapDrawer self = this;
-	final BasicMap smap = basicMap;
-	frame.addWindowListener(new WindowAdapter() {
-		public void windowClosing(WindowEvent e) {
-		    if (JOptionPane.showConfirmDialog(self.frame, "Really close map?", "Closing map window...",
-						       JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-			if (smap instanceof StratMap) {
-			    Visualizer.removeMap((StratMap)smap);
-			    ((StratMap)smap).doDispose();
-			}
-			self.doDispose();
-		    }
-		}
-	    });
-	
-	// necessary when heavyweight and lightweight components intersect
-	JPopupMenu.setDefaultLightWeightPopupEnabled(false);
-	
-	// frame size (test adapted for now on)
-	Dimension screen_size = Toolkit.getDefaultToolkit().getScreenSize();
-	frame_width = screen_size.width/2;
-	frame_height = screen_size.height-screen_size.height/5;
-	frame.setSize(frame_width, frame_height); 
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        
+        // add a listener to the frame
+        final BasicMapDrawer self = this;
+        final BasicMap smap = basicMap;
+        frame.addWindowListener(new WindowAdapter() {
+                public void windowClosing(WindowEvent e) {
+                    if (JOptionPane.showConfirmDialog(self.frame, "Really close map?", "Closing map window...",
+                                                       JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        if (smap instanceof StratMap) {
+                            Visualizer.removeMap((StratMap)smap);
+                            ((StratMap)smap).doDispose();
+                        }
+                        self.doDispose();
+                    }
+                }
+            });
+        
+        // necessary when heavyweight and lightweight components intersect
+        JPopupMenu.setDefaultLightWeightPopupEnabled(false);
+        
+        // frame size (test adapted for now on)
+        Dimension screen_size = Toolkit.getDefaultToolkit().getScreenSize();
+        frame_width = screen_size.width/2;
+        frame_height = screen_size.height-screen_size.height/5;
+        frame.setSize(frame_width, frame_height); 
         frame.setLocation((screen_size.width-frame_width) >> 1, 
-			  (screen_size.height-frame_height) >> 1
-			  );
-	
-	// create text field for the coordinate under the mouse cursor 
-	info_field.setEditable(false);
-	info_field.setBackground(this.getBackground());
-	
-	// create text field for the region under the mouse cursor 
-	regionTextField.setEditable(false);
-	regionTextField.setBackground(this.getBackground());
-	
-	JPanel textFieldPanel = new JPanel(new GridLayout(1, 2));
-	textFieldPanel.add(info_field);
-	textFieldPanel.add(regionTextField);
-	
-	// add the canvas and the text field to the panel
-	setLayout(new BorderLayout());
-	add(glc, BorderLayout.CENTER);
-	add(textFieldPanel, BorderLayout.SOUTH);
-	
-	// add the panel to the farme
-	frame.getContentPane().add(this, BorderLayout.CENTER);
-	frame.setResizable(true);
-	
-	// thread safety recomendation
-	final JFrame fframe = frame;
-	SwingUtilities.invokeLater (new Runnable() 
-	    {
-		public void run() {
-		    fframe.setVisible(true);
-		}
-	    });
+                          (screen_size.height-frame_height) >> 1
+                          );
+        
+        // create text field for the coordinate under the mouse cursor 
+        info_field.setEditable(false);
+        info_field.setBackground(this.getBackground());
+        
+        // create text field for the region under the mouse cursor 
+        regionTextField.setEditable(false);
+        regionTextField.setBackground(this.getBackground());
+        
+        JPanel textFieldPanel = new JPanel(new GridLayout(1, 2));
+        textFieldPanel.add(info_field);
+        textFieldPanel.add(regionTextField);
+        
+        // add the canvas and the text field to the panel
+        setLayout(new BorderLayout());
+        add(glc, BorderLayout.CENTER);
+        add(textFieldPanel, BorderLayout.SOUTH);
+        
+        // add the panel to the farme
+        frame.getContentPane().add(this, BorderLayout.CENTER);
+        frame.setResizable(true);
+        
+        // thread safety recomendation
+        final JFrame fframe = frame;
+        SwingUtilities.invokeLater (new Runnable() 
+            {
+                public void run() {
+                    fframe.setVisible(true);
+                }
+            });
     }
 
     /**
@@ -574,24 +574,24 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @return the orthographic bounds of the display area.
      */
     protected BoundingBox updateOrthographicBounds(int width, int height) {
-	double x_ratio = (ort_box.getXmax() - ort_box.getXmin()) / width;
-	double y_ratio = (ort_box.getYmax() - ort_box.getYmin()) / height;
-	if (x_ratio < y_ratio) {
-	    double dx = (ort_box.getYmax() - ort_box.getYmin()) * width / height;
-	    double ort_xmin = ort_xc - dx / 2;
-	    double ort_xmax = ort_xc + dx / 2;
-	    double ort_ymin = ort_box.getYmin();
-	    double ort_ymax = ort_box.getYmax();
-	    return new BoundingBox(ort_xmin, ort_ymin, ort_xmax, ort_ymax, this.getProjection());
-	}
-	else {
-	    double dy = (ort_box.getXmax() - ort_box.getXmin()) * height / width;
-	    double ort_xmin = ort_box.getXmin();
-	    double ort_xmax = ort_box.getXmax();
-	    double ort_ymin = ort_yc - dy / 2;
-	    double ort_ymax = ort_yc + dy / 2;
-	    return new BoundingBox(ort_xmin, ort_ymin, ort_xmax, ort_ymax, this.getProjection());
-	}	
+        double x_ratio = (ort_box.getXmax() - ort_box.getXmin()) / width;
+        double y_ratio = (ort_box.getYmax() - ort_box.getYmin()) / height;
+        if (x_ratio < y_ratio) {
+            double dx = (ort_box.getYmax() - ort_box.getYmin()) * width / height;
+            double ort_xmin = ort_xc - dx / 2;
+            double ort_xmax = ort_xc + dx / 2;
+            double ort_ymin = ort_box.getYmin();
+            double ort_ymax = ort_box.getYmax();
+            return new BoundingBox(ort_xmin, ort_ymin, ort_xmax, ort_ymax, this.getProjection());
+        }
+        else {
+            double dy = (ort_box.getXmax() - ort_box.getXmin()) * height / width;
+            double ort_xmin = ort_box.getXmin();
+            double ort_xmax = ort_box.getXmax();
+            double ort_ymin = ort_yc - dy / 2;
+            double ort_ymax = ort_yc + dy / 2;
+            return new BoundingBox(ort_xmin, ort_ymin, ort_xmax, ort_ymax, this.getProjection());
+        }        
     }
     
     /**
@@ -600,25 +600,25 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @param current_pos the current position.
      */
     public void displayCurrentPosition(MapPoint current_pos) {
-	if (mouse_on) {
-	    // display geodetic coordinates
-	    if (Configuration.getCoordinateSystem() == Configuration.GEODETIC) {
-		DecimalFormat resultFormat = new DecimalFormat("0.00");
-		String lats = resultFormat.format(current_pos.getLat());
-		String lons = resultFormat.format(current_pos.getLon());
-		info_field.setText("Latitude: "+lats+MapConstants.DEGREE_SYMBOL+", Longitude: "+lons+MapConstants.DEGREE_SYMBOL);
-	    }
-	    // display MGRS coordinates
-	    else if (Configuration.getCoordinateSystem() == Configuration.MGRS) {
-		String mgrs = MGRSConversion.convertGeodeticToMGRS(Math.toRadians(current_pos.getLon()), 
-								   Math.toRadians(current_pos.getLat()), 5);
-		info_field.setText("MGRS: "+mgrs);
-	    }
-	}
-	// display empty string
-	else {
-	    info_field.setText("");
-	}
+        if (mouse_on) {
+            // display geodetic coordinates
+            if (Configuration.getCoordinateSystem() == Configuration.GEODETIC) {
+                DecimalFormat resultFormat = new DecimalFormat("0.00");
+                String lats = resultFormat.format(current_pos.getLat());
+                String lons = resultFormat.format(current_pos.getLon());
+                info_field.setText("Latitude: "+lats+MapConstants.DEGREE_SYMBOL+", Longitude: "+lons+MapConstants.DEGREE_SYMBOL);
+            }
+            // display MGRS coordinates
+            else if (Configuration.getCoordinateSystem() == Configuration.MGRS) {
+                String mgrs = MGRSConversion.convertGeodeticToMGRS(Math.toRadians(current_pos.getLon()), 
+                                                                   Math.toRadians(current_pos.getLat()), 5);
+                info_field.setText("MGRS: "+mgrs);
+            }
+        }
+        // display empty string
+        else {
+            info_field.setText("");
+        }
     }
     
     /**
@@ -627,34 +627,34 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @param regionName the name of the region under the mouse pointer.
      */
     public void displayPointedRegion(String regionName) {
-	if (mouse_on && regionName.length() > 0) {
-	    regionTextField.setText("Region : "+regionName);
-	}
-	// display empty string
-	else {
-	    regionTextField.setText("");
-	}
+        if (mouse_on && regionName.length() > 0) {
+            regionTextField.setText("Region : "+regionName);
+        }
+        // display empty string
+        else {
+            regionTextField.setText("");
+        }
     }
     
     /**
      * Resets the map.
      */
     public void reset() {
-	// reset the map
-	update();
+        // reset the map
+        update();
     }
     
     /**
      * Removes all the elements.
      */
     public void remove() {
-	// remove all render selection names
-	renderSelectionNames.clear();
-	// remove all adapters
-	mapDrawableAdapterRecompilation.removeAllElements();
-	for (Enumeration e = mapDrawableAdapters.keys(); e.hasMoreElements(); ) {
-	    removeMapDrawableAdapter((MapDrawableAdapter)mapDrawableAdapters.get(e.nextElement()));
-	}
+        // remove all render selection names
+        renderSelectionNames.clear();
+        // remove all adapters
+        mapDrawableAdapterRecompilation.removeAllElements();
+        for (Enumeration e = mapDrawableAdapters.keys(); e.hasMoreElements(); ) {
+            removeMapDrawableAdapter((MapDrawableAdapter)mapDrawableAdapters.get(e.nextElement()));
+        }
     }
     
     /**
@@ -663,8 +663,8 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @param sbox bouding box of scaled orthographic bounds.
      */
     public void setScaledBoundingBox(BoundingBox sbox) {
-	orts_box = (BoundingBox)sbox.clone();
-	update();
+        orts_box = (BoundingBox)sbox.clone();
+        update();
     }
     
     /**
@@ -674,64 +674,64 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @param y projected y coordinate.
      */
     public void setXYCenter(double x, double y) {
-	// new center view and orthographics view bounds
-	double dx = x-ort_xc;
-	double dy = y-ort_yc;
-	double tmp_xmin = ort_box.getXmin() + dx;
-	double tmp_xmax = ort_box.getXmax() + dx;
-	double tmp_ymin = ort_box.getYmin() + dy;
-	double tmp_ymax = ort_box.getYmax() + dy;
-	// if inside the bounding box of the region
-	if (!(tmp_xmin > box.getXmax() || tmp_xmax < box.getXmin() || 
-	      tmp_ymin > box.getYmax() || tmp_ymax < box.getYmin())) {
-	    // update orthographic bounds
-	    ort_box = new BoundingBox(tmp_xmin, tmp_ymin, tmp_xmax, tmp_ymax, this.getProjection());
-	    ort_xc = (ort_box.getXmax()+ort_box.getXmin())/2;
-	    ort_yc = (ort_box.getYmax()+ort_box.getYmin())/2;
-	    // update scaled orthographoc bounds
-	    double ort_xmins = orts_box.getXmin() + dx;
-	    double ort_xmaxs = orts_box.getXmax() + dx;
-	    double ort_ymins = orts_box.getYmin() + dy;
-	    double ort_ymaxs = orts_box.getYmax() + dy;
-	    orts_box = new BoundingBox(ort_xmins, ort_ymins, ort_xmaxs, ort_ymaxs, this.getProjection());
-	    // redraw
-	    update();
-	}
+        // new center view and orthographics view bounds
+        double dx = x-ort_xc;
+        double dy = y-ort_yc;
+        double tmp_xmin = ort_box.getXmin() + dx;
+        double tmp_xmax = ort_box.getXmax() + dx;
+        double tmp_ymin = ort_box.getYmin() + dy;
+        double tmp_ymax = ort_box.getYmax() + dy;
+        // if inside the bounding box of the region
+        if (!(tmp_xmin > box.getXmax() || tmp_xmax < box.getXmin() || 
+              tmp_ymin > box.getYmax() || tmp_ymax < box.getYmin())) {
+            // update orthographic bounds
+            ort_box = new BoundingBox(tmp_xmin, tmp_ymin, tmp_xmax, tmp_ymax, this.getProjection());
+            ort_xc = (ort_box.getXmax()+ort_box.getXmin())/2;
+            ort_yc = (ort_box.getYmax()+ort_box.getYmin())/2;
+            // update scaled orthographoc bounds
+            double ort_xmins = orts_box.getXmin() + dx;
+            double ort_xmaxs = orts_box.getXmax() + dx;
+            double ort_ymins = orts_box.getYmin() + dy;
+            double ort_ymaxs = orts_box.getYmax() + dy;
+            orts_box = new BoundingBox(ort_xmins, ort_ymins, ort_xmaxs, ort_ymaxs, this.getProjection());
+            // redraw
+            update();
+        }
     }
     
     /**
      * Sets reference to actual zoom & scale controller.
      */
     public void setZoomAndScale(ZoomAndScale zoom_and_scale) {
-	this.zoom_and_scale = zoom_and_scale;
+        this.zoom_and_scale = zoom_and_scale;
     }
     
     /**
      * Disposes the map window.
      */
     public void doDispose() {
-	frame.dispose();
+        frame.dispose();
     }
     
     /**
      * Returns the frame.
      */
     public JFrame getFrame() {
-	return frame;
+        return frame;
     }
     
     /**
      * Returns the actual projection.
      */
     public Projection getProjection() {
-	return basicMap.getProjection();
+        return basicMap.getProjection();
     }
     
     /**
      * Returns the map container.
      */
     public BasicMap getBasicMap() {
-	return basicMap;
+        return basicMap;
     }
 
     /**
@@ -740,7 +740,7 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * the map when the scale is largest.
      */
     public double getMaxRange() {
-	return ort_box.getXmax()-ort_box.getXmin();
+        return ort_box.getXmax()-ort_box.getXmin();
     }
     
     /**
@@ -749,42 +749,42 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * on the map when the scale is smallest.
      */
     public double getMinRange() {
-	return 1000.0;
+        return 1000.0;
     }
 
     /**
      * Width of the portview in screen coordinates.
      */
     public int getViewWidth() {
-	return view_width;
+        return view_width;
     }
     
     /**
      * Height of the portview in screen coordinates.
      */
     public int getViewHeight() {
-	return view_height;
+        return view_height;
     }
     
     /**
      * Returns bounding box in projected coordinates.
      */
     public BoundingBox getBoundingBox() {
-	return ort_box;
+        return ort_box;
     }
     
     /**
      * Returns scaled bounding box in projected coordinates.
      */
     public BoundingBox getScaledBoundingBox() {
-	return orts_box;
+        return orts_box;
     }
     
     /**
      * Returns the background color.
      */
     public Color getBackgroundColor() {
-	return backgroundColor;
+        return backgroundColor;
     }
     
     /**
@@ -796,14 +796,14 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @return the list of elements.  
      */
     public Vector mapDrawableAdapters(Class specifiedClass) {
-	Vector res = new Vector();
-	for(Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
-	    Object o = e.nextElement();
-	    if (specifiedClass.isInstance(o)) {
-		res.add(o);
-	    }
-	}
-	return res;
+        Vector res = new Vector();
+        for(Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
+            Object o = e.nextElement();
+            if (specifiedClass.isInstance(o)) {
+                res.add(o);
+            }
+        }
+        return res;
     }
     
     /**
@@ -814,13 +814,13 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      *
      */
     public MapDrawableAdapter getMapDrawableAdapter(Reference ref) {
-	for(Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
-	    MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
-	    if (mda.getObject().getReference().equals(ref)) {
-		return mda;
-	    }
-	}
-	return null;
+        for(Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
+            MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
+            if (mda.getObject().getReference().equals(ref)) {
+                return mda;
+            }
+        }
+        return null;
     }
     
     /**
@@ -832,13 +832,13 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @return [x,y] projected coordinates.
      */
     public MapPoint convertToLonLat(int x, int y) {
-	// convert to projected coordinates
-	double xx = orts_box.getXmin() + (x-view_x)*(orts_box.getXmax()-orts_box.getXmin())/view_width;
-	double yy = orts_box.getYmin() + (view_height-y+view_y)*(orts_box.getYmax()-orts_box.getYmin())/view_height;
-	// convert to lon and lat coordinates
-	double[] ll = basicMap.getProjection().projToLonLat(xx, yy);
-	
-	return new MapPoint(ll[0], ll[1]);
+        // convert to projected coordinates
+        double xx = orts_box.getXmin() + (x-view_x)*(orts_box.getXmax()-orts_box.getXmin())/view_width;
+        double yy = orts_box.getYmin() + (view_height-y+view_y)*(orts_box.getYmax()-orts_box.getYmin())/view_height;
+        // convert to lon and lat coordinates
+        double[] ll = basicMap.getProjection().projToLonLat(xx, yy);
+        
+        return new MapPoint(ll[0], ll[1]);
     }
     
     /**
@@ -849,28 +849,28 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @return distance in the projected coordinates.
      */
     public double convertScreenDistanceToProjectedDistance(int pixs) {
-	MapPoint p1 = convertToLonLat(0, 0);
-	MapPoint p2 = convertToLonLat(pixs, 0);
-	return Math.abs(p1.getProjectedPoint(getProjection()).getX() - p2.getProjectedPoint(getProjection()).getX());
+        MapPoint p1 = convertToLonLat(0, 0);
+        MapPoint p2 = convertToLonLat(pixs, 0);
+        return Math.abs(p1.getProjectedPoint(getProjection()).getX() - p2.getProjectedPoint(getProjection()).getX());
     }
  
     /**
      * Updates the display list of the graticule lines.
      */
     public void updateGraticuleList(GL gl) {
-	graticuleDisplayList = (gl.glIsList(graticuleDisplayList)) ? graticuleDisplayList : gl.glGenLists(1);
-	
-	// update the list
-	gl.glNewList(graticuleDisplayList, GL.GL_COMPILE);
-	// line color
-	gl.glColor4f(0.1f, 0.1f, 0.1f, 0.5f);
-	// width of the shape line
-	gl.glLineWidth(1.0f);
-	// draw graticules
-	BoundingBox regionBox = region.getLonLatBounds();
-	GraticuleLayer.drawGraticules(gl, regionBox, this.getProjection(), spacing);
-	// ends the display lists
-	gl.glEndList();
+        graticuleDisplayList = (gl.glIsList(graticuleDisplayList)) ? graticuleDisplayList : gl.glGenLists(1);
+        
+        // update the list
+        gl.glNewList(graticuleDisplayList, GL.GL_COMPILE);
+        // line color
+        gl.glColor4f(0.1f, 0.1f, 0.1f, 0.5f);
+        // width of the shape line
+        gl.glLineWidth(1.0f);
+        // draw graticules
+        BoundingBox regionBox = region.getLonLatBounds();
+        GraticuleLayer.drawGraticules(gl, regionBox, this.getProjection(), spacing);
+        // ends the display lists
+        gl.glEndList();
     }
     
     /**
@@ -884,41 +884,41 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * Repaints the map.
      */
     public void update() {
-	glc.validate();
-	glc.repaint();
+        glc.validate();
+        glc.repaint();
     }
 
     /**
      * Update the list representing which drawables should be drawn.
      */
     public void updateDrawnMapDrawablesList() {
-	if (!isDrawnMapDrawablesListUpdated()) {
-	    // get all mapDrawableAdapters that should be drawn
-	    Vector v = new Vector();
-	    for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements(); ) {
-		v.add(e.nextElement());
-	    }
-	    
-	    // Sort the elements
-	    java.util.Collections.sort(v, mapDrawableAdapterComparator);
-	    int[] res = new int[v.size()];
-	    for (int i = 0; i < res.length; i++) {
-		MapDrawableAdapter mda = (MapDrawableAdapter) v.get(i);
-		res[i] = mda.getDisplayList();
-	    }
-	    // update the list of the drawn elements
-	    drawnMapDrawablesListBuf = BufferUtil.newIntBuffer(res.length);
-	    drawnMapDrawablesListBuf.put(res);
-	    drawnMapDrawablesListBuf.rewind();
-	    isDrawnMapDrawablesListUpdated = true;
-	}
+        if (!isDrawnMapDrawablesListUpdated()) {
+            // get all mapDrawableAdapters that should be drawn
+            Vector v = new Vector();
+            for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements(); ) {
+                v.add(e.nextElement());
+            }
+            
+            // Sort the elements
+            java.util.Collections.sort(v, mapDrawableAdapterComparator);
+            int[] res = new int[v.size()];
+            for (int i = 0; i < res.length; i++) {
+                MapDrawableAdapter mda = (MapDrawableAdapter) v.get(i);
+                res[i] = mda.getDisplayList();
+            }
+            // update the list of the drawn elements
+            drawnMapDrawablesListBuf = BufferUtil.newIntBuffer(res.length);
+            drawnMapDrawablesListBuf.put(res);
+            drawnMapDrawablesListBuf.rewind();
+            isDrawnMapDrawablesListUpdated = true;
+        }
     }
 
     /**
      * Indicates whether the list of currently drawn mapDrawableDisplayLists should be updated.
      */
     protected boolean isDrawnMapDrawablesListUpdated() {
-	return this.isDrawnMapDrawablesListUpdated;
+        return this.isDrawnMapDrawablesListUpdated;
     }
     
     /**
@@ -927,7 +927,7 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @param status false if mapDrawableDisplayLists needs to be updated.
      */
     protected void setIsDrawnMapDrawablesListUpdated(boolean status) {
-	isDrawnMapDrawablesListUpdated = status;
+        isDrawnMapDrawablesListUpdated = status;
     }
 
     /**
@@ -937,65 +937,65 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @param mapDrawable the mapDrawable that is added.
      */
     public void addMapDrawable(StratmasObject mapDrawable) {
-	for (Enumeration ee = mapDrawable.children(); ee.hasMoreElements();) {
-	    StratmasObject candidate = (StratmasObject) ee.nextElement();
-	    if (candidate.getType().canSubstitute("Element") || candidate.getType().canSubstitute("Activity")) {
-		if (candidate instanceof StratmasList) {
-		    // Add any current elements and add a listener
-		    // that imports any consequent ones.
-		    for (Enumeration le = candidate.children(); le.hasMoreElements();) {
-			addMapDrawable((StratmasObject) le.nextElement());
-		    }
-		} else {
-		    addMapDrawable((StratmasObject) candidate);
-		}
-		// add listeners to the list of the activities
-		if (mapDrawable.getType().canSubstitute("Element") && candidate.getType().canSubstitute("Activity")) {
-		    candidate.addEventListener(new StratmasEventListener()
-			{
-			    public void eventOccured(StratmasEvent subEvent)
-			    {
-				if (subEvent.isObjectAdded()) {
-				    addMapDrawable((StratmasObject)subEvent.getArgument());
-				} 
-				else if (subEvent.isRemoved()) {
-				    ((StratmasObject) subEvent.getSource()).removeEventListener(this);
-				} 
-				else if (subEvent.isReplaced()) {
-				    // UNTESTED - the replace code is untested 2005-09-22
-				    Debug.err.println("FIXME - Replace behavior untested in MapDrawer");
-				    ((StratmasObject)subEvent.getSource()).removeEventListener(this);
-				    ((StratmasObject)subEvent.getArgument()).addEventListener(this);
-				}			    
-			    }
-			});
-		}
-	    }
-	}
-	addMapDrawableAdapter(mapDrawable);
+        for (Enumeration ee = mapDrawable.children(); ee.hasMoreElements();) {
+            StratmasObject candidate = (StratmasObject) ee.nextElement();
+            if (candidate.getType().canSubstitute("Element") || candidate.getType().canSubstitute("Activity")) {
+                if (candidate instanceof StratmasList) {
+                    // Add any current elements and add a listener
+                    // that imports any consequent ones.
+                    for (Enumeration le = candidate.children(); le.hasMoreElements();) {
+                        addMapDrawable((StratmasObject) le.nextElement());
+                    }
+                } else {
+                    addMapDrawable((StratmasObject) candidate);
+                }
+                // add listeners to the list of the activities
+                if (mapDrawable.getType().canSubstitute("Element") && candidate.getType().canSubstitute("Activity")) {
+                    candidate.addEventListener(new StratmasEventListener()
+                        {
+                            public void eventOccured(StratmasEvent subEvent)
+                            {
+                                if (subEvent.isObjectAdded()) {
+                                    addMapDrawable((StratmasObject)subEvent.getArgument());
+                                } 
+                                else if (subEvent.isRemoved()) {
+                                    ((StratmasObject) subEvent.getSource()).removeEventListener(this);
+                                } 
+                                else if (subEvent.isReplaced()) {
+                                    // UNTESTED - the replace code is untested 2005-09-22
+                                    Debug.err.println("FIXME - Replace behavior untested in MapDrawer");
+                                    ((StratmasObject)subEvent.getSource()).removeEventListener(this);
+                                    ((StratmasObject)subEvent.getArgument()).addEventListener(this);
+                                }                            
+                            }
+                        });
+                }
+            }
+        }
+        addMapDrawableAdapter(mapDrawable);
     }
 
     /**
      * Adds a new MapDrawableAdapter to this map.
      */
     protected MapDrawableAdapter addMapDrawableAdapter(StratmasObject mapDrawable) {
-	MapDrawableAdapter drawableAdapter = MapDrawableAdapter.getMapDrawableAdapter(mapDrawable);
-	int renderSelectionName = getNewRenderSelectionName(drawableAdapter.getNrOfRenderSelectionNames());
-	drawableAdapter.setRenderSelectionName(renderSelectionName);
-	synchronized (mapDrawableAdapters) {
-	    mapDrawableAdapters.put(mapDrawable, drawableAdapter);
-	}
-	
-	renderSelectionNames.put(new Integer(renderSelectionName), drawableAdapter);
-	drawableAdapter.addMapDrawableAdapterListener(this);
-	synchronized (mapDrawableAdapterRecompilation) {
-	    mapDrawableAdapterRecompilation.add(drawableAdapter);
-	}
-	
-	addMapDrawableDisplayList(drawableAdapter.getDisplayList());
-	setIsDrawnMapDrawablesListUpdated(false);
-	
-	return drawableAdapter;
+        MapDrawableAdapter drawableAdapter = MapDrawableAdapter.getMapDrawableAdapter(mapDrawable);
+        int renderSelectionName = getNewRenderSelectionName(drawableAdapter.getNrOfRenderSelectionNames());
+        drawableAdapter.setRenderSelectionName(renderSelectionName);
+        synchronized (mapDrawableAdapters) {
+            mapDrawableAdapters.put(mapDrawable, drawableAdapter);
+        }
+        
+        renderSelectionNames.put(new Integer(renderSelectionName), drawableAdapter);
+        drawableAdapter.addMapDrawableAdapterListener(this);
+        synchronized (mapDrawableAdapterRecompilation) {
+            mapDrawableAdapterRecompilation.add(drawableAdapter);
+        }
+        
+        addMapDrawableDisplayList(drawableAdapter.getDisplayList());
+        setIsDrawnMapDrawablesListUpdated(false);
+        
+        return drawableAdapter;
     }
 
     /**
@@ -1004,12 +1004,12 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @param drawableAdapter the adapter to remove.
      */
     protected void removeMapDrawableAdapter(MapDrawableAdapter drawableAdapter) {
-	drawableAdapter.removeMapDrawableAdapterListener(this);
-	mapDrawableAdapters.remove(drawableAdapter.getObject());
-	renderSelectionNames.remove(new Integer(drawableAdapter.getRenderSelectionName()));
-	removeMapDrawableDisplayList(drawableAdapter.getDisplayList());
-	setIsDrawnMapDrawablesListUpdated(false);
-	update();
+        drawableAdapter.removeMapDrawableAdapterListener(this);
+        mapDrawableAdapters.remove(drawableAdapter.getObject());
+        renderSelectionNames.remove(new Integer(drawableAdapter.getRenderSelectionName()));
+        removeMapDrawableDisplayList(drawableAdapter.getDisplayList());
+        setIsDrawnMapDrawablesListUpdated(false);
+        update();
     }
     
     /**
@@ -1018,10 +1018,10 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @param specifiedClass the class of the adapters to remove.
      */
     protected void removeMapDrawableAdapters(Class specifiedClass) {
-	Vector adapters = mapDrawableAdapters(specifiedClass);
-	for (int i = 0; i < adapters.size(); i++) {
-	    removeMapDrawableAdapter((MapDrawableAdapter)adapters.get(i));
-	}
+        Vector adapters = mapDrawableAdapters(specifiedClass);
+        for (int i = 0; i < adapters.size(); i++) {
+            removeMapDrawableAdapter((MapDrawableAdapter)adapters.get(i));
+        }
     }
 
     /**
@@ -1030,20 +1030,20 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @param extent number of names to reserve.
      */
     protected synchronized int getNewRenderSelectionName(int extent) {
-	int res = renderSelectionNameCounter;
-	renderSelectionNameCounter += extent;
-	
-	return res;
+        int res = renderSelectionNameCounter;
+        renderSelectionNameCounter += extent;
+        
+        return res;
     }
     
     /**
      * Assigns new renderSelectionName
      */
     protected synchronized int getNewRenderSelectionName() {
-	int res = renderSelectionNameCounter;
-	renderSelectionNameCounter++;
-	
-	return res;
+        int res = renderSelectionNameCounter;
+        renderSelectionNameCounter++;
+        
+        return res;
     }
 
     /**
@@ -1054,22 +1054,22 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      *               if false the name and the adapter are removed from the list.
      */
     public void updateRenderSelectionNameList(MapDrawableAdapter adapter, boolean insert) {
-	if (insert) {
-	    int renderSelectionName = getNewRenderSelectionName(adapter.getNrOfRenderSelectionNames());
-	    adapter.setRenderSelectionName(renderSelectionName);
-	    renderSelectionNames.put(new Integer(renderSelectionName), adapter);
-	}
-	else {
-	    renderSelectionNames.remove(new Integer(adapter.getRenderSelectionName())); 
-	}
+        if (insert) {
+            int renderSelectionName = getNewRenderSelectionName(adapter.getNrOfRenderSelectionNames());
+            adapter.setRenderSelectionName(renderSelectionName);
+            renderSelectionNames.put(new Integer(renderSelectionName), adapter);
+        }
+        else {
+            renderSelectionNames.remove(new Integer(adapter.getRenderSelectionName())); 
+        }
     }
 
     /**
      * Initializes the mapDrawableDisplayLists array and associated Stack.
      */
     protected void initMapDrawableDisplayLists() {
-	this.mapDrawableDisplayLists = new int[0];
-	mapDrawableDisplayListFreeStack = new Stack();
+        this.mapDrawableDisplayLists = new int[0];
+        mapDrawableDisplayListFreeStack = new Stack();
     }
 
     /**
@@ -1078,20 +1078,20 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @param displayList the list to add.
      */    
     protected synchronized void addMapDrawableDisplayList(int displayList) {
-	if (mapDrawableDisplayListFreeStack.empty()) {
-	    int newDisplayLists[] = new int[this.mapDrawableDisplayLists.length + DISPLAYLISTS_BLOCKSIZE];
-	    for(int i = 0; i < mapDrawableDisplayLists.length; i++) {
-		newDisplayLists[i] = mapDrawableDisplayLists[i];
-	    }
-	    for (int i = newDisplayLists.length - 1; i >= mapDrawableDisplayLists.length; i--) {
-		newDisplayLists[i] = this.emptyDisplayList;
-		mapDrawableDisplayListFreeStack.push(new Integer(i));
-	    }
-	    mapDrawableDisplayLists = newDisplayLists;
-	}
-	
-	mapDrawableDisplayLists[((Integer) mapDrawableDisplayListFreeStack.pop()).intValue()] = 
-	    displayList;
+        if (mapDrawableDisplayListFreeStack.empty()) {
+            int newDisplayLists[] = new int[this.mapDrawableDisplayLists.length + DISPLAYLISTS_BLOCKSIZE];
+            for(int i = 0; i < mapDrawableDisplayLists.length; i++) {
+                newDisplayLists[i] = mapDrawableDisplayLists[i];
+            }
+            for (int i = newDisplayLists.length - 1; i >= mapDrawableDisplayLists.length; i--) {
+                newDisplayLists[i] = this.emptyDisplayList;
+                mapDrawableDisplayListFreeStack.push(new Integer(i));
+            }
+            mapDrawableDisplayLists = newDisplayLists;
+        }
+        
+        mapDrawableDisplayLists[((Integer) mapDrawableDisplayListFreeStack.pop()).intValue()] = 
+            displayList;
     }
     
     /**
@@ -1100,12 +1100,12 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @param displayList the list to remove.
      */    
     protected synchronized void removeMapDrawableDisplayList(int displayList) {
-	for (int i = 0; i < mapDrawableDisplayLists.length; i++) {
-	    if (mapDrawableDisplayLists[i] == displayList) {
-		mapDrawableDisplayLists[i] = this.emptyDisplayList;
-		mapDrawableDisplayListFreeStack.push(new Integer(i));
-	    }
-	}
+        for (int i = 0; i < mapDrawableDisplayLists.length; i++) {
+            if (mapDrawableDisplayLists[i] == displayList) {
+                mapDrawableDisplayLists[i] = this.emptyDisplayList;
+                mapDrawableDisplayListFreeStack.push(new Integer(i));
+            }
+        }
     }
 
 }

@@ -66,24 +66,24 @@ public:
      inline static Shape*       getShape(const DOMElement &n, const char *tag, const Reference& scope);
      inline static void         getString(const DOMElement &n, const char *tag, std::string &outStr);
      inline static Time         getTime(const DOMElement &n, const char *tag);
-			       
+                               
      inline static bool         getElementBoolValue(const DOMElement &n, const char *tag);
      inline static int          getElementIntValue(const DOMElement &n, const char *tag);
      inline static int64_t      getElementLongIntValue(const DOMElement &n, const char *tag);
      inline static double       getElementDoubleValue(const DOMElement &n, const char *tag);
      inline static void         getElementStringValue(const DOMElement &n, const char *tag, std::string &outStr);
      inline static Time         getElementTimestampValue(const DOMElement &n, const char *tag);
-			       
+                               
      inline static Shape*       getShape(const DOMElement &n, const Reference& scope);
 
      inline static DOMElement*  getFirstChildByTag(const DOMElement &n, const char *tag);
      inline static DOMElement*  getFirstChildByTag(const DOMElement &n, const std::string& tag);
      inline static void         getChildElementsByTag(const DOMElement &n,
-						      const char *tag,
-						      std::vector<DOMElement*> &ioV);
+                                                      const char *tag,
+                                                      std::vector<DOMElement*> &ioV);
      inline static void         getChildElementsByTag(const DOMElement &n,
-						      const std::string& tag,
-						      std::vector<DOMElement*> &ioV);
+                                                      const std::string& tag,
+                                                      std::vector<DOMElement*> &ioV);
 };
 
 

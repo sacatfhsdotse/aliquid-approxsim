@@ -233,10 +233,10 @@ enum ePreCalcF {
      // Epidemics
      ePHomeIll                ,
      ePShelteredIll           ,
-     ePUnshelteredIll         ,	                  
+     ePUnshelteredIll         ,                          
      ePHomeImmune             ,
      ePShelteredImmune        ,
-     ePUnshelteredImmune      ,	                  
+     ePUnshelteredImmune      ,                          
      ePHomeDead               ,
      ePShelteredDead          ,
      ePUnshelteredDead        ,
@@ -262,10 +262,10 @@ static const char* pcfName[] = {
      "Unsheltered"                ,
      "Home Ill"                   ,
      "Sheltered Ill"              ,
-     "Unsheltered Ill"            ,	                  
+     "Unsheltered Ill"            ,                          
      "Home Immune"                ,
      "Sheltered Immune"           ,
-     "Unsheltered Immune"         ,	                  
+     "Unsheltered Immune"         ,                          
      "Home Dead"                  ,
      "Sheltered Dead"             ,
      "Unsheltered Dead"           ,
@@ -299,7 +299,7 @@ static const char* pcfType[] = {
      "sp:Positive",     // NewIDPDueToViolence    
      "sp:Positive",     // TowardsCampDelta       
      "sp:Positive",     // DiffusionDelta         
-     "sp:Positive"	// DiffusionDisplacedDelta
+     "sp:Positive"        // DiffusionDisplacedDelta
 };
 
 // ----------------------------------------------------------------------------
@@ -343,7 +343,7 @@ enum eAllPV {
      eAllSheltered           ,   // Factions
      eAllProtected           ,   // Factions
      eAllViolence            ,   // Factions
-     eAllPerceivedThreat     ,	 // Factions
+     eAllPerceivedThreat     ,         // Factions
      eAllInsurgents          ,   // Factions
      eAllFractionNoMedical   ,
      eAllFractionNoWork      ,

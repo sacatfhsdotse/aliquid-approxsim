@@ -26,11 +26,11 @@ StratmasSocket::StratmasSocket(std::string host, int port)
      : Socket(), mId(-1), mLength(0), mReceivedHeader(false)
 {
      if (!Socket::create()) {
-	  throw SocketException("Could not create client socket.");
+          throw SocketException("Could not create client socket.");
      }
      
      if (!Socket::connect(host, port)) {
-	  throw SocketException("Could not bind to port.");
+          throw SocketException("Could not bind to port.");
      }
 }
 
@@ -45,16 +45,16 @@ bool StratmasSocket::sendStratmasMessage(const std::string msg) const
      int64_t len = msg.size();
      int64_t id  = mId;
      if (!bigEndian) {
-	  ByteSwap(len);
-	  ByteSwap(id);
+          ByteSwap(len);
+          ByteSwap(id);
 
      }
 
      if (!send(&len, 8)) {
-	  return false; 
+          return false; 
      }
      if (!send(&id, 8)) {
-	  return false; 
+          return false; 
      }
      return send(msg.c_str(), msg.size());
 }
@@ -69,25 +69,25 @@ int64_t StratmasSocket::recvStratmasHeader()
      int status = 0;
      status = recvf(&mLength, 8);
      if (status) {
-	  if (!bigEndian) {
-	       ByteSwap(mLength);
-	  }
+          if (!bigEndian) {
+               ByteSwap(mLength);
+          }
      }
      else if (status == 0) {
-	  throw ConnectionClosedException();
+          throw ConnectionClosedException();
      }
      else {
-	  throw SocketException("Could not read 'length' from socket.");
+          throw SocketException("Could not read 'length' from socket.");
      }
 
      status = recvf(&mId, 8);
      if (status) {
-	  if (!bigEndian) {
-	       ByteSwap(mId);
-	  }
+          if (!bigEndian) {
+               ByteSwap(mId);
+          }
      }
      else {
-	  throw SocketException("Could not read 'id' from socket.");
+          throw SocketException("Could not read 'id' from socket.");
      }
 
      mReceivedHeader = true;
@@ -104,23 +104,23 @@ int StratmasSocket::recvStratmasMessage(std::string &outMsg)
      int status = 0;
 
      if (!mReceivedHeader) {
-	  recvStratmasHeader();
+          recvStratmasHeader();
      }
 
      char *buf  = new char[mLength + 1];
      if (!buf) {
-	  throw SocketException("To large message or invalid StratmasMessageHeader.");
+          throw SocketException("To large message or invalid StratmasMessageHeader.");
      }
      status = recvf(buf, mLength);
      if (status < 0) {
-	  outMsg = "";
-	  delete [] buf;
-	  throw SocketException("Could not read 'message' from socket.");
+          outMsg = "";
+          delete [] buf;
+          throw SocketException("Could not read 'message' from socket.");
      }
      else {
-	  buf[mLength] = '\0';
-	  outMsg = buf;
-	  delete [] buf;
+          buf[mLength] = '\0';
+          outMsg = buf;
+          delete [] buf;
      }
 
      mReceivedHeader = false;

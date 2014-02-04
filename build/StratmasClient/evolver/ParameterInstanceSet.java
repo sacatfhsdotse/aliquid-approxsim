@@ -1,4 +1,4 @@
-// 	$Id: ParameterInstanceSet.java,v 1.4 2005/10/28 19:20:35 dah Exp $
+//         $Id: ParameterInstanceSet.java,v 1.4 2005/10/28 19:20:35 dah Exp $
 /*
  * @(#)ParameterInstanceSet.java
  */
@@ -25,7 +25,7 @@ public class ParameterInstanceSet extends Hashtable
      */    
     public ParameterInstanceSet()
     {
-	super();
+        super();
     }
 
     /**
@@ -36,7 +36,7 @@ public class ParameterInstanceSet extends Hashtable
      */
     public void add(ParameterInstance parameterInstance)
     {
-	put(parameterInstance.getParameter().getName(), parameterInstance);
+        put(parameterInstance.getParameter().getName(), parameterInstance);
     }
 
     /**
@@ -47,10 +47,10 @@ public class ParameterInstanceSet extends Hashtable
      */
     public void addAll(ParameterInstanceSet other)
     {
-	for (Enumeration e = other.getParameterInstances(); e.hasMoreElements();) {
-	    ParameterInstance parameterInstance = (ParameterInstance) e.nextElement();
-	    put(parameterInstance.getParameter().getName(), parameterInstance);
-	}
+        for (Enumeration e = other.getParameterInstances(); e.hasMoreElements();) {
+            ParameterInstance parameterInstance = (ParameterInstance) e.nextElement();
+            put(parameterInstance.getParameter().getName(), parameterInstance);
+        }
     }
 
     /**
@@ -61,7 +61,7 @@ public class ParameterInstanceSet extends Hashtable
      */
     public ParameterInstance getParameterInstance(Parameter parameter)
     {
-	return (ParameterInstance) get(parameter.getName());
+        return (ParameterInstance) get(parameter.getName());
     }
 
     /**
@@ -69,7 +69,7 @@ public class ParameterInstanceSet extends Hashtable
      */
     public Enumeration getParameterInstances()
     {
-	return elements();
+        return elements();
     }
 
     /**
@@ -77,14 +77,14 @@ public class ParameterInstanceSet extends Hashtable
      */
     public String toString()
     {
-	StringBuffer res = new StringBuffer();
+        StringBuffer res = new StringBuffer();
 
-	res.append("{");
-	for (Enumeration e = getParameterInstances(); e.hasMoreElements();) {
-	    res.append(e.nextElement().toString() + ", ");
-	}
-	res.append("}");
+        res.append("{");
+        for (Enumeration e = getParameterInstances(); e.hasMoreElements();) {
+            res.append(e.nextElement().toString() + ", ");
+        }
+        res.append("}");
 
-	return res.toString();
+        return res.toString();
     }
 }

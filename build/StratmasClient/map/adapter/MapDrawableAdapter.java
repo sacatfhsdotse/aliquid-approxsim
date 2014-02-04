@@ -51,23 +51,23 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
      */
     public static MapDrawableAdapter getMapDrawableAdapter(StratmasObject mapDrawable)
     {
-	if (mapDrawable.getType().canSubstitute("MilitaryUnit")) {
-	    return new MilitaryUnitAdapter(mapDrawable);
-	} else if (mapDrawable.getType().canSubstitute("Population")) {
-	    return new PopulationAdapter(mapDrawable);
-	} else if (mapDrawable.getType().canSubstitute("Element")) {
-	    return new ElementAdapter(mapDrawable);
-	} else if (mapDrawable.getType().canSubstitute("Activity")) {
-	    return new MapActivityAdapter(mapDrawable); 
-	} else if (mapDrawable instanceof Shape) {
-	    return new MapShapeAdapter((Shape)mapDrawable); 
-	} else if (mapDrawable instanceof Line) {
-	    return new MapLineAdapter((Line)mapDrawable); 
-	} else if (mapDrawable instanceof Point) {
-	    return new MapPointAdapter((Point)mapDrawable); 
-	} else {
-	    throw new AssertionError(MapDrawableAdapter.class.getName() + " can not be used for "+mapDrawable.getType().getName());
-	}
+        if (mapDrawable.getType().canSubstitute("MilitaryUnit")) {
+            return new MilitaryUnitAdapter(mapDrawable);
+        } else if (mapDrawable.getType().canSubstitute("Population")) {
+            return new PopulationAdapter(mapDrawable);
+        } else if (mapDrawable.getType().canSubstitute("Element")) {
+            return new ElementAdapter(mapDrawable);
+        } else if (mapDrawable.getType().canSubstitute("Activity")) {
+            return new MapActivityAdapter(mapDrawable); 
+        } else if (mapDrawable instanceof Shape) {
+            return new MapShapeAdapter((Shape)mapDrawable); 
+        } else if (mapDrawable instanceof Line) {
+            return new MapLineAdapter((Line)mapDrawable); 
+        } else if (mapDrawable instanceof Point) {
+            return new MapPointAdapter((Point)mapDrawable); 
+        } else {
+            throw new AssertionError(MapDrawableAdapter.class.getName() + " can not be used for "+mapDrawable.getType().getName());
+        }
     }
     
     /**
@@ -76,7 +76,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
      * @param stComp the object to adapt.
      */
     public MapDrawableAdapter(StratmasObject stComp) {
-	this.setObject(stComp);
+        this.setObject(stComp);
     }
     
     /**
@@ -92,8 +92,8 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
      * Sets the target of this adapter.
      */   
     protected void setObject(StratmasObject stComp) {
-	this.stComp = stComp;
-	getObject().addEventListener(this);
+        this.stComp = stComp;
+        getObject().addEventListener(this);
     }
     
     /**
@@ -102,14 +102,14 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
      * @param renderSelectionName
      */
     public void setRenderSelectionName(int renderSelectionName) {
-	this.renderSelectionName = renderSelectionName;
+        this.renderSelectionName = renderSelectionName;
     }
     
     /**
      * Returns the renderSelectionName of this adapter.
      */
     public int getRenderSelectionName() {
-	return renderSelectionName;
+        return renderSelectionName;
     }
 
     /**
@@ -121,21 +121,21 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
      * Returns true if the given name is the render selection name of this adapter.
      */
     public boolean isRenderSelectionName(int name) {
-	return renderSelectionName == name;
+        return renderSelectionName == name;
     }
 
     /**
      * Returns the display list of this adapter.
      */   
     public int getDisplayList() {
-	return displayList;
+        return displayList;
     }
     
     /**
      * Returns the object this adapter adapts.
      */
     public StratmasObject getObject() {
-	return stComp;
+        return stComp;
     }
     
     /**
@@ -147,8 +147,8 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
      * Invalidates the display lists.
      */
     public void invalidateAllLists() {
-	displayListUpdated = false;
-	fireAdapterUpdated();
+        displayListUpdated = false;
+        fireAdapterUpdated();
     }
 
     /**
@@ -156,8 +156,8 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
      */
     public void invalidateDisplayList()
     {
-	this.displayListUpdated = false;
-	fireAdapterUpdated();
+        this.displayListUpdated = false;
+        fireAdapterUpdated();
     }
 
     
@@ -165,17 +165,17 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
      * Returns the StratmasObject this adapter adapts.
      */
     public StratmasObject getStratmasObject() {
-	return getObject();
+        return getObject();
     }
     
     /**
      * Returns true if two adapters represents the same object.
      */
     public boolean equals(Object o) {
- 	if (o instanceof MapDrawableAdapter) {
- 	    return getObject() == ((MapDrawableAdapter) o).getObject();
- 	}
- 	return false;
+         if (o instanceof MapDrawableAdapter) {
+             return getObject() == ((MapDrawableAdapter) o).getObject();
+         }
+         return false;
     }
     
     /**
@@ -184,16 +184,16 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
      * @param event the event causing the call.
      */
     public void eventOccured(StratmasEvent event) {
-	if (event.isChildChanged()) {
-	    childChanged(event);
-	} else if (event.isValueChanged()) {
-	    valueChanged(event);
-	} else if (event.isRemoved()) {
-	    getObject().removeEventListener(this);
-	    fireAdapterRemoved();
-	} else if (event.isReplaced()) {
-	    throw new AssertionError("Replace behavior not implemented");
- 	} 
+        if (event.isChildChanged()) {
+            childChanged(event);
+        } else if (event.isValueChanged()) {
+            valueChanged(event);
+        } else if (event.isRemoved()) {
+            getObject().removeEventListener(this);
+            fireAdapterRemoved();
+        } else if (event.isReplaced()) {
+            throw new AssertionError("Replace behavior not implemented");
+         } 
     }
     
     /**
@@ -202,8 +202,8 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
      * @param event the event causing the change.
      */
     protected void childChanged(StratmasEvent event) {
-	displayListUpdated = false;
-	fireAdapterUpdated();
+        displayListUpdated = false;
+        fireAdapterUpdated();
     } 
 
     /**
@@ -220,7 +220,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
      * Returns a list of the listeners of this object.
      */
     private EventListenerList getEventListenerList() {
-	return this.eventListenerList;
+        return this.eventListenerList;
     }
 
     /**
@@ -229,7 +229,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
      * @param listener the listener to add.
      */
     private void addEventListener(EventListener listener) {
-	this.getEventListenerList().add(MapDrawableAdapterListener.class, listener);
+        this.getEventListenerList().add(MapDrawableAdapterListener.class, listener);
     }
 
     /**
@@ -238,7 +238,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
      * @param listener the listener to add.
      */
     private void removeEventListener(EventListener listener) {
-	this.getEventListenerList().remove(MapDrawableAdapterListener.class, listener);
+        this.getEventListenerList().remove(MapDrawableAdapterListener.class, listener);
     }
 
     /**
@@ -247,7 +247,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
      * @param listener the listener to add.
      */
     public void addMapDrawableAdapterListener(MapDrawableAdapterListener listener) {
-	this.addEventListener(listener);
+        this.addEventListener(listener);
     }
 
     /**
@@ -256,7 +256,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
      * @param listener the listener to add.
      */
     public void removeMapDrawableAdapterListener(MapDrawableAdapterListener listener) {
-	this.removeEventListener(listener);
+        this.removeEventListener(listener);
     }
     
     /**
@@ -267,7 +267,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
         Object[] listeners = getEventListenerList().getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
             if (listeners[i] == MapDrawableAdapterListener.class) {
-		((MapDrawableAdapterListener) listeners[i + 1]).mapDrawableAdapterRemoved(this);
+                ((MapDrawableAdapterListener) listeners[i + 1]).mapDrawableAdapterRemoved(this);
             }
         }
     }
@@ -280,7 +280,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
         Object[] listeners = getEventListenerList().getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
             if (listeners[i] == MapDrawableAdapterListener.class) {
-		((MapDrawableAdapterListener) listeners[i + 1]).mapDrawableAdapterUpdated(this);
+                ((MapDrawableAdapterListener) listeners[i + 1]).mapDrawableAdapterUpdated(this);
             }
         }
     }
@@ -295,7 +295,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
         Object[] listeners = getEventListenerList().getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
             if (listeners[i] == MapDrawableAdapterListener.class) {
-		((MapDrawableAdapterListener) listeners[i + 1]).mapDrawableAdapterChildAdded(obj);
+                ((MapDrawableAdapterListener) listeners[i + 1]).mapDrawableAdapterChildAdded(obj);
             }
         }
     }
@@ -306,77 +306,77 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
      */
     public String getGLUTIDString() throws UnsupportedEncodingException
     {
-	byte[] buf = 
-	    getStratmasObject().getIdentifier().getBytes("ISO-8859-1");
-	byte[] newBuf = new byte[2*buf.length];
+        byte[] buf = 
+            getStratmasObject().getIdentifier().getBytes("ISO-8859-1");
+        byte[] newBuf = new byte[2*buf.length];
 
-	int writei = 0;
-	boolean allCaps = true;
-	for (int readi = 0; readi < buf.length; readi++) {
-	    if (buf[readi] >= 32 && buf[readi] <= 127) {
-		if (buf[readi] >= 0x61 && buf[readi] <= 0x7a) {
-		    allCaps = false;
-		}
-		newBuf[writei++] = buf[readi];
-	    } else if (buf[readi] == (0xe5 - 0x100)) {
-		// å -> aa
-		newBuf[writei++] = 0x61;
-		newBuf[writei++] = 0x61;
-		allCaps = false;
-	    } else if (buf[readi] == (0xc5 - 0x100)) {
-		// Å -> Aa
-		newBuf[writei++] = 0x41;
-		newBuf[writei++] = 0x61;
-	    } else if (buf[readi] == (0xe4 - 0x100)) {
-		// ä -> ae
-		newBuf[writei++] = 0x61;
-		newBuf[writei++] = 0x65;
-		allCaps = false;
-	    } else if (buf[readi] == (0xc4 - 0x100)) {
-		// Ä -> Ae
-		newBuf[writei++] = 0x41;
-		newBuf[writei++] = 0x65;
-	    } else if (buf[readi] == (0xf6 - 0x100)) {
-		// ö -> oe
-		newBuf[writei++] = 0x6f;
-		newBuf[writei++] = 0x65;
-		allCaps = false;
-	    } else if (buf[readi] == (0xd6 - 0x100)) {
-		// Ö -> Oe
-		newBuf[writei++] = 0x4f;
-		newBuf[writei++] = 0x65;
-	    } else {
-		// Non printable
-		newBuf[writei++] = 95;
-	    }
-	}
+        int writei = 0;
+        boolean allCaps = true;
+        for (int readi = 0; readi < buf.length; readi++) {
+            if (buf[readi] >= 32 && buf[readi] <= 127) {
+                if (buf[readi] >= 0x61 && buf[readi] <= 0x7a) {
+                    allCaps = false;
+                }
+                newBuf[writei++] = buf[readi];
+            } else if (buf[readi] == (0xe5 - 0x100)) {
+                // å -> aa
+                newBuf[writei++] = 0x61;
+                newBuf[writei++] = 0x61;
+                allCaps = false;
+            } else if (buf[readi] == (0xc5 - 0x100)) {
+                // Å -> Aa
+                newBuf[writei++] = 0x41;
+                newBuf[writei++] = 0x61;
+            } else if (buf[readi] == (0xe4 - 0x100)) {
+                // ä -> ae
+                newBuf[writei++] = 0x61;
+                newBuf[writei++] = 0x65;
+                allCaps = false;
+            } else if (buf[readi] == (0xc4 - 0x100)) {
+                // Ä -> Ae
+                newBuf[writei++] = 0x41;
+                newBuf[writei++] = 0x65;
+            } else if (buf[readi] == (0xf6 - 0x100)) {
+                // ö -> oe
+                newBuf[writei++] = 0x6f;
+                newBuf[writei++] = 0x65;
+                allCaps = false;
+            } else if (buf[readi] == (0xd6 - 0x100)) {
+                // Ö -> Oe
+                newBuf[writei++] = 0x4f;
+                newBuf[writei++] = 0x65;
+            } else {
+                // Non printable
+                newBuf[writei++] = 95;
+            }
+        }
 
-	if (allCaps) {
-	    // Should not happen that often, so lets do work all over
-	    // again.
-	    writei = 0;
-	    for (int readi = 0; readi < buf.length; readi++) {
-		if (buf[readi] >= 32 && buf[readi] <= 127) {
-		    newBuf[writei++] = buf[readi];
-		} else if (buf[readi] == (0xc5 - 0x100)) {
-		    // Å -> AA
-		    newBuf[writei++] = 0x41;
-		    newBuf[writei++] = 0x41;
-		} else if (buf[readi] == (0xc4 - 0x100)) {
-		    // Ä -> AE
-		    newBuf[writei++] = 0x41;
-		    newBuf[writei++] = 0x45;
-		} else if (buf[readi] == (0xd6 - 0x100)) {
-		    // Ö -> O
-		    newBuf[writei++] = 0x4f;
-		    newBuf[writei++] = 0x45;
-		} else {
-		    // Non printable
-		    newBuf[writei++] = 95;
-		}
-	    }
-	}
+        if (allCaps) {
+            // Should not happen that often, so lets do work all over
+            // again.
+            writei = 0;
+            for (int readi = 0; readi < buf.length; readi++) {
+                if (buf[readi] >= 32 && buf[readi] <= 127) {
+                    newBuf[writei++] = buf[readi];
+                } else if (buf[readi] == (0xc5 - 0x100)) {
+                    // Å -> AA
+                    newBuf[writei++] = 0x41;
+                    newBuf[writei++] = 0x41;
+                } else if (buf[readi] == (0xc4 - 0x100)) {
+                    // Ä -> AE
+                    newBuf[writei++] = 0x41;
+                    newBuf[writei++] = 0x45;
+                } else if (buf[readi] == (0xd6 - 0x100)) {
+                    // Ö -> O
+                    newBuf[writei++] = 0x4f;
+                    newBuf[writei++] = 0x45;
+                } else {
+                    // Non printable
+                    newBuf[writei++] = 95;
+                }
+            }
+        }
 
-	return new String(newBuf, 0, writei, "US-ASCII");
+        return new String(newBuf, 0, writei, "US-ASCII");
     }
 }

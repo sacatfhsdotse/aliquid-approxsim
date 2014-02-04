@@ -1,4 +1,4 @@
-// 	$Id: Evaluation.java,v 1.5 2005/10/28 12:20:55 dah Exp $
+//         $Id: Evaluation.java,v 1.5 2005/10/28 12:20:55 dah Exp $
 /*
  * @(#)Evaluation.java
  */
@@ -30,10 +30,10 @@ public class Evaluation
      * @param evaluation the evaluation.
      */
     public Evaluation(ParameterInstanceSet parameterInstanceSet, 
-		      ParameterInstance evaluation) 
+                      ParameterInstance evaluation) 
     {
-	this.parameterInstanceSet = parameterInstanceSet;
-	this.evaluation = evaluation;
+        this.parameterInstanceSet = parameterInstanceSet;
+        this.evaluation = evaluation;
     }
 
     /**
@@ -41,7 +41,7 @@ public class Evaluation
      */
     public ParameterInstanceSet getParameterInstanceSet()
     {
-	return this.parameterInstanceSet;
+        return this.parameterInstanceSet;
     }
 
     /**
@@ -49,6 +49,6 @@ public class Evaluation
      */
     public ParameterInstance getEvaluation()
     {
-	return evaluation;
-    }	
+        return evaluation;
+    }        
 }

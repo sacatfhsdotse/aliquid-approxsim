@@ -26,17 +26,17 @@ public class VerticalLabelUI extends BasicLabelUI {
      *
      */
     VerticalLabelUI( boolean clockwise ) {
-	super();
-	this.clockwise = clockwise;
+        super();
+        this.clockwise = clockwise;
     }
     
     /**
      *
      */
     public Dimension getPreferredSize(JComponent c) {
-    	Dimension dim = super.getPreferredSize(c);
-    	return new Dimension( dim.height, dim.width );
-    }	
+            Dimension dim = super.getPreferredSize(c);
+            return new Dimension( dim.height, dim.width );
+    }        
     
     /**
      *
@@ -49,14 +49,14 @@ public class VerticalLabelUI extends BasicLabelUI {
         if ((icon == null) && (text == null)) {
             return;
         }
-	
+        
         FontMetrics fm = g.getFontMetrics();
         paintViewInsets = c.getInsets(paintViewInsets);
 
         paintViewR.x = paintViewInsets.left;
         paintViewR.y = paintViewInsets.top;
-    	
-    	// Use inverted height & width
+            
+            // Use inverted height & width
         paintViewR.height = c.getWidth() - (paintViewInsets.left + paintViewInsets.right);
         paintViewR.width = c.getHeight() - (paintViewInsets.top + paintViewInsets.bottom);
 
@@ -64,26 +64,26 @@ public class VerticalLabelUI extends BasicLabelUI {
         paintTextR.x = paintTextR.y = paintTextR.width = paintTextR.height = 0;
 
         String clippedText = layoutCL(label, fm, text, icon, paintViewR, paintIconR, paintTextR);
-	
-    	Graphics2D g2 = (Graphics2D) g;
-    	AffineTransform tr = g2.getTransform();
-    	if( clockwise ) {
-	    g2.rotate( Math.PI / 2 ); 
-	    g2.translate( 0, - c.getWidth() );
-    	}
-    	else {
-	    g2.rotate( - Math.PI / 2 ); 
-	    g2.translate( - c.getHeight(), 0 );
-    	}
-	
-    	if (icon != null) {
+        
+            Graphics2D g2 = (Graphics2D) g;
+            AffineTransform tr = g2.getTransform();
+            if( clockwise ) {
+            g2.rotate( Math.PI / 2 ); 
+            g2.translate( 0, - c.getWidth() );
+            }
+            else {
+            g2.rotate( - Math.PI / 2 ); 
+            g2.translate( - c.getHeight(), 0 );
+            }
+        
+            if (icon != null) {
             icon.paintIcon(c, g, paintIconR.x, paintIconR.y);
         }
-	
+        
         if (text != null) {
             int textX = paintTextR.x;
             int textY = paintTextR.y + fm.getAscent();
-	    
+            
             if (label.isEnabled()) {
                 paintEnabledText(label, g, clippedText, textX, textY);
             }
@@ -91,7 +91,7 @@ public class VerticalLabelUI extends BasicLabelUI {
                 paintDisabledText(label, g, clippedText, textX, textY);
             }
         }
-    	
-	g2.setTransform( tr );
+            
+        g2.setTransform( tr );
     }
 }

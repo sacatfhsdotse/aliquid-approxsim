@@ -8,26 +8,26 @@
       <category>Environmental</category>
       <factions>false</factions>
       <range xsi:type="sp:DoubleRange">
-	 <min>0</min>
-	 <max>10000000000</max>
-      </range>	
+         <min>0</min>
+         <max>10000000000</max>
+      </range>        
    </pv>
    <pv xsi:type="sp:ProcessVariableDescription">
       <name>Displaced</name>
       <category>Social</category>
       <factions>false</factions>
       <range xsi:type="sp:DoubleRange">
-	 <min>0</min>
-	 <max>10000000000</max>
-      </range>	
+         <min>0</min>
+         <max>10000000000</max>
+      </range>        
    </pv>
    <pv xsi:type="sp:ProcessVariableDescription">
       <name>Disaffection</name>
       <category>Political</category>
       <factions>true</factions>
       <range xsi:type="sp:DoubleRange">
-	 <min>0</min>
-	 <max>100</max>
-      </range>	
+         <min>0</min>
+         <max>100</max>
+      </range>        
    </pv>
 </processvariables>

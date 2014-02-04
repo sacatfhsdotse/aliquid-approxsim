@@ -1,4 +1,4 @@
-// 	$Id: Camera.java,v 1.2 2006/04/18 13:01:15 dah Exp $
+//         $Id: Camera.java,v 1.2 2006/04/18 13:01:15 dah Exp $
 /*
  * @(#)Camera.java
  */
@@ -68,7 +68,7 @@ class Camera
      */
     public Camera(Component component)
     {
-	this.component = component;
+        this.component = component;
     }
 
     /**
@@ -76,7 +76,7 @@ class Camera
      */
     public double getPitch()
     {
-	return this.pitch;
+        return this.pitch;
     }
 
     /**
@@ -84,7 +84,7 @@ class Camera
      */
     public double getYaw()
     {
-	return this.yaw;
+        return this.yaw;
     }
 
     /**
@@ -94,8 +94,8 @@ class Camera
      */
     public void setPitch(double pitch)
     {
-	this.pitch = pitch;
-	directionRefresh();
+        this.pitch = pitch;
+        directionRefresh();
     }
 
     /**
@@ -105,8 +105,8 @@ class Camera
      */
     public void setYaw(double yaw)
     {
-	this.yaw = yaw;
-	directionRefresh();
+        this.yaw = yaw;
+        directionRefresh();
     }
 
     /**
@@ -114,24 +114,24 @@ class Camera
      */
     public double getX()
     {
-	return this.x;
-    }	
+        return this.x;
+    }        
 
     /**
      * Returns the y component of the position of the camera.
      */
     public double getY() 
     {
-	return this.y;
-    }	
+        return this.y;
+    }        
 
     /**
      * Returns the z component of the position of the camera.
      */
     public double getZ() 
     {
-	return this.z;
-    }	
+        return this.z;
+    }        
 
     /**
      * Sets the x the position of the camera.
@@ -140,9 +140,9 @@ class Camera
      */
     public void setX(double x)
     {
-	this.x = x;
-	update();
-    }	
+        this.x = x;
+        update();
+    }        
 
     /**
      * Sets the y the position of the camera.
@@ -151,9 +151,9 @@ class Camera
      */
     public void setY(double y)
     {
-	this.y = y;
-	update();
-    }	
+        this.y = y;
+        update();
+    }        
 
     /**
      * Sets the z the position of the camera.
@@ -162,8 +162,8 @@ class Camera
      */
     public void setZ(double z)
     {
-	this.z = z;
-	update();
+        this.z = z;
+        update();
     }
 
     /**
@@ -175,11 +175,11 @@ class Camera
      */
     public void setPosition(double x, double y, double z)
     {
-	this.x = x;
-	this.y = y;
-	this.z = z;
+        this.x = x;
+        this.y = y;
+        this.z = z;
 
-	update();
+        update();
     }
 
     /**
@@ -187,7 +187,7 @@ class Camera
      */
     public double[] getPosition()
     {
-	return new double[] {getX(), getY(), getZ()};
+        return new double[] {getX(), getY(), getZ()};
     }
 
     /**
@@ -195,31 +195,31 @@ class Camera
      */
     private double getXDirection()
     {
-	return this.xDirection;
-    }	
+        return this.xDirection;
+    }        
 
     /**
      * Returns the y component of the direction vector of the camera.
      */
     private double getYDirection()
     {
-	return this.yDirection;
-    }	
+        return this.yDirection;
+    }        
 
     /**
      * Returns the z component of the direction vector of the camera.
      */
     private double getZDirection()
     {
-	return this.zDirection;
-    }	
+        return this.zDirection;
+    }        
 
     /**
      * Returns camera direction vector [x, y, z].
      */
     private double[] getDirection()
     {
- 	return new double[] {getXDirection(), getYDirection(), getZDirection()};
+         return new double[] {getXDirection(), getYDirection(), getZDirection()};
     }
 
     /**
@@ -231,9 +231,9 @@ class Camera
      */
     private void setDirection(double x, double y, double z)
     {
-	this.xDirection = x;
-	this.yDirection = y;
-	this.zDirection = z;
+        this.xDirection = x;
+        this.yDirection = y;
+        this.zDirection = z;
     }
 
     /**
@@ -241,26 +241,26 @@ class Camera
      */
     private void directionRefresh() 
     {
-	setDirection(Math.cos(getYaw() - Math.PI) * Math.cos(-(getPitch() + Math.PI)),
-		     Math.sin(getYaw() - Math.PI) * Math.cos(-(getPitch() + Math.PI)),
-		     Math.sin(-(getPitch() + Math.PI)));
-	update();
+        setDirection(Math.cos(getYaw() - Math.PI) * Math.cos(-(getPitch() + Math.PI)),
+                     Math.sin(getYaw() - Math.PI) * Math.cos(-(getPitch() + Math.PI)),
+                     Math.sin(-(getPitch() + Math.PI)));
+        update();
     }
-		
+                
     public void lookAt(double x, double y, double z) 
     {
-	double dx = x - getX();
-	double dy = y - getY();
-	double dz = z - getZ();
-	double h = Math.sqrt(dx * dx + dy * dy);
-	double as = Math.atan2(dy, dx);
-	double angle = (180.0 * as) / Math.PI;
+        double dx = x - getX();
+        double dy = y - getY();
+        double dz = z - getZ();
+        double h = Math.sqrt(dx * dx + dy * dy);
+        double as = Math.atan2(dy, dx);
+        double angle = (180.0 * as) / Math.PI;
 
-	setYaw((angle * Math.PI) / 180.0);
-	
-	angle = Math.PI + (180.0 * Math.acos(dz / h)) / Math.PI;
-	angle = 90.0 - angle;
-	setPitch((angle * Math.PI) / 180.0);
+        setYaw((angle * Math.PI) / 180.0);
+        
+        angle = Math.PI + (180.0 * Math.acos(dz / h)) / Math.PI;
+        angle = 90.0 - angle;
+        setPitch((angle * Math.PI) / 180.0);
     }
 
     /**
@@ -270,9 +270,9 @@ class Camera
      */
     public void move(double distance)
     {
-	setPosition(getX() + distance * getXDirection(),
-		    getY() + distance * getYDirection(),
-		    getZ() + distance * getZDirection());
+        setPosition(getX() + distance * getXDirection(),
+                    getY() + distance * getYDirection(),
+                    getZ() + distance * getZDirection());
     }
 
     /**
@@ -283,10 +283,10 @@ class Camera
      */
     public void turn(double yawDistance, double pitchDistance)
     {
-	    setYaw(getYaw() - 
-		   (((yawDistance * Math.PI) / 180.0) / 2.0));
-	    setPitch(getPitch() - 
-		     (((pitchDistance * Math.PI) / 180.0) / 2.0));
+            setYaw(getYaw() - 
+                   (((yawDistance * Math.PI) / 180.0) / 2.0));
+            setPitch(getPitch() - 
+                     (((pitchDistance * Math.PI) / 180.0) / 2.0));
     }
 
     /**
@@ -297,9 +297,9 @@ class Camera
      */
     public void pan(double hDistance, double vDistance)
     {
-	setPosition(getX() + hDistance * getXDirection(),
-		    getY(),
-		    getZ() + vDistance * getZDirection());
+        setPosition(getX() + hDistance * getXDirection(),
+                    getY(),
+                    getZ() + vDistance * getZDirection());
     }
 
 
@@ -308,10 +308,10 @@ class Camera
      */
     void update()
     {
-	Component c = getComponent();
-	if (c != null) {
-	    c.repaint();
-	}
+        Component c = getComponent();
+        if (c != null) {
+            c.repaint();
+        }
     }
 
     /**
@@ -320,7 +320,7 @@ class Camera
      */
     private Component getComponent()
     {
-	return this.component;
+        return this.component;
     }
 
     /**
@@ -330,11 +330,11 @@ class Camera
      */
     public void setView(GLU glu)
     {
-	glu.gluLookAt(getX(), getY(), getZ(),
-		      getX() + getXDirection(), 
-		      getY() + getYDirection(), 
-		      getZ() + getZDirection(),
-		      0.0, 0.0, 1.0);
+        glu.gluLookAt(getX(), getY(), getZ(),
+                      getX() + getXDirection(), 
+                      getY() + getYDirection(), 
+                      getZ() + getZDirection(),
+                      0.0, 0.0, 1.0);
     }
 
 }

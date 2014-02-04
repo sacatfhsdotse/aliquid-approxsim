@@ -47,44 +47,44 @@ public class ServerConnection implements Runnable {
      private boolean connected = false;
      
      public ServerConnection(Client client, XMLHandler xh, String host, int port) {
-	  this(client, xh, host, port, -1);
+          this(client, xh, host, port, -1);
      }
     
      public ServerConnection(Client client, XMLHandler xh, String host, int port, long id) {
-	  mHost       = host;
-	  mPort       = port;
-	  mXMLHandler = xh;
-	  mSocket = new StratmasSocket();
-	  mSocket.id(id);	  
-	  mClient = client;
+          mHost       = host;
+          mPort       = port;
+          mXMLHandler = xh;
+          mSocket = new StratmasSocket();
+          mSocket.id(id);          
+          mClient = client;
 
 
-	  // Set up message priorities
-	  mPrioHash.put("DisconnectMessage"    , new Integer(sTopPrio         ));
-	  mPrioHash.put("InitializationMessage", new Integer(sInitPrio        ));
-	  mPrioHash.put("SetPropertyMessage"   , new Integer(sTopPrio         ));
-	  mPrioHash.put("StepMessage"          , new Integer(sStepPrio        ));
-	  mPrioHash.put("SubscriptionMessage"  , new Integer(sSubscriptionPrio));
-	  mPrioHash.put("UpdateMessage"        , new Integer(sTopPrio         ));
+          // Set up message priorities
+          mPrioHash.put("DisconnectMessage"    , new Integer(sTopPrio         ));
+          mPrioHash.put("InitializationMessage", new Integer(sInitPrio        ));
+          mPrioHash.put("SetPropertyMessage"   , new Integer(sTopPrio         ));
+          mPrioHash.put("StepMessage"          , new Integer(sStepPrio        ));
+          mPrioHash.put("SubscriptionMessage"  , new Integer(sSubscriptionPrio));
+          mPrioHash.put("UpdateMessage"        , new Integer(sTopPrio         ));
      }
 
      public ServerConnection(Client client, XMLHandler xh, StratmasSocket socket) {
-	  mHost       = socket.getHost();
-	  mPort       = socket.getPort();
-	  mXMLHandler = xh;
-	  mSocket = socket;
-	  mClient = client;
+          mHost       = socket.getHost();
+          mPort       = socket.getPort();
+          mXMLHandler = xh;
+          mSocket = socket;
+          mClient = client;
 
-	  mAlive = true;
-	  setIsConnected(true);
+          mAlive = true;
+          setIsConnected(true);
 
-	  // Set up message priorities
-	  mPrioHash.put("DisconnectMessage"    , new Integer(sTopPrio         ));
-	  mPrioHash.put("InitializationMessage", new Integer(sInitPrio        ));
-	  mPrioHash.put("SetPropertyMessage"   , new Integer(sTopPrio         ));
-	  mPrioHash.put("StepMessage"          , new Integer(sStepPrio        ));
-	  mPrioHash.put("SubscriptionMessage"  , new Integer(sSubscriptionPrio));
-	  mPrioHash.put("UpdateMessage"        , new Integer(sTopPrio         ));
+          // Set up message priorities
+          mPrioHash.put("DisconnectMessage"    , new Integer(sTopPrio         ));
+          mPrioHash.put("InitializationMessage", new Integer(sInitPrio        ));
+          mPrioHash.put("SetPropertyMessage"   , new Integer(sTopPrio         ));
+          mPrioHash.put("StepMessage"          , new Integer(sStepPrio        ));
+          mPrioHash.put("SubscriptionMessage"  , new Integer(sSubscriptionPrio));
+          mPrioHash.put("UpdateMessage"        , new Integer(sTopPrio         ));
      }
 
     /**
@@ -93,12 +93,12 @@ public class ServerConnection implements Runnable {
      */
      public ServerConnection(StratmasSocket socket)
     {
-	this(null, new XMLHandler(), socket);
+        this(null, new XMLHandler(), socket);
     }
 
      /** Creates a thread that runs this server connection. */
      public void start() {
-	  (new Thread(this, getClass().getName())).start();
+          (new Thread(this, getClass().getName())).start();
      }
     
      /**
@@ -109,8 +109,8 @@ public class ServerConnection implements Runnable {
       * @param msg The message to be sent.
       */
      public void send(StratmasMessage msg) {
-	  Integer prio = (Integer)mPrioHash.get(msg.getTypeAsString());
-	  mPQ.enqueue(msg, prio == null ? sDefaultPrio : prio.intValue());
+          Integer prio = (Integer)mPrioHash.get(msg.getTypeAsString());
+          mPQ.enqueue(msg, prio == null ? sDefaultPrio : prio.intValue());
      }
     
      /**
@@ -129,57 +129,57 @@ public class ServerConnection implements Runnable {
       */
     public void blockingSend(StratmasMessage msg) throws ServerException
     {
-	  Integer prio = (Integer)mPrioHash.get(msg.getTypeAsString());
-	  class Blocker extends DefaultStratmasMessageListener 
-	  {
-	      Object block = new Object();
-	      ServerException error = null;
+          Integer prio = (Integer)mPrioHash.get(msg.getTypeAsString());
+          class Blocker extends DefaultStratmasMessageListener 
+          {
+              Object block = new Object();
+              ServerException error = null;
 
-	      public void messageHandled(StratmasMessageEvent e, Object reply) {
-		  Debug.err.println(e.getMessage().getTypeAsString() + " SC handled");
-		  synchronized (getBlock()) {
-		      getBlock().notifyAll();
-		  }
-	      }
-	      public void errorOccurred(StratmasMessageEvent e) {
-		  Debug.err.println(e.getMessage().getTypeAsString() + " SC error");
-		  this.error = new ServerException("Error sending " + 
-						   e.getMessage().getTypeAsString());
-		  synchronized (getBlock()) {
-		      getBlock().notifyAll();
-		  }
-	      }
+              public void messageHandled(StratmasMessageEvent e, Object reply) {
+                  Debug.err.println(e.getMessage().getTypeAsString() + " SC handled");
+                  synchronized (getBlock()) {
+                      getBlock().notifyAll();
+                  }
+              }
+              public void errorOccurred(StratmasMessageEvent e) {
+                  Debug.err.println(e.getMessage().getTypeAsString() + " SC error");
+                  this.error = new ServerException("Error sending " + 
+                                                   e.getMessage().getTypeAsString());
+                  synchronized (getBlock()) {
+                      getBlock().notifyAll();
+                  }
+              }
 
-	      public Object getBlock()
-	      {
-		  return this.block;
-	      }
-	      
-	      public ServerException getError()
-	      {
-		  return this.error;
-	      }
-	  };
-	      
-	  Blocker listener = new Blocker();
-	  synchronized (listener.getBlock()) {
-	       msg.addEventListener(listener);
-	       mPQ.enqueue(msg, prio == null ? sDefaultPrio : prio.intValue());
-	       try {
-		    listener.getBlock().wait();
-	       } catch(InterruptedException e) {
-		   throw new ServerException(e.getMessage());
-	       }
-	  }
+              public Object getBlock()
+              {
+                  return this.block;
+              }
+              
+              public ServerException getError()
+              {
+                  return this.error;
+              }
+          };
+              
+          Blocker listener = new Blocker();
+          synchronized (listener.getBlock()) {
+               msg.addEventListener(listener);
+               mPQ.enqueue(msg, prio == null ? sDefaultPrio : prio.intValue());
+               try {
+                    listener.getBlock().wait();
+               } catch(InterruptedException e) {
+                   throw new ServerException(e.getMessage());
+               }
+          }
 
-	  if (listener.getError() != null) {
-	      throw listener.getError();
-	  }
+          if (listener.getError() != null) {
+              throw listener.getError();
+          }
 
      }
     
      public boolean thresholdReached() {
-	  return mPQ.size() < messTreshold && mXMLHandler.thresholdReached();
+          return mPQ.size() < messTreshold && mXMLHandler.thresholdReached();
      }
      
      /**
@@ -189,7 +189,7 @@ public class ServerConnection implements Runnable {
       * otherwise.
       */
      public boolean isAlive() {
-	  return mAlive;
+          return mAlive;
      }
      
      /**
@@ -197,7 +197,7 @@ public class ServerConnection implements Runnable {
       * running it.
       */
      public void disconnect() {
-	  mPQ.enqueue(null, sTopPrio);
+          mPQ.enqueue(null, sTopPrio);
      }
 
      /**
@@ -207,19 +207,19 @@ public class ServerConnection implements Runnable {
       * ruthlessly killing the connection.
       */
      public void disconnect(long timeout) {
-	 Timer timer = new Timer();
-	 timer.schedule(new TimerTask() 
-	     {
-		 public void run()
-		 {
-		     if (isAlive()) {
-			 quitRuthlessly();
-			 socket().close();
-		     }
-		 }
-	     }, timeout);
-	 
-	 mPQ.enqueue(null, sTopPrio);
+         Timer timer = new Timer();
+         timer.schedule(new TimerTask() 
+             {
+                 public void run()
+                 {
+                     if (isAlive()) {
+                         quitRuthlessly();
+                         socket().close();
+                     }
+                 }
+             }, timeout);
+         
+         mPQ.enqueue(null, sTopPrio);
      }
     
      /** 
@@ -227,8 +227,8 @@ public class ServerConnection implements Runnable {
       * about the consequences. 
       */
      public void kill() {
-	  mQuitRuthless = true;
-	  disconnect();
+          mQuitRuthless = true;
+          disconnect();
      }
 
     /**
@@ -236,7 +236,7 @@ public class ServerConnection implements Runnable {
      */
     void quitRuthlessly()
     {
-	this.mQuitRuthless = true;
+        this.mQuitRuthless = true;
     }
     
     /**
@@ -244,7 +244,7 @@ public class ServerConnection implements Runnable {
      */
     public boolean isConnected()
     {
-	return this.connected;
+        return this.connected;
     }
 
     /**
@@ -255,7 +255,7 @@ public class ServerConnection implements Runnable {
      */
     private void setIsConnected(boolean flag)
     {
-	this.connected = flag;
+        this.connected = flag;
     }
 
     /**
@@ -263,15 +263,15 @@ public class ServerConnection implements Runnable {
      */
     private void connect() throws ConnectException, IOException
     {
-	if (!isConnected()) {
-	    mSocket.connect(mHost, mPort);
-	    SubscriptionCounter.updateNrOfSendedMessages();
-	    sendRecvHandle(new ConnectMessage());
-	    SubscriptionCounter.updateNrOfReceivedMessages();
+        if (!isConnected()) {
+            mSocket.connect(mHost, mPort);
+            SubscriptionCounter.updateNrOfSendedMessages();
+            sendRecvHandle(new ConnectMessage());
+            SubscriptionCounter.updateNrOfReceivedMessages();
 
-	    mAlive = true;
-	    setIsConnected(true);
-	}
+            mAlive = true;
+            setIsConnected(true);
+        }
     }
      
      /**
@@ -282,40 +282,40 @@ public class ServerConnection implements Runnable {
       * @param msg The message to be sent.
       */
      private void sendRecvHandle(StratmasMessage msg) throws IOException {
-	  try {
-	       // For time step slider
-// 	       while (msg instanceof StepMessage &&
-// 		      (System.currentTimeMillis() - timeForLastSentTimestep) < tsdf.getWaitTimeMs()) {
-// 		    send(msg);
-// 		    msg = (StratmasMessage)mPQ.blockingDequeue();
-// 		    if (msg == null) {
-// 			 mPQ.clear();
-// 			 disconnect();
-// 			 return;
-// 		    }
-// 	       }
-	       
-	       mSocket.sendMessage(msg.toXML());
+          try {
+               // For time step slider
+//                while (msg instanceof StepMessage &&
+//                       (System.currentTimeMillis() - timeForLastSentTimestep) < tsdf.getWaitTimeMs()) {
+//                     send(msg);
+//                     msg = (StratmasMessage)mPQ.blockingDequeue();
+//                     if (msg == null) {
+//                          mPQ.clear();
+//                          disconnect();
+//                          return;
+//                     }
+//                }
+               
+               mSocket.sendMessage(msg.toXML());
 
-	       // For time step slider
-// 	       if (msg instanceof StepMessage) {
-// 		    timeForLastSentTimestep = System.currentTimeMillis();
-// 	       }
+               // For time step slider
+//                if (msg instanceof StepMessage) {
+//                     timeForLastSentTimestep = System.currentTimeMillis();
+//                }
 
-	       msg.fireMessageSent();
+               msg.fireMessageSent();
 
-	       String xml = mSocket.recvMessage();
-	       msg.fireMessageReceived();
-	       mXMLHandler.handle(xml, msg);
+               String xml = mSocket.recvMessage();
+               msg.fireMessageReceived();
+               mXMLHandler.handle(xml, msg);
 
-	       // For time step slider	       
-// 	       if (msg instanceof StepMessage) {
-// 		    tsdf.registerStepTime(System.currentTimeMillis() - timeForLastSentTimestep);
-// 	       }
-	  } catch (IOException e) {
-	       msg.fireErrorOccurred();
-	       throw e;
-	  }
+               // For time step slider               
+//                if (msg instanceof StepMessage) {
+//                     tsdf.registerStepTime(System.currentTimeMillis() - timeForLastSentTimestep);
+//                }
+          } catch (IOException e) {
+               msg.fireErrorOccurred();
+               throw e;
+          }
      }
 
 
@@ -327,60 +327,60 @@ public class ServerConnection implements Runnable {
       * been called).
       */
      public void run() {
-	  // For time step slider
-//	  tsdf = TimeSliderDebugFrame.openTimeSliderDebugFrame();
+          // For time step slider
+//          tsdf = TimeSliderDebugFrame.openTimeSliderDebugFrame();
 
-	  StratmasMessage msg;
-	  try {
-	       // Init
-	       connect();
-	       
-	       // Running
-	       while (true) {
-		    msg = (StratmasMessage)mPQ.blockingDequeue();
-		    if (msg == null) {
-			 break;
-		    }
-		    SubscriptionCounter.updateNrOfMessInSendingQueue1(mPQ.size());
-		    SubscriptionCounter.updateNrOfSendedMessages();
+          StratmasMessage msg;
+          try {
+               // Init
+               connect();
+               
+               // Running
+               while (true) {
+                    msg = (StratmasMessage)mPQ.blockingDequeue();
+                    if (msg == null) {
+                         break;
+                    }
+                    SubscriptionCounter.updateNrOfMessInSendingQueue1(mPQ.size());
+                    SubscriptionCounter.updateNrOfSendedMessages();
 
-		    sendRecvHandle(msg);
+                    sendRecvHandle(msg);
 
-		    if (thresholdReached() && mClient != null) {
-			 mClient.setNotify();
-		    }
+                    if (thresholdReached() && mClient != null) {
+                         mClient.setNotify();
+                    }
 
-		    SubscriptionCounter.updateNrOfReceivedMessages();
-	       }
-	       
-	       if (!mQuitRuthless) {
-		    // Cleanup
-		    SubscriptionCounter.updateNrOfSendedMessages();
-		    sendRecvHandle(new DisconnectMessage());
-		    SubscriptionCounter.updateNrOfReceivedMessages();
-	       }
-	       mAlive = false;
-	  } catch (ConnectException e) {
-	       sendErrorMessage("general",
-				"Connection to " + mHost + ":" + mPort + " rejected",
-				"ConnectResponseMessage");
-	  } catch (UnknownHostException e) {
-	       sendErrorMessage("general", "Unknown host: " + mHost, "ConnectResponseMessage");
-	  } catch (java.net.SocketException e) {
-	       sendErrorMessage("general", "Connection closed. Is the server really running?", "Unknown");
-	  } catch (java.io.EOFException e) {
-	       sendErrorMessage("general",
-				"Connection closed. Is the server running? " + 
-				"Does it allow connections from your host?",
-				"Unknown");
-	  } catch (IOException e) {
-	       e.printStackTrace();
-	       sendErrorMessage("general", "IOException", "Unknown");
-	  }
-	  // Close socket if opened.
-	  if (mSocket != null) {
-	       mSocket.close();
-	  }
+                    SubscriptionCounter.updateNrOfReceivedMessages();
+               }
+               
+               if (!mQuitRuthless) {
+                    // Cleanup
+                    SubscriptionCounter.updateNrOfSendedMessages();
+                    sendRecvHandle(new DisconnectMessage());
+                    SubscriptionCounter.updateNrOfReceivedMessages();
+               }
+               mAlive = false;
+          } catch (ConnectException e) {
+               sendErrorMessage("general",
+                                "Connection to " + mHost + ":" + mPort + " rejected",
+                                "ConnectResponseMessage");
+          } catch (UnknownHostException e) {
+               sendErrorMessage("general", "Unknown host: " + mHost, "ConnectResponseMessage");
+          } catch (java.net.SocketException e) {
+               sendErrorMessage("general", "Connection closed. Is the server really running?", "Unknown");
+          } catch (java.io.EOFException e) {
+               sendErrorMessage("general",
+                                "Connection closed. Is the server running? " + 
+                                "Does it allow connections from your host?",
+                                "Unknown");
+          } catch (IOException e) {
+               e.printStackTrace();
+               sendErrorMessage("general", "IOException", "Unknown");
+          }
+          // Close socket if opened.
+          if (mSocket != null) {
+               mSocket.close();
+          }
      }
     
     /**
@@ -391,14 +391,14 @@ public class ServerConnection implements Runnable {
      * @param response name of the subscription response message.
      */
      public void sendErrorMessage(String type, String message, String response) {
-	  mAlive = false;
-	  Hashtable ht = new Hashtable();
-	  Vector v = new Vector();
-	  v.add(message);
-	  ht.put(type, v);
-	  if (mClient != null) {
-	      mClient.updateStatus(ht, response);
-	  }
+          mAlive = false;
+          Hashtable ht = new Hashtable();
+          Vector v = new Vector();
+          v.add(message);
+          ht.put(type, v);
+          if (mClient != null) {
+              mClient.updateStatus(ht, response);
+          }
      }
 
      // Temporary
@@ -410,7 +410,7 @@ public class ServerConnection implements Runnable {
      */
     public XMLHandler getXMLHandler()
     {
-	return this.mXMLHandler;
+        return this.mXMLHandler;
     }
 
     /**
@@ -418,10 +418,10 @@ public class ServerConnection implements Runnable {
      */
     public SubscriptionHandler getSubscriptionHandler()
     {
-	if (getXMLHandler() != null) {
-	    return getXMLHandler().getSubscriptionHandler();
-	} else {
-	    return null;
-	}
+        if (getXMLHandler() != null) {
+            return getXMLHandler().getSubscriptionHandler();
+        } else {
+            return null;
+        }
     }
 }

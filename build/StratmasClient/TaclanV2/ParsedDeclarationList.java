@@ -1,4 +1,4 @@
-// 	$Id: ParsedDeclarationList.java,v 1.9 2006/03/31 16:55:50 dah Exp $
+//         $Id: ParsedDeclarationList.java,v 1.9 2006/03/31 16:55:50 dah Exp $
 /*
  * @(#)ParsedDeclarationList.java
  */
@@ -46,19 +46,19 @@ public class ParsedDeclarationList
      */
     public void push(ParsedDeclaration part) throws IdConflictException
     {
-	if (!part.isAnonymous()) {
-	    ParsedDeclaration firstDeclaration = 
-		getDeclaration(part.getIdentifier());
-	    if (firstDeclaration != null) {
-		throw new IdConflictException(firstDeclaration.getIdentifier(), 
-						part.getIdentifier());
-	    } else {
-		this.parts.add(0, part);
-		partsTable.put(part.getIdentifier(), part);
-	    }
-	} else {
-	    this.parts.add(0, part);
-	}
+        if (!part.isAnonymous()) {
+            ParsedDeclaration firstDeclaration = 
+                getDeclaration(part.getIdentifier());
+            if (firstDeclaration != null) {
+                throw new IdConflictException(firstDeclaration.getIdentifier(), 
+                                                part.getIdentifier());
+            } else {
+                this.parts.add(0, part);
+                partsTable.put(part.getIdentifier(), part);
+            }
+        } else {
+            this.parts.add(0, part);
+        }
     }
 
     /**
@@ -68,19 +68,19 @@ public class ParsedDeclarationList
      */
     public void add(ParsedDeclaration part) throws IdConflictException
     {
-	if (!part.isAnonymous()) {
-	    ParsedDeclaration firstDeclaration = 
-		getDeclaration(part.getIdentifier());
-	    if (firstDeclaration != null) {
-		throw new IdConflictException(firstDeclaration.getIdentifier(), 
-						part.getIdentifier());
-	    } else {
-		this.parts.add(part);
-		partsTable.put(part.getIdentifier(), part);
-	    }
-	} else {
-	    this.parts.add(part);
-	}
+        if (!part.isAnonymous()) {
+            ParsedDeclaration firstDeclaration = 
+                getDeclaration(part.getIdentifier());
+            if (firstDeclaration != null) {
+                throw new IdConflictException(firstDeclaration.getIdentifier(), 
+                                                part.getIdentifier());
+            } else {
+                this.parts.add(part);
+                partsTable.put(part.getIdentifier(), part);
+            }
+        } else {
+            this.parts.add(part);
+        }
     }
 
     /**
@@ -90,23 +90,23 @@ public class ParsedDeclarationList
      */
     public void push(ParsedDeclarationList parts) throws CollectedErrorsException
     {
-	// FIXME dont add to vector unless added to partsTable!!!
-	CollectedErrorsException errors = null;
-	for (Enumeration ps = parts.parts.elements(); ps.hasMoreElements();) {
-	    ParsedDeclaration decl = (ParsedDeclaration) ps.nextElement();
-	    try {
-		push(decl);
-	    }
-	    catch (IdConflictException e) {
-		if (errors == null) {
-		    errors = new CollectedErrorsException();
-		}
-		errors.add(e);
-	    }
-	}
-	if (errors != null) {
-	    throw errors;
-	}
+        // FIXME dont add to vector unless added to partsTable!!!
+        CollectedErrorsException errors = null;
+        for (Enumeration ps = parts.parts.elements(); ps.hasMoreElements();) {
+            ParsedDeclaration decl = (ParsedDeclaration) ps.nextElement();
+            try {
+                push(decl);
+            }
+            catch (IdConflictException e) {
+                if (errors == null) {
+                    errors = new CollectedErrorsException();
+                }
+                errors.add(e);
+            }
+        }
+        if (errors != null) {
+            throw errors;
+        }
     }
 
     /**
@@ -116,23 +116,23 @@ public class ParsedDeclarationList
      */
     public void add(ParsedDeclarationList parts) throws CollectedErrorsException
     {
-	// FIXME dont add to vector unless added to partsTable!!!
-	CollectedErrorsException errors = null;
-	for (Enumeration ps = parts.parts.elements(); ps.hasMoreElements();) {
-	    ParsedDeclaration decl = (ParsedDeclaration) ps.nextElement();
-	    try {
-		add(decl);
-	    }
-	    catch (IdConflictException e) {
-		if (errors == null) {
-		    errors = new CollectedErrorsException();
-		}
-		errors.add(e);
-	    }
-	}
-	if (errors != null) {
-	    throw errors;
-	}
+        // FIXME dont add to vector unless added to partsTable!!!
+        CollectedErrorsException errors = null;
+        for (Enumeration ps = parts.parts.elements(); ps.hasMoreElements();) {
+            ParsedDeclaration decl = (ParsedDeclaration) ps.nextElement();
+            try {
+                add(decl);
+            }
+            catch (IdConflictException e) {
+                if (errors == null) {
+                    errors = new CollectedErrorsException();
+                }
+                errors.add(e);
+            }
+        }
+        if (errors != null) {
+            throw errors;
+        }
     }
 
     /**
@@ -140,7 +140,7 @@ public class ParsedDeclarationList
      */    
     protected Vector getParts()
     {
-	return parts;
+        return parts;
     }
 
     /**
@@ -151,14 +151,14 @@ public class ParsedDeclarationList
      */
     public ParsedDeclaration getDeclaration(ParsedReference reference)
     {
-	ParsedDeclaration declaration = 
-	    getDeclaration(reference.getIdentifier());
-	if (declaration == null || 
-	    !reference.hasTail()) {
-	    return declaration;
-	} else {
-	    return declaration.getDeclaration(reference.getTail());
-	}
+        ParsedDeclaration declaration = 
+            getDeclaration(reference.getIdentifier());
+        if (declaration == null || 
+            !reference.hasTail()) {
+            return declaration;
+        } else {
+            return declaration.getDeclaration(reference.getTail());
+        }
     }
 
     /**
@@ -169,7 +169,7 @@ public class ParsedDeclarationList
      */
     public ParsedDeclaration getDeclaration(ParsedIdentifier identifier)
     {
-	return (ParsedDeclaration) partsTable.get(identifier);
+        return (ParsedDeclaration) partsTable.get(identifier);
     }
 
     /**
@@ -180,7 +180,7 @@ public class ParsedDeclarationList
      */
     public ParsedDeclaration getDeclaration(String identifier)
     {
-	return (ParsedDeclaration) partsTable.get(identifier);
+        return (ParsedDeclaration) partsTable.get(identifier);
     }
 
     /**
@@ -188,7 +188,7 @@ public class ParsedDeclarationList
      */
     public static ParsedDeclarationList getEmpty()
     {
-	return new ParsedDeclarationList();
+        return new ParsedDeclarationList();
     }
 
     /**
@@ -200,43 +200,43 @@ public class ParsedDeclarationList
      */
     public void typeCheckImmidiates(Type type, TypeInformation typeInformation) throws SemanticException
     {
-	Vector errors = new Vector();
-	Vector reorderedParts = new Vector();
-	// For all declarations in type...
- 	for (Enumeration ps = type.getSubElements().elements(); 
-	     ps.hasMoreElements();) {
-	    Declaration definedDeclaration = (Declaration) ps.nextElement();
-	    //System.err.println(definedDeclaration.getType().getName());
-	    // Try to get ParsedDeclaration matching the tag of the Declaration.
-	    ParsedDeclaration parsedDeclaration = this.getDeclaration(definedDeclaration.getName());
-	    // Any ParsedDeclaration found?
-	    if (parsedDeclaration == null) {
-		// Check if this subdeclaration is optional
-		if (definedDeclaration.getMinOccurs() != 0) {
-		    // Not present and defaults not yet supported.
-		    errors.add(new MissingDeclarationException(definedDeclaration, 
-							  "(No defaults availiable.)"));
-		}
-	    }
-	    else {
-		try {
-		    parsedDeclaration.typeCheckImmidiates(definedDeclaration, 
-							  typeInformation);
-		    reorderedParts.add(parsedDeclaration);
-		} catch (TypeErrorException e) {
-		    errors.add(e);
-		}
-	    }
-	}
+        Vector errors = new Vector();
+        Vector reorderedParts = new Vector();
+        // For all declarations in type...
+         for (Enumeration ps = type.getSubElements().elements(); 
+             ps.hasMoreElements();) {
+            Declaration definedDeclaration = (Declaration) ps.nextElement();
+            //System.err.println(definedDeclaration.getType().getName());
+            // Try to get ParsedDeclaration matching the tag of the Declaration.
+            ParsedDeclaration parsedDeclaration = this.getDeclaration(definedDeclaration.getName());
+            // Any ParsedDeclaration found?
+            if (parsedDeclaration == null) {
+                // Check if this subdeclaration is optional
+                if (definedDeclaration.getMinOccurs() != 0) {
+                    // Not present and defaults not yet supported.
+                    errors.add(new MissingDeclarationException(definedDeclaration, 
+                                                          "(No defaults availiable.)"));
+                }
+            }
+            else {
+                try {
+                    parsedDeclaration.typeCheckImmidiates(definedDeclaration, 
+                                                          typeInformation);
+                    reorderedParts.add(parsedDeclaration);
+                } catch (TypeErrorException e) {
+                    errors.add(e);
+                }
+            }
+        }
 
-	// Check if there are ParsedDeclarations in the list not processed.
-	if (this.parts.size() > reorderedParts.size()) {
-	    
-	}
+        // Check if there are ParsedDeclarations in the list not processed.
+        if (this.parts.size() > reorderedParts.size()) {
+            
+        }
 
-	if (!errors.isEmpty()) {
-	    throw new CollectedErrorsException(errors);
-	}
+        if (!errors.isEmpty()) {
+            throw new CollectedErrorsException(errors);
+        }
     }
 
     /**
@@ -246,15 +246,15 @@ public class ParsedDeclarationList
      * @param typeInformation the TypeInformation to use.
      */
     public void typeCheckReferences(Type type, TypeInformation typeInformation) throws SemanticException
-    {	
-// 	Vector errors = new Vector();
-// 	for (Enumeration ps = this.getParts().elements(); ps.hasMoreElements();) {
-// 	    try {
-// 		((TypeCheckable) ps.nextElement()).typeCheckReferences(subtype, typeInformation);
-// 	    } catch (TypeErrorException e) {
-// 		errors.add(e);
-// 	    }
-// 	}
+    {        
+//         Vector errors = new Vector();
+//         for (Enumeration ps = this.getParts().elements(); ps.hasMoreElements();) {
+//             try {
+//                 ((TypeCheckable) ps.nextElement()).typeCheckReferences(subtype, typeInformation);
+//             } catch (TypeErrorException e) {
+//                 errors.add(e);
+//             }
+//         }
 
     }
 
@@ -264,41 +264,41 @@ public class ParsedDeclarationList
      */
     public Vector bindReferences() throws SemanticException
     {
-	Vector outstanding = new Vector();
-	Vector errors = new Vector();
-	for (Enumeration ps = this.getParts().elements(); 
-	     ps.hasMoreElements();) {
-	    ParsedDeclaration parsedDeclaration = (ParsedDeclaration) ps.nextElement();
-	    Vector unresolvedCandidates = parsedDeclaration.bindReferences();
-	    for (Enumeration us = unresolvedCandidates.elements();
-		 us.hasMoreElements();) {
-		ParsedReference ref = (ParsedReference) us.nextElement();
-		ParsedDeclaration target = this.getDeclaration(ref.getIdentifier());		
-		if (target != null) {
-		    // Found a binding for the first component of the
-		    // reference. Make the reference descend that
-		    // declaration.
-		    try {
-			ref.bind(target);
-		    }
-		    catch (UnresolvedReferenceException e) {
-			errors.add(e);
-		    }
-		}
-		else {
-		    // Add this to the outstanding references in this
-		    // scope.
-		    outstanding.add(ref);
-		}
-	    }
-	    
-	}
-	
-	if (!errors.isEmpty()) {
-	    throw new CollectedErrorsException();
-	}
+        Vector outstanding = new Vector();
+        Vector errors = new Vector();
+        for (Enumeration ps = this.getParts().elements(); 
+             ps.hasMoreElements();) {
+            ParsedDeclaration parsedDeclaration = (ParsedDeclaration) ps.nextElement();
+            Vector unresolvedCandidates = parsedDeclaration.bindReferences();
+            for (Enumeration us = unresolvedCandidates.elements();
+                 us.hasMoreElements();) {
+                ParsedReference ref = (ParsedReference) us.nextElement();
+                ParsedDeclaration target = this.getDeclaration(ref.getIdentifier());                
+                if (target != null) {
+                    // Found a binding for the first component of the
+                    // reference. Make the reference descend that
+                    // declaration.
+                    try {
+                        ref.bind(target);
+                    }
+                    catch (UnresolvedReferenceException e) {
+                        errors.add(e);
+                    }
+                }
+                else {
+                    // Add this to the outstanding references in this
+                    // scope.
+                    outstanding.add(ref);
+                }
+            }
+            
+        }
+        
+        if (!errors.isEmpty()) {
+            throw new CollectedErrorsException();
+        }
 
-	return outstanding;
+        return outstanding;
     }
 
     /**
@@ -306,7 +306,7 @@ public class ParsedDeclarationList
      */
     public int getSize()
     {
-	return parts.size();
+        return parts.size();
     }
 
     /**
@@ -314,18 +314,18 @@ public class ParsedDeclarationList
      */
     public String toString()
     {
-	if (getSize() > 0) {
-	    StringBuffer buf = new StringBuffer();
-	    for (Enumeration ps = this.getParts().elements(); 
-		 ps.hasMoreElements();) {
-		ParsedDeclaration decl = (ParsedDeclaration) ps.nextElement();
-		buf.append("\n" + decl.toString());
-	    }
-	    return buf.toString();
-	}
-	else {
-	    return "";
-	}
+        if (getSize() > 0) {
+            StringBuffer buf = new StringBuffer();
+            for (Enumeration ps = this.getParts().elements(); 
+                 ps.hasMoreElements();) {
+                ParsedDeclaration decl = (ParsedDeclaration) ps.nextElement();
+                buf.append("\n" + decl.toString());
+            }
+            return buf.toString();
+        }
+        else {
+            return "";
+        }
     }
 
 
@@ -337,25 +337,25 @@ public class ParsedDeclarationList
      */
     public Vector getStratmasObjects(Type type) throws SemanticException
     {
-	Vector result = new Vector();
-	for (Enumeration ds = type.getSubElements().elements(); 
-	     ds.hasMoreElements();) {
-	    Declaration d = (Declaration) ds.nextElement();
-	    ParsedDeclaration ps = this.getDeclaration(d.getName());
-	    if (ps == null) {
-		if (d.getMinOccurs() != 0) {
-		    throw new MissingDeclarationException(d, "");
-		} else if (d.isUnbounded() ||
-			   d.getMaxOccurs() > 1) {
-		    // Here there may be a list, create it, even though it is empty.		    
-		    result.add(StratmasObjectFactory.createList(d));
-		}
-	    }
-	    else {
-		result.add(ps.getStratmasObject(d));
-	    }
-	}
+        Vector result = new Vector();
+        for (Enumeration ds = type.getSubElements().elements(); 
+             ds.hasMoreElements();) {
+            Declaration d = (Declaration) ds.nextElement();
+            ParsedDeclaration ps = this.getDeclaration(d.getName());
+            if (ps == null) {
+                if (d.getMinOccurs() != 0) {
+                    throw new MissingDeclarationException(d, "");
+                } else if (d.isUnbounded() ||
+                           d.getMaxOccurs() > 1) {
+                    // Here there may be a list, create it, even though it is empty.                    
+                    result.add(StratmasObjectFactory.createList(d));
+                }
+            }
+            else {
+                result.add(ps.getStratmasObject(d));
+            }
+        }
 
-	return result;
+        return result;
     }
 }

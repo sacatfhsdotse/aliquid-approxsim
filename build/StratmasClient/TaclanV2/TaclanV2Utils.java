@@ -1,4 +1,4 @@
-// 	$Id: TaclanV2Utils.java,v 1.1 2006/10/09 11:55:16 dah Exp $
+//         $Id: TaclanV2Utils.java,v 1.1 2006/10/09 11:55:16 dah Exp $
 /*
  * @(#)TaclanV2Utils.java
  */
@@ -38,42 +38,42 @@ public class TaclanV2Utils
      */
     public static StratmasObject importTaclanV2Simulation(String filename)
     {
-	try {
-	    // Try to parse the file. Expect to get a StratmasList
-	    // containing exactly one "Simulation"-type object.
-	    
-	    StratmasClient.TaclanV2.Parser parser = null;
-	    try {
-		parser = StratmasClient.TaclanV2.Parser.getParser(filename, "UTF-8");
-	    } catch (UnsupportedEncodingException e) {
-		// Ok, try default encoding instead.
-		parser = StratmasClient.TaclanV2.Parser.getParser(filename);
-	    }
-	    parser.doParse();
-	    parser.typeCheck(TypeFactory.getType("Root").getSubElement("simulation"), 
-			     TypeFactory.getTypeInformation());
-	    StratmasObject top = 
-		parser.getStratmasList(TypeFactory.getType("Root").getSubElement("simulation"));
+        try {
+            // Try to parse the file. Expect to get a StratmasList
+            // containing exactly one "Simulation"-type object.
+            
+            StratmasClient.TaclanV2.Parser parser = null;
+            try {
+                parser = StratmasClient.TaclanV2.Parser.getParser(filename, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                // Ok, try default encoding instead.
+                parser = StratmasClient.TaclanV2.Parser.getParser(filename);
+            }
+            parser.doParse();
+            parser.typeCheck(TypeFactory.getType("Root").getSubElement("simulation"), 
+                             TypeFactory.getTypeInformation());
+            StratmasObject top = 
+                parser.getStratmasList(TypeFactory.getType("Root").getSubElement("simulation"));
 
-	    if (!top.isLeaf()) {
-		return (StratmasObject) top.children().nextElement();
-	    } else {
-		StratmasDialog.showErrorMessageDialog(null, filename + " is empty.", "Empty file");
-		return null;
-	    }
-	    
-	} catch (SyntaxException e) {
-	    StratmasDialog.showErrorMessageDialog(null, "Syntax error(s) found:\n" + e.getMessage(), 
-						 "Syntax error(s) found");
-	} catch (SemanticException e) {
-	    StratmasDialog.showErrorMessageDialog(null, "Semantic error(s) found\n" + e.getMessage(), 
-						 "Semantic error(s) found"); 
-	} catch (IOException e) {
-	    StratmasDialog.showErrorMessageDialog(null, "File error\n" + e.getMessage(), 
-						 "File error"); 
-	}
+            if (!top.isLeaf()) {
+                return (StratmasObject) top.children().nextElement();
+            } else {
+                StratmasDialog.showErrorMessageDialog(null, filename + " is empty.", "Empty file");
+                return null;
+            }
+            
+        } catch (SyntaxException e) {
+            StratmasDialog.showErrorMessageDialog(null, "Syntax error(s) found:\n" + e.getMessage(), 
+                                                 "Syntax error(s) found");
+        } catch (SemanticException e) {
+            StratmasDialog.showErrorMessageDialog(null, "Semantic error(s) found\n" + e.getMessage(), 
+                                                 "Semantic error(s) found"); 
+        } catch (IOException e) {
+            StratmasDialog.showErrorMessageDialog(null, "File error\n" + e.getMessage(), 
+                                                 "File error"); 
+        }
 
-	return null;
+        return null;
 
     }
 
@@ -82,14 +82,14 @@ public class TaclanV2Utils
      */
     public static StratmasObject importTaclanV2Simulation()
     {
-	JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
-	StratmasClient.TaclanV2.Taclan2FileFilter filter = new StratmasClient.TaclanV2.Taclan2FileFilter();
-	chooser.setFileFilter(filter);
-	if (chooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION) {
-	    return null;
-	} else {
-	    return importTaclanV2Simulation(chooser.getSelectedFile().getPath());
-	}
+        JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
+        StratmasClient.TaclanV2.Taclan2FileFilter filter = new StratmasClient.TaclanV2.Taclan2FileFilter();
+        chooser.setFileFilter(filter);
+        if (chooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION) {
+            return null;
+        } else {
+            return importTaclanV2Simulation(chooser.getSelectedFile().getPath());
+        }
     }
 
     /**
@@ -97,14 +97,14 @@ public class TaclanV2Utils
      */
     public static String getTaclanV2File()
     {
-	JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
-	StratmasClient.TaclanV2.Taclan2FileFilter filter = new StratmasClient.TaclanV2.Taclan2FileFilter();
-	chooser.setFileFilter(filter);
-	if (chooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION) {
-	    return null;
-	} else {
-	    return chooser.getSelectedFile().getPath();
-	}
+        JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
+        StratmasClient.TaclanV2.Taclan2FileFilter filter = new StratmasClient.TaclanV2.Taclan2FileFilter();
+        chooser.setFileFilter(filter);
+        if (chooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION) {
+            return null;
+        } else {
+            return chooser.getSelectedFile().getPath();
+        }
     }
 
     /**
@@ -112,14 +112,14 @@ public class TaclanV2Utils
      */
     public static String getScenarioFile()
     {
-	JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
- 	StratmasClient.TaclanV2.Taclan2FileFilter filter = new StratmasClient.TaclanV2.Taclan2FileFilter();
- 	chooser.setFileFilter(filter);
-	if (chooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION) {
-	    return null;
-	} else {
-	    return chooser.getSelectedFile().getPath();
-	}
+        JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
+         StratmasClient.TaclanV2.Taclan2FileFilter filter = new StratmasClient.TaclanV2.Taclan2FileFilter();
+         chooser.setFileFilter(filter);
+        if (chooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION) {
+            return null;
+        } else {
+            return chooser.getSelectedFile().getPath();
+        }
     }
 
     /**
@@ -127,64 +127,64 @@ public class TaclanV2Utils
      */
     public static StratmasList importESRIFile()
     {
-	
-	JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
-	StratmasClient.TaclanV2.Taclan2FileFilter filter = 
-	    new StratmasClient.TaclanV2.Taclan2FileFilter()
-	    {
-		public boolean accept(File f) {
-		    if (f.isDirectory()) {
-			return true;
-		    }
-		    String extension = getExtension(f);
-		    if (extension != null) {
-			if (extension.equalsIgnoreCase("shp")) {
-			    return true;
-			}
-		    }
-		    return false;
-		}
+        
+        JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
+        StratmasClient.TaclanV2.Taclan2FileFilter filter = 
+            new StratmasClient.TaclanV2.Taclan2FileFilter()
+            {
+                public boolean accept(File f) {
+                    if (f.isDirectory()) {
+                        return true;
+                    }
+                    String extension = getExtension(f);
+                    if (extension != null) {
+                        if (extension.equalsIgnoreCase("shp")) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
 
-		public String getDescription() 
-		{
-		    return "ESRI Shape files";
-		}
-	    };
-	chooser.setFileFilter(filter);
-	if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-	    String taclanCode = "import \"" + chooser.getSelectedFile().getPath() + "\"";
-	    try {
-		// Try to parse the String. Expect to get a StratmasList
-		// containing the shapes in the import.
-		
-		StratmasClient.TaclanV2.Parser parser = null;
-		parser = StratmasClient.TaclanV2.Parser.getParser(chooser.getSelectedFile().getPath(), 
-								  new StringReader(taclanCode));
+                public String getDescription() 
+                {
+                    return "ESRI Shape files";
+                }
+            };
+        chooser.setFileFilter(filter);
+        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            String taclanCode = "import \"" + chooser.getSelectedFile().getPath() + "\"";
+            try {
+                // Try to parse the String. Expect to get a StratmasList
+                // containing the shapes in the import.
+                
+                StratmasClient.TaclanV2.Parser parser = null;
+                parser = StratmasClient.TaclanV2.Parser.getParser(chooser.getSelectedFile().getPath(), 
+                                                                  new StringReader(taclanCode));
 
-		parser.doParse();
-		StratmasList top = 
-		    parser.getStratmasList(TypeFactory.getType("Composite").getSubElement("shapes"));
-		
-		if (!top.isLeaf()) {
-		    return top;
-		} else {
-		    StratmasDialog.showErrorMessageDialog(null,  "Empty ESRI file.", "No supported shapes found in " + 
-							 chooser.getSelectedFile().getPath());
-		    return null;
-		}
-	    } catch (SemanticException e) {
-		StratmasDialog.showErrorMessageDialog(null, "Error imoporting ESRI file:\n" + chooser.getSelectedFile().getPath(), 
-						     "Error imoporting ESRI file"); 
-		return null;
-	    } catch (SyntaxException e) {
-		StratmasDialog.showErrorMessageDialog(null, "Error imoporting ESRI file:\n" + chooser.getSelectedFile().getPath(), 
-						     "Error imoporting ESRI file"); 
-		return null;
-	    }
+                parser.doParse();
+                StratmasList top = 
+                    parser.getStratmasList(TypeFactory.getType("Composite").getSubElement("shapes"));
+                
+                if (!top.isLeaf()) {
+                    return top;
+                } else {
+                    StratmasDialog.showErrorMessageDialog(null,  "Empty ESRI file.", "No supported shapes found in " + 
+                                                         chooser.getSelectedFile().getPath());
+                    return null;
+                }
+            } catch (SemanticException e) {
+                StratmasDialog.showErrorMessageDialog(null, "Error imoporting ESRI file:\n" + chooser.getSelectedFile().getPath(), 
+                                                     "Error imoporting ESRI file"); 
+                return null;
+            } catch (SyntaxException e) {
+                StratmasDialog.showErrorMessageDialog(null, "Error imoporting ESRI file:\n" + chooser.getSelectedFile().getPath(), 
+                                                     "Error imoporting ESRI file"); 
+                return null;
+            }
 
-	}
-	
-	return null;
+        }
+        
+        return null;
     }
 
 
@@ -193,35 +193,35 @@ public class TaclanV2Utils
      */
     public static StratmasList importESRIFile(String filename)
     {
-	String taclanCode = "import \"" + filename + "\"";
-	try {
-	    // Try to parse the String. Expect to get a StratmasList
-	    // containing the shapes in the import.
-	    
-	    StratmasClient.TaclanV2.Parser parser = null;
-	    parser = StratmasClient.TaclanV2.Parser.getParser(filename, 
-							      new StringReader(taclanCode));
-	    
-	    parser.doParse();
-	    StratmasList top = 
-		parser.getStratmasList(TypeFactory.getType("Composite").getSubElement("shapes"));
-	    
-	    if (!top.isLeaf()) {
-		return top;
-	    } else {
-		StratmasDialog.showErrorMessageDialog(null,  "Empty ESRI file.", "No supported shapes found in " + 
-						     filename);
-		return null;
-	    }
-	} catch (SemanticException e) {
-	    StratmasDialog.showErrorMessageDialog(null, "Error imoporting ESRI file:\n" + filename, 
-						 "Error imoporting ESRI file"); 
-	    return null;
-	} catch (SyntaxException e) {
-	    StratmasDialog.showErrorMessageDialog(null, "Error imoporting ESRI file:\n" + filename, 
-						 "Error imoporting ESRI file"); 
-	    return null;
-	}
+        String taclanCode = "import \"" + filename + "\"";
+        try {
+            // Try to parse the String. Expect to get a StratmasList
+            // containing the shapes in the import.
+            
+            StratmasClient.TaclanV2.Parser parser = null;
+            parser = StratmasClient.TaclanV2.Parser.getParser(filename, 
+                                                              new StringReader(taclanCode));
+            
+            parser.doParse();
+            StratmasList top = 
+                parser.getStratmasList(TypeFactory.getType("Composite").getSubElement("shapes"));
+            
+            if (!top.isLeaf()) {
+                return top;
+            } else {
+                StratmasDialog.showErrorMessageDialog(null,  "Empty ESRI file.", "No supported shapes found in " + 
+                                                     filename);
+                return null;
+            }
+        } catch (SemanticException e) {
+            StratmasDialog.showErrorMessageDialog(null, "Error imoporting ESRI file:\n" + filename, 
+                                                 "Error imoporting ESRI file"); 
+            return null;
+        } catch (SyntaxException e) {
+            StratmasDialog.showErrorMessageDialog(null, "Error imoporting ESRI file:\n" + filename, 
+                                                 "Error imoporting ESRI file"); 
+            return null;
+        }
     }
     
 
@@ -230,51 +230,51 @@ public class TaclanV2Utils
      */
     public static StratmasList importTaclanV2File()
     {
-	JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
-	StratmasClient.TaclanV2.Taclan2FileFilter filter = new StratmasClient.TaclanV2.Taclan2FileFilter();
-	chooser.setFileFilter(filter);
-	if (chooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION) {
-	    return null;
-	}
-	else {
-	    try {
-		String filename = chooser.getSelectedFile().getPath();
-		// Try to parse the file. Expect to get a StratmasList
-		// containing exactly one "Simulation"-type object.
-		
-		StratmasClient.TaclanV2.Parser parser = null;
-		try {
-		    parser = StratmasClient.TaclanV2.Parser.getParser(filename, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-		    // Ok, try default encoding instead.
-		    parser = StratmasClient.TaclanV2.Parser.getParser(filename);
-		}
-		parser.doParse();	     
-		StratmasList top = 
-		    parser.getStratmasList(new Declaration(TypeFactory.getType("Identifiable"), 
-							   filename, 0, 0, true));
-		
-		if (!top.isLeaf()) {
-		    return top;
-		} else {
-		    StratmasDialog.showErrorMessageDialog(null, filename + " is empty.", "Empty file");
-		    return null;
-		}
-	    
-	    } catch (SyntaxException e) {
-		StratmasDialog.showErrorMessageDialog(null, "Syntax error(s) found:\n" + e.getMessage(), 
-						     "Syntax error(s) found"); 
-		return null;		
-	    } catch (SemanticException e) {
-		StratmasDialog.showErrorMessageDialog(null, "Semantic error(s) found\n" + e.getMessage(), 
-						     "Semantic error(s) found"); 
-		return null;
-	    } catch (IOException e) {
-		StratmasDialog.showErrorMessageDialog(null, "File error\n" + e.getMessage(), 
-						     "File error"); 
-		return null;
-	    }
-	}
+        JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
+        StratmasClient.TaclanV2.Taclan2FileFilter filter = new StratmasClient.TaclanV2.Taclan2FileFilter();
+        chooser.setFileFilter(filter);
+        if (chooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION) {
+            return null;
+        }
+        else {
+            try {
+                String filename = chooser.getSelectedFile().getPath();
+                // Try to parse the file. Expect to get a StratmasList
+                // containing exactly one "Simulation"-type object.
+                
+                StratmasClient.TaclanV2.Parser parser = null;
+                try {
+                    parser = StratmasClient.TaclanV2.Parser.getParser(filename, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    // Ok, try default encoding instead.
+                    parser = StratmasClient.TaclanV2.Parser.getParser(filename);
+                }
+                parser.doParse();             
+                StratmasList top = 
+                    parser.getStratmasList(new Declaration(TypeFactory.getType("Identifiable"), 
+                                                           filename, 0, 0, true));
+                
+                if (!top.isLeaf()) {
+                    return top;
+                } else {
+                    StratmasDialog.showErrorMessageDialog(null, filename + " is empty.", "Empty file");
+                    return null;
+                }
+            
+            } catch (SyntaxException e) {
+                StratmasDialog.showErrorMessageDialog(null, "Syntax error(s) found:\n" + e.getMessage(), 
+                                                     "Syntax error(s) found"); 
+                return null;                
+            } catch (SemanticException e) {
+                StratmasDialog.showErrorMessageDialog(null, "Semantic error(s) found\n" + e.getMessage(), 
+                                                     "Semantic error(s) found"); 
+                return null;
+            } catch (IOException e) {
+                StratmasDialog.showErrorMessageDialog(null, "File error\n" + e.getMessage(), 
+                                                     "File error"); 
+                return null;
+            }
+        }
     }
 
     
@@ -282,42 +282,42 @@ public class TaclanV2Utils
      * Imports a Taclanfile 
      */
     public static StratmasList importTaclanV2File(String filename) {
-	try {
-	    // Try to parse the file. Expect to get a StratmasList
-	    // containing exactly one "Simulation"-type object.
-	    
-	    StratmasClient.TaclanV2.Parser parser = null;
-	    try {
-		parser = StratmasClient.TaclanV2.Parser.getParser(filename, "UTF-8");
-	    } catch (UnsupportedEncodingException e) {
-		// Ok, try default encoding instead.
-		parser = StratmasClient.TaclanV2.Parser.getParser(filename);
-	    }
-	    parser.doParse();	     
-	    StratmasList top = 
-		    parser.getStratmasList(new Declaration(TypeFactory.getType("Identifiable"), 
-							   filename, 0, 0, true));
-	    
-	    if (!top.isLeaf()) {
-		return top;
-	    } else {
-		StratmasDialog.showErrorMessageDialog(null, filename + " is empty.", "Empty file");
-		return null;
-	    }
-	    
-	} catch (SyntaxException e) {
-	    StratmasDialog.showErrorMessageDialog(null, "Syntax error(s) found:\n" + e.getMessage(), 
-						 "Syntax error(s) found"); 
-	    return null;		
-	} catch (SemanticException e) {
-	    StratmasDialog.showErrorMessageDialog(null, "Semantic error(s) found\n" + e.getMessage(), 
-						 "Semantic error(s) found"); 
-	    return null;
-	} catch (IOException e) {
-	    StratmasDialog.showErrorMessageDialog(null, "File error\n" + e.getMessage(), 
-						 "File error"); 
-	    return null;
-	}
+        try {
+            // Try to parse the file. Expect to get a StratmasList
+            // containing exactly one "Simulation"-type object.
+            
+            StratmasClient.TaclanV2.Parser parser = null;
+            try {
+                parser = StratmasClient.TaclanV2.Parser.getParser(filename, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                // Ok, try default encoding instead.
+                parser = StratmasClient.TaclanV2.Parser.getParser(filename);
+            }
+            parser.doParse();             
+            StratmasList top = 
+                    parser.getStratmasList(new Declaration(TypeFactory.getType("Identifiable"), 
+                                                           filename, 0, 0, true));
+            
+            if (!top.isLeaf()) {
+                return top;
+            } else {
+                StratmasDialog.showErrorMessageDialog(null, filename + " is empty.", "Empty file");
+                return null;
+            }
+            
+        } catch (SyntaxException e) {
+            StratmasDialog.showErrorMessageDialog(null, "Syntax error(s) found:\n" + e.getMessage(), 
+                                                 "Syntax error(s) found"); 
+            return null;                
+        } catch (SemanticException e) {
+            StratmasDialog.showErrorMessageDialog(null, "Semantic error(s) found\n" + e.getMessage(), 
+                                                 "Semantic error(s) found"); 
+            return null;
+        } catch (IOException e) {
+            StratmasDialog.showErrorMessageDialog(null, "File error\n" + e.getMessage(), 
+                                                 "File error"); 
+            return null;
+        }
     }
     
 
@@ -326,67 +326,67 @@ public class TaclanV2Utils
      */
     public static StratmasObject createTemplateSimulation()
     {
-	JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
-	StratmasClient.TaclanV2.Taclan2FileFilter filter = 
-	    new StratmasClient.TaclanV2.Taclan2FileFilter()
-	    {
-		public boolean accept(File f) {
-		    if (f.isDirectory()) {
-			return true;
-		    }
-		    String extension = getExtension(f);
-		    if (extension != null) {
-			if (extension.equals("shp")) {
-			    return true;
-			}
-		    }
-		    return false;
-		}
+        JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
+        StratmasClient.TaclanV2.Taclan2FileFilter filter = 
+            new StratmasClient.TaclanV2.Taclan2FileFilter()
+            {
+                public boolean accept(File f) {
+                    if (f.isDirectory()) {
+                        return true;
+                    }
+                    String extension = getExtension(f);
+                    if (extension != null) {
+                        if (extension.equals("shp")) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
 
-		public String getDescription() 
-		{
-		    return "ESRI Shape files";
-		}
-	    };
-	chooser.setFileFilter(filter);
-	if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-	    String taclanCode = 
-		"CommonSimulation 'simulation' { \n" +
-		"timeStepper = ConstantStepper { dt = 86400000 } \n" +
-		"gridPartitioner = SquarePartitioner { cellSizeMeters = 10000.0 } \n" +
-		"CommonScenario 'scenario' { \n" +
-		"map = Composite { shape = { import \"" + chooser.getSelectedFile().getPath() + "\" } } \n" +
-		"disease = Disease { description = \"None\" infectionRate = 0.0 recoveryRate = 0.0 " +
-		"mortalityRate = 0.0 } \n " +
-		"HDI = 0.0 unemployment = 0.0 }" +
+                public String getDescription() 
+                {
+                    return "ESRI Shape files";
+                }
+            };
+        chooser.setFileFilter(filter);
+        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            String taclanCode = 
+                "CommonSimulation 'simulation' { \n" +
+                "timeStepper = ConstantStepper { dt = 86400000 } \n" +
+                "gridPartitioner = SquarePartitioner { cellSizeMeters = 10000.0 } \n" +
+                "CommonScenario 'scenario' { \n" +
+                "map = Composite { shape = { import \"" + chooser.getSelectedFile().getPath() + "\" } } \n" +
+                "disease = Disease { description = \"None\" infectionRate = 0.0 recoveryRate = 0.0 " +
+                "mortalityRate = 0.0 } \n " +
+                "HDI = 0.0 unemployment = 0.0 }" +
                 "startTime = 0 }";
-	    
-	    System.out.println("OK3");
-	    try {
-		// Try to parse the String. Expect to get a StratmasList
-		// containing a simulation import.
-		
-		StratmasClient.TaclanV2.Parser parser = null;
-		
-		parser = StratmasClient.TaclanV2.Parser.getParser("template", 
-								  new StringReader(taclanCode));
-		parser.doParse();
-		StratmasObject top = 
-		    parser.getStratmasList(TypeFactory.getType("Root").getSubElement("simulation"));
-	    
-		return (StratmasObject) top.children().nextElement();
-	    } catch (SemanticException e) {
-		StratmasDialog.showErrorMessageDialog(null, "Error imoporting ESRI file:\n" + chooser.getSelectedFile().getPath(), 
-						     "Error imoporting ESRI file"); 
-		return null;
-	    } catch (SyntaxException e) {
-		StratmasDialog.showErrorMessageDialog(null, "Error imoporting ESRI file:\n" + chooser.getSelectedFile().getPath(), 
-						     "Error imoporting ESRI file"); 
-		return null;
-	    }
-	}
-	
-	return null;
+            
+            System.out.println("OK3");
+            try {
+                // Try to parse the String. Expect to get a StratmasList
+                // containing a simulation import.
+                
+                StratmasClient.TaclanV2.Parser parser = null;
+                
+                parser = StratmasClient.TaclanV2.Parser.getParser("template", 
+                                                                  new StringReader(taclanCode));
+                parser.doParse();
+                StratmasObject top = 
+                    parser.getStratmasList(TypeFactory.getType("Root").getSubElement("simulation"));
+            
+                return (StratmasObject) top.children().nextElement();
+            } catch (SemanticException e) {
+                StratmasDialog.showErrorMessageDialog(null, "Error imoporting ESRI file:\n" + chooser.getSelectedFile().getPath(), 
+                                                     "Error imoporting ESRI file"); 
+                return null;
+            } catch (SyntaxException e) {
+                StratmasDialog.showErrorMessageDialog(null, "Error imoporting ESRI file:\n" + chooser.getSelectedFile().getPath(), 
+                                                     "Error imoporting ESRI file"); 
+                return null;
+            }
+        }
+        
+        return null;
     }
 
     /**
@@ -394,39 +394,39 @@ public class TaclanV2Utils
      */
     public static StratmasObject oldGetTemplateSimulation(String filePath)
     {
-	String taclanCode = 
-	    "CommonSimulation 'simulation' { \n" +
-	    "timeStepper = ConstantStepper { dt = 86400000 } \n" +
-	    "gridPartitioner = SquarePartitioner { cellSizeMeters = 10000.0 } \n" +
-	    "CommonScenario 'scenario' { \n" +
-	    "map = Composite { shape = { import \"" + filePath + "\" } } \n" +
-	    "disease = Disease { description = \"None\" infectionRate = 0.0 recoveryRate = 0.0 " +
-	    "mortalityRate = 0.0 } \n " +
-	    "HDI = 0.0 unemployment = 0.0 }" +
-	    "startTime = 0 }";
-	    
-	try {
-	    // Try to parse the String. Expect to get a StratmasList
-	    // containing a simulation import.
-	    
-	    StratmasClient.TaclanV2.Parser parser = null;
-	    
-	    parser = StratmasClient.TaclanV2.Parser.getParser("template", 
-							      new StringReader(taclanCode));
-	    parser.doParse();
-	    StratmasObject top = 
-		parser.getStratmasList(TypeFactory.getType("Root").getSubElement("simulation"));
-	    
-	    return (StratmasObject) top.children().nextElement();
-	} catch (SemanticException e) {
-	    StratmasDialog.showErrorMessageDialog(null, "Error imoporting ESRI file:\n" + filePath, 
-						 "Error imoporting ESRI file"); 
-	    return null;
-	} catch (SyntaxException e) {
-	    StratmasDialog.showErrorMessageDialog(null, "Error imoporting ESRI file:\n" + filePath, 
-						 "Error imoporting ESRI file");
-	    return null;
-	}
+        String taclanCode = 
+            "CommonSimulation 'simulation' { \n" +
+            "timeStepper = ConstantStepper { dt = 86400000 } \n" +
+            "gridPartitioner = SquarePartitioner { cellSizeMeters = 10000.0 } \n" +
+            "CommonScenario 'scenario' { \n" +
+            "map = Composite { shape = { import \"" + filePath + "\" } } \n" +
+            "disease = Disease { description = \"None\" infectionRate = 0.0 recoveryRate = 0.0 " +
+            "mortalityRate = 0.0 } \n " +
+            "HDI = 0.0 unemployment = 0.0 }" +
+            "startTime = 0 }";
+            
+        try {
+            // Try to parse the String. Expect to get a StratmasList
+            // containing a simulation import.
+            
+            StratmasClient.TaclanV2.Parser parser = null;
+            
+            parser = StratmasClient.TaclanV2.Parser.getParser("template", 
+                                                              new StringReader(taclanCode));
+            parser.doParse();
+            StratmasObject top = 
+                parser.getStratmasList(TypeFactory.getType("Root").getSubElement("simulation"));
+            
+            return (StratmasObject) top.children().nextElement();
+        } catch (SemanticException e) {
+            StratmasDialog.showErrorMessageDialog(null, "Error imoporting ESRI file:\n" + filePath, 
+                                                 "Error imoporting ESRI file"); 
+            return null;
+        } catch (SyntaxException e) {
+            StratmasDialog.showErrorMessageDialog(null, "Error imoporting ESRI file:\n" + filePath, 
+                                                 "Error imoporting ESRI file");
+            return null;
+        }
     }
 
 
@@ -437,23 +437,23 @@ public class TaclanV2Utils
      */
     public static StratmasObject importTaclanV2String(String taclanCode)
     {
-	try {
-	    // Try to parse the String.
-	    StratmasClient.TaclanV2.Parser parser = 
-		StratmasClient.TaclanV2.Parser.getParser("template", 
-							 new StringReader(taclanCode));
-	    parser.doParse();
-	    StratmasObject top = parser.getStratmasList(new Declaration(TypeFactory.getType("Identifiable"), "", 0, 0, true));
-	    if (!top.isLeaf()) {
-		return top;
-	    } else {
-		return null;
-	    }
-	} catch (SemanticException e) {
-	    return null;
-	} catch (SyntaxException e) {
-	    return null;
-	}
+        try {
+            // Try to parse the String.
+            StratmasClient.TaclanV2.Parser parser = 
+                StratmasClient.TaclanV2.Parser.getParser("template", 
+                                                         new StringReader(taclanCode));
+            parser.doParse();
+            StratmasObject top = parser.getStratmasList(new Declaration(TypeFactory.getType("Identifiable"), "", 0, 0, true));
+            if (!top.isLeaf()) {
+                return top;
+            } else {
+                return null;
+            }
+        } catch (SemanticException e) {
+            return null;
+        } catch (SyntaxException e) {
+            return null;
+        }
     }
 
     /**
@@ -465,16 +465,16 @@ public class TaclanV2Utils
      */
     public static void exportToTaclanV2(StratmasObject object, String filename)
     {
-	try {
-	    OutputStreamWriter writer = 
-		new OutputStreamWriter(new FileOutputStream(filename));
-	    writer.write(object.toTaclanV2());
-	    writer.close();
-	} catch (IOException e) {
-	    StratmasDialog.showErrorMessageDialog(null, "File error\n" + 
-						  e.getMessage(), 
-						  "File error"); 
-	}
+        try {
+            OutputStreamWriter writer = 
+                new OutputStreamWriter(new FileOutputStream(filename));
+            writer.write(object.toTaclanV2());
+            writer.close();
+        } catch (IOException e) {
+            StratmasDialog.showErrorMessageDialog(null, "File error\n" + 
+                                                  e.getMessage(), 
+                                                  "File error"); 
+        }
     }
 
     /**
@@ -485,13 +485,13 @@ public class TaclanV2Utils
      */
     public static void exportToTaclanV2(StratmasObject object)
     {
-	JFileChooser chooser = 
-	    new JFileChooser(System.getProperty("user.dir"));
-	chooser.addChoosableFileFilter(new StratmasClient.TaclanV2.Taclan2FileFilter());
-	if (chooser.showSaveDialog(null) != JFileChooser.APPROVE_OPTION) {
-	} else {
-	    exportToTaclanV2(object, chooser.getSelectedFile().getPath());
-	}
+        JFileChooser chooser = 
+            new JFileChooser(System.getProperty("user.dir"));
+        chooser.addChoosableFileFilter(new StratmasClient.TaclanV2.Taclan2FileFilter());
+        if (chooser.showSaveDialog(null) != JFileChooser.APPROVE_OPTION) {
+        } else {
+            exportToTaclanV2(object, chooser.getSelectedFile().getPath());
+        }
     }
 
     /**
@@ -499,35 +499,35 @@ public class TaclanV2Utils
      */
     public static String getESRIFile()
     {
-	JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
-	StratmasClient.TaclanV2.Taclan2FileFilter filter = 
-	    new StratmasClient.TaclanV2.Taclan2FileFilter()
-	    {
-		public boolean accept(File f) {
-		    if (f.isDirectory()) {
-			return true;
-		    }
-		    String extension = getExtension(f);
-		    if (extension != null) {
-			if (extension.equalsIgnoreCase("shp")) {
-			    return true;
-			}
-		    }
-		    return false;
-		}
-		
-		public String getDescription() 
-		{
-		    return "ESRI Shape files";
-		}
-	    };
-	chooser.setFileFilter(filter);
-	if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {	
-	    return chooser.getSelectedFile().getPath();
-	}
-	else {
-	    return null;
-	}
+        JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
+        StratmasClient.TaclanV2.Taclan2FileFilter filter = 
+            new StratmasClient.TaclanV2.Taclan2FileFilter()
+            {
+                public boolean accept(File f) {
+                    if (f.isDirectory()) {
+                        return true;
+                    }
+                    String extension = getExtension(f);
+                    if (extension != null) {
+                        if (extension.equalsIgnoreCase("shp")) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+                
+                public String getDescription() 
+                {
+                    return "ESRI Shape files";
+                }
+            };
+        chooser.setFileFilter(filter);
+        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {        
+            return chooser.getSelectedFile().getPath();
+        }
+        else {
+            return null;
+        }
     }
 
 }

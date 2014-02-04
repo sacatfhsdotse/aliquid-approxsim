@@ -1,4 +1,4 @@
-// 	$Id: StratmasInteger.java,v 1.3 2006/04/10 09:45:55 dah Exp $
+//         $Id: StratmasInteger.java,v 1.3 2006/04/10 09:45:55 dah Exp $
 /*
  * @(#)StratmasInteger.java
  */
@@ -38,8 +38,8 @@ public class StratmasInteger extends StratmasSimple
      */
     protected StratmasInteger(String identifier, Type type, long value)
     {
-	super(identifier, type);
-	this.value = value;
+        super(identifier, type);
+        this.value = value;
     }
 
     /**
@@ -50,8 +50,8 @@ public class StratmasInteger extends StratmasSimple
      */
     protected StratmasInteger(Declaration declaration, long value)
     {
-	super(declaration);
-	this.value = value;
+        super(declaration);
+        this.value = value;
     }
 
     /**
@@ -59,12 +59,12 @@ public class StratmasInteger extends StratmasSimple
      */
     public String valueToString()
     {
-	return Long.toString(this.value);
+        return Long.toString(this.value);
     }
 
     public long getValue()
     {
-	return value;
+        return value;
     }
 
     /**
@@ -75,8 +75,8 @@ public class StratmasInteger extends StratmasSimple
      */
     private void setValue(long newValue, Object initiator)
     {
-	this.value = newValue;
-	fireValueChanged(initiator);
+        this.value = newValue;
+        fireValueChanged(initiator);
     }
 
     /**
@@ -87,7 +87,7 @@ public class StratmasInteger extends StratmasSimple
      */
     public void setValue(long newValue)
     {
-	setValue(newValue, null);
+        setValue(newValue, null);
     }
 
     /**
@@ -98,17 +98,17 @@ public class StratmasInteger extends StratmasSimple
      * @throws ParseException if str is not a valid double.
      */
     public void valueFromString(String str, Object initiator) 
-	throws ParseException
+        throws ParseException
     {
-	try {
-	    long test = Long.parseLong(str);
-	    
-	    if(test != getValue()) {
-		setValue(test, initiator);
-	    }
-	} catch (NumberFormatException e) {
-	    throw new ParseException(e.getMessage(), 0);
-	}
+        try {
+            long test = Long.parseLong(str);
+            
+            if(test != getValue()) {
+                setValue(test, initiator);
+            }
+        } catch (NumberFormatException e) {
+            throw new ParseException(e.getMessage(), 0);
+        }
     }
 
     /**
@@ -119,7 +119,7 @@ public class StratmasInteger extends StratmasSimple
      */
     protected static StratmasGUIConstructor getGUIConstructor(Declaration declaration)
     {
-	return new StratmasIntegerGUIConstructor(declaration); 
+        return new StratmasIntegerGUIConstructor(declaration); 
     }
     
     /**
@@ -128,13 +128,13 @@ public class StratmasInteger extends StratmasSimple
      * @param n The dom element from which the object is created.
      */
      protected static StratmasObject domCreate(Element n) {
-	 try {
-	      return new StratmasInteger(Identifier.getIdentifier(n),
-					 TypeFactory.getType(n),
-					 XMLHelper.getLong(n, "value"));
-	 } catch (NumberFormatException e) {
-	     return null;
-	 }	
+         try {
+              return new StratmasInteger(Identifier.getIdentifier(n),
+                                         TypeFactory.getType(n),
+                                         XMLHelper.getLong(n, "value"));
+         } catch (NumberFormatException e) {
+             return null;
+         }        
      }
 
     /**
@@ -146,7 +146,7 @@ public class StratmasInteger extends StratmasSimple
      */
     protected static StratmasObject defaultCreate(Declaration declaration) 
     {
-	return new StratmasInteger(declaration, 0);
+        return new StratmasInteger(declaration, 0);
     }
     
     /**
@@ -159,7 +159,7 @@ public class StratmasInteger extends StratmasSimple
      * @return A clone of this object.
      */
      protected Object clone() {
-	  return new StratmasInteger(identifier, type, value);
+          return new StratmasInteger(identifier, type, value);
      }
 }
 
@@ -182,7 +182,7 @@ class StratmasIntegerGUIConstructor extends StratmasGUIConstructor
      */
     public StratmasIntegerGUIConstructor(Declaration declaration)
     {
-	super(declaration);
+        super(declaration);
     }
 
     /**
@@ -190,9 +190,9 @@ class StratmasIntegerGUIConstructor extends StratmasGUIConstructor
      */    
     protected void buildPanel()
     {
-	this.add(new javax.swing.JLabel(declaration.getName()));
-	this.field = new javax.swing.JTextField(10);
-	this.add(this.field);
+        this.add(new javax.swing.JLabel(declaration.getName()));
+        this.field = new javax.swing.JTextField(10);
+        this.add(this.field);
     }
 
     /**
@@ -200,10 +200,10 @@ class StratmasIntegerGUIConstructor extends StratmasGUIConstructor
      */
     protected void createStratmasObject()
     {
-	try {
-	    setStratmasObject(new StratmasInteger(this.declaration, Long.parseLong(field.getText())));
-	} catch (NumberFormatException e) {
-	    setStratmasObject(null);
-	}	
+        try {
+            setStratmasObject(new StratmasInteger(this.declaration, Long.parseLong(field.getText())));
+        } catch (NumberFormatException e) {
+            setStratmasObject(null);
+        }        
     }
 }

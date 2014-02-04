@@ -1,4 +1,4 @@
-// 	$Id: ParsedInteger.java,v 1.8 2006/03/31 16:55:50 dah Exp $
+//         $Id: ParsedInteger.java,v 1.8 2006/03/31 16:55:50 dah Exp $
 /*
  * @(#)ParsedInteger.java
  */
@@ -26,8 +26,8 @@ public class ParsedInteger extends ParsedPrimitive
      */
     public ParsedInteger(SourcePosition pos, String value) throws SemanticException
     {
-	super(pos);
-	this.value = value;
+        super(pos);
+        this.value = value;
     }
 
     /**
@@ -35,6 +35,6 @@ public class ParsedInteger extends ParsedPrimitive
      */
     public String valueToString()
     {
-	return value;
+        return value;
     }
 }

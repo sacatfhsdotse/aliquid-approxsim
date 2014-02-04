@@ -16,8 +16,8 @@
  * request it will consult provided fallback resolver, if any.
  */
 MemEntityResolver::MemEntityResolver(XMLEntityResolver 
-				     *xmlEntityResolverFallback,
-				     EntityResolver *entityResolverFallback) : 
+                                     *xmlEntityResolverFallback,
+                                     EntityResolver *entityResolverFallback) : 
      mpXMLEntityResolverFallback(xmlEntityResolverFallback),
      mpEntityResolverFallback(entityResolverFallback)
 {
@@ -58,11 +58,11 @@ InputSource* MemEntityResolver::resolve(const std::string& systemId)
      // Look for schemas included during compilation
      const char* const compiled = ::file2h_lookup(systemId.c_str());
      if (compiled != 0) {
-	  MemBufInputSource *memBuf = 
-	       new MemBufInputSource((XMLByte*) compiled, strlen(compiled),
-				     XStr(systemId.c_str()).str());
-	  memBuf->setCopyBufToStream(false);
-	  pRes = memBuf;	       
+          MemBufInputSource *memBuf = 
+               new MemBufInputSource((XMLByte*) compiled, strlen(compiled),
+                                     XStr(systemId.c_str()).str());
+          memBuf->setCopyBufToStream(false);
+          pRes = memBuf;               
      }
 
      return pRes;
@@ -79,29 +79,29 @@ InputSource* MemEntityResolver::resolve(const std::string& systemId)
  * is responsible to clean up the memory.
  */
 InputSource* MemEntityResolver::resolveEntity(XMLResourceIdentifier 
-					      *resourceIdentifier)
+                                              *resourceIdentifier)
 {
      // Try ourselves
      InputSource *pRes = resolve(resourceIdentifier->getSystemId());
 
      if (pRes == 0 && mpXMLEntityResolverFallback != 0) {
-	  // On failure try fallback if available.
-	  pRes = 
-	       mpXMLEntityResolverFallback->resolveEntity(resourceIdentifier);
+          // On failure try fallback if available.
+          pRes = 
+               mpXMLEntityResolverFallback->resolveEntity(resourceIdentifier);
      }
 
      return pRes;
 }
 
 InputSource* MemEntityResolver::resolveEntity(const XMLCh *const publicId,
-					      const XMLCh *const systemId)
+                                              const XMLCh *const systemId)
 {
      // Try ourselves
      InputSource *pRes = resolve(systemId);;
 
      if (pRes == 0 && mpEntityResolverFallback != 0) {
-	  // On failure try fallback if available.
-	  pRes = mpEntityResolverFallback->resolveEntity(publicId, systemId);
+          // On failure try fallback if available.
+          pRes = mpEntityResolverFallback->resolveEntity(publicId, systemId);
      }
      
      return pRes;

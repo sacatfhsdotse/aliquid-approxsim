@@ -23,16 +23,16 @@ public class AboutBox {
       * Shows the about box.
       */
      static void show() {
-	  String theVersion = new String();
-	  if (version.matches("\\$" + "Name:\\s*\\$")) {
-	       theVersion = "under development...";
-	  }
-	  else {
-	       theVersion = version.replaceFirst("\\$" + "Name:\\s*", "").replaceFirst("\\s*\\$", "");
-	  }
+          String theVersion = new String();
+          if (version.matches("\\$" + "Name:\\s*\\$")) {
+               theVersion = "under development...";
+          }
+          else {
+               theVersion = version.replaceFirst("\\$" + "Name:\\s*", "").replaceFirst("\\s*\\$", "");
+          }
 
-	  String message = "Stratmas Client\n" + 
-	                    "   version: " + theVersion;
-	  JOptionPane.showMessageDialog(null, message, "About Stratmas Client", JOptionPane.PLAIN_MESSAGE);
+          String message = "Stratmas Client\n" + 
+                            "   version: " + theVersion;
+          JOptionPane.showMessageDialog(null, message, "About Stratmas Client", JOptionPane.PLAIN_MESSAGE);
      }
 }

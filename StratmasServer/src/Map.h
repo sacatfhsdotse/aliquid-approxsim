@@ -37,16 +37,16 @@ public:
      ~Map();
      
      /**
-      *	\brief Access the longitude of the center coordinate
-      *	
-      *	\return Longitude of the center coordinate
+      *        \brief Access the longitude of the center coordinate
+      *        
+      *        \return Longitude of the center coordinate
       */
      inline Shape& borders() const { return *mBorders; }
 
      /**
-      *	\brief Access the longitude of the center coordinate
-      *	
-      *	\return Longitude of the center coordinate
+      *        \brief Access the longitude of the center coordinate
+      *        
+      *        \return Longitude of the center coordinate
       */
      inline double cenLng() const { return mCenLng; }
 
@@ -58,51 +58,51 @@ public:
      inline double cenLat() const { return mCenLat; }
 
      /**
-      *	\brief Access the minimum x-value for the Map
-      *	
-      *	\return Minimum x-value for the Map
+      *        \brief Access the minimum x-value for the Map
+      *        
+      *        \return Minimum x-value for the Map
       */
      inline double minX() const { return mMinX; }
 
      /**
-      *	\brief Access the maximum x-value for the Map
-      *	
-      *	\return Maximum x-value for the Map
+      *        \brief Access the maximum x-value for the Map
+      *        
+      *        \return Maximum x-value for the Map
       */
      inline double maxX() const { return mMaxX; }
 
      /**
-      *	\brief Access the minimum y-value for the Map
-      *	
-      *	\return Minimum y-value for the Map
+      *        \brief Access the minimum y-value for the Map
+      *        
+      *        \return Minimum y-value for the Map
       */
      inline double minY() const { return mMinY; }
 
      /**
-      *	\brief Access the maximum y-value for the Map
-      *	
-      *	\return Maximum y-value for the Map
+      *        \brief Access the maximum y-value for the Map
+      *        
+      *        \return Maximum y-value for the Map
       */
      inline double maxY() const { return mMaxY; }
 
      /**
-      *	\brief Access the width of the Map
-      *	
-      *	\return Width of the Map
+      *        \brief Access the width of the Map
+      *        
+      *        \return Width of the Map
       */
      inline double width()  const { return mMaxX - mMinX; }
 
      /**
-      *	\brief Access the height of the Map
-      *	
-      *	\return Height of the Map
+      *        \brief Access the height of the Map
+      *        
+      *        \return Height of the Map
       */
      inline double height() const { return mMaxY - mMinY; }
 
      /**
-      *	\brief Access the current Projection
-      *	
-      *	\return Current Projection
+      *        \brief Access the current Projection
+      *        
+      *        \return Current Projection
       */
      inline const Projection &proj() const { return *mProj; }
 

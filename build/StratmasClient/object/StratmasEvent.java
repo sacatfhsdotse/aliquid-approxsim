@@ -44,8 +44,8 @@ public class StratmasEvent extends java.util.EventObject {
       * this is.
       */
      protected StratmasEvent(Object source, String message) {
-	  super(source);
-	  this.message = message;
+          super(source);
+          this.message = message;
      }
     
      /**
@@ -58,9 +58,9 @@ public class StratmasEvent extends java.util.EventObject {
       * @param arg An optional argument.
       */
      protected StratmasEvent(Object source, String message, Object initiator, Object arg) {
-	  this(source, message);
-	  mInitiator = initiator;
-	  mArgument  = arg;
+          this(source, message);
+          mInitiator = initiator;
+          mArgument  = arg;
      }
     
      /**
@@ -69,7 +69,7 @@ public class StratmasEvent extends java.util.EventObject {
       * @return The message.
       */
      public String getStratmasMessage() {
-	  return message;
+          return message;
      }
         
      /**
@@ -78,7 +78,7 @@ public class StratmasEvent extends java.util.EventObject {
       * @return The initiator.
       */
      public Object getInitiator() {
-	  return mInitiator;
+          return mInitiator;
      }
         
      /**
@@ -87,7 +87,7 @@ public class StratmasEvent extends java.util.EventObject {
       * @return The argument.
       */
      public Object getArgument() {
-	  return mArgument;
+          return mArgument;
      }
     
      /**
@@ -99,7 +99,7 @@ public class StratmasEvent extends java.util.EventObject {
       * @return The newly created event.
       */
      public static StratmasEvent getGeneric(Object source) {
-	  return new StratmasEvent(source, GENERIC);
+          return new StratmasEvent(source, GENERIC);
      }
      
      /**
@@ -108,7 +108,7 @@ public class StratmasEvent extends java.util.EventObject {
       * @return true if this is an Generic event, false otherwise.
       */
      public boolean isGeneric() {
-	  return GENERIC.equals(message);
+          return GENERIC.equals(message);
      }
     
      /**
@@ -123,7 +123,7 @@ public class StratmasEvent extends java.util.EventObject {
       * @return The newly created event.
       */
      public static StratmasEvent getObjectAdded(Object source, StratmasObject added, Object initiator) {
-	  return new StratmasEvent(source, OBJECTADDED, initiator, added);
+          return new StratmasEvent(source, OBJECTADDED, initiator, added);
      }
     
      /**
@@ -132,7 +132,7 @@ public class StratmasEvent extends java.util.EventObject {
       * @return true if this is an ObjectAdded event, false otherwise.
       */
      public boolean isObjectAdded() {
-	  return OBJECTADDED.equals(message);
+          return OBJECTADDED.equals(message);
      }
     
      /**
@@ -141,7 +141,7 @@ public class StratmasEvent extends java.util.EventObject {
       * @return true if this is an ObjectCreated event, false otherwise.
       */
      public boolean isObjectCreated() {
-	  return OBJECTCREATED.equals(message);
+          return OBJECTCREATED.equals(message);
      }
     
      /**
@@ -155,7 +155,7 @@ public class StratmasEvent extends java.util.EventObject {
       * @return The newly created event.
       */
      public static StratmasEvent getRemoved(Object source, Object initiator) {
-	  return new StratmasEvent(source, REMOVED, initiator, null);
+          return new StratmasEvent(source, REMOVED, initiator, null);
      }
     
      /**
@@ -165,7 +165,7 @@ public class StratmasEvent extends java.util.EventObject {
       * otherwise.
       */
      public boolean isRemoved() {
-	  return REMOVED.equals(message);
+          return REMOVED.equals(message);
      }
     
      /**
@@ -181,9 +181,9 @@ public class StratmasEvent extends java.util.EventObject {
       * @return The newly created event.
       */
      public static StratmasEvent getReplaced(Object source,
-					     Object initiator,
-					     StratmasObject newObject) {
-	  return new StratmasEvent(source, REPLACED, initiator, newObject);
+                                             Object initiator,
+                                             StratmasObject newObject) {
+          return new StratmasEvent(source, REPLACED, initiator, newObject);
      }
     
      /**
@@ -193,7 +193,7 @@ public class StratmasEvent extends java.util.EventObject {
       * otherwise.
       */
      public boolean isReplaced() {
-	  return REPLACED.equals(message);
+          return REPLACED.equals(message);
      }
     
      /**
@@ -209,9 +209,9 @@ public class StratmasEvent extends java.util.EventObject {
       * @return The newly created event.
       */
      public static StratmasEvent getChildChanged(Object source,
-						 Object initiator,
-						 StratmasObject changed) {
-	  return new StratmasEvent(source, CHILDCHANGED, initiator, changed);
+                                                 Object initiator,
+                                                 StratmasObject changed) {
+          return new StratmasEvent(source, CHILDCHANGED, initiator, changed);
      }
     
      /**
@@ -221,7 +221,7 @@ public class StratmasEvent extends java.util.EventObject {
       * otherwise.
       */
      public boolean isChildChanged() {
-	  return CHILDCHANGED.equals(message);
+          return CHILDCHANGED.equals(message);
      }
     
      /**
@@ -236,7 +236,7 @@ public class StratmasEvent extends java.util.EventObject {
       * @return The newly created event.
       */
      public static StratmasEvent getSubscriptionHandled(Object source, Timestamp time) {
-	  return new StratmasEvent(source, SUBSCRIPTIONHANDLED, null, time);
+          return new StratmasEvent(source, SUBSCRIPTIONHANDLED, null, time);
      }
     
      /**
@@ -246,7 +246,7 @@ public class StratmasEvent extends java.util.EventObject {
       * otherwise.
       */
      public boolean isSubscriptionHandled() {
-	  return SUBSCRIPTIONHANDLED.equals(message);
+          return SUBSCRIPTIONHANDLED.equals(message);
      }
     
      /**
@@ -261,7 +261,7 @@ public class StratmasEvent extends java.util.EventObject {
       * @return The newly created event.
       */
      public static StratmasEvent getValueChanged(Object source, Object initiator) {
-	  return new StratmasEvent(source, VALUECHANGED, initiator, null);
+          return new StratmasEvent(source, VALUECHANGED, initiator, null);
      }
     
      /**
@@ -271,7 +271,7 @@ public class StratmasEvent extends java.util.EventObject {
       * otherwise.
       */
      public boolean isValueChanged() {
-	  return VALUECHANGED.equals(message);
+          return VALUECHANGED.equals(message);
      }
     
      /**
@@ -286,7 +286,7 @@ public class StratmasEvent extends java.util.EventObject {
       * @return The newly created event.
       */
      public static StratmasEvent getSelected(Object source) {
-	  return new StratmasEvent(source, SELECTED);
+          return new StratmasEvent(source, SELECTED);
      }
 
      /**
@@ -295,7 +295,7 @@ public class StratmasEvent extends java.util.EventObject {
       * @return true if this is a Selected event, false otherwise.
       */
      public boolean isSelected() {
-	  return SELECTED.equals(message);
+          return SELECTED.equals(message);
      }
     
      /**
@@ -310,7 +310,7 @@ public class StratmasEvent extends java.util.EventObject {
       * @return The newly created event.
       */
      public static StratmasEvent getUnselected(Object source) {
-	  return new StratmasEvent(source, UNSELECTED);
+          return new StratmasEvent(source, UNSELECTED);
      }
 
      /**
@@ -319,7 +319,7 @@ public class StratmasEvent extends java.util.EventObject {
       * @return true if this is a Unselected event, false otherwise.
       */
      public boolean isUnselected() {
-	  return UNSELECTED.equals(message);
+          return UNSELECTED.equals(message);
      }
 
     
@@ -333,8 +333,8 @@ public class StratmasEvent extends java.util.EventObject {
      * 
      */
     public static StratmasEvent getRegionUpdated(Object source) {
-	return new StratmasEvent(source, REGIONUPDATED);
-    }	
+        return new StratmasEvent(source, REGIONUPDATED);
+    }        
 
     /**
      * Checks if this is a RegionUpdated event.
@@ -342,7 +342,7 @@ public class StratmasEvent extends java.util.EventObject {
      * @return true if this is a RegionUpdated event, false otherwise.
      */
     public boolean isRegionUpdated() {
-	return REGIONUPDATED.equals(message);
+        return REGIONUPDATED.equals(message);
     }
 
     /**
@@ -353,8 +353,8 @@ public class StratmasEvent extends java.util.EventObject {
      *               triggered.
      */
     public static StratmasEvent getGridUpdated(Object source) {
-	return new StratmasEvent(source, GRIDUPDATED);
-    }	
+        return new StratmasEvent(source, GRIDUPDATED);
+    }        
 
     /**
      * Checks if this is a GridUpdated event.
@@ -362,7 +362,7 @@ public class StratmasEvent extends java.util.EventObject {
      * @return true if this is a GridUpdated event, false otherwise.
      */
     public boolean isGridUpdated() {
-	return GRIDUPDATED.equals(message);
+        return GRIDUPDATED.equals(message);
     }
     
     /**
@@ -373,8 +373,8 @@ public class StratmasEvent extends java.util.EventObject {
      *               triggered.
      */
     public static StratmasEvent getGraticulesUpdated(Object source) {
-	return new StratmasEvent(source, GRATICULESUPDATED);
-    }	
+        return new StratmasEvent(source, GRATICULESUPDATED);
+    }        
 
     /**
      * Checks if this is a GraticulesUpdated event.
@@ -382,7 +382,7 @@ public class StratmasEvent extends java.util.EventObject {
      * @return true if this is a GraticulesUpdated event, false otherwise.
      */
     public boolean areGraticulesUpdated() {
-	return GRATICULESUPDATED.equals(message);
+        return GRATICULESUPDATED.equals(message);
     }
     
     /**
@@ -393,8 +393,8 @@ public class StratmasEvent extends java.util.EventObject {
      *               triggered.
      */
     public static StratmasEvent getCoordSystemChanged(Object source) {
-	return new StratmasEvent(source, COORDSYSTEMCHANGED);
-    }	
+        return new StratmasEvent(source, COORDSYSTEMCHANGED);
+    }        
     
     /**
      * Checks if this is a CoordSystemChanged event.
@@ -402,7 +402,7 @@ public class StratmasEvent extends java.util.EventObject {
      * @return true if this is a CoordSystemChangedUpdated event, false otherwise.
      */
     public boolean isCoordSystemChanged() {
-	return COORDSYSTEMCHANGED.equals(message);
+        return COORDSYSTEMCHANGED.equals(message);
     }
     
      /**
@@ -417,8 +417,8 @@ public class StratmasEvent extends java.util.EventObject {
       * @return The newly created event.
       */
      public static StratmasEvent getIdentifierChanged(Object source,
-						      String oldIdentifier) {
-	  return new StratmasEvent(source, IDENTIFIERCHANGED, null, oldIdentifier);
+                                                      String oldIdentifier) {
+          return new StratmasEvent(source, IDENTIFIERCHANGED, null, oldIdentifier);
      }
     
      /**
@@ -428,7 +428,7 @@ public class StratmasEvent extends java.util.EventObject {
       * otherwise.
       */
      public boolean isIdentifierChanged() {
-	  return IDENTIFIERCHANGED.equals(message);
+          return IDENTIFIERCHANGED.equals(message);
      }
     
     /**
@@ -437,6 +437,6 @@ public class StratmasEvent extends java.util.EventObject {
      * @return the message of the event.
      */
     public String toString() {
-	return message;
+        return message;
      }
 }

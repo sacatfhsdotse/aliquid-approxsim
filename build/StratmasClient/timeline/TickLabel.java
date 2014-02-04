@@ -33,54 +33,54 @@ public class TickLabel extends JLabel{
      * The constructor.
      */
     public TickLabel(int lineIndicator, Color color) {
-	this.lineIndicator = lineIndicator;
-	this.color = color;
+        this.lineIndicator = lineIndicator;
+        this.color = color;
     }
 
     /**
      * Draws the paint ticks.
      */
     protected void paintComponent(Graphics g) {
-	// let UI delegate paint first 
-	super.paintComponent(g); 
-	// paint my contents next....
-	int yLine = (lineIndicator == NORTH) ? 0 : this.getHeight() - 1;
-	g.setColor(color);
-	// draw horizontal lines
-	g.drawLine(0, yLine, this.getWidth() - 1, yLine);
-	// draw vertical lines
-	int tickNr = getPaintTickNumber();
-	double tickWidth = this.getWidth() * 1.0 / tickNr;
-	// draw paint ticks
-	g.drawLine(0, 0, 0, this.getHeight());
-	int i = 1;
-	while (i < tickNr) {
-	    int x = (int) (i * tickWidth);
-	    int y = 0;
-	    if (lineIndicator == NORTH) { 
-		y = (i % 10 == 0) ? this.getHeight() : this.getHeight() / 3;
-	    }
-	    else {
-		y = (i % 10 == 0) ? 0 : 2 * this.getHeight() / 3;
-	    }
-	    g.drawLine(x, yLine, x, y);
-	    i++;
-	}
-	g.drawLine(this.getWidth() - 1, 0, this.getWidth() - 1, this.getHeight());
+        // let UI delegate paint first 
+        super.paintComponent(g); 
+        // paint my contents next....
+        int yLine = (lineIndicator == NORTH) ? 0 : this.getHeight() - 1;
+        g.setColor(color);
+        // draw horizontal lines
+        g.drawLine(0, yLine, this.getWidth() - 1, yLine);
+        // draw vertical lines
+        int tickNr = getPaintTickNumber();
+        double tickWidth = this.getWidth() * 1.0 / tickNr;
+        // draw paint ticks
+        g.drawLine(0, 0, 0, this.getHeight());
+        int i = 1;
+        while (i < tickNr) {
+            int x = (int) (i * tickWidth);
+            int y = 0;
+            if (lineIndicator == NORTH) { 
+                y = (i % 10 == 0) ? this.getHeight() : this.getHeight() / 3;
+            }
+            else {
+                y = (i % 10 == 0) ? 0 : 2 * this.getHeight() / 3;
+            }
+            g.drawLine(x, yLine, x, y);
+            i++;
+        }
+        g.drawLine(this.getWidth() - 1, 0, this.getWidth() - 1, this.getHeight());
     }
     
      /**
      * Updates the label.
      */ 
     public void update(int intervalLength) {
-	this.intervalLength = intervalLength;
-	this.repaint();
+        this.intervalLength = intervalLength;
+        this.repaint();
     }
 
     /**
      * Returns the number of paint ticks.
      */
     protected int getPaintTickNumber() {
-	return (intervalLength <= 10)? 10 : 100;
+        return (intervalLength <= 10)? 10 : 100;
     }
 }

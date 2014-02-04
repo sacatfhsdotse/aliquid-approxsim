@@ -1,4 +1,4 @@
-// 	$Id: Curve.java,v 1.3 2006/03/31 16:55:51 dah Exp $
+//         $Id: Curve.java,v 1.3 2006/03/31 16:55:51 dah Exp $
 /*
  * @(#)Curve.java
  */
@@ -25,7 +25,7 @@ public abstract class Curve extends StratmasObjectImpl
      */
     Curve(String identifier)
     {
-	super(identifier);
+        super(identifier);
     }
 
     /**
@@ -45,11 +45,11 @@ public abstract class Curve extends StratmasObjectImpl
       *
       * @param child the child that changed
       */
-     public void childChanged(StratmasObject child, Object initiator) {	
-	 if (getParent() != null) {
-	     getParent().childChanged(this, initiator);
-	 }
-	 fireChildChanged(child, initiator);
+     public void childChanged(StratmasObject child, Object initiator) {        
+         if (getParent() != null) {
+             getParent().childChanged(this, initiator);
+         }
+         fireChildChanged(child, initiator);
      }
 
     /**

@@ -79,11 +79,11 @@ public:
       * have.
       */
      GridAction(Grid& e,
-		       const Shape& area,
-		       const Element* performer,
-		       const std::vector<GridEffect> &effects,
-		       double fraction)
-	  : Action(e), mLocation(area), mPerformer(performer), mEffects(effects), mFraction(fraction) {}
+                       const Shape& area,
+                       const Element* performer,
+                       const std::vector<GridEffect> &effects,
+                       double fraction)
+          : Action(e), mLocation(area), mPerformer(performer), mEffects(effects), mFraction(fraction) {}
 
      /**
       * \brief Gets the area
@@ -113,9 +113,9 @@ public:
       * \return The specified effect.
       */
      GridEffect effect(int index) const {
-	  GridEffect e = mEffects[index];
-	  e.mSeverity *= mFraction;
-	  return e;
+          GridEffect e = mEffects[index];
+          e.mSeverity *= mFraction;
+          return e;
      }
 };
 

@@ -19,18 +19,18 @@ string Error::typeStr() const
 {
      switch (mType) {
      case eWarning:
-	  return "warning";
-	  break;
+          return "warning";
+          break;
      case eGeneral:
-	  return "general";
-	  break;
+          return "general";
+          break;
      case eFatal:
-	  return "fatal";
-	  break;
+          return "fatal";
+          break;
      default:
-	  // Unknown error type must be fatal...
-	  return "fatal";
-	  break;
+          // Unknown error type must be fatal...
+          return "fatal";
+          break;
      }
 }
 

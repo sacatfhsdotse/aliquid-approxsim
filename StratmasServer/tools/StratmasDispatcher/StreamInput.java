@@ -1,4 +1,4 @@
-// 	$Id: StreamInput.java,v 1.1 2005/09/14 10:09:00 dah Exp $
+//         $Id: StreamInput.java,v 1.1 2005/09/14 10:09:00 dah Exp $
 /*
  * @(#)StreamInput.java
  */
@@ -45,8 +45,8 @@ public class StreamInput extends XMLInputSource implements LSInput
      */
     StreamInput(InputStream stream, String systemId)
     {
-	super(null, systemId, null);
-	setByteStream(stream);
+        super(null, systemId, null);
+        setByteStream(stream);
     }
 
     /**
@@ -57,8 +57,8 @@ public class StreamInput extends XMLInputSource implements LSInput
      */
     StreamInput(InputStream stream, XMLResourceIdentifier identifier)
     {
-	super(identifier);
-	setByteStream(stream);
+        super(identifier);
+        setByteStream(stream);
     }
 
     /**
@@ -67,7 +67,7 @@ public class StreamInput extends XMLInputSource implements LSInput
      */
     public String getStringData()
     {
-	return this.stringData;
+        return this.stringData;
     }
 
     /**
@@ -76,7 +76,7 @@ public class StreamInput extends XMLInputSource implements LSInput
      */
     public void setStringData(String stringData)
     {
-	this.stringData = stringData;
+        this.stringData = stringData;
     }
 
     /**
@@ -87,7 +87,7 @@ public class StreamInput extends XMLInputSource implements LSInput
      */
     public String getBaseURI()
     {
-	return this.baseURI;
+        return this.baseURI;
     }
 
     /**
@@ -98,7 +98,7 @@ public class StreamInput extends XMLInputSource implements LSInput
      */
     public void setBaseURI(String baseURI)
     {
-	this.baseURI = baseURI;
+        this.baseURI = baseURI;
     }
 
     /**
@@ -108,7 +108,7 @@ public class StreamInput extends XMLInputSource implements LSInput
      */
     public boolean getCertifiedText()
     {
-	return this.certifiedText;
+        return this.certifiedText;
     }
     
     /**
@@ -118,6 +118,6 @@ public class StreamInput extends XMLInputSource implements LSInput
      */
     public void setCertifiedText(boolean certifiedText)
     {
-	this.certifiedText = certifiedText;
+        this.certifiedText = certifiedText;
     }
 }

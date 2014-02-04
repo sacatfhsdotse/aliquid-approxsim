@@ -16,8 +16,8 @@ IFS=":"
 for JAR in $CLASSPATH; do 
     IFS="OLDIFS"
     if [[ -f "$JAR" ]]; then
-	echo Processing "$JAR"
-	jar xf "$JAR"
+        echo Processing "$JAR"
+        jar xf "$JAR"
     fi
 done
 IFS="$OLDIFS"

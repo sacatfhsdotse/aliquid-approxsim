@@ -1,4 +1,4 @@
-// 	$Id: IdentifierRegexFilter.java,v 1.3 2006/03/22 14:30:50 dah Exp $
+//         $Id: IdentifierRegexFilter.java,v 1.3 2006/03/22 14:30:50 dah Exp $
 /*
  * @(#)IdentifierRegexfilter.java
  */
@@ -29,9 +29,9 @@ public class IdentifierRegexFilter extends StratmasObjectFilter
      * @param regex the regex to match against.
      */
     public IdentifierRegexFilter(String regex)
-    {	
-	super();
-	setRegex(regex);
+    {        
+        super();
+        setRegex(regex);
     }
 
     /**
@@ -41,7 +41,7 @@ public class IdentifierRegexFilter extends StratmasObjectFilter
      */
     public void setRegex(String regex)
     {
-	this.regex = regex;
+        this.regex = regex;
     }
 
     /**
@@ -49,7 +49,7 @@ public class IdentifierRegexFilter extends StratmasObjectFilter
      */
     public String getIdentifierRegex()
     {
-	return this.regex;
+        return this.regex;
     }
 
     /**
@@ -59,6 +59,6 @@ public class IdentifierRegexFilter extends StratmasObjectFilter
      */
     public boolean pass(StratmasObject sObj)
     {
-	return applyInverted(sObj.getIdentifier().matches(getRegex()));
+        return applyInverted(sObj.getIdentifier().matches(getRegex()));
     }
 }

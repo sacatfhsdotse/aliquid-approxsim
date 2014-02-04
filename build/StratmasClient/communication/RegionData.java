@@ -48,7 +48,7 @@ public class RegionData {
       * @param region The region this data should refere to.
       */
      public RegionData(Shape region) {
-	  mRegion = region;
+          mRegion = region;
      }
 
      /**
@@ -58,10 +58,10 @@ public class RegionData {
       * listener has been removed.
       */
      public Subscription createSubscription(Client reportToWhenDone) {
-	  mClient = reportToWhenDone;
-	  Subscription sub = new RegionSubscription(this);
-	  mSubscriptionId = sub.id();
-	  return sub;
+          mClient = reportToWhenDone;
+          Subscription sub = new RegionSubscription(this);
+          mSubscriptionId = sub.id();
+          return sub;
      }
     
     /**
@@ -69,7 +69,7 @@ public class RegionData {
      */
     public Subscription createSubscription()
     {
-	return createSubscription(null);
+        return createSubscription(null);
     }
 
      /**
@@ -78,7 +78,7 @@ public class RegionData {
       * @return The Shape this data refers to.
       */
      public Shape getRegion() {
-	  return mRegion;
+          return mRegion;
      }
     
      /**
@@ -88,7 +88,7 @@ public class RegionData {
       * @return The simulation time for the last update of this object.
       */
      public Timestamp getTimestamp() {
-	  return mTimestamp;
+          return mTimestamp;
      }
     
      /**
@@ -98,7 +98,7 @@ public class RegionData {
       * @param listener The listener to add.
       */
      public synchronized void addListener(StratmasEventListener listener) {
-	  mListeners.add(listener);
+          mListeners.add(listener);
      }
 
      /**
@@ -107,20 +107,20 @@ public class RegionData {
       * @param listener The listener to remove.
       */
      public synchronized void removeListener(StratmasEventListener listener) {
-	  mListeners.remove(listener);
-	  if (mListeners.isEmpty()) {
-	      if (mClient != null) {
-		  mClient.unsubscribe(mSubscriptionId);
-		  mSubscriptionId = -1;
-	      }
-	  }
+          mListeners.remove(listener);
+          if (mListeners.isEmpty()) {
+              if (mClient != null) {
+                  mClient.unsubscribe(mSubscriptionId);
+                  mSubscriptionId = -1;
+              }
+          }
      }
     
     /**
      * Returns true if the subscription for this object exists.
      */
     public boolean subscriptionExists() {
-	return mSubscriptionId != -1;
+        return mSubscriptionId != -1;
     }
 
      /**
@@ -131,12 +131,12 @@ public class RegionData {
       *  all factions.
       */
      public synchronized Hashtable getPV() {
-	  Hashtable copy = new Hashtable();
-	  for (java.util.Enumeration en = mPV.keys(); en.hasMoreElements(); ) {
-	       Object key = en.nextElement();
-	       copy.put(key, getPV((String)key));
-	  }
-	  return copy;
+          Hashtable copy = new Hashtable();
+          for (java.util.Enumeration en = mPV.keys(); en.hasMoreElements(); ) {
+               Object key = en.nextElement();
+               copy.put(key, getPV((String)key));
+          }
+          return copy;
      }
 
      /**
@@ -148,16 +148,16 @@ public class RegionData {
       * all factions for the specified pv.
       */
      public synchronized Hashtable getPV(String pvName) {
-	  Hashtable toBeCopied = (Hashtable)mPV.get(pvName);
-	  if (toBeCopied != null) {
-	      Hashtable copy       = new Hashtable();
-	      for (java.util.Enumeration en = toBeCopied.keys(); en.hasMoreElements(); ) {
-		  Object key = en.nextElement();
-		  copy.put(key, toBeCopied.get(key));
-	      }
-	      return copy;
-	  }
-	  return null;
+          Hashtable toBeCopied = (Hashtable)mPV.get(pvName);
+          if (toBeCopied != null) {
+              Hashtable copy       = new Hashtable();
+              for (java.util.Enumeration en = toBeCopied.keys(); en.hasMoreElements(); ) {
+                  Object key = en.nextElement();
+                  copy.put(key, toBeCopied.get(key));
+              }
+              return copy;
+          }
+          return null;
      }
 
      /**
@@ -170,17 +170,17 @@ public class RegionData {
       * @return A copy of the specified pv for the specified faction.
       */
      public synchronized Double getPV(String pvName, String factionName) {
- 	 Hashtable table = (Hashtable) mPV.get(pvName);
-	 if (table != null) {
-	     Double d = (Double) table.get(factionName);
-	     if (d != null) {
-		 return new Double(d.doubleValue());
-	     } else {
-		 return null;
-	     }
-	 } else {
-	     return null;
-	 }
+          Hashtable table = (Hashtable) mPV.get(pvName);
+         if (table != null) {
+             Double d = (Double) table.get(factionName);
+             if (d != null) {
+                 return new Double(d.doubleValue());
+             } else {
+                 return null;
+             }
+         } else {
+             return null;
+         }
      }
 
      /**
@@ -190,35 +190,35 @@ public class RegionData {
       * @param t The simulation time for which the data is valid.
       */
      public synchronized void update(Element n, Timestamp t) {
-	  mTimestamp = t;
-	
-	  for (Node child = n.getFirstChild(); child != null; child = child.getNextSibling()) {
-	       if (child.getNodeType() == Node.ELEMENT_NODE && child.getNodeName().equals("pv")) {
-		    Element elem          = (Element)child;
-		    String name           = XMLHandler.getString(elem, "name");
-		    Hashtable factionHash = (Hashtable)mPV.get(name);
+          mTimestamp = t;
+        
+          for (Node child = n.getFirstChild(); child != null; child = child.getNextSibling()) {
+               if (child.getNodeType() == Node.ELEMENT_NODE && child.getNodeName().equals("pv")) {
+                    Element elem          = (Element)child;
+                    String name           = XMLHandler.getString(elem, "name");
+                    Hashtable factionHash = (Hashtable)mPV.get(name);
 
-		    if (factionHash == null) {
-			 factionHash = new Hashtable();
-			 mPV.put(name, factionHash);
-		    }
+                    if (factionHash == null) {
+                         factionHash = new Hashtable();
+                         mPV.put(name, factionHash);
+                    }
 
-		    double  value   = XMLHandler.getDouble(elem, "value");
-		    Element factionElem = XMLHandler.getFirstChildByTag(elem, "faction");
-		    String factionName;
-		    if (factionElem == null) {
-			 factionName = StratmasClient.StratmasConstants.factionAll;
-		    }
-		    else {
-			 factionName = Reference.getReference(factionElem).getIdentifier();
-		    }
-		    factionHash.put(factionName, new Double(value));
-	       }
-	  }
+                    double  value   = XMLHandler.getDouble(elem, "value");
+                    Element factionElem = XMLHandler.getFirstChildByTag(elem, "faction");
+                    String factionName;
+                    if (factionElem == null) {
+                         factionName = StratmasClient.StratmasConstants.factionAll;
+                    }
+                    else {
+                         factionName = Reference.getReference(factionElem).getIdentifier();
+                    }
+                    factionHash.put(factionName, new Double(value));
+               }
+          }
  
-	  StratmasEvent event = StratmasEvent.getGeneric(this);
-	  for(Iterator it = mListeners.iterator(); it.hasNext(); ) {
-	       ((StratmasEventListener)it.next()).eventOccured(event);
-	  }
+          StratmasEvent event = StratmasEvent.getGeneric(this);
+          for(Iterator it = mListeners.iterator(); it.hasNext(); ) {
+               ((StratmasEventListener)it.next()).eventOccured(event);
+          }
      }
 }

@@ -44,7 +44,7 @@ BasicGrid::BasicGrid(const Map& amap, double cellSizeMeters)
      // functions.
      mIndexToActive = new int[mCells];
      for (int i = 0; i < mCells; i++) {
-	  mIndexToActive[i] = kUndefinedActive;
+          mIndexToActive[i] = kUndefinedActive;
      }
 
      // Fetch cells covered by the map
@@ -54,22 +54,22 @@ BasicGrid::BasicGrid(const Map& amap, double cellSizeMeters)
      // Now only the cells covered by the map should be active so
      // start with considering all cells inactive.
      for (int i = 0; i < mCells; i++) {
-	  mIndexToActive[i] = kInactive;
+          mIndexToActive[i] = kInactive;
      }
      
 
      // Mapping between index and position in active array.
      for(list<GridPos>::iterator it = activeCells.begin(); it != activeCells.end(); it++) {
-	  mIndexToActive[it->r * mCols + it->c] = mActive;
-	  mActive++;
+          mIndexToActive[it->r * mCols + it->c] = mActive;
+          mActive++;
      }
      
      // Mapping between position in active array and index.
      mActiveToIndex = new int[mActive];
      for (int i = 0; i < mCells; i++) {
-	  if (mIndexToActive[i] != kInactive) {
-	       mActiveToIndex[mIndexToActive[i]] = i;
-	  }
+          if (mIndexToActive[i] != kInactive) {
+               mActiveToIndex[mIndexToActive[i]] = i;
+          }
      }
 }
 
@@ -144,18 +144,18 @@ void BasicGrid::setCellPositions()
      // row-wise from top left to bottom right i.e. [x0 y0 x1 y1...]
      float *tmpPos = new float[(mRows + 1) * (mCols + 1) * 2];
      for (int r = 0; r < mRows + 1; r++) {
-	  for (int c = 0; c < mCols + 1; c++) {
-	       tmpPos[r * (mCols + 1) * 2 + c * 2]     = (c == mCols ? mRight  : mLeft + static_cast<double>(c) * mDx);
-	       tmpPos[r * (mCols + 1) * 2 + c * 2 + 1] = (r == mRows ? mBottom : mTop  - static_cast<double>(r) * mDy);
-	       mCellPosProj[r * (mCols + 1) * 2 + c * 2]     = tmpPos[r * (mCols + 1) * 2 + c * 2];
-	       mCellPosProj[r * (mCols + 1) * 2 + c * 2 + 1] = tmpPos[r * (mCols + 1) * 2 + c * 2 + 1];
-	  }
+          for (int c = 0; c < mCols + 1; c++) {
+               tmpPos[r * (mCols + 1) * 2 + c * 2]     = (c == mCols ? mRight  : mLeft + static_cast<double>(c) * mDx);
+               tmpPos[r * (mCols + 1) * 2 + c * 2 + 1] = (r == mRows ? mBottom : mTop  - static_cast<double>(r) * mDy);
+               mCellPosProj[r * (mCols + 1) * 2 + c * 2]     = tmpPos[r * (mCols + 1) * 2 + c * 2];
+               mCellPosProj[r * (mCols + 1) * 2 + c * 2 + 1] = tmpPos[r * (mCols + 1) * 2 + c * 2 + 1];
+          }
      }
      
      // Notice x, y to lat, lon i.e x is lon and y is lat.
      for (int i = 0; i < (mRows + 1) * (mCols + 1) * 2; i += 2) {
-	  Projection::currentProjection()->projToCoord(mCellPosProj[i]    , mCellPosProj[i+1],
-						       mCellPosLatLng[i+1], mCellPosLatLng[i]);
+          Projection::currentProjection()->projToCoord(mCellPosProj[i]    , mCellPosProj[i+1],
+                                                       mCellPosLatLng[i+1], mCellPosLatLng[i]);
      }
 
      delete [] tmpPos;
@@ -200,9 +200,9 @@ void BasicGrid::cells(const Polygon& inP, std::list<GridPos>& outCells) const
      list<GridPos> tmp;
      mAH->cells(inP, tmp);
      for (list<GridPos>::iterator it = tmp.begin(); it != tmp.end(); it++) {
-	  if (isActive(it->r, it->c)) {
-	       outCells.push_back(*it);
-	  }
+          if (isActive(it->r, it->c)) {
+               outCells.push_back(*it);
+          }
      }
 }
 
@@ -219,9 +219,9 @@ void BasicGrid::cells(const Circle& inC, std::list<GridPos>& outCells) const
      list<GridPos> tmp;
      mAH->cells(inC, tmp);
      for (list<GridPos>::iterator it = tmp.begin(); it != tmp.end(); it++) {
-	  if (isActive(it->r, it->c)) {
-	       outCells.push_back(*it);
-	  }
+          if (isActive(it->r, it->c)) {
+               outCells.push_back(*it);
+          }
      }
 }
 

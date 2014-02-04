@@ -185,12 +185,12 @@ public class Parser extends StratmasClient.TaclanV2.java_cup.runtime.lr_parser {
      * @param stream the taclan2 stream to parse.
      */
     public static Parser getParser(String streamName, Reader stream)
-	{
-	    Parser parser = new Parser(new Lexer(stream));
-	    parser.setLocation(streamName);
+        {
+            Parser parser = new Parser(new Lexer(stream));
+            parser.setLocation(streamName);
 
-	    return parser;
-	}
+            return parser;
+        }
 
     /**
      * Creates a new parser by opening a file using the users
@@ -199,10 +199,10 @@ public class Parser extends StratmasClient.TaclanV2.java_cup.runtime.lr_parser {
      * @param filename the taclan2 file to parse.
      */
     public static Parser getParser(String filename) throws FileNotFoundException
-	{
-	    return getParser(filename, 
-			     new InputStreamReader(new FileInputStream(filename)));
-	}
+        {
+            return getParser(filename, 
+                             new InputStreamReader(new FileInputStream(filename)));
+        }
 
     /**
      * Creates a new parser by opening a file using the specified encoding.
@@ -211,34 +211,34 @@ public class Parser extends StratmasClient.TaclanV2.java_cup.runtime.lr_parser {
      * @param encoding the encoding to use.
      */
     public static Parser getParser(String filename, String encoding) 
-	throws FileNotFoundException, UnsupportedEncodingException
-	{
-	    return getParser(filename, 
-			     new InputStreamReader(new FileInputStream(filename), 
-						   encoding));
-	}
+        throws FileNotFoundException, UnsupportedEncodingException
+        {
+            return getParser(filename, 
+                             new InputStreamReader(new FileInputStream(filename), 
+                                                   encoding));
+        }
 
     /**
      * Parses the file given when constructing the parser.
      */
     public void doParse() throws SemanticException, SyntaxException
-	{
-	    if (this.parsedDeclarationList == null) {
-		this.parsedDeclarationList = (ParsedDeclarationList) parse().value;
-		if (!errors.isEmpty()) {
-		    throw new CollectedErrorsException(errors);
-		}
-	    }
-	}
+        {
+            if (this.parsedDeclarationList == null) {
+                this.parsedDeclarationList = (ParsedDeclarationList) parse().value;
+                if (!errors.isEmpty()) {
+                    throw new CollectedErrorsException(errors);
+                }
+            }
+        }
 
     /**
      * Returns the parsedDeclarationList that the file resulted in.
      */
     public ParsedDeclarationList getParsedDeclarationList() throws SemanticException, SyntaxException
-	{
-	    doParse();
-	    return this.parsedDeclarationList;
-	}
+        {
+            doParse();
+            return this.parsedDeclarationList;
+        }
 
     /**
      * Performs type checking using the supplied TypeInformation 
@@ -248,13 +248,13 @@ public class Parser extends StratmasClient.TaclanV2.java_cup.runtime.lr_parser {
      * conform to.
      */
     public void typeCheck(Declaration declaration, TypeInformation typeInformation) 
-	throws SemanticException, SyntaxException
-	{
-	    // Get document pseduotype 
-	    (new ParsedList(new SourcePosition(getLocation()), getParsedDeclarationList())).typeCheckImmidiates(declaration, typeInformation);
-	    //getParsedDeclarationList().bindReferences();
-	    //getParsedDeclarationList().typeCheckReferences(typeInformation, documentType);
-	}
+        throws SemanticException, SyntaxException
+        {
+            // Get document pseduotype 
+            (new ParsedList(new SourcePosition(getLocation()), getParsedDeclarationList())).typeCheckImmidiates(declaration, typeInformation);
+            //getParsedDeclarationList().bindReferences();
+            //getParsedDeclarationList().typeCheckReferences(typeInformation, documentType);
+        }
 
     /**
      * Returns a StratmasList containing the StratmasObjects the 
@@ -263,9 +263,9 @@ public class Parser extends StratmasClient.TaclanV2.java_cup.runtime.lr_parser {
      * @param declaration the declaration to get.
      */
     public StratmasList getStratmasList(Declaration declaration) throws SemanticException, SyntaxException
-	{	    
-	    return (StratmasList) (new ParsedList(new SourcePosition(getLocation()), getParsedDeclarationList())).getStratmasObject(declaration);
-	}
+        {            
+            return (StratmasList) (new ParsedList(new SourcePosition(getLocation()), getParsedDeclarationList())).getStratmasObject(declaration);
+        }
     
     /**
      * Test method for the Parser class
@@ -274,33 +274,33 @@ public class Parser extends StratmasClient.TaclanV2.java_cup.runtime.lr_parser {
      * file and the second a wsd-file specifying the types.
      */
     public static void main(String[] argv)
-	{
+        {
 
-	    // Check argv
-	    if (argv.length != 1) {
-		System.err.println("Usage: java Parser file");
-		System.exit(1);
-	    }
-	    try {
-		Parser parser = getParser(argv[0]);
-		parser.doParse();
-		TypeInformation typeInformation = 
-		    TypeFactory.getTypeInformation();
-		parser.typeCheck(TypeFactory.getType("Root").getSubElement("simulation"), 
-				 typeInformation);
-	    } catch (FileNotFoundException e) {
-		System.err.println(e.getMessage());
-		System.exit(1);
-	    } catch (Exception e) { 
-		e.printStackTrace(System.err);
-		System.err.println(e.getMessage() + "\nExiting... ");
-		System.exit(1);
-	    } catch (AssertionError e) { 
-		e.printStackTrace(System.err);
-		System.err.println(e.getMessage() + "\nExiting... ");
-		System.exit(1);
-	    }
-	}
+            // Check argv
+            if (argv.length != 1) {
+                System.err.println("Usage: java Parser file");
+                System.exit(1);
+            }
+            try {
+                Parser parser = getParser(argv[0]);
+                parser.doParse();
+                TypeInformation typeInformation = 
+                    TypeFactory.getTypeInformation();
+                parser.typeCheck(TypeFactory.getType("Root").getSubElement("simulation"), 
+                                 typeInformation);
+            } catch (FileNotFoundException e) {
+                System.err.println(e.getMessage());
+                System.exit(1);
+            } catch (Exception e) { 
+                e.printStackTrace(System.err);
+                System.err.println(e.getMessage() + "\nExiting... ");
+                System.exit(1);
+            } catch (AssertionError e) { 
+                e.printStackTrace(System.err);
+                System.err.println(e.getMessage() + "\nExiting... ");
+                System.exit(1);
+            }
+        }
 
     /**
      * Reports an error.
@@ -309,9 +309,9 @@ public class Parser extends StratmasClient.TaclanV2.java_cup.runtime.lr_parser {
      * @param info the object associated with the error.
      */
     public void report_error(String message, Object info)
-	{
-	    this.registerError(constructSyntaxException(message, info));
-	}
+        {
+            this.registerError(constructSyntaxException(message, info));
+        }
 
     /**
      * Reports a fatal error to the user.
@@ -320,10 +320,10 @@ public class Parser extends StratmasClient.TaclanV2.java_cup.runtime.lr_parser {
      * @param info the object associated with the error.
      */
     public void report_fatal_error(String message, Object info) 
-	throws SyntaxException
-	{
-	    throw constructSyntaxException(message, info);
-	}
+        throws SyntaxException
+        {
+            throw constructSyntaxException(message, info);
+        }
     
     /**
      * Registers an exception occured during parsing.
@@ -331,9 +331,9 @@ public class Parser extends StratmasClient.TaclanV2.java_cup.runtime.lr_parser {
      * @param e the exception to register.
      */
     public void registerError(Exception e)
-	{
-	    this.errors.add(e);
-	}
+        {
+            this.errors.add(e);
+        }
     
     /**
      * Constructs a syntax error from the provided information
@@ -343,25 +343,25 @@ public class Parser extends StratmasClient.TaclanV2.java_cup.runtime.lr_parser {
      */
 
     public SyntaxException constructSyntaxException(String message, Object info)
-	{
-	    StringBuffer errmsg = new StringBuffer();
-	    
-	    if (info instanceof Symbol) {
-		Symbol symbol = (Symbol) info;
-		if (symbol.value instanceof Symbol) {
-		    symbol = (Symbol) symbol.value;
-		}
-		SourcePosition srcpos = new SourcePosition(this.getLocation(), symbol);
-		errmsg.append(srcpos.toString() + ": At or near \"" + symbol.value.toString() + "\": ");
-	    }
-	    else {
-		errmsg.append(this.getLocation() + ": ");
-	    }
-	    
-	    errmsg.append(message);
+        {
+            StringBuffer errmsg = new StringBuffer();
+            
+            if (info instanceof Symbol) {
+                Symbol symbol = (Symbol) info;
+                if (symbol.value instanceof Symbol) {
+                    symbol = (Symbol) symbol.value;
+                }
+                SourcePosition srcpos = new SourcePosition(this.getLocation(), symbol);
+                errmsg.append(srcpos.toString() + ": At or near \"" + symbol.value.toString() + "\": ");
+            }
+            else {
+                errmsg.append(this.getLocation() + ": ");
+            }
+            
+            errmsg.append(message);
 
-	    return new SyntaxException(errmsg.toString());
-	}
+            return new SyntaxException(errmsg.toString());
+        }
 
 
     /**
@@ -370,17 +370,17 @@ public class Parser extends StratmasClient.TaclanV2.java_cup.runtime.lr_parser {
      * @param source the location
      */    
     public void setLocation(String source) 
-	{
-	    this.location = source;
-	}
+        {
+            this.location = source;
+        }
 
     /**
      * Returns the location of the taclan file being parsed.
      */
     public String getLocation() 
-	{
-	    return this.location;
-	}
+        {
+            return this.location;
+        }
 
 }
 
@@ -411,16 +411,16 @@ class CUP$Parser$actions {
           case 23: // rval ::= OPENBLOCK declarations CLOSEBLOCK 
             {
               ParsedDeclaration RESULT = null;
-		int openleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
-		int openright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
-		Symbol open = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
-		int declarationsleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
-		int declarationsright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
-		ParsedDeclarationList declarations = (ParsedDeclarationList)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		int closeleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
-		int closeright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
-		Symbol close = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
-		
+                int openleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+                int openright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+                Symbol open = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+                int declarationsleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+                int declarationsright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+                ParsedDeclarationList declarations = (ParsedDeclarationList)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+                int closeleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
+                int closeright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
+                Symbol close = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
+                
     SourcePosition srcpos = new SourcePosition(parser.getLocation(), open, close);
     RESULT = new ParsedList(srcpos, declarations);
 
@@ -432,10 +432,10 @@ class CUP$Parser$actions {
           case 22: // rval ::= FALSE 
             {
               ParsedDeclaration RESULT = null;
-		int resultleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
-		int resultright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
-		Symbol result = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
-		
+                int resultleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
+                int resultright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
+                Symbol result = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
+                
     SourcePosition srcpos = new SourcePosition(parser.getLocation(), result);
     RESULT = new ParsedBoolean(srcpos, false);
 
@@ -447,10 +447,10 @@ class CUP$Parser$actions {
           case 21: // rval ::= TRUE 
             {
               ParsedDeclaration RESULT = null;
-		int resultleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
-		int resultright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
-		Symbol result = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
-		
+                int resultleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
+                int resultright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
+                Symbol result = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
+                
     SourcePosition srcpos = new SourcePosition(parser.getLocation(), result);
     RESULT = new ParsedBoolean(srcpos, true);
 
@@ -462,10 +462,10 @@ class CUP$Parser$actions {
           case 20: // rval ::= FLOAT 
             {
               ParsedDeclaration RESULT = null;
-		int resultleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
-		int resultright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
-		Symbol result = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
-		
+                int resultleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
+                int resultright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
+                Symbol result = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
+                
     SourcePosition srcpos = new SourcePosition(parser.getLocation(), result);
     RESULT = new ParsedFloat(srcpos, (String) (result.value));
 
@@ -477,10 +477,10 @@ class CUP$Parser$actions {
           case 19: // rval ::= INTEGER 
             {
               ParsedDeclaration RESULT = null;
-		int resultleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
-		int resultright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
-		Symbol result = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
-		
+                int resultleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
+                int resultright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
+                Symbol result = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
+                
     SourcePosition srcpos = new SourcePosition(parser.getLocation(), result);
     RESULT = new ParsedInteger(srcpos, (String) (result.value));
 
@@ -492,10 +492,10 @@ class CUP$Parser$actions {
           case 18: // rval ::= STRING 
             {
               ParsedDeclaration RESULT = null;
-		int resultleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
-		int resultright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
-		Symbol result = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
-		
+                int resultleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
+                int resultright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
+                Symbol result = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
+                
     SourcePosition srcpos = new SourcePosition(parser.getLocation(), result);
     RESULT = new ParsedString(srcpos, (String) (result.value));
 
@@ -507,10 +507,10 @@ class CUP$Parser$actions {
           case 17: // rval ::= reference 
             {
               ParsedDeclaration RESULT = null;
-		int refleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
-		int refright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
-		ParsedReference ref = (ParsedReference)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
-		
+                int refleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
+                int refright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
+                ParsedReference ref = (ParsedReference)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
+                
  RESULT = ref;
 
               CUP$Parser$result = new StratmasClient.TaclanV2.java_cup.runtime.Symbol(8/*rval*/, ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left, ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right, RESULT);
@@ -521,10 +521,10 @@ class CUP$Parser$actions {
           case 16: // simpleIdentifier ::= ID 
             {
               ParsedIdentifier RESULT = null;
-		int idleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
-		int idright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
-		Symbol id = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
-		
+                int idleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
+                int idright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
+                Symbol id = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
+                
  SourcePosition srcpos = new SourcePosition(parser.getLocation(), id);
 
  RESULT = new ParsedIdentifier(srcpos, (String) (id.value));
@@ -537,13 +537,13 @@ class CUP$Parser$actions {
           case 15: // reference ::= reference SCOPE reference 
             {
               ParsedReference RESULT = null;
-		int tailleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
-		int tailright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
-		ParsedReference tail = (ParsedReference)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
-		int refleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
-		int refright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
-		ParsedReference ref = (ParsedReference)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
-		
+                int tailleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+                int tailright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+                ParsedReference tail = (ParsedReference)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+                int refleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
+                int refright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
+                ParsedReference ref = (ParsedReference)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
+                
     ref.setTail(tail);
     RESULT = ref;
 
@@ -555,10 +555,10 @@ class CUP$Parser$actions {
           case 14: // reference ::= simpleIdentifier 
             {
               ParsedReference RESULT = null;
-		int refleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
-		int refright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
-		ParsedIdentifier ref = (ParsedIdentifier)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
-		
+                int refleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
+                int refright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
+                ParsedIdentifier ref = (ParsedIdentifier)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
+                
  RESULT = new ParsedReference(ref);
 
               CUP$Parser$result = new StratmasClient.TaclanV2.java_cup.runtime.Symbol(6/*reference*/, ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left, ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right, RESULT);
@@ -569,16 +569,16 @@ class CUP$Parser$actions {
           case 13: // assignment ::= simpleIdentifier EQUIV rval 
             {
               ParsedDeclaration RESULT = null;
-		int nameleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
-		int nameright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
-		ParsedIdentifier name = (ParsedIdentifier)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
-		int equivleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
-		int equivright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
-		Symbol equiv = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		int rvalleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
-		int rvalright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
-		ParsedDeclaration rval = (ParsedDeclaration)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
-		
+                int nameleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+                int nameright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+                ParsedIdentifier name = (ParsedIdentifier)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+                int equivleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+                int equivright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+                Symbol equiv = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+                int rvalleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
+                int rvalright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
+                ParsedDeclaration rval = (ParsedDeclaration)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
+                
  SourcePosition srcpos = new SourcePosition(parser.getLocation(), equiv);
  rval.setIdentifier(name);
  RESULT = rval;
@@ -591,19 +591,19 @@ class CUP$Parser$actions {
           case 12: // importation ::= simpleIdentifier EQUIV IMPORT reference FROM STRING 
             {
               ParsedDeclaration RESULT = null;
-		int nameleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)).left;
-		int nameright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)).right;
-		ParsedIdentifier name = (ParsedIdentifier)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-5)).value;
-		int keywordleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).left;
-		int keywordright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).right;
-		Symbol keyword = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
-		int refleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
-		int refright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
-		ParsedReference ref = (ParsedReference)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
-		int sourceleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
-		int sourceright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
-		Symbol source = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
-		
+                int nameleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)).left;
+                int nameright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)).right;
+                ParsedIdentifier name = (ParsedIdentifier)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-5)).value;
+                int keywordleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).left;
+                int keywordright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).right;
+                Symbol keyword = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
+                int refleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+                int refright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+                ParsedReference ref = (ParsedReference)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+                int sourceleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
+                int sourceright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
+                Symbol source = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
+                
     SourcePosition srcpos = new SourcePosition(parser.getLocation(), keyword);
     ParsedImport imp = new ParsedImport(srcpos, (String) source.value);
     ParsedDeclaration declaration = imp.getParsedDeclaration(ref);
@@ -618,19 +618,19 @@ class CUP$Parser$actions {
           case 11: // importation ::= IMPORT reference FROM STRING AS simpleIdentifier 
             {
               ParsedDeclaration RESULT = null;
-		int keywordleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)).left;
-		int keywordright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)).right;
-		Symbol keyword = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-5)).value;
-		int nameleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).left;
-		int nameright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).right;
-		ParsedReference name = (ParsedReference)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-4)).value;
-		int sourceleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
-		int sourceright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
-		Symbol source = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
-		int newnameleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
-		int newnameright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
-		ParsedIdentifier newname = (ParsedIdentifier)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
-		
+                int keywordleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)).left;
+                int keywordright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)).right;
+                Symbol keyword = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-5)).value;
+                int nameleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).left;
+                int nameright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).right;
+                ParsedReference name = (ParsedReference)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-4)).value;
+                int sourceleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+                int sourceright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+                Symbol source = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+                int newnameleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
+                int newnameright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
+                ParsedIdentifier newname = (ParsedIdentifier)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
+                
   SourcePosition srcpos = new SourcePosition(parser.getLocation(), keyword);
   ParsedImport imp = new ParsedImport(srcpos, (String) source.value);
   ParsedDeclaration declaration = imp.getParsedDeclaration(name);
@@ -645,16 +645,16 @@ class CUP$Parser$actions {
           case 10: // importation ::= IMPORT reference FROM STRING 
             {
               ParsedDeclaration RESULT = null;
-		int keywordleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).left;
-		int keywordright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).right;
-		Symbol keyword = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
-		int nameleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
-		int nameright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
-		ParsedReference name = (ParsedReference)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
-		int sourceleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
-		int sourceright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
-		Symbol source = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
-		
+                int keywordleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).left;
+                int keywordright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).right;
+                Symbol keyword = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
+                int nameleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+                int nameright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+                ParsedReference name = (ParsedReference)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+                int sourceleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
+                int sourceright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
+                Symbol source = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
+                
   SourcePosition srcpos = new SourcePosition(parser.getLocation(), keyword);
   ParsedImport imp = new ParsedImport(srcpos, (String) source.value);
   RESULT = imp.getParsedDeclaration(name);
@@ -667,13 +667,13 @@ class CUP$Parser$actions {
           case 9: // massimport ::= IMPORT STRING 
             {
               ParsedDeclarationList RESULT = null;
-		int keywordleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
-		int keywordright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
-		Symbol keyword = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		int sourceleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
-		int sourceright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
-		Symbol source = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
-		
+                int keywordleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+                int keywordright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+                Symbol keyword = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+                int sourceleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
+                int sourceright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
+                Symbol source = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
+                
  SourcePosition srcpos = new SourcePosition(parser.getLocation(), keyword);
  ParsedImport imp = new ParsedImport(srcpos, (String) source.value);
  RESULT = imp.getParsedDeclarationList();
@@ -686,16 +686,16 @@ class CUP$Parser$actions {
           case 8: // declaration ::= simpleIdentifier EQUIV simpleIdentifier OPENBLOCK declarations CLOSEBLOCK 
             {
               ParsedDeclaration RESULT = null;
-		int nameleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)).left;
-		int nameright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)).right;
-		ParsedIdentifier name = (ParsedIdentifier)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-5)).value;
-		int typeleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).left;
-		int typeright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).right;
-		ParsedIdentifier type = (ParsedIdentifier)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
-		int declarationsleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
-		int declarationsright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
-		ParsedDeclarationList declarations = (ParsedDeclarationList)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		
+                int nameleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)).left;
+                int nameright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)).right;
+                ParsedIdentifier name = (ParsedIdentifier)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-5)).value;
+                int typeleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).left;
+                int typeright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).right;
+                ParsedIdentifier type = (ParsedIdentifier)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
+                int declarationsleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+                int declarationsright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+                ParsedDeclarationList declarations = (ParsedDeclarationList)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+                
     SourcePosition srcpos = type.getPos();
     RESULT = new ParsedDeclaration(srcpos, type, name, declarations);
 
@@ -707,19 +707,19 @@ class CUP$Parser$actions {
           case 7: // declaration ::= simpleIdentifier OPENBLOCK declarations CLOSEBLOCK 
             {
               ParsedDeclaration RESULT = null;
-		int nameleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).left;
-		int nameright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).right;
-		ParsedIdentifier name = (ParsedIdentifier)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
-		int openleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
-		int openright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
-		Symbol open = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
-		int declarationsleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
-		int declarationsright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
-		ParsedDeclarationList declarations = (ParsedDeclarationList)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		int closeleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
-		int closeright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
-		Symbol close = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
-		
+                int nameleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).left;
+                int nameright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).right;
+                ParsedIdentifier name = (ParsedIdentifier)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
+                int openleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
+                int openright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
+                Symbol open = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+                int declarationsleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+                int declarationsright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+                ParsedDeclarationList declarations = (ParsedDeclarationList)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+                int closeleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
+                int closeright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
+                Symbol close = (Symbol)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
+                
     // Free standing list declaration.
     SourcePosition srcpos = new SourcePosition(parser.getLocation(), open, close);
     RESULT = new ParsedList(srcpos, name, declarations);
@@ -732,10 +732,10 @@ class CUP$Parser$actions {
           case 6: // declaration ::= importation 
             {
               ParsedDeclaration RESULT = null;
-		int importationleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
-		int importationright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
-		ParsedDeclaration importation = (ParsedDeclaration)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
-		
+                int importationleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
+                int importationright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
+                ParsedDeclaration importation = (ParsedDeclaration)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
+                
     RESULT = importation;
 
               CUP$Parser$result = new StratmasClient.TaclanV2.java_cup.runtime.Symbol(1/*declaration*/, ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left, ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right, RESULT);
@@ -746,16 +746,16 @@ class CUP$Parser$actions {
           case 5: // declaration ::= simpleIdentifier simpleIdentifier OPENBLOCK declarations CLOSEBLOCK 
             {
               ParsedDeclaration RESULT = null;
-		int typeleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).left;
-		int typeright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).right;
-		ParsedIdentifier type = (ParsedIdentifier)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-4)).value;
-		int nameleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).left;
-		int nameright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).right;
-		ParsedIdentifier name = (ParsedIdentifier)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
-		int declarationsleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
-		int declarationsright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
-		ParsedDeclarationList declarations = (ParsedDeclarationList)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		
+                int typeleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).left;
+                int typeright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).right;
+                ParsedIdentifier type = (ParsedIdentifier)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-4)).value;
+                int nameleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).left;
+                int nameright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).right;
+                ParsedIdentifier name = (ParsedIdentifier)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
+                int declarationsleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+                int declarationsright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+                ParsedDeclarationList declarations = (ParsedDeclarationList)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+                
     SourcePosition srcpos = type.getPos();
     RESULT = new ParsedDeclaration(srcpos, type, name, declarations);
 
@@ -767,13 +767,13 @@ class CUP$Parser$actions {
           case 4: // declarations ::= massimport declarations 
             {
               ParsedDeclarationList RESULT = null;
-		int partsleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
-		int partsright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
-		ParsedDeclarationList parts = (ParsedDeclarationList)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		int tailleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
-		int tailright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
-		ParsedDeclarationList tail = (ParsedDeclarationList)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
-		
+                int partsleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+                int partsright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+                ParsedDeclarationList parts = (ParsedDeclarationList)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+                int tailleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
+                int tailright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
+                ParsedDeclarationList tail = (ParsedDeclarationList)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
+                
    tail.push(parts);
    RESULT = tail;
 
@@ -785,13 +785,13 @@ class CUP$Parser$actions {
           case 3: // declarations ::= assignment declarations 
             {
               ParsedDeclarationList RESULT = null;
-		int partleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
-		int partright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
-		ParsedDeclaration part = (ParsedDeclaration)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		int tailleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
-		int tailright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
-		ParsedDeclarationList tail = (ParsedDeclarationList)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
-		
+                int partleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+                int partright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+                ParsedDeclaration part = (ParsedDeclaration)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+                int tailleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
+                int tailright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
+                ParsedDeclarationList tail = (ParsedDeclarationList)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
+                
     tail.push(part);
     RESULT = tail;
 
@@ -803,13 +803,13 @@ class CUP$Parser$actions {
           case 2: // declarations ::= declaration declarations 
             {
               ParsedDeclarationList RESULT = null;
-		int partleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
-		int partright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
-		ParsedDeclaration part = (ParsedDeclaration)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		int tailleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
-		int tailright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
-		ParsedDeclarationList tail = (ParsedDeclarationList)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
-		
+                int partleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+                int partright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+                ParsedDeclaration part = (ParsedDeclaration)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+                int tailleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).left;
+                int tailright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right;
+                ParsedDeclarationList tail = (ParsedDeclarationList)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-0)).value;
+                
     tail.push(part);
     RESULT = tail;
 
@@ -821,10 +821,10 @@ class CUP$Parser$actions {
           case 1: // $START ::= declarations EOF 
             {
               Object RESULT = null;
-		int start_valleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
-		int start_valright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
-		ParsedDeclarationList start_val = (ParsedDeclarationList)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		RESULT = start_val;
+                int start_valleft = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
+                int start_valright = ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
+                ParsedDeclarationList start_val = (ParsedDeclarationList)((StratmasClient.TaclanV2.java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+                RESULT = start_val;
               CUP$Parser$result = new StratmasClient.TaclanV2.java_cup.runtime.Symbol(0/*$START*/, ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left, ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right, RESULT);
             }
           /* ACCEPT */
@@ -835,7 +835,7 @@ class CUP$Parser$actions {
           case 0: // declarations ::= 
             {
               ParsedDeclarationList RESULT = null;
-		
+                
  RESULT = new ParsedDeclarationList();
 
               CUP$Parser$result = new StratmasClient.TaclanV2.java_cup.runtime.Symbol(2/*declarations*/, ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right, ((StratmasClient.TaclanV2.java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-0)).right, RESULT);

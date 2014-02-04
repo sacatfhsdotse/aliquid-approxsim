@@ -44,18 +44,18 @@ public class DraggableJButton extends JButton implements DragGestureListener {
      * @param name the name of the button.
      */
     public DraggableJButton(ImageIcon image, String name) {
-	super(image);
-	this.name = name;
-	source = new DragSource();
-	recognizer = source.createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_REFERENCE, this);
-	//
-	Toolkit tk = Toolkit.getDefaultToolkit();
-	Dimension bestsize = tk.getBestCursorSize(16,16);
-	if (bestsize.width != 0)
-	    c = tk.createCustomCursor(((ImageIcon)this.getIcon()).getImage(), 
-				      new Point(0, 0), name);
-	else
-	    c = Cursor.getDefaultCursor();
+        super(image);
+        this.name = name;
+        source = new DragSource();
+        recognizer = source.createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_REFERENCE, this);
+        //
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        Dimension bestsize = tk.getBestCursorSize(16,16);
+        if (bestsize.width != 0)
+            c = tk.createCustomCursor(((ImageIcon)this.getIcon()).getImage(), 
+                                      new Point(0, 0), name);
+        else
+            c = Cursor.getDefaultCursor();
     }
     
     /*
@@ -64,7 +64,7 @@ public class DraggableJButton extends JButton implements DragGestureListener {
      * @param dge the event.
      */
     public void dragGestureRecognized(DragGestureEvent dge) {
-	source.startDrag(dge, c, new StringSelection(name), new DragSourceAdapter(){});
+        source.startDrag(dge, c, new StringSelection(name), new DragSourceAdapter(){});
     }
     
 }

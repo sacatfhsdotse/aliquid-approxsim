@@ -1,5 +1,5 @@
 
-// 	$Id: Point.java,v 1.6 2006/04/21 07:55:46 alexius Exp $
+//         $Id: Point.java,v 1.6 2006/04/21 07:55:46 alexius Exp $
 /*
  * @(#)Point.java
  */
@@ -66,9 +66,9 @@ public class Point extends StratmasObjectImpl
      */
     protected Point(String identifier, double lat, double lon)
     {
-	super(identifier);
-	this.lon = lon;
-	this.lat = lat;
+        super(identifier);
+        this.lon = lon;
+        this.lat = lat;
     }
 
     /**
@@ -80,7 +80,7 @@ public class Point extends StratmasObjectImpl
      */
     protected Point(Declaration declaration, double lat, double lon)
     {
-	this(declaration.getName(), lat, lon);
+        this(declaration.getName(), lat, lon);
     }
 
     /**
@@ -88,7 +88,7 @@ public class Point extends StratmasObjectImpl
      */
     public Type getType()
     {
-	return type;
+        return type;
     }
 
     /**
@@ -96,7 +96,7 @@ public class Point extends StratmasObjectImpl
      */
     public Icon getIcon()
     {
-	return icon;
+        return icon;
     }
 
     /**
@@ -104,7 +104,7 @@ public class Point extends StratmasObjectImpl
      */
     public double getLat()
     {
-	return this.lat;
+        return this.lat;
     }
 
     /**
@@ -112,15 +112,15 @@ public class Point extends StratmasObjectImpl
      */
     public double getLon()
     {
-    	return this.lon;
+            return this.lon;
     }
 
     /**
      * Returns the MGRS value of this point.
      */
     public String getMGRSValue() {
-	return MGRSConversion.convertGeodeticToMGRS(Math.toRadians(this.getLon()), 
-						    Math.toRadians(this.getLat()), 5);
+        return MGRSConversion.convertGeodeticToMGRS(Math.toRadians(this.getLon()), 
+                                                    Math.toRadians(this.getLat()), 5);
     }
 
     /**
@@ -129,8 +129,8 @@ public class Point extends StratmasObjectImpl
      */
     public void setLat(double lat, Object initiator)
     {
-	this.lat = lat;
-	fireValueChanged(initiator);
+        this.lat = lat;
+        fireValueChanged(initiator);
     }
 
     /**
@@ -139,8 +139,8 @@ public class Point extends StratmasObjectImpl
      */
     public void setLon(double lon, Object initiator)
     {
-	this.lon = lon;
-	fireValueChanged(initiator);
+        this.lon = lon;
+        fireValueChanged(initiator);
     }
 
     /**
@@ -151,9 +151,9 @@ public class Point extends StratmasObjectImpl
      */
     public void setLatLon(double lat, double lon, Object initiator)
     {
-	this.lat = lat;
-	this.lon = lon;
-	fireValueChanged(initiator);
+        this.lat = lat;
+        this.lon = lon;
+        fireValueChanged(initiator);
     }
 
     /**
@@ -163,21 +163,21 @@ public class Point extends StratmasObjectImpl
      */
     protected void fireValueChanged(Object initiator)
     {
-	// Always tell parent that we have changed (if we have one).
-	if (getParent() != null) {
-	    getParent().childChanged(this, initiator);
-	}
-	
-	// Guaranteed to return a non-null array
-	Object[] listeners = getListenerList();
-	if (listeners.length > 0) {
-	    if (listeners.length > 0) {
-		StratmasEvent event = StratmasEvent.getValueChanged(this, initiator);
-		for (int i = listeners.length - 2; i >= 0; i -= 2) {
-		    ((StratmasEventListener) listeners[i + 1]).eventOccured(event);
-		}
-	    }
-	}
+        // Always tell parent that we have changed (if we have one).
+        if (getParent() != null) {
+            getParent().childChanged(this, initiator);
+        }
+        
+        // Guaranteed to return a non-null array
+        Object[] listeners = getListenerList();
+        if (listeners.length > 0) {
+            if (listeners.length > 0) {
+                StratmasEvent event = StratmasEvent.getValueChanged(this, initiator);
+                for (int i = listeners.length - 2; i >= 0; i -= 2) {
+                    ((StratmasEventListener) listeners[i + 1]).eventOccured(event);
+                }
+            }
+        }
     }
     
     /**
@@ -190,7 +190,7 @@ public class Point extends StratmasObjectImpl
      */
     public void move(double dx, double dy)
     {
-	setLatLon(getLat() + dy, getLon() + dx, this);
+        setLatLon(getLat() + dy, getLon() + dx, this);
     }
     
     /**
@@ -203,7 +203,7 @@ public class Point extends StratmasObjectImpl
      */
     public void moveTo(double lng, double lat)
     {
-	move(lng - getLon(), lat - getLat());
+        move(lng - getLon(), lat - getLat());
     }
 
     /**
@@ -216,9 +216,9 @@ public class Point extends StratmasObjectImpl
       * object's body appended to it.
       */
      public StringBuffer bodyXML(StringBuffer b) {
-	  b.append(NL).append("<lat>").append(getLat()).append("</lat>");
-	  b.append(NL).append("<lon>").append(getLon()).append("</lon>");
-	  return b;
+          b.append(NL).append("<lat>").append(getLat()).append("</lat>");
+          b.append(NL).append("<lon>").append(getLon()).append("</lon>");
+          return b;
      }
 
     /**
@@ -229,7 +229,7 @@ public class Point extends StratmasObjectImpl
      */
     protected static StratmasGUIConstructor getGUIConstructor(Declaration declaration)
     {
-	return new PointGUIConstructor(declaration); 
+        return new PointGUIConstructor(declaration); 
     }
 
     /**
@@ -241,7 +241,7 @@ public class Point extends StratmasObjectImpl
      */
     protected static StratmasObject defaultCreate(Declaration declaration)
     {
-	return new Point(declaration.getName(), 0.0d, 0.0d);
+        return new Point(declaration.getName(), 0.0d, 0.0d);
     }
     
     /**
@@ -254,7 +254,7 @@ public class Point extends StratmasObjectImpl
      * @return A clone of this object.
      */
      protected Object clone() {
-	  return new Point(identifier, getLat(), getLon());
+          return new Point(identifier, getLat(), getLon());
      }
 
     /**
@@ -266,10 +266,10 @@ public class Point extends StratmasObjectImpl
      */
     protected static StratmasObject domCreate(Element n)
     {
-	return 
-	    StratmasObjectFactory.createPoint(Identifier.getIdentifier(n),
-					      XMLHelper.getDouble(n, "lat"),
-					      XMLHelper.getDouble(n, "lon"));
+        return 
+            StratmasObjectFactory.createPoint(Identifier.getIdentifier(n),
+                                              XMLHelper.getDouble(n, "lat"),
+                                              XMLHelper.getDouble(n, "lon"));
     }
     
     /**
@@ -282,9 +282,9 @@ public class Point extends StratmasObjectImpl
      */
     public void update(Element n, Timestamp t) 
     {
-	setLatLon(XMLHelper.getDouble(n, "lat"),
-		  XMLHelper.getDouble(n, "lon"), 
-		  n);
+        setLatLon(XMLHelper.getDouble(n, "lat"),
+                  XMLHelper.getDouble(n, "lon"), 
+                  n);
     }
 }
 
@@ -305,7 +305,7 @@ class PointGUIConstructor extends StratmasGUIConstructor
      */
     public PointGUIConstructor(Declaration declaration)
     {
-	super(declaration);
+        super(declaration);
     }
 
     /**
@@ -313,11 +313,11 @@ class PointGUIConstructor extends StratmasGUIConstructor
      */    
     protected void buildPanel()
     {
-	this.add(new JLabel(declaration.getName() + "(lat lon)"));
-	this.latField = new JTextField(5);
-	this.lonField = new JTextField(5);
-	this.add(this.latField);
-	this.add(this.lonField);    
+        this.add(new JLabel(declaration.getName() + "(lat lon)"));
+        this.latField = new JTextField(5);
+        this.lonField = new JTextField(5);
+        this.add(this.latField);
+        this.add(this.lonField);    
     }
 
     /**
@@ -325,12 +325,12 @@ class PointGUIConstructor extends StratmasGUIConstructor
      */
     protected void createStratmasObject()
     {
-	try {
-	    setStratmasObject(new Point(this.getDeclaration().getName(), 
-					Double.parseDouble(lonField.getText()), 
-					Double.parseDouble(latField.getText())));
-	} catch (NumberFormatException e) {
-	    setStratmasObject(null);
-	}
+        try {
+            setStratmasObject(new Point(this.getDeclaration().getName(), 
+                                        Double.parseDouble(lonField.getText()), 
+                                        Double.parseDouble(latField.getText())));
+        } catch (NumberFormatException e) {
+            setStratmasObject(null);
+        }
     }
 }

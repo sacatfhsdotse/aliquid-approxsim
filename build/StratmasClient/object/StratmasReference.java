@@ -1,4 +1,4 @@
-// 	$Id: StratmasReference.java,v 1.5 2006/07/19 07:01:59 alexius Exp $
+//         $Id: StratmasReference.java,v 1.5 2006/07/19 07:01:59 alexius Exp $
 /*
  * @(#)StratmasReference.java
  */
@@ -39,8 +39,8 @@ public class StratmasReference extends StratmasSimple
      */
     protected StratmasReference(String identifier, Type type, Reference value)
     {
-	super(identifier, type);
-	this.value = value;
+        super(identifier, type);
+        this.value = value;
     }
 
     /**
@@ -51,8 +51,8 @@ public class StratmasReference extends StratmasSimple
      */
     protected StratmasReference(Declaration declaration, Reference value)
     {
-	super(declaration);
-	this.value = value;
+        super(declaration);
+        this.value = value;
     }
 
     /**
@@ -63,8 +63,8 @@ public class StratmasReference extends StratmasSimple
      */
     protected StratmasReference(Declaration declaration, String str)
     {
-	super(declaration);
-	this.value = Reference.parseReference(str);
+        super(declaration);
+        this.value = Reference.parseReference(str);
     }
 
     /**
@@ -72,12 +72,12 @@ public class StratmasReference extends StratmasSimple
      */
     public String valueToString()
     {
-	return value.toString();
+        return value.toString();
     }
 
     public Reference getValue()
     {
-	return value;
+        return value;
     }
 
     /**
@@ -88,8 +88,8 @@ public class StratmasReference extends StratmasSimple
      */
     public void setValue(Reference newValue, Object initiator)
     {
-	this.value = newValue;
-	fireValueChanged(initiator);
+        this.value = newValue;
+        fireValueChanged(initiator);
     }
 
     /**
@@ -102,15 +102,15 @@ public class StratmasReference extends StratmasSimple
      */
     public void valueFromString(String str, Object initiator) throws ParseException
     {
-	Reference test = Reference.parseReference(str);
-	
-	if (test != null) {
-	    if (!getValue().equals(test)) {
-		setValue(test, initiator);
-	    }
-	} else {
-	    throw new ParseException("Illegal reference.", 0);
-	}
+        Reference test = Reference.parseReference(str);
+        
+        if (test != null) {
+            if (!getValue().equals(test)) {
+                setValue(test, initiator);
+            }
+        } else {
+            throw new ParseException("Illegal reference.", 0);
+        }
     }
 
     /**
@@ -143,9 +143,9 @@ public class StratmasReference extends StratmasSimple
      */
     protected static StratmasObject domCreate(Element n) 
     {
-	return new StratmasReference(Identifier.getIdentifier(n), 
-				     TypeFactory.getType(n), 
-				     Reference.getReference(n));
+        return new StratmasReference(Identifier.getIdentifier(n), 
+                                     TypeFactory.getType(n), 
+                                     Reference.getReference(n));
     }
 
     /**
@@ -157,7 +157,7 @@ public class StratmasReference extends StratmasSimple
      */
     protected static StratmasObject defaultCreate(Declaration declaration)
     {
-	return new StratmasReference(declaration, "UNKNOWN");
+        return new StratmasReference(declaration, "UNKNOWN");
     }
     
     /**
@@ -169,9 +169,9 @@ public class StratmasReference extends StratmasSimple
      */
     protected StringBuffer toTaclanV2StringBuffer(StringBuffer buf, String indent)
     {
-	buf.append(indent + Identifier.toTaclanV2(getIdentifier()) + " = " + 
-		   getValue().toTaclanV2());
-	return buf;
+        buf.append(indent + Identifier.toTaclanV2(getIdentifier()) + " = " + 
+                   getValue().toTaclanV2());
+        return buf;
     }
 
     /**
@@ -184,7 +184,7 @@ public class StratmasReference extends StratmasSimple
      * @return A clone of this object.
      */
      protected Object clone() {
-	  return new StratmasReference(identifier, type, (Reference)value.clone());
+          return new StratmasReference(identifier, type, (Reference)value.clone());
      }
 
     /**
@@ -195,7 +195,7 @@ public class StratmasReference extends StratmasSimple
      */
     protected static StratmasGUIConstructor getGUIConstructor(Declaration declaration)
     {
-	return new StratmasReferenceGUIConstructor(declaration); 
+        return new StratmasReferenceGUIConstructor(declaration); 
     }
 
     /**
@@ -208,7 +208,7 @@ public class StratmasReference extends StratmasSimple
      */
     public void update(Element n, Timestamp t) 
     {
-	setValue(Reference.getReference(n), n);
+        setValue(Reference.getReference(n), n);
     }
 }
 
@@ -232,7 +232,7 @@ class StratmasReferenceGUIConstructor extends StratmasGUIConstructor
      */
     public StratmasReferenceGUIConstructor(Declaration declaration)
     {
-	super(declaration);
+        super(declaration);
     }
 
     /**
@@ -240,9 +240,9 @@ class StratmasReferenceGUIConstructor extends StratmasGUIConstructor
      */    
     protected void buildPanel()
     {
-	this.add(new javax.swing.JLabel(declaration.getName()));
-	this.field = new javax.swing.JTextField(10);
-	this.add(this.field);
+        this.add(new javax.swing.JLabel(declaration.getName()));
+        this.field = new javax.swing.JTextField(10);
+        this.add(this.field);
     }
 
     /**
@@ -250,12 +250,12 @@ class StratmasReferenceGUIConstructor extends StratmasGUIConstructor
      */
     protected void createStratmasObject()
     {
-	if (field.getText().length() != 0) {
-	    StratmasReference prospect = new StratmasReference(this.declaration, field.getText());
-	    setStratmasObject(prospect);
-	} else {
-	    setStratmasObject(null);
-	}
+        if (field.getText().length() != 0) {
+            StratmasReference prospect = new StratmasReference(this.declaration, field.getText());
+            setStratmasObject(prospect);
+        } else {
+            setStratmasObject(null);
+        }
     }
 }
 

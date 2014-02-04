@@ -1,4 +1,4 @@
-// 	$Id: LongParameter.java,v 1.1 2005/11/16 11:42:33 dah Exp $
+//         $Id: LongParameter.java,v 1.1 2005/11/16 11:42:33 dah Exp $
 /*
  * @(#)LongParameter.java
  */
@@ -21,43 +21,43 @@ public class LongParameter extends Parameter
      * The comparator of this type.
      */
     final static Comparator comparator = new Comparator()
-	{
-	    /**
-	     * Compares its two arguments for order.
-	     *
-	     * @param o1 first object.
-	     * @param o2 second object.
-	     */
-	    public int compare(Object o1, Object o2)
-	    {
-		long o1d = 
-		    ((LongParameter) ((ParameterInstance) o1).getParameter()).getLong((ParameterInstance) o1);
-		long o2d = 
-		    ((LongParameter) ((ParameterInstance) o2).getParameter()).getLong((ParameterInstance) o2);
+        {
+            /**
+             * Compares its two arguments for order.
+             *
+             * @param o1 first object.
+             * @param o2 second object.
+             */
+            public int compare(Object o1, Object o2)
+            {
+                long o1d = 
+                    ((LongParameter) ((ParameterInstance) o1).getParameter()).getLong((ParameterInstance) o1);
+                long o2d = 
+                    ((LongParameter) ((ParameterInstance) o2).getParameter()).getLong((ParameterInstance) o2);
 
-		return (int) (o1d - o2d);
-	    }
-	};
+                return (int) (o1d - o2d);
+            }
+        };
 
     /**
      * The metric of this type.
      */
      final static Metric metric = new Metric()
- 	{
- 	    /**
- 	     * Returns a measure of distance between two ParameterInstances.
- 	     *
- 	     * @param a the first ParameterInstance
- 	     * @param b the second ParameterInstance
- 	     */
- 	    public double d(ParameterInstance a, ParameterInstance b)
- 	    {
-		long ad = ((LongParameter) a.getParameter()).getLong(a);
-		long bd = ((LongParameter) b.getParameter()).getLong(b);
+         {
+             /**
+              * Returns a measure of distance between two ParameterInstances.
+              *
+              * @param a the first ParameterInstance
+              * @param b the second ParameterInstance
+              */
+             public double d(ParameterInstance a, ParameterInstance b)
+             {
+                long ad = ((LongParameter) a.getParameter()).getLong(a);
+                long bd = ((LongParameter) b.getParameter()).getLong(b);
 
- 		return Math.abs(((double) (ad - bd)));
- 	    }	    
-	 };
+                 return Math.abs(((double) (ad - bd)));
+             }            
+         };
 
     /**
      * Creates a new LongParameter with the specified name.
@@ -66,7 +66,7 @@ public class LongParameter extends Parameter
      */
     public LongParameter(String name)
     {
-	super(name);
+        super(name);
     }
 
     /**
@@ -76,7 +76,7 @@ public class LongParameter extends Parameter
      */
     public Comparator getComparator()
     {
-	return comparator;
+        return comparator;
     }
 
     /**
@@ -87,7 +87,7 @@ public class LongParameter extends Parameter
      */
     public Metric getMetric()
     {
- 	return metric;
+         return metric;
     }
 
     /**
@@ -102,20 +102,20 @@ public class LongParameter extends Parameter
      * @param gradient the gradient.
      */ 
     public ParameterInstance getGradientNeighbour(ParameterInstance instance, 
-						  double gradient)
+                                                  double gradient)
     {
-	// Force at least one step.
-	if (gradient != 0.0d && 
-	    Math.abs(gradient) < 1.0) {
-	    if (gradient > 0) {
-		gradient = 1.0;
-	    } else {
-		gradient = -1.0;
-	    }
-	}
+        // Force at least one step.
+        if (gradient != 0.0d && 
+            Math.abs(gradient) < 1.0) {
+            if (gradient > 0) {
+                gradient = 1.0;
+            } else {
+                gradient = -1.0;
+            }
+        }
 
-	return new ParameterInstance(this,
-				     new Long((long) (getLong(instance) + gradient)));
+        return new ParameterInstance(this,
+                                     new Long((long) (getLong(instance) + gradient)));
     }
 
     /**
@@ -126,7 +126,7 @@ public class LongParameter extends Parameter
      */
     long getLong(ParameterInstance instance)
     {
-	return ((Long) instance.getValue()).longValue();
+        return ((Long) instance.getValue()).longValue();
     }
 
     /**
@@ -134,6 +134,6 @@ public class LongParameter extends Parameter
      */
     public String toString(ParameterInstance parameterInstance)
     {
-	return Long.toString(getLong(parameterInstance));
+        return Long.toString(getLong(parameterInstance));
     }
 }

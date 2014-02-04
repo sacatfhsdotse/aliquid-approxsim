@@ -49,13 +49,13 @@ GridCell::GridCell(Grid& g, int activeIndex, const double* corners, int nGrp)
      position(corners);
 
      for (int i = 0; i < 2; ++i) {
-	  mPVF[i] = new double*[eNumWithFac];
-	  mPV[i] = new double[eNumNoFac];
-	  for (int j = 0; j < eNumWithFac; j++) {
-	       mPVF[i][j] = new double[sFactions + 1];
-	       memset(mPVF[i][j], 0, (sFactions + 1) * sizeof(double));
-	  }
-	  memset(mPV[i], 0, eNumNoFac * sizeof(double));
+          mPVF[i] = new double*[eNumWithFac];
+          mPV[i] = new double[eNumNoFac];
+          for (int j = 0; j < eNumWithFac; j++) {
+               mPVF[i][j] = new double[sFactions + 1];
+               memset(mPVF[i][j], 0, (sFactions + 1) * sizeof(double));
+          }
+          memset(mPV[i], 0, eNumNoFac * sizeof(double));
      }
      mPreCalcF = new double[ePNumPreCalcF * (sFactions + 1)];
      mPreCalc = new double[ePNumPreCalc];
@@ -70,11 +70,11 @@ GridCell::~GridCell()
 {
      delete [] mNeighbor;
      for (int i = 0; i < 2; ++i) {
-	  for (int j = 0; j < eNumWithFac; j++) {
-	       delete [] mPVF[i][j];
-	  }
-	  delete [] mPVF[i];
-	  delete [] mPV[i];
+          for (int j = 0; j < eNumWithFac; j++) {
+               delete [] mPVF[i][j];
+          }
+          delete [] mPVF[i];
+          delete [] mPV[i];
      }
      delete [] mPreCalcF;
      delete [] mPreCalc;
@@ -92,7 +92,7 @@ GridCell::~GridCell()
 void GridCell::position(const double* corner)
 {
      mCenter = ProjCoord(corner[0] + (corner[6] - corner[0]) / 2,
-			 corner[1] + (corner[3] - corner[1]) / 2).toLatLng();
+                         corner[1] + (corner[3] - corner[1]) / 2).toLatLng();
 }
 
 /**
@@ -105,31 +105,31 @@ void GridCell::init()
 
      // Population
      for (int i = 0; i < sFactions + 1; i++) {
-	  pvfSetR(ePopulation, i, mGrid.initialPopulation(mIndex, i));
+          pvfSetR(ePopulation, i, mGrid.initialPopulation(mIndex, i));
      }
      // Displaced
      for (int i = 0; i < sFactions + 1; i++) {
-	  pvfSetR(eDisplaced, i, 0);
+          pvfSetR(eDisplaced, i, 0);
      }
      // Sheltered
      for (int i = 0; i < sFactions + 1; i++) {
-	  pvfSetR(eSheltered, i, 0);
+          pvfSetR(eSheltered, i, 0);
      }
      // Protected
      for (int i = 0; i < sFactions + 1; i++) {
-	  pvfSetR(eProtected, i, 0);
+          pvfSetR(eProtected, i, 0);
      }
      // Violence
      for (int i = 0; i < sFactions + 1; i++) {
-	  pvfSetR(eViolence, i, 0);
+          pvfSetR(eViolence, i, 0);
      }
      // PerceivedThreat
      for (int i = 0; i < sFactions + 1; i++) {
-	  pvfSetR(ePerceivedThreat, i, 0);
+          pvfSetR(ePerceivedThreat, i, 0);
      }
      // Insurgents
      for (int i = 0; i < sFactions + 1; i++) {
-	  pvfSetR(eInsurgents, i, 0);
+          pvfSetR(eInsurgents, i, 0);
      }
 
      double densityFactor = min(0.01 * popDensity(), 1.0 ); // km to m
@@ -178,9 +178,9 @@ void GridCell::init()
 void GridCell::update()
 {
      if (pvfGet(ePopulation) + pcfGet(ePTowardsCampDelta) + pcfGet(ePDiffusionDelta) < kMinPopulation) {
-	  init();
-	  makeCalculatedTSCurrentTS();
-	  return;
+          init();
+          makeCalculatedTSCurrentTS();
+          return;
      }
 
      doPopulation          (mPVF[mWriteInd][ePopulation     ]);
@@ -235,16 +235,16 @@ void GridCell::pvAllSet(eAllPV pv, int f, double value)
 {
      int ipv = pv;
      if (ipv < eNumWithFac) {
-	  pvfSet(static_cast<ePVF>(pv), f, value);
+          pvfSet(static_cast<ePVF>(pv), f, value);
      }
      else if (ipv < eNumWithFac + eNumNoFac) {
-	  pvSet(static_cast<ePV>(pv), value);
+          pvSet(static_cast<ePV>(pv), value);
      }
      else {
-	  // Silently ignore invalid pv:s
-// 	  Error e;
-// 	  e << "Invalid pv " << pv << " (" << PVHelper::allPVName(pv)<< ") in GridCell::pvAllSet()";
-// 	  throw e;
+          // Silently ignore invalid pv:s
+//           Error e;
+//           e << "Invalid pv " << pv << " (" << PVHelper::allPVName(pv)<< ") in GridCell::pvAllSet()";
+//           throw e;
      }
 }
 
@@ -288,7 +288,7 @@ void GridCell::setSumR(ePVF pv)
 {
      double sum = 0;
      for (int f = 1; f < sFactions + 1; ++f) {
-	  sum += pvfGet(pv, f);
+          sum += pvfGet(pv, f);
      }
      pvfSetR(pv, 0, sum);
 }
@@ -303,7 +303,7 @@ void GridCell::setPopulationWeightedAverageR(ePVF pv)
 {
      double sum = 0;
      for (int f = 1; f < sFactions + 1; ++f) {
-	  sum += pvfGet(pv, f) * pvfGet(ePopulation, f);
+          sum += pvfGet(pv, f) * pvfGet(ePopulation, f);
      }
      pvfSetR(pv, 0, sum / pvfGet(ePopulation));
 }
@@ -331,7 +331,7 @@ void GridCell::doDerived()
 void GridCell::expose(eAllPV pv, const EthnicFaction& faction, double size)
 {
      if (size == 0) {
-	  return;
+          return;
      }
 
      static void (GridCell::*exposeFaction[eNumWithFac])(double*, const EthnicFaction&, double);
@@ -340,73 +340,73 @@ void GridCell::expose(eAllPV pv, const EthnicFaction& faction, double size)
 
      static bool firstTime = true;
      if (firstTime) {
-	  firstTime = false;
-	  exposeFaction[ePopulation     ] = 0;
-	  exposeFaction[eDisplaced      ] = &GridCell::exposeDisplaced;
-	  exposeFaction[eSheltered      ] = &GridCell::exposeSheltered;
-	  exposeFaction[eProtected      ] = &GridCell::exposeProtected;
-	  exposeFaction[eViolence       ] = &GridCell::exposePercent;
-	  exposeFaction[ePerceivedThreat] = &GridCell::exposePercent;
-	  exposeFaction[eInsurgents     ] = &GridCell::exposeInsurgents;
-	  
-	  exposeNoFaction[eFractionNoMedical   ] = &GridCell::exposeFraction;
-	  exposeNoFaction[eFractionNoWork      ] = &GridCell::exposeFraction;
-	  exposeNoFaction[eEthnicTension       ] = &GridCell::exposeFraction;
-	  exposeNoFaction[eFractionCrimeVictims] = &GridCell::exposeFraction;
-	  exposeNoFaction[eStoredFood          ] = 0;
-	  exposeNoFaction[eFoodConsumption     ] = 0;
-	  exposeNoFaction[eFarmStoredFood      ] = 0;
-	  exposeNoFaction[eMarketedFood        ] = 0;
-	  exposeNoFaction[eFoodDays            ] = &GridCell::exposeFoodDays;
-	  exposeNoFaction[eFractionNoFood      ] = 0;
-	  exposeNoFaction[eWaterConsumption    ] = 0;
-	  exposeNoFaction[eWaterDays           ] = &GridCell::exposeWaterDays;
-	  exposeNoFaction[eSuppliedWater       ] = 0;
-	  exposeNoFaction[eFractionNoWater     ] = 0;
-	  exposeNoFaction[eSusceptible         ] = 0;
-	  exposeNoFaction[eInfected            ] = 0;
-	  exposeNoFaction[eRecovered           ] = 0;
-	  exposeNoFaction[eDeadDueToDisease    ] = 0;
-	  exposeNoFaction[eFractionInfected    ] = &GridCell::exposeFractionInfected;
-	  exposeNoFaction[eFractionRecovered   ] = &GridCell::exposeFractionRecovered;
-	  exposeNoFaction[eInfrastructure      ] = &GridCell::exposeFraction;
-	  exposeNoFaction[eDailyDead           ] = 0;
-	  exposeNoFaction[eTotalDead           ] = 0;
-	  exposeNoFaction[eSmoothedDead        ] = 0;
-	  exposeNoFaction[eTEST                ] = 0;
+          firstTime = false;
+          exposeFaction[ePopulation     ] = 0;
+          exposeFaction[eDisplaced      ] = &GridCell::exposeDisplaced;
+          exposeFaction[eSheltered      ] = &GridCell::exposeSheltered;
+          exposeFaction[eProtected      ] = &GridCell::exposeProtected;
+          exposeFaction[eViolence       ] = &GridCell::exposePercent;
+          exposeFaction[ePerceivedThreat] = &GridCell::exposePercent;
+          exposeFaction[eInsurgents     ] = &GridCell::exposeInsurgents;
+          
+          exposeNoFaction[eFractionNoMedical   ] = &GridCell::exposeFraction;
+          exposeNoFaction[eFractionNoWork      ] = &GridCell::exposeFraction;
+          exposeNoFaction[eEthnicTension       ] = &GridCell::exposeFraction;
+          exposeNoFaction[eFractionCrimeVictims] = &GridCell::exposeFraction;
+          exposeNoFaction[eStoredFood          ] = 0;
+          exposeNoFaction[eFoodConsumption     ] = 0;
+          exposeNoFaction[eFarmStoredFood      ] = 0;
+          exposeNoFaction[eMarketedFood        ] = 0;
+          exposeNoFaction[eFoodDays            ] = &GridCell::exposeFoodDays;
+          exposeNoFaction[eFractionNoFood      ] = 0;
+          exposeNoFaction[eWaterConsumption    ] = 0;
+          exposeNoFaction[eWaterDays           ] = &GridCell::exposeWaterDays;
+          exposeNoFaction[eSuppliedWater       ] = 0;
+          exposeNoFaction[eFractionNoWater     ] = 0;
+          exposeNoFaction[eSusceptible         ] = 0;
+          exposeNoFaction[eInfected            ] = 0;
+          exposeNoFaction[eRecovered           ] = 0;
+          exposeNoFaction[eDeadDueToDisease    ] = 0;
+          exposeNoFaction[eFractionInfected    ] = &GridCell::exposeFractionInfected;
+          exposeNoFaction[eFractionRecovered   ] = &GridCell::exposeFractionRecovered;
+          exposeNoFaction[eInfrastructure      ] = &GridCell::exposeFraction;
+          exposeNoFaction[eDailyDead           ] = 0;
+          exposeNoFaction[eTotalDead           ] = 0;
+          exposeNoFaction[eSmoothedDead        ] = 0;
+          exposeNoFaction[eTEST                ] = 0;
 
-	  exposeDFaction[eDDisaffection] = &GridCell::exposePercent;
+          exposeDFaction[eDDisaffection] = &GridCell::exposePercent;
      }
      
      mWriteInd = mReadInd;
      if (pv < static_cast<int>(eNumWithFac)) {
-	  if (exposeFaction[pv]) {
-	       (this->*exposeFaction[pv])(mPVF[mWriteInd][pv], faction, size);
-//	       debug("exposing ePVF " << pv << " = "<< PVHelper::pvfName(static_cast<ePVF>(pv)));
-	  }
-	  else {
-	       slog << "Shouldn't expose faction pv " << pv << logEnd;
-	  }
+          if (exposeFaction[pv]) {
+               (this->*exposeFaction[pv])(mPVF[mWriteInd][pv], faction, size);
+//               debug("exposing ePVF " << pv << " = "<< PVHelper::pvfName(static_cast<ePVF>(pv)));
+          }
+          else {
+               slog << "Shouldn't expose faction pv " << pv << logEnd;
+          }
      }
      else if (pv < static_cast<int>(eNumWithFac + eNumNoFac)) {
-	  int i = pv - eNumWithFac;
-	  if (exposeNoFaction[i]) {
-	       (this->*exposeNoFaction[i])(&mPV[mWriteInd][i], size);
-//	       debug("exposing ePV " << i << " = "<< PVHelper::pvName(static_cast<ePV>(i)));
-	  }
-	  else {
-	       slog << "Shouldn't expose pv " << pv << logEnd;
-	  }
+          int i = pv - eNumWithFac;
+          if (exposeNoFaction[i]) {
+               (this->*exposeNoFaction[i])(&mPV[mWriteInd][i], size);
+//               debug("exposing ePV " << i << " = "<< PVHelper::pvName(static_cast<ePV>(i)));
+          }
+          else {
+               slog << "Shouldn't expose pv " << pv << logEnd;
+          }
      }
      else {
-	  int i = pv - eNumWithFac - eNumNoFac;
-	  if (exposeDFaction[i]) {
-	       (this->*exposeDFaction[i])(&mDerivedF[i * (sFactions + 1)], faction, size);
-//	       debug("exposing eDerivedF " << i << " = "<< PVHelper::pdfName(static_cast<eDerivedF>(i)));
-	  }
-	  else {
-	       slog << "Shouldn't expose derived faction pv " << pv << logEnd;
-	  }
+          int i = pv - eNumWithFac - eNumNoFac;
+          if (exposeDFaction[i]) {
+               (this->*exposeDFaction[i])(&mDerivedF[i * (sFactions + 1)], faction, size);
+//               debug("exposing eDerivedF " << i << " = "<< PVHelper::pdfName(static_cast<eDerivedF>(i)));
+          }
+          else {
+               slog << "Shouldn't expose derived faction pv " << pv << logEnd;
+          }
      }
      mWriteInd = !mReadInd;
 }
@@ -419,10 +419,10 @@ void GridCell::expose(eAllPV pv, const EthnicFaction& faction, double size)
 void GridCell::adjustValues()
 {
      for (int i = 1; i < sFactions + 1; i++) {
-	  pvfSetR(eDisplaced , i, min(pvfGet(eDisplaced , i), pvfGet(ePopulation, i)));	  
-	  pvfSetR(eSheltered , i, min(pvfGet(eSheltered , i), pvfGet(eDisplaced , i)));
-	  pvfSetR(eProtected , i, min(pvfGet(eProtected , i), pvfGet(ePopulation , i) - pvfGet(eDisplaced, i)));
-	  pvfSetR(eInsurgents, i, min(pvfGet(eInsurgents, i), pvfGet(ePopulation, i)));
+          pvfSetR(eDisplaced , i, min(pvfGet(eDisplaced , i), pvfGet(ePopulation, i)));          
+          pvfSetR(eSheltered , i, min(pvfGet(eSheltered , i), pvfGet(eDisplaced , i)));
+          pvfSetR(eProtected , i, min(pvfGet(eProtected , i), pvfGet(ePopulation , i) - pvfGet(eDisplaced, i)));
+          pvfSetR(eInsurgents, i, min(pvfGet(eInsurgents, i), pvfGet(ePopulation, i)));
      }   
      recalculateAllFaction();
 }
@@ -437,72 +437,72 @@ void GridCell::handleRoundOffErrors()
      double totShelt = 0;
      double totProt  = 0;
      for (int i = 1; i < sFactions + 1; i++) {
-	  totPop   += pvfGet(ePopulation, i);
- 	  totDisp  += pvfGet(eDisplaced, i);
- 	  totShelt += pvfGet(eSheltered, i);
- 	  totProt  += pvfGet(eProtected, i);
+          totPop   += pvfGet(ePopulation, i);
+           totDisp  += pvfGet(eDisplaced, i);
+           totShelt += pvfGet(eSheltered, i);
+           totProt  += pvfGet(eProtected, i);
      }
      ostringstream o;
      // Sum mismatches
      double epsilon = 1e-6;
      if (totPop != pvfGet(ePopulation)) {
-	  if (totPop - pvfGet(ePopulation) < epsilon) {
-	       pvfSetR(ePopulation, 0, totPop);
-	  }
-	  else {
-	       o << "Population sum mismatch: " << totPop << " != " << pvfGet(ePopulation) << endl;
-	  }
+          if (totPop - pvfGet(ePopulation) < epsilon) {
+               pvfSetR(ePopulation, 0, totPop);
+          }
+          else {
+               o << "Population sum mismatch: " << totPop << " != " << pvfGet(ePopulation) << endl;
+          }
      }
      if (totDisp != pvfGet(eDisplaced)) {
-	  if (totDisp - pvfGet(eDisplaced) < epsilon) {
-	       pvfSetR(eDisplaced, 0, totDisp);
-	  }
-	  else {
-	       o << "Displaced sum mismatch: " << totDisp << " != " << pvfGet(eDisplaced) << endl;
-	  }
+          if (totDisp - pvfGet(eDisplaced) < epsilon) {
+               pvfSetR(eDisplaced, 0, totDisp);
+          }
+          else {
+               o << "Displaced sum mismatch: " << totDisp << " != " << pvfGet(eDisplaced) << endl;
+          }
      }
      if (totShelt != pvfGet(eSheltered)) {
-	  if (totShelt - pvfGet(eSheltered) < epsilon) {
-	       pvfSetR(eSheltered, 0, totShelt);
-	  }
-	  else {
-	       o << "Sheltered sum mismatch: " << totShelt << " != " << pvfGet(eSheltered) << endl;
-	  }
+          if (totShelt - pvfGet(eSheltered) < epsilon) {
+               pvfSetR(eSheltered, 0, totShelt);
+          }
+          else {
+               o << "Sheltered sum mismatch: " << totShelt << " != " << pvfGet(eSheltered) << endl;
+          }
      }
      if (totProt != pvfGet(eProtected)) {
-	  if (totProt - pvfGet(eProtected) < epsilon) {
-	       pvfSetR(eProtected, 0, totProt);
-	  }
-	  else {
-	       o << "Protected sum mismatch: " << totProt << " != " << pvfGet(eProtected) << endl;
-	  }
+          if (totProt - pvfGet(eProtected) < epsilon) {
+               pvfSetR(eProtected, 0, totProt);
+          }
+          else {
+               o << "Protected sum mismatch: " << totProt << " != " << pvfGet(eProtected) << endl;
+          }
      }
      // Attribute combination errors
      if (totDisp > totPop) {
-	  o << "Displaced > Population: " << totDisp << " > " << totPop << endl;
+          o << "Displaced > Population: " << totDisp << " > " << totPop << endl;
      }
      if (totDisp + totProt > totPop) {
-	  o << "Displaced + Protected > Population: " << totDisp + totProt << " > " << totPop << endl;
+          o << "Displaced + Protected > Population: " << totDisp + totProt << " > " << totPop << endl;
      }
      if (totShelt > totDisp) {
-	  o << "Sheltered > Displaced: " << totShelt << " > " << totDisp << endl;
+          o << "Sheltered > Displaced: " << totShelt << " > " << totDisp << endl;
      }
      if (pvGet(eFractionInfected) + pvGet(eFractionRecovered) > 1) {
-	  // This sum will exceed 1 frequently. According to old Stratmas source
-	  // code this seems to be part of the model. The following comment can
-	  // be found in DGridCell::DoEpidemics() in the old source code.
+          // This sum will exceed 1 frequently. According to old Stratmas source
+          // code this seems to be part of the model. The following comment can
+          // be found in DGridCell::DoEpidemics() in the old source code.
 
-			//	Make sure that ill+immune do not exceed the total
-			//	(this is absolutely NECESSARY for severe diseases!
+                        //        Make sure that ill+immune do not exceed the total
+                        //        (this is absolutely NECESSARY for severe diseases!
 
-	  // So let's just modify the numbers as was done in the old version
-	  // and keep quiet...
-	  double sum = pvGet(eFractionInfected) + pvGet(eFractionRecovered);
-	  pvSetR(eFractionInfected, pvGet(eFractionInfected) / sum);
-	  pvSetR(eFractionRecovered, 1 - pvGet(eFractionInfected));
+          // So let's just modify the numbers as was done in the old version
+          // and keep quiet...
+          double sum = pvGet(eFractionInfected) + pvGet(eFractionRecovered);
+          pvSetR(eFractionInfected, pvGet(eFractionInfected) / sum);
+          pvSetR(eFractionRecovered, 1 - pvGet(eFractionInfected));
      }
      if (o.str() != "") {
-	  debug("Cell: " << mRow << ", " << mCol << endl << o.str());
+          debug("Cell: " << mRow << ", " << mCol << endl << o.str());
      }
 }
 
@@ -516,16 +516,16 @@ ostream &operator<<(ostream& o, const GridCell& c)
 {
      o << "Cell " << c.mRow << ", " << c.mCol << endl;
      for (int i = 0; i < eNumWithFac; i++) {
-	  ePVF pv = static_cast<ePVF>(i);
-	  o << PVHelper::pvfName(pv) << "(type = " << PVHelper::pvfType(pv) << "):" << endl;
-	  for (int f = 0; f < c.sFactions + 1; f++) {
-	       o << "   " << c.pvfGet(pv, f) << endl;
-	  }
+          ePVF pv = static_cast<ePVF>(i);
+          o << PVHelper::pvfName(pv) << "(type = " << PVHelper::pvfType(pv) << "):" << endl;
+          for (int f = 0; f < c.sFactions + 1; f++) {
+               o << "   " << c.pvfGet(pv, f) << endl;
+          }
      }
      for (int i = 0; i <  eNumNoFac; i++) {
-	  ePV pv = static_cast<ePV>(i);
-	  o << left << setw(22) << PVHelper::pvName(pv);
-	  o << right << " = " << c.pvGet(pv) << endl;
+          ePV pv = static_cast<ePV>(i);
+          o << left << setw(22) << PVHelper::pvName(pv);
+          o << right << " = " << c.pvGet(pv) << endl;
      }
      return o;
 }

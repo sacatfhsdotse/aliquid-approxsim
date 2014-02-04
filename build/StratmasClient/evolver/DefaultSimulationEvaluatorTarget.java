@@ -31,17 +31,17 @@ abstract class DefaultSimulationEvaluatorTarget implements SimulationEvaluatorTa
      * The stopper of this target. Default stops after ten updates.
      */
     Stopper stopper = new Stopper()
-	{
-	    /**
-	     * Returns true if enough work is done.
-	     *
-	     * @param o the object that wonders if it is finished.
-	     */
-	    public boolean isFinished (Object o)
-	    {
-		return getUpdateCount() > 9;
-	    }
-	};
+        {
+            /**
+             * Returns true if enough work is done.
+             *
+             * @param o the object that wonders if it is finished.
+             */
+            public boolean isFinished (Object o)
+            {
+                return getUpdateCount() > 9;
+            }
+        };
 
     /**
      * The number of updates made on the subscription target.
@@ -54,7 +54,7 @@ abstract class DefaultSimulationEvaluatorTarget implements SimulationEvaluatorTa
      */
     DefaultSimulationEvaluatorTarget()
     {
-	setSubscription(createSubscription());
+        setSubscription(createSubscription());
     }
 
     /**
@@ -62,7 +62,7 @@ abstract class DefaultSimulationEvaluatorTarget implements SimulationEvaluatorTa
      */
     public Subscription getSubscription()
     {
-	return subscription;
+        return subscription;
     }
 
     /**
@@ -72,7 +72,7 @@ abstract class DefaultSimulationEvaluatorTarget implements SimulationEvaluatorTa
      */
     private void setSubscription(Subscription subscription)
     {
-	this.subscription = subscription;
+        this.subscription = subscription;
     }
 
     /**
@@ -80,7 +80,7 @@ abstract class DefaultSimulationEvaluatorTarget implements SimulationEvaluatorTa
      */
     public int getUpdateCount()
     {
-	return this.updateCount;
+        return this.updateCount;
     }
 
     /**
@@ -88,7 +88,7 @@ abstract class DefaultSimulationEvaluatorTarget implements SimulationEvaluatorTa
      */
     public void increaseUpdateCount()
     {
-	this.updateCount++;
+        this.updateCount++;
     }
 
     /**
@@ -113,7 +113,7 @@ abstract class DefaultSimulationEvaluatorTarget implements SimulationEvaluatorTa
      */
     public void setStopper(Stopper stopper)
     {
-	this.stopper = stopper;
+        this.stopper = stopper;
     }
 
     /**
@@ -121,7 +121,7 @@ abstract class DefaultSimulationEvaluatorTarget implements SimulationEvaluatorTa
      */
     public Stopper getStopper()
     {
-	return this.stopper;
+        return this.stopper;
     }
 }
 

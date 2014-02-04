@@ -1,4 +1,4 @@
-// 	$Id: StratmasDispatcher.java,v 1.5 2006/03/27 13:36:48 dah Exp $
+//         $Id: StratmasDispatcher.java,v 1.5 2006/03/27 13:36:48 dah Exp $
 
 /*
  * @(#).StratmasDispatcher.java
@@ -95,8 +95,8 @@ public class StratmasDispatcher
      */    
     public StratmasDispatcher(String hostname, int port)
     {
-	this.hostname = hostname;
-	this.port = port;
+        this.hostname = hostname;
+        this.port = port;
     }
 
     /**
@@ -104,7 +104,7 @@ public class StratmasDispatcher
      */
     public int getPort()
     {
-	return this.port;
+        return this.port;
     }
 
     /**
@@ -112,7 +112,7 @@ public class StratmasDispatcher
      */
     public String getHostname()
     {
-	return this.hostname;
+        return this.hostname;
     }
 
     /**
@@ -120,17 +120,17 @@ public class StratmasDispatcher
      */
     public static StratmasDispatcher getDefaultDispatcher() 
     {
-    	String dispatcherString = System.getProperty("DISPATCHER");
-	if (dispatcherString != null && dispatcherString != "") {
-	    String[] parts = dispatcherString.split(":");
-	    int port = 4181;
-	    if (parts.length == 2 && parts[1].matches("\\A\\p{Digit}+\\z")) {
-		port = Integer.parseInt(parts[1]);
-	    }
-	    return new StratmasDispatcher(parts[0], port);
-	}
-	
-	return null;
+            String dispatcherString = System.getProperty("DISPATCHER");
+        if (dispatcherString != null && dispatcherString != "") {
+            String[] parts = dispatcherString.split(":");
+            int port = 4181;
+            if (parts.length == 2 && parts[1].matches("\\A\\p{Digit}+\\z")) {
+                port = Integer.parseInt(parts[1]);
+            }
+            return new StratmasDispatcher(parts[0], port);
+        }
+        
+        return null;
     }
     /**
      * Tries to allocate a server from the pool of servers known to the dispatcher.
@@ -139,58 +139,58 @@ public class StratmasDispatcher
      */
     public StratmasSocket allocateServer(int retries)
     {
-	Random random = new Random();
-	LSInput parserInput = domImplementationLS.createLSInput();
+        Random random = new Random();
+        LSInput parserInput = domImplementationLS.createLSInput();
 
-	for (int i = 0; i < retries; i++) {
-	    Vector prospects = new Vector();
-	    for (Enumeration e = getServers().elements(); e.hasMoreElements();) {
-		StratmasServer server = (StratmasServer) e.nextElement();
-		if (!server.isBusy()) {
-		    prospects.add(server);
-		}
-	    }
-	    
-	    if (prospects.size() != 0) {
-		// Randomly pick one:
-		int index = random.nextInt(prospects.size());
-		StratmasServer prospect = (StratmasServer) prospects.get(index);
-		Debug.err.println(i + ": Trying " + prospect.toString());
-		// Try to become active client.
-		StratmasSocket socket = null;
-		try {
-		    socket = new StratmasSocket();
-		    socket.connect(prospect.getHost(), prospect.getPort());
-		    ConnectMessage message = new ConnectMessage();
-		    socket.sendMessage(message.toXML());
-		    parserInput.setStringData(socket.recvMessage());
-		    Document reply = createStratmasParser().parse(parserInput);
-		    NodeList list = reply.getDocumentElement().getElementsByTagName("active");
-		    if (list.getLength() != 1) {
-			Debug.err.println("Unexpected form of ConnectResponseMessage");
-		    } else if (Boolean.valueOf(list.item(0).getFirstChild().getNodeValue()).booleanValue()) {
-			// Hurray, we are active.
-			Debug.err.println("Returning " + prospect.toString());
-			return socket;
-		    }
-		    
-		    socket.close();
-		} catch (IOException e) {
-		    Debug.err.println(e.getMessage());
-		    if (socket != null) {
-			socket.close();
-		    }
-		} catch (LSException e) {
-		    Debug.err.println(e.getMessage());
-		    if (socket != null) {
-			socket.close();
-		    }
-		}
-	    }
-	}
+        for (int i = 0; i < retries; i++) {
+            Vector prospects = new Vector();
+            for (Enumeration e = getServers().elements(); e.hasMoreElements();) {
+                StratmasServer server = (StratmasServer) e.nextElement();
+                if (!server.isBusy()) {
+                    prospects.add(server);
+                }
+            }
+            
+            if (prospects.size() != 0) {
+                // Randomly pick one:
+                int index = random.nextInt(prospects.size());
+                StratmasServer prospect = (StratmasServer) prospects.get(index);
+                Debug.err.println(i + ": Trying " + prospect.toString());
+                // Try to become active client.
+                StratmasSocket socket = null;
+                try {
+                    socket = new StratmasSocket();
+                    socket.connect(prospect.getHost(), prospect.getPort());
+                    ConnectMessage message = new ConnectMessage();
+                    socket.sendMessage(message.toXML());
+                    parserInput.setStringData(socket.recvMessage());
+                    Document reply = createStratmasParser().parse(parserInput);
+                    NodeList list = reply.getDocumentElement().getElementsByTagName("active");
+                    if (list.getLength() != 1) {
+                        Debug.err.println("Unexpected form of ConnectResponseMessage");
+                    } else if (Boolean.valueOf(list.item(0).getFirstChild().getNodeValue()).booleanValue()) {
+                        // Hurray, we are active.
+                        Debug.err.println("Returning " + prospect.toString());
+                        return socket;
+                    }
+                    
+                    socket.close();
+                } catch (IOException e) {
+                    Debug.err.println(e.getMessage());
+                    if (socket != null) {
+                        socket.close();
+                    }
+                } catch (LSException e) {
+                    Debug.err.println(e.getMessage());
+                    if (socket != null) {
+                        socket.close();
+                    }
+                }
+            }
+        }
 
-	Debug.err.println("allocateServer failed to allocate server");
-	return null;
+        Debug.err.println("allocateServer failed to allocate server");
+        return null;
     }
 
     /**
@@ -198,36 +198,36 @@ public class StratmasDispatcher
      */
     private static Document createListServersMessage()
     {
-	Document document = null;
-	if (domImplementationLS == null) {
-	    domImplementationLS = createDomImplementationLS();
-	}
-	try {
-	    document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-	    document.createEntityReference("xsi");
-	    Element element = document.createElement("dispatcherRequest");
+        Document document = null;
+        if (domImplementationLS == null) {
+            domImplementationLS = createDomImplementationLS();
+        }
+        try {
+            document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+            document.createEntityReference("xsi");
+            Element element = document.createElement("dispatcherRequest");
             element.setAttribute("xmlns:xsi", XML_SCHEMA_NS);
-	    element.setAttribute("xsi:type", "ListRequest");
-	    document.appendChild(element);
-	    LSOutput output = domImplementationLS.createLSOutput();
-	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-	    output.setByteStream(outputStream);
-	    document.normalize();
-	    domImplementationLS.createLSSerializer().write(document, output);
+            element.setAttribute("xsi:type", "ListRequest");
+            document.appendChild(element);
+            LSOutput output = domImplementationLS.createLSOutput();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            output.setByteStream(outputStream);
+            document.normalize();
+            domImplementationLS.createLSSerializer().write(document, output);
 
-	    byte[] array = outputStream.toByteArray();	    
-	    ByteBuffer byteBuffer = ByteBuffer.allocate(4 + array.length);
-	    byteBuffer.putInt(array.length);
-	    byteBuffer.put(array);
-	    byteBuffer.rewind();
-	    listServersMessageBuffer = byteBuffer.array();
-	} catch (javax.xml.parsers.ParserConfigurationException e) {
-	    System.err.println("Unable to create vital XML-document: " + 
-			       e.getMessage());
-	    System.exit(1);
-	}
+            byte[] array = outputStream.toByteArray();            
+            ByteBuffer byteBuffer = ByteBuffer.allocate(4 + array.length);
+            byteBuffer.putInt(array.length);
+            byteBuffer.put(array);
+            byteBuffer.rewind();
+            listServersMessageBuffer = byteBuffer.array();
+        } catch (javax.xml.parsers.ParserConfigurationException e) {
+            System.err.println("Unable to create vital XML-document: " + 
+                               e.getMessage());
+            System.exit(1);
+        }
 
-	return document;
+        return document;
     }
 
     /**
@@ -235,35 +235,35 @@ public class StratmasDispatcher
      */
     public LSParser createStratmasParser()
     {
-	LSParser parser = 
-	    domImplementationLS.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, 
-					       "http://www.w3.org/2001/XMLSchema");
-	parser.getDomConfig().setParameter("error-handler", new DOMErrorHandler() 
-	    {
-		/**
-		 * This method is called on the error handler when an error occurs.
-		 *
-		 * @param error the error;
-		 */
-		public boolean handleError(DOMError error)
-		{
-		    throw new LSException(LSException.PARSE_ERR, 
-					  error.getMessage());
+        LSParser parser = 
+            domImplementationLS.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, 
+                                               "http://www.w3.org/2001/XMLSchema");
+        parser.getDomConfig().setParameter("error-handler", new DOMErrorHandler() 
+            {
+                /**
+                 * This method is called on the error handler when an error occurs.
+                 *
+                 * @param error the error;
+                 */
+                public boolean handleError(DOMError error)
+                {
+                    throw new LSException(LSException.PARSE_ERR, 
+                                          error.getMessage());
 
-		}
-	    });
+                }
+            });
 
-	parser.getDomConfig().setParameter("schema-location", 
-					   StratmasConstants.STRATMAS_PROTOCOL_SCHEMA);
-	parser.getDomConfig().setParameter("validate", Boolean.TRUE);
-	parser.getDomConfig().setParameter("namespaces", Boolean.TRUE);
+        parser.getDomConfig().setParameter("schema-location", 
+                                           StratmasConstants.STRATMAS_PROTOCOL_SCHEMA);
+        parser.getDomConfig().setParameter("validate", Boolean.TRUE);
+        parser.getDomConfig().setParameter("namespaces", Boolean.TRUE);
 
-	LSResourceResolver prevResolver = 
-	    (LSResourceResolver) parser.getDomConfig().getParameter("resource-resolver");
-	parser.getDomConfig().setParameter("resource-resolver", 
-					   new LSJarXSDResolver(prevResolver));
+        LSResourceResolver prevResolver = 
+            (LSResourceResolver) parser.getDomConfig().getParameter("resource-resolver");
+        parser.getDomConfig().setParameter("resource-resolver", 
+                                           new LSJarXSDResolver(prevResolver));
 
-	return parser;
+        return parser;
     }
 
     /**
@@ -271,34 +271,34 @@ public class StratmasDispatcher
      */
     public LSParser createDispatcherParser()
     {
-	LSParser parser = 
-	    domImplementationLS.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, 
-					       "http://www.w3.org/2001/XMLSchema");
-	parser.getDomConfig().setParameter("error-handler", new DOMErrorHandler() 
-	    {
-		/**
-		 * This method is called on the error handler when an error occurs.
-		 *
-		 * @param error the error;
-		 */
-		public boolean handleError(DOMError error)
-		{
-		    throw new LSException(LSException.PARSE_ERR, 
-					  error.getMessage());
+        LSParser parser = 
+            domImplementationLS.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, 
+                                               "http://www.w3.org/2001/XMLSchema");
+        parser.getDomConfig().setParameter("error-handler", new DOMErrorHandler() 
+            {
+                /**
+                 * This method is called on the error handler when an error occurs.
+                 *
+                 * @param error the error;
+                 */
+                public boolean handleError(DOMError error)
+                {
+                    throw new LSException(LSException.PARSE_ERR, 
+                                          error.getMessage());
 
-		}
-	    });
+                }
+            });
 
-	parser.getDomConfig().setParameter("schema-location", DISPATCHER_PROTOCOL);
-	parser.getDomConfig().setParameter("validate", Boolean.TRUE);
-	parser.getDomConfig().setParameter("namespaces", Boolean.TRUE);
+        parser.getDomConfig().setParameter("schema-location", DISPATCHER_PROTOCOL);
+        parser.getDomConfig().setParameter("validate", Boolean.TRUE);
+        parser.getDomConfig().setParameter("namespaces", Boolean.TRUE);
 
-	LSResourceResolver prevResolver = 
-	    (LSResourceResolver) parser.getDomConfig().getParameter("resource-resolver");
-	parser.getDomConfig().setParameter("resource-resolver", 
-					   new LSJarXSDResolver(prevResolver));
+        LSResourceResolver prevResolver = 
+            (LSResourceResolver) parser.getDomConfig().getParameter("resource-resolver");
+        parser.getDomConfig().setParameter("resource-resolver", 
+                                           new LSJarXSDResolver(prevResolver));
 
-	return parser;
+        return parser;
     }
 
     /**
@@ -306,29 +306,29 @@ public class StratmasDispatcher
      */
     private static DOMImplementationLS createDomImplementationLS()
     {
-	if (domImplementationLS != null) {
-	    return domImplementationLS;
-	} else {
-	    try {
-		System.setProperty(DOMImplementationRegistry.PROPERTY,
-				   "org.apache.xerces.dom.DOMImplementationSourceImpl");
-		DOMImplementationRegistry registry = 
-		    DOMImplementationRegistry.newInstance();
-		return (DOMImplementationLS)registry.getDOMImplementation("LS");
-	    } catch (ClassNotFoundException e) {
-		System.err.println("Unable to find DOM Parser: " + e.getMessage());
-		System.exit(1);
-		return null;
-	    } catch (InstantiationException e) {
-		System.err.println("Unable to find DOM Parser: " + e.getMessage());
-		System.exit(1);
-		return null;
-	    } catch (IllegalAccessException e) {
-		System.err.println("Unable to find DOM Parser: " + e.getMessage());
-		System.exit(1);
-		return null;
-	    }
-	}
+        if (domImplementationLS != null) {
+            return domImplementationLS;
+        } else {
+            try {
+                System.setProperty(DOMImplementationRegistry.PROPERTY,
+                                   "org.apache.xerces.dom.DOMImplementationSourceImpl");
+                DOMImplementationRegistry registry = 
+                    DOMImplementationRegistry.newInstance();
+                return (DOMImplementationLS)registry.getDOMImplementation("LS");
+            } catch (ClassNotFoundException e) {
+                System.err.println("Unable to find DOM Parser: " + e.getMessage());
+                System.exit(1);
+                return null;
+            } catch (InstantiationException e) {
+                System.err.println("Unable to find DOM Parser: " + e.getMessage());
+                System.exit(1);
+                return null;
+            } catch (IllegalAccessException e) {
+                System.err.println("Unable to find DOM Parser: " + e.getMessage());
+                System.exit(1);
+                return null;
+            }
+        }
     }
     
     /**
@@ -336,42 +336,42 @@ public class StratmasDispatcher
      */
     public Vector getServers()
     {
-	Vector res = new Vector();
-	SocketChannel channel = null;
+        Vector res = new Vector();
+        SocketChannel channel = null;
 
-	try {
-	    channel = SocketChannel.open(new InetSocketAddress(getHostname(),
-							       getPort()));
-	    try {
-		channel.socket().getOutputStream().write(listServersMessageBuffer);
-		LSInput parserInput = domImplementationLS.createLSInput();
+        try {
+            channel = SocketChannel.open(new InetSocketAddress(getHostname(),
+                                                               getPort()));
+            try {
+                channel.socket().getOutputStream().write(listServersMessageBuffer);
+                LSInput parserInput = domImplementationLS.createLSInput();
 
-		ByteBuffer header = ByteBuffer.allocate(4);
-		for(int r = 0; r < 4; r += channel.read(header));
-		header.rewind();
-		int length = header.getInt();
-		parserInput.setByteStream(channel.socket().getInputStream());
-		Document reply = createDispatcherParser().parse(parserInput);
-		NodeList servers = reply.getDocumentElement().getElementsByTagName("stratmasServer");
-		for (int i = 0; i < servers.getLength(); i++) {
-		    res.add(StratmasServer.fromDOMElement((Element) servers.item(i)));
-		}
-	    } catch (org.w3c.dom.ls.LSException e) {
-		System.err.println(e.getMessage());
-	    }
-	    channel.close();
-	} catch (IOException e) {
-	    System.err.println(e.getMessage());
-	    try {
-		if (channel != null) {
-		    channel.close();
-		}
-	    } catch (IOException ex) {
-		System.err.println(e.getMessage());
-	    }
-	}
+                ByteBuffer header = ByteBuffer.allocate(4);
+                for(int r = 0; r < 4; r += channel.read(header));
+                header.rewind();
+                int length = header.getInt();
+                parserInput.setByteStream(channel.socket().getInputStream());
+                Document reply = createDispatcherParser().parse(parserInput);
+                NodeList servers = reply.getDocumentElement().getElementsByTagName("stratmasServer");
+                for (int i = 0; i < servers.getLength(); i++) {
+                    res.add(StratmasServer.fromDOMElement((Element) servers.item(i)));
+                }
+            } catch (org.w3c.dom.ls.LSException e) {
+                System.err.println(e.getMessage());
+            }
+            channel.close();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+            try {
+                if (channel != null) {
+                    channel.close();
+                }
+            } catch (IOException ex) {
+                System.err.println(e.getMessage());
+            }
+        }
     
-	return res;
+        return res;
     }
 
 }

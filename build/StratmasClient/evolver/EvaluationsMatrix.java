@@ -1,4 +1,4 @@
-// 	$Id: EvaluationsMatrix.java,v 1.4 2006/03/31 16:55:51 dah Exp $
+//         $Id: EvaluationsMatrix.java,v 1.4 2006/03/31 16:55:51 dah Exp $
 /*
  * @(#)EvaluationsMatrix.java
  */
@@ -43,7 +43,7 @@ public class EvaluationsMatrix
      */   
     public EvaluationsMatrix(Evolver evolver)
     {
-	setEvolver(evolver);
+        setEvolver(evolver);
     }
 
     /**
@@ -58,74 +58,74 @@ public class EvaluationsMatrix
      */
     public void setEvolver(Evolver evolver)
     {
-	if (evolver != null) {
-	    evolver.addEventListener(new DefaultEvolverEventListener()
-		{
-		    /**
-		     * Called when the evolver adds a new evaluation.
-		     *
-		     * @param event the event.
-		     * @param newEvaluation the new evaluation
-		     */
-		    public void newEvaluation(EvolverEvent event, 
-					      Evaluation newEvaluation)
-		    {
-			addEvaluation(event.getEvolver(), newEvaluation);
-		    }
+        if (evolver != null) {
+            evolver.addEventListener(new DefaultEvolverEventListener()
+                {
+                    /**
+                     * Called when the evolver adds a new evaluation.
+                     *
+                     * @param event the event.
+                     * @param newEvaluation the new evaluation
+                     */
+                    public void newEvaluation(EvolverEvent event, 
+                                              Evaluation newEvaluation)
+                    {
+                        addEvaluation(event.getEvolver(), newEvaluation);
+                    }
 
-		    /**
-		     * Called when the evolver adds a new evaluator.
-		     *
-		     * @param event the event.
-		     * @param newEvaluation the new evaluation
-		     */
-		    public void newEvaluator(EvolverEvent event, Evaluator evaluator)
-		    {
-			evaluator.addEventListener(new EvaluatorEventListener()
-			    {
-				/**
-				 * Called when evaluator is finished with the
-				 * evaluation.
-				 *
-				 * @param event the event.
-				 */
-				public void finished(EvaluatorEvent event)
-				{
-				    removePreliminaryEvaluation(event.getEvaluator());
-				    event.getEvaluator().removeEventListener(this);
-				}
-				
-				/**
-				 * Called when evaluator has a new preliminart evaluation.
-				 *
-				 * @param evaluation the preliminary evaluation.
-				 * @param event the event.
-				 */
-				public void newPreliminaryEvaluation(EvaluatorEvent event, 
-								     Evaluation evaluation)
-				{
-				    addPreliminaryEvaluation(event.getEvaluator(), 
-							     evaluation);
-				}
-				
-				/**
-				 * Called when an error has occured during the
-				 * evaluation.
-				 *
-				 * @param event the event.
-				 * @param errorMessage a string describing the error.
-				 */
-				public void error(EvaluatorEvent event, String errorMessage)
-				{
-				    removePreliminaryEvaluation(event.getEvaluator());
-				    event.getEvaluator().removeEventListener(this);
-				}
-			    });
-		    }
-		});	    
-	}
+                    /**
+                     * Called when the evolver adds a new evaluator.
+                     *
+                     * @param event the event.
+                     * @param newEvaluation the new evaluation
+                     */
+                    public void newEvaluator(EvolverEvent event, Evaluator evaluator)
+                    {
+                        evaluator.addEventListener(new EvaluatorEventListener()
+                            {
+                                /**
+                                 * Called when evaluator is finished with the
+                                 * evaluation.
+                                 *
+                                 * @param event the event.
+                                 */
+                                public void finished(EvaluatorEvent event)
+                                {
+                                    removePreliminaryEvaluation(event.getEvaluator());
+                                    event.getEvaluator().removeEventListener(this);
+                                }
+                                
+                                /**
+                                 * Called when evaluator has a new preliminart evaluation.
+                                 *
+                                 * @param evaluation the preliminary evaluation.
+                                 * @param event the event.
+                                 */
+                                public void newPreliminaryEvaluation(EvaluatorEvent event, 
+                                                                     Evaluation evaluation)
+                                {
+                                    addPreliminaryEvaluation(event.getEvaluator(), 
+                                                             evaluation);
+                                }
+                                
+                                /**
+                                 * Called when an error has occured during the
+                                 * evaluation.
+                                 *
+                                 * @param event the event.
+                                 * @param errorMessage a string describing the error.
+                                 */
+                                public void error(EvaluatorEvent event, String errorMessage)
+                                {
+                                    removePreliminaryEvaluation(event.getEvaluator());
+                                    event.getEvaluator().removeEventListener(this);
+                                }
+                            });
+                    }
+                });            
+        }
 
-	setColumnMap(createColumnMap(evolver));	
+        setColumnMap(createColumnMap(evolver));        
     }
 
 
@@ -136,7 +136,7 @@ public class EvaluationsMatrix
      */
     void setColumnMap(ColumnMap map)
     {
-	this.columnMap = map;
+        this.columnMap = map;
     }
 
     /**
@@ -144,7 +144,7 @@ public class EvaluationsMatrix
      */
     ColumnMap getColumnMap()
     {
-	return this.columnMap;
+        return this.columnMap;
     }
 
     /**
@@ -154,26 +154,26 @@ public class EvaluationsMatrix
      */
     ColumnMap createColumnMap(Evolver evolver)
     {
-	ColumnMap map = new ColumnMap();
-	int index = 0;
-	
-	for (Enumeration e = evolver.getParameters().elements(); 
-	     e.hasMoreElements();) {
-	    Parameter parameter = (Parameter) e.nextElement();
-	    // Need both comparator and metric to use this parameter.
-	    if (parameter.getComparator() != null && 
-		parameter.getMetric() != null) {
-		map.set(index++, parameter);
-	    }
-	}
+        ColumnMap map = new ColumnMap();
+        int index = 0;
+        
+        for (Enumeration e = evolver.getParameters().elements(); 
+             e.hasMoreElements();) {
+            Parameter parameter = (Parameter) e.nextElement();
+            // Need both comparator and metric to use this parameter.
+            if (parameter.getComparator() != null && 
+                parameter.getMetric() != null) {
+                map.set(index++, parameter);
+            }
+        }
 
-	// Need both comparator and metric to use this parameter.	
-	if (evolver.getEvaluationParameter().getComparator() != null &&
-	    evolver.getEvaluationParameter().getMetric() != null) {
-	    map.set(index++, evolver.getEvaluationParameter());
-	}
+        // Need both comparator and metric to use this parameter.        
+        if (evolver.getEvaluationParameter().getComparator() != null &&
+            evolver.getEvaluationParameter().getMetric() != null) {
+            map.set(index++, evolver.getEvaluationParameter());
+        }
 
-	return map;
+        return map;
     }
 
     /**
@@ -185,59 +185,59 @@ public class EvaluationsMatrix
      */
     void addEvaluation(Evolver evolver, Evaluation newEvaluation)
     {
-	// Sort different parameterInstances into different vectors.
-	Hashtable columns = new Hashtable();
-	for (Enumeration e = getColumnMap().getParameters().elements();
-	     e.hasMoreElements();) {
-	    columns.put(e.nextElement(), new Vector());
-	}
+        // Sort different parameterInstances into different vectors.
+        Hashtable columns = new Hashtable();
+        for (Enumeration e = getColumnMap().getParameters().elements();
+             e.hasMoreElements();) {
+            columns.put(e.nextElement(), new Vector());
+        }
 
-	Vector evaluations = evolver.getEvaluations();
-	for (int i = 0; i < evaluations.size(); i++) {
-	    Evaluation evaluation = (Evaluation) evaluations.get(i);
-	    for (Enumeration p = evaluation.getParameterInstanceSet().getParameterInstances();
-		 p.hasMoreElements();) {
-		ParameterInstance instance = 
-		    (ParameterInstance) p.nextElement();
-		Vector v = (Vector) columns.get(instance.getParameter());
-		if (v != null) {
-		    v.add(instance);
-		}
-	    }
+        Vector evaluations = evolver.getEvaluations();
+        for (int i = 0; i < evaluations.size(); i++) {
+            Evaluation evaluation = (Evaluation) evaluations.get(i);
+            for (Enumeration p = evaluation.getParameterInstanceSet().getParameterInstances();
+                 p.hasMoreElements();) {
+                ParameterInstance instance = 
+                    (ParameterInstance) p.nextElement();
+                Vector v = (Vector) columns.get(instance.getParameter());
+                if (v != null) {
+                    v.add(instance);
+                }
+            }
 
-	    ParameterInstance instance = 
-		evaluation.getEvaluation();
-	    Vector v = (Vector) columns.get(instance.getParameter());
-	    if (v != null) {
-		v.add(instance);
-	    }
-	}
+            ParameterInstance instance = 
+                evaluation.getEvaluation();
+            Vector v = (Vector) columns.get(instance.getParameter());
+            if (v != null) {
+                v.add(instance);
+            }
+        }
 
-	// Create map with the minimums of each parameter.
-	Hashtable mins = new Hashtable();
-	for (Enumeration e = columns.keys();
-	     e.hasMoreElements();) {
-	    Parameter parameter = (Parameter) e.nextElement();
-	    mins.put(parameter, 
-		     Collections.min((Vector) columns.get(parameter), parameter.getComparator()));
-	}
+        // Create map with the minimums of each parameter.
+        Hashtable mins = new Hashtable();
+        for (Enumeration e = columns.keys();
+             e.hasMoreElements();) {
+            Parameter parameter = (Parameter) e.nextElement();
+            mins.put(parameter, 
+                     Collections.min((Vector) columns.get(parameter), parameter.getComparator()));
+        }
 
-	// Fill in new matrix with distances to the min instance.
-	double[][] newMatrix = new double[evaluations.size()][mins.size()];
-	for (Enumeration e = getColumnMap().getParameters().elements();
-	     e.hasMoreElements();) {
-	    Parameter parameter = (Parameter) e.nextElement();
-	    Vector v = (Vector) columns.get(parameter);
-	    ParameterInstance minInstance = 
-		(ParameterInstance) mins.get(parameter);
-	    int j = getColumnMap().getIndex(parameter);
-	    for (int i = 0; i < v.size(); i++) {
-		newMatrix[i][j] = parameter.getMetric().d(minInstance, 
-							  (ParameterInstance) v.get(i));
-	    }
-	}
+        // Fill in new matrix with distances to the min instance.
+        double[][] newMatrix = new double[evaluations.size()][mins.size()];
+        for (Enumeration e = getColumnMap().getParameters().elements();
+             e.hasMoreElements();) {
+            Parameter parameter = (Parameter) e.nextElement();
+            Vector v = (Vector) columns.get(parameter);
+            ParameterInstance minInstance = 
+                (ParameterInstance) mins.get(parameter);
+            int j = getColumnMap().getIndex(parameter);
+            for (int i = 0; i < v.size(); i++) {
+                newMatrix[i][j] = parameter.getMetric().d(minInstance, 
+                                                          (ParameterInstance) v.get(i));
+            }
+        }
 
-	setMatrix(newMatrix);
+        setMatrix(newMatrix);
     }
 
     /**
@@ -247,8 +247,8 @@ public class EvaluationsMatrix
      */
     void setMatrix(double[][] newMatrix)
     {
-	this.matrix = newMatrix;
-	fireMatrixUpdated();
+        this.matrix = newMatrix;
+        fireMatrixUpdated();
     }
 
     /**
@@ -256,7 +256,7 @@ public class EvaluationsMatrix
      */
     public double[][] getMatrix()
     {
-	return this.matrix;
+        return this.matrix;
     }
 
     /**
@@ -277,7 +277,7 @@ public class EvaluationsMatrix
      */
     public void removePreliminaryEvaluation(Evaluator evaluator)
     {
-	
+        
     }
 
     /**
@@ -285,7 +285,7 @@ public class EvaluationsMatrix
      */
     protected EventListenerList getEventListenerList()
     {
-	return this.eventListenerList;
+        return this.eventListenerList;
     }
 
     /**
@@ -295,7 +295,7 @@ public class EvaluationsMatrix
      */
     public void addEventListener(MatrixEventListener listener)
     {
-	this.getEventListenerList().add(listener.getClass(), listener);
+        this.getEventListenerList().add(listener.getClass(), listener);
     }
 
     /**
@@ -305,7 +305,7 @@ public class EvaluationsMatrix
      */
     public void removeEventListener(MatrixEventListener listener)
     {
-	this.getEventListenerList().remove(listener.getClass(), listener);
+        this.getEventListenerList().remove(listener.getClass(), listener);
     }
 
     /**
@@ -313,14 +313,14 @@ public class EvaluationsMatrix
      */
     public void fireMatrixUpdated()
     {
-	MatrixEvent event = new MatrixEvent(this);
-	
-	// Guaranteed to return a non-null array
-	Object[] listeners = getEventListenerList().getListenerList();
-	
-	for (int i = listeners.length - 2; i >= 0; i -= 2) {
-	    ((MatrixEventListener) listeners[i + 1]).matrixUpdated(event);
-	}
+        MatrixEvent event = new MatrixEvent(this);
+        
+        // Guaranteed to return a non-null array
+        Object[] listeners = getEventListenerList().getListenerList();
+        
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            ((MatrixEventListener) listeners[i + 1]).matrixUpdated(event);
+        }
     }
 
     /**
@@ -328,17 +328,17 @@ public class EvaluationsMatrix
      */
     public String toString()
     {
-	StringBuffer buffer = new StringBuffer();
-	double[][] data = getMatrix();
+        StringBuffer buffer = new StringBuffer();
+        double[][] data = getMatrix();
 
-	for (int i = 0; i < data.length; i++) {
-	    buffer.append("\t");
-	    for (int j = 0; j < data[i].length; j++) {
-		buffer.append(data[i][j] + "\t");
-	    }
-	    buffer.append("\n");
-	}
+        for (int i = 0; i < data.length; i++) {
+            buffer.append("\t");
+            for (int j = 0; j < data[i].length; j++) {
+                buffer.append(data[i][j] + "\t");
+            }
+            buffer.append("\n");
+        }
 
-	return buffer.toString();
+        return buffer.toString();
     }
 }

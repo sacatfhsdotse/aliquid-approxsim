@@ -50,54 +50,54 @@ void AgencyFactory::createAgencies(Grid& grid, const vector<AgencyTeam*>& teams,
      enum eAgencies {eFood, eHealth, ePolice, eShelter, eWater, eCustom, eNumAgencyTypes};
      vector<vector<AgencyTeam*> > teamVecs(eNumAgencyTypes);
      for (vector<AgencyTeam*>::const_iterator it = teams.begin(); it != teams.end(); it++) {
-	  if (dynamic_cast<FoodAgencyTeam*>(*it)) {
-	       teamVecs[eFood].push_back(*it);
-	  }
-	  else if (dynamic_cast<HealthAgencyTeam*>(*it)) {
-	       teamVecs[eHealth].push_back(*it);
-	  }
-	  else if (dynamic_cast<PoliceAgencyTeam*>(*it)) {
-	       teamVecs[ePolice].push_back(*it);
-	  }
-	  else if (dynamic_cast<CustomAgencyTeam*>(*it)) {
-	       teamVecs[eCustom].push_back(*it);
-	  }
-	  else if (dynamic_cast<ShelterAgencyTeam*>(*it)) {
-	       teamVecs[eShelter].push_back(*it);
-	  }
-	  else if (dynamic_cast<WaterAgencyTeam*>(*it)) {
-	       teamVecs[eWater].push_back(*it);
-	  }
-	  else {
-	       Error e;
-	       e << "Unknown Agency type in AgencyFactory() for object with reference: " << (*it)->ref();
-	       throw e;
-	  }
+          if (dynamic_cast<FoodAgencyTeam*>(*it)) {
+               teamVecs[eFood].push_back(*it);
+          }
+          else if (dynamic_cast<HealthAgencyTeam*>(*it)) {
+               teamVecs[eHealth].push_back(*it);
+          }
+          else if (dynamic_cast<PoliceAgencyTeam*>(*it)) {
+               teamVecs[ePolice].push_back(*it);
+          }
+          else if (dynamic_cast<CustomAgencyTeam*>(*it)) {
+               teamVecs[eCustom].push_back(*it);
+          }
+          else if (dynamic_cast<ShelterAgencyTeam*>(*it)) {
+               teamVecs[eShelter].push_back(*it);
+          }
+          else if (dynamic_cast<WaterAgencyTeam*>(*it)) {
+               teamVecs[eWater].push_back(*it);
+          }
+          else {
+               Error e;
+               e << "Unknown Agency type in AgencyFactory() for object with reference: " << (*it)->ref();
+               throw e;
+          }
      }
      
      if (!teamVecs[eFood].empty()) {
-	  ioAgencies.push_back(new FoodAgency(teamVecs[eFood], grid));
-//	  debug("Created FoodAgency with " << teamVecs[eFood].size() << " teams");
+          ioAgencies.push_back(new FoodAgency(teamVecs[eFood], grid));
+//          debug("Created FoodAgency with " << teamVecs[eFood].size() << " teams");
      }
      if (!teamVecs[eHealth].empty()) {
-	  ioAgencies.push_back(new HealthAgency(teamVecs[eHealth], grid));
-//	  debug("Created HealthAgency with " << teamVecs[eHealth].size() << " teams");
+          ioAgencies.push_back(new HealthAgency(teamVecs[eHealth], grid));
+//          debug("Created HealthAgency with " << teamVecs[eHealth].size() << " teams");
      }
      if (!teamVecs[ePolice].empty()) {
-	  ioAgencies.push_back(new PoliceAgency(teamVecs[ePolice], grid));
-//	  debug("Created PoliceAgency with " << teamVecs[ePolice].size() << " teams");
+          ioAgencies.push_back(new PoliceAgency(teamVecs[ePolice], grid));
+//          debug("Created PoliceAgency with " << teamVecs[ePolice].size() << " teams");
      }
      if (!teamVecs[eCustom].empty()) {
-	  ioAgencies.push_back(new CustomAgency(teamVecs[eCustom], grid));
-//	  debug("Created CustomAgency with " << teamVecs[eCustom].size() << " teams");
+          ioAgencies.push_back(new CustomAgency(teamVecs[eCustom], grid));
+//          debug("Created CustomAgency with " << teamVecs[eCustom].size() << " teams");
      }
      if (!teamVecs[eShelter].empty()) {
-	  ioAgencies.push_back(new ShelterAgency(teamVecs[eShelter], grid));
-//	  debug("Created ShelterAgency with " << teamVecs[eShelter].size() << " teams");
+          ioAgencies.push_back(new ShelterAgency(teamVecs[eShelter], grid));
+//          debug("Created ShelterAgency with " << teamVecs[eShelter].size() << " teams");
      }
      if (!teamVecs[eWater].empty()) {
-	  ioAgencies.push_back(new WaterAgency(teamVecs[eWater], grid));
-//	  debug("Created WaterAgency with " << teamVecs[eWater].size() << " teams");
+          ioAgencies.push_back(new WaterAgency(teamVecs[eWater], grid));
+//          debug("Created WaterAgency with " << teamVecs[eWater].size() << " teams");
      }
 }
 
@@ -119,36 +119,36 @@ void AgencyFactory::addTeam(Grid& grid, AgencyTeam& team, vector<Agency*>& ioAge
 {
      vector<Agency*>::iterator it = ioAgencies.end();
      if (dynamic_cast<FoodAgencyTeam*>(&team)) {
-	  it = find_if(ioAgencies.begin(), ioAgencies.end(), castPredicate<Agency*, FoodAgency*>());
+          it = find_if(ioAgencies.begin(), ioAgencies.end(), castPredicate<Agency*, FoodAgency*>());
      }
      else if (dynamic_cast<HealthAgencyTeam*>(&team)) {
-	  it = find_if(ioAgencies.begin(), ioAgencies.end(), castPredicate<Agency*, HealthAgency*>());
+          it = find_if(ioAgencies.begin(), ioAgencies.end(), castPredicate<Agency*, HealthAgency*>());
      }
      else if (dynamic_cast<PoliceAgencyTeam*>(&team)) {
-	  it = find_if(ioAgencies.begin(), ioAgencies.end(), castPredicate<Agency*, PoliceAgency*>());
+          it = find_if(ioAgencies.begin(), ioAgencies.end(), castPredicate<Agency*, PoliceAgency*>());
      }
      else if (dynamic_cast<CustomAgencyTeam*>(&team)) {
-	  it = find_if(ioAgencies.begin(), ioAgencies.end(), castPredicate<Agency*, CustomAgency*>());
+          it = find_if(ioAgencies.begin(), ioAgencies.end(), castPredicate<Agency*, CustomAgency*>());
      }
      else if (dynamic_cast<ShelterAgencyTeam*>(&team)) {
-	  it = find_if(ioAgencies.begin(), ioAgencies.end(), castPredicate<Agency*, ShelterAgency*>());
+          it = find_if(ioAgencies.begin(), ioAgencies.end(), castPredicate<Agency*, ShelterAgency*>());
      }
      else if (dynamic_cast<WaterAgencyTeam*>(&team)) {
-	  it = find_if(ioAgencies.begin(), ioAgencies.end(), castPredicate<Agency*, WaterAgency*>());
+          it = find_if(ioAgencies.begin(), ioAgencies.end(), castPredicate<Agency*, WaterAgency*>());
      }
      else {
-	  Error e;
-	  e << "Unknown Agency type in AgencyFactory() for object with reference: " << team.ref();
-	  throw e;
+          Error e;
+          e << "Unknown Agency type in AgencyFactory() for object with reference: " << team.ref();
+          throw e;
      }
 
      if (it != ioAgencies.end()) {
-	  (*it)->addTeam(team);
+          (*it)->addTeam(team);
      }
      else {
-	  vector<AgencyTeam*> v;
-	  v.push_back(&team);
-	  createAgencies(grid, v, ioAgencies);
+          vector<AgencyTeam*> v;
+          v.push_back(&team);
+          createAgencies(grid, v, ioAgencies);
      }
 }
 
@@ -167,35 +167,35 @@ void AgencyFactory::removeTeam(AgencyTeam& team, vector<Agency*>& ioAgencies)
 {
      vector<Agency*>::iterator it = ioAgencies.end();
      if (dynamic_cast<FoodAgencyTeam*>(&team)) {
-	  it = find_if(ioAgencies.begin(), ioAgencies.end(), castPredicate<Agency*, FoodAgency*>());
+          it = find_if(ioAgencies.begin(), ioAgencies.end(), castPredicate<Agency*, FoodAgency*>());
      }
      else if (dynamic_cast<HealthAgencyTeam*>(&team)) {
-	  it = find_if(ioAgencies.begin(), ioAgencies.end(), castPredicate<Agency*, HealthAgency*>());
+          it = find_if(ioAgencies.begin(), ioAgencies.end(), castPredicate<Agency*, HealthAgency*>());
      }
      else if (dynamic_cast<PoliceAgencyTeam*>(&team)) {
-	  it = find_if(ioAgencies.begin(), ioAgencies.end(), castPredicate<Agency*, PoliceAgency*>());
+          it = find_if(ioAgencies.begin(), ioAgencies.end(), castPredicate<Agency*, PoliceAgency*>());
      }
      else if (dynamic_cast<CustomAgencyTeam*>(&team)) {
-	  it = find_if(ioAgencies.begin(), ioAgencies.end(), castPredicate<Agency*, CustomAgency*>());
+          it = find_if(ioAgencies.begin(), ioAgencies.end(), castPredicate<Agency*, CustomAgency*>());
      }
      else if (dynamic_cast<ShelterAgencyTeam*>(&team)) {
-	  it = find_if(ioAgencies.begin(), ioAgencies.end(), castPredicate<Agency*, ShelterAgency*>());
+          it = find_if(ioAgencies.begin(), ioAgencies.end(), castPredicate<Agency*, ShelterAgency*>());
      }
      else if (dynamic_cast<WaterAgencyTeam*>(&team)) {
-	  it = find_if(ioAgencies.begin(), ioAgencies.end(), castPredicate<Agency*, WaterAgency*>());
+          it = find_if(ioAgencies.begin(), ioAgencies.end(), castPredicate<Agency*, WaterAgency*>());
      }
      else {
-	  Error e;
-	  e << "Unknown Agency type in AgencyFactory() for object with reference: " << team.ref();
-	  throw e;
+          Error e;
+          e << "Unknown Agency type in AgencyFactory() for object with reference: " << team.ref();
+          throw e;
      }
 
      if (it != ioAgencies.end()) {
-	  (*it)->removeTeam(team);
+          (*it)->removeTeam(team);
      }
      else {
-	  Error e;
-	  e << "Tried to remove the team '" << team.ref() << "'from a non existing Agency";
-	  throw e;
+          Error e;
+          e << "Tried to remove the team '" << team.ref() << "'from a non existing Agency";
+          throw e;
      }
 }

@@ -31,29 +31,29 @@ void Disease::update(const Update& u)
 {
      const string& attr = u.getReference().name();
      if (u.getType() == Update::eModify) {
-	  if (attr == "description") {
-	       mDescription = u.getObject()->getString();
-	  }
-	  else if (attr == "infectionRate") {
-	       mInfectionRate = u.getObject()->getDouble();
-	  }
-	  else if (attr == "recoveryRate") {
-	       mRecoveryRate = u.getObject()->getDouble();
-	  }
-	  else if (attr == "mortalityRate") {
-	       mMortalityRate = u.getObject()->getDouble();
-	  }
-	  else {
-	       Error e;
-	       e << "No updatable attribute '" << attr << "' in '" << ref() << "'";
-	       throw e;
-	  }
+          if (attr == "description") {
+               mDescription = u.getObject()->getString();
+          }
+          else if (attr == "infectionRate") {
+               mInfectionRate = u.getObject()->getDouble();
+          }
+          else if (attr == "recoveryRate") {
+               mRecoveryRate = u.getObject()->getDouble();
+          }
+          else if (attr == "mortalityRate") {
+               mMortalityRate = u.getObject()->getDouble();
+          }
+          else {
+               Error e;
+               e << "No updatable attribute '" << attr << "' in '" << ref() << "'";
+               throw e;
+          }
      }
      else {
-	  Error e;
-	  e << "Invalid Disease Update (type:" << u.getTypeAsString();
-	  e << ", object: " << attr << ").";
-	  throw e;
+          Error e;
+          e << "Invalid Disease Update (type:" << u.getTypeAsString();
+          e << ", object: " << attr << ").";
+          throw e;
      }
 }
 

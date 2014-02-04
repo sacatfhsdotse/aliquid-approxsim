@@ -99,11 +99,11 @@ public class Symbol {
 
     public int getRow()
     {
-	return left + 1;
+        return left + 1;
     }
 
     public int getCol()
     {
-	return right + 1;
+        return right + 1;
     }
 }

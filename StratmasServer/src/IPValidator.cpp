@@ -23,17 +23,17 @@ using namespace std;
 bool IPValidator::isStringIP(const std::string& str)
 {
      if (str.length() >= 7 && str[0] != '#') {
-	  int part;
-	  char dot = '.';
-	  istringstream ist(str);
-	  ist >> part;
-	  for (int i = 0; i < 4; i++) {
-	       if (part < 0 || part > 255 || dot != '.') {
-		    return false;
-	       }
-	       ist >> dot >> part;
-	  }
-	  return true;
+          int part;
+          char dot = '.';
+          istringstream ist(str);
+          ist >> part;
+          for (int i = 0; i < 4; i++) {
+               if (part < 0 || part > 255 || dot != '.') {
+                    return false;
+               }
+               ist >> dot >> part;
+          }
+          return true;
      }
      return false;
 }
@@ -51,18 +51,18 @@ bool IPValidator::getValidIPsFromFile(const std::string& filename)
      ifstream ifs(filename.c_str());
      
      if (ifs.is_open()) {
-	  bool atLeastOne = false;
-	  while (!getline(ifs, line).eof()) {
-	       if (line.length() > 0 && line[0] != '#') {
-		    if (addValidIP(line)) {
-			 atLeastOne = true;
-		    }
-	       }
-	  }
-	  return atLeastOne; 
+          bool atLeastOne = false;
+          while (!getline(ifs, line).eof()) {
+               if (line.length() > 0 && line[0] != '#') {
+                    if (addValidIP(line)) {
+                         atLeastOne = true;
+                    }
+               }
+          }
+          return atLeastOne; 
      }
      else {
-	  return false;
+          return false;
      }
 }
 
@@ -74,12 +74,12 @@ bool IPValidator::getValidIPsFromFile(const std::string& filename)
 bool IPValidator::addValidIP(const std::string& ipToAdd)
 {
      try {
-	  IPAddress tmp(ipToAdd);
-	  mIPSet.insert(tmp.toString());
-	  return true;
+          IPAddress tmp(ipToAdd);
+          mIPSet.insert(tmp.toString());
+          return true;
      }
      catch (Error e) {
-	  return false;
+          return false;
      }
 }
 

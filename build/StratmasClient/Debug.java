@@ -1,4 +1,4 @@
-// 	$Id: Debug.java,v 1.9 2006/04/10 09:45:47 dah Exp $
+//         $Id: Debug.java,v 1.9 2006/04/10 09:45:47 dah Exp $
 /*
  * @(#)Debug.java
  */
@@ -44,7 +44,7 @@ public class Debug
      * The debug output stream.
      */
     public static PrintStream err = System.getProperty("StratmasClientDebug") != null ? 
-	getSystemErr(System.getProperty("StratmasClientDebug")) : getNullStream();
+        getSystemErr(System.getProperty("StratmasClientDebug")) : getNullStream();
 
     /**
      * Vector containing debugActions.
@@ -61,7 +61,7 @@ public class Debug
      */
     private static void disableDebugOutput()
     {
-	Debug.err = getNullStream();
+        Debug.err = getNullStream();
     }
 
     /**
@@ -69,17 +69,17 @@ public class Debug
      */
     private static PrintStream getNullStream()
     {
-	return new PrintStream(new OutputStream() {
-		/**
-		 * Ignores any bytes written to it.
-		 *
-		 * @param      b   the <code>byte</code> to ignore.
-		 */
-		public void write(int b)
-		{
-		    // Ignoring
-		}	    
-	    });
+        return new PrintStream(new OutputStream() {
+                /**
+                 * Ignores any bytes written to it.
+                 *
+                 * @param      b   the <code>byte</code> to ignore.
+                 */
+                public void write(int b)
+                {
+                    // Ignoring
+                }            
+            });
     }
 
     /**
@@ -92,63 +92,63 @@ public class Debug
      */
     private static PrintStream getSystemErr(final String pattern)
     {
-	if (pattern.equals(".*") || pattern.equals("")) {
-	    //Special handling of any matcher
-	    return System.err;	    
-	}  else {
-	    return new PrintStream(new OutputStream() 
-		{
-		    String regex = pattern;
-		    
-		    /**
-		     * Ignores any bytes written to it.
-		     *
-		     * @param b the <code>byte</code> to write.
-		     */
-		    public void write(int b)
-		    {
-			if (doWrite()) {
-			    System.err.write(b);
-			}
-		    }
-		    
-		    /**
-		     * This method finds frames in the stacktrace
-		     * belonging to a method that belongs to a class
-		     * that belongs to StratmasClient or a package
-		     * beneath that package. (Ignoring this class).
-		     *
-		     * If all of these packages matches regex return
-		     * true, else false. If no such frame is found
-		     * return true.
-		     */
-		    public boolean doWrite()
-		    {
-			//1.5 can do this: Thread.currentThread().getStackTrace();
-			StackTraceElement[] frames = new Throwable().getStackTrace();
-			
-			for (int i = 0; i < frames.length; i++) {
-			    // Skip frames created in this class.
-			    if (!frames[i].getClassName().equals(getClass().getName())) {
-				String fields[] = frames[i].getClassName().split("\\.");
-				if (fields.length > 1 && 
-				    fields[0].equals(Debug.class.getPackage().getName())) {
-				    // find first non matching package
-				    // if any.
-				    for (int j = 0; j < (fields.length - 1); j++) {
-					if (!fields[j].matches(regex)) {
-					    return false;
-					}
-				    }
-				}
-			    }
-			}
-			
-			return true;
-		    }
-		});
-	}
-	    
+        if (pattern.equals(".*") || pattern.equals("")) {
+            //Special handling of any matcher
+            return System.err;            
+        }  else {
+            return new PrintStream(new OutputStream() 
+                {
+                    String regex = pattern;
+                    
+                    /**
+                     * Ignores any bytes written to it.
+                     *
+                     * @param b the <code>byte</code> to write.
+                     */
+                    public void write(int b)
+                    {
+                        if (doWrite()) {
+                            System.err.write(b);
+                        }
+                    }
+                    
+                    /**
+                     * This method finds frames in the stacktrace
+                     * belonging to a method that belongs to a class
+                     * that belongs to StratmasClient or a package
+                     * beneath that package. (Ignoring this class).
+                     *
+                     * If all of these packages matches regex return
+                     * true, else false. If no such frame is found
+                     * return true.
+                     */
+                    public boolean doWrite()
+                    {
+                        //1.5 can do this: Thread.currentThread().getStackTrace();
+                        StackTraceElement[] frames = new Throwable().getStackTrace();
+                        
+                        for (int i = 0; i < frames.length; i++) {
+                            // Skip frames created in this class.
+                            if (!frames[i].getClassName().equals(getClass().getName())) {
+                                String fields[] = frames[i].getClassName().split("\\.");
+                                if (fields.length > 1 && 
+                                    fields[0].equals(Debug.class.getPackage().getName())) {
+                                    // find first non matching package
+                                    // if any.
+                                    for (int j = 0; j < (fields.length - 1); j++) {
+                                        if (!fields[j].matches(regex)) {
+                                            return false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                        return true;
+                    }
+                });
+        }
+            
     }
 
     /**
@@ -156,7 +156,7 @@ public class Debug
      */
     private static void enableDebugOutput()
     {
-	Debug.err = System.err;
+        Debug.err = System.err;
     }
 
     /**
@@ -164,7 +164,7 @@ public class Debug
      */
     static public boolean isInDebugMode()
     {
-	return isInDebugMode;
+        return isInDebugMode;
     }
 
     /**
@@ -172,8 +172,8 @@ public class Debug
      */
     static public void enableDebugMode()
     {
-	isInDebugMode = true;
-	enableDebugOutput();
+        isInDebugMode = true;
+        enableDebugOutput();
     }
 
     /**
@@ -181,8 +181,8 @@ public class Debug
      */
     static public void disableDebugMode()
     {
-	isInDebugMode = false;
-	disableDebugOutput();
+        isInDebugMode = false;
+        disableDebugOutput();
     }
 
     /**
@@ -190,12 +190,12 @@ public class Debug
      */    
     public static JPanel createDebugPanel()
     {
-	JPanel panel = new JPanel();
-	panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-	for (Iterator it = getDebugActions().iterator(); 
-	     it.hasNext();
-	     panel.add(new JButton((Action) it.next())));
-	return panel;
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        for (Iterator it = getDebugActions().iterator(); 
+             it.hasNext();
+             panel.add(new JButton((Action) it.next())));
+        return panel;
     }
 
     /**
@@ -203,15 +203,15 @@ public class Debug
      */
     public static void createDebugFrame()
     {
-	SwingUtilities.invokeLater(new Runnable() 
-	    {
-		public void run() {
-		    JFrame debugFrame = new JFrame();
-		    debugFrame.getContentPane().add(createDebugPanel());
-		    debugFrame.pack();
-		    debugFrame.setVisible(true);
-		}
-	    });
+        SwingUtilities.invokeLater(new Runnable() 
+            {
+                public void run() {
+                    JFrame debugFrame = new JFrame();
+                    debugFrame.getContentPane().add(createDebugPanel());
+                    debugFrame.pack();
+                    debugFrame.setVisible(true);
+                }
+            });
     }
 
     /**
@@ -221,9 +221,9 @@ public class Debug
      */
     public static void addDebugAction(Action action)
     {
-	synchronized(debugActions) {
-	    debugActions.add(action);
-	}
+        synchronized(debugActions) {
+            debugActions.add(action);
+        }
     }
 
     /**
@@ -235,9 +235,9 @@ public class Debug
      */
     public static void addDebugComponent(JComponent component)
     {
-	synchronized(debugComponents) {
-	    debugComponents.add(component);
-	}
+        synchronized(debugComponents) {
+            debugComponents.add(component);
+        }
     }
 
     /**
@@ -245,7 +245,7 @@ public class Debug
      */
     public static Vector getDebugActions()
     {
-	return debugActions;
+        return debugActions;
     }
 
     /**
@@ -253,7 +253,7 @@ public class Debug
      */
     public static Vector getDebugComponents()
     {
-	return debugComponents;
+        return debugComponents;
     }
 
     /**
@@ -261,37 +261,37 @@ public class Debug
      */
     private static Vector createDebugActions()
     {
-	Vector actions = new Vector();
+        Vector actions = new Vector();
 
-	actions.add(new AbstractAction("export PVs") 
-	    {
-		public void actionPerformed(ActionEvent e)
-		{
-		    Client.getClient().createStreamPVExporter();
-		}
-	    });
+        actions.add(new AbstractAction("export PVs") 
+            {
+                public void actionPerformed(ActionEvent e)
+                {
+                    Client.getClient().createStreamPVExporter();
+                }
+            });
 
-	actions.add(new AbstractAction("toXML (ms)") 
-	    {
-		public void actionPerformed(ActionEvent e)
-		{
-		    long start = System.currentTimeMillis();
-		    String xml = Client.getClient().getRootObject().toXML();
-		    long duration = System.currentTimeMillis() - start;
-		    System.err.println("XML creation took " + duration + "ms");
-		}
-	    });
+        actions.add(new AbstractAction("toXML (ms)") 
+            {
+                public void actionPerformed(ActionEvent e)
+                {
+                    long start = System.currentTimeMillis();
+                    String xml = Client.getClient().getRootObject().toXML();
+                    long duration = System.currentTimeMillis() - start;
+                    System.err.println("XML creation took " + duration + "ms");
+                }
+            });
 
-	actions.add(new AbstractAction("gc()") 
-	    {
-		public void actionPerformed(ActionEvent e)
-		{
-		    System.gc();
-		    System.runFinalization();
-		}
-	    });
+        actions.add(new AbstractAction("gc()") 
+            {
+                public void actionPerformed(ActionEvent e)
+                {
+                    System.gc();
+                    System.runFinalization();
+                }
+            });
 
-	return actions;
+        return actions;
     }
 
     /**
@@ -299,7 +299,7 @@ public class Debug
      */
     private static Vector createDebugComponents()
     {
-	return new Vector();
+        return new Vector();
     }
 
     /**
@@ -308,12 +308,12 @@ public class Debug
      */
     static public StackTraceElement getCaller()
     {
-	StackTraceElement[] stack = new Exception().getStackTrace();
-	if (stack.length > 2) {
-	    return stack[2];
-	} else {
-	    return null;
-	}
+        StackTraceElement[] stack = new Exception().getStackTrace();
+        if (stack.length > 2) {
+            return stack[2];
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -322,18 +322,18 @@ public class Debug
      */
     static public StackTraceElement getOutsideCaller()
     {
-	StackTraceElement[] stack = new Exception().getStackTrace();
-	if (stack.length < 2) {
-	    return null;
-	}
-	// Need regexp to account for anonymous classes.
-	String exp = stack[1].getClassName() + "\\$[0-9]+";
-	
-	for (int i = 2; i < stack.length; i++) {
-	    if (!stack[i].getClassName().matches(exp)) {
-		return stack[i];
-	    }
-	}
-	return null;
+        StackTraceElement[] stack = new Exception().getStackTrace();
+        if (stack.length < 2) {
+            return null;
+        }
+        // Need regexp to account for anonymous classes.
+        String exp = stack[1].getClassName() + "\\$[0-9]+";
+        
+        for (int i = 2; i < stack.length; i++) {
+            if (!stack[i].getClassName().matches(exp)) {
+                return stack[i];
+            }
+        }
+        return null;
     }
 }

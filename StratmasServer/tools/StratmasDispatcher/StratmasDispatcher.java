@@ -1,4 +1,4 @@
-// 	$Id: StratmasDispatcher.java,v 1.9 2006/08/29 16:25:55 dah Exp $
+//         $Id: StratmasDispatcher.java,v 1.9 2006/08/29 16:25:55 dah Exp $
 
 /*
  * @(#)StratmasDispatcher.java
@@ -55,8 +55,8 @@ public class StratmasDispatcher implements Runnable
      */
     public StratmasDispatcher(int port)
     {
-	this.port = port;
-	this.servers = new Vector();
+        this.port = port;
+        this.servers = new Vector();
     }
 
     /** 
@@ -65,7 +65,7 @@ public class StratmasDispatcher implements Runnable
      */
     public StratmasDispatcher()
     {
-	this(StratmasDispatcher.DEFAULT_PORT);
+        this(StratmasDispatcher.DEFAULT_PORT);
     }
 
     /**
@@ -75,23 +75,23 @@ public class StratmasDispatcher implements Runnable
      */
     public void registerServer(StratmasServer server)
     {
-	synchronized(servers) {
-	    // Remove any previous registrations of this server. This
-	    // prevents a server that stops and starts in between two
-	    // samples from having two registrations.
-	    int i = getServers().indexOf(server);
-	    if (i >= 0) {
-		log("Removing stale registration of " + server.toString() + " from pool.");
-		StratmasServer oldServer = (StratmasServer) getServers().get(i);
-		log("Adding " + server.toString() + " to pool.");
-		getServers().setElementAt(server, i);
-		// FIXME: This is a ugly way of stopping the monitor thread...
-		oldServer.markAsBad();
-	    } else {
-		log("Adding " + server.toString() + " to pool.");
-		getServers().add(server);
-	    }
-	}
+        synchronized(servers) {
+            // Remove any previous registrations of this server. This
+            // prevents a server that stops and starts in between two
+            // samples from having two registrations.
+            int i = getServers().indexOf(server);
+            if (i >= 0) {
+                log("Removing stale registration of " + server.toString() + " from pool.");
+                StratmasServer oldServer = (StratmasServer) getServers().get(i);
+                log("Adding " + server.toString() + " to pool.");
+                getServers().setElementAt(server, i);
+                // FIXME: This is a ugly way of stopping the monitor thread...
+                oldServer.markAsBad();
+            } else {
+                log("Adding " + server.toString() + " to pool.");
+                getServers().add(server);
+            }
+        }
     }
 
     /**
@@ -101,71 +101,71 @@ public class StratmasDispatcher implements Runnable
      */
     public void removeServer(StratmasServer server)
     {
-	log("Evicting " + server.toString() + " from pool.");
-	synchronized(servers) {
-	    getServers().remove(server);
-	}
+        log("Evicting " + server.toString() + " from pool.");
+        synchronized(servers) {
+            getServers().remove(server);
+        }
     }
-	
+        
     /**
      * Starts this dispatcher.
      */
     public void run()
     {
-	// Create thread that removes bad nodes from the servers vector.
-	Thread evictorThread = new Thread("EvictorThread")
-	    {
-		/** 
-		 * Removes bad servers then sleeps then restarts.
-		 */
-		public void run() 
-		{
-		    try {
-			while(true) {
-			    Vector bad = new Vector();
-			    for (Enumeration e = getServers().elements(); 
-				 e.hasMoreElements();) {
-				StratmasServer server = (StratmasServer) e.nextElement();
-				if (server.isBad()) {
-				    bad.add(server);
-				}
-			    }
+        // Create thread that removes bad nodes from the servers vector.
+        Thread evictorThread = new Thread("EvictorThread")
+            {
+                /** 
+                 * Removes bad servers then sleeps then restarts.
+                 */
+                public void run() 
+                {
+                    try {
+                        while(true) {
+                            Vector bad = new Vector();
+                            for (Enumeration e = getServers().elements(); 
+                                 e.hasMoreElements();) {
+                                StratmasServer server = (StratmasServer) e.nextElement();
+                                if (server.isBad()) {
+                                    bad.add(server);
+                                }
+                            }
 
-			    for (Enumeration e = bad.elements(); 
-				 e.hasMoreElements();) {
-				StratmasServer server = (StratmasServer) e.nextElement();
-				removeServer(server);
-			    }
-			    
-			    sleep(1000);
-			}
-		    } catch (InterruptedException e) {
-		        log("evictorThread interupted. No more servers " + 
-			    "will be evicted from pool\n");
-		    }
-		}
+                            for (Enumeration e = bad.elements(); 
+                                 e.hasMoreElements();) {
+                                StratmasServer server = (StratmasServer) e.nextElement();
+                                removeServer(server);
+                            }
+                            
+                            sleep(1000);
+                        }
+                    } catch (InterruptedException e) {
+                        log("evictorThread interupted. No more servers " + 
+                            "will be evicted from pool\n");
+                    }
+                }
 
-	    };
-	evictorThread.start();
+            };
+        evictorThread.start();
 
-	try {
-	    ServerSocketChannel serverSocketChannel = 
-		ServerSocketChannel.open();
-	    InetSocketAddress address = new InetSocketAddress(getPort());
-	    serverSocketChannel.socket().bind(address);
-	
-	    while(true) {
-		try {
-		    SocketChannel socketChannel = serverSocketChannel.accept();
-		    (new Thread(new ConnectionHandler(socketChannel, this), "Handler for " + address.toString())).start();
-		} catch (IOException e) {
-		    log("Error accepting connection: " + e.getMessage());
-		}
-	    }
-	} catch (IOException e) {
-	    log("Unable to bind to port: " + e.getMessage());
-	    System.exit(1);
-	}
+        try {
+            ServerSocketChannel serverSocketChannel = 
+                ServerSocketChannel.open();
+            InetSocketAddress address = new InetSocketAddress(getPort());
+            serverSocketChannel.socket().bind(address);
+        
+            while(true) {
+                try {
+                    SocketChannel socketChannel = serverSocketChannel.accept();
+                    (new Thread(new ConnectionHandler(socketChannel, this), "Handler for " + address.toString())).start();
+                } catch (IOException e) {
+                    log("Error accepting connection: " + e.getMessage());
+                }
+            }
+        } catch (IOException e) {
+            log("Unable to bind to port: " + e.getMessage());
+            System.exit(1);
+        }
     }
 
     /**
@@ -175,7 +175,7 @@ public class StratmasDispatcher implements Runnable
      */
     public static void log(String logMessage)
     {
-	System.err.println(logMessage);
+        System.err.println(logMessage);
     }
 
     /**
@@ -183,7 +183,7 @@ public class StratmasDispatcher implements Runnable
      */
     public int getPort() 
     {
-	return this.port;
+        return this.port;
     }
 
     /**
@@ -193,12 +193,12 @@ public class StratmasDispatcher implements Runnable
      */
     public void addServersToElement(Element element)
     {
-	for (Enumeration e = getServers().elements(); e.hasMoreElements();) {
-	    StratmasServer server = (StratmasServer) e.nextElement();
-	    if (server.isGood() && ! server.isPending()) {
-		element.appendChild(server.toDOMElement(element.getOwnerDocument()));
-	    }
-	}
+        for (Enumeration e = getServers().elements(); e.hasMoreElements();) {
+            StratmasServer server = (StratmasServer) e.nextElement();
+            if (server.isGood() && ! server.isPending()) {
+                element.appendChild(server.toDOMElement(element.getOwnerDocument()));
+            }
+        }
     }
 
     /**
@@ -206,7 +206,7 @@ public class StratmasDispatcher implements Runnable
      */
     public Vector getServers()
     {
-	return this.servers;
+        return this.servers;
     }
 
     /**
@@ -217,47 +217,47 @@ public class StratmasDispatcher implements Runnable
     public static void main(String[] args)
     {
 
-	// Poor mans getopt
-	Hashtable options = new Hashtable();
-	Vector arguments = new Vector();
-	for (int i = 0; i < args.length; i++) {
-	    // Is this an option?
-	    if (args[i].matches("-.*")) {
-		// If more args and the next one does not begin with -, 
-		// regard it as a parameter to the present option
-		String option = args[i];
-		String parameter = "";
-		if ((i + 1) < args.length && !args[i + 1].matches("-.*")) {
-		    parameter = args[++i];
-		}
-		options.put(option, parameter);
-	    } else {
-		arguments.add(args[i]);
-	    }
-	}
+        // Poor mans getopt
+        Hashtable options = new Hashtable();
+        Vector arguments = new Vector();
+        for (int i = 0; i < args.length; i++) {
+            // Is this an option?
+            if (args[i].matches("-.*")) {
+                // If more args and the next one does not begin with -, 
+                // regard it as a parameter to the present option
+                String option = args[i];
+                String parameter = "";
+                if ((i + 1) < args.length && !args[i + 1].matches("-.*")) {
+                    parameter = args[++i];
+                }
+                options.put(option, parameter);
+            } else {
+                arguments.add(args[i]);
+            }
+        }
 
-	// Process args:
-	String portstr = (String) options.remove("-p");
-	int port = StratmasDispatcher.DEFAULT_PORT;
-	if (portstr != null) {
-	    try {
-		port = Integer.parseInt(portstr);
-	    } catch (NumberFormatException e) {
-		log("Unable to parse portnumber: \"" + portstr + "\"");
-		System.exit(1);
-	    }
-	}
+        // Process args:
+        String portstr = (String) options.remove("-p");
+        int port = StratmasDispatcher.DEFAULT_PORT;
+        if (portstr != null) {
+            try {
+                port = Integer.parseInt(portstr);
+            } catch (NumberFormatException e) {
+                log("Unable to parse portnumber: \"" + portstr + "\"");
+                System.exit(1);
+            }
+        }
 
-	// If unprocessed args remain, print usage string.
-	if (options.size() != 0) {
-	    System.err.println("Unregocnised arguments, usage:");
-	    System.err.println(" -p portnr");
+        // If unprocessed args remain, print usage string.
+        if (options.size() != 0) {
+            System.err.println("Unregocnised arguments, usage:");
+            System.err.println(" -p portnr");
 
-	    System.exit(1);
-	}
+            System.exit(1);
+        }
 
-	StratmasDispatcher dispatcher = new StratmasDispatcher(port);
-	dispatcher.run();
+        StratmasDispatcher dispatcher = new StratmasDispatcher(port);
+        dispatcher.run();
     }
 }
 

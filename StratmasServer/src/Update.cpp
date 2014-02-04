@@ -32,28 +32,28 @@ Update::Update(const DOMElement& n, int64_t initiator) : mInitiator(initiator), 
 
      string type = XMLHelper::getStringAttribute(n, "xsi:type");
      if (type == "sp:ServerUpdateAdd") {
-	  mType = eAdd;
-	  mTarget = findReferenceToClosestComplexParent(*mReference);
-	  mObject = DataObjectFactory::createDataObject(*mReference->scope(), XMLHelper::getFirstChildByTag(n, "identifiable"));
+          mType = eAdd;
+          mTarget = findReferenceToClosestComplexParent(*mReference);
+          mObject = DataObjectFactory::createDataObject(*mReference->scope(), XMLHelper::getFirstChildByTag(n, "identifiable"));
      }
      else if (type == "sp:ServerUpdateRemove") {
-	  mType = eRemove;
-	  mTarget = findReferenceToClosestComplexParent(*mReference);
+          mType = eRemove;
+          mTarget = findReferenceToClosestComplexParent(*mReference);
      }
      else if (type == "sp:ServerUpdateReplace") {
-	  mType = eReplace;
-	  mTarget = findReferenceToClosestComplexParent(*mReference);
-	  mObject = DataObjectFactory::createDataObject(*mReference->scope(), XMLHelper::getFirstChildByTag(n, "newObject"));
+          mType = eReplace;
+          mTarget = findReferenceToClosestComplexParent(*mReference);
+          mObject = DataObjectFactory::createDataObject(*mReference->scope(), XMLHelper::getFirstChildByTag(n, "newObject"));
      }
      else if (type == "sp:ServerUpdateModify") {
-	  mType = eModify;
-	  mTarget = findReferenceToClosestComplexParent(*mReference);
-	  mObject = DataObjectFactory::createDataObject(*mReference->scope(), XMLHelper::getFirstChildByTag(n, "newValue"));
+          mType = eModify;
+          mTarget = findReferenceToClosestComplexParent(*mReference);
+          mObject = DataObjectFactory::createDataObject(*mReference->scope(), XMLHelper::getFirstChildByTag(n, "newValue"));
      }
      else {
-	  Error e;
-	  e << "Unknown update type '" << type << "'";
-	  throw e;
+          Error e;
+          e << "Unknown update type '" << type << "'";
+          throw e;
      }
 }
 
@@ -64,7 +64,7 @@ Update::Update(const DOMElement& n, int64_t initiator) : mInitiator(initiator), 
 Update::~Update()
 {
      if (mType == eModify && mObject) {
-	  delete mObject;
+          delete mObject;
      }
 }
 
@@ -76,9 +76,9 @@ Update::~Update()
 const char* Update::getTypeAsString() const
 {
      if (getType() > 3 || getType() < 0) {
-	  Error e;
-	  e << "Invalid update type: " << getType();
-	  throw e;
+          Error e;
+          e << "Invalid update type: " << getType();
+          throw e;
      }
      return types[getType()];
 }
@@ -96,13 +96,13 @@ const Reference* Update::findReferenceToClosestComplexParent(const Reference& re
 {
      const Reference* ret;
      for (ret = ref.scope();
-	  ret && !dynamic_cast<ComplexDataObject*>(Mapper::map(*ret));
-	  ret = ret->scope()) {
+          ret && !dynamic_cast<ComplexDataObject*>(Mapper::map(*ret));
+          ret = ret->scope()) {
      }
      if (!ret) {
-	  Error e;
-	  e << "Couldn't find target ComplexDataObject for update of object '" << ref;
-	  throw e;
+          Error e;
+          e << "Couldn't find target ComplexDataObject for update of object '" << ref;
+          throw e;
      }
      return ret;
 }

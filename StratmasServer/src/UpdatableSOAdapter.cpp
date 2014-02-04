@@ -15,25 +15,25 @@ void UpdatableSOAdapter::update(const Update& u)
 {
      switch (u.getType()) {
      case Update::eAdd:
-	  debug("Adding object " << u.getReference());
-	  addObject(*u.getObject(), u.getInitiator());
-	  break;
+          debug("Adding object " << u.getReference());
+          addObject(*u.getObject(), u.getInitiator());
+          break;
      case Update::eRemove:
-	  debug("Removing object " << u.getReference());
-	  removeObject(u.getReference(), u.getInitiator());
-	  break;
+          debug("Removing object " << u.getReference());
+          removeObject(u.getReference(), u.getInitiator());
+          break;
      case Update::eReplace:
-	  debug("Replacing object " << u.getReference());
-	  replaceObject(*u.getObject(), u.getInitiator());
-	  break;
+          debug("Replacing object " << u.getReference());
+          replaceObject(*u.getObject(), u.getInitiator());
+          break;
      case Update::eModify:
-	  debug("Modifying object " << u.getReference());
-	  modify(*u.getObject());
-	  break;
+          debug("Modifying object " << u.getReference());
+          modify(*u.getObject());
+          break;
      default:
-	  Error e;
-	  e << "Unknown update type " << u.getType() << " for update with target ";
-	  throw e;
+          Error e;
+          e << "Unknown update type " << u.getType() << " for update with target ";
+          throw e;
      }
 }
 

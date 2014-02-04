@@ -1,4 +1,4 @@
-// 	$Id: Line.java,v 1.4 2006/04/10 09:45:55 dah Exp $
+//         $Id: Line.java,v 1.4 2006/04/10 09:45:55 dah Exp $
 /*
  * @(#)Line.java
  */
@@ -58,9 +58,9 @@ public class Line extends Curve
      */
     protected Line(String identifier, Point start, Point end)
     {
-	super(identifier);
-	add(start);
-	add(end);
+        super(identifier);
+        add(start);
+        add(end);
     }
 
     /**
@@ -72,7 +72,7 @@ public class Line extends Curve
      */
     protected Line(Declaration declaration, Point start, Point end)
     {
-	this(declaration.getName(), start, end);
+        this(declaration.getName(), start, end);
     }
     
     /**
@@ -83,9 +83,9 @@ public class Line extends Curve
      */
     public Vector getLineApproximation(double error)
     {
-	Vector res = new Vector();
-	res.add(this);
-	return res;
+        Vector res = new Vector();
+        res.add(this);
+        return res;
     }
 
     /**
@@ -93,7 +93,7 @@ public class Line extends Curve
      */
     public Point getStartPoint()
     {
-	return start;
+        return start;
     }
 
     /**
@@ -101,7 +101,7 @@ public class Line extends Curve
      */
     public Point getEndPoint()
     {
-	return 	end;
+        return         end;
     }
 
     /**
@@ -113,8 +113,8 @@ public class Line extends Curve
      * @param dy The distance to move given in degrees latitude.
      */
     public void move(double dx, double dy) {
-	start.move(dx, dy);
-	end.move(dx, dy);
+        start.move(dx, dy);
+        end.move(dx, dy);
     }
 
     /**
@@ -125,7 +125,7 @@ public class Line extends Curve
      */
     protected static StratmasVectorConstructor getVectorConstructor(Declaration declaration)
     {
-	return new LineVectorConstructor(declaration);
+        return new LineVectorConstructor(declaration);
     }
 
     /**
@@ -135,15 +135,15 @@ public class Line extends Curve
      */
     protected static StratmasObject defaultCreate(Declaration declaration)
     {
-	Vector newParts = new Vector();
-	for (java.util.Iterator it = declaration.getType().getSubElements().iterator(); it.hasNext(); ) {
-	    Declaration dec = (Declaration)it.next();
-	    if (dec.isSingular()) {
-		newParts.add(StratmasObjectFactory.defaultCreate(dec));
-	    }
-	}
-	
-	return getVectorConstructor(declaration).getStratmasObject(newParts);
+        Vector newParts = new Vector();
+        for (java.util.Iterator it = declaration.getType().getSubElements().iterator(); it.hasNext(); ) {
+            Declaration dec = (Declaration)it.next();
+            if (dec.isSingular()) {
+                newParts.add(StratmasObjectFactory.defaultCreate(dec));
+            }
+        }
+        
+        return getVectorConstructor(declaration).getStratmasObject(newParts);
     }
 
     /**
@@ -156,7 +156,7 @@ public class Line extends Curve
      * @return A clone of this object.
      */
      protected Object clone() {
-	  return new Line(identifier, (Point)getStartPoint().clone(), (Point)getEndPoint().clone());
+          return new Line(identifier, (Point)getStartPoint().clone(), (Point)getEndPoint().clone());
      }
 
     /**
@@ -169,8 +169,8 @@ public class Line extends Curve
      */
     public void update(Element n, Timestamp t) 
     {
-	start.update(XMLHelper.getFirstChildByTag(n, "p1"), t);
-	end.update(XMLHelper.getFirstChildByTag(n, "p2"), t);
+        start.update(XMLHelper.getFirstChildByTag(n, "p1"), t);
+        end.update(XMLHelper.getFirstChildByTag(n, "p2"), t);
     }
     
      /**
@@ -181,9 +181,9 @@ public class Line extends Curve
       */
      protected static StratmasObject domCreate(Element n)
      {
- 	return new Line(Identifier.getIdentifier(n),
- 			(Point) StratmasObjectFactory.domCreate(XMLHelper.getFirstChildByTag(n, "p1")),
- 			(Point) StratmasObjectFactory.domCreate(XMLHelper.getFirstChildByTag(n, "p2")));
+         return new Line(Identifier.getIdentifier(n),
+                         (Point) StratmasObjectFactory.domCreate(XMLHelper.getFirstChildByTag(n, "p1")),
+                         (Point) StratmasObjectFactory.domCreate(XMLHelper.getFirstChildByTag(n, "p2")));
      }
 
     /**
@@ -197,9 +197,9 @@ public class Line extends Curve
      */
     public StringBuffer bodyXML(StringBuffer b) 
     {
-	start.toXML(b);
-	end.toXML(b);
-	return b;
+        start.toXML(b);
+        end.toXML(b);
+        return b;
     }
     
     /**
@@ -212,36 +212,36 @@ public class Line extends Curve
      * @return true if the lines intersect, false otherwise.
      */
     public boolean intersects(Line line, Projection projection) {
-	// first line
-	double[] xy1 = projection.projToXY(getStartPoint());
-	double x1 = xy1[0];
-	double y1 = xy1[1];
-	double[] xy2 = projection.projToXY(getEndPoint());
-	double x2 = xy2[0];
-	double y2 = xy2[1];
-	// second line
-	double[] uv1 = projection.projToXY(line.getStartPoint());
-	double u1 = uv1[0];
-	double v1 = uv1[1];
-	double[] uv2 = projection.projToXY(line.getEndPoint());
-	double u2 = uv2[0];
-	double v2 = uv2[1];
+        // first line
+        double[] xy1 = projection.projToXY(getStartPoint());
+        double x1 = xy1[0];
+        double y1 = xy1[1];
+        double[] xy2 = projection.projToXY(getEndPoint());
+        double x2 = xy2[0];
+        double y2 = xy2[1];
+        // second line
+        double[] uv1 = projection.projToXY(line.getStartPoint());
+        double u1 = uv1[0];
+        double v1 = uv1[1];
+        double[] uv2 = projection.projToXY(line.getEndPoint());
+        double u2 = uv2[0];
+        double v2 = uv2[1];
 
-	double b1 = (y2-y1)/(x2-x1);
-	double b2 = (v2-v1)/(u2-u1); 
-	double a1 = y1-b1*x1;
-	double a2 = v1-b2*u1; 
+        double b1 = (y2-y1)/(x2-x1);
+        double b2 = (v2-v1)/(u2-u1); 
+        double a1 = y1-b1*x1;
+        double a2 = v1-b2*u1; 
 
-	double xi = - (a1-a2)/(b1-b2);
-	double yi = a1+b1*xi; 
-	    
-	if ((x1-xi)*(xi-x2) >= 0 && (u1-xi)*(xi-u2) >= 0 && (y1-yi)*(yi-y2) >= 0 &&
-	    (v1-yi)*(yi-v2) >= 0) {
-	    return true;
-	}
-	else {
-	    return false;
-	}
+        double xi = - (a1-a2)/(b1-b2);
+        double yi = a1+b1*xi; 
+            
+        if ((x1-xi)*(xi-x2) >= 0 && (u1-xi)*(xi-u2) >= 0 && (y1-yi)*(yi-y2) >= 0 &&
+            (v1-yi)*(yi-v2) >= 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     /**
@@ -249,7 +249,7 @@ public class Line extends Curve
      */
     public Type getType()
     {
-	return type;
+        return type;
     }
 
     /**
@@ -257,7 +257,7 @@ public class Line extends Curve
      */
     public Icon getIcon()
     {
-	return icon;
+        return icon;
     }
 
 
@@ -271,13 +271,13 @@ public class Line extends Curve
      */
     public StratmasObject getChild(int index)
     {
-	if (index == 0) {
-	    return start;
-	} else if (index == 1) {
-	    return end;
-	} else {
-	    return null;
-	}
+        if (index == 0) {
+            return start;
+        } else if (index == 1) {
+            return end;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -290,13 +290,13 @@ public class Line extends Curve
      */
     public StratmasObject getChild(String identifier)
     {
-	if (identifier.equals("p1")) {
-	    return start;
-	} else if (identifier.equals("p2")) {
-	    return end;
-	} else {
-	    return null;
-	}
+        if (identifier.equals("p1")) {
+            return start;
+        } else if (identifier.equals("p2")) {
+            return end;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -304,7 +304,7 @@ public class Line extends Curve
      */
     public int getChildCount()
     {
-	return 2;
+        return 2;
     }
 
     /**
@@ -314,7 +314,7 @@ public class Line extends Curve
      */
     public boolean hasChild(String id) 
     {
-	return id.equals("p1") || id.equals("p2");
+        return id.equals("p1") || id.equals("p2");
     }
 
     /**
@@ -322,26 +322,26 @@ public class Line extends Curve
      */
     public Enumeration children()
     {
-	/**
-	 * A copy of an empty enumeration to use for children().
-	 */
-	return new 
-	    Enumeration() 
-	    {
-		int index = 0;
-		public boolean hasMoreElements() 
-		{
-		    return index < 2;
-		}
-		public Object nextElement() throws NoSuchElementException
-		{
-		    if (index < 2) {
-			return getChild(index++);
-		    } else {
-			throw new NoSuchElementException("No more elements.");
-		    }
-		}
-	    };
+        /**
+         * A copy of an empty enumeration to use for children().
+         */
+        return new 
+            Enumeration() 
+            {
+                int index = 0;
+                public boolean hasMoreElements() 
+                {
+                    return index < 2;
+                }
+                public Object nextElement() throws NoSuchElementException
+                {
+                    if (index < 2) {
+                        return getChild(index++);
+                    } else {
+                        throw new NoSuchElementException("No more elements.");
+                    }
+                }
+            };
     }
 
     /**
@@ -352,13 +352,13 @@ public class Line extends Curve
      */
     public int getIndexOfChild(StratmasObject child)
     {
-	if (child == start) {
-	    return 0;
-	} else if (child == end) {
-	    return 1;
-	} else {
-	    return -1;
-	}
+        if (child == start) {
+            return 0;
+        } else if (child == end) {
+            return 1;
+        } else {
+            return -1;
+        }
     }
 
     /**
@@ -366,7 +366,7 @@ public class Line extends Curve
      */
     public boolean isLeaf()
     {
-	return false;
+        return false;
     }
 
     /**
@@ -379,17 +379,17 @@ public class Line extends Curve
      */
     public void add(StratmasObject part, Object initiator)
     {
-	if (part instanceof Point) {
-	    if (part.getIdentifier().equals("p1")) {
-		start = (Point) part;
-		part.setParent(this);
-		fireObjectAdded(part, initiator);		
-	    } else if (part.getIdentifier().equals("p2")){
-		end = (Point) part;
-		part.setParent(this);
-		fireObjectAdded(part, initiator);
-	    }
-	}
+        if (part instanceof Point) {
+            if (part.getIdentifier().equals("p1")) {
+                start = (Point) part;
+                part.setParent(this);
+                fireObjectAdded(part, initiator);                
+            } else if (part.getIdentifier().equals("p2")){
+                end = (Point) part;
+                part.setParent(this);
+                fireObjectAdded(part, initiator);
+            }
+        }
     }
 
     /**
@@ -399,7 +399,7 @@ public class Line extends Curve
      */
     protected void remove(StratmasObject child)
     {
-	throw new AssertionError("Removing necessary component of line");
+        throw new AssertionError("Removing necessary component of line");
     }
 
     /**
@@ -411,16 +411,16 @@ public class Line extends Curve
      */
     protected void replaceChild(StratmasObject oldObj, StratmasObject newObj, Object initiator) 
     {
-	if (oldObj == start) {
-	    start = (Point) newObj;
-	    start.setParent(this);
-	} else if (oldObj == end) {
-	    end = (Point) newObj;
-	    end.setParent(this);
-	} else {
-	    throw new AssertionError("Replacing a non-child of this object");
-	}
-	fireChildChanged(newObj, this);
+        if (oldObj == start) {
+            start = (Point) newObj;
+            start.setParent(this);
+        } else if (oldObj == end) {
+            end = (Point) newObj;
+            end.setParent(this);
+        } else {
+            throw new AssertionError("Replacing a non-child of this object");
+        }
+        fireChildChanged(newObj, this);
     }
     
 }
@@ -441,7 +441,7 @@ class LineVectorConstructor extends StratmasVectorConstructor
      */
     public LineVectorConstructor(Declaration declaration)
     {
-	super(declaration);
+        super(declaration);
     }
 
     /**
@@ -451,20 +451,20 @@ class LineVectorConstructor extends StratmasVectorConstructor
      */
     public StratmasObject getStratmasObject(Vector parts)
     {
-	Point p1 = (Point) parts.get(0);
-	Point p2 = (Point) parts.get(1);
-	
-	if (!p1.getIdentifier().equals("p1")) {
-	    Point temp = p1;
-	    p1 = p2;
-	    p2 = temp;
-	}
-	
-	if (!p1.getIdentifier().equals("p1") ||
-	    !p2.getIdentifier().equals("p2")) {	    
-	    throw new AssertionError("Internal Line transport error.");
-	}
-	
-	return new Line(this.getDeclaration(), p1, p2);
+        Point p1 = (Point) parts.get(0);
+        Point p2 = (Point) parts.get(1);
+        
+        if (!p1.getIdentifier().equals("p1")) {
+            Point temp = p1;
+            p1 = p2;
+            p2 = temp;
+        }
+        
+        if (!p1.getIdentifier().equals("p1") ||
+            !p2.getIdentifier().equals("p2")) {            
+            throw new AssertionError("Internal Line transport error.");
+        }
+        
+        return new Line(this.getDeclaration(), p1, p2);
     }
 }

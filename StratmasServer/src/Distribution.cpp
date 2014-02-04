@@ -35,23 +35,23 @@ Distribution::Distribution() : SimulationObject(Reference::nullRef())
  * specified by cells[i].
  */
 void Distribution::amount(LatLng center,
-			  const list<GridPos>& cells,
-			  const BasicGrid& g,
-			  vector<double>& outAmount) const
+                          const list<GridPos>& cells,
+                          const BasicGrid& g,
+                          vector<double>& outAmount) const
 {
      outAmount.clear();
      outAmount.reserve(cells.size());
      double ff;
      double sum = 0;
      for (list<GridPos>::const_iterator it = cells.begin(); it != cells.end(); it++) {
-	  ff = f(sqrt(center.squDistanceTo(g.center(it->r, it->c))));
-	  sum += ff;
-	  outAmount.push_back(ff);
+          ff = f(sqrt(center.squDistanceTo(g.center(it->r, it->c))));
+          sum += ff;
+          outAmount.push_back(ff);
      }
 
      double oneOverSum = 1 / sum;
      for (vector<double>::iterator it = outAmount.begin(); it != outAmount.end(); it++) {
-	  *it *= oneOverSum;
+          *it *= oneOverSum;
      }
 }
 
@@ -69,23 +69,23 @@ void Distribution::amount(LatLng center,
  * by cells[i].
  */
 void Distribution::amountMean1(LatLng center,
-			       const list<GridPos>& cells,
-			       const BasicGrid& g,
-			       vector<double>& outAmount) const
+                               const list<GridPos>& cells,
+                               const BasicGrid& g,
+                               vector<double>& outAmount) const
 {
      outAmount.clear();
      outAmount.reserve(cells.size());
      double ff;
      double sum = 0;
      for (list<GridPos>::const_iterator it = cells.begin(); it != cells.end(); it++) {
-	  ff = f(sqrt(center.squDistanceTo(g.center(it->r, it->c))));
-	  sum += ff;
-	  outAmount.push_back(ff);
+          ff = f(sqrt(center.squDistanceTo(g.center(it->r, it->c))));
+          sum += ff;
+          outAmount.push_back(ff);
      }
 
      double numOverSum = static_cast<double>(outAmount.size()) / sum;
      for (vector<double>::iterator it = outAmount.begin(); it != outAmount.end(); it++) {
-	  *it *= numOverSum;
+          *it *= numOverSum;
      }
 }
 
@@ -113,13 +113,13 @@ CityDistribution::CityDistribution(const DataObject& d)
 void CityDistribution::update(const Update& u)
 {
      if (u.getType() == Update::eModify && u.getReference().name() == "sigmaMeters") {
-	  mSigma = u.getObject()->getDouble();
-	  mK = -0.5 / (mSigma * mSigma);
+          mSigma = u.getObject()->getDouble();
+          mK = -0.5 / (mSigma * mSigma);
      }
      else {
-	  Error e;
-	  e << "No updatable attribute '" << u.getReference().name() << "' in '" << ref() << "'";
-	  throw e;
+          Error e;
+          e << "No updatable attribute '" << u.getReference().name() << "' in '" << ref() << "'";
+          throw e;
      }
 }
 
@@ -195,14 +195,14 @@ NormalDistribution::NormalDistribution(const DataObject& d)
 void NormalDistribution::update(const Update& u)
 {
      if (u.getType() == Update::eModify && u.getReference().name() == "sigmaMeters") {
-	  mSigma = u.getObject()->getDouble();
-	  mK1 = 1 / (mSigma * sqrt(2*kPi)); 
-	  mK2 = -0.5 / (mSigma * mSigma);
+          mSigma = u.getObject()->getDouble();
+          mK1 = 1 / (mSigma * sqrt(2*kPi)); 
+          mK2 = -0.5 / (mSigma * mSigma);
      }
      else {
-	  Error e;
-	  e << "No updatable attribute '" << u.getReference().name() << "' in '" << ref() << "'";
-	  throw e;
+          Error e;
+          e << "No updatable attribute '" << u.getReference().name() << "' in '" << ref() << "'";
+          throw e;
      }
 }
 

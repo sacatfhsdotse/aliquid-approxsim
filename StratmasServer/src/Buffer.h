@@ -37,7 +37,7 @@ private:
 
      Time        mSimTime;      ///< Data in the buffer is valid for this time.
      Time        mCurrentTime;  ///< Current Engine timestep (data not necessarily copied to Buffer).
-	        
+                
      bool        mEngineIdle;   ///< True if the Engine isn't working on a timestep.
      int         mResetCount;   ///< Counts the number of resets.
      

@@ -34,13 +34,13 @@ using namespace std;
 XSDContent::XSDContent() : mGrammarPool(0), mXSModel(0), mNamespace(Environment::DEFAULT_SCHEMA_NAMESPACE)
 {
      try {
-	  XMLPlatformUtils::Initialize();
+          XMLPlatformUtils::Initialize();
      }
      catch (const XMLException& toCatch) {
-	  slog << "Error during initialization! Message:" 
-	       << StrX(toCatch.getMessage()) << logEnd;
-	  XMLPlatformUtils::Terminate();
-	  return;
+          slog << "Error during initialization! Message:" 
+               << StrX(toCatch.getMessage()) << logEnd;
+          XMLPlatformUtils::Terminate();
+          return;
      }
 }
 
@@ -53,7 +53,7 @@ XSDContent::~XSDContent()
      if (mGrammarPool) { delete mGrammarPool; }
 
      for (std::map<std::string, Type*>::iterator it = mResolvedTypes.begin(); it != mResolvedTypes.end(); it++) {
-	  delete it->second;
+          delete it->second;
      }
 
      XMLPlatformUtils::Terminate();
@@ -115,59 +115,59 @@ void XSDContent::parseSchema(const InputSource& source)
     Error e;
     bool errOcc = false;
     try {        
-	 mGrammarPool = new XMLGrammarPoolImpl(XMLPlatformUtils::fgMemoryManager);
+         mGrammarPool = new XMLGrammarPoolImpl(XMLPlatformUtils::fgMemoryManager);
 
-	 parser = new SAX2XMLReaderImpl(XMLPlatformUtils::fgMemoryManager, mGrammarPool);
-	 parser->setFeature(XMLUni::fgSAX2CoreNameSpaces       , true);
-	 parser->setFeature(XMLUni::fgXercesSchema             , true);
-	 parser->setFeature(XMLUni::fgXercesSchemaFullChecking , true);
-	 parser->setFeature(XMLUni::fgSAX2CoreNameSpacePrefixes, false);
-	 parser->setFeature(XMLUni::fgSAX2CoreValidation       , true);
-	 parser->setFeature(XMLUni::fgXercesDynamic            , true);
-	 parser->setProperty(XMLUni::fgXercesScannerName, (void *)XMLUni::fgSGXMLScanner);
-	 
+         parser = new SAX2XMLReaderImpl(XMLPlatformUtils::fgMemoryManager, mGrammarPool);
+         parser->setFeature(XMLUni::fgSAX2CoreNameSpaces       , true);
+         parser->setFeature(XMLUni::fgXercesSchema             , true);
+         parser->setFeature(XMLUni::fgXercesSchemaFullChecking , true);
+         parser->setFeature(XMLUni::fgSAX2CoreNameSpacePrefixes, false);
+         parser->setFeature(XMLUni::fgSAX2CoreValidation       , true);
+         parser->setFeature(XMLUni::fgXercesDynamic            , true);
+         parser->setProperty(XMLUni::fgXercesScannerName, (void *)XMLUni::fgSGXMLScanner);
+         
          ParserErrorReporter handler;    
          parser->setErrorHandler(&handler);
 
-	 MemEntityResolver entityResolver(0, parser->getEntityResolver());
-	 parser->setEntityResolver(&entityResolver);
+         MemEntityResolver entityResolver(0, parser->getEntityResolver());
+         parser->setEntityResolver(&entityResolver);
 
-	 parser->loadGrammar(source, Grammar::SchemaGrammarType, true);
+         parser->loadGrammar(source, Grammar::SchemaGrammarType, true);
 
- 	 if (handler.errorsOccurred()) {
-	      delete parser;
-	      parser = 0;
-	      throw handler.errors();
- 	 }
+          if (handler.errorsOccurred()) {
+              delete parser;
+              parser = 0;
+              throw handler.errors();
+          }
    bool lax;
    bool& fisk = lax;
-	 mXSModel = mGrammarPool->getXSModel(fisk);
-	 if (!mXSModel) {    
-	      e << "No XSModel in XSDContent::parseSchmea()";
-	      errOcc = true;
-	 }
+         mXSModel = mGrammarPool->getXSModel(fisk);
+         if (!mXSModel) {    
+              e << "No XSModel in XSDContent::parseSchmea()";
+              errOcc = true;
+         }
     }
     catch (const OutOfMemoryException&) {
-	 e << "OutOfMemoryException when parsing schema";
-	 errOcc = true;
+         e << "OutOfMemoryException when parsing schema";
+         errOcc = true;
     }
     catch (const XMLException& exc) {
-	 e << "Error when parsing schema. Exception message is: '" << StrX(exc.getMessage()).str() << "'";
-	 errOcc = true;
+         e << "Error when parsing schema. Exception message is: '" << StrX(exc.getMessage()).str() << "'";
+         errOcc = true;
     }
     catch (vector<Error>& es) {
-	 throw es;
+         throw es;
     }
     catch (...) {
-	 e << "Unexpected exception when parsing schema";
-	 errOcc = true;
+         e << "Unexpected exception when parsing schema";
+         errOcc = true;
     }
     if (parser) {
-	 delete parser;
+         delete parser;
     }
 
     if (errOcc) {
-	 throw e;
+         throw e;
     }
 }
 
@@ -197,21 +197,21 @@ const Type& XSDContent::getType(const std::string& typeName, const std::string& 
      Type* ret = 0;
      std::map<std::string, Type*>::iterator it = mResolvedTypes.find(nameSpace + ":" + typeName);
      if (it == mResolvedTypes.end()) {
-	  XStr t(typeName);
-	  XStr ns(nameSpace);
-	  XSTypeDefinition* td = mXSModel->getTypeDefinition(t.str(), ns.str());
-	  if (td) {
-	       ret = new TypeDefinition(*this, *td);
-	       mResolvedTypes[nameSpace + ":" + ret->getName()] = ret;
-	  }
-	  else {
-	       Error e;
-	       e << "Can't find type '" << typeName << "' in namespace '" << nameSpace << "'";
-	       throw e;
-	  }
+          XStr t(typeName);
+          XStr ns(nameSpace);
+          XSTypeDefinition* td = mXSModel->getTypeDefinition(t.str(), ns.str());
+          if (td) {
+               ret = new TypeDefinition(*this, *td);
+               mResolvedTypes[nameSpace + ":" + ret->getName()] = ret;
+          }
+          else {
+               Error e;
+               e << "Can't find type '" << typeName << "' in namespace '" << nameSpace << "'";
+               throw e;
+          }
      }
      else {
-	  ret = it->second;
+          ret = it->second;
      }
      return *ret;
 }

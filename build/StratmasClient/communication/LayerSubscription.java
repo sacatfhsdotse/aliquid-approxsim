@@ -22,8 +22,8 @@ public class LayerSubscription extends Subscription {
       * @param ld The LayerData.
       */
      public LayerSubscription(LayerData ld) {
-	  super();
-	  mLD = ld;
+          super();
+          mLD = ld;
      }
 
      /**
@@ -34,7 +34,7 @@ public class LayerSubscription extends Subscription {
       * @param t The simulation time for which this update is valid.
       */
      public void update(Element n, Timestamp t) {
-	  mLD.update(n, t);
+          mLD.update(n, t);
      }
 
     /**
@@ -43,7 +43,7 @@ public class LayerSubscription extends Subscription {
      * @return A string representation of the type of this object.
      */
      public String getTypeAsString() {
-	  return "LayerSubscription";
+          return "LayerSubscription";
      }
 
      /**
@@ -54,12 +54,12 @@ public class LayerSubscription extends Subscription {
       * object's body appended to it.
       */
      public StringBuffer bodyXML(StringBuffer b) {
-	  b.append(NL).append("<layer>").append(mLD.getLayer()).append("</layer>");
-	  if (mLD.getFaction() != null) {
-	       b.append(NL).append("<faction>");
-	       mLD.getFaction().bodyXML(b);
-	       b.append(NL).append("</faction>");
-	  }
-	  return b;
+          b.append(NL).append("<layer>").append(mLD.getLayer()).append("</layer>");
+          if (mLD.getFaction() != null) {
+               b.append(NL).append("<faction>");
+               mLD.getFaction().bodyXML(b);
+               b.append(NL).append("</faction>");
+          }
+          return b;
      }
 }

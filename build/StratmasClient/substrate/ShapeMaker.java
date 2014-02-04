@@ -41,7 +41,7 @@ public abstract class ShapeMaker {
      * Creates new shape constructor.
      */
     public ShapeMaker(SubstrateMapDrawer drawer) {
-	this.drawer = drawer;
+        this.drawer = drawer;
     }
 
     /**
@@ -53,27 +53,27 @@ public abstract class ShapeMaker {
      * Returns the shape adapter.
      */
     protected MapShapeAdapter getShapeAdapter() {
-	return shapeAdapter;
+        return shapeAdapter;
     } 
     
     /**
      * Removes all MapPointAdapter objects.
      */
     protected void removeMapPointAdapters() {
-	while(!pointAdapters.isEmpty()) {
-	    MapPointAdapter mpa = (MapPointAdapter)pointAdapters.remove(0);
-	    drawer.removeMapPointAdapter(mpa);
-	}
+        while(!pointAdapters.isEmpty()) {
+            MapPointAdapter mpa = (MapPointAdapter)pointAdapters.remove(0);
+            drawer.removeMapPointAdapter(mpa);
+        }
     }
 
     /**
      * Removes all MapLineAdapter objects.
      */
     protected void removeMapLineAdapters() {
-	while(!lineAdapters.isEmpty()) {
-	    MapLineAdapter mla = (MapLineAdapter)lineAdapters.remove(0);
-	    drawer.removeMapLineAdapter(mla);
-	}
+        while(!lineAdapters.isEmpty()) {
+            MapLineAdapter mla = (MapLineAdapter)lineAdapters.remove(0);
+            drawer.removeMapLineAdapter(mla);
+        }
     }
 
     /**

@@ -84,7 +84,7 @@ public:
       * \return True if this PresenceObject is less than p.
       */
      bool operator < (const PresenceObject& p) const {
-	  return ( mCell < p.mCell || (mCell == p.mCell && this < &p) );
+          return ( mCell < p.mCell || (mCell == p.mCell && this < &p) );
      }
 };
 
@@ -109,12 +109,12 @@ struct lessPresenceObjectPointer {
       * other PresenceObject, false otherwise.
       */
      bool operator()(const PresenceObject* const p1, const PresenceObject* const p2) const {
-	  if (!p1 || !p2) {
-	       return false;
-	  }
-	  else {
-	       return *p1 < *p2;
-	  }
+          if (!p1 || !p2) {
+               return false;
+          }
+          else {
+               return *p1 < *p2;
+          }
      }
 };
 

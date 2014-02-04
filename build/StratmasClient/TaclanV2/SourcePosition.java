@@ -1,4 +1,4 @@
-// 	$Id: SourcePosition.java,v 1.1 2005/02/03 10:20:59 dah Exp $
+//         $Id: SourcePosition.java,v 1.1 2005/02/03 10:20:59 dah Exp $
 
 /*
  * @(#)SourcePosition.java
@@ -23,12 +23,12 @@ public class SourcePosition
 
     /**
        The symbol starting this Sourceposition
-    */	
+    */        
     StratmasClient.TaclanV2.java_cup.runtime.Symbol start;
 
     /**
        The symbol ending this Sourceposition
-    */	
+    */        
     StratmasClient.TaclanV2.java_cup.runtime.Symbol end;
 
     /**
@@ -38,11 +38,11 @@ public class SourcePosition
      * @param endToken the symbol starting this lexical element.
      */
     public SourcePosition(String source, StratmasClient.TaclanV2.java_cup.runtime.Symbol startToken, 
-			  StratmasClient.TaclanV2.java_cup.runtime.Symbol endToken)
-    {	
-	this.source = source;
-	this.start = startToken;
-	this.end = endToken;
+                          StratmasClient.TaclanV2.java_cup.runtime.Symbol endToken)
+    {        
+        this.source = source;
+        this.start = startToken;
+        this.end = endToken;
     }
 
     /**
@@ -51,8 +51,8 @@ public class SourcePosition
      * @param startToken the symbol starting this lexical element.
      */
     public SourcePosition(String source, StratmasClient.TaclanV2.java_cup.runtime.Symbol startToken)
-    {	
-	this(source, startToken, startToken);
+    {        
+        this(source, startToken, startToken);
     }
 
     /**
@@ -61,19 +61,19 @@ public class SourcePosition
      * @param source the source where the token was declared (typically a filename)
      */
     public SourcePosition(String source)
-    {	
-	this(source, null);
+    {        
+        this(source, null);
     }
 
     public String toString()
     {
-	if (start != null) {
-	    return this.getSource() + ": " + start.getRow();
-	} 
-	else {
-	    return this.getSource() + ":? ";
-	}
-	
+        if (start != null) {
+            return this.getSource() + ": " + start.getRow();
+        } 
+        else {
+            return this.getSource() + ":? ";
+        }
+        
     }
 
     /**
@@ -81,7 +81,7 @@ public class SourcePosition
      */
     public static SourcePosition getUnknown()
     {
-	return new SourcePosition("unknown");
+        return new SourcePosition("unknown");
     }
 
     /**
@@ -89,6 +89,6 @@ public class SourcePosition
      */
     public String getSource()
     {
-	return this.source;
+        return this.source;
     }
 }

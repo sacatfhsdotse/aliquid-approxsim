@@ -1,4 +1,4 @@
-// 	$Id: StratmasAbstractAction.java,v 1.4 2006/07/31 10:17:49 alexius Exp $
+//         $Id: StratmasAbstractAction.java,v 1.4 2006/07/31 10:17:49 alexius Exp $
 /*
  * @(#) StratmasAbstractAction
  */
@@ -32,8 +32,8 @@ public abstract class StratmasAbstractAction extends AbstractAction
      */
     public StratmasAbstractAction(String str, boolean isMutator)
     {
-	super(str);
-	this.isMutator = isMutator;
+        super(str);
+        this.isMutator = isMutator;
     }
 
     /**
@@ -41,6 +41,6 @@ public abstract class StratmasAbstractAction extends AbstractAction
      */    
     public boolean isMutator()
     {
-	return this.isMutator;
+        return this.isMutator;
     }
 }

@@ -1,4 +1,4 @@
-// 	$Id: StratmasObjectParameter.java,v 1.3 2006/03/22 14:30:50 dah Exp $
+//         $Id: StratmasObjectParameter.java,v 1.3 2006/03/22 14:30:50 dah Exp $
 /*
  * @(#)StratmasObjectParameter.java
  */

@@ -1,4 +1,4 @@
-// 	$Id: EvaluatorEvent.java,v 1.1 2005/10/28 12:14:33 dah Exp $
+//         $Id: EvaluatorEvent.java,v 1.1 2005/10/28 12:14:33 dah Exp $
 /*
  * @(#)EvaluatorEvent.java
  */
@@ -24,7 +24,7 @@ public class EvaluatorEvent extends EventObject
      */
     EvaluatorEvent(Evaluator evaluator)
     {
-	super(evaluator);
+        super(evaluator);
     }
 
     /**
@@ -32,6 +32,6 @@ public class EvaluatorEvent extends EventObject
      */
     public Evaluator getEvaluator()
     {
-	return (Evaluator) getSource();
+        return (Evaluator) getSource();
     }
 }

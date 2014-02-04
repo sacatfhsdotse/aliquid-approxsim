@@ -1,4 +1,4 @@
-// 	$Id: EvaluatorException.java,v 1.1 2005/10/28 18:47:20 dah Exp $
+//         $Id: EvaluatorException.java,v 1.1 2005/10/28 18:47:20 dah Exp $
 /*
  * @(#)EvaluatorException.java
  */
@@ -30,8 +30,8 @@ public class EvaluatorException extends Exception
      */
     public EvaluatorException(Evaluator evaluator, String description)
     {
-	this.evaluator = evaluator;
-	this.description = description;
+        this.evaluator = evaluator;
+        this.description = description;
     }
 
     /**
@@ -39,7 +39,7 @@ public class EvaluatorException extends Exception
      */
     public String getMessage()
     {
-	return description;
+        return description;
     }
 
     /**
@@ -47,7 +47,7 @@ public class EvaluatorException extends Exception
      */
     public String toString()
     {
-	return getMessage();
+        return getMessage();
     }
 
     /**
@@ -55,6 +55,6 @@ public class EvaluatorException extends Exception
      */
     public Evaluator getEvaluator()
     {
-	return this.evaluator;
+        return this.evaluator;
     }
 }

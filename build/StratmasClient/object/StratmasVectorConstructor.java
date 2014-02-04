@@ -1,4 +1,4 @@
-// 	$Id: StratmasVectorConstructor.java,v 1.1 2006/03/22 14:30:52 dah Exp $
+//         $Id: StratmasVectorConstructor.java,v 1.1 2006/03/22 14:30:52 dah Exp $
 /*
  * @(#)StratmasObject.java
  */
@@ -29,7 +29,7 @@ public abstract class StratmasVectorConstructor
      */
     public StratmasVectorConstructor(Declaration declaration)
     {
-	this.declaration = declaration;
+        this.declaration = declaration;
     }
 
     /**
@@ -47,9 +47,9 @@ public abstract class StratmasVectorConstructor
      */
     public StratmasObject getStratmasObject(String identifier, Vector parts)
     {
-	StratmasObject object = getStratmasObject(parts);
-	object.setIdentifier(identifier);
-	return object;
+        StratmasObject object = getStratmasObject(parts);
+        object.setIdentifier(identifier);
+        return object;
     }
     
     /**
@@ -57,6 +57,6 @@ public abstract class StratmasVectorConstructor
      */
     protected Declaration getDeclaration()
     {
-	return this.declaration;
+        return this.declaration;
     }
 }

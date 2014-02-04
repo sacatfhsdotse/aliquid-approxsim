@@ -65,19 +65,19 @@ public class IF2Importer {
       * Default constructor.
       */
      public IF2Importer(StratmasObject root) {
-	  if (!(root instanceof StratmasObject)) {
-	       throw new AssertionError("Not a Complex root object in IF2Importer.");
-	  }
-	  mRootObject = (StratmasObject)root.children().nextElement();
-	  try {
-	       // Turned off for now since IconFactory2 exports broken documents.
-	       mParser.setFeature("http://xml.org/sax/features/validation", false);
-	  } catch (SAXNotRecognizedException e) {
-	       setErrorMessage("Initialization error: Validation option not recognized by parser in IF2Importer. " +
-			       "Validation turned off.");
-	  } catch (SAXNotSupportedException e) {
-	       setErrorMessage("Initialization error: Validation not supported in IF2Importer. Validation turned off.");
-	  }
+          if (!(root instanceof StratmasObject)) {
+               throw new AssertionError("Not a Complex root object in IF2Importer.");
+          }
+          mRootObject = (StratmasObject)root.children().nextElement();
+          try {
+               // Turned off for now since IconFactory2 exports broken documents.
+               mParser.setFeature("http://xml.org/sax/features/validation", false);
+          } catch (SAXNotRecognizedException e) {
+               setErrorMessage("Initialization error: Validation option not recognized by parser in IF2Importer. " +
+                               "Validation turned off.");
+          } catch (SAXNotSupportedException e) {
+               setErrorMessage("Initialization error: Validation not supported in IF2Importer. Validation turned off.");
+          }
      }
 
      /**
@@ -92,33 +92,33 @@ public class IF2Importer {
       * imported or null if the file did not contain any importable objects.
       */
      public StratmasObject importFromFile(String fileName) {
-	  Vector vec = new Vector();
-	  StratmasObject ret = null;
-	  try {
-	      // InputSource inputSource = new InputSource(new BufferedReader(new FileReader(fileName)));
-	      InputSource inputSource = 
-		  new InputSource(new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "ISO-8859-1")));
-	      inputSource.setEncoding("ISO-8859-1");
-	      mParser.parse(inputSource);
-	       Element docElem = mParser.getDocument().getDocumentElement();
-	       if (!docElem.getTagName().equals("IF2Project")) {
-		    setErrorMessage("Root element has tag '" + docElem.getNodeName() + "'. Should be IF2Project'");
-		    return null;
-	       }
-	       
-	       Element symbols = XMLHandler.getFirstChildByTag(docElem, "Symbols");
+          Vector vec = new Vector();
+          StratmasObject ret = null;
+          try {
+              // InputSource inputSource = new InputSource(new BufferedReader(new FileReader(fileName)));
+              InputSource inputSource = 
+                  new InputSource(new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "ISO-8859-1")));
+              inputSource.setEncoding("ISO-8859-1");
+              mParser.parse(inputSource);
+               Element docElem = mParser.getDocument().getDocumentElement();
+               if (!docElem.getTagName().equals("IF2Project")) {
+                    setErrorMessage("Root element has tag '" + docElem.getNodeName() + "'. Should be IF2Project'");
+                    return null;
+               }
+               
+               Element symbols = XMLHandler.getFirstChildByTag(docElem, "Symbols");
 
-	       // IF2 projects may only contain one root element.
-	       ret = handleSymbol(XMLHandler.getFirstChildByTag(symbols, "Symbol"));
-	  } catch (SAXException e) {
- 	       e.printStackTrace();
-	       setErrorMessage("ParseError: " + e.getMessage());
-	  } catch (IOException e) {
-	       e.printStackTrace();
-	       setErrorMessage("IO Error: " + e.getMessage());
-	  }
-	  sFaction = null;
-	  return ret;
+               // IF2 projects may only contain one root element.
+               ret = handleSymbol(XMLHandler.getFirstChildByTag(symbols, "Symbol"));
+          } catch (SAXException e) {
+                e.printStackTrace();
+               setErrorMessage("ParseError: " + e.getMessage());
+          } catch (IOException e) {
+               e.printStackTrace();
+               setErrorMessage("IO Error: " + e.getMessage());
+          }
+          sFaction = null;
+          return ret;
      }
 
      /**
@@ -132,34 +132,34 @@ public class IF2Importer {
       * imported or null if the file did not contain any importable objects.
       */
     public StratmasObject importFromFile(String fileName, Reference faction) {
-	Vector vec = new Vector();
-	StratmasObject ret = null;	
-	sFaction = faction;
-	try {
-	    // InputSource inputSource = new InputSource(new BufferedReader(new FileReader(fileName)));
-	    InputSource inputSource = 
-		new InputSource(new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "ISO-8859-1")));
-	    inputSource.setEncoding("ISO-8859-1");
-	    mParser.parse(inputSource);
-	    Element docElem = mParser.getDocument().getDocumentElement();
-	    if (!docElem.getTagName().equals("IF2Project")) {
-		setErrorMessage("Root element has tag '" + docElem.getNodeName() + "'. Should be IF2Project'");
-		return null;
-	    }
-	    
-	    Element symbols = XMLHandler.getFirstChildByTag(docElem, "Symbols");
-	    
-	    // IF2 projects may only contain one root element.
-	    ret = handleSymbol(XMLHandler.getFirstChildByTag(symbols, "Symbol"));
-	} catch (SAXException e) {
-	    e.printStackTrace();
-	    setErrorMessage("ParseError: " + e.getMessage());
-	} catch (IOException e) {
-	    e.printStackTrace();
-	    setErrorMessage("IO Error: " + e.getMessage());
-	}
-	sFaction = null;
-	return ret;
+        Vector vec = new Vector();
+        StratmasObject ret = null;        
+        sFaction = faction;
+        try {
+            // InputSource inputSource = new InputSource(new BufferedReader(new FileReader(fileName)));
+            InputSource inputSource = 
+                new InputSource(new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "ISO-8859-1")));
+            inputSource.setEncoding("ISO-8859-1");
+            mParser.parse(inputSource);
+            Element docElem = mParser.getDocument().getDocumentElement();
+            if (!docElem.getTagName().equals("IF2Project")) {
+                setErrorMessage("Root element has tag '" + docElem.getNodeName() + "'. Should be IF2Project'");
+                return null;
+            }
+            
+            Element symbols = XMLHandler.getFirstChildByTag(docElem, "Symbols");
+            
+            // IF2 projects may only contain one root element.
+            ret = handleSymbol(XMLHandler.getFirstChildByTag(symbols, "Symbol"));
+        } catch (SAXException e) {
+            e.printStackTrace();
+            setErrorMessage("ParseError: " + e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+            setErrorMessage("IO Error: " + e.getMessage());
+        }
+        sFaction = null;
+        return ret;
      }
 
 
@@ -174,57 +174,57 @@ public class IF2Importer {
       * @return The unit created from the DOMElement.
       */
      protected StratmasObject handleSymbol(Element symbol) {
-	  String id = new String();
-	  Vector subunits = new Vector();
-	  String symbolIDCode = XMLHandler.getString(symbol, "symid");
+          String id = new String();
+          Vector subunits = new Vector();
+          String symbolIDCode = XMLHandler.getString(symbol, "symid");
 
-	  // Assure uppercase.
-	  symbolIDCode = symbolIDCode.toUpperCase();
-	  
-	  // Remove "" around the symbolIDCode if there are any.
-	  if (symbolIDCode.startsWith("\"") && symbolIDCode.endsWith("\"")) {
-	       symbolIDCode = symbolIDCode.substring(1, symbolIDCode.length() - 1);
-	  }
+          // Assure uppercase.
+          symbolIDCode = symbolIDCode.toUpperCase();
+          
+          // Remove "" around the symbolIDCode if there are any.
+          if (symbolIDCode.startsWith("\"") && symbolIDCode.endsWith("\"")) {
+               symbolIDCode = symbolIDCode.substring(1, symbolIDCode.length() - 1);
+          }
 
-	  // Pad string with '-' if it's shorter than 15 chars since
-	  // IF2 may save symbol id codes that way and Stratmas
-	  // doesn't like it.
-	  if (symbolIDCode.length() < 15) {
-	      String dashes = "---------------";
-	      symbolIDCode += dashes.substring(symbolIDCode.length());
-	  }
+          // Pad string with '-' if it's shorter than 15 chars since
+          // IF2 may save symbol id codes that way and Stratmas
+          // doesn't like it.
+          if (symbolIDCode.length() < 15) {
+              String dashes = "---------------";
+              symbolIDCode += dashes.substring(symbolIDCode.length());
+          }
 
-	  // Handle fields.
-	  Element elem = XMLHandler.getFirstChildByTag(symbol, "Fields");
-	  if (elem != null) {
-	       for (Node child = elem.getFirstChild(); child != null; child = child.getNextSibling()) {
-		    if (child.getNodeType() == Node.ELEMENT_NODE &&
-			child.getNodeName().equals("field")) {
-			 Element field = (Element)child;
-			 if (field.getAttribute("ID").equals("T")) {
-			      id = field.getAttribute("VALUE");
-			 }
-		    }
-	       }
-	  }
+          // Handle fields.
+          Element elem = XMLHandler.getFirstChildByTag(symbol, "Fields");
+          if (elem != null) {
+               for (Node child = elem.getFirstChild(); child != null; child = child.getNextSibling()) {
+                    if (child.getNodeType() == Node.ELEMENT_NODE &&
+                        child.getNodeName().equals("field")) {
+                         Element field = (Element)child;
+                         if (field.getAttribute("ID").equals("T")) {
+                              id = field.getAttribute("VALUE");
+                         }
+                    }
+               }
+          }
 
-	  // Handle children
-	  elem = XMLHandler.getFirstChildByTag(symbol, "Children");
-	  if (elem != null) {
-	       for (Node child = elem.getFirstChild(); child != null; child = child.getNextSibling()) {
-		    if (child.getNodeType() == Node.ELEMENT_NODE &&
-			child.getNodeName().equals("Symbol")) {
-			 StratmasObject unit = handleSymbol((Element)child);
-			 if (unit == null) {
-			      return null;
-			 }
-			 else {
-			      subunits.add(unit);
-			 }
-		    }
-	       }
-	  }
-	  return createDefaultImportedUnit(id, symbolIDCode, subunits);
+          // Handle children
+          elem = XMLHandler.getFirstChildByTag(symbol, "Children");
+          if (elem != null) {
+               for (Node child = elem.getFirstChild(); child != null; child = child.getNextSibling()) {
+                    if (child.getNodeType() == Node.ELEMENT_NODE &&
+                        child.getNodeName().equals("Symbol")) {
+                         StratmasObject unit = handleSymbol((Element)child);
+                         if (unit == null) {
+                              return null;
+                         }
+                         else {
+                              subunits.add(unit);
+                         }
+                    }
+               }
+          }
+          return createDefaultImportedUnit(id, symbolIDCode, subunits);
      }
 
      /**
@@ -240,77 +240,77 @@ public class IF2Importer {
       * @return The unit created.
       */
      public StratmasObject createDefaultImportedUnit(String id, String symCode, Vector subunits) {
-	  // Create new default unit.
-	  Declaration unitDec = new Declaration(TypeFactory.getType("MilitaryUnit"), "", 1, 1, false);
-	  StratmasObject unit = (StratmasObject)StratmasObjectFactory.defaultCreate(unitDec);
+          // Create new default unit.
+          Declaration unitDec = new Declaration(TypeFactory.getType("MilitaryUnit"), "", 1, 1, false);
+          StratmasObject unit = (StratmasObject)StratmasObjectFactory.defaultCreate(unitDec);
 
-	  if (sFaction == null) {
-	       StratmasObject scenario = (StratmasObject)mRootObject.getChild("scenario");
-	       if (scenario == null) {
-		    setErrorMessage("No scenario in root object");
-		    return null;
-	       }
-	       StratmasList facList = (StratmasList)scenario.getChild("factions");
-	       if (facList == null) {
-		    setErrorMessage("No faction list in scenario object");
-		    return null;
-	       }
-	       Vector facs = new Vector();
-	       for (java.util.Enumeration en = facList.children(); en.hasMoreElements(); ) {
-		    facs.add(((StratmasObject)en.nextElement()).getIdentifier());
-	       }
+          if (sFaction == null) {
+               StratmasObject scenario = (StratmasObject)mRootObject.getChild("scenario");
+               if (scenario == null) {
+                    setErrorMessage("No scenario in root object");
+                    return null;
+               }
+               StratmasList facList = (StratmasList)scenario.getChild("factions");
+               if (facList == null) {
+                    setErrorMessage("No faction list in scenario object");
+                    return null;
+               }
+               Vector facs = new Vector();
+               for (java.util.Enumeration en = facList.children(); en.hasMoreElements(); ) {
+                    facs.add(((StratmasObject)en.nextElement()).getIdentifier());
+               }
 
-	       if (facs.isEmpty()) {
-		    setErrorMessage("No factions in Scenario");
-		    return null;
-	       }
-	       else {
-		    Object [] values = facs.toArray();
-		    StratmasDialog.quitProgressBarDialog(); 
-		    Object selectedValue = JOptionPane.showInputDialog(null,
-								       "Choose the affiliation faction for the imported units ",
-								       "Please choose",
-								       JOptionPane.INFORMATION_MESSAGE,
-								       null, values, values[0]);
-		    
-		    if (selectedValue == null) {
-			 return null;
-		    } 
-		    else {
-			 StratmasObject chosen = facList.getChild((String)selectedValue);
-			 if (chosen == null) {
-			      setErrorMessage("Null value chosen in dialog");
-			      return null;
-			 }
-			 else {
-			      sFaction = chosen.getReference();
-			 }
-		    }
-	       }
-	  }
-	  
-	  StratmasReference affiliation = (StratmasReference)unit.getChild("affiliation");
-	  affiliation.setValue(sFaction, null);
+               if (facs.isEmpty()) {
+                    setErrorMessage("No factions in Scenario");
+                    return null;
+               }
+               else {
+                    Object [] values = facs.toArray();
+                    StratmasDialog.quitProgressBarDialog(); 
+                    Object selectedValue = JOptionPane.showInputDialog(null,
+                                                                       "Choose the affiliation faction for the imported units ",
+                                                                       "Please choose",
+                                                                       JOptionPane.INFORMATION_MESSAGE,
+                                                                       null, values, values[0]);
+                    
+                    if (selectedValue == null) {
+                         return null;
+                    } 
+                    else {
+                         StratmasObject chosen = facList.getChild((String)selectedValue);
+                         if (chosen == null) {
+                              setErrorMessage("Null value chosen in dialog");
+                              return null;
+                         }
+                         else {
+                              sFaction = chosen.getReference();
+                         }
+                    }
+               }
+          }
+          
+          StratmasReference affiliation = (StratmasReference)unit.getChild("affiliation");
+          affiliation.setValue(sFaction, null);
 
-	  // Set identifier, symbolIDCode and subunits.
-	  unit.setIdentifier(id);
-	  try {
-	      ((SymbolIDCode)unit.getChild("symbolIDCode")).valueFromString(symCode, null);
-	  } catch (ParseException e) {
-	      // No error checking before, ParseException introduced,
-	      // ignored no as well.
-	  }
-	  if (subunits != null && !subunits.isEmpty()) {
-	       StratmasObject subunitsList = unit.getChild("subunits");
-	       if (subunitsList == null) {
-		   unit.add(StratmasObjectFactory.createList(TypeFactory.getType("MilitaryUnit").getSubElement("subunits"), 
-							     subunits));
-	       }
-	       else {
-		    subunitsList.add(subunits);
-	       }
-	  }
-	  return unit;
+          // Set identifier, symbolIDCode and subunits.
+          unit.setIdentifier(id);
+          try {
+              ((SymbolIDCode)unit.getChild("symbolIDCode")).valueFromString(symCode, null);
+          } catch (ParseException e) {
+              // No error checking before, ParseException introduced,
+              // ignored no as well.
+          }
+          if (subunits != null && !subunits.isEmpty()) {
+               StratmasObject subunitsList = unit.getChild("subunits");
+               if (subunitsList == null) {
+                   unit.add(StratmasObjectFactory.createList(TypeFactory.getType("MilitaryUnit").getSubElement("subunits"), 
+                                                             subunits));
+               }
+               else {
+                    subunitsList.add(subunits);
+               }
+          }
+          return unit;
      }
 
      /**
@@ -319,7 +319,7 @@ public class IF2Importer {
       * @return The latest error message
       */
      public String getErrorMessage() {
-	  return mErrorMessage;
+          return mErrorMessage;
      }
 
      /**
@@ -328,8 +328,8 @@ public class IF2Importer {
       * @param msg The message.
       */
      private void setErrorMessage(String msg) {
-	  mErrorOccurred = true;
-	  mErrorMessage = msg;
+          mErrorOccurred = true;
+          mErrorMessage = msg;
      }
 
      /**
@@ -338,6 +338,6 @@ public class IF2Importer {
       * @return True if an error has occurred, false otherwise.
       */
      public boolean errorOccurred () {
-	  return mErrorOccurred;
+          return mErrorOccurred;
      }
 }

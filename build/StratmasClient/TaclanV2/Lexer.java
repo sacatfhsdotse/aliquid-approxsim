@@ -608,31 +608,31 @@ class Lexer implements StratmasClient.TaclanV2.java_cup.runtime.Scanner {
       switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
         case 18: 
           { return new Symbol(Sym.IMPORT, yyline, yycolumn, 
-			      new Symbol(Sym.IMPORT, yyline, yycolumn, "import"));
+                              new Symbol(Sym.IMPORT, yyline, yycolumn, "import"));
           }
         case 19: break;
         case 5: 
           { return new Symbol(Sym.OPENBLOCK, yyline, yycolumn, 
-			new Symbol(Sym.OPENBLOCK, yyline, yycolumn, "{"));
+                        new Symbol(Sym.OPENBLOCK, yyline, yycolumn, "{"));
           }
         case 20: break;
         case 13: 
           { return new Symbol(Sym.FLOAT, yyline, 
-					 yycolumn, new Symbol(Sym.FLOAT, 
-							      yyline, yycolumn, 
-							      new String(yytext())));
+                                         yycolumn, new Symbol(Sym.FLOAT, 
+                                                              yyline, yycolumn, 
+                                                              new String(yytext())));
           }
         case 21: break;
         case 6: 
           { return new Symbol(Sym.CLOSEBLOCK, yyline, yycolumn, 
-			new Symbol(Sym.CLOSEBLOCK, yyline, yycolumn, "}"));
+                        new Symbol(Sym.CLOSEBLOCK, yyline, yycolumn, "}"));
           }
         case 22: break;
         case 10: 
           { String str = new String(yytext()); 
  return new Symbol(Sym.ID, yyline, yycolumn, 
-		   new Symbol(Sym.ID, yyline, 
-			      yycolumn, str.substring(1, str.length() - 1)));
+                   new Symbol(Sym.ID, yyline, 
+                              yycolumn, str.substring(1, str.length() - 1)));
           }
         case 23: break;
         case 14: 
@@ -641,55 +641,55 @@ class Lexer implements StratmasClient.TaclanV2.java_cup.runtime.Scanner {
         case 24: break;
         case 8: 
           { return new Symbol(Sym.EQUIV, yyline, yycolumn, 
-			new Symbol(Sym.EQUIV, yyline, yycolumn, "="));
+                        new Symbol(Sym.EQUIV, yyline, yycolumn, "="));
           }
         case 25: break;
         case 15: 
           { return new Symbol(Sym.FROM, yyline, yycolumn, 
-			    new Symbol(Sym.FROM, yyline, yycolumn, "from"));
+                            new Symbol(Sym.FROM, yyline, yycolumn, "from"));
           }
         case 26: break;
         case 4: 
           { String str = new String(yytext()); 
  return new Symbol(Sym.ID, yyline, yycolumn, 
-		   new Symbol(Sym.ID, 
-			      yyline, yycolumn, str));
+                   new Symbol(Sym.ID, 
+                              yyline, yycolumn, str));
           }
         case 27: break;
         case 1: 
           { return new Symbol(Sym.error, 
-		      yyline, yycolumn, 
-		      new Symbol(Sym.error, yyline, yycolumn,
-				 new String(yytext())));
+                      yyline, yycolumn, 
+                      new Symbol(Sym.error, yyline, yycolumn,
+                                 new String(yytext())));
           }
         case 28: break;
         case 16: 
           { return new Symbol(Sym.TRUE, yyline, yycolumn, 
-			      new Symbol(Sym.TRUE, yyline, yycolumn, "true"));
+                              new Symbol(Sym.TRUE, yyline, yycolumn, "true"));
           }
         case 29: break;
         case 9: 
           { String str = new String(yytext()); 
  return new Symbol(Sym.STRING, yyline, yycolumn, 
-		   new Symbol(Sym.STRING, yyline, 
-			      yycolumn, str.substring(1, str.length() - 1)));
+                   new Symbol(Sym.STRING, yyline, 
+                              yycolumn, str.substring(1, str.length() - 1)));
           }
         case 30: break;
         case 17: 
           { return new Symbol(Sym.FALSE, yyline, yycolumn, 
-			      new Symbol(Sym.FALSE, yyline, yycolumn, "false"));
+                              new Symbol(Sym.FALSE, yyline, yycolumn, "false"));
           }
         case 31: break;
         case 3: 
           { return new Symbol(Sym.INTEGER, yyline, 
-			      yycolumn, new Symbol(Sym.INTEGER, 
-						   yyline, yycolumn, 
-						   new String(yytext())));
+                              yycolumn, new Symbol(Sym.INTEGER, 
+                                                   yyline, yycolumn, 
+                                                   new String(yytext())));
           }
         case 32: break;
         case 7: 
           { return new Symbol(Sym.SCOPE, yyline, yycolumn, 
-			new Symbol(Sym.SCOPE, yyline, yycolumn, ":"));
+                        new Symbol(Sym.SCOPE, yyline, yycolumn, ":"));
           }
         case 33: break;
         case 2: 
@@ -698,7 +698,7 @@ class Lexer implements StratmasClient.TaclanV2.java_cup.runtime.Scanner {
         case 34: break;
         case 12: 
           { return new Symbol(Sym.AS, yyline, yycolumn, 
-			 new Symbol(Sym.AS, yyline, yycolumn, "as"));
+                         new Symbol(Sym.AS, yyline, yycolumn, "as"));
           }
         case 35: break;
         case 11: 

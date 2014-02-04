@@ -1,4 +1,4 @@
-// 	$Id: ParsedList.java,v 1.11 2006/03/31 16:55:50 dah Exp $
+//         $Id: ParsedList.java,v 1.11 2006/03/31 16:55:50 dah Exp $
 /*
  * @(#)ParsedList.java
  */
@@ -33,10 +33,10 @@ public class ParsedList extends ParsedDeclaration
      *@param declarations the declarations made in the list.
      */
     public ParsedList(SourcePosition pos, ParsedIdentifier name, 
-		      ParsedDeclarationList declarations)
-	throws SemanticException
+                      ParsedDeclarationList declarations)
+        throws SemanticException
     {
-	super(pos, null, name, declarations);
+        super(pos, null, name, declarations);
     }
 
 
@@ -45,9 +45,9 @@ public class ParsedList extends ParsedDeclaration
      *@param declarations the declarations made in the list.
      */
     public ParsedList(SourcePosition pos, ParsedDeclarationList declarations)
-	throws SemanticException
+        throws SemanticException
     {
-	this(pos, ParsedIdentifier.getAnonymous(), declarations);
+        this(pos, ParsedIdentifier.getAnonymous(), declarations);
     }
 
     /**
@@ -61,39 +61,39 @@ public class ParsedList extends ParsedDeclaration
      * @param typeInformation the TypeInformation to use.
      */
     public void typeCheckImmidiates(Declaration definedDeclaration, 
-				    TypeInformation typeInformation) 
-	throws SemanticException
+                                    TypeInformation typeInformation) 
+        throws SemanticException
     {
-	Vector errors = new Vector();
+        Vector errors = new Vector();
 
-	// Create singular clone of declaration to check against.
-	Declaration singularDeclaration = (Declaration) definedDeclaration.clone();
-	singularDeclaration.setMinOccurs(1);
-	singularDeclaration.setMaxOccurs(1);
-	singularDeclaration.setUnbounded(false);
+        // Create singular clone of declaration to check against.
+        Declaration singularDeclaration = (Declaration) definedDeclaration.clone();
+        singularDeclaration.setMinOccurs(1);
+        singularDeclaration.setMaxOccurs(1);
+        singularDeclaration.setUnbounded(false);
 
-	// Check subdeclarations	
-	for (Enumeration ps = getDeclarations().getParts().elements(); 
-	     ps.hasMoreElements();) {
-	    ParsedDeclaration p = (ParsedDeclaration) ps.nextElement();
-	    try {
-		p.typeCheckImmidiates(singularDeclaration, typeInformation);
-	    } catch (SemanticException e) {
-		errors.add(e);
-	    }
-	}
+        // Check subdeclarations        
+        for (Enumeration ps = getDeclarations().getParts().elements(); 
+             ps.hasMoreElements();) {
+            ParsedDeclaration p = (ParsedDeclaration) ps.nextElement();
+            try {
+                p.typeCheckImmidiates(singularDeclaration, typeInformation);
+            } catch (SemanticException e) {
+                errors.add(e);
+            }
+        }
 
-	// Check multiplicity constraints:
-	int size = getDeclarations().getSize();
-	if (definedDeclaration.getMinOccurs() > size || 
-	    (!definedDeclaration.isUnbounded() &&
-	     definedDeclaration.getMaxOccurs() < size)) {
-	    errors.add(new TypeErrorException(this, " contains an " + 
-					      "incorrect number of declarations."));
-	}	
-	if (!errors.isEmpty()) {
-	    throw new CollectedErrorsException(errors);
-	}
+        // Check multiplicity constraints:
+        int size = getDeclarations().getSize();
+        if (definedDeclaration.getMinOccurs() > size || 
+            (!definedDeclaration.isUnbounded() &&
+             definedDeclaration.getMaxOccurs() < size)) {
+            errors.add(new TypeErrorException(this, " contains an " + 
+                                              "incorrect number of declarations."));
+        }        
+        if (!errors.isEmpty()) {
+            throw new CollectedErrorsException(errors);
+        }
     }
 
     /**
@@ -101,23 +101,23 @@ public class ParsedList extends ParsedDeclaration
      */
     public String toString()
     {
-	StringBuffer buf = new StringBuffer();
+        StringBuffer buf = new StringBuffer();
 
-	if (!getIdentifier().isAnonymous()) {
-	    buf.append("'" + getIdentifier().getName() + "' =");
-	}
-	
-	buf.append(" {");
+        if (!getIdentifier().isAnonymous()) {
+            buf.append("'" + getIdentifier().getName() + "' =");
+        }
+        
+        buf.append(" {");
 
-	String declStr = this.getDeclarations().toString();
-	if (declStr.length() != 0) {
-	    buf.append(declStr.replaceAll("\n", "\n  ") + "\n}");
-	}
-	else {
-	    buf.append("}");
-	}
+        String declStr = this.getDeclarations().toString();
+        if (declStr.length() != 0) {
+            buf.append(declStr.replaceAll("\n", "\n  ") + "\n}");
+        }
+        else {
+            buf.append("}");
+        }
 
-	return buf.toString();
+        return buf.toString();
     }
 
     /**
@@ -127,16 +127,16 @@ public class ParsedList extends ParsedDeclaration
      */
     public StratmasObject getStratmasObject(Declaration declaration) throws SemanticException
     {
-	Vector result = new Vector();
-	for (Enumeration ps = getDeclarations().getParts().elements(); 
-	     ps.hasMoreElements();) {
-	    ParsedDeclaration p = (ParsedDeclaration) ps.nextElement();
-	    StratmasObject sObj = p.getStratmasObject(declaration);
-	    sObj.setIdentifier(p.getIdentifier().getIdentifier());
-	    result.add(sObj);
-	}
+        Vector result = new Vector();
+        for (Enumeration ps = getDeclarations().getParts().elements(); 
+             ps.hasMoreElements();) {
+            ParsedDeclaration p = (ParsedDeclaration) ps.nextElement();
+            StratmasObject sObj = p.getStratmasObject(declaration);
+            sObj.setIdentifier(p.getIdentifier().getIdentifier());
+            result.add(sObj);
+        }
 
-	return StratmasObjectFactory.createList(declaration, result);
+        return StratmasObjectFactory.createList(declaration, result);
     }
 
 //     /**
@@ -146,15 +146,15 @@ public class ParsedList extends ParsedDeclaration
 //      */
 //     public Vector getStratmasObjects(Declaration declaration) throws SemanticException
 //     {
-// 	Vector result = new Vector();
-// 	for (Enumeration ps = getDeclarations().getParts().elements(); 
-// 	     ps.hasMoreElements();) {
-// 	    ParsedDeclaration p = (ParsedDeclaration) ps.nextElement();
-// 	    StratmasObject pres = p.getStratmasObject(declaration); 
-// 	    pres.setIdentifier(p.getIdentifier().getIdentifier());
-// 	    result.add(pres);
-// 	}
+//         Vector result = new Vector();
+//         for (Enumeration ps = getDeclarations().getParts().elements(); 
+//              ps.hasMoreElements();) {
+//             ParsedDeclaration p = (ParsedDeclaration) ps.nextElement();
+//             StratmasObject pres = p.getStratmasObject(declaration); 
+//             pres.setIdentifier(p.getIdentifier().getIdentifier());
+//             result.add(pres);
+//         }
 
-// 	return result;
+//         return result;
 //     }
 }

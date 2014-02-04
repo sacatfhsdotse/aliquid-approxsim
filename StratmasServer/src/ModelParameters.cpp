@@ -25,11 +25,11 @@ ModelParameters::ModelParameters(const DataObject& d)
 {
      static bool firstTime = true;
      if (firstTime) {
-	  firstTime = false;
-	  for (int i = 0; i < eNumModelParameters; ++i) {
-	       eModelParameter mp = static_cast<eModelParameter>(i);
-	       sNameToIndex[paramName(mp)] = mp;
-	  }
+          firstTime = false;
+          for (int i = 0; i < eNumModelParameters; ++i) {
+               eModelParameter mp = static_cast<eModelParameter>(i);
+               sNameToIndex[paramName(mp)] = mp;
+          }
      }
 
      mParam = new double[eNumModelParameters];
@@ -87,21 +87,21 @@ void ModelParameters::update(const Update& u)
 {
      const string& attr = u.getReference().name();
      if (u.getType() == Update::eModify) {
-	  std::map<string, eModelParameter>::iterator it = sNameToIndex.find(attr);
-	  if (it != sNameToIndex.end()) {
-	       mParam[it->second] = u.getObject()->getDouble();
-	  }
-	  else {
-	       Error e;
-	       e << "No updatable attribute '" << attr << "' in '" << ref() << "'";
-	       throw e;
-	  }
+          std::map<string, eModelParameter>::iterator it = sNameToIndex.find(attr);
+          if (it != sNameToIndex.end()) {
+               mParam[it->second] = u.getObject()->getDouble();
+          }
+          else {
+               Error e;
+               e << "No updatable attribute '" << attr << "' in '" << ref() << "'";
+               throw e;
+          }
      }
      else {
-	  Error e;
-	  e << "Invalid ModelParameters Update (type:" << u.getTypeAsString();
-	  e << ", object: " << attr << ").";
-	  throw e;
+          Error e;
+          e << "Invalid ModelParameters Update (type:" << u.getTypeAsString();
+          e << ", object: " << attr << ").";
+          throw e;
      }
 }
 
@@ -114,12 +114,12 @@ void ModelParameters::extract(Buffer &b) const
 {
      DataObject& me = *b.map(ref());
      for (int i = 0; i < eNumModelParameters; ++i) {
-	  eModelParameter mp = static_cast<eModelParameter>(i);
-	  DataObject* c = me.getChild(paramName(mp));
-	  if (c) {
-	       c->setDouble(mParam[mp]);
-	  }
-//	  me.getChild(paramName(mp))->setDouble(mParam[mp]);
+          eModelParameter mp = static_cast<eModelParameter>(i);
+          DataObject* c = me.getChild(paramName(mp));
+          if (c) {
+               c->setDouble(mParam[mp]);
+          }
+//          me.getChild(paramName(mp))->setDouble(mParam[mp]);
      }
 }
 

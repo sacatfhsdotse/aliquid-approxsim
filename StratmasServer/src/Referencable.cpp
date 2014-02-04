@@ -27,7 +27,7 @@ Referencable::Referencable(const Reference &scope, const DOMElement *n)
 {
      std::string id = XMLHelper::getStringAttribute(*n, "identifier");
      if (id == "") {
-	  id = StrX(n->getTagName()).str();
+          id = StrX(n->getTagName()).str();
      }
      mReference = &Reference::get(scope, id);
 }

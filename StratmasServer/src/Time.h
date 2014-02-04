@@ -48,7 +48,7 @@ public:
       * \param ms The number of milliseconds from the reference time or in the intervall.
       */
      Time(int64_t d, int64_t h = 0, int64_t m = 0, int64_t s = 0, int64_t ms = 0)
-	  : mMilliSec((d * 86400 + h * 3600 + m * 60 + s) * 1000 + ms) {}
+          : mMilliSec((d * 86400 + h * 3600 + m * 60 + s) * 1000 + ms) {}
 
      
      /**
@@ -133,19 +133,19 @@ public:
      // Friends
      /// For debugging purposes
      friend std::ostream &operator << (std::ostream &o, const Time &t) {
-	  int64_t d  = t.mMilliSec / 86400000;
-	  int64_t h  = (t.mMilliSec - d * 86400000) / 3600000;
-	  int64_t m  = (t.mMilliSec - d * 86400000 - h * 3600000) / 60000;
-	  int64_t s  = (t.mMilliSec - d * 86400000 - h * 3600000 - m * 60000) / 1000;
-	  int64_t ms = t.mMilliSec - d * 86400000 - h * 3600000 - m * 60000 - s * 1000;
-	  char prev = o.fill('0');
-	  o << "Day: " << d << " "
-	    << std::setw(2) << h << ":"
-	    << std::setw(2) << m << ":"
-	    << std::setw(2) << s << ":"
-	    << std::setw(3) << ms;
-	  o.fill(prev);
-	  return o;
+          int64_t d  = t.mMilliSec / 86400000;
+          int64_t h  = (t.mMilliSec - d * 86400000) / 3600000;
+          int64_t m  = (t.mMilliSec - d * 86400000 - h * 3600000) / 60000;
+          int64_t s  = (t.mMilliSec - d * 86400000 - h * 3600000 - m * 60000) / 1000;
+          int64_t ms = t.mMilliSec - d * 86400000 - h * 3600000 - m * 60000 - s * 1000;
+          char prev = o.fill('0');
+          o << "Day: " << d << " "
+            << std::setw(2) << h << ":"
+            << std::setw(2) << m << ":"
+            << std::setw(2) << s << ":"
+            << std::setw(3) << ms;
+          o.fill(prev);
+          return o;
      }
 };
 

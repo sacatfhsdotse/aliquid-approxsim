@@ -24,7 +24,7 @@ public class RegionSubscription extends Subscription {
       * @param data The data for the Region.
       */
      public RegionSubscription(RegionData data) {
-	  mData   = data;
+          mData   = data;
      }
 
      /**
@@ -35,7 +35,7 @@ public class RegionSubscription extends Subscription {
       * @param t The simulation time for which this update is valid.
       */
      public void update(org.w3c.dom.Element n, Timestamp t) {
-	  mData.update(n, t);
+          mData.update(n, t);
      }
 
     /**
@@ -44,7 +44,7 @@ public class RegionSubscription extends Subscription {
      * @return A string representation of the type of this object.
      */
      public String getTypeAsString() {
-	  return "RegionSubscription";
+          return "RegionSubscription";
      }
 
      /**
@@ -55,11 +55,11 @@ public class RegionSubscription extends Subscription {
       * object's body appended to it.
       */
      public StringBuffer bodyXML(StringBuffer b) {
-	  b.append(NL).append("<region xsi:type=\"sp:");
-	  b.append(mData.getRegion().getType().getName()).append("\">");
-	  mData.getRegion().bodyXML(b);
-	  b.append(NL).append("</region>");
-	  return b;
+          b.append(NL).append("<region xsi:type=\"sp:");
+          b.append(mData.getRegion().getType().getName()).append("\">");
+          mData.getRegion().bodyXML(b);
+          b.append(NL).append("</region>");
+          return b;
      }
 
     /**
@@ -67,7 +67,7 @@ public class RegionSubscription extends Subscription {
      */
     public RegionData getRegionData()
     {
-	return this.mData;
+        return this.mData;
     }
 }
 

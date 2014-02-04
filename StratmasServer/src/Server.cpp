@@ -43,24 +43,24 @@ static const bool detachThreads = true;
  * false otherwise.
  */
 Server::Server(int port, const std::string &host, 
-	       ClientValidator* clientValidator)
+               ClientValidator* clientValidator)
      : mNumSessions(0), mIdCount(0), mBuf(new Buffer()), 
        mEng(new Engine(*mBuf)), mActiveId(-1), 
        mClientValidator(clientValidator)
 {
      cout << "host = " << (host.empty() ? "any" : host) << endl
-	  << "port = " << port << endl;
+          << "port = " << port << endl;
 
      try {
-	  mSocket = new StratmasServerSocket(host.empty() ? 0 : host.c_str(), 
-					     port);
+          mSocket = new StratmasServerSocket(host.empty() ? 0 : host.c_str(), 
+                                             port);
      } catch (SocketException e) {
-	  slog << "Error when creating StratmasServerSocket - " 
-	       << e.description() << logEnd;
-	  exit(1);
+          slog << "Error when creating StratmasServerSocket - " 
+               << e.description() << logEnd;
+          exit(1);
      } catch (...) {
-	  slog << "Error when creating StratmasServerSocket - " << logEnd;
-	  exit(1);
+          slog << "Error when creating StratmasServerSocket - " << logEnd;
+          exit(1);
      }     
 }
 
@@ -87,31 +87,31 @@ void Server::start()
 
      // Loop through requests
      while (true) {
-	  StratmasSocket *sock = 0;
+          StratmasSocket *sock = 0;
 
-	  // Accept request
-	  try {
-	       sock = new StratmasSocket();
-	       if (!mSocket->accept(*sock)) {
-		    slog << "Error while accepting connection. Ignoring..." 
-			 << logEnd;
-		    delete sock;
-	       }
-	  } catch (...) {
-	       slog << "Error occured" << logEnd;
-	       delete sock;
-	       continue;
-	  }
+          // Accept request
+          try {
+               sock = new StratmasSocket();
+               if (!mSocket->accept(*sock)) {
+                    slog << "Error while accepting connection. Ignoring..." 
+                         << logEnd;
+                    delete sock;
+               }
+          } catch (...) {
+               slog << "Error occured" << logEnd;
+               delete sock;
+               continue;
+          }
 
-	  if (mClientValidator != 0 && 
-	      !mClientValidator->isValidClient(sock)) {
-	       cout << "Connection from invalid ip address " 
-		    << sock->address() << " rejected" << endl;
-	       delete sock;
-	       continue;
-	  }
+          if (mClientValidator != 0 && 
+              !mClientValidator->isValidClient(sock)) {
+               cout << "Connection from invalid ip address " 
+                    << sock->address() << " rejected" << endl;
+               delete sock;
+               continue;
+          }
 
-	  mConQ.enqueue(sock);
+          mConQ.enqueue(sock);
      }
 }
 
@@ -124,7 +124,7 @@ void Server::notifyClosure(int64_t id)
 {
      mSessions.erase(id);
      if (id == mActiveId) {
-	  mActiveId = -1;
+          mActiveId = -1;
      }
      mNumSessions--;
 }
@@ -151,67 +151,67 @@ void *Server::dispatcherThreadMain(void *data) {
      StratmasSocket   *sock;
 
      while (true) {
-	  sock = server.mConQ.dequeue();
-	  if (!sock) {
-	       debug("Dispatcher thread dequeued a null socket. This should not happen!!!");
-	       continue;
-	  }
-	  try {
-	       id = sock->recvStratmasHeader();
-	       if (id != 0) {
-		    cout << "Connection accepted from " << sock->address() << endl;
-	       }
-	  } catch (SocketException e) {
-	       slog << "Error when receiving StratmasHeader: '" << e.description() << "'" << logEnd;
-	       delete sock;
-	       continue;
-	  } catch (...) {
-	       slog << "Error when receiving StratmasHeader: " << logEnd;
-	       delete sock;
-	       continue;
-	  }
-	  if (id == -1) {   // If this is a new client calling...
-	       sock->id(++server.mIdCount);
-	       if (server.mActiveId == -1) {
-		    server.mActiveId = sock->id();
-		    sess = new Session(server, *server.mEng, *server.mBuf, true, sock);
-	       }
-	       else {
-		    sess = new Session(server, *server.mEng, *server.mBuf, false, sock);
-	       }
-	       server.mSessions[sock->id()] = sess;
-	       server.mNumSessions++;
-	  }   
-	  else if (id == 0) {
-	       handleTemporarySession(server, *sock);
-	       delete sock;
-	       continue;
-	  }
-	  // Else if this client already has a Session
-	  else if (server.mSessions.find(id) != server.mSessions.end()) {
-	       sess = server.mSessions[id];
-	       if (!sess->setSocket(sock)) {
-		    slog << "Tried to connect to a Session that is already connected." << logEnd;
-	       }
-	  }
-	  else {   // This client has no Session but has still given an id...
-	       sock->id(++server.mIdCount);
-	       if (server.mActiveId == -1) {
-		    server.mActiveId = sock->id();
-		    sess = new Session(server, *server.mEng, *server.mBuf, true, sock);
-	       }
-	       else {
-		    sess = new Session(server, *server.mEng, *server.mBuf, false, sock);
-	       }
-	       server.mSessions[sock->id()] = sess;
-	       server.mNumSessions++;
-	       slog << "Id given but there was no matching Session" << logEnd;
-	       // Somehow produce a warning...
-	  }
+          sock = server.mConQ.dequeue();
+          if (!sock) {
+               debug("Dispatcher thread dequeued a null socket. This should not happen!!!");
+               continue;
+          }
+          try {
+               id = sock->recvStratmasHeader();
+               if (id != 0) {
+                    cout << "Connection accepted from " << sock->address() << endl;
+               }
+          } catch (SocketException e) {
+               slog << "Error when receiving StratmasHeader: '" << e.description() << "'" << logEnd;
+               delete sock;
+               continue;
+          } catch (...) {
+               slog << "Error when receiving StratmasHeader: " << logEnd;
+               delete sock;
+               continue;
+          }
+          if (id == -1) {   // If this is a new client calling...
+               sock->id(++server.mIdCount);
+               if (server.mActiveId == -1) {
+                    server.mActiveId = sock->id();
+                    sess = new Session(server, *server.mEng, *server.mBuf, true, sock);
+               }
+               else {
+                    sess = new Session(server, *server.mEng, *server.mBuf, false, sock);
+               }
+               server.mSessions[sock->id()] = sess;
+               server.mNumSessions++;
+          }   
+          else if (id == 0) {
+               handleTemporarySession(server, *sock);
+               delete sock;
+               continue;
+          }
+          // Else if this client already has a Session
+          else if (server.mSessions.find(id) != server.mSessions.end()) {
+               sess = server.mSessions[id];
+               if (!sess->setSocket(sock)) {
+                    slog << "Tried to connect to a Session that is already connected." << logEnd;
+               }
+          }
+          else {   // This client has no Session but has still given an id...
+               sock->id(++server.mIdCount);
+               if (server.mActiveId == -1) {
+                    server.mActiveId = sock->id();
+                    sess = new Session(server, *server.mEng, *server.mBuf, true, sock);
+               }
+               else {
+                    sess = new Session(server, *server.mEng, *server.mBuf, false, sock);
+               }
+               server.mSessions[sock->id()] = sess;
+               server.mNumSessions++;
+               slog << "Id given but there was no matching Session" << logEnd;
+               // Somehow produce a warning...
+          }
 
-	  // Spawn session (get sess to thread (void*)sess) fix thread
-	  // detach.
-	  boost::thread tmpObj(boost::bind(&Session::staticStart, (void*) sess));
+          // Spawn session (get sess to thread (void*)sess) fix thread
+          // detach.
+          boost::thread tmpObj(boost::bind(&Session::staticStart, (void*) sess));
      }
      
      debug("Congratulations! You have just done the impossible...");
@@ -233,38 +233,38 @@ void Server::handleTemporarySession(Server& server, StratmasSocket& sock)
      std::string xml;
      sock.recvStratmasMessage(xml);
      XMLHandler xmlh(*server.mBuf,
-		     Environment::DEFAULT_SCHEMA_NAMESPACE,
-		     Environment::STRATMAS_PROTOCOL_SCHEMA,
-		     -1);
+                     Environment::DEFAULT_SCHEMA_NAMESPACE,
+                     Environment::STRATMAS_PROTOCOL_SCHEMA,
+                     -1);
      ostringstream ost;
      ost.precision(24);
      try {
-	  switch (xmlh.handle(xml)) {
-	  case eLoadQuery: {
-	       LoadQueryResponseMessage msg(server);
-	       msg.toXML(ost);
-	       break;
-	  }
-	  default:
-	       break;
-	  }
+          switch (xmlh.handle(xml)) {
+          case eLoadQuery: {
+               LoadQueryResponseMessage msg(server);
+               msg.toXML(ost);
+               break;
+          }
+          default:
+               break;
+          }
      }
      catch (Error& e) {
-	  slog << "Server caught Error - " << e << logEnd;
-	  ost.str("");
-	  StatusMessage msg(xmlh.lastType());
-	  msg.addError(e);
-	  msg.toXML(ost);
+          slog << "Server caught Error - " << e << logEnd;
+          ost.str("");
+          StatusMessage msg(xmlh.lastType());
+          msg.addError(e);
+          msg.toXML(ost);
      }
      catch (vector<Error>& e) {
-	  slog << "Server caught Errors:" << logEnd;
-	  ost.str("");
-	  StatusMessage msg(xmlh.lastType());
-	  for(vector<Error>::iterator it = e.begin(); it != e.end(); it++) {
-	       slog << *it << logEnd;
-	       msg.addError(*it);
-	  }
-	  msg.toXML(ost);
+          slog << "Server caught Errors:" << logEnd;
+          ost.str("");
+          StatusMessage msg(xmlh.lastType());
+          for(vector<Error>::iterator it = e.begin(); it != e.end(); it++) {
+               slog << *it << logEnd;
+               msg.addError(*it);
+          }
+          msg.toXML(ost);
      }
      sock.sendStratmasMessage(ost.str());
 }
@@ -273,7 +273,7 @@ void Server::handleTemporarySession(Server& server, StratmasSocket& sock)
 //      Server* server = static_cast<Server*>(data);
 //      string line;
 //      while (line != "q") {
-// 	  cin >> line;
+//           cin >> line;
 //      }
 //      debug("Cleaning up server and shutting down...");
 //      delete server;

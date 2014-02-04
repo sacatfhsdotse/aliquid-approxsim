@@ -25,9 +25,9 @@ bool AccessRightHandler::changeable(const Reference& ref)
 {
      static bool firstTime = true;
      if (firstTime) {
-	  firstTime = false;
-	  sUnchangableTypes.insert(&TypeFactory::getType("Population"));
-	  sUnchangableTypes.insert(&TypeFactory::getType("SquarePartitioner"));
+          firstTime = false;
+          sUnchangableTypes.insert(&TypeFactory::getType("Population"));
+          sUnchangableTypes.insert(&TypeFactory::getType("SquarePartitioner"));
      }
 
      DataObject* d = Mapper::map(ref);

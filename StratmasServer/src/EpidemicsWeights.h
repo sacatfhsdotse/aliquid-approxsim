@@ -33,7 +33,7 @@ private:
 public:
      /// \brief Initialize the weights. Called only by Grid constructor.
      inline static void setEpidemicsWeights(double meanContact, double maxContact, double cellSideMeters,
-					    int nrows, int ncols);
+                                            int nrows, int ncols);
 
      /// \brief Returns top left and bottom right row and column for the area of
      /// influence measured from 'row' and 'col'.
@@ -58,30 +58,30 @@ inline void EpidemicsWeights::setEpidemicsWeights(double meanContact, double max
      int top, left, bottom, right;
      double lambdaInv;
      
-     midRow	= mRows / 2;
-     midCol	= mCols / 2;
-     lambdaInv	= 1 / meanContact;
+     midRow        = mRows / 2;
+     midCol        = mCols / 2;
+     lambdaInv        = 1 / meanContact;
      
      limits(midRow, midCol, top, left, bottom, right);
      
      if (mEpidemicsWeight) {
-	  delete [] mEpidemicsWeight;
+          delete [] mEpidemicsWeight;
      }
 
      mEpidemicsWeight = new double[(bottom - top + 1) * (right - left + 1)];
      
      for (int r = top; r <= bottom; r++ ) {
-	  dr2 = (midRow - r) * (midRow - r);
-	  for (int c = left; c <= right; c++ ) {
-	       dc = midCol - c;
-	       if ( dr2 || dc ) {			
-		    mEpidemicsWeight[c - left + (r - top) * (right - left + 1)] = 
-			 exp( -(sqrt(static_cast<double>(dr2+dc*dc)) * mCellSideMeters) * lambdaInv ) * lambdaInv;
-	       }
-	       else {
-		    mEpidemicsWeight[c - left + (r - top) * (right - left + 1)] = 0;
-	       }
-	  }
+          dr2 = (midRow - r) * (midRow - r);
+          for (int c = left; c <= right; c++ ) {
+               dc = midCol - c;
+               if ( dr2 || dc ) {                        
+                    mEpidemicsWeight[c - left + (r - top) * (right - left + 1)] = 
+                         exp( -(sqrt(static_cast<double>(dr2+dc*dc)) * mCellSideMeters) * lambdaInv ) * lambdaInv;
+               }
+               else {
+                    mEpidemicsWeight[c - left + (r - top) * (right - left + 1)] = 0;
+               }
+          }
      }
 }
 

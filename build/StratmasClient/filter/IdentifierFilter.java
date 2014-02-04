@@ -1,4 +1,4 @@
-// 	$Id: IdentifierFilter.java,v 1.5 2006/03/22 14:30:50 dah Exp $
+//         $Id: IdentifierFilter.java,v 1.5 2006/03/22 14:30:50 dah Exp $
 /*
  * @(#)Identifierfilter.java
  */
@@ -28,9 +28,9 @@ public class IdentifierFilter extends StratmasObjectFilter
      * @param identifier the Identifier to filter for.
      */
     public IdentifierFilter(String identifier)
-    {	
-	super();
-	setIdentifier(identifier);
+    {        
+        super();
+        setIdentifier(identifier);
     }
 
     /**
@@ -40,7 +40,7 @@ public class IdentifierFilter extends StratmasObjectFilter
      */
     public void setIdentifier(String identifier)
     {
-	this.identifier = identifier;
+        this.identifier = identifier;
     }
 
     /**
@@ -48,7 +48,7 @@ public class IdentifierFilter extends StratmasObjectFilter
      */
     public String getIdentifier()
     {
-	return this.identifier;
+        return this.identifier;
     }
 
     /**
@@ -58,6 +58,6 @@ public class IdentifierFilter extends StratmasObjectFilter
      */
     public boolean pass(StratmasObject sObj)
     {
-	return applyInverted(sObj.getIdentifier().equals(getIdentifier()));
+        return applyInverted(sObj.getIdentifier().equals(getIdentifier()));
     }
 }

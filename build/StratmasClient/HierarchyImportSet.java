@@ -45,7 +45,7 @@ public class HierarchyImportSet implements Transferable {
       * @param root The root of the hierarchy.
       */
      public HierarchyImportSet(HierarchyObjectAdapter root) {
-	  mRoot = root;
+          mRoot = root;
      }
      
      /**
@@ -56,7 +56,7 @@ public class HierarchyImportSet implements Transferable {
       * imported to the simulation.
       */
      public StratmasObject getRoot(){
-	  return mRoot.getCopyForSim();
+          return mRoot.getCopyForSim();
      }
 
      /**
@@ -67,11 +67,11 @@ public class HierarchyImportSet implements Transferable {
       * imported to the simulation.
       */
      public HierarchyObjectAdapter getRootAdapter(){
-	  return mRoot;
+          return mRoot;
      }
 
      public void destroy() {
-	  mRoot.unselectRecursively();
+          mRoot.unselectRecursively();
      }
 
      /**
@@ -86,49 +86,49 @@ public class HierarchyImportSet implements Transferable {
       * @return true if the transfer was succesful - false otherwise.
       */
      public boolean transferToSimulation(StratmasObject root, double lat, double lon) {
-	  StratmasObject simulation = (StratmasObject) root.children().nextElement();
+          StratmasObject simulation = (StratmasObject) root.children().nextElement();
 
-	  // If root isn't a list create a temporary list.
-	  Enumeration en;
-	  if (mRoot.getUserObject() instanceof StratmasList) {
-	       en = mRoot.children();
-	  }
-	  else {
-	       Vector v = new Vector();
-	       v.add(mRoot);
-	       en = v.elements();
-	  }
-	  for ( ; en.hasMoreElements(); ) {
-	       HierarchyObjectAdapter hoa = (HierarchyObjectAdapter)en.nextElement();
-	       if (hoa.isSelected() && !hoa.isUsed()) {
-		    StratmasObject scenario = (StratmasObject)simulation.getChild("scenario");
-		    StratmasObject unitList = (StratmasObject)scenario.getChild("militaryUnits");
+          // If root isn't a list create a temporary list.
+          Enumeration en;
+          if (mRoot.getUserObject() instanceof StratmasList) {
+               en = mRoot.children();
+          }
+          else {
+               Vector v = new Vector();
+               v.add(mRoot);
+               en = v.elements();
+          }
+          for ( ; en.hasMoreElements(); ) {
+               HierarchyObjectAdapter hoa = (HierarchyObjectAdapter)en.nextElement();
+               if (hoa.isSelected() && !hoa.isUsed()) {
+                    StratmasObject scenario = (StratmasObject)simulation.getChild("scenario");
+                    StratmasObject unitList = (StratmasObject)scenario.getChild("militaryUnits");
 
-		    StratmasObject toAdd = hoa.getCopyForSim();
+                    StratmasObject toAdd = hoa.getCopyForSim();
 
-		    // Try to add the root object.
-		    if (unitList.getChild(toAdd.getIdentifier()) == null) {
-			 // Set location
-			 setLocation(toAdd, lat, lon);
+                    // Try to add the root object.
+                    if (unitList.getChild(toAdd.getIdentifier()) == null) {
+                         // Set location
+                         setLocation(toAdd, lat, lon);
 
-			 unitList.add(toAdd);
-			 hoa.setUsed(true);
-			 
-			 toAdd.fireSelected(true);
-		    }
-		    else {
-			 // Tried to add a root element with the same
-			 // identifier as an existing one.
-			 Debug.err.println("Object with identifier " + toAdd.getIdentifier() + " already exists.");
-			 return false;
-		    }
-	       }
-	       for (Enumeration en2 = hoa.children(); en2.hasMoreElements(); ) {
-		    transferToSimulation((HierarchyObjectAdapter)en2.nextElement(), lat, lon);
-	       }
-	  }
+                         unitList.add(toAdd);
+                         hoa.setUsed(true);
+                         
+                         toAdd.fireSelected(true);
+                    }
+                    else {
+                         // Tried to add a root element with the same
+                         // identifier as an existing one.
+                         Debug.err.println("Object with identifier " + toAdd.getIdentifier() + " already exists.");
+                         return false;
+                    }
+               }
+               for (Enumeration en2 = hoa.children(); en2.hasMoreElements(); ) {
+                    transferToSimulation((HierarchyObjectAdapter)en2.nextElement(), lat, lon);
+               }
+          }
 
-	  return true;
+          return true;
      }
 
      /**
@@ -141,32 +141,32 @@ public class HierarchyImportSet implements Transferable {
       * @return true if the transfer was succesful - false otherwise.
       */
      private void transferToSimulation(HierarchyObjectAdapter obj, double lat, double lon) {
-	  if (obj.isSelected() && !obj.isUsed()) {
-	       obj.setUsed(true);
-	       HierarchyObjectAdapter parentAdapter = (HierarchyObjectAdapter)obj.getParent();
-	       if (parentAdapter != null) {
-		    // Get the StratmasObject that belongs to the simulation
-		    StratmasObject parent = (StratmasObject)parentAdapter.getCopyForSim();
+          if (obj.isSelected() && !obj.isUsed()) {
+               obj.setUsed(true);
+               HierarchyObjectAdapter parentAdapter = (HierarchyObjectAdapter)obj.getParent();
+               if (parentAdapter != null) {
+                    // Get the StratmasObject that belongs to the simulation
+                    StratmasObject parent = (StratmasObject)parentAdapter.getCopyForSim();
 
-		    StratmasObject subunits = parent.getChild("subunits");
+                    StratmasObject subunits = parent.getChild("subunits");
 
-		    // If there were no subunits list - create one
-		    if (subunits == null) {
-			subunits = StratmasObjectFactory.createList(TypeFactory.getType("MilitaryUnit").getSubElement("subunits"));
-			parent.add(subunits);
-		    }
-		    // Set location
-		    setLocation(obj.getCopyForSim(), lat, lon);
-		    
-		    // Add unit
-		    subunits.add(obj.getCopyForSim());
+                    // If there were no subunits list - create one
+                    if (subunits == null) {
+                        subunits = StratmasObjectFactory.createList(TypeFactory.getType("MilitaryUnit").getSubElement("subunits"));
+                        parent.add(subunits);
+                    }
+                    // Set location
+                    setLocation(obj.getCopyForSim(), lat, lon);
+                    
+                    // Add unit
+                    subunits.add(obj.getCopyForSim());
 
-		    obj.getCopyForSim().fireSelected(true);
-	       }
-	  }
-	  for (Enumeration en = obj.children(); en.hasMoreElements(); ) {
-	       transferToSimulation((HierarchyObjectAdapter)en.nextElement(), lat, lon);
-	  }
+                    obj.getCopyForSim().fireSelected(true);
+               }
+          }
+          for (Enumeration en = obj.children(); en.hasMoreElements(); ) {
+               transferToSimulation((HierarchyObjectAdapter)en.nextElement(), lat, lon);
+          }
      }
 
      /**
@@ -179,19 +179,19 @@ public class HierarchyImportSet implements Transferable {
       * @return true if the transfer was succesful - false otherwise.
       */
      private void setLocation(StratmasObject obj, double lat, double lon) {
-	  StratmasObject location = obj.getChild("location");
-	  if (location != null) {
-	       if (location instanceof Shape) {
-		    ((Shape)location).moveTo(lon, lat);
-	       }
-	       else {
-		    System.err.println("Location not a Shape. Cannot set location for type" + 
-				       location.getType().getName());
-	       }
-	  }
-	  else {
-	       System.err.println("No 'location' child in object " + obj);
-	  }
+          StratmasObject location = obj.getChild("location");
+          if (location != null) {
+               if (location instanceof Shape) {
+                    ((Shape)location).moveTo(lon, lat);
+               }
+               else {
+                    System.err.println("Location not a Shape. Cannot set location for type" + 
+                                       location.getType().getName());
+               }
+          }
+          else {
+               System.err.println("No 'location' child in object " + obj);
+          }
      }
 
      /**
@@ -200,7 +200,7 @@ public class HierarchyImportSet implements Transferable {
       * @return Supported DataFlavors
       */
      public synchronized DataFlavor[] getTransferDataFlavors() {
-	  return new DataFlavor[] {HIERARCHYIMPORTSET_FLAVOR, DataFlavor.stringFlavor};
+          return new DataFlavor[] {HIERARCHYIMPORTSET_FLAVOR, DataFlavor.stringFlavor};
      }
 
 
@@ -212,8 +212,8 @@ public class HierarchyImportSet implements Transferable {
       * otherwise.
       */
      public boolean isDataFlavorSupported(DataFlavor flavor) {
-	  return HIERARCHYIMPORTSET_FLAVOR.match(flavor) ||
-	       DataFlavor.stringFlavor.match(flavor);
+          return HIERARCHYIMPORTSET_FLAVOR.match(flavor) ||
+               DataFlavor.stringFlavor.match(flavor);
      }
     
     
@@ -221,15 +221,15 @@ public class HierarchyImportSet implements Transferable {
       * Return this object.
       */
      public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException {
-	  if (!isDataFlavorSupported(flavor)) {
-	       throw new UnsupportedFlavorException(flavor);
-	  }
-	  if (flavor.match(DataFlavor.stringFlavor)) {
-	       return getRoot().toXML();
-	  }
-	  else {
-	       return this;
-	  }
+          if (!isDataFlavorSupported(flavor)) {
+               throw new UnsupportedFlavorException(flavor);
+          }
+          if (flavor.match(DataFlavor.stringFlavor)) {
+               return getRoot().toXML();
+          }
+          else {
+               return this;
+          }
      }
 
      /**
@@ -238,14 +238,14 @@ public class HierarchyImportSet implements Transferable {
       * @return The HIERARCHYIMPORTSET_FLAVOR.
       */
      public static final DataFlavor createHierarchyImportSetFlavor() {
-	  DataFlavor flavor = null;
-	  try {
-	       flavor = new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType +
-				       ";class=StratmasClient.HierarchyImportSet");
-	  }
-	  catch (ClassNotFoundException e) {
-	       System.err.println("Couldn't create HIERARCHYIMPORTSET_FLAVOR");
-	  }
-	  return flavor;
+          DataFlavor flavor = null;
+          try {
+               flavor = new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType +
+                                       ";class=StratmasClient.HierarchyImportSet");
+          }
+          catch (ClassNotFoundException e) {
+               System.err.println("Couldn't create HIERARCHYIMPORTSET_FLAVOR");
+          }
+          return flavor;
      }
 }

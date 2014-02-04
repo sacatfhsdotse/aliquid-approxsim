@@ -263,15 +263,15 @@ ostream& DataObject::toXML(ostream& o, string indent) const
      string tag = (listParent ? mParent->identifier() : identifier());
      o << indent << "<" << tag << " xsi:type=\"sp:" << getType().getName() << "\"";
      if (listParent) {
-	  o << " identifier=\"" << identifier() << "\"";
+          o << " identifier=\"" << identifier() << "\"";
      }
      o << ">";
      if (!dynamic_cast<const ContainerDataObject*>(this) || hasChildren()) {
-	  o << endl;
+          o << endl;
      }
      bodyXML(o, indent + INDENT);
      if (!dynamic_cast<const ContainerDataObject*>(this) || hasChildren()) {
-	  o << indent;
+          o << indent;
      }
      o << "</" << tag << ">" << endl;
      return o;
@@ -293,14 +293,14 @@ void DataObject::print(ostream& o, const std::string indent) const
 ContainerDataObject::ContainerDataObject(const ContainerDataObject& c) : DataObject(c)
 {
      for (vector<DataObject*>::const_iterator it = c.mObjects.begin(); it != c.mObjects.end(); it++) {
-	  add((*it)->clone());
+          add((*it)->clone());
      }
 }
 
 ContainerDataObject::~ContainerDataObject()
 {
      for (std::map<std::string, DataObject*>::iterator it = mObjectMap.begin(); it != mObjectMap.end(); it++) {
-	  delete it->second;
+          delete it->second;
      }
 }
 
@@ -311,14 +311,14 @@ ContainerDataObject::~ContainerDataObject()
  */
 void ContainerDataObject::add(DataObject* o) {
      if (o) {
-	  o->setParent(this);
-	  mObjects.push_back(o);
-	  mObjectMap[o->identifier()] = o;
+          o->setParent(this);
+          mObjects.push_back(o);
+          mObjectMap[o->identifier()] = o;
      }
      else {
-	  Error e;
-	  e << "Null DataObject in ContainerDataObject::add() - Reference = '" << ref() << "'";
-	  throw e;
+          Error e;
+          e << "Null DataObject in ContainerDataObject::add() - Reference = '" << ref() << "'";
+          throw e;
      }
 }
 
@@ -330,11 +330,11 @@ void ContainerDataObject::add(DataObject* o) {
 void ContainerDataObject::remove(const std::string& name)
 {
      for (vector<DataObject*>::iterator it = mObjects.begin(); it != mObjects.end(); it++) {
-	  if (name == (*it)->identifier()) {
-	       delete *it;
-	       mObjects.erase(it);
-	       break;
-	  }
+          if (name == (*it)->identifier()) {
+               delete *it;
+               mObjects.erase(it);
+               break;
+          }
      }
      mObjectMap.erase(name);
 }
@@ -347,11 +347,11 @@ void ContainerDataObject::remove(const std::string& name)
 void ContainerDataObject::replace(DataObject* newObj)
 {
      for (vector<DataObject*>::iterator it = mObjects.begin(); it != mObjects.end(); it++) {
-	  if (newObj->ref() == (*it)->ref()) {
-	       delete *it;
-	       *it = newObj;
-	       break;
-	  }
+          if (newObj->ref() == (*it)->ref()) {
+               delete *it;
+               *it = newObj;
+               break;
+          }
      }
      mObjectMap[newObj->identifier()] = newObj;
      newObj->setParent(this);
@@ -381,10 +381,10 @@ void ContainerDataObject::reg() const
 {
      DataObject::reg();
      for (vector<DataObject*>::const_iterator it = mObjects.begin(); it != mObjects.end(); it++) {
-	  DataObject& d = **it;
-	  if (d.getType().canSubstitute("ValueType") || dynamic_cast<DataObjectList*>(&d)) { 
-	       d.reg();
-	  }
+          DataObject& d = **it;
+          if (d.getType().canSubstitute("ValueType") || dynamic_cast<DataObjectList*>(&d)) { 
+               d.reg();
+          }
      }
 }
 
@@ -396,17 +396,17 @@ void ContainerDataObject::dereg() const
 {
      DataObject::dereg();
      for (vector<DataObject*>::const_iterator it = mObjects.begin(); it != mObjects.end(); it++) {
-	  DataObject& d = **it;
-	  if (d.getType().canSubstitute("ValueType") || static_cast<DataObjectList*>(&d)) { 
-	       d.dereg();
-	  }
+          DataObject& d = **it;
+          if (d.getType().canSubstitute("ValueType") || static_cast<DataObjectList*>(&d)) { 
+               d.dereg();
+          }
      }
 }
 
 ostream& ContainerDataObject::bodyXML(ostream& o, string indent) const
 {
      for (vector<DataObject*>::const_iterator it = mObjects.begin(); it != mObjects.end(); it++) {
-	  (*it)->toXML(o, indent);
+          (*it)->toXML(o, indent);
      }
      return o;
 }
@@ -415,8 +415,8 @@ void ContainerDataObject::print(ostream& o, const std::string indent) const
 {
      DataObject::print(o, indent);
      for (vector<DataObject*>::const_iterator it = mObjects.begin(); it != mObjects.end(); it++) {
-	  o << endl;
- 	  (*it)->print(o, indent + INDENT);
+          o << endl;
+           (*it)->print(o, indent + INDENT);
      }
 }
 
@@ -435,31 +435,31 @@ void ContainerDataObject::print(ostream& o, const std::string indent) const
 ComplexDataObject::ComplexDataObject(const Reference& scope, const DOMElement* n) : ContainerDataObject(scope, n)
 {
      for (vector<const Declaration*>::const_iterator it = getType().subElements().begin();
-	  it != getType().subElements().end();
-	  it++) {
-	  const Declaration& dec = **it;
-	  if (dec.isList()) {
-	       add(new DataObjectList(ref(), dec, n));
-	  }
-	  else {
-	       DOMElement *elem = XMLHelper::getFirstChildByTag(*n, dec.getName());
-	       if (elem) {
-		    add(DataObjectFactory::createDataObject(ref(), elem));
-	       }
-	  }
+          it != getType().subElements().end();
+          it++) {
+          const Declaration& dec = **it;
+          if (dec.isList()) {
+               add(new DataObjectList(ref(), dec, n));
+          }
+          else {
+               DOMElement *elem = XMLHelper::getFirstChildByTag(*n, dec.getName());
+               if (elem) {
+                    add(DataObjectFactory::createDataObject(ref(), elem));
+               }
+          }
      }
 }
 
 ComplexDataObject::ComplexDataObject(const Reference& ref, const Type& type) : ContainerDataObject(ref, type)
 {
      for (vector<const Declaration*>::const_iterator it = getType().subElements().begin(); it != getType().subElements().end(); it++) {
-	  const Declaration& dec = **it;
-	  if (dec.isList()) {
-	       add(new DataObjectList(Reference::get(this->ref(), dec.getName()), dec.getType()));
-	  }
-	  else if (!dec.isOptional()) {
-	       add(DataObjectFactory::createDataObject(Reference::get(ref, dec.getName()), dec.getType()));
-	  }
+          const Declaration& dec = **it;
+          if (dec.isList()) {
+               add(new DataObjectList(Reference::get(this->ref(), dec.getName()), dec.getType()));
+          }
+          else if (!dec.isOptional()) {
+               add(DataObjectFactory::createDataObject(Reference::get(ref, dec.getName()), dec.getType()));
+          }
      }
 }
 
@@ -472,10 +472,10 @@ ComplexDataObject::ComplexDataObject(const Reference& ref, const Type& type) : C
 void ComplexDataObject::orderPreservingAdd(DataObject* o)
 {
      if (getChild(o->identifier())) {
-	  Error e;
-	  e << "Tried to add element '" << o->identifier() << "' to object ";
-	  e << identifier() << " that already has such an element.";
-	  throw e;
+          Error e;
+          e << "Tried to add element '" << o->identifier() << "' to object ";
+          e << identifier() << " that already has such an element.";
+          throw e;
      }
 
      int indexOfNewElement = -1;
@@ -492,28 +492,28 @@ void ComplexDataObject::orderPreservingAdd(DataObject* o)
      // outer loop exits we know we should add the new child to the
      // end of the mObjects vector.
      for(unsigned int i = 0; i < objects().size() && indexOfNewElement == -1; i++) {
-	  DataObject& obj = *objects()[i];
-	  string objName = obj.identifier();
-	  
-	  for (unsigned int j = currentIndex; j < subDecs.size(); j++) {
-	       string decName = subDecs[j]->getName();
-	       if (decName == nameToAdd) {
-		    indexOfNewElement = i;
-		    break;
-	       }
-	       else if (decName == objName) {
-		    currentIndex = j++;
-		    break;
-	       }
-	  }
+          DataObject& obj = *objects()[i];
+          string objName = obj.identifier();
+          
+          for (unsigned int j = currentIndex; j < subDecs.size(); j++) {
+               string decName = subDecs[j]->getName();
+               if (decName == nameToAdd) {
+                    indexOfNewElement = i;
+                    break;
+               }
+               else if (decName == objName) {
+                    currentIndex = j++;
+                    break;
+               }
+          }
      }
      if (indexOfNewElement == -1) {
-	  add(o);
+          add(o);
      }
      else {
-	  o->setParent(this);
-	  mObjects.insert(mObjects.begin() + indexOfNewElement, o);
-	  mObjectMap[o->identifier()] = o;
+          o->setParent(this);
+          mObjects.insert(mObjects.begin() + indexOfNewElement, o);
+          mObjectMap[o->identifier()] = o;
      }
 }
 
@@ -532,14 +532,14 @@ DataObjectList::DataObjectList(const Reference& scope, const Declaration& dec, c
      vector<DOMElement*> v;
      XMLHelper::getChildElementsByTag(*n, identifier(), v);
      if (getType().canSubstitute("ValueType")) {
-	  for (vector<DOMElement*>::iterator it = v.begin(); it != v.end(); it++) {
-	       add(DataObjectFactory::createDataObject(ref(), *it));
-	  }
+          for (vector<DOMElement*>::iterator it = v.begin(); it != v.end(); it++) {
+               add(DataObjectFactory::createDataObject(ref(), *it));
+          }
      }
      else {
-	  for (vector<DOMElement*>::iterator it = v.begin(); it != v.end(); it++) {
-	       add(new ComplexDataObject(ref(), *it));
-	  }
+          for (vector<DOMElement*>::iterator it = v.begin(); it != v.end(); it++) {
+               add(new ComplexDataObject(ref(), *it));
+          }
      }
 }
 
@@ -566,10 +566,10 @@ StratmasBool::StratmasBool(const Reference& scope, const DOMElement* n) : DataOb
 DataObject& StratmasBool::operator = (const DataObject& d)
 {
      if (d.getType().canSubstitute(getType())) {
-	  setBool(d.getBool());
+          setBool(d.getBool());
      }
      else {
-	  DataObject::operator=(d);
+          DataObject::operator=(d);
      }
      return *this;
 }
@@ -603,10 +603,10 @@ StratmasDouble::StratmasDouble(const Reference& scope, const DOMElement* n) : Da
 DataObject& StratmasDouble::operator = (const DataObject& d)
 {
      if (d.getType().canSubstitute(getType())) {
-	  setDouble(d.getDouble());
+          setDouble(d.getDouble());
      }
      else {
-	  DataObject::operator=(d);
+          DataObject::operator=(d);
      }
      return *this;
 }
@@ -615,10 +615,10 @@ ostream& StratmasDouble::bodyXML(ostream& o, string indent) const
 {
      o << indent << "<value>";
      if (!isnan(getDouble())) {
-	  o << getDouble();
+          o << getDouble();
      }
      else {
-	  o << "NaN";
+          o << "NaN";
      }
      o << "</value>" << endl;
      return o;
@@ -647,10 +647,10 @@ StratmasInt64_t::StratmasInt64_t(const Reference& scope, const DOMElement* n) : 
 DataObject& StratmasInt64_t::operator = (const DataObject& d)
 {
      if (d.getType().canSubstitute(getType())) {
-	  setInt64_t(d.getInt64_t());
+          setInt64_t(d.getInt64_t());
      }
      else {
-	  DataObject::operator=(d);
+          DataObject::operator=(d);
      }
      return *this;
 }
@@ -684,10 +684,10 @@ StratmasReference::StratmasReference(const Reference& scope, const DOMElement* n
 DataObject& StratmasReference::operator = (const DataObject& d)
 {
      if (d.getType().canSubstitute(getType())) {
-	  setReference(d.getReference());
+          setReference(d.getReference());
      }
      else {
-	  DataObject::operator=(d);
+          DataObject::operator=(d);
      }
      return *this;
 }
@@ -754,34 +754,34 @@ Shape* StratmasShape::getShape() const
 void StratmasShape::setShape(const Shape* v)
 {
      if (mValue) {
-	  if (v->type() != mValue->type()) {
-	       debug("this " << this << ", mValue " << mValue << ", v " << v);
-	       debug("mValue->type() " << mValue->type() << ", v->type() " << v->type());
-	       StratmasShape* s = new StratmasShape(ref(), TypeFactory::getType(v->type()));
-	       s->setShape(v);
-	       SOFactory::simulationObjectReplaced(*s, -1);
-	  }
-	  else {
-	       delete mValue;
-	       mValue = v->clone();
-	  }
+          if (v->type() != mValue->type()) {
+               debug("this " << this << ", mValue " << mValue << ", v " << v);
+               debug("mValue->type() " << mValue->type() << ", v->type() " << v->type());
+               StratmasShape* s = new StratmasShape(ref(), TypeFactory::getType(v->type()));
+               s->setShape(v);
+               SOFactory::simulationObjectReplaced(*s, -1);
+          }
+          else {
+               delete mValue;
+               mValue = v->clone();
+          }
      }
      else {
-	  mValue = v->clone();
+          mValue = v->clone();
      }
 }
 
 DataObject& StratmasShape::operator = (const DataObject& d)
 {
      if (d.getType().canSubstitute(getType())) {
-	  setShape(d.getShape());
-	  Circle* c = dynamic_cast<Circle*>(getShape());
-	  if (c) {
-	       debug("New value: " << *c);
-	  }
+          setShape(d.getShape());
+          Circle* c = dynamic_cast<Circle*>(getShape());
+          if (c) {
+               debug("New value: " << *c);
+          }
      }
      else {
-	  DataObject::operator=(d);
+          DataObject::operator=(d);
      }
      return *this;
 }
@@ -797,8 +797,8 @@ void StratmasShape::print(ostream& o, const std::string indent) const
      DataObject::print(o, indent);
      o << "center: " << mValue->cenCoord();
      if (getType() == TypeFactory::getType("Circle")) {
-	  const Circle &c = *dynamic_cast<const Circle*>(mValue);
-	  o << ", radius: " << c.radius();
+          const Circle &c = *dynamic_cast<const Circle*>(mValue);
+          o << ", radius: " << c.radius();
      }
 }
 
@@ -819,10 +819,10 @@ StratmasString::StratmasString(const Reference& scope, const DOMElement* n) : Da
 DataObject& StratmasString::operator = (const DataObject& d)
 {
      if (d.getType().canSubstitute(getType())) {
-	  setString(d.getString());
+          setString(d.getString());
      }
      else {
-	  DataObject::operator=(d);
+          DataObject::operator=(d);
      }
      return *this;
 }
@@ -851,20 +851,20 @@ void StratmasString::print(ostream& o, const std::string indent) const
 StratmasTime::StratmasTime(const Reference& scope, const DOMElement* n) : DataObject(scope, n)
 {
      if (getType().getName() == "Duration") {
-	  mValue = Time(0, 0, 0, 0, XMLHelper::getLongInt(*n, "value"));
+          mValue = Time(0, 0, 0, 0, XMLHelper::getLongInt(*n, "value"));
      }
      else {
-	  mValue = XMLHelper::getTime(*n, "value");
+          mValue = XMLHelper::getTime(*n, "value");
      }
 }
 
 DataObject& StratmasTime::operator = (const DataObject& d)
 {
      if (d.getType().canSubstitute(getType())) {
-	  setTime(d.getTime());
+          setTime(d.getTime());
      }
      else {
-	  DataObject::operator=(d);
+          DataObject::operator=(d);
      }
      return *this;
 }
@@ -873,10 +873,10 @@ ostream& StratmasTime::bodyXML(ostream& o, string indent) const
 {
      o << indent << "<value>";
      if (getType().getName() == "Duration") {
-	  o << getTime().milliSeconds();
+          o << getTime().milliSeconds();
      }
      else {
-	  XMLHelper::timeToDateTime(o, getTime());
+          XMLHelper::timeToDateTime(o, getTime());
      }
      o << "</value>" << endl;
      return o;
@@ -905,10 +905,10 @@ SymbolIDCode::SymbolIDCode(const Reference& scope, const DOMElement* n) : DataOb
 DataObject& SymbolIDCode::operator = (const DataObject& d)
 {
      if (d.getType().canSubstitute(getType())) {
-	  setString(d.getString());
+          setString(d.getString());
      }
      else {
-	  DataObject::operator=(d);
+          DataObject::operator=(d);
      }
      return *this;
 }
@@ -940,31 +940,31 @@ DataObject* DataObjectFactory::createDataObject(const Reference& scope, const DO
      string typeStr = XMLHelper::getTypeAttribute(*n);
      const Type& type = TypeFactory::getType(typeStr);
      if (type.canSubstitute("Double")) {
-	  ret = new StratmasDouble(scope, n);
+          ret = new StratmasDouble(scope, n);
      }
      else if (type.canSubstitute("Timestamp") || type.canSubstitute("Duration")) {
-	  ret = new StratmasTime(scope, n);
+          ret = new StratmasTime(scope, n);
      }
      else if (type.canSubstitute("NonNegativeInteger")) {
-	  ret = new StratmasInt64_t(scope, n);
+          ret = new StratmasInt64_t(scope, n);
      }
      else if (type.canSubstitute("String")) {
-	  ret = new StratmasString(scope, n);
+          ret = new StratmasString(scope, n);
      }
      else if (type.canSubstitute("Boolean")) {
-	  ret = new StratmasBool(scope, n);
+          ret = new StratmasBool(scope, n);
      }
      else if (type.canSubstitute("Reference")) {
-	  ret = new StratmasReference(scope, n);
+          ret = new StratmasReference(scope, n);
      }
      else if (type.canSubstitute("Shape")) {
-	  ret = new StratmasShape(scope, n);
+          ret = new StratmasShape(scope, n);
      }
      else if (typeStr == "SymbolIDCode") {
-	  ret = new SymbolIDCode(scope, n);
+          ret = new SymbolIDCode(scope, n);
      }
      else {
-	  ret = new ComplexDataObject(scope, n);
+          ret = new ComplexDataObject(scope, n);
      }
      return ret;
 }
@@ -981,31 +981,31 @@ DataObject* DataObjectFactory::createDataObject(const Reference& ref, const Type
      DataObject* ret = 0;
      string typeStr = type.getName();
      if (type.canSubstitute("Double")) {
-	  ret = new StratmasDouble(ref, type);
+          ret = new StratmasDouble(ref, type);
      }
      else if (type.canSubstitute("Timestamp") || type.canSubstitute("Duration")) {
-	  ret = new StratmasTime(ref, type);
+          ret = new StratmasTime(ref, type);
      }
      else if (type.canSubstitute("NonNegativeInteger")) {
-	  ret = new StratmasInt64_t(ref, type);
+          ret = new StratmasInt64_t(ref, type);
      }
      else if (type.canSubstitute("String")) {
-	  ret = new StratmasString(ref, type);
+          ret = new StratmasString(ref, type);
      }
      else if (type.canSubstitute("Boolean")) {
-	  ret = new StratmasBool(ref, type);
+          ret = new StratmasBool(ref, type);
      }
      else if (type.canSubstitute("Reference")) {
-	  ret = new StratmasReference(ref, type);
+          ret = new StratmasReference(ref, type);
      }
      else if (type.canSubstitute("Shape")) {
-	  ret = new StratmasShape(ref, type);
+          ret = new StratmasShape(ref, type);
      }
      else if (typeStr == "SymbolIDCode") {
-	  ret = new SymbolIDCode(ref, type);
+          ret = new SymbolIDCode(ref, type);
      }
      else {
-	  ret = new ComplexDataObject(ref, type);
+          ret = new ComplexDataObject(ref, type);
      }
      return ret;
 }
@@ -1020,15 +1020,15 @@ DataObject* DataObjectFactory::addOptional(DataObject& parent, const string& idT
 {
      const Declaration* dec = parent.getType().getSubElement(idToAdd);
      if (!dec) {
-	  Error e;
-	  e << "No optional element '" << idToAdd << "' in '" << parent.ref();
-	  throw e;
+          Error e;
+          e << "No optional element '" << idToAdd << "' in '" << parent.ref();
+          throw e;
      }
      else if (!dec->isOptional()) {
-	  Error e;
-	  e << "Element '" << idToAdd << "' is not optional in '" << parent.ref();
-	  e << "' of type " << parent.getType().getName();
-	  throw e;
+          Error e;
+          e << "Element '" << idToAdd << "' is not optional in '" << parent.ref();
+          e << "' of type " << parent.getType().getName();
+          throw e;
      }
      DataObject* newObj = createDataObject(Reference::get(parent.ref(), idToAdd), dec->getType());
      dynamic_cast<ComplexDataObject*>(&parent)->orderPreservingAdd(newObj);
@@ -1046,24 +1046,24 @@ void DataObjectFactory::addObjectTo(const Reference& parent, DataObject& objToAd
 {
      ContainerDataObject* parentObj = dynamic_cast<ContainerDataObject*>(Mapper::map(parent));
      if (parentObj) {
-	  if (!parentObj->getChild(objToAdd.identifier())) {
-	       if (ComplexDataObject* cdo = dynamic_cast<ComplexDataObject*>(parentObj)) {
-		    cdo->orderPreservingAdd(&objToAdd);
-	       }
-	       else {
-		    parentObj->add(&objToAdd);
-	       }
-	  }
-	  else {
-	       Error e;
-	       e << "Can't add object '" << objToAdd.identifier();
-	       e << "' to '" << parent << "'. Object already exists.";
-	       throw e;
-	  }
+          if (!parentObj->getChild(objToAdd.identifier())) {
+               if (ComplexDataObject* cdo = dynamic_cast<ComplexDataObject*>(parentObj)) {
+                    cdo->orderPreservingAdd(&objToAdd);
+               }
+               else {
+                    parentObj->add(&objToAdd);
+               }
+          }
+          else {
+               Error e;
+               e << "Can't add object '" << objToAdd.identifier();
+               e << "' to '" << parent << "'. Object already exists.";
+               throw e;
+          }
      }
      else {
-	  Error e;
-	  e << "Couldn't find parent to object '" << objToAdd.ref() << "'";
-	  throw e;
+          Error e;
+          e << "Couldn't find parent to object '" << objToAdd.ref() << "'";
+          throw e;
      }
 }

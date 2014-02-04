@@ -1,4 +1,4 @@
-// 	$Id: Interpolator.java,v 1.3 2005/11/02 22:18:48 dah Exp $
+//         $Id: Interpolator.java,v 1.3 2005/11/02 22:18:48 dah Exp $
 /*
  * @(#)Interpolator.java
  */
@@ -35,20 +35,20 @@ public class Interpolator
      */
     public static double[] interpolate(double[][] samples, int iIndices[], double[] values)
     {
-	// Find indices of values to interpolate from. Set these
-	// values in the result array.
-	int[] pIndices = new int[values.length - iIndices.length];
-	for (int i = 0, pStrider = 0, iStrider = 0; 
-	     i < values.length; i++) {
-	    if (iStrider < iIndices.length && 
-		i == iIndices[iStrider]) {
-		iStrider++;
-	    } else {
-		pIndices[pStrider++] = i;
-	    }
-	}
-	
-	return interpolate(samples, iIndices, pIndices, values);
+        // Find indices of values to interpolate from. Set these
+        // values in the result array.
+        int[] pIndices = new int[values.length - iIndices.length];
+        for (int i = 0, pStrider = 0, iStrider = 0; 
+             i < values.length; i++) {
+            if (iStrider < iIndices.length && 
+                i == iIndices[iStrider]) {
+                iStrider++;
+            } else {
+                pIndices[pStrider++] = i;
+            }
+        }
+        
+        return interpolate(samples, iIndices, pIndices, values);
     }
     
     /**
@@ -75,48 +75,48 @@ public class Interpolator
      * - 1]] interpolated.
      */
     public static double[] interpolate(double[][] samples, int iIndices[], 
-				       int[] pIndices, double[] values)
+                                       int[] pIndices, double[] values)
     {
-	// Zero out interpolation points.
-	for (int j = 0; j < iIndices.length; j++) {
-	    values[iIndices[j]] = 0.0;
-	}
-	
-	double invDistanceSum = 0;
-	for (int i = 0; i < samples.length; i++) {
-	    double distanceMeasure = 0;
-	    for (int j = 0; j < pIndices.length; j++) {
-		// The sum of the squared distance
-		double d = values[pIndices[j]] - samples[i][pIndices[j]];
-		distanceMeasure += d*d;
-	    }	    
+        // Zero out interpolation points.
+        for (int j = 0; j < iIndices.length; j++) {
+            values[iIndices[j]] = 0.0;
+        }
+        
+        double invDistanceSum = 0;
+        for (int i = 0; i < samples.length; i++) {
+            double distanceMeasure = 0;
+            for (int j = 0; j < pIndices.length; j++) {
+                // The sum of the squared distance
+                double d = values[pIndices[j]] - samples[i][pIndices[j]];
+                distanceMeasure += d*d;
+            }            
 
-	    // Invert it if nonzero
-	    if (distanceMeasure == 0) {
-		// No need to interpolate, spot on. This return
-		// statement also ensures that distanceMeasure > 0 at the
-		// end of the for loop;
-		for (int j = 0; j < iIndices.length; j++) {
-		    values[iIndices[j]] = samples[i][iIndices[j]];
-		}
-		
-		return values;
-	    }
-	    // Invert distanceMeasure (want to favor closeness to sampled point)
-	    distanceMeasure = 1.0 / distanceMeasure;
+            // Invert it if nonzero
+            if (distanceMeasure == 0) {
+                // No need to interpolate, spot on. This return
+                // statement also ensures that distanceMeasure > 0 at the
+                // end of the for loop;
+                for (int j = 0; j < iIndices.length; j++) {
+                    values[iIndices[j]] = samples[i][iIndices[j]];
+                }
+                
+                return values;
+            }
+            // Invert distanceMeasure (want to favor closeness to sampled point)
+            distanceMeasure = 1.0 / distanceMeasure;
 
-	    for (int j = 0; j < iIndices.length; j++) {
-		values[iIndices[j]] += distanceMeasure*samples[i][iIndices[j]];
-	    }
+            for (int j = 0; j < iIndices.length; j++) {
+                values[iIndices[j]] += distanceMeasure*samples[i][iIndices[j]];
+            }
 
-	    invDistanceSum += distanceMeasure;
-	}
+            invDistanceSum += distanceMeasure;
+        }
 
-	// Adjust with total measure-sum sum.
-	for (int j = 0; j < iIndices.length; j++) {
-	    values[iIndices[j]] /= invDistanceSum;
-	}
+        // Adjust with total measure-sum sum.
+        for (int j = 0; j < iIndices.length; j++) {
+            values[iIndices[j]] /= invDistanceSum;
+        }
 
-	return values;
+        return values;
     }
 }

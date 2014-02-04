@@ -1,4 +1,4 @@
-// 	$Id: TreeViewFrame.java,v 1.2 2006/03/22 14:30:52 dah Exp $
+//         $Id: TreeViewFrame.java,v 1.2 2006/03/22 14:30:52 dah Exp $
 
 /*
  * @(#)TreeViewFrame.java
@@ -54,15 +54,15 @@ public class TreeViewFrame extends JFrame
      */
     public TreeViewFrame(TreeView treeView)
     {
-	super(treeView.getModel().getRoot().toString());
-	setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-	this.treeView = treeView;
-	getContentPane().add(new JScrollPane(getTreeView()));
-	setIconImage(getRootObject().getIcon().getImage());
-	updateMenu();
-	updateToolBar();
+        super(treeView.getModel().getRoot().toString());
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.treeView = treeView;
+        getContentPane().add(new JScrollPane(getTreeView()));
+        setIconImage(getRootObject().getIcon().getImage());
+        updateMenu();
+        updateToolBar();
 
-	pack();
+        pack();
     }
 
     /**
@@ -70,41 +70,41 @@ public class TreeViewFrame extends JFrame
      */
     public StratmasObject getRootObject() 
     {
-	return (StratmasObject) getTreeView().getModel().getRoot();
+        return (StratmasObject) getTreeView().getModel().getRoot();
     }
 
     /**
      * Updates the menu of this frame.
      */
     public void updateMenu()
-    {	
-	JMenuBar res = new JMenuBar();
-	JMenu menu = new JMenu("Actions", true);
+    {        
+        JMenuBar res = new JMenuBar();
+        JMenu menu = new JMenu("Actions", true);
 
-	for (Enumeration e = getActions().elements(); e.hasMoreElements();) {
-	    menu.add((Action) e.nextElement());
-	}
-	menu.addSeparator();
-	menu.add(new AbstractAction("Close") 
-	    {
-		public void actionPerformed(ActionEvent e) 
-		{
-		    if (getTreeView().getTopLevelAncestor() instanceof TreeViewFrame) {
-			((TreeViewFrame) getTreeView().getTopLevelAncestor()).dispose();
-		    } else {
-			if (getTreeView().getParent() != null) {
-			    getTreeView().getParent().remove(getTreeView());
-			    getTreeView().getParent().invalidate();
-			    getTreeView().getParent().repaint();
-			}
-		    }
-		}
-	    });
-	
-	res.add(menu);
+        for (Enumeration e = getActions().elements(); e.hasMoreElements();) {
+            menu.add((Action) e.nextElement());
+        }
+        menu.addSeparator();
+        menu.add(new AbstractAction("Close") 
+            {
+                public void actionPerformed(ActionEvent e) 
+                {
+                    if (getTreeView().getTopLevelAncestor() instanceof TreeViewFrame) {
+                        ((TreeViewFrame) getTreeView().getTopLevelAncestor()).dispose();
+                    } else {
+                        if (getTreeView().getParent() != null) {
+                            getTreeView().getParent().remove(getTreeView());
+                            getTreeView().getParent().invalidate();
+                            getTreeView().getParent().repaint();
+                        }
+                    }
+                }
+            });
+        
+        res.add(menu);
 
-	setJMenuBar(res);
-	validate();	
+        setJMenuBar(res);
+        validate();        
     }
 
     /**
@@ -112,19 +112,19 @@ public class TreeViewFrame extends JFrame
      */
     public void updateToolBar()
     {
-	if (toolBar == null) {
-	    toolBar = new JToolBar();
-	    getContentPane().add(toolBar, BorderLayout.PAGE_START);
-	} else {
-	    toolBar.removeAll();
-	}
-	
-	if (getTreeView().getActionMap().get("ZoomIn") != null) {
-	    toolBar.add(getTreeView().getActionMap().get("ZoomIn"));
-	}
-	if (getTreeView().getActionMap().get("ZoomOut") != null) {
-	    toolBar.add(getTreeView().getActionMap().get("ZoomOut"));
-	}
+        if (toolBar == null) {
+            toolBar = new JToolBar();
+            getContentPane().add(toolBar, BorderLayout.PAGE_START);
+        } else {
+            toolBar.removeAll();
+        }
+        
+        if (getTreeView().getActionMap().get("ZoomIn") != null) {
+            toolBar.add(getTreeView().getActionMap().get("ZoomIn"));
+        }
+        if (getTreeView().getActionMap().get("ZoomOut") != null) {
+            toolBar.add(getTreeView().getActionMap().get("ZoomOut"));
+        }
     }
 
     /**
@@ -132,21 +132,21 @@ public class TreeViewFrame extends JFrame
      */
     public Vector getActions()
     {
-	Vector res = new Vector();
-	
-	for (Enumeration e = getRootObject().getActions().elements(); 
-	     e.hasMoreElements();) {
-	    StratmasAbstractAction action = (StratmasAbstractAction)
-		e.nextElement();
-	    if (!isEditable()) {
-		if (action.isMutator()) {
-		    action.setEnabled(false);
-		}
-	    }
-	    res.add(action);
-	}
+        Vector res = new Vector();
+        
+        for (Enumeration e = getRootObject().getActions().elements(); 
+             e.hasMoreElements();) {
+            StratmasAbstractAction action = (StratmasAbstractAction)
+                e.nextElement();
+            if (!isEditable()) {
+                if (action.isMutator()) {
+                    action.setEnabled(false);
+                }
+            }
+            res.add(action);
+        }
 
-	return res;
+        return res;
     }
 
     /**
@@ -154,7 +154,7 @@ public class TreeViewFrame extends JFrame
      */
     public boolean isEditable()
     {
-	return getTreeView().isEditable();
+        return getTreeView().isEditable();
     }
 
     /**
@@ -162,9 +162,9 @@ public class TreeViewFrame extends JFrame
      */
     public void dispose()
     {
-	setJMenuBar(null);
-	this.treeView = null;
-	super.dispose();
+        setJMenuBar(null);
+        this.treeView = null;
+        super.dispose();
     }
 
     /**
@@ -174,8 +174,8 @@ public class TreeViewFrame extends JFrame
      */
     public void setEditable(boolean editable)
     {
-	getTreeView().setEditable(editable);
-	updateMenu();
+        getTreeView().setEditable(editable);
+        updateMenu();
     }
 
     /**
@@ -183,6 +183,6 @@ public class TreeViewFrame extends JFrame
      */
     public TreeView getTreeView()
     {
-	return treeView;
+        return treeView;
     }
 }

@@ -106,18 +106,18 @@ const char* PVHelper::allPVName(eAllPV pv)
  */
 eAllPV PVHelper::nameToOverAllOrder(const std::string& name) {
      static bool firstTime = true;
-	  
+          
      if (firstTime) {
-	  firstTime = false;
-	  for (int i = 0; i < eNumWithFac + eNumNoFac + eDNumDerivedF; ++i) {
-	       sNameToOverAllOrder[allPVSchemaName[i]] = static_cast<eAllPV>(i);
-	  }
+          firstTime = false;
+          for (int i = 0; i < eNumWithFac + eNumNoFac + eDNumDerivedF; ++i) {
+               sNameToOverAllOrder[allPVSchemaName[i]] = static_cast<eAllPV>(i);
+          }
      }
      std::map<std::string, eAllPV>::iterator it = sNameToOverAllOrder.find(name);
      if (it == sNameToOverAllOrder.end()) {
-	  Error e;
-	  e << "The process variable '" << name << "' is not a valid Stratmas process variable.";
-	  throw e;
+          Error e;
+          e << "The process variable '" << name << "' is not a valid Stratmas process variable.";
+          throw e;
      }
 
      return it->second;
@@ -132,18 +132,18 @@ eAllPV PVHelper::nameToOverAllOrder(const std::string& name) {
  */
 eAllPV PVHelper::displayNameToOverAllOrder(const std::string& name) {
      static bool firstTime = true;
-	  
+          
      if (firstTime) {
-	  firstTime = false;
-	  for (int i = 0; i < eNumWithFac + eNumNoFac + eDNumDerivedF; ++i) {
-	       sDisplayNameToOverAllOrder[allPVDisplayName[i]] = static_cast<eAllPV>(i);
-	  }
+          firstTime = false;
+          for (int i = 0; i < eNumWithFac + eNumNoFac + eDNumDerivedF; ++i) {
+               sDisplayNameToOverAllOrder[allPVDisplayName[i]] = static_cast<eAllPV>(i);
+          }
      }
      std::map<std::string, eAllPV>::iterator it = sDisplayNameToOverAllOrder.find(name);
      if (it == sDisplayNameToOverAllOrder.end()) {
-	  Error e;
-	  e << "The process variable '" << name << "' is not a valid Stratmas process variable.";
-	  throw e;
+          Error e;
+          e << "The process variable '" << name << "' is not a valid Stratmas process variable.";
+          throw e;
      }
 
      return it->second;

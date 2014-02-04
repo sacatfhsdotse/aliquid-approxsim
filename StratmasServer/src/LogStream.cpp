@@ -33,7 +33,7 @@ LogMessage& LogMessage::operator << (const LogEnd& end)
 LogStream::~LogStream()
 {
      if (mLogSink != 0) {
-	  delete mLogSink;
+          delete mLogSink;
      }
 }
 
@@ -43,7 +43,7 @@ LogStream::~LogStream()
 LogMessage::~LogMessage()
 {
      if (mLogStream != 0) {
-	  *this << logEnd;
+          *this << logEnd;
      }
 }
 

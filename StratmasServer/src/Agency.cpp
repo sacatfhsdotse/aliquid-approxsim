@@ -38,7 +38,7 @@ Agency::Agency(const std::vector<AgencyTeam*>& teams, Grid& g)
 {
      aggregateCapacity();
      for(vector<AgencyTeam*>::const_iterator it = mTeams.begin(); it != mTeams.end(); it++) {
-	  (*it)->setAgency(this);
+          (*it)->setAgency(this);
      }
 }
 
@@ -86,8 +86,8 @@ void Agency::aggregateCapacity()
      mCapacityPPD = 0;
      double resp = 0;
      for(vector<AgencyTeam*>::const_iterator it = mTeams.begin(); it != mTeams.end(); it++) {
-	  mCapacityPPD  += (*it)->getCapacity();
-	  resp += (*it)->getResponseTime();
+          mCapacityPPD  += (*it)->getCapacity();
+          resp += (*it)->getResponseTime();
      }
      
      // Convert responseTimeSecs to a mean responseDays value for the entire agency
@@ -112,22 +112,22 @@ int Agency::cluster(int inNumClusters, std::vector<LatLng>& outCenters)
 //     debug("Clustering for " << type << "Agency");
      ClusterSet zones(inNumClusters);
      int outNumClusters = zones.FitToData(mGrid.active(), mVindex, mGrid.cellCenterCoordsX(),
-					  mGrid.cellCenterCoordsY(), mVw);
-     //	Pass back the centers of the clusters:
+                                          mGrid.cellCenterCoordsY(), mVw);
+     //        Pass back the centers of the clusters:
      for (int i = 0; i < outNumClusters; i++) {
-	  Ellipse &e = zones.mCluster[i];
-	  outCenters[i] = LatLng(e.my, e.mx);
+          Ellipse &e = zones.mCluster[i];
+          outCenters[i] = LatLng(e.my, e.mx);
      }
 /*
      debug("got " << outNumClusters << " clusters";
      if (outNumClusters > 0) {
-	  debug(" with centerpoints at:");
-	  for (int i = 0; i < outNumClusters; i++) {
-	       debug(outCenters[i].lat() << ", " << outCenters[i].lng());
-	  }
+          debug(" with centerpoints at:");
+          for (int i = 0; i < outNumClusters; i++) {
+               debug(outCenters[i].lat() << ", " << outCenters[i].lng());
+          }
      }
      else {
-	  debug(endl;
+          debug(endl;
      }
 */     
      return outNumClusters;
@@ -146,35 +146,35 @@ int Agency::cluster(int inNumClusters, std::vector<LatLng>& outCenters)
 void Agency::orderTeamsToClusters(int nTeams, int firstTeam)
 {
      if (firstTeam + nTeams > mNumTeams) {
-	  Error e;
-	  e << "Tried to order more teams than it exists to clusters in Agency::orderTeamsToClusters() "
-	    << "Number of teams: " << mNumTeams << ", ordered teams: " << firstTeam + nTeams;
-	  throw e;
+          Error e;
+          e << "Tried to order more teams than it exists to clusters in Agency::orderTeamsToClusters() "
+            << "Number of teams: " << mNumTeams << ", ordered teams: " << firstTeam + nTeams;
+          throw e;
      }
 
      vector<LatLng> clusters(nTeams);
      int nClusters = cluster(nTeams, clusters);
      if (nClusters > 0) {
-	  for (int i = 0; i < nTeams; i++) {
-	       AgencyTeam &team = *mTeams[firstTeam + i];
-	       //P Added this in order to avoid null cell for food team when
-	       //  there are more teams than clusters, e.g. assign more than
-	       //  one team to each cluster.
-	       int j = i % nClusters;
-	       if (!mGrid.cell(clusters[j])) {
-		    slog << "Null cell for " << mType << "AgencyTeam " << i << " at position lat "
-			 << clusters[j].lat() << ", lng " <<  clusters[j].lng()
-			 << " in orderTeamsToClusters(), e.g. cluster center outside active grid" << logEnd;
-	       }
-	       else {
-//		    if (team.canGoTo(clusters[j])) {
-			 team.setGoal(clusters[j]);   // Set team goal to cluster center
-// 		    }
-// 		    else {
-// 			 debug("team " << team.ref().name() << " can't go to " << clusters[j]);
-// 		    }
-	       }
-	  }
+          for (int i = 0; i < nTeams; i++) {
+               AgencyTeam &team = *mTeams[firstTeam + i];
+               //P Added this in order to avoid null cell for food team when
+               //  there are more teams than clusters, e.g. assign more than
+               //  one team to each cluster.
+               int j = i % nClusters;
+               if (!mGrid.cell(clusters[j])) {
+                    slog << "Null cell for " << mType << "AgencyTeam " << i << " at position lat "
+                         << clusters[j].lat() << ", lng " <<  clusters[j].lng()
+                         << " in orderTeamsToClusters(), e.g. cluster center outside active grid" << logEnd;
+               }
+               else {
+//                    if (team.canGoTo(clusters[j])) {
+                         team.setGoal(clusters[j]);   // Set team goal to cluster center
+//                     }
+//                     else {
+//                          debug("team " << team.ref().name() << " can't go to " << clusters[j]);
+//                     }
+               }
+          }
      }
 }
 
@@ -193,28 +193,28 @@ void Agency::setTeamsGoals()
 
      // First assign one team to each camp
      for (int i = 0; i < nCamps && i < mNumTeams; i++) {
-	  AgencyTeam &team = *mTeams[i];
-	  Camp *thisCamp = mGrid.camp(i);
-	  team.setGoal(thisCamp->center());
+          AgencyTeam &team = *mTeams[i];
+          Camp *thisCamp = mGrid.camp(i);
+          team.setGoal(thisCamp->center());
      }
 
      // If there are more teams than camps
      if (mNumTeams > nCamps) {
-	  int excessTeams = mNumTeams - nCamps;
+          int excessTeams = mNumTeams - nCamps;
 
-	  // If we have a severe problem, then assign excess teams to clusters
-	  if (severeProblem()) {
-	       orderTeamsToClusters(excessTeams, nCamps);
-	  }
-	  // ...else assign excess teams to camps too, unless there are no camps
-	  // at all, in which case we do nothing.
-	  else if (nCamps > 0) {
-	       for (int i = 0; i < excessTeams; i++) {
-		    AgencyTeam &team = *mTeams[nCamps + i];
-		    Camp *thisCamp = mGrid.camp(i % nCamps);
-		    team.setGoal(thisCamp->center());
-	       }
-	  }
+          // If we have a severe problem, then assign excess teams to clusters
+          if (severeProblem()) {
+               orderTeamsToClusters(excessTeams, nCamps);
+          }
+          // ...else assign excess teams to camps too, unless there are no camps
+          // at all, in which case we do nothing.
+          else if (nCamps > 0) {
+               for (int i = 0; i < excessTeams; i++) {
+                    AgencyTeam &team = *mTeams[nCamps + i];
+                    Camp *thisCamp = mGrid.camp(i % nCamps);
+                    team.setGoal(thisCamp->center());
+               }
+          }
      }
 }
 
@@ -236,62 +236,62 @@ void Agency::setTeamsGoals()
 void Agency::act(Time now)
 {
      for (int i = 0; i < mNumTeams; i++) {
-	  AgencyTeam& team = *mTeams[i];
-	  if (!team.deployed() && now >= team.getDeployTime()) {
-	       team.deploy();
-	  }
-	  if (!team.departed() && now >= team.getDepartTime()) {
-	       team.depart();
-	  }
+          AgencyTeam& team = *mTeams[i];
+          if (!team.deployed() && now >= team.getDeployTime()) {
+               team.deploy();
+          }
+          if (!team.departed() && now >= team.getDepartTime()) {
+               team.depart();
+          }
      }
 
      Time intervall = now - mLastUpdate;
      if (static_cast<int>(intervall.days()) % mIntervallDays == 0) {
-	  mLastUpdate = now;
-	  setTeamsGoals();
+          mLastUpdate = now;
+          setTeamsGoals();
      }
 
-     //	Estimate needs:
+     //        Estimate needs:
      int    activeTeams = 0;
      double totalNeed = 0.0;   // Total need in all team areas
 
      // Needs in person-days in each team area
      double* need = new double[mNumTeams];
      memset(need, 0, mNumTeams * sizeof(double));
-	
+        
      for (int i = 0; i < mNumTeams; i++) {
-	  AgencyTeam &team = *mTeams[i];
-	  if (team.present() && now >= team.startTime()) {
-	       activeTeams++;
-	       
-	       double teamNeed = team.calculateNeed();
-	       need[i]   += teamNeed;
-	       totalNeed += teamNeed;
-	  }
+          AgencyTeam &team = *mTeams[i];
+          if (team.present() && now >= team.startTime()) {
+               activeTeams++;
+               
+               double teamNeed = team.calculateNeed();
+               need[i]   += teamNeed;
+               totalNeed += teamNeed;
+          }
      }
-	
+        
      if (activeTeams == 0) {
-	  // Deallocate array
-	  delete [] need;
-	  return;
+          // Deallocate array
+          delete [] need;
+          return;
      }
-	
-     //	Supply resources within each team's operating radius
+        
+     //        Supply resources within each team's operating radius
      double teamResourceSupply;
      for (int i = 0; i < mNumTeams; i++) {
-	  AgencyTeam &team = *mTeams[i];
-	  if (team.present() && now >= team.startTime()) {
-	       if (totalNeed > 0.0) {
-		    // Allocate resources according to local need:
-		    teamResourceSupply = (need[i] / totalNeed) * mCapacityPPD;
-	       }
-	       else {
-		    // Allocate resources equally among teams:
-		    teamResourceSupply = mCapacityPPD / activeTeams;
-	       }
-	       team.setCapacity(teamResourceSupply);
-	       team.act(now);
-	  }
+          AgencyTeam &team = *mTeams[i];
+          if (team.present() && now >= team.startTime()) {
+               if (totalNeed > 0.0) {
+                    // Allocate resources according to local need:
+                    teamResourceSupply = (need[i] / totalNeed) * mCapacityPPD;
+               }
+               else {
+                    // Allocate resources equally among teams:
+                    teamResourceSupply = mCapacityPPD / activeTeams;
+               }
+               team.setCapacity(teamResourceSupply);
+               team.act(now);
+          }
      }
 
      // Deallocate array
@@ -313,8 +313,8 @@ ostream& operator << (std::ostream& o, const Agency& a)
      o << "responseTime (days): " << a.mResponseDays << endl;
      o << "#Teams: " << a.mTeams.size() << endl;
      for (vector<AgencyTeam*>::const_iterator it = a.mTeams.begin(); it != a.mTeams.end(); it++) {
-	  o << "=======" << endl;
-	  o << **it << endl;
+          o << "=======" << endl;
+          o << **it << endl;
      }
      o << "=======" << endl;
      return o;
@@ -330,22 +330,22 @@ bool FoodAgency::severeProblem()
 {
      double total = 0.0;
      for (int i = 0; i < mGrid.active(); i++) {
-	  GridCell *c        = mGrid.cell(i);
-	  mVindex[i]         = 0;
- 	  double population = c->pvfGet(ePopulation);
- 	  double food       = c->pvGet(eFoodDays);
-	  if (food < 1.0  &&  population > kMinPopulation) {
-	       if ( food < 0.1 ) {
-		    food = 0.1;
-	       }
-	       mVw[i] = population / food;
-	  }
-	  else {
-	       mVw[i] = 0.0;
-	  }
-	  total += mVw[i];
+          GridCell *c        = mGrid.cell(i);
+          mVindex[i]         = 0;
+           double population = c->pvfGet(ePopulation);
+           double food       = c->pvGet(eFoodDays);
+          if (food < 1.0  &&  population > kMinPopulation) {
+               if ( food < 0.1 ) {
+                    food = 0.1;
+               }
+               mVw[i] = population / food;
+          }
+          else {
+               mVw[i] = 0.0;
+          }
+          total += mVw[i];
      }
-     //	Food is a severe problem if total exceeds 1000:
+     //        Food is a severe problem if total exceeds 1000:
      return (total > 1000);
 }
 
@@ -359,23 +359,23 @@ bool WaterAgency::severeProblem()
 {
      double total = 0.0;
      for (int i = 0; i < mGrid.active(); i++) {
-	  GridCell *c   = mGrid.cell(i);
-	  mVindex[i]    = 0;
-	  double shortfall = c->pvGet(eFractionNoWater) * c->pvfGet(ePopulation);
-	  
-	  if (mGrid.camps() > 0) {
-	       // Adjust for water already suppied within camps:
-	       shortfall -= c->pvGet(eSuppliedWater);
-	  }
-	  if ( shortfall > 0.0 ) {
-	       mVw[i]  = shortfall;
-	       total  += shortfall;
-	  }
-	  else {
-	       mVw[i] = 0.0;
-	  }
+          GridCell *c   = mGrid.cell(i);
+          mVindex[i]    = 0;
+          double shortfall = c->pvGet(eFractionNoWater) * c->pvfGet(ePopulation);
+          
+          if (mGrid.camps() > 0) {
+               // Adjust for water already suppied within camps:
+               shortfall -= c->pvGet(eSuppliedWater);
+          }
+          if ( shortfall > 0.0 ) {
+               mVw[i]  = shortfall;
+               total  += shortfall;
+          }
+          else {
+               mVw[i] = 0.0;
+          }
      }
-     //	Lack of water is "severe" if more than 1000 people are affected.
+     //        Lack of water is "severe" if more than 1000 people are affected.
      return (total > 1000);
 }
 
@@ -388,26 +388,26 @@ bool WaterAgency::severeProblem()
  */
 bool ShelterAgency::severeProblem()
 {
-     //	Find clusters of unsheltered displaced persons:
+     //        Find clusters of unsheltered displaced persons:
      double R2 = kNoCampZone * kNoCampZone;
      double total = 0.0;
      for (int i = 0; i < mGrid.active(); i++) {
-	  GridCell *c   = mGrid.cell(i);
-	  mVindex[i]    = 0;
+          GridCell *c   = mGrid.cell(i);
+          mVindex[i]    = 0;
 
-	  // Set the number of displaced to zero within a radius of
-	  // kNoCampZone around each camp. This will prevent camps
-	  //  from being built too close to one another.
+          // Set the number of displaced to zero within a radius of
+          // kNoCampZone around each camp. This will prevent camps
+          //  from being built too close to one another.
 
-	  int tooClose = 0;
-	  for (int j = 0; j < mGrid.camps(); j++) {
-	       double D2 = c->center().squDistanceTo(mGrid.camp(j)->center());
-	       tooClose += (D2 < R2 ? 1 : 0);
-	  }
-	  double displaced = (tooClose > 0 ? 0 : c->pvfGet(eDisplaced) - c->pvfGet(eSheltered));
+          int tooClose = 0;
+          for (int j = 0; j < mGrid.camps(); j++) {
+               double D2 = c->center().squDistanceTo(mGrid.camp(j)->center());
+               tooClose += (D2 < R2 ? 1 : 0);
+          }
+          double displaced = (tooClose > 0 ? 0 : c->pvfGet(eDisplaced) - c->pvfGet(eSheltered));
 
-	  mVw[i] = displaced;
-	  total += displaced;
+          mVw[i] = displaced;
+          total += displaced;
      }
      return (total > 5000.0);
 }
@@ -425,75 +425,75 @@ void ShelterAgency::act(Time now)
 {
      Time intervall = now - mLastUpdate;
      if (static_cast<int>(intervall.days()) % mIntervallDays == 0) {
-	  mLastUpdate = now;
+          mLastUpdate = now;
 
-	  // For all teams that haven't already been ordered to build a camp: if we
-	  // have a severe IDP problem - order team to build camp at problem location
-	  if (mNumTeams > mOperationalTeams) {
-	       // How severe is the problem?
-	       bool severe = severeProblem();
-	       vector<LatLng> clusters(mNumTeams);
-	       int newCamps = cluster(mNumTeams - mOperationalTeams, clusters);
-	       int clusterCount = 0;
+          // For all teams that haven't already been ordered to build a camp: if we
+          // have a severe IDP problem - order team to build camp at problem location
+          if (mNumTeams > mOperationalTeams) {
+               // How severe is the problem?
+               bool severe = severeProblem();
+               vector<LatLng> clusters(mNumTeams);
+               int newCamps = cluster(mNumTeams - mOperationalTeams, clusters);
+               int clusterCount = 0;
 
-	       for (int i = 0; i < mNumTeams; ++i) {
-		    AgencyTeam& team = *mTeams[i];
-		    if (!team.deployed()) {
-			 if (team.ownInitiative()) {
-			      if (severe && clusterCount < newCamps && now >= team.getDeployTime()) {
-				   team.deploy();
-				   team.setGoal(clusters[clusterCount++]);
-				   team.setCapacity(mCapacityPPD / mNumTeams);
-				   mOperationalTeams++;
-			      }
-			 }
-			 else if (now >= team.getDeployTime()) {
-			      team.deploy();
-			      team.setCapacity(mCapacityPPD / mNumTeams);
-			      mOperationalTeams++;
-			 }
-		    }
-		    else if (now >= team.getDepartTime()) {
-			 team.depart();
-		    }
-	       }
-// 	       if (severeProblem()) {
-// 		    // The problem is severe, so start building new camps:
-// 		    vector<LatLng> clusters(mNumTeams);
-// 		    int newCamps = cluster(mNumTeams - mOperationalTeams, clusters);
-		    
-// 		    for (int i = mOperationalTeams; i < mOperationalTeams + newCamps; i++) {
-// 			 AgencyTeam &team = *mTeams[i];
-// 			 team.setGoal(clusters[i - mOperationalTeams]);
-// 			 team.setStartTime(now + Time(Poisson(static_cast<double>(mResponseDays))));
-// //		    team.setStartTime(now);
-// // 		    debug("=============== Start time for " << mType << "Agency team " << i
-// //			  << " is " << team.startTime());
-// 			 team.setCapacity(mCapacityPPD / mNumTeams);
-// 		    }
-// 		    mOperationalTeams += newCamps;
-// 	       }
-	  }
+               for (int i = 0; i < mNumTeams; ++i) {
+                    AgencyTeam& team = *mTeams[i];
+                    if (!team.deployed()) {
+                         if (team.ownInitiative()) {
+                              if (severe && clusterCount < newCamps && now >= team.getDeployTime()) {
+                                   team.deploy();
+                                   team.setGoal(clusters[clusterCount++]);
+                                   team.setCapacity(mCapacityPPD / mNumTeams);
+                                   mOperationalTeams++;
+                              }
+                         }
+                         else if (now >= team.getDeployTime()) {
+                              team.deploy();
+                              team.setCapacity(mCapacityPPD / mNumTeams);
+                              mOperationalTeams++;
+                         }
+                    }
+                    else if (now >= team.getDepartTime()) {
+                         team.depart();
+                    }
+               }
+//                if (severeProblem()) {
+//                     // The problem is severe, so start building new camps:
+//                     vector<LatLng> clusters(mNumTeams);
+//                     int newCamps = cluster(mNumTeams - mOperationalTeams, clusters);
+                    
+//                     for (int i = mOperationalTeams; i < mOperationalTeams + newCamps; i++) {
+//                          AgencyTeam &team = *mTeams[i];
+//                          team.setGoal(clusters[i - mOperationalTeams]);
+//                          team.setStartTime(now + Time(Poisson(static_cast<double>(mResponseDays))));
+// //                    team.setStartTime(now);
+// //                     debug("=============== Start time for " << mType << "Agency team " << i
+// //                          << " is " << team.startTime());
+//                          team.setCapacity(mCapacityPPD / mNumTeams);
+//                     }
+//                     mOperationalTeams += newCamps;
+//                }
+          }
 
-// 	  if (mNumTeams > mOperationalTeams) {
-// 	       for (int i = mOperationalTeams; i < mNumTeams; ++i) {
-// 		    AgencyTeam &team = *mTeams[i];
-// 		    team.setGoal(team.location().cenCoord());
-// 		    team.setStartTime(now + Time(Poisson(static_cast<double>(mResponseDays))));
-// 		    team.setStartTime(now);
-//  		    debug("=============== Start time for " << mType << "Agency team " << i
-// 			  << " is " << team.startTime());
-// 		    team.setCapacity(mCapacityPPD / mNumTeams);
-// 		    mOperationalTeams++;
-// 	       }
-// 	  }
+//           if (mNumTeams > mOperationalTeams) {
+//                for (int i = mOperationalTeams; i < mNumTeams; ++i) {
+//                     AgencyTeam &team = *mTeams[i];
+//                     team.setGoal(team.location().cenCoord());
+//                     team.setStartTime(now + Time(Poisson(static_cast<double>(mResponseDays))));
+//                     team.setStartTime(now);
+//                      debug("=============== Start time for " << mType << "Agency team " << i
+//                           << " is " << team.startTime());
+//                     team.setCapacity(mCapacityPPD / mNumTeams);
+//                     mOperationalTeams++;
+//                }
+//           }
      }
 
      for (int i = 0; i < mOperationalTeams; i++) {
-	  AgencyTeam& team = *mTeams[i];
-	  if (team.present() && team.hasStartTime() && now >= team.startTime()) {
-	       team.act(now);
-	  }
+          AgencyTeam& team = *mTeams[i];
+          if (team.present() && team.hasStartTime() && now >= team.startTime()) {
+               team.act(now);
+          }
      }
 }
 
@@ -509,15 +509,15 @@ bool HealthAgency::severeProblem()
 {
      double total = 0.0;
      for (int i = 0; i < mGrid.active(); i++) {
-	  GridCell *c        = mGrid.cell(i);
-	  mVindex[i]         = 0;
+          GridCell *c        = mGrid.cell(i);
+          mVindex[i]         = 0;
 
-	  // Find clusters of disease:
-	  double sick = c->pvGet(eFractionInfected) * c->pvfGet(ePopulation);
-	  mVw[i]     = sick;
-	  total     += sick;
+          // Find clusters of disease:
+          double sick = c->pvGet(eFractionInfected) * c->pvfGet(ePopulation);
+          mVw[i]     = sick;
+          total     += sick;
      }
-     //	Public health is a severe problem if more than 20 people have cholera:
+     //        Public health is a severe problem if more than 20 people have cholera:
      return (total > 20.0);
 }
 
@@ -531,23 +531,23 @@ bool HealthAgency::severeProblem()
  */
 bool PoliceAgency::severeProblem()
 {
-     //	Find clusters of violence, weighted by log10( population ).
+     //        Find clusters of violence, weighted by log10( population ).
      double maximum = 0.0;
      for (int i = 0; i < mGrid.active(); i++) {
-	  GridCell *c        = mGrid.cell(i);
-	  mVindex[i]         = 0;
+          GridCell *c        = mGrid.cell(i);
+          mVindex[i]         = 0;
 
-	  double violence   = 0.0;
-	  for (int j = 1; j < mGrid.factions() + 1; j++) {
-	       double pop = c->pvfGet(ePopulation, j);
-	       if (pop > 1.0) {
-		    violence += 0.01 * c->pvfGet(eViolence, j) * log10(pop);
-	       }
-	  }
-	  mVw[i] = violence;
-	  maximum = max(maximum, violence);
+          double violence   = 0.0;
+          for (int j = 1; j < mGrid.factions() + 1; j++) {
+               double pop = c->pvfGet(ePopulation, j);
+               if (pop > 1.0) {
+                    violence += 0.01 * c->pvfGet(eViolence, j) * log10(pop);
+               }
+          }
+          mVw[i] = violence;
+          maximum = max(maximum, violence);
      }
-     //	Overall violence is "severe" if any cell > 1.0.
+     //        Overall violence is "severe" if any cell > 1.0.
      return (maximum > 1.0);
 }
 
@@ -560,7 +560,7 @@ bool PoliceAgency::severeProblem()
 void PoliceAgency::setTeamsGoals()
 {
      if (severeProblem()) {
-	  orderTeamsToClusters(mNumTeams, 0);
+          orderTeamsToClusters(mNumTeams, 0);
      }
 }
 
@@ -586,26 +586,26 @@ bool CustomAgency::severeProblem()
 void CustomAgency::setTeamsGoals()
 {
      if (severeProblem()) {
-	  orderTeamsToClusters(mNumTeams, 0);
+          orderTeamsToClusters(mNumTeams, 0);
      }
 }
 
 void CustomAgency::act(Time now)
 {
      for (int i = 0; i < mNumTeams; i++) {
-	  AgencyTeam& team = *mTeams[i];
-	  if (!team.deployed() && now >= team.getDeployTime()) {
-	       team.deploy();
-	  }
-	  if (!team.departed() && now >= team.getDepartTime()) {
-	       team.depart();
-	  }
+          AgencyTeam& team = *mTeams[i];
+          if (!team.deployed() && now >= team.getDeployTime()) {
+               team.deploy();
+          }
+          if (!team.departed() && now >= team.getDepartTime()) {
+               team.depart();
+          }
      }
 
      for (int i = 0; i < mNumTeams; i++) {
-	  AgencyTeam &team = *mTeams[i];
-	  if (team.present() && now >= team.startTime()) {
-	       team.act(now);
-	  }
+          AgencyTeam &team = *mTeams[i];
+          if (team.present() && now >= team.startTime()) {
+               team.act(now);
+          }
      }
 }

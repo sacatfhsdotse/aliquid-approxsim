@@ -1,4 +1,4 @@
-// 	$Id: PassFilter.java,v 1.3 2006/03/22 14:30:50 dah Exp $
+//         $Id: PassFilter.java,v 1.3 2006/03/22 14:30:50 dah Exp $
 /*
  * @(#)Passfilter.java
  */
@@ -20,8 +20,8 @@ public class PassFilter extends StratmasObjectFilter
      * Creates a new PassFilter allowing everything
      */
     public PassFilter()
-    {	
-	super();
+    {        
+        super();
     }
 
     /**
@@ -31,6 +31,6 @@ public class PassFilter extends StratmasObjectFilter
      */
     public boolean pass(StratmasObject sObj)
     {
-	return applyInverted(true);
+        return applyInverted(true);
     }
 }

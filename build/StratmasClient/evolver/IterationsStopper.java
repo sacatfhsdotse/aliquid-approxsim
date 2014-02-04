@@ -1,4 +1,4 @@
-// 	$Id: IterationsStopper.java,v 1.1 2005/11/01 16:50:47 dah Exp $
+//         $Id: IterationsStopper.java,v 1.1 2005/11/01 16:50:47 dah Exp $
 /*
  * @(#)IterationsStopper.java
  */
@@ -27,7 +27,7 @@ abstract public class IterationsStopper implements Stopper
      */
     IterationsStopper(int minIterations)
     {
-	this.minIterations = minIterations;
+        this.minIterations = minIterations;
     }
 
     /**
@@ -35,7 +35,7 @@ abstract public class IterationsStopper implements Stopper
      */
     public int getMinIterations()
     {
-	return this.minIterations;
+        return this.minIterations;
     }
     
     /**
@@ -45,7 +45,7 @@ abstract public class IterationsStopper implements Stopper
      */
     public boolean isFinished (Object o)
     {
-	return getIterations(o) >= getMinIterations();
+        return getIterations(o) >= getMinIterations();
     }
 
     /**

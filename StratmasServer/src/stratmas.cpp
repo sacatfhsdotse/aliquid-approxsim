@@ -53,34 +53,34 @@ int main(int argc, char **argv)
 
      Server *server;
      server = new Server(Environment::getServerPort(), 
-			 Environment::getServerAddress(), 
-			 Environment::getClientValidator());
+                         Environment::getServerAddress(), 
+                         Environment::getClientValidator());
      
      if (Environment::getUseDispatcher()) {
-	  Registrator registrator(Environment::getDispatcherHost(),
-				  Environment::getDispatcherPort(),
-				  Environment::getServerAddress(),
-				  Environment::getServerPort());
-	  if (!registrator.registerServer()) {
-	       slog << "Unable to register with dispatcher at " 
-		    << Environment::getDispatcherHost() << ":" 
-		    << Environment::getDispatcherPort() << logEnd;
-	       exit(1);
-	  } else {
-	       debug("Registered with dispatcher at "
-		     << Environment::getDispatcherHost() << ":" 
-		     << Environment::getDispatcherPort());
+          Registrator registrator(Environment::getDispatcherHost(),
+                                  Environment::getDispatcherPort(),
+                                  Environment::getServerAddress(),
+                                  Environment::getServerPort());
+          if (!registrator.registerServer()) {
+               slog << "Unable to register with dispatcher at " 
+                    << Environment::getDispatcherHost() << ":" 
+                    << Environment::getDispatcherPort() << logEnd;
+               exit(1);
+          } else {
+               debug("Registered with dispatcher at "
+                     << Environment::getDispatcherHost() << ":" 
+                     << Environment::getDispatcherPort());
 
-	  }
+          }
      }
      
      // Run server.
      try {
-	  server->start();
+          server->start();
      }
      catch (...) {
-	  slog << "Server caught fatal exception. Shutting down..." 
-	       << logEnd;
+          slog << "Server caught fatal exception. Shutting down..." 
+               << logEnd;
      }
      
      return 0;

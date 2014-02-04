@@ -1,4 +1,4 @@
-// 	$Id: StratmasObjectImpl.java,v 1.6 2006/07/31 10:18:45 alexius Exp $
+//         $Id: StratmasObjectImpl.java,v 1.6 2006/07/31 10:18:45 alexius Exp $
 /*
  * @(#)StratmasObject.java
  */
@@ -71,7 +71,7 @@ abstract class StratmasObjectImpl extends StratmasObject
      */
     StratmasObjectImpl(String identifier)
     {
-	this.identifier = identifier;
+        this.identifier = identifier;
     }
     
     /**
@@ -81,7 +81,7 @@ abstract class StratmasObjectImpl extends StratmasObject
      */
     StratmasObjectImpl(Declaration declaration)
     {
-	this(declaration.getName());
+        this(declaration.getName());
     }
 
     /**
@@ -89,7 +89,7 @@ abstract class StratmasObjectImpl extends StratmasObject
      */
     public StratmasObject getParent()
     {
-	return this.parent;
+        return this.parent;
     }
     
     /**
@@ -97,7 +97,7 @@ abstract class StratmasObjectImpl extends StratmasObject
      */
     public String getIdentifier()
     {
-	return this.identifier;
+        return this.identifier;
     }
 
     /**
@@ -107,12 +107,12 @@ abstract class StratmasObjectImpl extends StratmasObject
      */
     public void setIdentifier(String identifier)
     {
-	String oldIdentifier = getIdentifier();
-	this.identifier = identifier;
-	if (getParent() instanceof StratmasList) {
-	     ((StratmasList)getParent()).childIdentifierChange(oldIdentifier, identifier);
-	}
-	fireIdentifierChanged(oldIdentifier, null);
+        String oldIdentifier = getIdentifier();
+        this.identifier = identifier;
+        if (getParent() instanceof StratmasList) {
+             ((StratmasList)getParent()).childIdentifierChange(oldIdentifier, identifier);
+        }
+        fireIdentifierChanged(oldIdentifier, null);
     }
 
     /**
@@ -122,12 +122,12 @@ abstract class StratmasObjectImpl extends StratmasObject
      */
     protected void setParent(StratmasObject parent)
     {
-	if (this.parent == null) {
-	    this.parent = parent;
-	    StratmasObjectFactory.attached(this);
-	} else {
-	    this.parent = parent;
-	}
+        if (this.parent == null) {
+            this.parent = parent;
+            StratmasObjectFactory.attached(this);
+        } else {
+            this.parent = parent;
+        }
     }
 
     /**
@@ -135,7 +135,7 @@ abstract class StratmasObjectImpl extends StratmasObject
      */
     protected EventListenerList getEventListenerList()
     {
-	return this.eventListenerList;
+        return this.eventListenerList;
     }
     
     /**
@@ -143,12 +143,12 @@ abstract class StratmasObjectImpl extends StratmasObject
      */
     protected Object[] getListenerList()
     {
-	EventListenerList e = getEventListenerList();
-	if (e == null) {
-	    return EMPTY_LIST;
-	} else {
-	    return e.getListenerList();
-	}
+        EventListenerList e = getEventListenerList();
+        if (e == null) {
+            return EMPTY_LIST;
+        } else {
+            return e.getListenerList();
+        }
     }
 
     /**
@@ -158,10 +158,10 @@ abstract class StratmasObjectImpl extends StratmasObject
      */
     public void addEventListener(StratmasEventListener listener)
     {
-	if (getEventListenerList() == null) {
-	    this.eventListenerList = new EventListenerList();
-	}
-	this.getEventListenerList().add(listener.getClass(), listener);
+        if (getEventListenerList() == null) {
+            this.eventListenerList = new EventListenerList();
+        }
+        this.getEventListenerList().add(listener.getClass(), listener);
     }
 
     /**
@@ -171,9 +171,9 @@ abstract class StratmasObjectImpl extends StratmasObject
      */
     public void removeEventListener(StratmasEventListener listener)
     {
-	if (getEventListenerList() != null) {
-	    this.getEventListenerList().remove(listener.getClass(), listener);
-	}
+        if (getEventListenerList() != null) {
+            this.getEventListenerList().remove(listener.getClass(), listener);
+        }
     }
 
     /**
@@ -184,14 +184,14 @@ abstract class StratmasObjectImpl extends StratmasObject
      */
     public void fireRemoved(Object initiator) 
     {
-	// Guaranteed to return a non-null array
-	Object[] listeners = getListenerList();
-	if (listeners.length > 0) {
-	    StratmasEvent event = StratmasEvent.getRemoved(this, initiator);
-	    for (int i = listeners.length - 2; i >= 0; i -= 2) {
-		((StratmasEventListener) listeners[i + 1]).eventOccured(event);
-	    }
-	}
+        // Guaranteed to return a non-null array
+        Object[] listeners = getListenerList();
+        if (listeners.length > 0) {
+            StratmasEvent event = StratmasEvent.getRemoved(this, initiator);
+            for (int i = listeners.length - 2; i >= 0; i -= 2) {
+                ((StratmasEventListener) listeners[i + 1]).eventOccured(event);
+            }
+        }
     }
     
     /**
@@ -199,20 +199,20 @@ abstract class StratmasObjectImpl extends StratmasObject
      */
     public void fireSelected(boolean selected) 
     {
-	// Guaranteed to return a non-null array
-	Object[] listeners = getListenerList();
-	if (listeners.length > 0) {
-	    StratmasEvent event;
-	    if (selected) {
-		event = StratmasEvent.getSelected(this);
-	    }
-	    else {
-		event = StratmasEvent.getUnselected(this);
-	    } 
-	    for (int i = listeners.length - 2; i >= 0; i -= 2) {
-		((StratmasEventListener) listeners[i + 1]).eventOccured(event);
-	    }
-	}
+        // Guaranteed to return a non-null array
+        Object[] listeners = getListenerList();
+        if (listeners.length > 0) {
+            StratmasEvent event;
+            if (selected) {
+                event = StratmasEvent.getSelected(this);
+            }
+            else {
+                event = StratmasEvent.getUnselected(this);
+            } 
+            for (int i = listeners.length - 2; i >= 0; i -= 2) {
+                ((StratmasEventListener) listeners[i + 1]).eventOccured(event);
+            }
+        }
     }
 
     /**
@@ -223,14 +223,14 @@ abstract class StratmasObjectImpl extends StratmasObject
      */
     protected void fireIdentifierChanged(String oldIdentifier, Object initiator)
     {
-	// Guaranteed to return a non-null array
-	Object[] listeners = getListenerList();
-	if (listeners.length > 0) {
-	    StratmasEvent event = StratmasEvent.getIdentifierChanged(this, oldIdentifier);
-	    for (int i = listeners.length - 2; i >= 0; i -= 2) {
-		((StratmasEventListener) listeners[i + 1]).eventOccured(event);
-	    }
-	}
+        // Guaranteed to return a non-null array
+        Object[] listeners = getListenerList();
+        if (listeners.length > 0) {
+            StratmasEvent event = StratmasEvent.getIdentifierChanged(this, oldIdentifier);
+            for (int i = listeners.length - 2; i >= 0; i -= 2) {
+                ((StratmasEventListener) listeners[i + 1]).eventOccured(event);
+            }
+        }
     }
 
     /**
@@ -240,17 +240,17 @@ abstract class StratmasObjectImpl extends StratmasObject
      */
     public void fireChildChanged(StratmasObject changed, Object initiator)
     {
-	// Notify listeners about changed child.
-	
-	// Guaranteed to return a non-null array
-	Object[] listeners = getListenerList();
-	if (listeners.length > 0) {
-	    StratmasEvent event = StratmasEvent.getChildChanged(this, initiator, changed);
-	    
-	    for (int i = listeners.length - 2; i >= 0; i -= 2) {
-		((StratmasEventListener) listeners[i + 1]).eventOccured(event);
-	    }
-	}
+        // Notify listeners about changed child.
+        
+        // Guaranteed to return a non-null array
+        Object[] listeners = getListenerList();
+        if (listeners.length > 0) {
+            StratmasEvent event = StratmasEvent.getChildChanged(this, initiator, changed);
+            
+            for (int i = listeners.length - 2; i >= 0; i -= 2) {
+                ((StratmasEventListener) listeners[i + 1]).eventOccured(event);
+            }
+        }
     }
 
     /**
@@ -262,19 +262,19 @@ abstract class StratmasObjectImpl extends StratmasObject
      */
     public void fireObjectAdded(StratmasObject added, Object initiator)
     {
-	// Guaranteed to return a non-null array
-	Object[] listeners = getListenerList();
-	if (listeners.length > 0) {
-	    // Notify listeners about added object.
-	    StratmasEvent event = StratmasEvent.getObjectAdded(this, added, initiator);
-	    for (int i = listeners.length - 2; i >= 0; i -= 2) {
-		((StratmasEventListener) listeners[i + 1]).eventOccured(event);
-	    }
-	}
-	// Tell our parent that we have changed.
-	if(getParent() != null) {
-	    getParent().childChanged(this, null);
-	}
+        // Guaranteed to return a non-null array
+        Object[] listeners = getListenerList();
+        if (listeners.length > 0) {
+            // Notify listeners about added object.
+            StratmasEvent event = StratmasEvent.getObjectAdded(this, added, initiator);
+            for (int i = listeners.length - 2; i >= 0; i -= 2) {
+                ((StratmasEventListener) listeners[i + 1]).eventOccured(event);
+            }
+        }
+        // Tell our parent that we have changed.
+        if(getParent() != null) {
+            getParent().childChanged(this, null);
+        }
     }
 
     /**
@@ -287,10 +287,10 @@ abstract class StratmasObjectImpl extends StratmasObject
      */
     public void replace(StratmasObject toReplaceWith, Object initiator) 
     {
-	if (getParent() != null) {
-	    getParent().replaceChild(this, toReplaceWith, initiator);
-	}
-	fireReplaced(toReplaceWith, initiator);
+        if (getParent() != null) {
+            getParent().replaceChild(this, toReplaceWith, initiator);
+        }
+        fireReplaced(toReplaceWith, initiator);
     }
      
 //     /**
@@ -298,164 +298,164 @@ abstract class StratmasObjectImpl extends StratmasObject
 //      */
 //     public Vector getActions()
 //     {
-// 	Vector res = new Vector();
-	
-// 	final StratmasObject self = this;
-	
-// 	StratmasAbstractAction deleteAction = 
-// 	    new StratmasAbstractAction("Delete", true)
-// 	    {
-// 		public void actionPerformed(ActionEvent e)
-// 		{
-// 		    remove();
-// 		}
-// 	    };
-// 	deleteAction.setEnabled(false);
-	
-// 	if (this.getParent() != null && 
-// 	    (this.getParent() instanceof StratmasList ||
-// 	    (getDeclaration() != null && 
-// 	     getDeclaration().getMinOccurs() == 0))) {
-// 	    if (this.getParent() instanceof StratmasList) {
-// 		StratmasList list = (StratmasList) this.getParent();
-// 		if (list.getDeclaration() != null) {
-// 		    if((list.getChildCount() - 1) >= list.getDeclaration().getMinOccurs()) {
-// 			deleteAction.setEnabled(true);
-// 		    }
-// 		    else {
-// 			deleteAction.setEnabled(false);
-// 		    }
-// 		}
-// 		else {
-// 		    deleteAction.setEnabled(true);
-// 		}
-// 	    }
-// 	    else {
-// 		deleteAction.setEnabled(true);
-// 	    }
-// 	}
-// 	res.add(deleteAction);
+//         Vector res = new Vector();
+        
+//         final StratmasObject self = this;
+        
+//         StratmasAbstractAction deleteAction = 
+//             new StratmasAbstractAction("Delete", true)
+//             {
+//                 public void actionPerformed(ActionEvent e)
+//                 {
+//                     remove();
+//                 }
+//             };
+//         deleteAction.setEnabled(false);
+        
+//         if (this.getParent() != null && 
+//             (this.getParent() instanceof StratmasList ||
+//             (getDeclaration() != null && 
+//              getDeclaration().getMinOccurs() == 0))) {
+//             if (this.getParent() instanceof StratmasList) {
+//                 StratmasList list = (StratmasList) this.getParent();
+//                 if (list.getDeclaration() != null) {
+//                     if((list.getChildCount() - 1) >= list.getDeclaration().getMinOccurs()) {
+//                         deleteAction.setEnabled(true);
+//                     }
+//                     else {
+//                         deleteAction.setEnabled(false);
+//                     }
+//                 }
+//                 else {
+//                     deleteAction.setEnabled(true);
+//                 }
+//             }
+//             else {
+//                 deleteAction.setEnabled(true);
+//             }
+//         }
+//         res.add(deleteAction);
 
-// 	res.add(new StratmasAbstractAction("Save as", false)
-// 	    {
-// 		public void actionPerformed(ActionEvent e)
-// 		    {
-// 			Client.exportToFile(self);
-// 		    }
+//         res.add(new StratmasAbstractAction("Save as", false)
+//             {
+//                 public void actionPerformed(ActionEvent e)
+//                     {
+//                         Client.exportToFile(self);
+//                     }
 
-// 	    });
+//             });
 
-	
-// 	if (!(this instanceof StratmasList) && 
-// 	    getType().getAnnotations() != null &&
-// 	    getType().getAnnotations().length != 0) {
-// 	    res.add(new StratmasAbstractAction("Whats this?", false)
-// 		{
-// 		    public void actionPerformed(ActionEvent e)
-// 		    {
-// 			StringBuffer buf = new StringBuffer();
-// 			Type type = self.getType();
-// 			Type walker = type;
-// 			while (walker != null && 
-// 			       !walker.getBaseType().getName().equals("anyType")) {
-// 			    if (walker.getAnnotations() != null) {
-// 				String[] annotations = 
-// 				    walker.getAnnotations();			    
-// 				for (int i = 0; i < annotations.length; i++) {
-// 				    if (annotations[i].length() != 0) {
-// 					buf.insert(0, annotations[i] + "\n");
-// 				    }
-// 				}				
-// 			    }
-// 			    walker = walker.getBaseType();
-// 			}
-			
-// 			String annotation = buf.toString().replaceAll("<.*>\\s*", "");
+        
+//         if (!(this instanceof StratmasList) && 
+//             getType().getAnnotations() != null &&
+//             getType().getAnnotations().length != 0) {
+//             res.add(new StratmasAbstractAction("Whats this?", false)
+//                 {
+//                     public void actionPerformed(ActionEvent e)
+//                     {
+//                         StringBuffer buf = new StringBuffer();
+//                         Type type = self.getType();
+//                         Type walker = type;
+//                         while (walker != null && 
+//                                !walker.getBaseType().getName().equals("anyType")) {
+//                             if (walker.getAnnotations() != null) {
+//                                 String[] annotations = 
+//                                     walker.getAnnotations();                            
+//                                 for (int i = 0; i < annotations.length; i++) {
+//                                     if (annotations[i].length() != 0) {
+//                                         buf.insert(0, annotations[i] + "\n");
+//                                     }
+//                                 }                                
+//                             }
+//                             walker = walker.getBaseType();
+//                         }
+                        
+//                         String annotation = buf.toString().replaceAll("<.*>\\s*", "");
 
-// 			javax.swing.JOptionPane.showMessageDialog(null, annotation, 
-// 						      self.getType().toString(), 
-// 						      javax.swing.JOptionPane.INFORMATION_MESSAGE);
-// 		    }
-// 		});
-// 	}
-	
-// 	return res;
+//                         javax.swing.JOptionPane.showMessageDialog(null, annotation, 
+//                                                       self.getType().toString(), 
+//                                                       javax.swing.JOptionPane.INFORMATION_MESSAGE);
+//                     }
+//                 });
+//         }
+        
+//         return res;
 //     }
     
     /**
      * Returns actions associated with this object
      */
     public ActionGroup getActionGroup() {
-	ActionGroup ag = new ActionGroup("Actions for " + getIdentifier(), false, true);
-	
-	final StratmasObject self = this;
-	
-	ActionGroup deleteAction = new ActionGroup("Delete", true, false) {
-		public void actionPerformed(ActionEvent e) {
-		    remove();
-		}
-	    };
-	deleteAction.setEnabled(false);
-	
-	if (this.getParent() != null && 
-	    (this.getParent() instanceof StratmasList ||
-	    (getDeclaration() != null && 
-	     getDeclaration().getMinOccurs() == 0))) {
-	    if (this.getParent() instanceof StratmasList) {
-		StratmasList list = (StratmasList) this.getParent();
-		if (list.getDeclaration() != null) {
-		    if((list.getChildCount() - 1) >= list.getDeclaration().getMinOccurs()) {
-			deleteAction.setEnabled(true);
-		    }
-		    else {
-			deleteAction.setEnabled(false);
-		    }
-		}
-		else {
-		    deleteAction.setEnabled(true);
-		}
-	    }
-	    else {
-		deleteAction.setEnabled(true);
-	    }
-	}
-	ag.add(deleteAction);
+        ActionGroup ag = new ActionGroup("Actions for " + getIdentifier(), false, true);
+        
+        final StratmasObject self = this;
+        
+        ActionGroup deleteAction = new ActionGroup("Delete", true, false) {
+                public void actionPerformed(ActionEvent e) {
+                    remove();
+                }
+            };
+        deleteAction.setEnabled(false);
+        
+        if (this.getParent() != null && 
+            (this.getParent() instanceof StratmasList ||
+            (getDeclaration() != null && 
+             getDeclaration().getMinOccurs() == 0))) {
+            if (this.getParent() instanceof StratmasList) {
+                StratmasList list = (StratmasList) this.getParent();
+                if (list.getDeclaration() != null) {
+                    if((list.getChildCount() - 1) >= list.getDeclaration().getMinOccurs()) {
+                        deleteAction.setEnabled(true);
+                    }
+                    else {
+                        deleteAction.setEnabled(false);
+                    }
+                }
+                else {
+                    deleteAction.setEnabled(true);
+                }
+            }
+            else {
+                deleteAction.setEnabled(true);
+            }
+        }
+        ag.add(deleteAction);
 
-	ag.add(new ActionGroup("Save as", false, false) {
-		public void actionPerformed(ActionEvent e) {
-		    Client.exportToFile(self);
-		}
-	    });
-	
-	if (!(this instanceof StratmasList) && 
-	    getType().getAnnotations() != null &&
-	    getType().getAnnotations().length != 0) {
-	    ag.add(new ActionGroup("Whats this?", false, false) {
-		    public void actionPerformed(ActionEvent e) {
-			StringBuffer buf = new StringBuffer();
-			Type type = self.getType();
-			Type walker = type;
-			while (walker != null && !walker.getBaseType().getName().equals("anyType")) {
-			    if (walker.getAnnotations() != null) {
-				String[] annotations =  walker.getAnnotations();			    
-				for (int i = 0; i < annotations.length; i++) {
-				    if (annotations[i].length() != 0) {
-					buf.insert(0, annotations[i] + "\n");
-				    }
-				}				
-			    }
-			    walker = walker.getBaseType();
-			}
-			
-			String annotation = buf.toString().replaceAll("<.*>\\s*", "");
+        ag.add(new ActionGroup("Save as", false, false) {
+                public void actionPerformed(ActionEvent e) {
+                    Client.exportToFile(self);
+                }
+            });
+        
+        if (!(this instanceof StratmasList) && 
+            getType().getAnnotations() != null &&
+            getType().getAnnotations().length != 0) {
+            ag.add(new ActionGroup("Whats this?", false, false) {
+                    public void actionPerformed(ActionEvent e) {
+                        StringBuffer buf = new StringBuffer();
+                        Type type = self.getType();
+                        Type walker = type;
+                        while (walker != null && !walker.getBaseType().getName().equals("anyType")) {
+                            if (walker.getAnnotations() != null) {
+                                String[] annotations =  walker.getAnnotations();                            
+                                for (int i = 0; i < annotations.length; i++) {
+                                    if (annotations[i].length() != 0) {
+                                        buf.insert(0, annotations[i] + "\n");
+                                    }
+                                }                                
+                            }
+                            walker = walker.getBaseType();
+                        }
+                        
+                        String annotation = buf.toString().replaceAll("<.*>\\s*", "");
 
-			javax.swing.JOptionPane.showMessageDialog(null, annotation, 
-								  self.getType().toString(), 
-								  javax.swing.JOptionPane.INFORMATION_MESSAGE);
-		    }
-		});
-	}
-	return ag;
+                        javax.swing.JOptionPane.showMessageDialog(null, annotation, 
+                                                                  self.getType().toString(), 
+                                                                  javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                    }
+                });
+        }
+        return ag;
     }
 
     /**
@@ -464,13 +464,13 @@ abstract class StratmasObjectImpl extends StratmasObject
      */
     protected void fireReplaced(StratmasObject newObj, Object initiator) 
     {
-	// Guaranteed to return a non-null array
-	Object[] listeners = getListenerList();
-	if (listeners.length > 0) {
-	    StratmasEvent event = StratmasEvent.getReplaced(this, initiator, newObj);
-	    for (int i = listeners.length - 2; i >= 0; i -= 2) {
-		((StratmasEventListener) listeners[i + 1]).eventOccured(event);
-	    }
-	}
+        // Guaranteed to return a non-null array
+        Object[] listeners = getListenerList();
+        if (listeners.length > 0) {
+            StratmasEvent event = StratmasEvent.getReplaced(this, initiator, newObj);
+            for (int i = listeners.length - 2; i >= 0; i -= 2) {
+                ((StratmasEventListener) listeners[i + 1]).eventOccured(event);
+            }
+        }
     }
 }

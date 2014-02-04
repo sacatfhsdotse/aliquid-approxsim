@@ -113,19 +113,19 @@ public class GridLayer implements StratmasEventListener {
      * @param gridData the grid information.
      */
     public GridLayer(StratMap stratmap, Region region, GridData gridData) {
-	// set references
-	this.stratmap = stratmap;
-	this.region   = region;
-	this.gridData = gridData;
-	
-	// number of RENDER_SELECTION_NAMES needed by the grid
-	NR_RENDER_SELECTION_NAMES = gridData.getRows()*gridData.getCols()+1;
+        // set references
+        this.stratmap = stratmap;
+        this.region   = region;
+        this.gridData = gridData;
+        
+        // number of RENDER_SELECTION_NAMES needed by the grid
+        NR_RENDER_SELECTION_NAMES = gridData.getRows()*gridData.getCols()+1;
 
-	// initialize the list of active cells
-	activeCells = new boolean[gridData.getNrOfActiveCells()];
-	
-	// allocate array for cell values
-	cellValues = new double[gridData.getNrOfActiveCells()];
+        // initialize the list of active cells
+        activeCells = new boolean[gridData.getNrOfActiveCells()];
+        
+        // allocate array for cell values
+        cellValues = new double[gridData.getNrOfActiveCells()];
     }
 
     /**
@@ -134,7 +134,7 @@ public class GridLayer implements StratmasEventListener {
      * @param color_map the actual color map.
      */
     public void setColorMap(ColorMap color_map) {
-	this.color_map = color_map;
+        this.color_map = color_map;
     }
     
     /**
@@ -143,28 +143,28 @@ public class GridLayer implements StratmasEventListener {
      * @param renderSelectionName 
      */
     public void setRenderSelectionName(int renderSelectionName) {
-	this.renderSelectionName = renderSelectionName;
+        this.renderSelectionName = renderSelectionName;
     }
     
     /**
      * Returns the renderSelectionName of the grid.
      */
     public int getRenderSelectionName() {
-	return renderSelectionName;
+        return renderSelectionName;
     }
 
     /**
      * Returns the number of renderSelectionNames needed for the grid.
      */
     public int getNrOfRenderSelectionNames() {
-	return NR_RENDER_SELECTION_NAMES;
+        return NR_RENDER_SELECTION_NAMES;
     }
     
     /**
      * Returns true if the given name is the render selection name of the grid.
      */
     public boolean isRenderSelectionName(int name) {
-	return renderSelectionName == name;
+        return renderSelectionName == name;
     }
     
     /**
@@ -172,10 +172,10 @@ public class GridLayer implements StratmasEventListener {
      * cell in the grid.
      */
     public boolean isCellRenderSelectionName(int name) {
-	if (cellInfo == null || cellInfo.length == 0) {
-	    return false;
-	}
-	return (name > renderSelectionName && name <= cellInfo[cellInfo.length - 1].renderSelectionName); 
+        if (cellInfo == null || cellInfo.length == 0) {
+            return false;
+        }
+        return (name > renderSelectionName && name <= cellInfo[cellInfo.length - 1].renderSelectionName); 
     }
     
     /**
@@ -184,83 +184,83 @@ public class GridLayer implements StratmasEventListener {
      * @param e the event causing the changes.
      */
     public synchronized void eventOccured(StratmasEvent e) {
-	// update the grid values
-	if (e.getSource() instanceof LayerData) {
-	    // indicates that the data values are valid
-	    dataValid = true;
-	    // update actual process variable, faction and timestamp
-	    pvd = ((LayerData)e.getSource()).getProcessVariableDescription();
-	    faction = ((LayerData)e.getSource()).getFaction();
-	    timestamp = ((LayerData)e.getSource()).getTimestamp();
-	    // update the color map with the new process variable
-	    color_map.setProcessVariable(pvd);
-	    // update the color map with the new values
-	    color_map.updateGridData(cellValues);
-	    // notify all listeners
-	    notifyListeners(StratmasEvent.getGridUpdated(this));
-	}
-	// update the grid
-	else if (e.isRegionUpdated()) {
-	    // update the active cells in the grid
-	    updateActiveCells();
-	    if (dataValid && stratmap.getClient().isConnected()) {
-		// update the color map with the new values
-		color_map.updateGridData(cellValues);
-		// notify all listeners
-		notifyListeners(StratmasEvent.getGridUpdated(this));
-	    }
-	}
+        // update the grid values
+        if (e.getSource() instanceof LayerData) {
+            // indicates that the data values are valid
+            dataValid = true;
+            // update actual process variable, faction and timestamp
+            pvd = ((LayerData)e.getSource()).getProcessVariableDescription();
+            faction = ((LayerData)e.getSource()).getFaction();
+            timestamp = ((LayerData)e.getSource()).getTimestamp();
+            // update the color map with the new process variable
+            color_map.setProcessVariable(pvd);
+            // update the color map with the new values
+            color_map.updateGridData(cellValues);
+            // notify all listeners
+            notifyListeners(StratmasEvent.getGridUpdated(this));
+        }
+        // update the grid
+        else if (e.isRegionUpdated()) {
+            // update the active cells in the grid
+            updateActiveCells();
+            if (dataValid && stratmap.getClient().isConnected()) {
+                // update the color map with the new values
+                color_map.updateGridData(cellValues);
+                // notify all listeners
+                notifyListeners(StratmasEvent.getGridUpdated(this));
+            }
+        }
     }
     
     /**
      * Updates the list of active cells in the grid.
      */
     public void updateActiveCells() {
-	// set all values to false
+        // set all values to false
         for (int i = 0; i < activeCells.length; i++) {
-	    activeCells[i] = false;
-	}
-	// do update
-	nrOfActiveCells = 0;
-	for (Enumeration e = region.getShapes().elements(); e.hasMoreElements();) {
-	    Shape shape = (Shape)e.nextElement();
-	    // get list of simle shapes
-	    Vector simpleShapes = shape.constructSimpleShapes(new Vector());
-	    for (Enumeration en = simpleShapes.elements(); en.hasMoreElements();) {
-		SimpleShape ssh = (SimpleShape)en.nextElement();
-		int[] indices = gridData.getCellsForRegion(ssh.getReference());
-		if (indices != null) {
-		    for (int j = 0; j < indices.length; j++) {
-			if (activeCells[indices[j]] == false) {
-			    activeCells[indices[j]] = true;
-			    nrOfActiveCells++;
-			}
-		    }
-		}
-	    }
-	}
-	// update the information about the displayed cells	
-	cellInfo = new Cell[nrOfActiveCells];
-	int activeCellCounter = 0;
-	int displayedCellCounter = 0;
-	for (int i = 0; i < gridData.getActiveCells().length; i++) {
-	    // only if all active region cells are not drawn
-	    if (displayedCellCounter < nrOfActiveCells) {
-		boolean activeInGrid   = ((int)(gridData.getActiveCells()[i]) == 1);
-		boolean activeInRegion = activeCells[activeCellCounter];
-		// update the counter
-		activeCellCounter = (activeInGrid)? activeCellCounter + 1 : activeCellCounter;
-		// active cells only
-		if (activeInGrid && activeInRegion) {
-		    Cell cell = new Cell();
-		    cell.cellPos = i;
-		    cell.activeCellPos = activeCellCounter - 1;
-		    cell.renderSelectionName = getRenderSelectionName() + 1 + displayedCellCounter;
-		    cellInfo[displayedCellCounter] = cell;
-		    displayedCellCounter++;
-		}
-	    }
-	}
+            activeCells[i] = false;
+        }
+        // do update
+        nrOfActiveCells = 0;
+        for (Enumeration e = region.getShapes().elements(); e.hasMoreElements();) {
+            Shape shape = (Shape)e.nextElement();
+            // get list of simle shapes
+            Vector simpleShapes = shape.constructSimpleShapes(new Vector());
+            for (Enumeration en = simpleShapes.elements(); en.hasMoreElements();) {
+                SimpleShape ssh = (SimpleShape)en.nextElement();
+                int[] indices = gridData.getCellsForRegion(ssh.getReference());
+                if (indices != null) {
+                    for (int j = 0; j < indices.length; j++) {
+                        if (activeCells[indices[j]] == false) {
+                            activeCells[indices[j]] = true;
+                            nrOfActiveCells++;
+                        }
+                    }
+                }
+            }
+        }
+        // update the information about the displayed cells        
+        cellInfo = new Cell[nrOfActiveCells];
+        int activeCellCounter = 0;
+        int displayedCellCounter = 0;
+        for (int i = 0; i < gridData.getActiveCells().length; i++) {
+            // only if all active region cells are not drawn
+            if (displayedCellCounter < nrOfActiveCells) {
+                boolean activeInGrid   = ((int)(gridData.getActiveCells()[i]) == 1);
+                boolean activeInRegion = activeCells[activeCellCounter];
+                // update the counter
+                activeCellCounter = (activeInGrid)? activeCellCounter + 1 : activeCellCounter;
+                // active cells only
+                if (activeInGrid && activeInRegion) {
+                    Cell cell = new Cell();
+                    cell.cellPos = i;
+                    cell.activeCellPos = activeCellCounter - 1;
+                    cell.renderSelectionName = getRenderSelectionName() + 1 + displayedCellCounter;
+                    cellInfo[displayedCellCounter] = cell;
+                    displayedCellCounter++;
+                }
+            }
+        }
     }
 
     /**
@@ -271,29 +271,29 @@ public class GridLayer implements StratmasEventListener {
      * @return the avearge value for the cells.
      */
     public double getAverageValueForCells(Shape shape) {
-	// set all values to false
+        // set all values to false
         boolean[] tmpActiveCells = new boolean[activeCells.length];
-	for (int i = 0; i < tmpActiveCells.length; i++) {
-	    tmpActiveCells[i] = false;
-	}
-	double value  = 0;
-	int nrOfCells = 0;
-	// get list of simle shapes
-	Vector simpleShapes = shape.constructSimpleShapes(new Vector());
-	for (Enumeration en = simpleShapes.elements(); en.hasMoreElements();) {
-	    SimpleShape ssh = (SimpleShape)en.nextElement();
-	    int[] indices = gridData.getCellsForRegion(ssh.getReference());
-	    if (indices != null) {
-		for (int j = 0; j < indices.length; j++) {
-		    if (tmpActiveCells[indices[j]] == false) {
-			tmpActiveCells[indices[j]] = true;
-			value += cellValues[indices[j]];
-			nrOfCells++;
-		    }
-		}
-	    }
-	}
-	return (nrOfCells > 0)? value / nrOfCells : 0;
+        for (int i = 0; i < tmpActiveCells.length; i++) {
+            tmpActiveCells[i] = false;
+        }
+        double value  = 0;
+        int nrOfCells = 0;
+        // get list of simle shapes
+        Vector simpleShapes = shape.constructSimpleShapes(new Vector());
+        for (Enumeration en = simpleShapes.elements(); en.hasMoreElements();) {
+            SimpleShape ssh = (SimpleShape)en.nextElement();
+            int[] indices = gridData.getCellsForRegion(ssh.getReference());
+            if (indices != null) {
+                for (int j = 0; j < indices.length; j++) {
+                    if (tmpActiveCells[indices[j]] == false) {
+                        tmpActiveCells[indices[j]] = true;
+                        value += cellValues[indices[j]];
+                        nrOfCells++;
+                    }
+                }
+            }
+        }
+        return (nrOfCells > 0)? value / nrOfCells : 0;
     }
     
     /**
@@ -302,7 +302,7 @@ public class GridLayer implements StratmasEventListener {
      * @param listener the stratmas listener.
      */
     public void addListener(StratmasEventListener listener) {
-	listeners.add(listener);
+        listeners.add(listener);
     }
     
     /**
@@ -311,49 +311,49 @@ public class GridLayer implements StratmasEventListener {
      * @param se the stratmas event.
      */
     public void notifyListeners(StratmasEvent se) {
-	for(int i = 0; i < listeners.size(); i++) {
-	    ((StratmasEventListener)listeners.get(i)).eventOccured(se);
-	}
+        for(int i = 0; i < listeners.size(); i++) {
+            ((StratmasEventListener)listeners.get(i)).eventOccured(se);
+        }
     }
     
     /**
      * Remove all elements.
      */
     public void remove() {
-	listeners.removeAllElements();
-	
+        listeners.removeAllElements();
+        
     }
     
     /**
      * Resets the grid layer.
      */
     public void reset() {
-	dataValid = false;
-	for (int i = 0; i < cellValues.length; i++) {
-	    cellValues[i] = 0;
-	}
-	color_map.reset();
+        dataValid = false;
+        for (int i = 0; i < cellValues.length; i++) {
+            cellValues[i] = 0;
+        }
+        color_map.reset();
     }
     
     /**
      * Returns the actual process variable.
      */
     public ProcessVariableDescription getProcessVariable() {
-	return pvd;
+        return pvd;
     }
     
     /**
      * Returns the actual faction.
      */
     public Reference getFaction() {
-	return faction;
+        return faction;
     }
     
     /**
      * Returns the actual timestamp.
      */
     public Timestamp getTimestamp() {
-	return timestamp;
+        return timestamp;
     }
     
     /**
@@ -362,21 +362,21 @@ public class GridLayer implements StratmasEventListener {
      * @return values for grid cells.
      */
     public double[] getCellValues() {
-	return cellValues;
+        return cellValues;
     }
 
     /**
      * Returns the number of active cells in the grid.
      */
     public int getNrOfActiveCells() {
-	return nrOfActiveCells;
+        return nrOfActiveCells;
     }
 
     /**
      * Returns the list of displayed cells.
      */
     public Cell[] getCells() {
-	return cellInfo;
+        return cellInfo;
     }
     
     /**
@@ -387,14 +387,14 @@ public class GridLayer implements StratmasEventListener {
      * @return the cell with the given renderSelectionName.
      */
     public Cell getCell(int renderSelectionName) {
-	int i = 0;
-	while (i < cellInfo.length) {
-	    if (cellInfo[i].renderSelectionName == renderSelectionName) {
-		return cellInfo[i];
-	    }
-	    i++;
-	}
-	return null;
+        int i = 0;
+        while (i < cellInfo.length) {
+            if (cellInfo[i].renderSelectionName == renderSelectionName) {
+                return cellInfo[i];
+            }
+            i++;
+        }
+        return null;
     }
     
     /**
@@ -405,44 +405,44 @@ public class GridLayer implements StratmasEventListener {
      * @return the Shape of the cell.
      */
     public Shape getCellShape(Cell cell) {
-	// get cell positions
-	double[] pos = gridData.getCellPositions();
-	// get row and column of the cell
-	int row_nr = gridData.getRows();
-	int col_nr = gridData.getCols();
-	int row = cell.cellPos/col_nr;
-	int col = cell.cellPos%col_nr;
-	Point upper_left  = StratmasObjectFactory.createPoint("A", pos[2*(row*(col_nr+1)+col)], pos[2*(row*(col_nr+1)+col)+1]);
-	Point lower_left  = StratmasObjectFactory.createPoint("B", pos[2*((row+1)*(col_nr+1)+col)], pos[2*((row+1)*(col_nr+1)+col)+1]);
-	Point upper_right = StratmasObjectFactory.createPoint("C", pos[2*(row*(col_nr+1)+col+1)], pos[2*(row*(col_nr+1)+col+1)+1]);
-	Point lower_right = StratmasObjectFactory.createPoint("D", pos[2*((row+1)*(col_nr+1)+col+1)], pos[2*((row+1)*(col_nr+1)+col+1)+1]);
+        // get cell positions
+        double[] pos = gridData.getCellPositions();
+        // get row and column of the cell
+        int row_nr = gridData.getRows();
+        int col_nr = gridData.getCols();
+        int row = cell.cellPos/col_nr;
+        int col = cell.cellPos%col_nr;
+        Point upper_left  = StratmasObjectFactory.createPoint("A", pos[2*(row*(col_nr+1)+col)], pos[2*(row*(col_nr+1)+col)+1]);
+        Point lower_left  = StratmasObjectFactory.createPoint("B", pos[2*((row+1)*(col_nr+1)+col)], pos[2*((row+1)*(col_nr+1)+col)+1]);
+        Point upper_right = StratmasObjectFactory.createPoint("C", pos[2*(row*(col_nr+1)+col+1)], pos[2*(row*(col_nr+1)+col+1)+1]);
+        Point lower_right = StratmasObjectFactory.createPoint("D", pos[2*((row+1)*(col_nr+1)+col+1)], pos[2*((row+1)*(col_nr+1)+col+1)+1]);
 
-	// create lines
-	Vector lines = new Vector();
-	lines.add(StratmasObjectFactory.createLine("0", upper_left, 
-						   (Point) StratmasObjectFactory.cloneObject(upper_right)));
-	lines.add(StratmasObjectFactory.createLine("1", upper_right, 
-						   (Point) StratmasObjectFactory.cloneObject(lower_right)));
-	lines.add(StratmasObjectFactory.createLine("2", lower_right, 
-						   (Point) StratmasObjectFactory.cloneObject(lower_left)));
-	lines.add(StratmasObjectFactory.createLine("3", lower_left, 
-						   (Point) StratmasObjectFactory.cloneObject(upper_left)));
-	// create the identifier for the shape
-	double lon = (upper_right.getLon() + lower_left.getLon()) / 2;
-	double lat = (upper_right.getLat() + lower_left.getLat()) / 2;
-	String id;
-	if (Configuration.getCoordinateSystem() == Configuration.MGRS) {
-	    String mgrs = MGRSConversion.convertGeodeticToMGRS(Math.toRadians(lon), Math.toRadians(lat), 5);
-	    id = new String("Cell area located at MGRS = " + mgrs); 
-	}
-	else {
-	    DecimalFormat resultFormat = new DecimalFormat("0.00");
-	    String lats = resultFormat.format(lat);
-	    String lons = resultFormat.format(lon);
-	    id = new String("cell at lat = " + lats + MapConstants.DEGREE_SYMBOL + ", lon = " + lons + MapConstants.DEGREE_SYMBOL);
-	}
-	// return the polygonial shape
-	return StratmasObjectFactory.createPolygon(id, lines);
+        // create lines
+        Vector lines = new Vector();
+        lines.add(StratmasObjectFactory.createLine("0", upper_left, 
+                                                   (Point) StratmasObjectFactory.cloneObject(upper_right)));
+        lines.add(StratmasObjectFactory.createLine("1", upper_right, 
+                                                   (Point) StratmasObjectFactory.cloneObject(lower_right)));
+        lines.add(StratmasObjectFactory.createLine("2", lower_right, 
+                                                   (Point) StratmasObjectFactory.cloneObject(lower_left)));
+        lines.add(StratmasObjectFactory.createLine("3", lower_left, 
+                                                   (Point) StratmasObjectFactory.cloneObject(upper_left)));
+        // create the identifier for the shape
+        double lon = (upper_right.getLon() + lower_left.getLon()) / 2;
+        double lat = (upper_right.getLat() + lower_left.getLat()) / 2;
+        String id;
+        if (Configuration.getCoordinateSystem() == Configuration.MGRS) {
+            String mgrs = MGRSConversion.convertGeodeticToMGRS(Math.toRadians(lon), Math.toRadians(lat), 5);
+            id = new String("Cell area located at MGRS = " + mgrs); 
+        }
+        else {
+            DecimalFormat resultFormat = new DecimalFormat("0.00");
+            String lats = resultFormat.format(lat);
+            String lons = resultFormat.format(lon);
+            id = new String("cell at lat = " + lats + MapConstants.DEGREE_SYMBOL + ", lon = " + lons + MapConstants.DEGREE_SYMBOL);
+        }
+        // return the polygonial shape
+        return StratmasObjectFactory.createPolygon(id, lines);
     }
     
     /**
@@ -454,13 +454,13 @@ public class GridLayer implements StratmasEventListener {
      * @return the circle representing the cell.
      */
     public Shape getCircularCellRepresentation(Cell cell) {
-	// get the bounding box of the cell shape
-	Shape s = getCellShape(cell);
-	BoundingBox box = s.createBoundingBox();
-	double lonCenter = (box.getEastLon()+box.getWestLon())/2;
-	double latCenter = (box.getSouthLat()+box.getNorthLat())/2;	
-	// get the circle
-	return StratmasObjectFactory.createCircle(s.getIdentifier(), latCenter, lonCenter, 0.000001d);
+        // get the bounding box of the cell shape
+        Shape s = getCellShape(cell);
+        BoundingBox box = s.createBoundingBox();
+        double lonCenter = (box.getEastLon()+box.getWestLon())/2;
+        double latCenter = (box.getSouthLat()+box.getNorthLat())/2;        
+        // get the circle
+        return StratmasObjectFactory.createCircle(s.getIdentifier(), latCenter, lonCenter, 0.000001d);
     }
 
     /**
@@ -470,90 +470,90 @@ public class GridLayer implements StratmasEventListener {
      * @param gld the gl drawable targeted.
      */
     protected void updateDisplayList(Projection proj, GLAutoDrawable gld) {
-	GL gl = gld.getGL();
-	// update the display list
- 	displayList = (gl.glIsList(displayList)) ? displayList : gl.glGenLists(1);
-	gl.glNewList(displayList, GL.GL_COMPILE);
-	// shape display list
-	gl.glMatrixMode(GL.GL_MODELVIEW);
-	gl.glPushMatrix();
-	// Pushes the name for RenderSelection mode.	
-	gl.glPushName(getRenderSelectionName());
-	
-	// draw the cells of the grid
-	// the counter of the active cells that cover the actual region
-	int validCellCounter = 0;
-	// the counter of all the active cells in the grid  
-	int activeCellCounter = 0;
-	// get cell values
-	int[] grid_values = color_map.getScaledPV();
-	// get the actual color table
-	float[][] color_table = color_map.getColorTable();
-	if (grid_values != null) {
-	    // get number of rows and columns
-	    int row_nr = gridData.getRows();
-	    int col_nr = gridData.getCols();
-	    // get position for all the cells
-	    double[] pos = gridData.getCellPositions();
-	    // for each cell
-	    byte[] ind = gridData.getActiveCells();
-	    // for each cell in the grid
-	    for (int ii = 0; ii < cellInfo.length; ii++) { 
-		// get row and column of the cell
-		int row = cellInfo[ii].cellPos/col_nr;
-		int col = cellInfo[ii].cellPos%col_nr;
-		// get the points
-		double[] upper_left  = proj.projToXY(pos[2*(row*(col_nr+1)+col)+1], 
-						     pos[2*(row*(col_nr+1)+col)]);
-		double[] lower_left  = proj.projToXY(pos[2*((row+1)*(col_nr+1)+col)+1], 
-						     pos[2*((row+1)*(col_nr+1)+col)]);
-		double[] upper_right = proj.projToXY(pos[2*(row*(col_nr+1)+col+1)+1], 
-						     pos[2*(row*(col_nr+1)+col+1)]);
-		double[] lower_right = proj.projToXY(pos[2*((row+1)*(col_nr+1)+col+1)+1], 
-						     pos[2*((row+1)*(col_nr+1)+col+1)]);
-		// draw the cell
-		gl.glMatrixMode(GL.GL_MODELVIEW);
-		gl.glPushMatrix();
-		gl.glPushName(cellInfo[ii].renderSelectionName);
-		int col_ind = grid_values[cellInfo[ii].activeCellPos];
-		gl.glColor3f(color_table[col_ind][0], color_table[col_ind][1], color_table[col_ind][2]); 
-		gl.glBegin(GL.GL_POLYGON);
-		gl.glVertex2d(upper_left[0], upper_left[1]);
-		gl.glVertex2d(lower_left[0], lower_left[1]);
-		gl.glVertex2d(lower_right[0], lower_right[1]);
-		gl.glVertex2d(upper_right[0], upper_right[1]);
-		gl.glEnd();
-		gl.glPopName();
-		gl.glMatrixMode(GL.GL_MODELVIEW);
-		gl.glPopMatrix();
-	    }
-	}
-	gl.glPopName();
-	gl.glMatrixMode(GL.GL_MODELVIEW);
-	gl.glPopMatrix();
-	gl.glEndList();
-	displayListUpdated = true;
+        GL gl = gld.getGL();
+        // update the display list
+         displayList = (gl.glIsList(displayList)) ? displayList : gl.glGenLists(1);
+        gl.glNewList(displayList, GL.GL_COMPILE);
+        // shape display list
+        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glPushMatrix();
+        // Pushes the name for RenderSelection mode.        
+        gl.glPushName(getRenderSelectionName());
+        
+        // draw the cells of the grid
+        // the counter of the active cells that cover the actual region
+        int validCellCounter = 0;
+        // the counter of all the active cells in the grid  
+        int activeCellCounter = 0;
+        // get cell values
+        int[] grid_values = color_map.getScaledPV();
+        // get the actual color table
+        float[][] color_table = color_map.getColorTable();
+        if (grid_values != null) {
+            // get number of rows and columns
+            int row_nr = gridData.getRows();
+            int col_nr = gridData.getCols();
+            // get position for all the cells
+            double[] pos = gridData.getCellPositions();
+            // for each cell
+            byte[] ind = gridData.getActiveCells();
+            // for each cell in the grid
+            for (int ii = 0; ii < cellInfo.length; ii++) { 
+                // get row and column of the cell
+                int row = cellInfo[ii].cellPos/col_nr;
+                int col = cellInfo[ii].cellPos%col_nr;
+                // get the points
+                double[] upper_left  = proj.projToXY(pos[2*(row*(col_nr+1)+col)+1], 
+                                                     pos[2*(row*(col_nr+1)+col)]);
+                double[] lower_left  = proj.projToXY(pos[2*((row+1)*(col_nr+1)+col)+1], 
+                                                     pos[2*((row+1)*(col_nr+1)+col)]);
+                double[] upper_right = proj.projToXY(pos[2*(row*(col_nr+1)+col+1)+1], 
+                                                     pos[2*(row*(col_nr+1)+col+1)]);
+                double[] lower_right = proj.projToXY(pos[2*((row+1)*(col_nr+1)+col+1)+1], 
+                                                     pos[2*((row+1)*(col_nr+1)+col+1)]);
+                // draw the cell
+                gl.glMatrixMode(GL.GL_MODELVIEW);
+                gl.glPushMatrix();
+                gl.glPushName(cellInfo[ii].renderSelectionName);
+                int col_ind = grid_values[cellInfo[ii].activeCellPos];
+                gl.glColor3f(color_table[col_ind][0], color_table[col_ind][1], color_table[col_ind][2]); 
+                gl.glBegin(GL.GL_POLYGON);
+                gl.glVertex2d(upper_left[0], upper_left[1]);
+                gl.glVertex2d(lower_left[0], lower_left[1]);
+                gl.glVertex2d(lower_right[0], lower_right[1]);
+                gl.glVertex2d(upper_right[0], upper_right[1]);
+                gl.glEnd();
+                gl.glPopName();
+                gl.glMatrixMode(GL.GL_MODELVIEW);
+                gl.glPopMatrix();
+            }
+        }
+        gl.glPopName();
+        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glPopMatrix();
+        gl.glEndList();
+        displayListUpdated = true;
     }
 
     /**
      * Invalidates the display list.
      */
     public void invalidateDisplayList() {
-	displayListUpdated = false;
+        displayListUpdated = false;
     }
     
     /**
      * Returns true if the display list is updated.
      */
     public boolean isDisplayListUpdated() {
-	return displayListUpdated;
+        return displayListUpdated;
     }
 
     /**
      * Returns the display list of this grid.
      */   
     public int getDisplayList() {
-	return displayList;
+        return displayList;
     }
 }
 

@@ -34,12 +34,12 @@ public class ProcessVariableDescription {
       * @param max maximum value.
       */
      public ProcessVariableDescription(String name, String category, boolean fac, double min, double max) {
-	  mName     = name;
-	  mCategory = category;
-	  mFactions = fac;
-	  mMin      = min;
-	  mMax      = (max > UPPER_LIMIT)? UPPER_LIMIT : max;
-	  scale     = (mMin < 0 || (mMax-mMin) <= 100)? "Linear Scale" : "Logarithmic Scale";
+          mName     = name;
+          mCategory = category;
+          mFactions = fac;
+          mMin      = min;
+          mMax      = (max > UPPER_LIMIT)? UPPER_LIMIT : max;
+          scale     = (mMin < 0 || (mMax-mMin) <= 100)? "Linear Scale" : "Logarithmic Scale";
      }
     
     
@@ -49,7 +49,7 @@ public class ProcessVariableDescription {
       * @return The name of the PV.
       */
      public String getName() {
-	  return mName;
+          return mName;
      }
     
      /**
@@ -58,7 +58,7 @@ public class ProcessVariableDescription {
       * @return The category of the PV.
       */
      public String getCategory() {
-	  return mCategory;
+          return mCategory;
      }
     
 
@@ -68,7 +68,7 @@ public class ProcessVariableDescription {
       * @return true if the variable may be split into factions, otherwise false.
       */
      public boolean hasFactions() {
-	  return mFactions;
+          return mFactions;
      }
     
     
@@ -76,7 +76,7 @@ public class ProcessVariableDescription {
       * Sets minimum value.
       */
      public void setMin(double min) {
-	  mMin = min;
+          mMin = min;
      }
     
     
@@ -86,7 +86,7 @@ public class ProcessVariableDescription {
       * @return The minimum value for the PV.
       */
      public double getMin() {
-	  return mMin;
+          return mMin;
      }
     
     
@@ -94,7 +94,7 @@ public class ProcessVariableDescription {
       * Sets maximum value.
       */
      public void setMax(double max) {
-	  mMax = max;
+          mMax = max;
      }
     
     
@@ -104,14 +104,14 @@ public class ProcessVariableDescription {
       * @return The maximum value for the PV.
       */
      public double getMax() {
-	  return mMax;
+          return mMax;
      }
     
      /**
       * Sets color map.
       */
      public void setColorMap(String cmap) {
-	  colorMap = cmap;
+          colorMap = cmap;
      }
     
     
@@ -119,7 +119,7 @@ public class ProcessVariableDescription {
       * Returns string representation of the color map.
       */
      public String getColorMap() {
-	  return colorMap;
+          return colorMap;
      }
     
     
@@ -127,7 +127,7 @@ public class ProcessVariableDescription {
       * Linear scale is used to scale this pv.
       */
      public void setLinearScale() {
-	  scale = "Linear Scale";
+          scale = "Linear Scale";
      }
     
     
@@ -135,7 +135,7 @@ public class ProcessVariableDescription {
       * Logarithmic scale is used to scale this pv.
       */
      public void setLogarithmicScale() {
-	  scale = "Logarithmic Scale";
+          scale = "Logarithmic Scale";
      }
 
     
@@ -143,7 +143,7 @@ public class ProcessVariableDescription {
       * Returns the actual scale.
       */
      public String getScale() {
-	  return scale;
+          return scale;
      }
 
      /**
@@ -152,8 +152,8 @@ public class ProcessVariableDescription {
       * @return A string representation of this object.
       */
      public String toString() {
-	  return mName + " (" + mCategory + ")";
+          return mName + " (" + mCategory + ")";
      }
-	
+        
 }
 

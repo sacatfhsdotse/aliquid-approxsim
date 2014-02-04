@@ -1,4 +1,4 @@
-// 	$Id: TreeView.java,v 1.49 2006/07/31 11:50:56 alexius Exp $
+//         $Id: TreeView.java,v 1.49 2006/07/31 11:50:56 alexius Exp $
 
 /*
  * @(#)TreeView.java
@@ -111,189 +111,189 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      */
     public TreeView(StratmasObjectAdapter root)
     {
-	super((TreeModel) root);
+        super((TreeModel) root);
 
-	// Add listener that kills this tree if root's object is deleted.
+        // Add listener that kills this tree if root's object is deleted.
         root.getStratmasObject().addEventListener(this); 
 
-	// Add listener that ensures that added top level components
-	// are shown when isRootVisible == false. And that the tree is
-	// collapsed if no more objects are to be shown
-	root.addTreeModelListener(new TreeModelListener() 
-	    {
-		public void treeNodesChanged(TreeModelEvent e) {}
-		public void treeNodesInserted(TreeModelEvent e) 
-		{
- 		    if (!isRootVisible() && e.getTreePath().getPathCount() == 1) {
- 			TreePath path = new TreePath(getModel().getRoot());
- 			expandPath(path);
- 		    }
-		}
-		public void treeNodesRemoved(TreeModelEvent e) 
-		{
-		    if (!isRootVisible() && e.getTreePath().getPathCount() == 1 &&
-			getModel().getChildCount(getModel().getRoot()) <= 1) {
- 			TreePath path = new TreePath(getModel().getRoot());
- 			collapsePath(path);
- 		    }
-		}
-		public void treeStructureChanged(TreeModelEvent e) {}		
-	    });
+        // Add listener that ensures that added top level components
+        // are shown when isRootVisible == false. And that the tree is
+        // collapsed if no more objects are to be shown
+        root.addTreeModelListener(new TreeModelListener() 
+            {
+                public void treeNodesChanged(TreeModelEvent e) {}
+                public void treeNodesInserted(TreeModelEvent e) 
+                {
+                     if (!isRootVisible() && e.getTreePath().getPathCount() == 1) {
+                         TreePath path = new TreePath(getModel().getRoot());
+                         expandPath(path);
+                     }
+                }
+                public void treeNodesRemoved(TreeModelEvent e) 
+                {
+                    if (!isRootVisible() && e.getTreePath().getPathCount() == 1 &&
+                        getModel().getChildCount(getModel().getRoot()) <= 1) {
+                         TreePath path = new TreePath(getModel().getRoot());
+                         collapsePath(path);
+                     }
+                }
+                public void treeStructureChanged(TreeModelEvent e) {}                
+            });
 
-	TreeViewCellRenderer renderer = new TreeViewCellRenderer(this);
-	this.setCellRenderer(renderer);
-	DefaultTreeCellEditor editor = new DefaultTreeCellEditor(this, renderer);
-	this.setCellEditor(editor);
-	
-	initZoom();
-	initDnd();
+        TreeViewCellRenderer renderer = new TreeViewCellRenderer(this);
+        this.setCellRenderer(renderer);
+        DefaultTreeCellEditor editor = new DefaultTreeCellEditor(this, renderer);
+        this.setCellEditor(editor);
+        
+        initZoom();
+        initDnd();
 
-	this.addMouseListener(new MouseInputAdapter() 
-	    {
-		public void mousePressed(MouseEvent e)
-		{
-		    if (e.getButton() == MouseEvent.BUTTON3) {
-			TreePath selPath = getPathForLocation(e.getX(), 
-							      e.getY());
-			if(selPath != null) {
-			    showPopup(e.getX(),
-				      e.getY(),
-				      (StratmasObjectAdapter) 
-				      selPath.getLastPathComponent());
-			} else {
-			    showPopup(e.getX(),
-				      e.getY(),
-				      (StratmasObjectAdapter) 
-				      getModel().getRoot());
-			}
-		    }
-		}
-	    });
-	
-	treeSelectionListener = new TreeSelectionListener() {
-		  public void valueChanged(TreeSelectionEvent e) {
-		       TreePath[] paths = e.getPaths();
-		       for (int i = 0; i < paths.length; i++) {
-			    if (e.isAddedPath(paths[i])) {
-				 ((StratmasObjectAdapter) paths[i].getLastPathComponent()).setSelected(true);
-			    }
-			    else {
-				 ((StratmasObjectAdapter) paths[i].getLastPathComponent()).setSelected(false);
-			    }
-		    }
-		}
-	     };
+        this.addMouseListener(new MouseInputAdapter() 
+            {
+                public void mousePressed(MouseEvent e)
+                {
+                    if (e.getButton() == MouseEvent.BUTTON3) {
+                        TreePath selPath = getPathForLocation(e.getX(), 
+                                                              e.getY());
+                        if(selPath != null) {
+                            showPopup(e.getX(),
+                                      e.getY(),
+                                      (StratmasObjectAdapter) 
+                                      selPath.getLastPathComponent());
+                        } else {
+                            showPopup(e.getX(),
+                                      e.getY(),
+                                      (StratmasObjectAdapter) 
+                                      getModel().getRoot());
+                        }
+                    }
+                }
+            });
+        
+        treeSelectionListener = new TreeSelectionListener() {
+                  public void valueChanged(TreeSelectionEvent e) {
+                       TreePath[] paths = e.getPaths();
+                       for (int i = 0; i < paths.length; i++) {
+                            if (e.isAddedPath(paths[i])) {
+                                 ((StratmasObjectAdapter) paths[i].getLastPathComponent()).setSelected(true);
+                            }
+                            else {
+                                 ((StratmasObjectAdapter) paths[i].getLastPathComponent()).setSelected(false);
+                            }
+                    }
+                }
+             };
         this.addTreeSelectionListener(treeSelectionListener);
 
-	this.setDropTarget(new DropTarget(this, new DropTargetAdapter() {
-		public void dragEnter(DropTargetDragEvent dtde) {
-		    dtde.acceptDrag(dtde.getDropAction());
-		}
-		public void dragOver(DropTargetDragEvent dtde) {
-		    dtde.acceptDrag(dtde.getDropAction());
-		}
-		public void drop(DropTargetDropEvent dtde) {
-		    boolean dropAccepted = false;
-		    try {
-			if (dtde.isDataFlavorSupported(StratmasObject.STRATMAS_OBJECT_FLAVOR)) {
-			    dtde.acceptDrop(DnDConstants.ACTION_LINK);
-			    dropAccepted = true;
-			    Object obj = dtde.getTransferable().getTransferData(StratmasObject.STRATMAS_OBJECT_FLAVOR);
-				 // Apple's dnd implementation sucks... We must call the
-				 // getTransferData method for the string flavor in order
-				 // to get a valid callback.
-			    dtde.getTransferable().getTransferData(DataFlavor.stringFlavor);
-				 //
-			    if (obj instanceof StratmasObject) {
-				StratmasObject so = (StratmasObject)obj;
-				StratmasObject target = pointToObject(dtde.getLocation());
-				      if (target instanceof StratmasList &&
-					  so.getType().canSubstitute(target.getType()) &&
-					  so != target &&
-					  !(so instanceof StratmasList)) {
-					  so.remove();
-					  // Default behavior when adding Activities is to give duplicate
-					  // objects a unique identifier instead of overwriting the old instance.
-					  if (so.getType().canSubstitute("Activity")) {
-					       ((StratmasList)target).addWithUniqueIdentifier(so);
-					  }
-					  else {
-					       ((StratmasList)target).add(so);
-					  }					  
-					  dtde.dropComplete(true);
-				      } else if (target instanceof StratmasReference) {
-					  if (target.getType().isValidReferenceType(so.getType())) {
-					      ((StratmasReference) target).setValue(so.getReference(), null);
-					      dtde.dropComplete(true);
-					  } else {
-					      dtde.dropComplete(false);
-					  }
-					  
-				      } else {
-					  dtde.dropComplete(false);
-				      }
-			    }
-			    else {
-				 dtde.dropComplete(false);
-			    }
-			}
-			else if (dtde.isDataFlavorSupported(StratmasClient.HierarchyImportSet.HIERARCHYIMPORTSET_FLAVOR)) {
-			     dtde.rejectDrop();
-			}
-			else if (dtde.isDataFlavorSupported(DataFlavor.stringFlavor)) {
-			    dtde.acceptDrop(DnDConstants.ACTION_LINK);
-			    dropAccepted = true;
-			    String string = (String)dtde.getTransferable().getTransferData(DataFlavor.stringFlavor);
-			    StratmasList stratmasList = null;
-			    StratmasObject importedRoot = StratmasClient.Client.importXMLString(string);
-			    if (importedRoot != null) {
-				 stratmasList = (StratmasList)importedRoot.getChild("identifiables");
-			    }
-			    
-			    StratmasObject target = pointToObject(dtde.getLocation());
-			    if (stratmasList != null && target instanceof StratmasList) {
-				StratmasList targetList = (StratmasList) target;
-				// Add to vector first to not
-				// disturb the enumeration we are
-				// using by removing objects from its collection.
-				Vector v = new Vector();
-				for (Enumeration e = stratmasList.children(); e.hasMoreElements();) {
-				    StratmasObject sObj = (StratmasObject) e.nextElement();
-				    if (sObj.getType().canSubstitute(targetList.getType())) {
-					v.add(sObj);
-				    }
-				}
-				for (Enumeration e = v.elements(); e.hasMoreElements();) {
-				    StratmasObject sObj = (StratmasObject) e.nextElement();
-				    sObj.remove();
-				    targetList.add(sObj);
-				}
-				dtde.dropComplete(true);
-			    } else {
-				dtde.dropComplete(false);
-			    }
-			}
-			else {
-			    dtde.rejectDrop();
-			}
-		    } catch (Exception e) {
-			e.printStackTrace();
-			if (dropAccepted) {
-			    dtde.dropComplete(false);
-			    Debug.err.println("Exception thrown - Drop complete false");
-			}
-			else {
-			    dtde.rejectDrop();
-			    Debug.err.println("Exception thrown - Drop rejected");
-			}
-		    }
-		    //
-		    DraggedElement.setElement(null);
-		}
-	    }));
-	
-	setDragEnabled(false);
-	setEditable(true);
+        this.setDropTarget(new DropTarget(this, new DropTargetAdapter() {
+                public void dragEnter(DropTargetDragEvent dtde) {
+                    dtde.acceptDrag(dtde.getDropAction());
+                }
+                public void dragOver(DropTargetDragEvent dtde) {
+                    dtde.acceptDrag(dtde.getDropAction());
+                }
+                public void drop(DropTargetDropEvent dtde) {
+                    boolean dropAccepted = false;
+                    try {
+                        if (dtde.isDataFlavorSupported(StratmasObject.STRATMAS_OBJECT_FLAVOR)) {
+                            dtde.acceptDrop(DnDConstants.ACTION_LINK);
+                            dropAccepted = true;
+                            Object obj = dtde.getTransferable().getTransferData(StratmasObject.STRATMAS_OBJECT_FLAVOR);
+                                 // Apple's dnd implementation sucks... We must call the
+                                 // getTransferData method for the string flavor in order
+                                 // to get a valid callback.
+                            dtde.getTransferable().getTransferData(DataFlavor.stringFlavor);
+                                 //
+                            if (obj instanceof StratmasObject) {
+                                StratmasObject so = (StratmasObject)obj;
+                                StratmasObject target = pointToObject(dtde.getLocation());
+                                      if (target instanceof StratmasList &&
+                                          so.getType().canSubstitute(target.getType()) &&
+                                          so != target &&
+                                          !(so instanceof StratmasList)) {
+                                          so.remove();
+                                          // Default behavior when adding Activities is to give duplicate
+                                          // objects a unique identifier instead of overwriting the old instance.
+                                          if (so.getType().canSubstitute("Activity")) {
+                                               ((StratmasList)target).addWithUniqueIdentifier(so);
+                                          }
+                                          else {
+                                               ((StratmasList)target).add(so);
+                                          }                                          
+                                          dtde.dropComplete(true);
+                                      } else if (target instanceof StratmasReference) {
+                                          if (target.getType().isValidReferenceType(so.getType())) {
+                                              ((StratmasReference) target).setValue(so.getReference(), null);
+                                              dtde.dropComplete(true);
+                                          } else {
+                                              dtde.dropComplete(false);
+                                          }
+                                          
+                                      } else {
+                                          dtde.dropComplete(false);
+                                      }
+                            }
+                            else {
+                                 dtde.dropComplete(false);
+                            }
+                        }
+                        else if (dtde.isDataFlavorSupported(StratmasClient.HierarchyImportSet.HIERARCHYIMPORTSET_FLAVOR)) {
+                             dtde.rejectDrop();
+                        }
+                        else if (dtde.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+                            dtde.acceptDrop(DnDConstants.ACTION_LINK);
+                            dropAccepted = true;
+                            String string = (String)dtde.getTransferable().getTransferData(DataFlavor.stringFlavor);
+                            StratmasList stratmasList = null;
+                            StratmasObject importedRoot = StratmasClient.Client.importXMLString(string);
+                            if (importedRoot != null) {
+                                 stratmasList = (StratmasList)importedRoot.getChild("identifiables");
+                            }
+                            
+                            StratmasObject target = pointToObject(dtde.getLocation());
+                            if (stratmasList != null && target instanceof StratmasList) {
+                                StratmasList targetList = (StratmasList) target;
+                                // Add to vector first to not
+                                // disturb the enumeration we are
+                                // using by removing objects from its collection.
+                                Vector v = new Vector();
+                                for (Enumeration e = stratmasList.children(); e.hasMoreElements();) {
+                                    StratmasObject sObj = (StratmasObject) e.nextElement();
+                                    if (sObj.getType().canSubstitute(targetList.getType())) {
+                                        v.add(sObj);
+                                    }
+                                }
+                                for (Enumeration e = v.elements(); e.hasMoreElements();) {
+                                    StratmasObject sObj = (StratmasObject) e.nextElement();
+                                    sObj.remove();
+                                    targetList.add(sObj);
+                                }
+                                dtde.dropComplete(true);
+                            } else {
+                                dtde.dropComplete(false);
+                            }
+                        }
+                        else {
+                            dtde.rejectDrop();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        if (dropAccepted) {
+                            dtde.dropComplete(false);
+                            Debug.err.println("Exception thrown - Drop complete false");
+                        }
+                        else {
+                            dtde.rejectDrop();
+                            Debug.err.println("Exception thrown - Drop rejected");
+                        }
+                    }
+                    //
+                    DraggedElement.setElement(null);
+                }
+            }));
+        
+        setDragEnabled(false);
+        setEditable(true);
     }
     
     /**
@@ -301,34 +301,34 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      */
     protected void initZoom()
     {
-	final TreeView self = this;
-	getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP, 
-						 ActionEvent.CTRL_MASK),
-			  "ZoomIn");
-	getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN, 
-						 ActionEvent.CTRL_MASK), 
-			  "ZoomOut");
+        final TreeView self = this;
+        getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP, 
+                                                 ActionEvent.CTRL_MASK),
+                          "ZoomIn");
+        getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN, 
+                                                 ActionEvent.CTRL_MASK), 
+                          "ZoomOut");
 
-	getActionMap().put("ZoomIn",
-			   new AbstractAction("Zoom In", 
-					      new ImageIcon(TreeView.class.getResource("images/zoom_in.png"))) 
-			   { 
-			       public void actionPerformed(ActionEvent e) 
-			       {
-				   self.scalePreferedIconSize(1.1);
-			       }
-			   });
-	
-	getActionMap().put("ZoomOut",
-			   new AbstractAction("Zoom Out", 
-					      new ImageIcon(TreeView.class.getResource("images/zoom_out.png"))) 
-			   { 
-			       
-			       public void actionPerformed(ActionEvent e) 
-			       {
-				 self.scalePreferedIconSize(0.9);
-			       }
-			   });
+        getActionMap().put("ZoomIn",
+                           new AbstractAction("Zoom In", 
+                                              new ImageIcon(TreeView.class.getResource("images/zoom_in.png"))) 
+                           { 
+                               public void actionPerformed(ActionEvent e) 
+                               {
+                                   self.scalePreferedIconSize(1.1);
+                               }
+                           });
+        
+        getActionMap().put("ZoomOut",
+                           new AbstractAction("Zoom Out", 
+                                              new ImageIcon(TreeView.class.getResource("images/zoom_out.png"))) 
+                           { 
+                               
+                               public void actionPerformed(ActionEvent e) 
+                               {
+                                 self.scalePreferedIconSize(0.9);
+                               }
+                           });
 
     }
 
@@ -337,19 +337,19 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      */
     protected void initDnd()
     {
-	dndSource = new DragSource();
-	DragGestureRecognizer recognizer = 
-	    dndSource.createDefaultDragGestureRecognizer(this, 
-							 DnDConstants.ACTION_REFERENCE, 
-							 this);
-	dndSourceAdapter = new DragSourceAdapter() {
-		  public void dragDropEnd(DragSourceDropEvent dsde) {
-		       if (dsde.getDropSuccess() && 
-			   (dsde.getDropAction() == DnDConstants.ACTION_REFERENCE)) {
-			    Debug.err.println("Drop succeded");
-		       }
-		  }
-	     };
+        dndSource = new DragSource();
+        DragGestureRecognizer recognizer = 
+            dndSource.createDefaultDragGestureRecognizer(this, 
+                                                         DnDConstants.ACTION_REFERENCE, 
+                                                         this);
+        dndSourceAdapter = new DragSourceAdapter() {
+                  public void dragDropEnd(DragSourceDropEvent dsde) {
+                       if (dsde.getDropSuccess() && 
+                           (dsde.getDropAction() == DnDConstants.ACTION_REFERENCE)) {
+                            Debug.err.println("Drop succeded");
+                       }
+                  }
+             };
     }
     
     /**
@@ -361,36 +361,36 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      */
     protected boolean checkObjects(Vector candidates, StratmasObject target) 
     {
-	boolean status = true;
-	if (target.isLeaf()) {
-	    status = false;
-	} else 	if (target instanceof StratmasList) {
-	    StratmasList list = (StratmasList) target;
-	    for (Enumeration e = candidates.elements(); e.hasMoreElements();) {
-		StratmasObject candidate = (StratmasObject) e.nextElement(); 
-		// Check type and name conflict
-		// FIXME Note that names can still conflict inside the vector.
-		if (!candidate.getType().canSubstitute(list.getType()) ||
-		    list.getChild(candidate.getIdentifier()) != null) {
-		    status = false;
-		    break;
-		}
-	    }
-	} else {
-	    for (Enumeration e = candidates.elements(); e.hasMoreElements();) {
-		StratmasObject candidate = (StratmasObject) e.nextElement(); 
-		// Check if any unfilled declaration matches
-		// FIXME Note that names can still conflict inside the vector.
-		// I. e. someone could provide 2 locations in this drop.
-		if (target.getChild(candidate.getIdentifier()) != null ||
-		    target.getType().getSubElement(candidate.getIdentifier()) == null) {
-		    status = false;
-		    break;
-		}
-	    }
-	}
+        boolean status = true;
+        if (target.isLeaf()) {
+            status = false;
+        } else         if (target instanceof StratmasList) {
+            StratmasList list = (StratmasList) target;
+            for (Enumeration e = candidates.elements(); e.hasMoreElements();) {
+                StratmasObject candidate = (StratmasObject) e.nextElement(); 
+                // Check type and name conflict
+                // FIXME Note that names can still conflict inside the vector.
+                if (!candidate.getType().canSubstitute(list.getType()) ||
+                    list.getChild(candidate.getIdentifier()) != null) {
+                    status = false;
+                    break;
+                }
+            }
+        } else {
+            for (Enumeration e = candidates.elements(); e.hasMoreElements();) {
+                StratmasObject candidate = (StratmasObject) e.nextElement(); 
+                // Check if any unfilled declaration matches
+                // FIXME Note that names can still conflict inside the vector.
+                // I. e. someone could provide 2 locations in this drop.
+                if (target.getChild(candidate.getIdentifier()) != null ||
+                    target.getType().getSubElement(candidate.getIdentifier()) == null) {
+                    status = false;
+                    break;
+                }
+            }
+        }
 
-	return status;
+        return status;
     }
 
     /**
@@ -402,7 +402,7 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      */
     protected StratmasObject pointToObject(Point point)
     {
-	return pointToObject((int) point.getX(), (int) point.getY());
+        return pointToObject((int) point.getX(), (int) point.getY());
     }
 
     /**
@@ -415,13 +415,13 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      */
     protected StratmasObject pointToObject(int x, int y)
     {
-	TreePath path = getPathForLocation(x, y);
+        TreePath path = getPathForLocation(x, y);
 
-	if (path != null) {
-	    return ((StratmasObjectAdapter) path.getLastPathComponent()).getUserObject();
-	} else {
-	    return ((StratmasObjectAdapter) getModel().getRoot()).getUserObject();
-	}
+        if (path != null) {
+            return ((StratmasObjectAdapter) path.getLastPathComponent()).getUserObject();
+        } else {
+            return ((StratmasObjectAdapter) getModel().getRoot()).getUserObject();
+        }
     }
 
     /**
@@ -432,22 +432,22 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
     */
     public Vector transferableToObjects(Transferable transferable)
     {
-	Vector res = new Vector();
-	DataFlavor[] flavors = transferable.getTransferDataFlavors();	
-	try {
-	    for (int i = 0; i < flavors.length; i++) {
-		if (transferable.isDataFlavorSupported(flavors[i])) {
-		    res.add((StratmasObject) 
-			    transferable.getTransferData(flavors[i]));		
-		}
-	    }
-	} catch (UnsupportedFlavorException e) {
-	    return null;
-	} catch (IOException e) {
-	    return null;
-	}
+        Vector res = new Vector();
+        DataFlavor[] flavors = transferable.getTransferDataFlavors();        
+        try {
+            for (int i = 0; i < flavors.length; i++) {
+                if (transferable.isDataFlavorSupported(flavors[i])) {
+                    res.add((StratmasObject) 
+                            transferable.getTransferData(flavors[i]));                
+                }
+            }
+        } catch (UnsupportedFlavorException e) {
+            return null;
+        } catch (IOException e) {
+            return null;
+        }
 
-	return res;
+        return res;
     }
 
     /*
@@ -460,72 +460,72 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      * popup is shown.
      */
     protected void showPopup(int x, int y, 
-			     StratmasObjectAdapter objectAdapter)
+                             StratmasObjectAdapter objectAdapter)
     {
-	final StratmasObject sObj = objectAdapter.getUserObject();
-	final TreeView self = this;
+        final StratmasObject sObj = objectAdapter.getUserObject();
+        final TreeView self = this;
 
-	//	Vector actions = sObj.getActions();
-	JPopupMenu popup = new JPopupMenu(sObj.getIdentifier());
+        //        Vector actions = sObj.getActions();
+        JPopupMenu popup = new JPopupMenu(sObj.getIdentifier());
 
-	popup.add(new AbstractAction("View branch in separate tree")
-	    {
-		public void actionPerformed(ActionEvent e)
-		{
-		    final TreeViewFrame frame = 
-			TreeView.getDefaultFrame(sObj);
-		    frame.setEditable(isEditable());
-		    if (self.getTopLevelAncestor() instanceof ClientMainFrame) {
-			((ClientMainFrame) self.getTopLevelAncestor()).tabFrame(frame);
-		    } else {
-			javax.swing.SwingUtilities.invokeLater(new Runnable() 
-			    {
-				public void run() 
-				{
-				    frame.setVisible(true);
-				}
-			    });
-		    }
-		}
-	    });
-	popup.add(new AbstractAction("View only " + sObj.getType().getName() + "(s)")
-	    {
-		final TypeFilter filter = new TypeFilter(sObj.getType());
-		public void actionPerformed(ActionEvent e)
-		{
-		    final TreeViewFrame frame = 
-			TreeView.getDefaultFrame(sObj, filter);
-		    frame.setEditable(isEditable());
-		    if (self.getTopLevelAncestor() instanceof ClientMainFrame) {
-			((ClientMainFrame) self.getTopLevelAncestor()).tabFrame(frame);
-		    } else {
-			javax.swing.SwingUtilities.invokeLater(new Runnable() 
-			    {
-				public void run() 
-				{
-				    frame.setVisible(true);
-				}
-			    });
-		    }
-		}
-	    });
+        popup.add(new AbstractAction("View branch in separate tree")
+            {
+                public void actionPerformed(ActionEvent e)
+                {
+                    final TreeViewFrame frame = 
+                        TreeView.getDefaultFrame(sObj);
+                    frame.setEditable(isEditable());
+                    if (self.getTopLevelAncestor() instanceof ClientMainFrame) {
+                        ((ClientMainFrame) self.getTopLevelAncestor()).tabFrame(frame);
+                    } else {
+                        javax.swing.SwingUtilities.invokeLater(new Runnable() 
+                            {
+                                public void run() 
+                                {
+                                    frame.setVisible(true);
+                                }
+                            });
+                    }
+                }
+            });
+        popup.add(new AbstractAction("View only " + sObj.getType().getName() + "(s)")
+            {
+                final TypeFilter filter = new TypeFilter(sObj.getType());
+                public void actionPerformed(ActionEvent e)
+                {
+                    final TreeViewFrame frame = 
+                        TreeView.getDefaultFrame(sObj, filter);
+                    frame.setEditable(isEditable());
+                    if (self.getTopLevelAncestor() instanceof ClientMainFrame) {
+                        ((ClientMainFrame) self.getTopLevelAncestor()).tabFrame(frame);
+                    } else {
+                        javax.swing.SwingUtilities.invokeLater(new Runnable() 
+                            {
+                                public void run() 
+                                {
+                                    frame.setVisible(true);
+                                }
+                            });
+                    }
+                }
+            });
 
-	popup.add(new javax.swing.JSeparator());
-	
-// 	for (Enumeration e = actions.elements(); e.hasMoreElements();) {
-// 	    StratmasAbstractAction action = (StratmasAbstractAction)
-// 		e.nextElement();
-// 	    if (!isEditable()) {
-// 		if (action.isMutator()) {
-// 		    action.setEnabled(false);
-// 		}
-// 	    }
-// 	    popup.add(action);
-// 	}
-	
-	sObj.getActionGroup().addToPopupMenu(popup, isEditable());
+        popup.add(new javax.swing.JSeparator());
+        
+//         for (Enumeration e = actions.elements(); e.hasMoreElements();) {
+//             StratmasAbstractAction action = (StratmasAbstractAction)
+//                 e.nextElement();
+//             if (!isEditable()) {
+//                 if (action.isMutator()) {
+//                     action.setEnabled(false);
+//                 }
+//             }
+//             popup.add(action);
+//         }
+        
+        sObj.getActionGroup().addToPopupMenu(popup, isEditable());
 
-	popup.show(this, x, y);
+        popup.show(this, x, y);
     }
     
     
@@ -543,13 +543,13 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
       * path is invalid or no such object could be found.
       */
      public StratmasObject getObjectForPath(TreePath path) {
-	  if (path != null) {
-	       StratmasObjectAdapter soa =  (StratmasObjectAdapter)path.getLastPathComponent();
-	       if (soa != null) {
-		    return soa.getUserObject();
-	       }
-	  }
-	  return null;
+          if (path != null) {
+               StratmasObjectAdapter soa =  (StratmasObjectAdapter)path.getLastPathComponent();
+               if (soa != null) {
+                    return soa.getUserObject();
+               }
+          }
+          return null;
      }
 
     /*
@@ -557,49 +557,49 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      */
     public void dragGestureRecognized(DragGestureEvent dge) 
     {
-	TreePath path = getPathForLocation((int)dge.getDragOrigin().getX(), 
-					   (int)dge.getDragOrigin().getY());
-	if (path == null) {
-	    // We can't move an empty selection
-	    return;
-	}
+        TreePath path = getPathForLocation((int)dge.getDragOrigin().getX(), 
+                                           (int)dge.getDragOrigin().getY());
+        if (path == null) {
+            // We can't move an empty selection
+            return;
+        }
 
-	// Apple's dnd implementation sucks. Must have a selection
-	// when starting to drag.
-	if (isSelectionEmpty()) {
-	     setSelectionPath(path);
-	}
+        // Apple's dnd implementation sucks. Must have a selection
+        // when starting to drag.
+        if (isSelectionEmpty()) {
+             setSelectionPath(path);
+        }
 
-	// Convenient to have a method for this that may be overriden
-	// in subclasses in order to override the default MOVE
-	// behavior of drag operations.
- 	Transferable transferable = getObjectForPath(path);
-	
-	// start drag
-	try {
-	    // define cursor for the object 
-	    Cursor c;
-	    Toolkit tk = Toolkit.getDefaultToolkit();
-	    Image image = ((Icon)((StratmasObject) transferable).getIcon()).getImage();
-	    Dimension bestsize = tk.getBestCursorSize(image.getWidth(null),image.getHeight(null));
-	    if (bestsize.width != 0) {
-		c = tk.createCustomCursor(image, new java.awt.Point(bestsize.width/2, bestsize.height/2), 
-					  ((StratmasObject) transferable).toString());
-	    }
-	    else {
-		c = Cursor.getDefaultCursor();
-	    }
-	    // set the dragged element
-	    DraggedElement.setElement((StratmasObject)transferable);
-	    //start the drag
-	    dndSource.startDrag(dge, 
-				c, 
-				transferable, 
-				dndSourceAdapter);
-	} catch (java.awt.dnd.InvalidDnDOperationException e) {
-	    Debug.err.println("InvalidDnDOperationException caught in TreeView dragGestuerRecognized: " + e);
-	    
-	}
+        // Convenient to have a method for this that may be overriden
+        // in subclasses in order to override the default MOVE
+        // behavior of drag operations.
+         Transferable transferable = getObjectForPath(path);
+        
+        // start drag
+        try {
+            // define cursor for the object 
+            Cursor c;
+            Toolkit tk = Toolkit.getDefaultToolkit();
+            Image image = ((Icon)((StratmasObject) transferable).getIcon()).getImage();
+            Dimension bestsize = tk.getBestCursorSize(image.getWidth(null),image.getHeight(null));
+            if (bestsize.width != 0) {
+                c = tk.createCustomCursor(image, new java.awt.Point(bestsize.width/2, bestsize.height/2), 
+                                          ((StratmasObject) transferable).toString());
+            }
+            else {
+                c = Cursor.getDefaultCursor();
+            }
+            // set the dragged element
+            DraggedElement.setElement((StratmasObject)transferable);
+            //start the drag
+            dndSource.startDrag(dge, 
+                                c, 
+                                transferable, 
+                                dndSourceAdapter);
+        } catch (java.awt.dnd.InvalidDnDOperationException e) {
+            Debug.err.println("InvalidDnDOperationException caught in TreeView dragGestuerRecognized: " + e);
+            
+        }
     }
 
 
@@ -614,10 +614,10 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      * @param hasFocus true if the node has the focus
      */    
     public String convertValueToText(Object value, boolean selected, 
-				     boolean expanded, boolean leaf, 
-				     int row, boolean hasFocus)
+                                     boolean expanded, boolean leaf, 
+                                     int row, boolean hasFocus)
     {
-	return ((StratmasObjectAdapter) value).toEditableString();
+        return ((StratmasObjectAdapter) value).toEditableString();
     }
 
 
@@ -628,8 +628,8 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      */    
     public static TreeViewFrame getDefaultFrame(StratmasObject root)
     {
-	TreeViewFrame res = new TreeViewFrame(getDefaultTreeView(root));
-	return res;
+        TreeViewFrame res = new TreeViewFrame(getDefaultTreeView(root));
+        return res;
     }
 
     /**
@@ -639,11 +639,11 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      * @param filter the object to use as root for this tree.
      */    
     public static TreeViewFrame getDefaultFrame(StratmasObject root, 
-						StratmasObjectFilter filter)
-    {	
-	TreeViewFrame res = new TreeViewFrame(getDefaultTreeView(root, 
-								 filter));
-	return res;
+                                                StratmasObjectFilter filter)
+    {        
+        TreeViewFrame res = new TreeViewFrame(getDefaultTreeView(root, 
+                                                                 filter));
+        return res;
     }
 
     /**
@@ -654,13 +654,13 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      */
     public static TreeView getDefaultTreeView(StratmasObject root)
     {
-	final TreeView view = new TreeView(StratmasObjectAdapter.getStratmasObjectAdapter(root));
-	view.setShowsRootHandles(false);
-	if (root instanceof StratmasList) {
-	    view.setRootVisible(true);
-	}
+        final TreeView view = new TreeView(StratmasObjectAdapter.getStratmasObjectAdapter(root));
+        view.setShowsRootHandles(false);
+        if (root instanceof StratmasList) {
+            view.setRootVisible(true);
+        }
 
-	return view;
+        return view;
     }
 
     /**
@@ -670,16 +670,16 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      * @param root the object to use as root for this tree.
      */
     public static TreeView getDefaultTreeView(StratmasObject root, 
-						StratmasObjectFilter filter)
+                                                StratmasObjectFilter filter)
     {
-	TreeView view = new TreeView(StratmasObjectAdapter.getStratmasObjectAdapter(root, filter));
-	view.setShowsRootHandles(false);
-	// By defualt, dont show root handle for lists.
-	if (root instanceof StratmasList) {
-	    view.setRootVisible(false);
-	}
-	
-	return view;
+        TreeView view = new TreeView(StratmasObjectAdapter.getStratmasObjectAdapter(root, filter));
+        view.setShowsRootHandles(false);
+        // By defualt, dont show root handle for lists.
+        if (root instanceof StratmasList) {
+            view.setRootVisible(false);
+        }
+        
+        return view;
     }
 
 
@@ -692,27 +692,27 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      */
     public void scalePreferedIconSize(double scale)
     {
-	int newWidth = (int) (preferedIconSize.getWidth() * scale);
-	int newHeight = (int) (preferedIconSize.getHeight() * scale);
-	
-	// make sure we actually increase/decrease
-	if (scale > 1) {
-	    if (newWidth == (int) preferedIconSize.getWidth()) {
-		newWidth++;
-	    }
-	    if (newHeight == (int) preferedIconSize.getHeight()) {
-		newHeight++;
-	    }
-	} else if (scale < 1) {
-	    if (newWidth == (int) preferedIconSize.getWidth()) {
-		newWidth--;
-	    }
-	    if (newHeight == (int) preferedIconSize.getHeight()) {
-		newHeight--;
-	    }
-	}
+        int newWidth = (int) (preferedIconSize.getWidth() * scale);
+        int newHeight = (int) (preferedIconSize.getHeight() * scale);
+        
+        // make sure we actually increase/decrease
+        if (scale > 1) {
+            if (newWidth == (int) preferedIconSize.getWidth()) {
+                newWidth++;
+            }
+            if (newHeight == (int) preferedIconSize.getHeight()) {
+                newHeight++;
+            }
+        } else if (scale < 1) {
+            if (newWidth == (int) preferedIconSize.getWidth()) {
+                newWidth--;
+            }
+            if (newHeight == (int) preferedIconSize.getHeight()) {
+                newHeight--;
+            }
+        }
 
-	setPreferedIconSize(newWidth, newHeight);
+        setPreferedIconSize(newWidth, newHeight);
     }
 
     /**
@@ -725,12 +725,12 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      */
     public void setPreferedIconSize(int width, int height)
     {
-	if (width > 0 && height > 0) {
-	    preferedIconSize.setSize(width, height);
-	    
-	    setRowHeight((int) preferedIconSize.getHeight());
-	    validate();
-	}
+        if (width > 0 && height > 0) {
+            preferedIconSize.setSize(width, height);
+            
+            setRowHeight((int) preferedIconSize.getHeight());
+            validate();
+        }
     }
 
     /**
@@ -739,24 +739,24 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      */
     public Dimension getPreferedIconSize()
     {
-	return preferedIconSize;
+        return preferedIconSize;
     }
 
      // TEMPORARY FOR DEBUGGING!!!
      public String actionToString(int action) {
-	  switch (action) {
-	  case DnDConstants.ACTION_COPY:
-	       return "ACTION_COPY";
-	  case DnDConstants.ACTION_COPY_OR_MOVE:
-	       return "ACTION_COPY_OR_MOVE";
-	  case DnDConstants.ACTION_LINK:
-	       return "ACTION_LINK";
-	  case DnDConstants.ACTION_MOVE:
-	       return "ACTION_MOVE";
-	  case DnDConstants.ACTION_NONE:
-	       return "ACTION_NONE";
-	  }
-	  return "Unknown!!! = " + action;
+          switch (action) {
+          case DnDConstants.ACTION_COPY:
+               return "ACTION_COPY";
+          case DnDConstants.ACTION_COPY_OR_MOVE:
+               return "ACTION_COPY_OR_MOVE";
+          case DnDConstants.ACTION_LINK:
+               return "ACTION_LINK";
+          case DnDConstants.ACTION_MOVE:
+               return "ACTION_MOVE";
+          case DnDConstants.ACTION_NONE:
+               return "ACTION_NONE";
+          }
+          return "Unknown!!! = " + action;
      }
 
     
@@ -765,7 +765,7 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      */
     public void windowOpened(WindowEvent e)
     {
-	//Not interested
+        //Not interested
     }
 
     /**
@@ -774,7 +774,7 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      */
     public void windowClosing(WindowEvent e)
     {
-	//Not interested
+        //Not interested
     }
 
     /**
@@ -783,16 +783,16 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      */
     public void windowClosed(WindowEvent e)
     {
-	// Remove listeners
-	e.getWindow().removeWindowListener(this);
-	StratmasObjectAdapter root = (StratmasObjectAdapter) getModel().getRoot();
-	StratmasObject rootObj = root.getStratmasObject();
-	if (rootObj != null) {
-	     rootObj.removeEventListener(this);
-	}
-	// Kill off the adapters
-	((StratmasObjectAdapter) getModel().getRoot()).dispose();
-//	setModel(null);
+        // Remove listeners
+        e.getWindow().removeWindowListener(this);
+        StratmasObjectAdapter root = (StratmasObjectAdapter) getModel().getRoot();
+        StratmasObject rootObj = root.getStratmasObject();
+        if (rootObj != null) {
+             rootObj.removeEventListener(this);
+        }
+        // Kill off the adapters
+        ((StratmasObjectAdapter) getModel().getRoot()).dispose();
+//        setModel(null);
     }
 
     /**
@@ -804,7 +804,7 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      */
     public void windowIconified(WindowEvent e)
     {
-	//Not interested
+        //Not interested
     }
 
     /**
@@ -813,7 +813,7 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      */
     public void windowDeiconified(WindowEvent e)
     {
-	//Not interested
+        //Not interested
     }
 
     /**
@@ -826,7 +826,7 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      */
     public void windowActivated(WindowEvent e)
     {
-	//Not interested
+        //Not interested
     }
 
     /**
@@ -839,7 +839,7 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      */
     public void windowDeactivated(WindowEvent e)
     {
-	//Not interested
+        //Not interested
     }
 
     /**
@@ -847,22 +847,22 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      */
     public void addNotify()
     {
-	super.addNotify();
-	Container container = getTopLevelAncestor();
-	if (container instanceof Window) {
-	    if (container == this.currentWindow) {
-		// No change.
-	    } else {
-		if (this.currentWindow != null) {
-		    this.currentWindow.removeWindowListener(this);
-		}
-		this.currentWindow = (Window) container;
-		currentWindow.addWindowListener(this);
-	    }
-	} else {
-	    this.currentWindow.removeWindowListener(this);
-	    this.currentWindow = null;
-	}
+        super.addNotify();
+        Container container = getTopLevelAncestor();
+        if (container instanceof Window) {
+            if (container == this.currentWindow) {
+                // No change.
+            } else {
+                if (this.currentWindow != null) {
+                    this.currentWindow.removeWindowListener(this);
+                }
+                this.currentWindow = (Window) container;
+                currentWindow.addWindowListener(this);
+            }
+        } else {
+            this.currentWindow.removeWindowListener(this);
+            this.currentWindow = null;
+        }
     }
 
     /**
@@ -870,22 +870,22 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      */
     public void removeNotify()
     {
-	super.removeNotify();
-	Container container = getTopLevelAncestor();
-	if (container instanceof Window) {
-	    if (container == this.currentWindow) {
-		// No change.
-	    } else {
-		if (this.currentWindow != null) {
-		    this.currentWindow.removeWindowListener(this);
-		}
-		this.currentWindow = (Window) container;
-		currentWindow.addWindowListener(this);
-	    }
-	} else {
-	    this.currentWindow.removeWindowListener(this);
-	    this.currentWindow = null;
-	}
+        super.removeNotify();
+        Container container = getTopLevelAncestor();
+        if (container instanceof Window) {
+            if (container == this.currentWindow) {
+                // No change.
+            } else {
+                if (this.currentWindow != null) {
+                    this.currentWindow.removeWindowListener(this);
+                }
+                this.currentWindow = (Window) container;
+                currentWindow.addWindowListener(this);
+            }
+        } else {
+            this.currentWindow.removeWindowListener(this);
+            this.currentWindow = null;
+        }
     }
 
     /**
@@ -893,15 +893,15 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      */
     public void eventOccured(StratmasEvent event)
     {
-	if (event.isRemoved()) {
-	    if (getParent() != null) {
-		getParent().remove(this);
-	    }
-	    ((StratmasObject) event.getSource()).removeEventListener(this);
-	} else if (event.isReplaced()) {
-	    throw new AssertionError("Replace behavior not implemented");
-	} 
-	
+        if (event.isRemoved()) {
+            if (getParent() != null) {
+                getParent().remove(this);
+            }
+            ((StratmasObject) event.getSource()).removeEventListener(this);
+        } else if (event.isReplaced()) {
+            throw new AssertionError("Replace behavior not implemented");
+        } 
+        
     }
 }
 
@@ -920,7 +920,7 @@ class TreeViewCellRenderer extends DefaultTreeCellRenderer
      */
     TreeViewCellRenderer(TreeView treeView)
     {
-	this.treeView = treeView;
+        this.treeView = treeView;
     }
 
     /**
@@ -928,42 +928,42 @@ class TreeViewCellRenderer extends DefaultTreeCellRenderer
      * the specified tree.
      */
     public java.awt.Component getTreeCellRendererComponent(JTree tree,
-							   Object value,
-							   boolean sel,
-							   boolean expanded,
-							   boolean leaf,
-							   int row,
-							   boolean hasFocus) 
+                                                           Object value,
+                                                           boolean sel,
+                                                           boolean expanded,
+                                                           boolean leaf,
+                                                           int row,
+                                                           boolean hasFocus) 
     {
-	StratmasObjectAdapter val = (StratmasObjectAdapter) value;
-	
-	this.hasFocus = hasFocus;
+        StratmasObjectAdapter val = (StratmasObjectAdapter) value;
+        
+        this.hasFocus = hasFocus;
 
-	String tag = val.getTextTag();
-	if (tag != null) {
-	    setText(tag);
-	}
+        String tag = val.getTextTag();
+        if (tag != null) {
+            setText(tag);
+        }
 
-	if (sel) {
-	    setForeground(getTextSelectionColor());
-	} else {
-	    setForeground(getTextNonSelectionColor());
-	}
-	
-	StratmasClient.Icon icon = val.getIcon();
-	if (icon != null) {
-	    icon = icon.getScaledInstance(treeView.getPreferedIconSize());
-	    setIcon(icon);
-	    setLeafIcon(icon);
-	    setOpenIcon(icon);
-	    setClosedIcon(icon);
-	}
-	
+        if (sel) {
+            setForeground(getTextSelectionColor());
+        } else {
+            setForeground(getTextNonSelectionColor());
+        }
+        
+        StratmasClient.Icon icon = val.getIcon();
+        if (icon != null) {
+            icon = icon.getScaledInstance(treeView.getPreferedIconSize());
+            setIcon(icon);
+            setLeafIcon(icon);
+            setOpenIcon(icon);
+            setClosedIcon(icon);
+        }
+        
         setComponentOrientation(tree.getComponentOrientation());
-	    
-	selected = sel;
-	
-	return this;
+            
+        selected = sel;
+        
+        return this;
     }
 }
 

@@ -1,4 +1,4 @@
-// 	$Id: MatrixEvent.java,v 1.1 2005/11/02 11:18:34 dah Exp $
+//         $Id: MatrixEvent.java,v 1.1 2005/11/02 11:18:34 dah Exp $
 /*
  * @(#)MatrixEvent.java
  */
@@ -23,7 +23,7 @@ public class MatrixEvent extends EventObject
      */
     MatrixEvent(EvaluationsMatrix matrix)
     {
-	super(matrix);
+        super(matrix);
     }
 
     /**
@@ -31,6 +31,6 @@ public class MatrixEvent extends EventObject
      */
     public EvaluationsMatrix getMatrix()
     {
-	return (EvaluationsMatrix) getSource();
+        return (EvaluationsMatrix) getSource();
     }
 }

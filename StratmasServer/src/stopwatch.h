@@ -12,7 +12,7 @@ public:
      inline void start() { mStart = clock(); }
      inline void stop() { mEnd = clock(); }
      inline float secs() const { return static_cast<float>(mEnd - mStart) / 
-	       static_cast<float>(CLOCKS_PER_SEC); }
+               static_cast<float>(CLOCKS_PER_SEC); }
      inline float tic() const { return 1.0 / static_cast<float>(CLOCKS_PER_SEC); }
 };
 

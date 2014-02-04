@@ -1,4 +1,4 @@
-// 	$Id: ParsedImport.java,v 1.4 2005/03/30 22:22:24 dah Exp $
+//         $Id: ParsedImport.java,v 1.4 2005/03/30 22:22:24 dah Exp $
 /*
  * @(#)ParsedImport.java
  */
@@ -37,10 +37,10 @@ public class ParsedImport extends ParsedObject
      *@param location the location of the importation
     */
     public ParsedImport(SourcePosition pos, String location)
-	throws SemanticException
+        throws SemanticException
     {
-	super(pos);
-	this.location = location;
+        super(pos);
+        this.location = location;
     }
     
     /**
@@ -49,13 +49,13 @@ public class ParsedImport extends ParsedObject
      */
     public ParsedDeclaration getParsedDeclaration(ParsedReference reference) throws ImportException
     {
-	ImportHandler handler = getImportHandler();
-	try {
-	    return handler.getParsedDeclaration(reference);
-	} 
-	catch (ImportHandlerException e) {
-	    throw new ImportException(this, e.getMessage());
-	}
+        ImportHandler handler = getImportHandler();
+        try {
+            return handler.getParsedDeclaration(reference);
+        } 
+        catch (ImportHandlerException e) {
+            throw new ImportException(this, e.getMessage());
+        }
     }
 
     /**
@@ -63,37 +63,37 @@ public class ParsedImport extends ParsedObject
      */
     public ParsedDeclarationList getParsedDeclarationList() throws ImportException
     {
-	ImportHandler handler = getImportHandler();
-	try {
-	    return handler.getParsedDeclarationList();
-	} 
-	catch (ImportHandlerException e) {
-	    throw new ImportException(this, e.getMessage());
-	}
+        ImportHandler handler = getImportHandler();
+        try {
+            return handler.getParsedDeclarationList();
+        } 
+        catch (ImportHandlerException e) {
+            throw new ImportException(this, e.getMessage());
+        }
     }
 
     protected ImportHandler getImportHandler() throws ImportException
     {
-	try {
-	    return this.handlerFactory.getHandler(this.location);
-	} 
-	catch (NoImportHandlerException e) {
-	    // Befor giving up, try once more with the location made
-	    // relative to the source files location (if possible);
-	    try {
-		String relativePath = getRelativePath();
-		if (relativePath != null) {
-		    return this.handlerFactory.getHandler(relativePath);
-		} else {
-		    // Did not work, giving up. Throw first error.
-		    throw new ImportException(this, e.getMessage());
-		}
-	    }
-	    catch (NoImportHandlerException e2) {
-		// Did not work, giving up. Throw first error.
-		throw new ImportException(this, e.getMessage());
-	    }
-	}
+        try {
+            return this.handlerFactory.getHandler(this.location);
+        } 
+        catch (NoImportHandlerException e) {
+            // Befor giving up, try once more with the location made
+            // relative to the source files location (if possible);
+            try {
+                String relativePath = getRelativePath();
+                if (relativePath != null) {
+                    return this.handlerFactory.getHandler(relativePath);
+                } else {
+                    // Did not work, giving up. Throw first error.
+                    throw new ImportException(this, e.getMessage());
+                }
+            }
+            catch (NoImportHandlerException e2) {
+                // Did not work, giving up. Throw first error.
+                throw new ImportException(this, e.getMessage());
+            }
+        }
     }
 
     /**
@@ -103,17 +103,17 @@ public class ParsedImport extends ParsedObject
      */
     protected String getRelativePath()
     {
-	if (getPos() == null || getPos().getSource() == null)  {
-	    return null;
-	}
+        if (getPos() == null || getPos().getSource() == null)  {
+            return null;
+        }
 
-	String sourceLocation = getPos().getSource();
-	File pwd = new File(sourceLocation).getAbsoluteFile().getParentFile();
-	if (pwd != null) {
-	    return new File(pwd, this.location).getPath();
-	} else {
-	    return null;
-	}
+        String sourceLocation = getPos().getSource();
+        File pwd = new File(sourceLocation).getAbsoluteFile().getParentFile();
+        if (pwd != null) {
+            return new File(pwd, this.location).getPath();
+        } else {
+            return null;
+        }
     }
 }
 
@@ -130,23 +130,23 @@ class ImportHandlerFactory
 
     public ImportHandlerFactory()
     {
-	createHandlers();
+        createHandlers();
     }
 
     synchronized protected void createHandlers()
     {
-	if (handlers == null) {
-	    try {
-		handlers = new Class[] {
-		    Class.forName(TaclanV2ImportHandler.class.getName()), 
-		    Class.forName(ESRIImportHandler.class.getName())};
-	    } 
-	    catch (ClassNotFoundException e) {
-		// This means that classes present at compile time has
-		// been removed.
-		throw new AssertionError(e.getMessage());
-	    }
-	}
+        if (handlers == null) {
+            try {
+                handlers = new Class[] {
+                    Class.forName(TaclanV2ImportHandler.class.getName()), 
+                    Class.forName(ESRIImportHandler.class.getName())};
+            } 
+            catch (ClassNotFoundException e) {
+                // This means that classes present at compile time has
+                // been removed.
+                throw new AssertionError(e.getMessage());
+            }
+        }
     }
 
     /**
@@ -155,54 +155,54 @@ class ImportHandlerFactory
      */    
     public ImportHandler getHandler(String location) throws NoImportHandlerException
     {
-	Vector errors = new Vector();
-	for (int i = 0; i < handlers.length; i++) {
-	    Class handler = this.handlers[i];
-	    try {
-		Constructor constructor = 
-		    handler.getConstructor(new Class[] {location.getClass()});
-		ImportHandler handlerInstance = 
-		    (ImportHandler) constructor.newInstance(((Object[]) new String[] {location}));
-		if (handlerInstance.canHandle()) {
-		    return handlerInstance;
-		}
-	    }
-	    catch (InstantiationException e) {
-		// This means that a abstract class or an interface
-		// has been registred as a handler. Since, at present,
-		// the handlers are static, this means an
-		// implementation error. Hence the assertion.
-		throw new AssertionError(e);
-	    }
-	    catch (IllegalAccessException e) {
-		// This should not happen in this code.
-		throw new AssertionError(e);
-	    }
-	    catch (NoSuchMethodException e) {
-		// This should not happen since this is checked at
-		// compile time and in createHandlers();
-		throw new AssertionError(e);
-	    }
-	    catch (InvocationTargetException e) {
-		// Apart from runtime exceptions this can only be an
-		// ImportHandlerException.
-		Throwable cause = e.getCause();
-		if (cause instanceof ImportHandlerException) {
-		    errors.add(0, cause);
-		} 
-		else if (cause instanceof RuntimeException) {
-		    throw (RuntimeException) cause;
-		} 
-		else {
-		    // Not conforming to constraints.
-		    throw new AssertionError(cause);
-		}
-	    }
-	    catch (ImportHandlerException e) {
-		errors.add(0, e);
-	    }	    
-	}
-	// Being here indicates that no handler could handle the location.
-	throw new NoImportHandlerException(location, errors);	
+        Vector errors = new Vector();
+        for (int i = 0; i < handlers.length; i++) {
+            Class handler = this.handlers[i];
+            try {
+                Constructor constructor = 
+                    handler.getConstructor(new Class[] {location.getClass()});
+                ImportHandler handlerInstance = 
+                    (ImportHandler) constructor.newInstance(((Object[]) new String[] {location}));
+                if (handlerInstance.canHandle()) {
+                    return handlerInstance;
+                }
+            }
+            catch (InstantiationException e) {
+                // This means that a abstract class or an interface
+                // has been registred as a handler. Since, at present,
+                // the handlers are static, this means an
+                // implementation error. Hence the assertion.
+                throw new AssertionError(e);
+            }
+            catch (IllegalAccessException e) {
+                // This should not happen in this code.
+                throw new AssertionError(e);
+            }
+            catch (NoSuchMethodException e) {
+                // This should not happen since this is checked at
+                // compile time and in createHandlers();
+                throw new AssertionError(e);
+            }
+            catch (InvocationTargetException e) {
+                // Apart from runtime exceptions this can only be an
+                // ImportHandlerException.
+                Throwable cause = e.getCause();
+                if (cause instanceof ImportHandlerException) {
+                    errors.add(0, cause);
+                } 
+                else if (cause instanceof RuntimeException) {
+                    throw (RuntimeException) cause;
+                } 
+                else {
+                    // Not conforming to constraints.
+                    throw new AssertionError(cause);
+                }
+            }
+            catch (ImportHandlerException e) {
+                errors.add(0, e);
+            }            
+        }
+        // Being here indicates that no handler could handle the location.
+        throw new NoImportHandlerException(location, errors);        
     }
 }

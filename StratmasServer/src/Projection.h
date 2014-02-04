@@ -19,18 +19,18 @@ class ProjCoord;
 class Projection
 {
 private:
-     double	mPCenX;     ///<   x-coordinate of the center of the projection
-     double	mPCenY;     ///<   y-coordinate of the center of the projection
+     double        mPCenX;     ///<   x-coordinate of the center of the projection
+     double        mPCenY;     ///<   y-coordinate of the center of the projection
 
-     double	mCenLng;    ///<   Longitude of center of area to be projected
-     double	mCenLat;    ///<   Latitude of center of area to be projected
-     double	mCosPhi0;   ///<   Projection parameter
-     double	mSinPhi0;   ///<   Projection parameter
+     double        mCenLng;    ///<   Longitude of center of area to be projected
+     double        mCenLat;    ///<   Latitude of center of area to be projected
+     double        mCosPhi0;   ///<   Projection parameter
+     double        mSinPhi0;   ///<   Projection parameter
 
      // Azimuthal
-     double	mR;         ///<   Radius of sphere to be projected upon
-     double	mPhi0;      ///<   Projection parameter
-     double	mLam0;      ///<   Projection parameter
+     double        mR;         ///<   Radius of sphere to be projected upon
+     double        mPhi0;      ///<   Projection parameter
+     double        mLam0;      ///<   Projection parameter
      
      /// Private default constructor.
      Projection() {}
@@ -75,4 +75,4 @@ public:
      void         projToCoord(gpc_polygon &dst,     const gpc_polygon &src)     const;
 };
 
-#endif	// _PROJECTION_H
+#endif        // _PROJECTION_H

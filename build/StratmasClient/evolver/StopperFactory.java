@@ -1,4 +1,4 @@
-// 	$Id: StopperFactory.java,v 1.1 2005/11/01 16:50:47 dah Exp $
+//         $Id: StopperFactory.java,v 1.1 2005/11/01 16:50:47 dah Exp $
 /*
  * @(#)StopperFactory.java
  */

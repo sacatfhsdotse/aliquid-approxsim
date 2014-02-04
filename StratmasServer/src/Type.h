@@ -125,12 +125,12 @@ struct lessTypeP {
       * the Type pointed to by t2.
       */
      bool operator()(const Type *const t1, const Type *const t2) const {
-	  if (!t1 || !t2) {
-	       exit(1);
-	  }
-	  else {
-	       return (t1 < t2);
-	  }
+          if (!t1 || !t2) {
+               exit(1);
+          }
+          else {
+               return (t1 < t2);
+          }
      }
 };
 

@@ -1,4 +1,4 @@
-// 	$Id: StratmasTransferHandler.java,v 1.2 2006/03/22 14:30:52 dah Exp $
+//         $Id: StratmasTransferHandler.java,v 1.2 2006/03/22 14:30:52 dah Exp $
 
 /*
  * @(#)TreeViewCellRenderer.java
@@ -37,7 +37,7 @@ class StratmasTransferHandler extends TransferHandler
      */
     StratmasTransferHandler()
     {
-	super();
+        super();
     }
 
     /**
@@ -47,11 +47,11 @@ class StratmasTransferHandler extends TransferHandler
      */
     public Icon getVisualRepresentation(Transferable transferable)
     {
-	if (transferable instanceof StratmasObject) {
-	    return ((StratmasObject) transferable).getIcon().getScaledInstance(16, 16);
-	} else {
-	    return super.getVisualRepresentation(transferable);
-	}
+        if (transferable instanceof StratmasObject) {
+            return ((StratmasObject) transferable).getIcon().getScaledInstance(16, 16);
+        } else {
+            return super.getVisualRepresentation(transferable);
+        }
     }
 
     /**
@@ -61,7 +61,7 @@ class StratmasTransferHandler extends TransferHandler
      */
     public int getSourceActions(JComponent c) 
     {
-	return COPY_OR_MOVE;
+        return COPY_OR_MOVE;
     }
 
     /**
@@ -73,30 +73,30 @@ class StratmasTransferHandler extends TransferHandler
      */
     protected Transferable createTransferable(JComponent component)
     {
-	if (component instanceof JTree) {
-	    TreePath[] selectedPaths = 
-		((JTree) component).getSelectionPaths();
-	    Object[] selectedObjects = new Object[selectedPaths.length];
-	    for (int i = 0; i < selectedPaths.length; i++) {
-		selectedObjects[i] = 
-		    selectedPaths[i].getLastPathComponent();
-	    }
+        if (component instanceof JTree) {
+            TreePath[] selectedPaths = 
+                ((JTree) component).getSelectionPaths();
+            Object[] selectedObjects = new Object[selectedPaths.length];
+            for (int i = 0; i < selectedPaths.length; i++) {
+                selectedObjects[i] = 
+                    selectedPaths[i].getLastPathComponent();
+            }
 
-	    if (selectedObjects.length > 1) {
-		Debug.err.println("Currently only support " + 
-				  "dragging one item at a time");
-	    }
+            if (selectedObjects.length > 1) {
+                Debug.err.println("Currently only support " + 
+                                  "dragging one item at a time");
+            }
 
-	    if (selectedObjects.length > 0 &&
-		selectedObjects[0] instanceof Transferable) {
-		return (Transferable) selectedObjects[0];
-	    } else {
-		return null;
-	    }
-	    
-	} else {
-	    return null;
-	}	
+            if (selectedObjects.length > 0 &&
+                selectedObjects[0] instanceof Transferable) {
+                return (Transferable) selectedObjects[0];
+            } else {
+                return null;
+            }
+            
+        } else {
+            return null;
+        }        
     }
 
     /**
@@ -108,15 +108,15 @@ class StratmasTransferHandler extends TransferHandler
      */
     public boolean canImport(JComponent component, DataFlavor[] transferFlavors) 
     {
-	boolean status = false;
-	for (int i = 0; i < transferFlavors.length; i++) {
-	    if (transferFlavors[i].equals(StratmasObject.STRATMAS_OBJECT_FLAVOR) ||
-		transferFlavors[i].equals(DataFlavor.stringFlavor)) {
-		status = true;
-	    }
-	}
-	
-	return status;
+        boolean status = false;
+        for (int i = 0; i < transferFlavors.length; i++) {
+            if (transferFlavors[i].equals(StratmasObject.STRATMAS_OBJECT_FLAVOR) ||
+                transferFlavors[i].equals(DataFlavor.stringFlavor)) {
+                status = true;
+            }
+        }
+        
+        return status;
     }
 
     /**
@@ -128,33 +128,33 @@ class StratmasTransferHandler extends TransferHandler
      */
     public boolean importData(JComponent component, Transferable transferable) 
     {
-	StratmasObject importedObject = getStratmasObject(transferable);
+        StratmasObject importedObject = getStratmasObject(transferable);
 
-	if (importedObject != null) {
-	    if (component instanceof TreeView) {
-		TreePath[] selectedPaths = 
-		    ((JTree) component).getSelectionPaths();
-		if (selectedPaths.length == 1 && 
-		    selectedPaths[0].getLastPathComponent() 
-		    instanceof StratmasObject ) {
-		    StratmasObject reciever = 
-			(StratmasObject) selectedPaths[0].getLastPathComponent();
-		    if (reciever.canAdd(importedObject)) {
-			importedObject.remove();
-			reciever.add(importedObject);
-			return true;
-		    } else {
-			return false;
-		    }
-		} else {
-		    Debug.err.println("Currently only support " + 
-				      "dropping to exactly one StratmasObject");
-		    return false;
-		}
-	    }
-	}
+        if (importedObject != null) {
+            if (component instanceof TreeView) {
+                TreePath[] selectedPaths = 
+                    ((JTree) component).getSelectionPaths();
+                if (selectedPaths.length == 1 && 
+                    selectedPaths[0].getLastPathComponent() 
+                    instanceof StratmasObject ) {
+                    StratmasObject reciever = 
+                        (StratmasObject) selectedPaths[0].getLastPathComponent();
+                    if (reciever.canAdd(importedObject)) {
+                        importedObject.remove();
+                        reciever.add(importedObject);
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    Debug.err.println("Currently only support " + 
+                                      "dropping to exactly one StratmasObject");
+                    return false;
+                }
+            }
+        }
 
-	return false;
+        return false;
     }
 
     /**
@@ -165,19 +165,19 @@ class StratmasTransferHandler extends TransferHandler
      */
     StratmasObject getStratmasObject(Transferable transferable)
     {
-	try {
-	    if (transferable.isDataFlavorSupported(StratmasObject.STRATMAS_OBJECT_FLAVOR)) {
-		return (StratmasObject) transferable.getTransferData(StratmasObject.STRATMAS_OBJECT_FLAVOR);
-	    } else if (transferable.isDataFlavorSupported(DataFlavor.stringFlavor)) {
-		return StratmasClient.Client.importTaclanV2String((String) transferable.getTransferData(DataFlavor.stringFlavor));
-	    } else {
-		return null;
-	    }
-	} catch (IOException e) {
-	    return null;
-	} catch (UnsupportedFlavorException e) {
-	    return null;
-	}
+        try {
+            if (transferable.isDataFlavorSupported(StratmasObject.STRATMAS_OBJECT_FLAVOR)) {
+                return (StratmasObject) transferable.getTransferData(StratmasObject.STRATMAS_OBJECT_FLAVOR);
+            } else if (transferable.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+                return StratmasClient.Client.importTaclanV2String((String) transferable.getTransferData(DataFlavor.stringFlavor));
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            return null;
+        } catch (UnsupportedFlavorException e) {
+            return null;
+        }
     }
 }
 

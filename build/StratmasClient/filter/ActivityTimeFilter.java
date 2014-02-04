@@ -42,10 +42,10 @@ public class ActivityTimeFilter extends StratmasObjectFilter {
     /**
      * Creates a new ActivityTimeFilter.
      */
-    public ActivityTimeFilter(Timeline timeline, int indicator)  {	
-	super();
-	this.timeline = timeline;
-	this.indicator = indicator;
+    public ActivityTimeFilter(Timeline timeline, int indicator)  {        
+        super();
+        this.timeline = timeline;
+        this.indicator = indicator;
     }
     
     /**
@@ -54,45 +54,45 @@ public class ActivityTimeFilter extends StratmasObjectFilter {
      * @param sObj the object to test
      */
     public boolean pass(StratmasObject sObj) {
-	// only activities can pass
-	if (sObj.getType().canSubstitute("Activity")) {
-	    // all activities can pass
-	    if (indicator  == ActivityFilter.ALL) {
-		return applyInverted(true);
-	    }
-	    else if (timeline != null) {
-		long currentTime = timeline.getCurrentTime();
-		long activityStartTime = -1;
-		long activityEndTime = -1;
-		if (sObj.getChild("start") != null) {
-		    activityStartTime = ((Timestamp)
-					   ((StratmasTimestamp)sObj.getChild("start")).getValue()).getMilliSecs();
-		}
-		if (sObj.getChild("end") != null) {
-		    activityEndTime = ((Timestamp)
-					 ((StratmasTimestamp)sObj.getChild("end")).getValue()).getMilliSecs();
-		}
-		// activities no longer active pass
-		if (indicator  == ActivityFilter.PAST) {
-		    if (activityEndTime != -1 && activityEndTime < currentTime) {
-			return applyInverted(true);
-		    }
-		}
-		// activities currently active pass
-		else if (indicator  == ActivityFilter.PRESENT) {
-		    if ((activityStartTime == -1 || activityStartTime <= currentTime) && 
-			(activityEndTime == -1 || activityEndTime >= currentTime)) {
-			return applyInverted(true);
-		    }
-		}
-		// activities that will be active in the future pass
-		else if (indicator  == ActivityFilter.FUTURE) {
-		    if (activityStartTime > currentTime) {
-			return applyInverted(true);
-		    }
-		}
-	    }
-	}
-	return applyInverted(false);
+        // only activities can pass
+        if (sObj.getType().canSubstitute("Activity")) {
+            // all activities can pass
+            if (indicator  == ActivityFilter.ALL) {
+                return applyInverted(true);
+            }
+            else if (timeline != null) {
+                long currentTime = timeline.getCurrentTime();
+                long activityStartTime = -1;
+                long activityEndTime = -1;
+                if (sObj.getChild("start") != null) {
+                    activityStartTime = ((Timestamp)
+                                           ((StratmasTimestamp)sObj.getChild("start")).getValue()).getMilliSecs();
+                }
+                if (sObj.getChild("end") != null) {
+                    activityEndTime = ((Timestamp)
+                                         ((StratmasTimestamp)sObj.getChild("end")).getValue()).getMilliSecs();
+                }
+                // activities no longer active pass
+                if (indicator  == ActivityFilter.PAST) {
+                    if (activityEndTime != -1 && activityEndTime < currentTime) {
+                        return applyInverted(true);
+                    }
+                }
+                // activities currently active pass
+                else if (indicator  == ActivityFilter.PRESENT) {
+                    if ((activityStartTime == -1 || activityStartTime <= currentTime) && 
+                        (activityEndTime == -1 || activityEndTime >= currentTime)) {
+                        return applyInverted(true);
+                    }
+                }
+                // activities that will be active in the future pass
+                else if (indicator  == ActivityFilter.FUTURE) {
+                    if (activityStartTime > currentTime) {
+                        return applyInverted(true);
+                    }
+                }
+            }
+        }
+        return applyInverted(false);
     }
 }

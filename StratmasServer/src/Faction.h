@@ -79,8 +79,8 @@ public:
       * no such faction exists.
       */
      static Faction* faction(const Reference& ref) {
-	  RefFactionMap::iterator it = mFactionRefMap.find(&ref);
-	  return (it == mFactionRefMap.end() ? 0 : it->second);
+          RefFactionMap::iterator it = mFactionRefMap.find(&ref);
+          return (it == mFactionRefMap.end() ? 0 : it->second);
      }
 
      /**
@@ -91,10 +91,10 @@ public:
       * \return True if the factions are enemies, false otherwise.
       */
      bool isHostileTowards(const Faction& f) {
-	  if (&ref() == &f.ref()) {
-	       return false;
-	  }
-	  return (mEnemy.find(&f.ref()) != mEnemy.end() || f.mEnemy.find(&ref()) != f.mEnemy.end());
+          if (&ref() == &f.ref()) {
+               return false;
+          }
+          return (mEnemy.find(&f.ref()) != mEnemy.end() || f.mEnemy.find(&ref()) != f.mEnemy.end());
      }
 };
 
@@ -158,13 +158,13 @@ public:
       * such faction exists.
       */
      static EthnicFaction* faction(int i) {
-	  if (i == ALL) {
-	       return &all();
-	  }
-	  else {
-	       std::map<int, EthnicFaction*>::iterator it = mFactionIndexMap.find(i);
-	       return (it == mFactionIndexMap.end() ? 0 : it->second);
-	  }
+          if (i == ALL) {
+               return &all();
+          }
+          else {
+               std::map<int, EthnicFaction*>::iterator it = mFactionIndexMap.find(i);
+               return (it == mFactionIndexMap.end() ? 0 : it->second);
+          }
      }
 
      /**
@@ -175,7 +175,7 @@ public:
       * no such ethnic faction exists.
       */
      static EthnicFaction* faction(const Reference& ref) {
-	  return dynamic_cast<EthnicFaction*>(Faction::faction(ref));
+          return dynamic_cast<EthnicFaction*>(Faction::faction(ref));
      }
 };
 

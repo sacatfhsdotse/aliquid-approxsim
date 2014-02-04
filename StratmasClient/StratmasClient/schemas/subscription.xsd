@@ -18,9 +18,9 @@
   <xsd:complexType name="GeneralSubscription">
     <xsd:complexContent> 
       <xsd:extension base="sp:Subscription">
-	<xsd:sequence>
-	  <xsd:element name="reference" type="sp:Reference"/>
-	</xsd:sequence>
+        <xsd:sequence>
+          <xsd:element name="reference" type="sp:Reference"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent> 
   </xsd:complexType> 
@@ -28,9 +28,9 @@
   <xsd:complexType name="StratmasObjectSubscription">
     <xsd:complexContent> 
       <xsd:extension base="sp:Subscription">
-	<xsd:sequence>
-	  <xsd:element name="reference" type="sp:Reference"/>
-	</xsd:sequence>
+        <xsd:sequence>
+          <xsd:element name="reference" type="sp:Reference"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent> 
   </xsd:complexType> 
@@ -38,15 +38,15 @@
   <xsd:complexType name="LayerSubscription">
     <xsd:complexContent> 
       <xsd:extension base="sp:Subscription">
-	<xsd:sequence>
-	  <xsd:element name="layer" type="xsd:string"/>
-	  <xsd:element name="faction" type="sp:Reference" minOccurs="0"/>
-	   <!-- Base64 encoded array of 32 bit integers representing
-	   	the indices of the active cells that the subscription
-	   	refers to. If not present - values for all cells will
-		be returned -->
-	  <xsd:element name="index" type="xsd:base64Binary" minOccurs="0"/>
-	</xsd:sequence>
+        <xsd:sequence>
+          <xsd:element name="layer" type="xsd:string"/>
+          <xsd:element name="faction" type="sp:Reference" minOccurs="0"/>
+           <!-- Base64 encoded array of 32 bit integers representing
+                   the indices of the active cells that the subscription
+                   refers to. If not present - values for all cells will
+                be returned -->
+          <xsd:element name="index" type="xsd:base64Binary" minOccurs="0"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent> 
   </xsd:complexType> 
@@ -54,9 +54,9 @@
   <xsd:complexType name="RegionSubscription">
     <xsd:complexContent> 
       <xsd:extension base="sp:Subscription">
-	<xsd:sequence>
-	  <xsd:element name="region" type="sp:Shape"/>
-	</xsd:sequence>
+        <xsd:sequence>
+          <xsd:element name="region" type="sp:Shape"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent> 
   </xsd:complexType> 
@@ -78,9 +78,9 @@
   <xsd:complexType name="SubscribedAttributeData">
     <xsd:complexContent> 
       <xsd:extension base="sp:SubscribedData">
-	<xsd:sequence>
-	  <xsd:element name="value" type="sp:ValueType"/>
-	</xsd:sequence>
+        <xsd:sequence>
+          <xsd:element name="value" type="sp:ValueType"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent> 
   </xsd:complexType> 
@@ -88,9 +88,9 @@
   <xsd:complexType name="SubscribedStratmasObjectData">
     <xsd:complexContent> 
       <xsd:extension base="sp:SubscribedData">
-	<xsd:sequence>
-	  <xsd:element name="update" type="sp:Update"/>
-	</xsd:sequence>
+        <xsd:sequence>
+          <xsd:element name="update" type="sp:Update"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent> 
   </xsd:complexType> 
@@ -98,12 +98,12 @@
   <xsd:complexType name="SubscribedLayerData">
     <xsd:complexContent> 
       <xsd:extension base="sp:SubscribedData">
-	<xsd:sequence>
-	  <!-- Base64 encoded array of doubles where the first element is the
-	       top left active cell and the last element is the bottom right
-	       active cell. -->
-	  <xsd:element name="layerData" type="xsd:base64Binary"/>
-	</xsd:sequence>
+        <xsd:sequence>
+          <!-- Base64 encoded array of doubles where the first element is the
+               top left active cell and the last element is the bottom right
+               active cell. -->
+          <xsd:element name="layerData" type="xsd:base64Binary"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent> 
   </xsd:complexType> 
@@ -111,9 +111,9 @@
   <xsd:complexType name="SubscribedRegionData">
     <xsd:complexContent> 
       <xsd:extension base="sp:SubscribedData">
-	<xsd:sequence>
-	  <xsd:element name="pv" type="sp:ProcessVariable" minOccurs="1" maxOccurs="unbounded"/>
-	</xsd:sequence>
+        <xsd:sequence>
+          <xsd:element name="pv" type="sp:ProcessVariable" minOccurs="1" maxOccurs="unbounded"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent> 
   </xsd:complexType> 

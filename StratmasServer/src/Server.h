@@ -1,7 +1,7 @@
 #ifndef _SERVER_H
 #define _SERVER_H
 
-#define BACKLOG		(100)	// max request backlog
+#define BACKLOG                (100)        // max request backlog
 
 // System
 #include <map>
@@ -60,7 +60,7 @@ private:
 
 public:
      Server(int port, const std::string& host,
-	    ClientValidator* clientValidator);
+            ClientValidator* clientValidator);
      ~Server();
 
      void start();

@@ -27,10 +27,10 @@ public class InitializationMessage extends StratmasMessage {
       * @param s The simulation object.
       */
      public InitializationMessage(StratmasObject s) {
-	  mSimulation = s;
-	  if (mSimulation instanceof StratmasList) {
-	       throw new AssertionError("Tried to create InitializationMessage with list of simulations.");
-	  }
+          mSimulation = s;
+          if (mSimulation instanceof StratmasList) {
+               throw new AssertionError("Tried to create InitializationMessage with list of simulations.");
+          }
      }
     
     /**
@@ -39,11 +39,11 @@ public class InitializationMessage extends StratmasMessage {
      * @param s The simulation object.
      */
     public InitializationMessage(StratmasObject s, Client client) {
-	mSimulation = s;
-	this.client = client;
-	if (mSimulation instanceof StratmasList) {
-	    throw new AssertionError("Tried to create InitializationMessage with list of simulations.");
-	}
+        mSimulation = s;
+        this.client = client;
+        if (mSimulation instanceof StratmasList) {
+            throw new AssertionError("Tried to create InitializationMessage with list of simulations.");
+        }
     }
 
     /**
@@ -52,7 +52,7 @@ public class InitializationMessage extends StratmasMessage {
      * @return A string representation of the type of this message.
      */
      public String getTypeAsString() {
-	  return "InitializationMessage";
+          return "InitializationMessage";
      }
 
      /**
@@ -63,20 +63,20 @@ public class InitializationMessage extends StratmasMessage {
       * object's body appended to it.
       */
      public StringBuffer bodyXML(StringBuffer b) {
-	  b.append(NL).append("<simulation xsi:type=\"sp:" ).append(mSimulation.getType().getName());
-	  b.append("\" identifier=\"");
-	  b.append(StratmasClient.communication.XMLHandler.encodeSpecialCharacters(mSimulation.getIdentifier()));
-	  b.append("\">");
-	  mSimulation.bodyXML(b);
-	  b.append(NL).append("</simulation>");
-	 // insert the initial values for process variables
-	  if (client != null) {
-	      StringBuffer pvBuffer = client.getInitialValuesForProcessVariables();
-	      if (pvBuffer != null) {
-		  b.append(pvBuffer);
-	      }
-	  } 
-	  
-	  return b;
+          b.append(NL).append("<simulation xsi:type=\"sp:" ).append(mSimulation.getType().getName());
+          b.append("\" identifier=\"");
+          b.append(StratmasClient.communication.XMLHandler.encodeSpecialCharacters(mSimulation.getIdentifier()));
+          b.append("\">");
+          mSimulation.bodyXML(b);
+          b.append(NL).append("</simulation>");
+         // insert the initial values for process variables
+          if (client != null) {
+              StringBuffer pvBuffer = client.getInitialValuesForProcessVariables();
+              if (pvBuffer != null) {
+                  b.append(pvBuffer);
+              }
+          } 
+          
+          return b;
      }
 }

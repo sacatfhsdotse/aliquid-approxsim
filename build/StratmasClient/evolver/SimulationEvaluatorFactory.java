@@ -1,4 +1,4 @@
-// 	$Id: SimulationEvaluatorFactory.java,v 1.2 2006/03/22 14:30:50 dah Exp $
+//         $Id: SimulationEvaluatorFactory.java,v 1.2 2006/03/22 14:30:50 dah Exp $
 /*
  * @(#)SimulationEvaluatorFactory.java
  */
@@ -37,8 +37,8 @@ public abstract class SimulationEvaluatorFactory implements EvaluatorFactory, St
      */
     SimulationEvaluatorFactory(StratmasDispatcher dispatcher, StratmasObject simulation)
     {
-	this.dispatcher = dispatcher;
-	setSimulation(simulation);
+        this.dispatcher = dispatcher;
+        setSimulation(simulation);
     }
 
     /**
@@ -46,14 +46,14 @@ public abstract class SimulationEvaluatorFactory implements EvaluatorFactory, St
      */
     public Evaluator getEvaluator()
     {
-	if (getSimulation() != null) {
-	    ServerSession session = createServerSession();
-	    if (session != null) {
-		return new SimulationEvaluator(session, createTarget(), getSimulation());
-	    }
-	}
-	
-	return null;
+        if (getSimulation() != null) {
+            ServerSession session = createServerSession();
+            if (session != null) {
+                return new SimulationEvaluator(session, createTarget(), getSimulation());
+            }
+        }
+        
+        return null;
     }
 
     /**
@@ -63,15 +63,15 @@ public abstract class SimulationEvaluatorFactory implements EvaluatorFactory, St
      */
     void setSimulation(StratmasObject simulation)
     {
-	if (getSimulation() != null) {
-	    getSimulation().removeEventListener(this);
-	}
+        if (getSimulation() != null) {
+            getSimulation().removeEventListener(this);
+        }
 
-	if (simulation != null) {
-	    simulation.addEventListener(this);
-	}
+        if (simulation != null) {
+            simulation.addEventListener(this);
+        }
 
-	this.simulation = simulation;
+        this.simulation = simulation;
     }
 
     /**
@@ -79,7 +79,7 @@ public abstract class SimulationEvaluatorFactory implements EvaluatorFactory, St
      */
     StratmasObject getSimulation()
     {
-	return this.simulation;
+        return this.simulation;
     }
     
     /**
@@ -89,9 +89,9 @@ public abstract class SimulationEvaluatorFactory implements EvaluatorFactory, St
      */
     public void eventOccured(StratmasEvent event)
     {
-	if (event.isRemoved() || event.isReplaced()) {
-	    setSimulation(null);
-	}
+        if (event.isRemoved() || event.isReplaced()) {
+            setSimulation(null);
+        }
     }
     
 
@@ -108,12 +108,12 @@ public abstract class SimulationEvaluatorFactory implements EvaluatorFactory, St
      */
     ServerSession createServerSession()
     {
-	StratmasSocket socket = getDispatcher().allocateServer(10);
-	if (socket != null) {
-	    return new DefaultServerSession(socket);
-	} else {
-	    return null;
-	}
+        StratmasSocket socket = getDispatcher().allocateServer(10);
+        if (socket != null) {
+            return new DefaultServerSession(socket);
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -121,6 +121,6 @@ public abstract class SimulationEvaluatorFactory implements EvaluatorFactory, St
      */
     public StratmasDispatcher getDispatcher()
     {
-	return this.dispatcher;
+        return this.dispatcher;
     }
 }

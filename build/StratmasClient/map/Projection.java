@@ -31,9 +31,9 @@ public abstract class Projection {
      * Default projection constructor. 
      */
     public Projection() {
-	// set center of the projection
-	lat_cen = 0;
-	lon_cen = 0;
+        // set center of the projection
+        lat_cen = 0;
+        lon_cen = 0;
     }
     
     /**
@@ -42,9 +42,9 @@ public abstract class Projection {
      * @param box bounding box of the area.
      */
     public Projection(BoundingBox box) {
-	// set center of the projection
-	lat_cen = (box.getNorthLat()+box.getSouthLat())/2.0;
-	lon_cen = (box.getEastLon()+box.getWestLon())/2.0;
+        // set center of the projection
+        lat_cen = (box.getNorthLat()+box.getSouthLat())/2.0;
+        lon_cen = (box.getEastLon()+box.getWestLon())/2.0;
     }
 
     /**
@@ -56,9 +56,9 @@ public abstract class Projection {
      * @param lat_max maximum latitude.
      */
     public Projection(double lon_min, double lat_min, double lon_max, double lat_max) {
-	// set center of the projection
-	lat_cen = (lat_max+lat_min)/2.0;
-	lon_cen = (lon_max+lon_min)/2.0;
+        // set center of the projection
+        lat_cen = (lat_max+lat_min)/2.0;
+        lon_cen = (lon_max+lon_min)/2.0;
     }
 
     /**
@@ -68,9 +68,9 @@ public abstract class Projection {
      *               [min longitude, min latitude, max longitude, max latitude].  
      */
     public Projection(double[] bounds) {
-	// set center of the projection
-	lat_cen = (bounds[3]+bounds[1])/2.0;
-	lon_cen = (bounds[2]+bounds[0])/2.0;
+        // set center of the projection
+        lat_cen = (bounds[3]+bounds[1])/2.0;
+        lon_cen = (bounds[2]+bounds[0])/2.0;
     }
 
     /**
@@ -91,13 +91,13 @@ public abstract class Projection {
      * @return projected coordinates ie. [x1, y1, x2, y2, ...].
      */
     public double[] projToXY(double[] lon_lat) {
-	double[] xy = new double[lon_lat.length];
-	for (int i = 0; i < lon_lat.length; i = i+2) {
-	    double[] xy2 = projToXY(lon_lat[i], lon_lat[i+1]);
-	    xy[i] = xy2[0];
-	    xy[i+1] = xy2[1];
-	}
-	return xy;
+        double[] xy = new double[lon_lat.length];
+        for (int i = 0; i < lon_lat.length; i = i+2) {
+            double[] xy2 = projToXY(lon_lat[i], lon_lat[i+1]);
+            xy[i] = xy2[0];
+            xy[i+1] = xy2[1];
+        }
+        return xy;
     }
 
     /**
@@ -109,7 +109,7 @@ public abstract class Projection {
      */
     public double[] projToXY(Point point) 
     {
-	return projToXY(point.getLon(), point.getLat());
+        return projToXY(point.getLon(), point.getLat());
     }
 
      /**
@@ -128,9 +128,9 @@ public abstract class Projection {
      * @param box bounding box of the area.
      */
     public void setProjectionCenter(BoundingBox box) {
-	// set center of the projection
-	lat_cen = (box.getNorthLat()+box.getSouthLat())/2.0;
-	lon_cen = (box.getEastLon()+box.getWestLon())/2.0;
+        // set center of the projection
+        lat_cen = (box.getNorthLat()+box.getSouthLat())/2.0;
+        lon_cen = (box.getEastLon()+box.getWestLon())/2.0;
     }
     
     /**
@@ -142,9 +142,9 @@ public abstract class Projection {
      * @param lat_max maximum latitude.
      */
     public void setProjectionCenter(double lon_min, double lat_min, double lon_max, double lat_max) {
-	// set center of the projection
-	lat_cen = (lat_max+lat_min)/2.0;
-	lon_cen = (lon_max+lon_min)/2.0;
+        // set center of the projection
+        lat_cen = (lat_max+lat_min)/2.0;
+        lon_cen = (lon_max+lon_min)/2.0;
     }
 
     /**
@@ -153,8 +153,8 @@ public abstract class Projection {
      * @return center of the projection ie. [longitude, latitude].
      */
     public double[] getProjectionCenter() {
-	double[] center = {lon_cen, lat_cen};
-	return center;
+        double[] center = {lon_cen, lat_cen};
+        return center;
     }
 
     /**
@@ -163,7 +163,7 @@ public abstract class Projection {
      * @return name of the projection.
      */
     public String getProjectionName() {
-	return proj_name;
+        return proj_name;
     }
             
     /**
@@ -177,12 +177,12 @@ public abstract class Projection {
      * @return great circle distance in meters.
      */
     public double getDistanceGC(double x1, double y1, double x2, double y2) {
-	// project back to lon/lat
-	double[] pt1 = projToLonLat(x1, y1);
-	double[] pt2 = projToLonLat(x2, y2);
-	// compute distance in km
-	double dist = GeoMath.distanceGC(pt1[1], pt1[0], pt2[1], pt2[0]);
-	return dist;
+        // project back to lon/lat
+        double[] pt1 = projToLonLat(x1, y1);
+        double[] pt2 = projToLonLat(x2, y2);
+        // compute distance in km
+        double dist = GeoMath.distanceGC(pt1[1], pt1[0], pt2[1], pt2[0]);
+        return dist;
     }
     
 }

@@ -15,30 +15,30 @@ public class UPSCoordinate {
      * Creates new coordinate.
      */
     public UPSCoordinate(char hemisphere, double easting, double northing) {
-	this.hemisphere = hemisphere;
-	this.easting = easting;
-	this.northing = northing;
+        this.hemisphere = hemisphere;
+        this.easting = easting;
+        this.northing = northing;
     }
 
     /**
      * Returns the hemisphere.
      */
     public char getHemisphere() {
-	return hemisphere;
+        return hemisphere;
     }
     
     /**
      * Returns the easting.
      */
     public double getEasting() {
-	return easting; 
+        return easting; 
     }
     
     /**
      * Returns the northing.
      */
     public double getNorthing() {
-	return northing;
+        return northing;
     }
 }
 

@@ -48,37 +48,37 @@ public class SubscriptionCounter {
      * Update the number of messages in the first sending queue.
      */
     public static void updateNrOfMessInSendingQueue1(int messNr) {
-	messNrInSendingQueue1 = messNr;
+        messNrInSendingQueue1 = messNr;
     }
     
     /**
      * Update the number of messages in the second sending queue.
      */
     public static void updateNrOfMessInSendingQueue2(int messNr) {
-	messNrInSendingQueue2 = messNr;
+        messNrInSendingQueue2 = messNr;
     }
     
     /**
      * Update the number of messages in the receiving queue.
      */
     public static void updateNrOfMessInReceivingQueue(int messNr) {
-	messNrInReceivingQueue = messNr;
+        messNrInReceivingQueue = messNr;
     }
     
     /**
      * Update the total number of the sended messages.
      */
     public static void updateNrOfSendedMessages() {
-	nrOfSendedMessages++;
-	startTimer(0.5);
+        nrOfSendedMessages++;
+        startTimer(0.5);
     }
     
     /**
      * Update the total number of the received messages.
      */
     public static void updateNrOfReceivedMessages() {
-	nrOfReceivedMessages++;
-	endTimer();
+        nrOfReceivedMessages++;
+        endTimer();
     }
         
     /**
@@ -87,32 +87,32 @@ public class SubscriptionCounter {
      * @param secs number of seconds before the timer starts.
      */
     public static void startTimer(double secs) {
-	timer = new Timer();
-	int totalNrOfMessages = messNrInSendingQueue1+messNrInSendingQueue2;
-	if (totalNrOfMessages <= 1) {
-	    timer.schedule(new TimerTask() {
-		    public void run() {
-			ClientMainFrame.activateProgressBar(true, "Client - Server communication ...");
-		    }
-		}, (long)(secs*1000));
-	}
-	else {
-	    timer.schedule(new TimerTask() {
-		    public void run() {
-			ClientMainFrame.activateProgressBar(true, "Client - Server communication ...");
-		    }
-		}, 0);
-	}
+        timer = new Timer();
+        int totalNrOfMessages = messNrInSendingQueue1+messNrInSendingQueue2;
+        if (totalNrOfMessages <= 1) {
+            timer.schedule(new TimerTask() {
+                    public void run() {
+                        ClientMainFrame.activateProgressBar(true, "Client - Server communication ...");
+                    }
+                }, (long)(secs*1000));
+        }
+        else {
+            timer.schedule(new TimerTask() {
+                    public void run() {
+                        ClientMainFrame.activateProgressBar(true, "Client - Server communication ...");
+                    }
+                }, 0);
+        }
     }
     
     /**
      * Ends the timer and sets the progress bar in ClientMainFrame to zero.
      */
     public static void endTimer() {
-	if (timer != null) {
-	    timer.cancel();
-	    ClientMainFrame.activateProgressBar(false, "");
-	}
+        if (timer != null) {
+            timer.cancel();
+            ClientMainFrame.activateProgressBar(false, "");
+        }
     }
     
 }

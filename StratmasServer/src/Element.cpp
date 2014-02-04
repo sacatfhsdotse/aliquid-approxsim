@@ -79,15 +79,15 @@ void Element::replaceObject(DataObject& newObject, int64_t initiator)
 {
      const string& attr = newObject.identifier();
      if (attr == "location") {
-	  delete mLocation;
-	  mLocation = newObject.getShape();
-	  SOFactory::simulationObjectReplaced(newObject, initiator);
+          delete mLocation;
+          mLocation = newObject.getShape();
+          SOFactory::simulationObjectReplaced(newObject, initiator);
      }
      else if (attr == "deployment") {
-	  mDeployment = dynamic_cast<Distribution*>(SOFactory::simulationObjectReplaced(newObject, initiator));
+          mDeployment = dynamic_cast<Distribution*>(SOFactory::simulationObjectReplaced(newObject, initiator));
      }
      else {
-	  UpdatableSOAdapter::replaceObject(newObject, initiator);
+          UpdatableSOAdapter::replaceObject(newObject, initiator);
      }
 }
 
@@ -100,17 +100,17 @@ void Element::modify(const DataObject& d)
 {
      const string& attr = d.ref().name();
      if (attr == "present") {
-	  Error e("It is not allowed to update the 'present' attribute in Elements", Error::eWarning);
-	  throw e;
+          Error e("It is not allowed to update the 'present' attribute in Elements", Error::eWarning);
+          throw e;
      }
      else if (attr == "location") {
-	  delete mLocation;
-	  mLocation = d.getShape();
+          delete mLocation;
+          mLocation = d.getShape();
      }
      else {
-	  Error e;
-	  e << "No updatable attribute '" << attr << "' in '" << ref() << "'";
-	  throw e;
+          Error e;
+          e << "No updatable attribute '" << attr << "' in '" << ref() << "'";
+          throw e;
      }
 }
 

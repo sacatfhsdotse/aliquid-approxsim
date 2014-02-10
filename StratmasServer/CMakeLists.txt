@@ -14,12 +14,12 @@ SET (APPLICATION_VERSION_STRING "${APPLICATION_VERSION_MAJOR}.${APPLICATION_VERS
 SET (APPLICATION_VENDOR_NAME "Your Company")
 SET (APPLICATION_VENDOR_URL "yourcompany.com")
 
-option(TESTS_ENABLED "Enable tests build" OFF)
+option(TESTS "Enable tests build" OFF)
 
 #
 # CMake Debugging Options
 #
-SET (CMAKE_VERBOSE_MAKEFILE 0) # Use 1 for debugging, 0 for release
+SET (CMAKE_VERBOSE_MAKEFILE 1) # Use 1 for debugging, 0 for release
 
 #
 # Project Output Paths
@@ -48,22 +48,25 @@ LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
 #FIND_PACKAGE (Log4Cxx REQUIRED)
 #INCLUDE_DIRECTORIES(${Log4Cxx_INCLUDE_DIRS})
 #LINK_DIRECTORIES(${Log4Cxx_LIBRARY_DIRS})
-if(TESTS_ENABLED)
+if(TESTS)
   FIND_PACKAGE (UnitTestPlusPlus)
   
-  IF NOT (${UnitTestPlusPlus_FOUND})
-    include(UnitTestPlusPlus)
+  IF (${UnitTestPlusPlus_FOUND})
+		message("Found UnitTestPlusPlus")
+  ELSE()
+		message("UnitTestPlusPlus not found locally, will download during build")
+    include(ExternalProject)
     ExternalProject_Add(
       UnitTestPlusPlus
-      SVN_REPOSITORY https://unittest-cpp.svn.sourceforge.net/svnroot/unittest-cpp
-      CONFIGURE_COMMAND <SOURCE_DIR>/configure
-       --prefix=<INSTALL_DIR>
-      BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/libs
-      UPDATE_COMMAND “”
+      GIT_REPOSITORY https://github.com/unittest-cpp/unittest-cpp.git
+      UPDATE_COMMAND ""
+      CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
     )
+    ExternalProject_Get_Property(UnitTestPlusPlus install_dir)
+		SET (UnitTestPlusPlus_INCLUDE_DIRS ${install_dir}/include)
+		SET (UnitTestPlusPlus_LIBRARY_DIRS ${install_dir}/lib)
+    SET (UnitTestPlusPlus_LIBRARIES UnitTest++)
   ENDIF()
-
-  FIND_PACKAGE (UnitTestPlusPlus REQUIRED)
   INCLUDE_DIRECTORIES(${UnitTestPlusPlus_INCLUDE_DIRS})
   LINK_DIRECTORIES(${UnitTestPlusPlus_LIBRARY_DIRS})
 endif()
@@ -89,7 +92,7 @@ set(CMAKE_CONFIGURATION_TYPES Debug Release)
 #
 FILE (GLOB_RECURSE CONFIGINPUTS3 src/*.in.h.cmake)
 FILE (GLOB_RECURSE CONFIGINPUTS4 src/*.h.in.cmake)
-if(TESTS_ENABLED)
+if(TESTS)
   FILE (GLOB_RECURSE CONFIGINPUTS5 test/*.in.h.cmake)
   FILE (GLOB_RECURSE CONFIGINPUTS6 test/*.h.in.cmake)
 endif()
@@ -107,8 +110,8 @@ ENDFOREACH (CONFIGINPUT ${CONFIGINPUTS})
 # Add Build Targets
 #
 #TODO build xerces and boost if not found
-ADD_SUBDIRECTORY(src)
-if(TESTS_ENABLED)
+#ADD_SUBDIRECTORY(src)
+if(TESTS)
   ADD_SUBDIRECTORY(test)
 endif()
 

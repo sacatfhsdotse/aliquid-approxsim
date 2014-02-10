@@ -67,6 +67,7 @@ find_package_handle_standard_args(
 if (XERCESC_FOUND)
     set(XERCESC_LIBRARIES ${XERCESC_LIBRARY})
     set(XERCESC_INCLUDE_DIRS ${XERCESC_INCLUDE_DIR})
+    set(XercesC_FOUND 1)
 else (XERCESC_FOUND)
     set(XERCESC_LIBRARIES)
     set(XERCESC_INCLUDE_DIRS)

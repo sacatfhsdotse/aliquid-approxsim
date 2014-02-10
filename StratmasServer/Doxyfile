@@ -4,7 +4,7 @@
 # Project related configuration options
 #---------------------------------------------------------------------------
 DOXYFILE_ENCODING      = UTF-8
-PROJECT_NAME           =
+PROJECT_NAME           = stratmas-server
 PROJECT_NUMBER         =
 OUTPUT_DIRECTORY       = 
 CREATE_SUBDIRS         = NO
@@ -86,7 +86,7 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = include
+INPUT                  = include src
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          =
 RECURSIVE              = YES

@@ -49,6 +49,20 @@ LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
 #INCLUDE_DIRECTORIES(${Log4Cxx_INCLUDE_DIRS})
 #LINK_DIRECTORIES(${Log4Cxx_LIBRARY_DIRS})
 if(TESTS_ENABLED)
+  FIND_PACKAGE (UnitTestPlusPlus)
+  
+  IF NOT (${UnitTestPlusPlus_FOUND})
+    include(UnitTestPlusPlus)
+    ExternalProject_Add(
+      UnitTestPlusPlus
+      SVN_REPOSITORY https://unittest-cpp.svn.sourceforge.net/svnroot/unittest-cpp
+      CONFIGURE_COMMAND <SOURCE_DIR>/configure
+       --prefix=<INSTALL_DIR>
+      BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/libs
+      UPDATE_COMMAND “”
+    )
+  ENDIF()
+
   FIND_PACKAGE (UnitTestPlusPlus REQUIRED)
   INCLUDE_DIRECTORIES(${UnitTestPlusPlus_INCLUDE_DIRS})
   LINK_DIRECTORIES(${UnitTestPlusPlus_LIBRARY_DIRS})
@@ -56,6 +70,8 @@ endif()
 FIND_PACKAGE (XercesC REQUIRED)
 INCLUDE_DIRECTORIES(${XercesC_INCLUDE_DIRS})
 LINK_DIRECTORIES(${XercesC_LIBRARY_DIRS})
+
+
 
 #
 # Build settings

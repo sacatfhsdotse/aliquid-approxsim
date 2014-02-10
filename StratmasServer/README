@@ -30,7 +30,7 @@
  You can speed up compilation by running on multiple cores with ex. 'make -j4' if you have 4 cores.
 
  To generate documentation run 'make docs'
- To run tests './configure -DTESTS' and then 'make'
+ To run tests './configure -DTESTS=On' and then 'make'
 
 == 3. INSTALLING ==
 

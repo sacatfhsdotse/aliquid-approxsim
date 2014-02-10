@@ -48,9 +48,9 @@ LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
 #FIND_PACKAGE (Log4Cxx REQUIRED)
 #INCLUDE_DIRECTORIES(${Log4Cxx_INCLUDE_DIRS})
 #LINK_DIRECTORIES(${Log4Cxx_LIBRARY_DIRS})
+
 if(TESTS)
   FIND_PACKAGE (UnitTestPlusPlus)
-  
   IF (${UnitTestPlusPlus_FOUND})
 		message("Found UnitTestPlusPlus")
   ELSE()
@@ -70,10 +70,25 @@ if(TESTS)
   INCLUDE_DIRECTORIES(${UnitTestPlusPlus_INCLUDE_DIRS})
   LINK_DIRECTORIES(${UnitTestPlusPlus_LIBRARY_DIRS})
 endif()
-FIND_PACKAGE (XercesC REQUIRED)
+
+FIND_PACKAGE (XercesC)
+IF (${XercesC_FOUND})
+  message("Found XercesC")
+ELSE()
+  message("XercesC not found locally, will download during build")
+  include(ExternalProject)
+  ExternalProject_Add(
+    XercesC
+    URL http://apache.mirrors.spacedump.net/xerces/c/3/sources/xerces-c-3.1.1.tar.gz
+    CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
+  )
+  ExternalProject_Get_Property(XercesC install_dir)
+  SET (XercesC_INCLUDE_DIRS ${install_dir}/include)
+  SET (XercesC_LIBRARY_DIRS ${install_dir}/lib)
+  SET (XercesC_LIBRARIES xerces-c)
+ENDIF()
 INCLUDE_DIRECTORIES(${XercesC_INCLUDE_DIRS})
 LINK_DIRECTORIES(${XercesC_LIBRARY_DIRS})
-
 
 
 #
@@ -109,8 +124,7 @@ ENDFOREACH (CONFIGINPUT ${CONFIGINPUTS})
 #
 # Add Build Targets
 #
-#TODO build xerces and boost if not found
-#ADD_SUBDIRECTORY(src)
+ADD_SUBDIRECTORY(src)
 if(TESTS)
   ADD_SUBDIRECTORY(test)
 endif()

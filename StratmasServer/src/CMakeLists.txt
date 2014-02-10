@@ -27,9 +27,6 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Solaris")
   LIST (APPEND project_OS_SPECIFIC "-lsocket -lnsl")
 ENDIF()
 
-#Does not seem to be included properly in XerceC_LIBRARIES
-LIST (APPEND project_OS_SPECIFIC "-lxerces-c")
-
 #Compiler
 IF(${MSVC})
   #set(CMAKE_EXE_LINKER_FLAGS "/machine:x86_64")

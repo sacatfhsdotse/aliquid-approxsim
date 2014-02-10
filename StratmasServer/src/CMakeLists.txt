@@ -2,7 +2,7 @@ FILE (GLOB_RECURSE project_SRCS *.cpp *.cxx *.cc *.C *.c *.h *.hpp)
 FILE (GLOB glob_remove s_subst.c schemas/file2h.c GridCellPV.cpp XMLHelper.cpp)
 LIST(REMOVE_ITEM project_SRCS ${glob_remove})
 
-SET (project_LIBS ${Boost_LIBRARIES} ${XercesC_LIBRARIES} ${Log4Cxx_LIBRARIES})
+SET (project_LIBS ${Boost_LIBRARIES} ${XERCESC_LIBRARIES} ${Log4Cxx_LIBRARIES})
 SET (project_BIN ${PROJECT_NAME})
 
 #OS

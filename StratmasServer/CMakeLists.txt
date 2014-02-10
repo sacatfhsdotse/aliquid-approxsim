@@ -43,8 +43,28 @@ SET (CMAKE_MODULE_PATH "${MAINFOLDER}/tools/share/cmake")
 SET (Boost_ADDITIONAL_VERSIONS "1.39" "1.39.0" "1.40" "1.40.0" "1.41" "1.41.0" "1.42" "1.42.0" "1.43" "1.43.0" "1.44" "1.44.0" "1.45" "1.45.0" "1.46" "1.46.0" "1.47" "1.47.0" "1.48" "1.48.0" "1.49" "1.49.0" "1.50" "1.50.0")
 SET (Boost_USE_MULTITHREADED ON)
 FIND_PACKAGE (Boost 1.37 COMPONENTS "date_time" "filesystem" "program_options" "system" "thread" REQUIRED)
+
+IF (${Boost_FOUND})
+#  message("Found Boost")
+ELSE()
+# Not working
+#  message("Boost not found locally, will download during build")
+#  include(ExternalProject)
+#  ExternalProject_Add(
+#    Boost
+#    URL http://sourceforge.net/projects/boost/files/boost/1.55.0/boost_1_55_0.tar.gz/download
+#    CONFIGURE_COMMAND ""
+#    BUILD_COMMAND ""
+#    INSTALL_COMMAND ""
+#  )
+#  ExternalProject_Get_Property(Boost source_dir)
+#  SET (Boost_INCLUDE_DIRS ${source_dir})
+#  #SET (Boost_LIBRARY_DIRS ${source_dir}/lib)
+#  #SET (Boost_LIBRARIES boost_date_time boost_filesystem boost_program_options boost_system boost_thread)
+ENDIF()
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
+
 #FIND_PACKAGE (Log4Cxx REQUIRED)
 #INCLUDE_DIRECTORIES(${Log4Cxx_INCLUDE_DIRS})
 #LINK_DIRECTORIES(${Log4Cxx_LIBRARY_DIRS})
@@ -52,7 +72,7 @@ LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
 if(TESTS)
   FIND_PACKAGE (UnitTestPlusPlus)
   IF (${UnitTestPlusPlus_FOUND})
-		message("Found UnitTestPlusPlus")
+#		message("Found UnitTestPlusPlus")
   ELSE()
 		message("UnitTestPlusPlus not found locally, will download during build")
     include(ExternalProject)
@@ -73,7 +93,7 @@ endif()
 
 FIND_PACKAGE (XercesC)
 IF (${XercesC_FOUND})
-  message("Found XercesC")
+#  message("Found XercesC")
 ELSE()
   message("XercesC not found locally, will download during build")
   include(ExternalProject)

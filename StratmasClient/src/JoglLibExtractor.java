@@ -249,7 +249,7 @@ public class JoglLibExtractor
         }
     }
 
-    /**"libnativewindow_awt"libnativewindow_awt.so".so"
+    /**
      * Returns the jogl library names for the running os.
      */    
     protected static String joglOsLDName(File dir)

@@ -5,16 +5,19 @@
 #
 CMAKE_MINIMUM_REQUIRED (VERSION 2.6.2)
 PROJECT (stratmas-server)
-SET (APPLICATION_NAME "Stratmas Server")
+SET (APPLICATION_NAME ${PROJECT_NAME})
 SET (APPLICATION_COPYRIGHT_YEARS "2014")
 SET (APPLICATION_VERSION_MAJOR 7)
 SET (APPLICATION_VERSION_MINOR 5)
 SET (APPLICATION_VERSION_PATCH 1)
-SET (APPLICATION_VERSION_STRING "${APPLICATION_VERSION_MAJOR}.${APPLICATION_VERSION_MINOR}.${APPLICATION_VERSION_PATCH}-${APPLICATION_VERSION_TYPE}")
+SET (APPLICATION_VERSION_STRING "${APPLICATION_VERSION_MAJOR}.${APPLICATION_VERSION_MINOR}.${APPLICATION_VERSION_PATCH}")
 SET (APPLICATION_VENDOR_NAME "Your Company")
 SET (APPLICATION_VENDOR_URL "yourcompany.com")
 
 option(TESTS "Enable tests build" OFF)
+
+set (CMAKE_CONFIGURATION_TYPES Debug Release)
+set (CMAKE_BUILD_TYPE Debug)
 
 #
 # CMake Debugging Options
@@ -34,33 +37,29 @@ SET (EXECUTABLE_OUTPUT_PATH "${MAINFOLDER}/bin")
 LIST (APPEND CMAKE_PREFIX_PATH "${MAINFOLDER}")
 LIST (APPEND CMAKE_PREFIX_PATH "${MAINFOLDER}/tools")
 LIST (APPEND CMAKE_PREFIX_PATH "${MAINFOLDER}/lib")
-SET (CMAKE_MODULE_PATH "${MAINFOLDER}/tools/share/cmake")
+LIST (APPEND CMAKE_MODULE_PATH "${MAINFOLDER}/tools/share/cmake")
 #INCLUDE_DIRECTORIES("${MAINFOLDER}/include")
+
+include(ProcessorCount)
+ProcessorCount(cores)
+if(cores EQUAL 0)
+  message("Unable to determine amount of cpu cores, assuming 1")
+  SET(cores 1)
+endif()
 
 #
 # Locate Project Prerequisites 
 #
-SET (Boost_ADDITIONAL_VERSIONS "1.39" "1.39.0" "1.40" "1.40.0" "1.41" "1.41.0" "1.42" "1.42.0" "1.43" "1.43.0" "1.44" "1.44.0" "1.45" "1.45.0" "1.46" "1.46.0" "1.47" "1.47.0" "1.48" "1.48.0" "1.49" "1.49.0" "1.50" "1.50.0")
+SET (Boost_ADDITIONAL_VERSIONS "1.39" "1.39.0" "1.40" "1.40.0" "1.41" "1.41.0" "1.42" "1.42.0" "1.43" "1.43.0" "1.44" "1.44.0" "1.45" "1.45.0" "1.46" "1.46.0" "1.47" "1.47.0" "1.48" "1.48.0" "1.49" "1.49.0" "1.50" "1.50.0" "1.51" "1.51.0" "1.52" "1.52.0" "1.53" "1.53.0" "1.54" "1.54.0" "1.55" "1.55.0")
 SET (Boost_USE_MULTITHREADED ON)
-FIND_PACKAGE (Boost 1.37 COMPONENTS "date_time" "filesystem" "program_options" "system" "thread" REQUIRED)
+FIND_PACKAGE (Boost 1.37 COMPONENTS "date_time" "filesystem" "program_options" "system" "thread")
 
 IF (${Boost_FOUND})
 #  message("Found Boost")
 ELSE()
-# Not working
-#  message("Boost not found locally, will download during build")
-#  include(ExternalProject)
-#  ExternalProject_Add(
-#    Boost
-#    URL http://sourceforge.net/projects/boost/files/boost/1.55.0/boost_1_55_0.tar.gz/download
-#    CONFIGURE_COMMAND ""
-#    BUILD_COMMAND ""
-#    INSTALL_COMMAND ""
-#  )
-#  ExternalProject_Get_Property(Boost source_dir)
-#  SET (Boost_INCLUDE_DIRS ${source_dir})
-#  #SET (Boost_LIBRARY_DIRS ${source_dir}/lib)
-#  #SET (Boost_LIBRARIES boost_date_time boost_filesystem boost_program_options boost_system boost_thread)
+  message("Boost not found locally, will download during build")
+  include(External-Boost)
+  SET (Boost_LIBRARIES boost_date_time boost_filesystem boost_program_options boost_system boost_thread)
 ENDIF()
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
@@ -74,7 +73,9 @@ LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
 #  ExternalProject_Add(
 #    Log4Cxx
 #    URL http://apache.mirrors.spacedump.net/logging/log4cxx/0.10.0/apache-log4cxx-0.10.0.tar.gz
+#    URL_MD5 b30ffb8da3665178e68940ff7a61084c
 #    CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
+#    BUILD_COMMAND make -j${cores}
 #  )
 #  ExternalProject_Get_Property(Log4Cxx install_dir)
 #  SET (Log4Cxx_INCLUDE_DIRS ${install_dir}/include)
@@ -95,7 +96,7 @@ if(TESTS)
       UnitTestPlusPlus
       GIT_REPOSITORY https://github.com/unittest-cpp/unittest-cpp.git
       UPDATE_COMMAND ""
-      CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
+      CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR> -Dj${cores}
     )
     ExternalProject_Get_Property(UnitTestPlusPlus install_dir)
 		SET (UnitTestPlusPlus_INCLUDE_DIRS ${install_dir}/include)
@@ -115,7 +116,9 @@ ELSE()
   ExternalProject_Add(
     XercesC
     URL http://apache.mirrors.spacedump.net/xerces/c/3/sources/xerces-c-3.1.1.tar.gz
+    URL_MD5 6a8ec45d83c8cfb1584c5a5345cb51ae
     CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
+    BUILD_COMMAND make -j${cores}
   )
   ExternalProject_Get_Property(XercesC install_dir)
   SET (XercesC_INCLUDE_DIRS ${install_dir}/include)
@@ -129,13 +132,15 @@ LINK_DIRECTORIES(${XercesC_LIBRARY_DIRS})
 #
 # Build settings
 #
+
 set(DEBUG_FLAGS "-g -O0 -Wall")
 set(RELEASE_FLAGS "-O3")
 
 set(CMAKE_CXX_FLAGS_DEBUG ${DEBUG_FLAGS})
 set(CMAKE_C_FLAGS_DEBUG ${DEBUG_FLAGS})
 
-set(CMAKE_CONFIGURATION_TYPES Debug Release)
+set(CMAKE_CXX_FLAGS_RELEASE ${RELEASE_FLAGS})
+set(CMAKE_C_FLAGS_RELEASE ${RELEASE_FLAGS})
 
 #
 # Configure Files

@@ -319,30 +319,30 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
                 }
                 newBuf[writei++] = buf[readi];
             } else if (buf[readi] == (0xe5 - 0x100)) {
-                // å -> aa
+                // Ã¥ -> aa
                 newBuf[writei++] = 0x61;
                 newBuf[writei++] = 0x61;
                 allCaps = false;
             } else if (buf[readi] == (0xc5 - 0x100)) {
-                // Å -> Aa
+                // Ã… -> Aa
                 newBuf[writei++] = 0x41;
                 newBuf[writei++] = 0x61;
             } else if (buf[readi] == (0xe4 - 0x100)) {
-                // ä -> ae
+                // Ã¤ -> ae
                 newBuf[writei++] = 0x61;
                 newBuf[writei++] = 0x65;
                 allCaps = false;
             } else if (buf[readi] == (0xc4 - 0x100)) {
-                // Ä -> Ae
+                // Ã„ -> Ae
                 newBuf[writei++] = 0x41;
                 newBuf[writei++] = 0x65;
             } else if (buf[readi] == (0xf6 - 0x100)) {
-                // ö -> oe
+                // Ã¶ -> oe
                 newBuf[writei++] = 0x6f;
                 newBuf[writei++] = 0x65;
                 allCaps = false;
             } else if (buf[readi] == (0xd6 - 0x100)) {
-                // Ö -> Oe
+                // Ã– -> Oe
                 newBuf[writei++] = 0x4f;
                 newBuf[writei++] = 0x65;
             } else {
@@ -359,15 +359,15 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
                 if (buf[readi] >= 32 && buf[readi] <= 127) {
                     newBuf[writei++] = buf[readi];
                 } else if (buf[readi] == (0xc5 - 0x100)) {
-                    // Å -> AA
+                    // Ã… -> AA
                     newBuf[writei++] = 0x41;
                     newBuf[writei++] = 0x41;
                 } else if (buf[readi] == (0xc4 - 0x100)) {
-                    // Ä -> AE
+                    // Ã„ -> AE
                     newBuf[writei++] = 0x41;
                     newBuf[writei++] = 0x45;
                 } else if (buf[readi] == (0xd6 - 0x100)) {
-                    // Ö -> O
+                    // Ã– -> O
                     newBuf[writei++] = 0x4f;
                     newBuf[writei++] = 0x45;
                 } else {

@@ -238,20 +238,18 @@ public class JoglLibExtractor
     {
         String os = System.getProperty("os.name");
 
-        if (os.equals("Linux")) {
-            return new String[] {"libjogl_awt.so", "libjogl.so", "libjogl_drihack.so"};// "libjogl_cg.so"};
+        if (os.equals("Linux") || os.equals("SunOS")) {
+            return new String[] {"libjogl_desktop.so", "libgluegen-rt.so","libnativewindow_awt.so" };
         } else if (os.equals("Mac OS X")) {
-            return new String[] {"libjogl_awt.jnilib", "libjogl.jnilib"}; // "libjogl_cg.jnilib"};
+            return new String[] {"libjogl_desktop.jnilib", "libgluegen-rt.jnilib", "libnativewindow_awt.jnilib" };
         } else if (os.matches("Windows.*")) {
-            return new String[] {"jogl_awt.dll", "jogl.dll"};// "jogl_cg.dll"};
-        } else if (os.equals("SunOS")) {
-            return new String[] {"libjogl_awt.so", "libjogl.so"};
+            return new String[] {"jogl_desktop.dll", "gluegen-rt.dll", "nativewindow_awt.dll" };
         } else {
             return null;
         }
     }
 
-    /**
+    /**"libnativewindow_awt"libnativewindow_awt.so".so"
      * Returns the jogl library names for the running os.
      */    
     protected static String joglOsLDName(File dir)
@@ -289,14 +287,15 @@ public class JoglLibExtractor
      */    
     protected static String joglOsPath()
     {
-        String os = System.getProperty("os.name");
+        String os = System.getProperty("os.name").toLowerCase();
         // Just keep "Windows"
-        if (os.matches("Windows.*")) {
-            os = "Windows";
+        if (os.matches("windows.*")) {
+            os = "windows";
+        }else if (os.matches("mac os x")) {
+            return "/lib/macosx-universal/";
         }
 
-        return "/lib/" + os + "-" + 
-            System.getProperty("os.arch") + "/";
+        return "/lib/" + os + "-" + System.getProperty("os.arch") + "/";
     }
 
     /**
@@ -310,7 +309,9 @@ public class JoglLibExtractor
     protected synchronized static void joglLoadLibrary(final String[] paths)
     {
         // Disable loading
-        com.sun.opengl.impl.NativeLibLoader.disableLoading();
+        com.jogamp.common.jvm.JNILibLoaderBase.disableLoading();
+        System.setProperty("jogamp.gluegen.UseTempJarCache", "false");
+        
         java.security.AccessController.doPrivileged(new java.security.PrivilegedAction() {
                 public Object run() {
                     boolean isOSX = System.getProperty("os.name").equals("Mac OS X");

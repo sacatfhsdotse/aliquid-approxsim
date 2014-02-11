@@ -31,13 +31,14 @@ import java.nio.DoubleBuffer;
 import java.nio.IntBuffer;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLUtessellator;
 import javax.media.opengl.glu.GLUtessellatorCallbackAdapter;
 import javax.media.opengl.glu.GLUtessellatorCallback;
 import javax.media.opengl.glu.GLUquadric;
-import com.sun.opengl.util.BufferUtil;
+import com.jogamp.common.nio.Buffers;
 
 import java.awt.image.WritableRaster;
 import java.awt.image.Raster;
@@ -93,7 +94,7 @@ public class MapElementAdapter extends MapDrawableAdapter{
     /**
      * All displayLists used by the mapElementAdapter except the total displaylist.
      */
-    IntBuffer displayListsBuf = BufferUtil.newIntBuffer(USED_DISPLAY_LISTS - 1);
+    IntBuffer displayListsBuf = Buffers.newDirectIntBuffer(USED_DISPLAY_LISTS - 1);
     /**
      * The number of Render Selection names needed by this adapter.
      */
@@ -190,13 +191,13 @@ public class MapElementAdapter extends MapDrawableAdapter{
      */
     protected void updateDisplayList(Projection proj, GLAutoDrawable gld)
     {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
          this.displayList = 
              (gl.glIsList(this.displayList)) ?
              this.displayList : gl.glGenLists(1);
         
-        gl.glNewList(getDisplayList(), GL.GL_COMPILE);
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glNewList(getDisplayList(), GL2.GL_COMPILE);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
         // Pushes the name for RenderSelection mode.        
         gl.glPushName(getRenderSelectionName());
@@ -204,9 +205,9 @@ public class MapElementAdapter extends MapDrawableAdapter{
         double projectedPosition[] = proj.projToXY(getLonLat());
         gl.glTranslated(projectedPosition[0], projectedPosition[1], 0);
         // Call all sublists.
-        gl.glCallLists(displayListsBuf.capacity(), GL.GL_INT, displayListsBuf);
+        gl.glCallLists(displayListsBuf.capacity(), GL2.GL_INT, displayListsBuf);
         gl.glPopName();
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPopMatrix();
         gl.glEndList();
         displayListUpdated = true;
@@ -221,7 +222,7 @@ public class MapElementAdapter extends MapDrawableAdapter{
      */
     protected void updateSymbolDisplayList(Projection proj, GLAutoDrawable gld)
     {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
          displayListsBuf.put(SYMBOL_POS, 
                             (gl.glIsList(displayListsBuf.get(SYMBOL_POS)) ?
                              displayListsBuf.get(SYMBOL_POS) : gl.glGenLists(1)));
@@ -232,17 +233,17 @@ public class MapElementAdapter extends MapDrawableAdapter{
         int texture = SymbolToTextureMapper.getTexture(getObject().getIcon(), gld);
 
         // Start list
-        gl.glNewList(displayListsBuf.get(SYMBOL_POS), GL.GL_COMPILE);
+        gl.glNewList(displayListsBuf.get(SYMBOL_POS), GL2.GL_COMPILE);
         // Enable textures.        
-        gl.glEnable(GL.GL_TEXTURE_2D);
-        gl.glBindTexture(GL.GL_TEXTURE_2D, texture);
-        gl.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, GL.GL_CLAMP);
-        gl.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, GL.GL_CLAMP);
-         gl.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, 
+        gl.glEnable(GL2.GL_TEXTURE_2D);
+        gl.glBindTexture(GL2.GL_TEXTURE_2D, texture);
+        gl.glTexParameterf(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_S, GL2.GL_CLAMP);
+        gl.glTexParameterf(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_T, GL2.GL_CLAMP);
+         gl.glTexParameterf(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER, 
                            SymbolToTextureMapper.textureMagFilter);
-         gl.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, 
+         gl.glTexParameterf(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER, 
                            SymbolToTextureMapper.textureMinFilter);
-        gl.glTexEnvf(GL.GL_TEXTURE_ENV, GL.GL_TEXTURE_ENV_MODE, 
+        gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, 
                      SymbolToTextureMapper.textureMode);
         
         // Pushes the name for RenderSelection mode.
@@ -250,16 +251,16 @@ public class MapElementAdapter extends MapDrawableAdapter{
 
         double scale = getSymbolScale();
         if (getInvariantSymbolSize()) {
-            gl.glMatrixMode(GL.GL_PROJECTION);
-            DoubleBuffer buf = BufferUtil.newDoubleBuffer(16);
-            gl.glGetDoublev(GL.GL_PROJECTION_MATRIX, buf);
+            gl.glMatrixMode(GL2.GL_PROJECTION);
+            DoubleBuffer buf = Buffers.newDirectDoubleBuffer(16);
+            gl.glGetDoublev(GL2.GL_PROJECTION_MATRIX, buf);
             scale = getSymbolScale()*0.000004d/buf.get(0);
         }
 
-         gl.glMatrixMode(GL.GL_MODELVIEW);
+         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
         gl.glScaled(scale, scale, 1.0d);
-        gl.glBegin(GL.GL_QUADS);
+        gl.glBegin(GL2.GL_QUADS);
         gl.glColor4d(1.0d, 1.0d, 1.0d, getSymbolOpacity());
         gl.glTexCoord2f(0, 0);
          gl.glVertex2d(-horizontalSymbolSize/2, -verticalSymbolSize/2);
@@ -272,7 +273,7 @@ public class MapElementAdapter extends MapDrawableAdapter{
         gl.glEnd();
         gl.glPopName();
         gl.glPopMatrix();
-        gl.glDisable(GL.GL_TEXTURE_2D);
+        gl.glDisable(GL2.GL_TEXTURE_2D);
         gl.glEndList();
         isSymbolUpdated = true;
     }
@@ -294,19 +295,19 @@ public class MapElementAdapter extends MapDrawableAdapter{
      */
     protected void updateSelectionMarkerDisplayList(Projection proj, GLAutoDrawable gld)
     {
-         GL gl = gld.getGL();
+         GL2 gl = (GL2) gld.getGL();
          displayListsBuf.put(SELECTION_MARKER_POS, 
                             (gl.glIsList(displayListsBuf.get(SELECTION_MARKER_POS))) ?
                             displayListsBuf.get(SELECTION_MARKER_POS) : gl.glGenLists(1));
                          
-        gl.glNewList(displayListsBuf.get(SELECTION_MARKER_POS), GL.GL_COMPILE);
+        gl.glNewList(displayListsBuf.get(SELECTION_MARKER_POS), GL2.GL_COMPILE);
         // Pushes the name for RenderSelection mode.
         gl.glPushName(getRenderSelectionName() + 1 + SELECTION_MARKER_POS);
         if (isSelected()) {
-            gl.glMatrixMode(GL.GL_MODELVIEW);
+            gl.glMatrixMode(GL2.GL_MODELVIEW);
             gl.glPushMatrix();
             gl.glScaled(getSymbolScale(), getSymbolScale(), getSymbolScale());
-            gl.glBegin(GL.GL_LINE_LOOP);
+            gl.glBegin(GL2.GL_LINE_LOOP);
             gl.glColor4dv(SELECTION_COLOR, 0); 
             gl.glVertex2d(-(horizontalSymbolSize/2 + 1), -(verticalSymbolSize/2 + 1));
             gl.glVertex2d(-(horizontalSymbolSize/2 + 1), (verticalSymbolSize/2 + 1));
@@ -329,22 +330,22 @@ public class MapElementAdapter extends MapDrawableAdapter{
      */
     protected void updateOutlineMarkerDisplayList(Projection proj, GLAutoDrawable gld)
     {
-         GL gl = gld.getGL();
+         GL2 gl = (GL2) gld.getGL();
          displayListsBuf.put(OUTLINE_MARKER_POS, 
                             (gl.glIsList(displayListsBuf.get(OUTLINE_MARKER_POS))) ?
                             displayListsBuf.get(OUTLINE_MARKER_POS) : gl.glGenLists(1));
                             
-        gl.glNewList(displayListsBuf.get(OUTLINE_MARKER_POS), GL.GL_COMPILE);
+        gl.glNewList(displayListsBuf.get(OUTLINE_MARKER_POS), GL2.GL_COMPILE);
         // Pushes the name for RenderSelection mode.
         gl.glPushName(getRenderSelectionName() + 1 + OUTLINE_MARKER_POS);
         if (isOutlined()) {
-            gl.glMatrixMode(GL.GL_MODELVIEW);
+            gl.glMatrixMode(GL2.GL_MODELVIEW);
             gl.glPushMatrix();
             gl.glScaled(getSymbolScale(), getSymbolScale(), getSymbolScale());
-            gl.glEnable(GL.GL_LINE_STIPPLE);
-            gl.glPushAttrib (GL.GL_LINE_BIT);
+            gl.glEnable(GL2.GL_LINE_STIPPLE);
+            gl.glPushAttrib (GL2.GL_LINE_BIT);
             gl.glLineStipple(3, (short)0xAAAA);
-            gl.glBegin(GL.GL_LINE_LOOP);
+            gl.glBegin(GL2.GL_LINE_LOOP);
             gl.glColor3d(0.0, 0.0, 0.0); 
             gl.glVertex2d(-(horizontalSymbolSize/2 + 1), -(verticalSymbolSize/2 + 1));
             gl.glVertex2d(-(horizontalSymbolSize/2 + 1), (verticalSymbolSize/2 + 1));
@@ -368,19 +369,19 @@ public class MapElementAdapter extends MapDrawableAdapter{
      */
     protected void updateLocationDisplayList(Projection proj, GLAutoDrawable gld)
     {
-         final GL gl = gld.getGL();
+         final GL2 gl = (GL2) gld.getGL();
          final GLU glu = new GLU();
          displayListsBuf.put(LOCATION_POS,
                             (gl.glIsList(displayListsBuf.get(LOCATION_POS))) ?
                             displayListsBuf.get(LOCATION_POS) : gl.glGenLists(1));
         
-        gl.glNewList(displayListsBuf.get(LOCATION_POS), GL.GL_COMPILE);
+        gl.glNewList(displayListsBuf.get(LOCATION_POS), GL2.GL_COMPILE);
         // Pushes the name for RenderSelection mode.       
         //gl.glPushName(getRenderSelectionName() + 1 + LOCATION_POS);
         // Hack to avoid location in picking.
         gl.glPopName();
         // Shape in absolute coordinates for now
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
         // Use the same quadric and tess for all operations.
         GLUquadric quadric = null;
@@ -392,10 +393,10 @@ public class MapElementAdapter extends MapDrawableAdapter{
         if (getDrawLocation()) {
             // Prepare stencil
             gl.glClearStencil(0);
-            gl.glClear(GL.GL_STENCIL_BUFFER_BIT);
-            gl.glEnable(GL.GL_STENCIL_TEST);
-            gl.glStencilFunc(GL.GL_ALWAYS, 1, 1);                    
-            gl.glStencilOp(GL.GL_REPLACE, GL.GL_REPLACE, GL.GL_REPLACE);
+            gl.glClear(GL2.GL_STENCIL_BUFFER_BIT);
+            gl.glEnable(GL2.GL_STENCIL_TEST);
+            gl.glStencilFunc(GL2.GL_ALWAYS, 1, 1);                    
+            gl.glStencilOp(GL2.GL_REPLACE, GL2.GL_REPLACE, GL2.GL_REPLACE);
  
             Shape shape = (Shape) getStratmasObject().getChild("location");
 
@@ -449,8 +450,8 @@ public class MapElementAdapter extends MapDrawableAdapter{
                 }
 
                 // Draw pseudo distribution on bounding box using the stencil.
-                gl.glStencilFunc(GL.GL_EQUAL, 1, 1);
-                gl.glStencilOp(GL.GL_KEEP, GL.GL_KEEP, GL.GL_KEEP);
+                gl.glStencilFunc(GL2.GL_EQUAL, 1, 1);
+                gl.glStencilOp(GL2.GL_KEEP, GL2.GL_KEEP, GL2.GL_KEEP);
                 BoundingBox boundingBox = shape.getBoundingBox();
                 double[] max = proj.projToXY(boundingBox.getEastLon(), 
                                              boundingBox.getNorthLat());
@@ -463,7 +464,7 @@ public class MapElementAdapter extends MapDrawableAdapter{
                 drawDistribution(gl, glu, min, max, proj);
                 //gl.glPushName(getRenderSelectionName());
                 //gl.glPushName(getRenderSelectionName() + 1 + LOCATION_POS);
-                gl.glDisable(GL.GL_STENCIL_TEST);
+                gl.glDisable(GL2.GL_STENCIL_TEST);
             }
         }
         if(getDrawLocationOutline()) {
@@ -497,7 +498,7 @@ public class MapElementAdapter extends MapDrawableAdapter{
                     glu.gluDisk(quadric, 0.0d, radius, 20, 20);
                     gl.glTranslated(-centerPoint[0], -centerPoint[1], 0.0d);
                 } else {
-                    gl.glBegin(GL.GL_LINES);
+                    gl.glBegin(GL2.GL_LINES);
                     for (Enumeration le = simpleShape.getPolygon(100.0).getCurves();
                      le.hasMoreElements();) {
                         Line line = (Line) le.nextElement();
@@ -519,7 +520,7 @@ public class MapElementAdapter extends MapDrawableAdapter{
 
         //gl.glPopName();
         gl.glPushName(getRenderSelectionName());
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPopMatrix();
         gl.glEndList();
         isLocationUpdated = true;
@@ -535,9 +536,10 @@ public class MapElementAdapter extends MapDrawableAdapter{
      * @param max the maximum point of the bounding box.
      * @param proj the projection to use.
      */
-    void drawDistribution(GL gl, GLU glu, double[] min, double[] max, 
+    void drawDistribution(GL gl2, GLU glu, double[] min, double[] max, 
                           Projection proj)
     {
+        GL2 gl = (GL2) gl2;
         double[] color = getLocationColor();
         double projectedPosition[] = proj.projToXY(getLonLat());
 
@@ -603,11 +605,11 @@ public class MapElementAdapter extends MapDrawableAdapter{
             double alphaScale = getLocationOpacity();
 
 // Wireframe debug rows
-//              gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_LINE);
-//              gl.glPolygonMode(GL.GL_FRONT, GL.GL_LINE);
-//              gl.glPolygonMode(GL.GL_BACK, GL.GL_LINE);
+//              gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_LINE);
+//              gl.glPolygonMode(GL2.GL_FRONT, GL2.GL_LINE);
+//              gl.glPolygonMode(GL2.GL_BACK, GL2.GL_LINE);
             gl.glTranslated(min[0], min[1], 0);
-            gl.glBegin(GL.GL_TRIANGLE_STRIP);
+            gl.glBegin(GL2.GL_TRIANGLE_STRIP);
             for (int i = 0; i < ytiles; i++) {
                 if (i % 2 == 0) {
                      for (int j = 0; j < lowerRow.length; j += 3) {                        
@@ -768,7 +770,7 @@ public class MapElementAdapter extends MapDrawableAdapter{
      */
     protected GLUtessellatorCallback getLocationTessellatorCallback(GLAutoDrawable gld)
     {
-        final GL gl = gld.getGL();
+        final GL2 gl = (GL2) gld.getGL();
 
         return new GLUtessellatorCallbackAdapter() 
             {

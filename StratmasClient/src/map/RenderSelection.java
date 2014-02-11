@@ -6,7 +6,7 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 import java.nio.IntBuffer;
-import com.sun.opengl.util.BufferUtil;
+import com.jogamp.opengl.util.GLReadBufferUtil;
 
 /**
  * Encapsulates the information in an render selection buffer.

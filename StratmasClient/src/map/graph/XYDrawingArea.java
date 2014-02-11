@@ -6,10 +6,12 @@ import java.awt.Dimension;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.media.opengl.GLEventListener;
-import javax.media.opengl.GLCanvas;
+import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCapabilities;
+import javax.media.opengl.GLProfile;
 import javax.media.opengl.GLDrawableFactory;
 import javax.media.opengl.glu.GLU;
 
@@ -78,7 +80,7 @@ public class XYDrawingArea extends JPanel implements GLEventListener {
         this.graph = graph;
                 
         // create JOGL panel
-        GLCapabilities glcaps = new GLCapabilities();
+        GLCapabilities glcaps = new GLCapabilities(GLProfile.getDefault());
         glcaps.setHardwareAccelerated(true);
         glcanvas = new GLCanvas(glcaps);
         glcanvas.addGLEventListener(this);
@@ -103,7 +105,7 @@ public class XYDrawingArea extends JPanel implements GLEventListener {
      * @param gld openGL rendering surface interface. 
      */
     public void init(GLAutoDrawable gld) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         
         // set the background color
 //         Color c = getBackground();
@@ -114,7 +116,7 @@ public class XYDrawingArea extends JPanel implements GLEventListener {
         gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         
         // set actual matrix
-        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
 
         // update the display lists
@@ -131,10 +133,10 @@ public class XYDrawingArea extends JPanel implements GLEventListener {
      * @param gld openGL rendering surface interface. 
      */
     public void display(GLAutoDrawable gld) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         
         // set actual matrix
-        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
         
         // set bounding box
@@ -161,7 +163,7 @@ public class XYDrawingArea extends JPanel implements GLEventListener {
         // If intel we currently need to fake an update. Idealy we
         // would like to have this a boolean variable, but we need a
         // GL context to get the string, so...
-        if (drawable.getGL().glGetString(GL.GL_VENDOR).matches(".*Intel.*")) {
+        if (drawable.getGL().glGetString(GL2.GL_VENDOR).matches(".*Intel.*")) {
              glcanvas.repaint(100);
          }
     }
@@ -283,7 +285,8 @@ public class XYDrawingArea extends JPanel implements GLEventListener {
     /**
      * Updates display list for the vertical lines.
      */
-    private void setUpVerticalLines(GL gl) {
+    private void setUpVerticalLines(GL gl2) {
+         GL2 gl = (GL2) gl2;
          verticalLinesDisplayList = (gl.glIsList(verticalLinesDisplayList)) ? verticalLinesDisplayList : gl.glGenLists(1);
         
         // get x values for the lines
@@ -295,7 +298,7 @@ public class XYDrawingArea extends JPanel implements GLEventListener {
         xval[xval.length - 1] = (int)graph.getEndTime();
         
         // update the display list
-        gl.glNewList(verticalLinesDisplayList, GL.GL_COMPILE);
+        gl.glNewList(verticalLinesDisplayList, GL2.GL_COMPILE);
         gl.glPushMatrix();
         // width of the lines
         gl.glLineWidth(1.0f);
@@ -309,13 +312,13 @@ public class XYDrawingArea extends JPanel implements GLEventListener {
             // get scaled value
             int x = scaleXValue(val);
             // draw line
-            gl.glBegin(GL.GL_LINES);
+            gl.glBegin(GL2.GL_LINES);
             gl.glVertex2d(x, ymin);
             gl.glVertex2d(x, ymax);
             gl.glEnd();
         }
         // the last line
-        gl.glBegin(GL.GL_LINES);
+        gl.glBegin(GL2.GL_LINES);
         gl.glVertex2d(xmax - 1, ymin);
         gl.glVertex2d(xmax - 1, ymax);
         gl.glEnd();
@@ -328,7 +331,8 @@ public class XYDrawingArea extends JPanel implements GLEventListener {
     /**
      * Updates display list for the horizontal lines.
      */
-    public void setUpHorizontalLines(GL gl) {
+    public void setUpHorizontalLines(GL gl2) {
+         GL2 gl = (GL2) gl2;
         horizontalLinesDisplayList = (gl.glIsList(horizontalLinesDisplayList)) ? horizontalLinesDisplayList : 
             gl.glGenLists(1);
         
@@ -336,7 +340,7 @@ public class XYDrawingArea extends JPanel implements GLEventListener {
         double[] yval = getHorizontalLineValues();
         if (yval != null) {
             // update the display list
-            gl.glNewList(horizontalLinesDisplayList, GL.GL_COMPILE);
+            gl.glNewList(horizontalLinesDisplayList, GL2.GL_COMPILE);
             gl.glPushMatrix();
             // width of the lines
             gl.glLineWidth(1.0f);
@@ -347,13 +351,13 @@ public class XYDrawingArea extends JPanel implements GLEventListener {
             for (int i = 0; i < yval.length; i++) {
                 int y = scaleYValue(yval[i]).intValue();
                 // draw line
-                gl.glBegin(GL.GL_LINES);
+                gl.glBegin(GL2.GL_LINES);
                 gl.glVertex2d(xmin, y);
                 gl.glVertex2d(xmax, y);
                 gl.glEnd();
             }
             // the last line
-            gl.glBegin(GL.GL_LINES);
+            gl.glBegin(GL2.GL_LINES);
             gl.glVertex2d(xmin, ymax - 1);
             gl.glVertex2d(xmax, ymax - 1);
             gl.glEnd();
@@ -411,9 +415,10 @@ public class XYDrawingArea extends JPanel implements GLEventListener {
     /**
      * Draw the graph.
      */
-    private void drawGraph(GL gl) {
+    private void drawGraph(GL gl2) {
+         GL2 gl = (GL2) gl2;
         // clear the window
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT);
+        gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
         
         // draw the horizontal lines
         gl.glCallList(verticalLinesDisplayList);
@@ -433,8 +438,9 @@ public class XYDrawingArea extends JPanel implements GLEventListener {
     /**
      * Draws the pv values from the current simulation run in the graph.
      */
-    private void drawCurrentValues(GL gl) {
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+    private void drawCurrentValues(GL gl2) {
+         GL2 gl = (GL2) gl2;
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
          gl.glLineWidth(1.0f);
         String[] factions =  graph.getFactions();
@@ -462,14 +468,14 @@ public class XYDrawingArea extends JPanel implements GLEventListener {
                     gl.glColor3f(col[0], col[1], col[2]);
                     // start drawing lines from the second point
                     if (xscPrev != -1) {
-                        gl.glBegin(GL.GL_LINES);
+                        gl.glBegin(GL2.GL_LINES);
                         gl.glVertex2d(xscPrev, yscPrev);
                         gl.glVertex2d(xsc, ysc);
                         gl.glEnd();
                     }
                     // the first point
                     else {
-                        gl.glBegin(GL.GL_POINTS);
+                        gl.glBegin(GL2.GL_POINTS);
                         gl.glVertex2d(xsc, ysc);
                         gl.glEnd();        
                     }
@@ -485,8 +491,9 @@ public class XYDrawingArea extends JPanel implements GLEventListener {
     /**
      * Draws the pv values from the previous simulation run in the graph.
      */
-    private void drawPreviousValues(GL gl) {
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+    private void drawPreviousValues(GL gl2) {
+         GL2 gl = (GL2) gl2;
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
         gl.glPointSize(2.0f);
         String[] factions =  graph.getFactions();
@@ -512,13 +519,16 @@ public class XYDrawingArea extends JPanel implements GLEventListener {
                     ysc = (ysc == ymax)? ysc - 1 : ysc;
                     // set the color
                     gl.glColor3f(col[0], col[1], col[2]);
-                    gl.glBegin(GL.GL_POINTS);
+                    gl.glBegin(GL2.GL_POINTS);
                     gl.glVertex2d(xsc, ysc);
                     gl.glEnd();        
                 }
             }
         }
         gl.glPopMatrix();
+    }
+    public void dispose(GLAutoDrawable glad){
+      //TODO implement
     }
 
 }

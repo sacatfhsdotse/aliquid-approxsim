@@ -17,14 +17,15 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseEvent;
 
 import javax.media.opengl.GLEventListener;
-import javax.media.opengl.GLCanvas;
+import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLDrawableFactory;
-import com.sun.opengl.util.BufferUtil;
-import com.sun.opengl.util.GLUT;
+import com.jogamp.opengl.util.GLReadBufferUtil;
+import com.jogamp.opengl.util.gl2.GLUT;
 
 /**
  * A panel which displays the scale as well as the selected times in the timeline.
@@ -88,7 +89,7 @@ class TimelineScalePanel extends TimelineCanvasPanel {
      * @param gld needed when opengl is used. 
      */
     public void init(GLAutoDrawable gld) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         
         // set the background color
         Color c = this.getBackground();
@@ -98,14 +99,14 @@ class TimelineScalePanel extends TimelineCanvasPanel {
         gl.glClearColor(r, g, b, 0.0f);
         
         // enable shading
-        gl.glShadeModel(GL.GL_SMOOTH);
+        gl.glShadeModel(GL2.GL_SMOOTH);
         
         // enable blending
-        gl.glEnable(GL.GL_BLEND);
-        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+        gl.glEnable(GL2.GL_BLEND);
+        gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
         
         // set actual matrix
-        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
         
         // initialize bounding box
@@ -118,10 +119,10 @@ class TimelineScalePanel extends TimelineCanvasPanel {
      * @param gld needed when opengl is used. 
      */
     public void display(GLAutoDrawable gld) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         
         // set actual matrix
-        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
         
         // set bounding box
@@ -213,11 +214,12 @@ class TimelineScalePanel extends TimelineCanvasPanel {
     /**
       * Updates the display list of the selected times.
       */
-    private synchronized void updateSelectedTimesDisplayList(GL gl) {
+    private synchronized void updateSelectedTimesDisplayList(GL gl2) {
+        GL2 gl = (GL2) gl2;
         // get the display list 
         selectedTimesDisplayList = (gl.glIsList(selectedTimesDisplayList)) ? selectedTimesDisplayList: gl.glGenLists(1);
         // the compiled display list
-        gl.glNewList(selectedTimesDisplayList, GL.GL_COMPILE);
+        gl.glNewList(selectedTimesDisplayList, GL2.GL_COMPILE);
         // line color
         gl.glColor4f(0.9f, 0.1f, 0.1f, 0.5f);
         // width of the lines
@@ -241,7 +243,7 @@ class TimelineScalePanel extends TimelineCanvasPanel {
                 long t1coord = convertCurrentTimeToProjectedX(timelinePanel.millisecondsToTimeUnit(t1));
                 long t2coord = convertCurrentTimeToProjectedX(timelinePanel.millisecondsToTimeUnit(t2));
                 if (dt2dx(ti.getTimeStep()) <= 1.0 && dt2dx(t2 - t1) > 1.0) {
-                    gl.glBegin(GL.GL_POLYGON);
+                    gl.glBegin(GL2.GL_POLYGON);
                     gl.glVertex2d(t1coord, ymin);
                     gl.glVertex2d(t2coord, ymin);
                     gl.glVertex2d(t2coord, ymax);
@@ -249,7 +251,7 @@ class TimelineScalePanel extends TimelineCanvasPanel {
                     gl.glEnd(); 
                 }
                 else if (dt2dx(ti.getTimeStep()) <= 1.0 && dt2dx(t2 - t1) <= 1.0) {
-                    gl.glBegin(GL.GL_LINES);
+                    gl.glBegin(GL2.GL_LINES);
                     gl.glVertex2d(t1coord, ymin);
                     gl.glVertex2d(t1coord, ymax);
                     gl.glEnd(); 
@@ -263,7 +265,7 @@ class TimelineScalePanel extends TimelineCanvasPanel {
                         if (xdisp == xmax) {
                             xdisp -= xmax / this.getWidth();
                         }
-                        gl.glBegin(GL.GL_LINES);
+                        gl.glBegin(GL2.GL_LINES);
                         gl.glVertex2d(xdisp, ymin);
                         gl.glVertex2d(xdisp, ymax);
                         gl.glEnd();
@@ -278,13 +280,14 @@ class TimelineScalePanel extends TimelineCanvasPanel {
     /**
      * Draw all the graphic elements.
      */
-    protected void drawGraph(GL gl) {
+    protected void drawGraph(GL gl2) {
+        GL2 gl = (GL2) gl2;
         // clear the window
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT);
+        gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
         
         // draw the timeline bar borders
         gl.glColor3f(0.6f, 0.8f, 1.0f);
-        gl.glBegin(GL.GL_QUADS);
+        gl.glBegin(GL2.GL_QUADS);
         gl.glVertex2d(xmin, ymin);
         gl.glVertex2d(xmax, ymin);
         gl.glVertex2d(xmax, ymax);
@@ -299,7 +302,7 @@ class TimelineScalePanel extends TimelineCanvasPanel {
         long ct2x = convertCurrentTimeToProjectedX(timelinePanel.millisecondsToTimeUnit(timeline.getRelativeCurrentTime()));
         if (t2x <= ct2x) {
             gl.glColor4f(0.9f, 0.7f, 0.4f, 0.5f);
-            gl.glBegin(GL.GL_POLYGON);
+            gl.glBegin(GL2.GL_POLYGON);
             gl.glVertex2d(t2x, ymin);
             gl.glVertex2d(Math.max(ct2x, t2x), ymin);
             gl.glVertex2d(Math.max(ct2x, t2x), ymax);
@@ -324,7 +327,8 @@ class TimelineScalePanel extends TimelineCanvasPanel {
      *
      * @param start_time start time of the selected/deleted interval in milliseconds.
      */
-    private void displayInterval(GL gl) {
+    private void displayInterval(GL gl2) {
+        GL2 gl = (GL2) gl2;
         long startTime = Math.min(selectionStartTime, 
                                   timelinePanel.timeToMilliseconds(convertProjectedXToCurrentTime(currentCursorProjectedPos)));
         long endTime = Math.max(selectionStartTime, 
@@ -341,7 +345,7 @@ class TimelineScalePanel extends TimelineCanvasPanel {
                 startTime <= timelinePanel.getDisplayedEndTimeInMsec()) {
                 long actualX = convertCurrentTimeToProjectedX(timelinePanel.millisecondsToTimeUnit(startTime));
                 if (actualX != tempX) {
-                    gl.glBegin(GL.GL_LINES);
+                    gl.glBegin(GL2.GL_LINES);
                     gl.glVertex2d(actualX, ymin);
                     gl.glVertex2d(actualX, ymax);
                     gl.glEnd();

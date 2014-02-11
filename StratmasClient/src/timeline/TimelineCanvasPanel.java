@@ -15,14 +15,16 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseEvent;
 
 import javax.media.opengl.GLEventListener;
-import javax.media.opengl.GLCanvas;
+import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCapabilities;
+import javax.media.opengl.GLProfile;
 import javax.media.opengl.GLDrawableFactory;
-import com.sun.opengl.util.BufferUtil;
-import com.sun.opengl.util.GLUT;
+import com.jogamp.opengl.util.GLReadBufferUtil;
+import com.jogamp.opengl.util.gl2.GLUT;
 
 /**
  * Super class for all timeline panels which contain GLCanvas.
@@ -84,7 +86,7 @@ public class TimelineCanvasPanel extends JPanel implements GLEventListener, Mous
         this.timelinePanel = timelinePanel;
         
         // create JOGL canvas
-        GLCapabilities glcaps = new GLCapabilities();
+        GLCapabilities glcaps = new GLCapabilities(GLProfile.getDefault());
         glcaps.setHardwareAccelerated(true);
         canvas = new GLCanvas(glcaps);
         canvas.addGLEventListener(this);
@@ -104,7 +106,7 @@ public class TimelineCanvasPanel extends JPanel implements GLEventListener, Mous
      * @param gld needed when opengl is used. 
      */
     public void init(GLAutoDrawable gld) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         
         // set the background color
         Color c = this.getBackground();
@@ -114,14 +116,14 @@ public class TimelineCanvasPanel extends JPanel implements GLEventListener, Mous
         gl.glClearColor(r, g, b, 0.0f);
         
         // enable shading
-        gl.glShadeModel(GL.GL_SMOOTH);
+        gl.glShadeModel(GL2.GL_SMOOTH);
         
         // enable blending
-        gl.glEnable(GL.GL_BLEND);
-        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+        gl.glEnable(GL2.GL_BLEND);
+        gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
         
         // set actual matrix
-        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
         
         // initialize bounding box
@@ -134,10 +136,10 @@ public class TimelineCanvasPanel extends JPanel implements GLEventListener, Mous
      * @param gld needed when opengl is used. 
      */
     public void display(GLAutoDrawable gld) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         
         // set actual matrix
-        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
         
         // set bounding box
@@ -361,6 +363,11 @@ public class TimelineCanvasPanel extends JPanel implements GLEventListener, Mous
      * Draw all the graphic elements.
      */
     protected void drawGraph(GL gl) {}
+
+
+    public void dispose(GLAutoDrawable glad){
+      //TODO implement
+    }
     
 }
     

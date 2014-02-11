@@ -214,26 +214,52 @@
     <extractJar jarsrc="${externaljars}/xml-apis.jar" jardest="${build}"/>
     <extractJar jarsrc="${externaljars}/javadbf.jar" jardest="${build}"/>
     <extractJar jarsrc="${externaljars}/App6A.jar" jardest="${build}"/>
-    <extractJar jarsrc="${externaljars}/jogl.jar" jardest="${build}"/>
+    <extractJar jarsrc="${externaljars}/jogl-all.jar" jardest="${build}"/>
+    <extractJar jarsrc="${externaljars}/gluegen-rt.jar" jardest="${build}"/>
 
     <macrodef name="extractLib">
       <attribute name="arch"/>
-      <attribute name="dir"/>
       <sequential>
-        <mkdir dir="${build}/lib/@{dir}"/>
-        <extractJar jarsrc="${externaljars}/jogl-natives-@{arch}.jar" 
-                    jardest="${build}/lib/@{dir}"/>
+        <mkdir dir="${build}/lib/@{arch}"/>
+        <extractJar jarsrc="${externaljars}/jogl-all-natives-@{arch}.jar" 
+                    jardest="${build}/lib/@{arch}"/>
       </sequential>
     </macrodef>
-    <extractLib arch="linux-i586" dir="Linux-i386"/>
-    <extractLib arch="macosx-universal" dir="Mac OS X-ppc"/>
+    <extractLib arch="linux-amd64"/>
+    <extractLib arch="linux-armv6"/>
+    <extractLib arch="linux-armv6hf"/>
+    <extractLib arch="linux-i586"/>
+    <extractLib arch="macosx-universal"/>
+    <!--
     <copy todir="${build}/lib/Mac OS X-i386">
       <fileset dir="${build}/lib/Mac OS X-ppc"> 
         <include name="**/*"/>
       </fileset>
     </copy>
-    <extractLib arch="windows-i586" dir="Windows-x86"/>
-    <extractLib arch="solaris-sparc" dir="SunOS-sparc"/>
+    -->
+    <extractLib arch="windows-amd64"/>
+    <extractLib arch="windows-i586"/>
+    <extractLib arch="solaris-amd64"/>
+    <extractLib arch="solaris-i586"/>
+    <!-- <extractLib arch="solaris-sparc"/> -->
+
+    <macrodef name="extractLib2">
+      <attribute name="arch"/>
+      <sequential>
+        <mkdir dir="${build}/lib/@{arch}"/>
+        <extractJar jarsrc="${externaljars}/gluegen-rt-natives-@{arch}.jar" 
+                    jardest="${build}/lib/@{arch}"/>
+      </sequential>
+    </macrodef>
+    <extractLib2 arch="linux-amd64"/>
+    <extractLib2 arch="linux-armv6"/>
+    <extractLib2 arch="linux-armv6hf"/>
+    <extractLib2 arch="linux-i586"/>
+    <extractLib2 arch="macosx-universal"/>
+    <extractLib2 arch="solaris-amd64"/>
+    <extractLib2 arch="solaris-i586"/>
+    <extractLib2 arch="windows-amd64"/>
+    <extractLib2 arch="windows-i586"/>
   </target>
   
   <target name="compile" depends="extractLibs,generateJava"

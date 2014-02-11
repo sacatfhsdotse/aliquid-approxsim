@@ -44,14 +44,15 @@ import java.util.*;
 
 import java.nio.IntBuffer;
 import java.nio.DoubleBuffer;
-import com.sun.opengl.util.BufferUtil;
+import com.jogamp.common.nio.Buffers;
 
 import javax.swing.*;
 
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
-import com.sun.opengl.util.GLUT;
+import com.jogamp.opengl.util.gl2.GLUT;
 
 import StratmasClient.Configuration;
 import StratmasClient.BoundingBox;
@@ -298,10 +299,10 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
     /**
      * Drawing elements on the map. Part of GLEventListener interface.
      *
-     * @param gld needed for OpenGL.
+     * @param gld needed for OpenGL2.
      */
     public void display(GLAutoDrawable gld) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
 
         //
         int origDrawBuffer = -1;
@@ -310,7 +311,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
         }
         
         // update orthographics view bounds
-        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
         glu.gluOrtho2D(orts_box.getXmin(), orts_box.getXmax(), orts_box.getYmin(), orts_box.getYmax());
         
@@ -636,7 +637,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      */
     protected void updateRenderSelection(GLAutoDrawable gld)
     {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         
         IntBuffer renderSelectionBuffer;
         int renderSelectionBufferAllocationSize = 2048;
@@ -644,17 +645,17 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
         int hits = -1;
 
         do {
-            renderSelectionBuffer = BufferUtil.newIntBuffer(renderSelectionBufferAllocationSize);
+            renderSelectionBuffer = Buffers.newDirectIntBuffer(renderSelectionBufferAllocationSize);
             gl.glSelectBuffer(renderSelectionBuffer.capacity(), renderSelectionBuffer);
         
             // Enable render selection.
-            gl.glRenderMode(GL.GL_SELECT);
+            gl.glRenderMode(GL2.GL_SELECT);
             
             // Init names.
             gl.glInitNames();
 
             // Sets the selection area.
-            gl.glMatrixMode(GL.GL_PROJECTION);
+            gl.glMatrixMode(GL2.GL_PROJECTION);
             gl.glPushMatrix();
             gl.glLoadIdentity();
 
@@ -675,12 +676,12 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
             }
             
             // Restore view
-            gl.glMatrixMode(GL.GL_PROJECTION);
+            gl.glMatrixMode(GL2.GL_PROJECTION);
             gl.glPopMatrix();
             gl.glFlush();
             
             // End render selection mode.
-            hits = gld.getGL().glRenderMode(GL.GL_RENDER);
+            hits = ((GL2)gld.getGL()).glRenderMode(GL2.GL_RENDER);
             
             if (hits < 0) {
                 // To small selectionBuffer, try double size.
@@ -1003,12 +1004,12 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
     /**
      * All elements shown in the scene are drawn here.
      *
-     * @param gld needed for OpenGL.
+     * @param gld needed for OpenGL2.
      */
     protected void drawGraph(GLAutoDrawable gld) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         // clear the window
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT);
+        gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
         // draw pv for each cell
         if (grid_based_pv && cell_layer != null) {
             if (!cell_layer.isDisplayListUpdated()) {
@@ -1043,9 +1044,9 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
                 // magnify drawn elements
                 magnifyElements(gld);
                 // Restore view
-                gl.glMatrixMode(GL.GL_MODELVIEW);
+                gl.glMatrixMode(GL2.GL_MODELVIEW);
                 gl.glPopMatrix();
-                gl.glMatrixMode(GL.GL_PROJECTION);
+                gl.glMatrixMode(GL2.GL_PROJECTION);
                 gl.glPopMatrix();
             }
         }
@@ -1271,7 +1272,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
                 res[i] = mda.getDisplayList();
             }
             // update the list of the drawn elements
-            drawnMapDrawablesListBuf = BufferUtil.newIntBuffer(res.length);
+            drawnMapDrawablesListBuf = Buffers.newDirectIntBuffer(res.length);
             drawnMapDrawablesListBuf.put(res);
             drawnMapDrawablesListBuf.rewind();
             isDrawnMapDrawablesListUpdated = true;
@@ -1509,7 +1510,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * This method is used to magnify symbols currenly drawn on the map.
      */
     protected void magnifyElements(GLAutoDrawable gld) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         Vector elements = mapDrawableAdaptersUnderCursor(MapElementAdapter.class);
         if (elements.size() > 0) {
             // Draws a magnification of the symbols under the cursor
@@ -1532,7 +1533,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
             double vSubPanelSize = vTileSize + vTileSpacing + vTextSpace;
             
             int[] viewport = new int[4];
-            gl.glGetIntegerv(GL.GL_VIEWPORT, viewport, 0);
+            gl.glGetIntegerv(GL2.GL_VIEWPORT, viewport, 0);
             
             // Decide layout. 
             double aspectRatio = ((double) viewport[2]) / ((double) viewport[3]);
@@ -1547,12 +1548,12 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
             double hPanelSize = hTiles * hSubPanelSize;
             double vPanelSize = vTiles * vSubPanelSize;
             
-            gl.glMatrixMode(GL.GL_PROJECTION); 
+            gl.glMatrixMode(GL2.GL_PROJECTION); 
             
             double symbolScale = 1.0d;
             if (getInvariantSymbolSize()) {
-                DoubleBuffer buf = BufferUtil.newDoubleBuffer(16);
-                gl.glGetDoublev(GL.GL_PROJECTION_MATRIX, buf);
+                DoubleBuffer buf = Buffers.newDirectDoubleBuffer(16);
+                gl.glGetDoublev(GL2.GL_PROJECTION_MATRIX, buf);
                 symbolScale = 0.000004d/buf.get(0);
             }
             
@@ -1574,7 +1575,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
             // Extra bells and whistles
             //gl.glRotated((1.0d - this.magnifierSizeScale) * 180.0, 0.0d, 0.0d, 1.0d);
 
-            gl.glMatrixMode(GL.GL_MODELVIEW); 
+            gl.glMatrixMode(GL2.GL_MODELVIEW); 
             gl.glPushMatrix();
             gl.glLoadIdentity();
             gl.glTranslated(-hPanelSize/2, -vPanelSize/2, 0);
@@ -1590,7 +1591,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
                     if (drawableAdapter instanceof MapElementAdapter) {
                         MapElementAdapter elementAdapter = (MapElementAdapter) drawableAdapter;
                         // Position on tile.
-                        gl.glMatrixMode(GL.GL_MODELVIEW);
+                        gl.glMatrixMode(GL2.GL_MODELVIEW);
                         gl.glPushMatrix();
                         gl.glTranslated(j * hSubPanelSize,
                                         i * vSubPanelSize,
@@ -1604,7 +1605,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
                                    vSubPanelSize - vTileSpacing);
                     
                         // Scale and draw symbol.
-                        gl.glMatrixMode(GL.GL_MODELVIEW);        
+                        gl.glMatrixMode(GL2.GL_MODELVIEW);        
                         gl.glPushMatrix();
                         // Symbols are drawn from center...
                         gl.glTranslated(hSubPanelSize/2, vTextSpace + vTileSize/2, 0);
@@ -1618,13 +1619,13 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
                         // Draw symbol.
                         gl.glCallList(elementAdapter.getSymbolDisplayList());
                         
-                        gl.glMatrixMode(GL.GL_MODELVIEW);
+                        gl.glMatrixMode(GL2.GL_MODELVIEW);
                         gl.glPopMatrix();
                         
                         // Draw name of element. Check
                         // comments above for the meaning of
                         // the constants.
-                        gl.glMatrixMode(GL.GL_MODELVIEW);
+                        gl.glMatrixMode(GL2.GL_MODELVIEW);
                         gl.glPushMatrix();
                         gl.glTranslated(hTileSpacing, vTextSpace - vTileSpacing, 0);
                         gl.glScaled(vTextSize/(119.05 + 33.33), 
@@ -1653,10 +1654,10 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
                                 Debug.err.println(ex.toString());
                             }
                         }
-                        gl.glMatrixMode(GL.GL_MODELVIEW);
+                        gl.glMatrixMode(GL2.GL_MODELVIEW);
                         gl.glPopMatrix();
                         
-                        gl.glMatrixMode(GL.GL_MODELVIEW);
+                        gl.glMatrixMode(GL2.GL_MODELVIEW);
                         gl.glPopMatrix();
                     }
                 }
@@ -1715,6 +1716,10 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
     public void update() {
         super.update();
         latestUpdateTime = System.currentTimeMillis();
+    }
+    
+    public void dispose(GLAutoDrawable glad){
+      //TODO implement
     }
 }
 

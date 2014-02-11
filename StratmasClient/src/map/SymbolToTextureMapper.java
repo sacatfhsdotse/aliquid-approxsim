@@ -27,8 +27,9 @@ import java.util.Collections;
 import java.util.Hashtable;
 
 import java.nio.ByteBuffer;
-import com.sun.opengl.util.BufferUtil;
+import com.jogamp.common.nio.Buffers;
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.GLAutoDrawable;
 
@@ -77,18 +78,18 @@ public class SymbolToTextureMapper
      * the texture (default is GL_LINEAR_MIPMAP_LINEAR). See also
      * useMipMap.
      */
-    public static float textureMinFilter = GL.GL_LINEAR_MIPMAP_LINEAR;
+    public static float textureMinFilter = GL2.GL_LINEAR_MIPMAP_LINEAR;
 
     /**
      * Which method to use when the textured figure is larger than the
      * availiable texture (default is GL_LINEAR).
      */
-    public static float textureMagFilter = GL.GL_LINEAR;
+    public static float textureMagFilter = GL2.GL_LINEAR;
 
     /**
      * What texturing mode to use, default is GL_REPLACE.
      */
-    public static float textureMode = GL.GL_MODULATE;
+    public static float textureMode = GL2.GL_MODULATE;
 
     /**
      * GLU to use.
@@ -125,7 +126,7 @@ public class SymbolToTextureMapper
      */
     static private Integer createTexture(Icon icon, GLAutoDrawable gld)
     {
-        gld.getGL().glEnable(GL.GL_TEXTURE_2D);
+        gld.getGL().glEnable(GL2.GL_TEXTURE_2D);
         // Generate new name and bind this texture to it.
         int newName[] = new int[1];
         gld.getGL().glGenTextures(1, newName, 0);
@@ -133,55 +134,55 @@ public class SymbolToTextureMapper
         Debug.err.println("Creating new texture " + newName[0] + " for " + 
                           icon.getImage().hashCode());
         
-        gld.getGL().glBindTexture(GL.GL_TEXTURE_2D, newName[0]);
-        gld.getGL().glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, GL.GL_CLAMP);
-        gld.getGL().glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, GL.GL_CLAMP);
-         gld.getGL().glTexParameterf(GL.GL_TEXTURE_2D, 
-                                    GL.GL_TEXTURE_MAG_FILTER, 
+        gld.getGL().glBindTexture(GL2.GL_TEXTURE_2D, newName[0]);
+        gld.getGL().glTexParameterf(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_S, GL2.GL_CLAMP);
+        gld.getGL().glTexParameterf(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_T, GL2.GL_CLAMP);
+         gld.getGL().glTexParameterf(GL2.GL_TEXTURE_2D, 
+                                    GL2.GL_TEXTURE_MAG_FILTER, 
                                     textureMagFilter);
-         gld.getGL().glTexParameterf(GL.GL_TEXTURE_2D, 
-                                    GL.GL_TEXTURE_MIN_FILTER, 
+         gld.getGL().glTexParameterf(GL2.GL_TEXTURE_2D, 
+                                    GL2.GL_TEXTURE_MIN_FILTER, 
                                     textureMinFilter);
-        gld.getGL().glTexEnvf(GL.GL_TEXTURE_ENV, 
-                              GL.GL_TEXTURE_ENV_MODE, 
+        ((GL2)gld.getGL()).glTexEnvf(GL2.GL_TEXTURE_ENV, 
+                              GL2.GL_TEXTURE_ENV_MODE, 
                               textureMode);
 
         if (useMipMap) {
             if (useGluMipMap) {
-                glu.gluBuild2DMipmaps(GL.GL_TEXTURE_2D,
-                                      GL.GL_RGBA,
+                glu.gluBuild2DMipmaps(GL2.GL_TEXTURE_2D,
+                                      GL2.GL_RGBA,
                                       icon.getIconWidth(),
                                       icon.getIconHeight(), 
-                                      GL.GL_RGBA,
-                                      GL.GL_UNSIGNED_BYTE,
+                                      GL2.GL_RGBA,
+                                      GL2.GL_UNSIGNED_BYTE,
                                       iconToByteArray(icon));
             } else {
-                gld.getGL().glTexImage2D(GL.GL_TEXTURE_2D,
+                gld.getGL().glTexImage2D(GL2.GL_TEXTURE_2D,
                                          0,
-                                         GL.GL_RGBA,
+                                         GL2.GL_RGBA,
                                          128,
                                          128, 
                                          0,
-                                         GL.GL_RGBA,
-                                         GL.GL_UNSIGNED_BYTE,
+                                         GL2.GL_RGBA,
+                                         GL2.GL_UNSIGNED_BYTE,
                                          iconToByteArray(icon, 128, 128));
-                gld.getGL().glTexImage2D(GL.GL_TEXTURE_2D,
+                gld.getGL().glTexImage2D(GL2.GL_TEXTURE_2D,
                                          1,
-                                         GL.GL_RGBA,
+                                         GL2.GL_RGBA,
                                          64,
                                          64, 
                                          0,
-                                         GL.GL_RGBA,
-                                         GL.GL_UNSIGNED_BYTE,
+                                         GL2.GL_RGBA,
+                                         GL2.GL_UNSIGNED_BYTE,
                                          iconToByteArray(icon, 64, 64));
-                gld.getGL().glTexImage2D(GL.GL_TEXTURE_2D,
+                gld.getGL().glTexImage2D(GL2.GL_TEXTURE_2D,
                                          2,
-                                         GL.GL_RGBA,
+                                         GL2.GL_RGBA,
                                          128,
                                          128, 
                                          0,
-                                         GL.GL_RGBA,
-                                         GL.GL_UNSIGNED_BYTE,
+                                         GL2.GL_RGBA,
+                                         GL2.GL_UNSIGNED_BYTE,
                                          iconToByteArray(icon, 32, 32));                
             }
         } else {
@@ -191,19 +192,19 @@ public class SymbolToTextureMapper
             int size; 
             for (size = 2; size - pixels > size*2 - pixels; size *= 2);
             
-            gld.getGL().glTexImage2D(GL.GL_TEXTURE_2D,
+            gld.getGL().glTexImage2D(GL2.GL_TEXTURE_2D,
                                      0,
-                                     GL.GL_RGBA,
+                                     GL2.GL_RGBA,
                                      size,
                                      size, 
                                      0,
-                                     GL.GL_RGBA,
-                                     GL.GL_UNSIGNED_BYTE,
+                                     GL2.GL_RGBA,
+                                     GL2.GL_UNSIGNED_BYTE,
                                      iconToByteArray(icon, size, size));
         }
 
-        gld.getGL().glBindTexture(GL.GL_TEXTURE_2D, 0);
-        gld.getGL().glDisable(GL.GL_TEXTURE_2D);
+        gld.getGL().glBindTexture(GL2.GL_TEXTURE_2D, 0);
+        gld.getGL().glDisable(GL2.GL_TEXTURE_2D);
 
         return new Integer(newName[0]);
     }
@@ -244,7 +245,7 @@ public class SymbolToTextureMapper
         Graphics2D graphics = bufferedImage.createGraphics();
 
         // Use an AffineTransformation to draw upside-down in the java sense, 
-        // which will make it right-side-up in OpenGL.
+        // which will make it right-side-up in OpenGL2.
         AffineTransform transform = new AffineTransform();
         transform.translate(0, icon.getIconHeight());
         transform.scale(1, -1d);
@@ -254,7 +255,7 @@ public class SymbolToTextureMapper
         
         // Return the underlying byte array.         
         byte[] foo = ((DataBufferByte) raster.getDataBuffer()).getData();
-        ByteBuffer fio = BufferUtil.newByteBuffer(foo.length);
+        ByteBuffer fio = Buffers.newDirectByteBuffer(foo.length);
         fio.put(foo);
         fio.rewind();
         return fio;

@@ -15,6 +15,7 @@ import StratmasClient.map.Projection;
 import StratmasClient.map.SymbolToTextureMapper;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLUtessellator;
@@ -68,16 +69,16 @@ public class MapActivityAdapter extends MapElementAdapter{
      */
     protected void updateConnectionArrowDisplayList(Projection proj, GLAutoDrawable gld)
     {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         displayListsBuf.put(CONNECTION_ARROW_POS, (gl.glIsList(displayListsBuf.get(CONNECTION_ARROW_POS))) ? 
                             displayListsBuf.get(CONNECTION_ARROW_POS) : gl.glGenLists(1));
         
-        gl.glNewList(displayListsBuf.get(CONNECTION_ARROW_POS), GL.GL_COMPILE);
+        gl.glNewList(displayListsBuf.get(CONNECTION_ARROW_POS), GL2.GL_COMPILE);
          // Should be fixed ...
         gl.glPopName();
         // Pushes the name for RenderSelection mode.
         if (arrowDisplayed()) {
-            gl.glMatrixMode(GL.GL_MODELVIEW);
+            gl.glMatrixMode(GL2.GL_MODELVIEW);
             gl.glPushMatrix();
             // get location center of the military unit
             BoundingBox muBox = ((Shape)getObject().getParent().getParent().getChild("location")).getBoundingBox();
@@ -92,17 +93,17 @@ public class MapActivityAdapter extends MapElementAdapter{
             SymbolIDCode id = (SymbolIDCode)getObject().getParent().getParent().getChild("symbolIDCode");
             double[] col = getLocationColor(id);
             // draw the line
-            gl.glEnable (GL.GL_LINE_SMOOTH);
-            gl.glHint (GL.GL_LINE_SMOOTH_HINT, GL.GL_DONT_CARE);
+            gl.glEnable (GL2.GL_LINE_SMOOTH);
+            gl.glHint (GL2.GL_LINE_SMOOTH_HINT, GL2.GL_DONT_CARE);
             gl.glColor3d(col[0], col[1], col[2]);
             gl.glLineWidth (2);
-            gl.glBegin(GL.GL_LINES);
+            gl.glBegin(GL2.GL_LINES);
             gl.glVertex2d(muXY[0], muXY[1]);
             gl.glVertex2d(aXY[0], aXY[1]);
             gl.glEnd();
             gl.glPopMatrix();
             // drawing the arrow
-            gl.glMatrixMode(GL.GL_MODELVIEW);
+            gl.glMatrixMode(GL2.GL_MODELVIEW);
             gl.glPushMatrix();
             // compute the rotation angle
             double ang = Math.acos((muXY[0]-aXY[0])/Math.sqrt(Math.pow(muXY[0]-aXY[0],2)+Math.pow(muXY[1]-aXY[1],2)));
@@ -111,7 +112,7 @@ public class MapActivityAdapter extends MapElementAdapter{
             double ang2 = (ang+30*Math.PI/180 > 2*Math.PI)? ang+30*Math.PI/180-2*Math.PI : ang+30*Math.PI/180;
             //gl.glRotated(ang, 0.0, 0.0, 1.0);
             double arrowSize = 0.1*getSymbolScale()*horizontalSymbolSize;
-            gl.glBegin(GL.GL_POLYGON);
+            gl.glBegin(GL2.GL_POLYGON);
             gl.glVertex2d(0, 0);
             gl.glVertex2d(arrowSize*Math.cos(ang1), arrowSize*Math.sin(ang1));
             gl.glVertex2d(arrowSize*Math.cos(ang2), arrowSize*Math.sin(ang2));

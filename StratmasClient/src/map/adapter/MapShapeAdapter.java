@@ -24,6 +24,7 @@ import StratmasClient.substrate.SubstrateEditor;
 import StratmasClient.substrate.ShapeValuePair;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLUtessellator;
@@ -104,12 +105,12 @@ public class MapShapeAdapter extends MapDrawableAdapter {
      * @param gld the gl drawable targeted.
      */
     protected void updateDisplayList(Projection proj, GLAutoDrawable gld) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         // update the display list
          displayList = (gl.glIsList(displayList)) ? displayList : gl.glGenLists(1);
-        gl.glNewList(displayList, GL.GL_COMPILE);
+        gl.glNewList(displayList, GL2.GL_COMPILE);
         // shape display list
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
         // pushes the name for RenderSelection mode        
         gl.glPushName(getRenderSelectionName());
@@ -119,7 +120,7 @@ public class MapShapeAdapter extends MapDrawableAdapter {
             drawShapeLines(gld, proj);
         }
         gl.glPopName();
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPopMatrix();
         gl.glEndList();
         displayListUpdated = true;
@@ -132,16 +133,16 @@ public class MapShapeAdapter extends MapDrawableAdapter {
      * @param gld the gl drawable targeted.
      */
     protected void updateShapeLinesDisplayList(Projection proj, GLAutoDrawable gld) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         // update the display list
          shapeLinesDisplayList = (gl.glIsList(shapeLinesDisplayList)) ? shapeLinesDisplayList : gl.glGenLists(1);
-        gl.glNewList(shapeLinesDisplayList, GL.GL_COMPILE);
+        gl.glNewList(shapeLinesDisplayList, GL2.GL_COMPILE);
         // shape display list
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
         // draw shape lines
         drawShapeLines(gld, proj);
-            gl.glMatrixMode(GL.GL_MODELVIEW);
+            gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPopMatrix();
         gl.glEndList();
     }
@@ -153,16 +154,16 @@ public class MapShapeAdapter extends MapDrawableAdapter {
      * @param gld the gl drawable targeted.
      */
     protected void updateShapeAreaDisplayList(Projection proj, GLAutoDrawable gld) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         // update the display list
          shapeAreaDisplayList = (gl.glIsList(shapeAreaDisplayList)) ? shapeAreaDisplayList : gl.glGenLists(1);
-        gl.glNewList(shapeAreaDisplayList, GL.GL_COMPILE);
+        gl.glNewList(shapeAreaDisplayList, GL2.GL_COMPILE);
         // shape display list
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
         // fill the shape with color 
         fillShape(gld, proj);
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPopMatrix();
         gl.glEndList();
     }
@@ -217,24 +218,24 @@ public class MapShapeAdapter extends MapDrawableAdapter {
      * @param polygon the polygon to draw.
      */
     protected void drawPolygonLines(GLAutoDrawable gld, Projection proj, Polygon polygon) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
 
         // draw lines of the polygon
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
         // line color
         float[] cColor = lineColor.getRGBColorComponents(null);
         gl.glColor3f(cColor[0], cColor[1], cColor[2]);
         // width of the shape line
         gl.glLineWidth(lineWidth);
-        gl.glBegin(GL.GL_LINES);
+        gl.glBegin(GL2.GL_LINES);
         for (Enumeration e = polygon.getCurves(); e.hasMoreElements();) {
             Line line = (Line)e.nextElement();
             gl.glVertex2dv(proj.projToXY(line.getStartPoint()), 0);
             gl.glVertex2dv(proj.projToXY(line.getEndPoint()), 0);
         }
         gl.glEnd();
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPopMatrix();
     }
     
@@ -246,11 +247,11 @@ public class MapShapeAdapter extends MapDrawableAdapter {
      * @param polygon the polygon to draw.
      */
     protected void fillPolygon(GLAutoDrawable gld, Projection proj, Polygon polygon) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         GLU glu = new GLU();
 
         // draw tesselated polygon
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
         // create new tessellator
         GLUtessellator tess = getShapeTessellator(gld, fillColor);
@@ -269,7 +270,7 @@ public class MapShapeAdapter extends MapDrawableAdapter {
         // find intersections with the intersecting shapes 
         fillPolygonIntersections(gld, proj, polygon);
 
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPopMatrix();
     }
     
@@ -282,7 +283,7 @@ public class MapShapeAdapter extends MapDrawableAdapter {
      * @param polygon the polygon to draw.
      */
     protected void fillPolygonIntersections(GLAutoDrawable gld, Projection proj, Polygon polygon) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         GLU glu = new GLU();
         // find intersections
         for (int i = 0; i < intersectingShapes.size(); i++) {
@@ -454,7 +455,7 @@ public class MapShapeAdapter extends MapDrawableAdapter {
      * @param gld the glDrawable context to use.
      */
     protected GLUtessellatorCallback getLocationTessellatorCallback(GLAutoDrawable gld,  final Color color) {
-        final GL gl = gld.getGL();
+        final GL2 gl = (GL2) gld.getGL();
         
         return new GLUtessellatorCallbackAdapter() {
                 public void vertex(Object data) {

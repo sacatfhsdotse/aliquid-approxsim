@@ -14,6 +14,7 @@ import StratmasClient.object.StratmasInteger;
 import StratmasClient.Debug;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLUtessellator;
@@ -81,7 +82,7 @@ public class MilitaryUnitAdapter extends ElementAdapter
      */
     protected GLUtessellatorCallback getLocationTessellatorCallback(GLAutoDrawable gld)
     {
-        final GL gl = gld.getGL();
+        final GL2 gl = (GL2) gld.getGL();
         
         SymbolIDCode idCode = (SymbolIDCode) getStratmasObject().getChild("symbolIDCode");
         long personnel = ((StratmasInteger) getStratmasObject().getChild("personnel")).getValue();

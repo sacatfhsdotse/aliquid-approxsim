@@ -27,6 +27,7 @@ import StratmasClient.proj.MGRSConversion;
 
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 
 /**
  * This class implements the grid of cells over a region defined by <code> Shape </code> objects.
@@ -470,12 +471,12 @@ public class GridLayer implements StratmasEventListener {
      * @param gld the gl drawable targeted.
      */
     protected void updateDisplayList(Projection proj, GLAutoDrawable gld) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         // update the display list
          displayList = (gl.glIsList(displayList)) ? displayList : gl.glGenLists(1);
-        gl.glNewList(displayList, GL.GL_COMPILE);
+        gl.glNewList(displayList, GL2.GL_COMPILE);
         // shape display list
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
         // Pushes the name for RenderSelection mode.        
         gl.glPushName(getRenderSelectionName());
@@ -512,24 +513,24 @@ public class GridLayer implements StratmasEventListener {
                 double[] lower_right = proj.projToXY(pos[2*((row+1)*(col_nr+1)+col+1)+1], 
                                                      pos[2*((row+1)*(col_nr+1)+col+1)]);
                 // draw the cell
-                gl.glMatrixMode(GL.GL_MODELVIEW);
+                gl.glMatrixMode(GL2.GL_MODELVIEW);
                 gl.glPushMatrix();
                 gl.glPushName(cellInfo[ii].renderSelectionName);
                 int col_ind = grid_values[cellInfo[ii].activeCellPos];
                 gl.glColor3f(color_table[col_ind][0], color_table[col_ind][1], color_table[col_ind][2]); 
-                gl.glBegin(GL.GL_POLYGON);
+                gl.glBegin(GL2.GL_POLYGON);
                 gl.glVertex2d(upper_left[0], upper_left[1]);
                 gl.glVertex2d(lower_left[0], lower_left[1]);
                 gl.glVertex2d(lower_right[0], lower_right[1]);
                 gl.glVertex2d(upper_right[0], upper_right[1]);
                 gl.glEnd();
                 gl.glPopName();
-                gl.glMatrixMode(GL.GL_MODELVIEW);
+                gl.glMatrixMode(GL2.GL_MODELVIEW);
                 gl.glPopMatrix();
             }
         }
         gl.glPopName();
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPopMatrix();
         gl.glEndList();
         displayListUpdated = true;

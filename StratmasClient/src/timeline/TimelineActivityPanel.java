@@ -75,14 +75,15 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI; 
 import javax.media.opengl.GLEventListener;
-import javax.media.opengl.GLCanvas;
+import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLDrawableFactory;
-import com.sun.opengl.util.BufferUtil;
-import com.sun.opengl.util.GLUT;
+import com.jogamp.common.nio.Buffers;
+import com.jogamp.opengl.util.gl2.GLUT;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetAdapter;
@@ -367,7 +368,7 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      * @param gld needed when opengl is used. 
      */
     public void init(GLAutoDrawable gld) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         
         // set the background color
         float r = TimelineConstants.LIGHTER.getRed()/255.0f;
@@ -376,20 +377,20 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
         gld.getGL().glClearColor(r, g, b, 0.0f);
         
         // set hints
-        gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST); 
+        gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST); 
         
         // enable smoothing for lines
-        gl.glEnable(GL.GL_LINE_SMOOTH);
+        gl.glEnable(GL2.GL_LINE_SMOOTH);
         
         // enable shading
-        gl.glShadeModel(GL.GL_SMOOTH);
+        gl.glShadeModel(GL2.GL_SMOOTH);
         
         // enable blending
-        gl.glEnable(GL.GL_BLEND);
-        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+        gl.glEnable(GL2.GL_BLEND);
+        gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
         
         // set actual matrix
-        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
         
         // initialize bounding box
@@ -408,10 +409,10 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      * @param gld needed when opengl is used. 
      */
     public void display(GLAutoDrawable gld) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         
         // set actual matrix
-        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
         
         // set bounding box
@@ -433,7 +434,7 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
     /**
      * Updates width and length of the canvas.
      *
-     * @param drawable needed for OpenGL.
+     * @param drawable needed for OpenGL2.
      * @param x leftmost screen coordinate of the display area.
      * @param y uppermost screen coordinate of the display area.
      * @param width width of the display area.
@@ -460,7 +461,7 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      */
     private void updateRenderSelection(GLAutoDrawable gld)
     {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         
         IntBuffer render_selection_buffer;
         int render_selection_buffer_allocation_size = 2048;
@@ -468,17 +469,17 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
         int hits = -1;
 
         do {
-            render_selection_buffer = BufferUtil.newIntBuffer(render_selection_buffer_allocation_size);
+            render_selection_buffer = Buffers.newDirectIntBuffer(render_selection_buffer_allocation_size);
             gl.glSelectBuffer(render_selection_buffer.capacity(), render_selection_buffer);
             
             // Enable render selection.
-            gl.glRenderMode(GL.GL_SELECT);
+            gl.glRenderMode(GL2.GL_SELECT);
             
             // Init names.
             gl.glInitNames();
             
             // Sets the selection area.
-            gl.glMatrixMode(GL.GL_PROJECTION);
+            gl.glMatrixMode(GL2.GL_PROJECTION);
             gl.glPushMatrix();
             gl.glLoadIdentity();
 
@@ -496,12 +497,12 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
             }
                         
             // Restore view
-            gl.glMatrixMode(GL.GL_PROJECTION);
+            gl.glMatrixMode(GL2.GL_PROJECTION);
             gl.glPopMatrix();
             gl.glFlush();
             
             // End render selection mode.
-            hits = gl.glRenderMode(GL.GL_RENDER);
+            hits = gl.glRenderMode(GL2.GL_RENDER);
             
             if (hits < 0) {
                 // To small selectionBuffer, try double size.
@@ -787,9 +788,10 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
     /**
      * Draw all the graphic elements.
      */
-    protected void drawGraph(GL gl) {
+    protected void drawGraph(GL gl2) {
+        GL2 gl = (GL2) gl2;
         // clear the window
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT);
+        gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
 
         // adjust drawing of the activities in the timeline canvas - from the top or from the bottom
         boolean rev  = (scrollBar.getValue() == scrollBar.getMaximum() && view.getHeight() < activityTable.getHeight()) ? 
@@ -806,7 +808,7 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
             // draw the background
             Color col = activityTable.getBackground(i);
             gl.glColor3f(col.getRed() / 255f, col.getGreen() / 255f, col.getBlue() / 255f);
-            gl.glBegin(GL.GL_QUADS);
+            gl.glBegin(GL2.GL_QUADS);
             gl.glVertex2d(xmin, ymax - y1);
             gl.glVertex2d(xmax, ymax - y1);
             gl.glVertex2d(xmax, ymax - y2);
@@ -834,7 +836,7 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
         long ct2x = convertCurrentTimeToProjectedX(timelinePanel.millisecondsToTimeUnit(timeline.getRelativeCurrentTime()));
         if (t2x <= ct2x) {
             gl.glColor4f(0.9f, 0.7f, 0.4f, 0.3f);
-            gl.glBegin(GL.GL_POLYGON);
+            gl.glBegin(GL2.GL_POLYGON);
             gl.glVertex2d(t2x, ymin);
             gl.glVertex2d(Math.max(ct2x, t2x), ymin);
             gl.glVertex2d(Math.max(ct2x, t2x), ymax);

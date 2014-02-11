@@ -12,6 +12,7 @@ import StratmasClient.filter.StratmasObjectAdapter;
 import StratmasClient.map.Projection;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.GLAutoDrawable;
 
@@ -69,12 +70,12 @@ public class MapLineAdapter extends MapDrawableAdapter {
      * @param gld the gl drawable targeted.
      */
     protected void updateDisplayList(Projection proj, GLAutoDrawable gld) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
          displayList = (gl.glIsList(displayList)) ? displayList : gl.glGenLists(1);
         
-        gl.glNewList(displayList, GL.GL_COMPILE);
+        gl.glNewList(displayList, GL2.GL_COMPILE);
         // point display list
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
         // pushes the name for RenderSelection mode        
         gl.glPushName(getRenderSelectionName());
@@ -88,12 +89,12 @@ public class MapLineAdapter extends MapDrawableAdapter {
         gl.glColor3f(cColor[0], cColor[1], cColor[2]);
         // width of the line
         gl.glLineWidth(lineWidth);
-        gl.glBegin(GL.GL_LINES);
+        gl.glBegin(GL2.GL_LINES);
         gl.glVertex2dv(p1, 0);
         gl.glVertex2dv(p2, 0);
         gl.glEnd();
         gl.glPopName();
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPopMatrix();
         gl.glEndList();
         displayListUpdated = true;

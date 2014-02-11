@@ -16,12 +16,14 @@ import javax.swing.border.*;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.*;
 import java.net.URL;
-import javax.media.opengl.GLCanvas;
+import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.GLCapabilities;
+import javax.media.opengl.GLProfile;
 import javax.media.opengl.GLDrawableFactory;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUtessellator;
 import javax.media.opengl.glu.GLUtessellatorCallbackAdapter;
@@ -206,7 +208,7 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
      */
     public PositionMap(StratMap stratmap, Region region) {
         // create JOGL canvas
-        GLCapabilities glcaps = new GLCapabilities();
+        GLCapabilities glcaps = new GLCapabilities(GLProfile.getDefault());
         glcanvas = new GLCanvas(glcaps);
         glcanvas.addGLEventListener(this);
         glcanvas.addMouseListener(this);
@@ -461,7 +463,7 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
      * @param gld needed when opengl is used.
      */
     public void init(GLAutoDrawable gld) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         
         // set the background color
         float b_red = 0.1f;
@@ -470,11 +472,11 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
         gl.glClearColor(b_red, b_green, b_blue, 0.5f);
         
         // enable blending
-        gl.glEnable(GL.GL_BLEND);
-        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+        gl.glEnable(GL2.GL_BLEND);
+        gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 
         // set actual matrix
-        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
         
         // initialize bounding box
@@ -497,10 +499,10 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
      * @param gld needed when opengl is used.
      */
     public void display(GLAutoDrawable gld) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         
         // update orthographics view bounds
-        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
         glu.gluOrtho2D(box.getXmin(), box.getXmax(), box.getYmin(), box.getYmax());
         
@@ -716,17 +718,17 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
      * Creates empty display lists for the region shapes.
      */
     private void buildLists(GLAutoDrawable drawable) {
-        GL gl = drawable.getGL();
+        GL2 gl = (GL2) drawable.getGL();
         // building the list
         reg = gl.glGenLists(1);        
         // compiled display list (contains shapes of the regions)
-        gl.glNewList(reg, GL.GL_COMPILE);
+        gl.glNewList(reg, GL2.GL_COMPILE);
         // ends display list
         gl.glEndList();
         // building the list
         tess_reg = gl.glGenLists(1);        
         // compiled display list (contains tesselated regions)
-        gl.glNewList(tess_reg, GL.GL_COMPILE);
+        gl.glNewList(tess_reg, GL2.GL_COMPILE);
         // ends display list
         gl.glEndList();
     }
@@ -734,7 +736,8 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
     /**
      *  Updates display lists for the region shapes.
      */
-    private void updateRegionList(GL gl) {
+    private void updateRegionList(GL gl2) {
+        GL2 gl = (GL2) gl2;
         // get shapes
         Vector shapes = (Vector)region.getShapes();
         Vector simple_shapes = new Vector();
@@ -745,13 +748,13 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
             }
         }
         // compiled display list (contains shapes of the regions)
-        gl.glNewList(reg, GL.GL_COMPILE);
+        gl.glNewList(reg, GL2.GL_COMPILE);
         // line color
         gl.glColor3f(0.1f, 0.1f, 0.1f);
         // width of the shape line
         gl.glLineWidth(1.0f);
         // draw geographical region
-        gl.glBegin(GL.GL_LINES);
+        gl.glBegin(GL2.GL_LINES);
         Projection proj = stratmap.getProjection();
         for (int i = 0; i < simple_shapes.size(); i++) {        
             SimpleShape ss = (SimpleShape)simple_shapes.get(i);
@@ -774,9 +777,9 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
      */
     class TessellatorAdapter extends GLUtessellatorCallbackAdapter {
         /**
-         * Interface to OpenGL.
+         * Interface to OpenGL2.
          */
-        GL gl;
+        GL2 gl;
         /**
          * Provides access to the OpenGL utility library routines.
          */
@@ -785,7 +788,7 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
          * Creates the adapter.
          */
         public TessellatorAdapter(GL gl, GLU glu) {
-            this.gl = gl;
+            this.gl = (GL2) gl;
             this.glu = glu;
         }
         /**
@@ -841,10 +844,11 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
      * Updates the display list consisting of the tesselated shapes the displayed
      * region contains.
      *
-     * @param GL interface to OpenGL.
+     * @param GL interface to OpenGL2.
      * @param GLU interface to OpenGL utility library routines.
      */
-    private void updateTesselatedList(GL gl, GLU glu) {
+    private void updateTesselatedList(GL gl2, GLU glu) {
+        GL2 gl = (GL2) gl2;
         // get shapes
         Vector shapes = (Vector)region.getShapes();
         Vector simple_shapes = new Vector();
@@ -868,7 +872,7 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
         glu.gluTessCallback(tess, GLU.GLU_TESS_COMBINE, adapter);
 
         // create display list for all shapes
-        gl.glNewList(tess_reg, GL.GL_COMPILE);
+        gl.glNewList(tess_reg, GL2.GL_COMPILE);
         Projection proj = stratmap.getProjection();
         for (int i = 0; i < simple_shapes.size(); i++) {
             SimpleShape ssh = (SimpleShape)simple_shapes.get(i);
@@ -895,9 +899,10 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
     /**
      * All elements shown in the display window are drawn here.
      */
-    private void drawGraph(GL gl) {
+    private void drawGraph(GL gl2) {
+        GL2 gl = (GL2) gl2;
         // clear the window
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT);
+        gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
 
         // draw tesselated polygons
         gl.glCallList(tess_reg);
@@ -911,7 +916,7 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
         // width of the shape line
         gl.glLineWidth(3.0f);
         // draw bounding box
-        gl.glBegin(GL.GL_LINE_LOOP);
+        gl.glBegin(GL2.GL_LINE_LOOP);
         gl.glVertex2d(box.getXmin(), box.getYmin());
         gl.glVertex2d(box.getXmax(), box.getYmin());
         gl.glVertex2d(box.getXmax(), box.getYmax());
@@ -923,7 +928,7 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
         // width of the shape line
         gl.glLineWidth(2.0f);
         // draw bounding box
-        gl.glBegin(GL.GL_QUADS);
+        gl.glBegin(GL2.GL_QUADS);
         gl.glVertex2d(pbox.getXmin(), pbox.getYmin());
         gl.glVertex2d(pbox.getXmax(), pbox.getYmin());
         gl.glVertex2d(pbox.getXmax(), pbox.getYmax());
@@ -935,7 +940,7 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
         // width of the shape line
         gl.glLineWidth(1.0f);
         // draw bounding box
-        gl.glBegin(GL.GL_LINE_LOOP);
+        gl.glBegin(GL2.GL_LINE_LOOP);
         gl.glVertex2d(pbox.getXmin(), pbox.getYmin());
         gl.glVertex2d(pbox.getXmax(), pbox.getYmin());
         gl.glVertex2d(pbox.getXmax(), pbox.getYmax());
@@ -1019,4 +1024,7 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
         glcanvas.repaint();
     }
     
+    public void dispose(GLAutoDrawable glad){
+      //TODO implement
+    }
 }

@@ -24,14 +24,16 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
-import javax.media.opengl.GLCanvas;
+import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLDrawableFactory;
 import javax.media.opengl.GLEventListener;
-import com.sun.opengl.util.GLUT;
-import com.sun.opengl.util.BufferUtil;
+import javax.media.opengl.GLProfile;
+import com.jogamp.opengl.util.gl2.GLUT;
+import com.jogamp.common.nio.Buffers;
 
 import java.nio.IntBuffer;
 
@@ -200,7 +202,7 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
     /**
      * Display lists for displayed objects that are drawn.
      */
-    protected IntBuffer drawnMapDrawablesListBuf = BufferUtil.newIntBuffer(0);
+    protected IntBuffer drawnMapDrawablesListBuf = Buffers.newDirectIntBuffer(0);
     /**
      * Indicates whether drawnMapDrawablesList need to be recreated.
      */
@@ -239,7 +241,7 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      */
     public BasicMapDrawer(BasicMap basicMap, Region region) {
         // create JOGL canvas
-        GLCapabilities glcaps = new GLCapabilities();
+        GLCapabilities glcaps = new GLCapabilities(GLProfile.getDefault());
         glcaps.setHardwareAccelerated(true);
         glcaps.setStencilBits(1);
         glc = new GLCanvas(glcaps);
@@ -285,24 +287,24 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @param gld needed for OpenGL.
      */
     public void init(GLAutoDrawable gld) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         
         // set the background color
         float[] bColor = backgroundColor.getRGBComponents(null);
         gl.glClearColor(bColor[0], bColor[1], bColor[2], bColor[3]);
         
         // enable smoothing for lines
-        gl.glEnable(GL.GL_LINE_SMOOTH);
+        gl.glEnable(GL2.GL_LINE_SMOOTH);
         
         // enable shading
-        gl.glShadeModel(GL.GL_SMOOTH);
+        gl.glShadeModel(GL2.GL_SMOOTH);
         
         // enable blending
-        gl.glEnable(GL.GL_BLEND);
-        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+        gl.glEnable(GL2.GL_BLEND);
+        gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
         
         // set actual matrix
-        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
         
         // initialize bounding box
@@ -317,7 +319,7 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
         }
         
         int[] viewport = new int[4];
-        gl.glGetIntegerv(GL.GL_VIEWPORT, viewport, 0);
+        gl.glGetIntegerv(GL2.GL_VIEWPORT, viewport, 0);
         reshape(gld, viewport[0], viewport[1], viewport[2], viewport[3]);
         
         update();        
@@ -329,10 +331,10 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @param gld needed for OpenGL.
      */
     public void display(GLAutoDrawable gld) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
 
         // update orthographics view bounds
-        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
         glu.gluOrtho2D(orts_box.getXmin(), orts_box.getXmax(), orts_box.getYmin(), orts_box.getYmax());
 
@@ -857,11 +859,11 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
     /**
      * Updates the display list of the graticule lines.
      */
-    public void updateGraticuleList(GL gl) {
+    public void updateGraticuleList(GL2 gl) {
         graticuleDisplayList = (gl.glIsList(graticuleDisplayList)) ? graticuleDisplayList : gl.glGenLists(1);
         
         // update the list
-        gl.glNewList(graticuleDisplayList, GL.GL_COMPILE);
+        gl.glNewList(graticuleDisplayList, GL2.GL_COMPILE);
         // line color
         gl.glColor4f(0.1f, 0.1f, 0.1f, 0.5f);
         // width of the shape line
@@ -907,7 +909,7 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
                 res[i] = mda.getDisplayList();
             }
             // update the list of the drawn elements
-            drawnMapDrawablesListBuf = BufferUtil.newIntBuffer(res.length);
+            drawnMapDrawablesListBuf = Buffers.newDirectIntBuffer(res.length);
             drawnMapDrawablesListBuf.put(res);
             drawnMapDrawablesListBuf.rewind();
             isDrawnMapDrawablesListUpdated = true;

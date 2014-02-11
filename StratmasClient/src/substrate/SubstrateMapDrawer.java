@@ -15,9 +15,9 @@ import javax.swing.JSlider;
 import javax.swing.JPopupMenu;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GL;
-import javax.media.opengl.GLCanvas;
-
-import com.sun.opengl.util.BufferUtil;
+import javax.media.opengl.GL2;
+import javax.media.opengl.awt.GLCanvas;
+import com.jogamp.common.nio.Buffers;
 
 import StratmasClient.BoundingBox;
 import StratmasClient.StratmasDialog;
@@ -154,19 +154,19 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
     /**
      * Display lists for lines of displayed shapes that are drawn.
      */
-    protected IntBuffer drawnShapeLinesListBuf = BufferUtil.newIntBuffer(0);
+    protected IntBuffer drawnShapeLinesListBuf = Buffers.newDirectIntBuffer(0);
     /**
      * Display lists for areas of displayed shapes that are drawn.
      */
-    protected IntBuffer drawnShapeAreasListBuf = BufferUtil.newIntBuffer(0);
+    protected IntBuffer drawnShapeAreasListBuf = Buffers.newDirectIntBuffer(0);
     /**
      * Display lists for points that are drawn.
      */
-    protected IntBuffer drawnPointsListBuf = BufferUtil.newIntBuffer(0);
+    protected IntBuffer drawnPointsListBuf = Buffers.newDirectIntBuffer(0);
     /**
      * Display lists for lines that are drawn.
      */
-    protected IntBuffer drawnLinesListBuf = BufferUtil.newIntBuffer(0);
+    protected IntBuffer drawnLinesListBuf = Buffers.newDirectIntBuffer(0);
     
     /**
      * Creates new drawer.
@@ -230,7 +230,7 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
      * @param gld the drawable.
      */
     protected void updateRenderSelection(GLAutoDrawable gld) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         
         IntBuffer renderSelectionBuffer;
         int renderSelectionBufferAllocationSize = 2048;
@@ -238,17 +238,17 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
         int hits = -1;
         
         do {
-            renderSelectionBuffer = BufferUtil.newIntBuffer(renderSelectionBufferAllocationSize);
+            renderSelectionBuffer = Buffers.newDirectIntBuffer(renderSelectionBufferAllocationSize);
             gl.glSelectBuffer(renderSelectionBuffer.capacity(), renderSelectionBuffer);
             
             // enable render selection
-            gl.glRenderMode(GL.GL_SELECT);
+            gl.glRenderMode(GL2.GL_SELECT);
             
             // init names
             gl.glInitNames();
             
             // set the selection area
-            gl.glMatrixMode(GL.GL_PROJECTION);
+            gl.glMatrixMode(GL2.GL_PROJECTION);
             gl.glPushMatrix();
             gl.glLoadIdentity();
             glu.gluOrtho2D(renderSelectionX - renderSelectionDeltaX / 2, renderSelectionX + renderSelectionDeltaX / 2, 
@@ -264,12 +264,12 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
             }
 
             // restore view
-            gl.glMatrixMode(GL.GL_PROJECTION);
+            gl.glMatrixMode(GL2.GL_PROJECTION);
             gl.glPopMatrix();
             gl.glFlush();
             
             // end render selection mode
-            hits = gld.getGL().glRenderMode(GL.GL_RENDER);
+            hits = ((GL2)gld.getGL()).glRenderMode(GL2.GL_RENDER);
             
             if (hits < 0) {
                 // too small selectionBuffer, try double size
@@ -993,9 +993,9 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
      * Draws the shapes in the map.
      */
     protected void drawGraph(GLAutoDrawable gld) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         // clear the window
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT);
+        gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
 
         // draw graticules
         //gl.glCallList(graticuleDisplayList);
@@ -1035,7 +1035,7 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
         gl.glCallLists(drawnLinesListBuf.capacity(), gl.GL_INT, drawnLinesListBuf);
         
         // definition of new area for the element
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
         // line color
         float[] cColor = substrateEditor.getActualColor().getRGBColorComponents(null);
@@ -1045,7 +1045,7 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
         Projection proj = getProjection();
         if (substrateMode == CREATE_POLYGON_MODE && ((PolygonMaker)shapeMaker).getLastPoint() != null) {
             // draw last line when defining new polygonial 
-            gl.glBegin(GL.GL_LINES);
+            gl.glBegin(GL2.GL_LINES);
             MapPoint p2 = current_pos.getProjectedPoint(proj);
             gl.glVertex2dv(proj.projToXY(((PolygonMaker)shapeMaker).getLastPoint()), 0);
             gl.glVertex2d(p2.getX(), p2.getY());
@@ -1092,7 +1092,7 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
                     pointList.add(mda);
                 }
             }
-            drawnMapDrawablesListBuf = BufferUtil.newIntBuffer(drawableDisplayLists.length);
+            drawnMapDrawablesListBuf = Buffers.newDirectIntBuffer(drawableDisplayLists.length);
             drawnMapDrawablesListBuf.put(drawableDisplayLists);
             drawnMapDrawablesListBuf.rewind();
 
@@ -1104,8 +1104,8 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
                 shapeAreasDisplayLists[i] = msa.getShapeAreaDisplayList();
                 shapeLinesDisplayLists[i] = msa.getShapeLinesDisplayList();
             }
-            drawnShapeLinesListBuf = BufferUtil.newIntBuffer(shapeLinesDisplayLists.length);
-            drawnShapeAreasListBuf = BufferUtil.newIntBuffer(shapeAreasDisplayLists.length);
+            drawnShapeLinesListBuf = Buffers.newDirectIntBuffer(shapeLinesDisplayLists.length);
+            drawnShapeAreasListBuf = Buffers.newDirectIntBuffer(shapeAreasDisplayLists.length);
             drawnShapeLinesListBuf.put(shapeLinesDisplayLists);
             drawnShapeAreasListBuf.put(shapeAreasDisplayLists);
             drawnShapeLinesListBuf.rewind();
@@ -1117,7 +1117,7 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
                 MapLineAdapter mla = (MapLineAdapter) lineList.get(i);
                 linesDisplayLists[i] = mla.getDisplayList();
             }
-            drawnLinesListBuf = BufferUtil.newIntBuffer(linesDisplayLists.length);
+            drawnLinesListBuf = Buffers.newDirectIntBuffer(linesDisplayLists.length);
             drawnLinesListBuf.put(linesDisplayLists);
             drawnLinesListBuf.rewind();
             
@@ -1127,7 +1127,7 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
                 MapPointAdapter mpa = (MapPointAdapter) pointList.get(i);
                 pointsDisplayLists[i] = mpa.getDisplayList();
             }
-            drawnPointsListBuf = BufferUtil.newIntBuffer(pointsDisplayLists.length);
+            drawnPointsListBuf = Buffers.newDirectIntBuffer(pointsDisplayLists.length);
             drawnPointsListBuf.put(pointsDisplayLists);
             drawnPointsListBuf.rewind();
             
@@ -1199,6 +1199,10 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
     public boolean isEsri(Shape shape) {
         MapDrawableAdapter adapter = getMapDrawableAdapter(shape.getReference());
         return (adapter != null)? true : false;
+    }
+    
+    public void dispose(GLAutoDrawable glad){
+      //TODO implement
     }
 
 }

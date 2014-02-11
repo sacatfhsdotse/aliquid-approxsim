@@ -3,6 +3,7 @@ package StratmasClient.map;
 import StratmasClient.BoundingBox;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 
 /**
  * The graticules which cover a region inside a bounding box are created. Density of graticules
@@ -33,8 +34,9 @@ public class GraticuleLayer {
      * @param proj the projection from lat,lon to XY.
      * @param spacing spacing between graticules.
      */
-    public static void drawGraticules(GL gl, BoundingBox box, Projection proj, double spacing)
+    public static void drawGraticules(GL gl2, BoundingBox box, Projection proj, double spacing)
     {
+        GL2 gl = (GL2) gl2;
         // increase bounding box for the graticules
         double westLon = box.getWestLon() - (box.getEastLon() - box.getWestLon());
         double eastLon = box.getEastLon() + (box.getEastLon() - box.getWestLon());
@@ -58,7 +60,7 @@ public class GraticuleLayer {
         
         //compute horizontal graticules
         for (double lat = lat_start; lat <= lat_stop; lat += spacing) {
-            gl.glBegin(GL.GL_LINE_STRIP);
+            gl.glBegin(GL2.GL_LINE_STRIP);
             gl.glVertex2dv(proj.projToXY(lon_start, lat), 0);
             for (double lon = lon_start + step; lon <= lon_stop; lon += step) {
                 gl.glVertex2dv(proj.projToXY(lon, lat), 0);  
@@ -69,7 +71,7 @@ public class GraticuleLayer {
 
         //compute vertical graticules
         for (double lon = lon_start; lon <= lon_stop; lon += spacing) {
-            gl.glBegin(GL.GL_LINE_STRIP);
+            gl.glBegin(GL2.GL_LINE_STRIP);
             gl.glVertex2dv(proj.projToXY(lon, lat_start), 0);
             for (double lat = lat_start + step; lat <= lat_stop; lat += step) {
                 gl.glVertex2dv(proj.projToXY(lon, lat), 0);  

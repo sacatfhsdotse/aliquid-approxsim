@@ -25,6 +25,7 @@ import StratmasClient.filter.OrderColorFilter;
 import StratmasClient.map.SymbolToTextureMapper;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.GLAutoDrawable;
 
@@ -218,10 +219,11 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
      * @param timelineActivityPanel the panel where this activity is displayed.
      * @param gl the gl drawable targeted.
      */
-    protected void updateActivityDisplayList(TimelineActivityPanel timelineActivityPanel, GL gl) {
+    protected void updateActivityDisplayList(TimelineActivityPanel timelineActivityPanel, GL gl2) {
+        GL2 gl = (GL2) gl2;
          activityDisplayList = (gl.glIsList(activityDisplayList)) ? activityDisplayList : gl.glGenLists(1);
         //
-        gl.glNewList(activityDisplayList, GL.GL_COMPILE);
+        gl.glNewList(activityDisplayList, GL2.GL_COMPILE);
         // get y-coordinate of the render position
         int y = timelineActivityPanel.getYCoordinate(this);
         // get x-coordinate of the render position of the left arrow
@@ -240,14 +242,14 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
             drawConnectionLine(gl, x1, x2, y);
         }
         // activity symbol display list
-        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glPushMatrix();
         // Pushes the name for RenderSelection mode.        
         gl.glPushName(getRenderSelectionName());
         gl.glTranslated(x, y, 0);
         gl.glCallList(displayLists[0]);
         gl.glPopName();
-        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glPopMatrix();
         // boundary box
         if (isSelected()) {
@@ -265,7 +267,7 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
      */
     protected void updateSymbolDisplayLists(GLAutoDrawable gld)
     {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         for (int i = ACTIVITY_POS; i <= RIGHT_ARROW_POS; i++) {
             displayLists[i] = (gl.glIsList(displayLists[i]))? displayLists[i] : gl.glGenLists(1);
         }
@@ -288,7 +290,7 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
         
         for (int i = ACTIVITY_POS; i <= RIGHT_ARROW_POS; i++) {
             // Start list
-            gl.glNewList(displayLists[i], GL.GL_COMPILE);
+            gl.glNewList(displayLists[i], GL2.GL_COMPILE);
           
             if (i == ACTIVITY_POS) {
                 createSymbol(gl, textures[i], getSymbolScale(), getRenderSelectionName() + i, 1.0);
@@ -311,23 +313,24 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
      * @param renderSelectionName the reneder selection name of the symbol.
      * @param alpha the opacity of the symbol.
      */
-    private void createSymbol(GL gl, int texture, double symbolScale, int renderSelectionName, 
+    private void createSymbol(GL gl2, int texture, double symbolScale, int renderSelectionName, 
                               double alpha) {
+        GL2 gl = (GL2) gl2;
         // Enable textures.        
-        gl.glEnable(GL.GL_TEXTURE_2D);
-        gl.glBindTexture(GL.GL_TEXTURE_2D, texture);
-        gl.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, GL.GL_CLAMP);
-        gl.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, GL.GL_CLAMP);
-        gl.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, GL.GL_NEAREST);
-        gl.glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR_MIPMAP_NEAREST);
-        gl.glTexEnvf(GL.GL_TEXTURE_ENV, GL.GL_TEXTURE_ENV_MODE, SymbolToTextureMapper.textureMode);
+        gl.glEnable(GL2.GL_TEXTURE_2D);
+        gl.glBindTexture(GL2.GL_TEXTURE_2D, texture);
+        gl.glTexParameterf(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_S, GL2.GL_CLAMP);
+        gl.glTexParameterf(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_T, GL2.GL_CLAMP);
+        gl.glTexParameterf(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_NEAREST);
+        gl.glTexParameterf(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR_MIPMAP_NEAREST);
+        gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, SymbolToTextureMapper.textureMode);
         
         // Pushes the name for RenderSelection mode.
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
         gl.glScaled(symbolScale, symbolScale, 1.0d);
         gl.glPushName(renderSelectionName);
-        gl.glBegin(GL.GL_QUADS);
+        gl.glBegin(GL2.GL_QUADS);
         gl.glColor4d(1.0d, 1.0d, 1.0d, alpha);
         gl.glTexCoord2f(0, 0);
         gl.glVertex2d(-horizontalSymbolSize / 2, -verticalSymbolSize / 2);
@@ -340,7 +343,7 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
         gl.glEnd();
         gl.glPopName();
         gl.glPopMatrix();
-        gl.glDisable(GL.GL_TEXTURE_2D);
+        gl.glDisable(GL2.GL_TEXTURE_2D);
     }
 
     /**
@@ -352,18 +355,19 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
      * @param x2 x-coordinate of the right arrow.
      * @param y y-coordinate of the symbols.
      */
-    public void drawBoundaryBox(GL gl, int x1, int x2, int y) {
-        gl.glMatrixMode(GL.GL_PROJECTION);
+    public void drawBoundaryBox(GL gl2, int x1, int x2, int y) {
+        GL2 gl = (GL2) gl2;
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glPushMatrix();
         gl.glPushName(getRenderSelectionName() + 4);
         gl.glColor3d(1.0d, 0.0d, 0.0d);
-        gl.glBegin(GL.GL_LINE_LOOP);
+        gl.glBegin(GL2.GL_LINE_LOOP);
         gl.glVertex2d(x1 - getHorizontalSymbolSize() / 2, y - getVerticalSymbolSize() / 2);
         gl.glVertex2d(x1 - getHorizontalSymbolSize() / 2, y + getVerticalSymbolSize() / 2);
         gl.glVertex2d(x2 + getHorizontalSymbolSize() / 2, y + getVerticalSymbolSize() / 2);
         gl.glVertex2d(x2 + getHorizontalSymbolSize() / 2, y - getVerticalSymbolSize() / 2);
         gl.glEnd();
-        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glPopName();
         gl.glPopMatrix();
     }
@@ -376,8 +380,9 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
      * @param x2 x-coordinate of the right arrow.
      * @param y y-coordinate of the symbols.
      */
-    public void drawConnectionLine(GL gl, int x1, int x2, int y) {
-        gl.glMatrixMode(GL.GL_PROJECTION);
+    public void drawConnectionLine(GL gl2, int x1, int x2, int y) {
+        GL2 gl = (GL2) gl2;
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glPushMatrix();
         gl.glPushName(getRenderSelectionName() + 5);
         if (hasResource()) {
@@ -390,11 +395,11 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
         else {
             gl.glColor4f(0.3f, 0.3f, 0.3f, 0.5f);
         }
-        gl.glBegin(GL.GL_LINES);
+        gl.glBegin(GL2.GL_LINES);
         gl.glVertex2d(x1, y);
         gl.glVertex2d(x2, y);
         gl.glEnd();
-        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glPopName();
         gl.glPopMatrix();
     }
@@ -406,14 +411,15 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
      * @param x x-coordinate of the arrow.
      * @param y y-coordinate of the arrow.
      */
-    public void drawLeftArrow(GL gl, int x, int y) {
-        gl.glMatrixMode(GL.GL_PROJECTION);
+    public void drawLeftArrow(GL gl2, int x, int y) {
+        GL2 gl = (GL2) gl2;
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glPushMatrix();
         // adjust x coordinate
         int xadj = (int)(x + horizontalSymbolSize * arrowScale / 2);
         gl.glTranslated(xadj, y, 0);
         gl.glCallList(displayLists[1]);
-        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glPopMatrix();
     }
     
@@ -424,14 +430,15 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
      * @param x x-coordinate of the arrow.
      * @param y y-coordinate of the arrow.
      */
-    public void drawRightArrow(GL gl, int x, int y) {
-        gl.glMatrixMode(GL.GL_PROJECTION);
+    public void drawRightArrow(GL gl2, int x, int y) {
+        GL2 gl = (GL2) gl2;
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glPushMatrix();
         // adjust x coordinate
         int xadj = (int)(x - horizontalSymbolSize * arrowScale / 2);
         gl.glTranslated(xadj, y, 0);
         gl.glCallList(displayLists[2]);
-        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glPopMatrix();
     }
     

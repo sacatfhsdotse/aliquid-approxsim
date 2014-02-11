@@ -22,13 +22,14 @@ import java.util.Vector;
 import java.util.Comparator;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
-import com.sun.opengl.util.GLUT;
+import com.jogamp.opengl.util.gl2.GLUT;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLUtessellator;
 import javax.media.opengl.glu.GLUtessellatorCallbackAdapter;
 import javax.media.opengl.glu.GLUtessellatorCallback;
-import com.sun.opengl.util.BufferUtil;
+import com.jogamp.common.nio.Buffers;
 
 import java.nio.DoubleBuffer;
 
@@ -160,28 +161,28 @@ public class PopulationAdapter extends ElementAdapter
      */
     protected void updateSymbolDisplayList(Projection proj, GLAutoDrawable gld)
     {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
          displayListsBuf.put(SYMBOL_POS, 
                             (gl.glIsList(displayListsBuf.get(SYMBOL_POS))) ?
                             displayListsBuf.get(SYMBOL_POS) : gl.glGenLists(1));
 
         // Draw a square proportional to the city size
         // Start list
-        gl.glNewList(displayListsBuf.get(SYMBOL_POS), GL.GL_COMPILE);
+        gl.glNewList(displayListsBuf.get(SYMBOL_POS), GL2.GL_COMPILE);
         
         // Pushes the name for RenderSelection mode.
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
 
         double scale = getSymbolScale();
         if (getInvariantSymbolSize()) {
-            gl.glMatrixMode(GL.GL_PROJECTION);
-            DoubleBuffer buf = BufferUtil.newDoubleBuffer(16);
-            gl.glGetDoublev(GL.GL_PROJECTION_MATRIX, buf);
+            gl.glMatrixMode(GL2.GL_PROJECTION);
+            DoubleBuffer buf = Buffers.newDirectDoubleBuffer(16);
+            gl.glGetDoublev(GL2.GL_PROJECTION_MATRIX, buf);
             scale = getSymbolScale()*0.000003d/buf.get(0);
         }
 
-         gl.glMatrixMode(GL.GL_MODELVIEW);
+         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
         gl.glScaled(scale, scale, 1.0d);
         
@@ -189,7 +190,7 @@ public class PopulationAdapter extends ElementAdapter
                     0.5 * inhabitantsScale, 
                     0.5 * inhabitantsScale);
         gl.glPushName(getRenderSelectionName() + 1 + SYMBOL_POS);
-        gl.glBegin(GL.GL_QUADS);
+        gl.glBegin(GL2.GL_QUADS);
         gl.glColor4d(0.0d, 0.0d, 0.0d, getSymbolOpacity());
          gl.glVertex2d(-horizontalSymbolSize/2, -verticalSymbolSize/2);
          gl.glVertex2d(-horizontalSymbolSize/2, verticalSymbolSize/2);
@@ -211,7 +212,7 @@ public class PopulationAdapter extends ElementAdapter
                 Debug.err.println(ex.toString());
             }
 
-            gl.glMatrixMode(GL.GL_MODELVIEW);
+            gl.glMatrixMode(GL2.GL_MODELVIEW);
             gl.glPushMatrix();
             // Draw below marker at a tenth of the vertical size of the
             // symbol.
@@ -289,22 +290,22 @@ public class PopulationAdapter extends ElementAdapter
      */
     protected void updateSelectionMarkerDisplayList(Projection proj, GLAutoDrawable gld)
     {
-         GL gl = gld.getGL();
+         GL2 gl = (GL2) gld.getGL();
          displayListsBuf.put(SELECTION_MARKER_POS, 
                             (gl.glIsList(displayListsBuf.get(SELECTION_MARKER_POS))) ?
                             displayListsBuf.get(SELECTION_MARKER_POS) : gl.glGenLists(1));
         
-        gl.glNewList(displayListsBuf.get(SELECTION_MARKER_POS), GL.GL_COMPILE);
+        gl.glNewList(displayListsBuf.get(SELECTION_MARKER_POS), GL2.GL_COMPILE);
         // Pushes the name for RenderSelection mode.
         gl.glPushName(getRenderSelectionName() + 1 + SELECTION_MARKER_POS);
         if (isSelected()) {
-            gl.glMatrixMode(GL.GL_MODELVIEW);
+            gl.glMatrixMode(GL2.GL_MODELVIEW);
             gl.glPushMatrix();
             gl.glScaled(getSymbolScale(), getSymbolScale(), getSymbolScale());
             gl.glScaled(0.5 * inhabitantsScale, 
                         0.5 * inhabitantsScale, 
                         0.5 * inhabitantsScale);
-            gl.glBegin(GL.GL_LINE_LOOP);
+            gl.glBegin(GL2.GL_LINE_LOOP);
             gl.glColor4dv(SELECTION_COLOR, 0); 
             gl.glVertex2d(-(horizontalSymbolSize/2 + 1), -(verticalSymbolSize/2 + 1));
             gl.glVertex2d(-(horizontalSymbolSize/2 + 1), (verticalSymbolSize/2 + 1));
@@ -437,7 +438,7 @@ public class PopulationAdapter extends ElementAdapter
      */
     protected GLUtessellatorCallback getLocationTessellatorCallback(GLAutoDrawable gld)
     {
-        final GL gl = gld.getGL();
+        final GL2 gl = (GL2) gld.getGL();
         
         final double[] color = getLocationColor(getTotalInhabitants());
         return new GLUtessellatorCallbackAdapter() 

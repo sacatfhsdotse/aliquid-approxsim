@@ -30,6 +30,7 @@ import java.util.Collections;
 import java.util.Hashtable;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.GLAutoDrawable;
 
@@ -140,11 +141,11 @@ public class ElementAdapter extends MapElementAdapter
      */
     protected void updateDisplayList(Projection proj, GLAutoDrawable gld)
     {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
          this.displayList = (gl.glIsList(this.displayList)) ? this.displayList : gl.glGenLists(1);
         
-        gl.glNewList(getDisplayList(), GL.GL_COMPILE);
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glNewList(getDisplayList(), GL2.GL_COMPILE);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
         // Pushes the name for RenderSelection mode.        
         gl.glPushName(getRenderSelectionName());
@@ -155,10 +156,10 @@ public class ElementAdapter extends MapElementAdapter
         if (isPresent() ||
             getIgnorePresent() || 
             isSelected()) {
-            gl.glCallLists(displayListsBuf.capacity(), GL.GL_INT, displayListsBuf);
+            gl.glCallLists(displayListsBuf.capacity(), GL2.GL_INT, displayListsBuf);
         }
         gl.glPopName();
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPopMatrix();
         gl.glEndList();
         displayListUpdated = true;

@@ -15,13 +15,15 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EmptyBorder;
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.GLCanvas;
+import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.GLCapabilities;
+import javax.media.opengl.GLProfile;
 import javax.media.opengl.GLDrawableFactory;
-import com.sun.opengl.util.GLUT;
+import com.jogamp.opengl.util.gl2.GLUT;
 
 import StratmasClient.ProcessVariableDescription;
 
@@ -186,7 +188,7 @@ public class ColorMap implements GLEventListener, ActionListener {
         drawer.setColorMap(this);
 
         // create JOGL canvas
-        GLCapabilities glcaps = new GLCapabilities();
+        GLCapabilities glcaps = new GLCapabilities(GLProfile.getDefault());
         glcolor= new GLCanvas(glcaps);
         glcolor.addGLEventListener(this);
 
@@ -289,7 +291,7 @@ public class ColorMap implements GLEventListener, ActionListener {
      * @param gld needed when opengl is used. 
      */
     public void init(GLAutoDrawable gld) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         
         // set the background color
         Color c = colorMapPanel.getBackground();
@@ -299,14 +301,14 @@ public class ColorMap implements GLEventListener, ActionListener {
         gl.glClearColor(r, g, b, 1.0f);
         
         // enable blending
-        gl.glEnable(GL.GL_BLEND);
-        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+        gl.glEnable(GL2.GL_BLEND);
+        gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
                 
         // enable shading
-        gl.glShadeModel(GL.GL_SMOOTH);
+        gl.glShadeModel(GL2.GL_SMOOTH);
         
         // set actual matrix
-        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
         
         // initialize bounding box
@@ -691,7 +693,8 @@ public class ColorMap implements GLEventListener, ActionListener {
      * @param y y position in the canvas where the value is displayed.
      * @param f value to be displayed.
      */
-    private void drawString(GL gl, int x, int y, float f) {
+    private void drawString(GL gl2, int x, int y, float f) {
+        GL2 gl = (GL2) gl2;
         // 
         DecimalFormat resultFormat;
         String s;
@@ -881,9 +884,10 @@ public class ColorMap implements GLEventListener, ActionListener {
      *
      * @param gl needed when opengl is used.
      */
-    private void drawGraph(GL gl) {
+    private void drawGraph(GL gl2) {
+        GL2 gl = (GL2) gl2;
         // clear the window
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT);
+        gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
         
         // draw color map
         int ii = 0;
@@ -892,7 +896,7 @@ public class ColorMap implements GLEventListener, ActionListener {
             float del_g = color_table[ii][1];
             float del_b = color_table[ii][2];
             ii++;
-            gl.glBegin(GL.GL_POLYGON);
+            gl.glBegin(GL2.GL_POLYGON);
             gl.glColor3f(del_r, del_g, del_b);
             gl.glVertex2d(x, (3*ymax)/5);
             gl.glVertex2d(x, ymax);
@@ -905,13 +909,13 @@ public class ColorMap implements GLEventListener, ActionListener {
         gl.glLineWidth(1.0f);
         gl.glColor3f(black_rgb[0], black_rgb[1], black_rgb[2]);
         // horisontal line
-        gl.glBegin(GL.GL_LINES);
+        gl.glBegin(GL2.GL_LINES);
         gl.glVertex2d(xlabel_min, ymax/2);
         gl.glVertex2d(xlabel_max, ymax/2);
         gl.glEnd();
         // draw table values
         // first value
-        gl.glBegin(GL.GL_LINES);
+        gl.glBegin(GL2.GL_LINES);
         gl.glVertex2d(xlabel_min, ymax/4);
         gl.glVertex2d(xlabel_min, ymax/2);
         gl.glEnd();
@@ -919,18 +923,21 @@ public class ColorMap implements GLEventListener, ActionListener {
         // values in the middle
         for (int i = 1; i < displayed_values.length-1; i++) {
             int pos = scaleValue(displayed_values[i]);
-            gl.glBegin(GL.GL_LINES);
+            gl.glBegin(GL2.GL_LINES);
             gl.glVertex2d(pos, ymax/2-5);
             gl.glVertex2d(pos, ymax/2);
             gl.glEnd();
             drawString(gl, pos, ymax/5, displayed_values[i]);
         }
         // last value
-        gl.glBegin(GL.GL_LINES);
+        gl.glBegin(GL2.GL_LINES);
         gl.glVertex2d(xlabel_max, ymax/4);
         gl.glVertex2d(xlabel_max, ymax/2);
         gl.glEnd();
         drawString(gl, xlabel_max, ymin, displayed_values[displayed_values.length-1]);
     }
+    public void dispose(GLAutoDrawable glad){
+      //TODO implement
+     }
     
 }

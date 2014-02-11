@@ -36,9 +36,10 @@ import javax.swing.SwingConstants;
 import javax.swing.BorderFactory;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.GLAutoDrawable;
-import com.sun.opengl.util.BufferUtil;
+import com.jogamp.common.nio.Buffers;
 
 import StratmasClient.object.type.TypeFactory;
 import StratmasClient.object.StratmasObject;
@@ -231,7 +232,7 @@ public class AreaCreationDrawer extends BasicMapDrawer
     /**
      * Drawing elements on the map. Part of GLEventListener interface.
      *
-     * @param gld needed for OpenGL.
+     * @param gld needed for OpenGL2.
      */
     public void display(GLAutoDrawable gld) {
         super.display(gld);
@@ -686,7 +687,7 @@ public class AreaCreationDrawer extends BasicMapDrawer
      * @param gld the drawable.
      */
     protected void updateRenderSelection(GLAutoDrawable gld) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         
         IntBuffer renderSelectionBuffer;
         int renderSelectionBufferAllocationSize = 2048;
@@ -694,17 +695,17 @@ public class AreaCreationDrawer extends BasicMapDrawer
         int hits = -1;
 
         do {
-            renderSelectionBuffer = BufferUtil.newIntBuffer(renderSelectionBufferAllocationSize);
+            renderSelectionBuffer = Buffers.newDirectIntBuffer(renderSelectionBufferAllocationSize);
             gl.glSelectBuffer(renderSelectionBuffer.capacity(), renderSelectionBuffer);
         
             // Enable render selection.
-            gl.glRenderMode(GL.GL_SELECT);
+            gl.glRenderMode(GL2.GL_SELECT);
             
             // Init names.
             gl.glInitNames();
 
             // Sets the selection area.
-            gl.glMatrixMode(GL.GL_PROJECTION);
+            gl.glMatrixMode(GL2.GL_PROJECTION);
             gl.glPushMatrix();
             gl.glLoadIdentity();
 
@@ -718,12 +719,12 @@ public class AreaCreationDrawer extends BasicMapDrawer
             gl.glCallLists(drawnMapDrawablesListBuf.capacity(), gl.GL_INT, drawnMapDrawablesListBuf);
 
             // Restore view
-            gl.glMatrixMode(GL.GL_PROJECTION);
+            gl.glMatrixMode(GL2.GL_PROJECTION);
             gl.glPopMatrix();
             gl.glFlush();
             
             // End render selection mode.
-            hits = gld.getGL().glRenderMode(GL.GL_RENDER);
+            hits = ((GL2)gld.getGL()).glRenderMode(GL2.GL_RENDER);
             
             if (hits < 0) {
                 // To small selectionBuffer, try double size.
@@ -833,12 +834,12 @@ public class AreaCreationDrawer extends BasicMapDrawer
     /**
      * All elements shown in the scene are drawn here.
      *
-     * @param gld needed for OpenGL.
+     * @param gld needed for OpenGL2.
      */
     protected void drawGraph(GLAutoDrawable gld) {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         // clear the window
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT);
+        gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
         
         // draw graticules
         gl.glCallList(graticuleDisplayList);
@@ -859,7 +860,7 @@ public class AreaCreationDrawer extends BasicMapDrawer
         gl.glCallLists(drawnMapDrawablesListBuf.capacity(), gl.GL_INT, drawnMapDrawablesListBuf);
 
         // definition of new area for the element
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
         // line color
         gl.glColor3f(1.0f, 0.0f, 0.0f);
@@ -870,7 +871,7 @@ public class AreaCreationDrawer extends BasicMapDrawer
             // draw circle
             SimpleShape sShape = (SimpleShape)getCircle();
             Polygon pol = sShape.getPolygon(1);
-            gl.glBegin(GL.GL_LINE_LOOP);
+            gl.glBegin(GL2.GL_LINE_LOOP);
             for (Enumeration e = pol.getCurves(); e.hasMoreElements();) {
                 gl.glVertex2dv(proj.projToXY(((Line)e.nextElement()).getStartPoint()), 0);
             }
@@ -879,7 +880,7 @@ public class AreaCreationDrawer extends BasicMapDrawer
         else if (getCreatorMode() == AreaCreationDrawer.POLYGONIAL &&
                  getLastPoint() != null) {
             // draw last line when defining new polygonial 
-            gl.glBegin(GL.GL_LINES);
+            gl.glBegin(GL2.GL_LINES);
             gl.glColor4f(1.0f, 0.0f, 0.0f, 0.3f);
             MapPoint p2 = current_pos.getProjectedPoint(proj);
             gl.glVertex2dv(proj.projToXY(getLastPoint()), 0);
@@ -1416,5 +1417,8 @@ public class AreaCreationDrawer extends BasicMapDrawer
         }
     }
     
+    public void dispose(GLAutoDrawable glad){
+      //TODO implement
+    }
 }
 

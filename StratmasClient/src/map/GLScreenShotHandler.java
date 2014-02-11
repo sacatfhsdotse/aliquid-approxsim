@@ -7,9 +7,10 @@ package StratmasClient.map;
 
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 import java.nio.ByteBuffer;
-import com.sun.opengl.util.BufferUtil;
+import com.jogamp.common.nio.Buffers;
 
 import java.awt.image.BufferedImage;
 
@@ -42,38 +43,38 @@ public class GLScreenShotHandler extends ScreenShotHandler
      */
     public static int changeDrawBuffer(GLAutoDrawable gld)
     {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         GLU glu = new GLU();
 
         // Save original draw buffer.
         int[] drawBuffer = new int[1];
-        gl.glGetIntegerv(GL.GL_DRAW_BUFFER, drawBuffer, 0);
+        gl.glGetIntegerv(GL2.GL_DRAW_BUFFER, drawBuffer, 0);
         
         // Get number of availiable AUX buffers;
         int[] maxAuxBuffers = new int[1];
-        gl.glGetIntegerv(GL.GL_AUX_BUFFERS, maxAuxBuffers, 0);
+        gl.glGetIntegerv(GL2.GL_AUX_BUFFERS, maxAuxBuffers, 0);
         
         // See if this is a double buffered device or not.
         byte[] hasBackBuffer = new byte[1];
-        gl.glGetBooleanv(GL.GL_DOUBLEBUFFER, hasBackBuffer, 0);
+        gl.glGetBooleanv(GL2.GL_DOUBLEBUFFER, hasBackBuffer, 0);
 
         int newBuffer = drawBuffer[0];
         if (maxAuxBuffers[0] > 0) {
             // If any aux buffers are availiable, use one of these.
-            newBuffer = GL.GL_AUX0 + maxAuxBuffers[0] - 1;
+            newBuffer = GL2.GL_AUX0 + maxAuxBuffers[0] - 1;
          } else if (hasBackBuffer[0] != 0) {
-            if (drawBuffer[0] == GL.GL_BACK) {
-                newBuffer = GL.GL_FRONT;
+            if (drawBuffer[0] == GL2.GL_BACK) {
+                newBuffer = GL2.GL_FRONT;
             } else {
-                newBuffer = GL.GL_BACK;
+                newBuffer = GL2.GL_BACK;
             }
         }
         
         if (newBuffer != drawBuffer[0]) {
-             while(gl.glGetError() != GL.GL_NO_ERROR);
+             while(gl.glGetError() != GL2.GL_NO_ERROR);
              gl.glDrawBuffer(newBuffer);
              int foo = gl.glGetError();
-             if (foo != GL.GL_NO_ERROR) {
+             if (foo != GL2.GL_NO_ERROR) {
                  System.err.println("Error switching draw buffer: " + 
                                     glu.gluErrorString(foo));
              }
@@ -96,22 +97,22 @@ public class GLScreenShotHandler extends ScreenShotHandler
      */
     public static void fakeClear(GLAutoDrawable gld)
     {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         GLU glu = new GLU();;
         
         double[] prevColor = new double[4];
-        gl.glGetDoublev(GL.GL_CURRENT_COLOR, prevColor, 0);
+        gl.glGetDoublev(GL2.GL_CURRENT_COLOR, prevColor, 0);
         double[] bgColor = new double[4];
-        gl.glGetDoublev(GL.GL_COLOR_CLEAR_VALUE, bgColor, 0);
+        gl.glGetDoublev(GL2.GL_COLOR_CLEAR_VALUE, bgColor, 0);
 
         gl.glColor4dv(bgColor, 0);
         
         int[] matrixMode = new int[1];
-        gl.glGetIntegerv(GL.GL_MATRIX_MODE, matrixMode, 0);
-        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glGetIntegerv(GL2.GL_MATRIX_MODE, matrixMode, 0);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glPushMatrix();
         gl.glLoadIdentity();
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
         gl.glLoadIdentity();
 
@@ -121,9 +122,9 @@ public class GLScreenShotHandler extends ScreenShotHandler
         // Draw rectangle over the area.
         gl.glRecti(0, 0, size[0], size[1]);
 
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPopMatrix();
-        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glPopMatrix();
         gl.glMatrixMode(matrixMode[0]);
         gl.glColor4dv(prevColor, 0);
@@ -137,10 +138,10 @@ public class GLScreenShotHandler extends ScreenShotHandler
      */
     public static int[] getSize(GLAutoDrawable gld)
     {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
 
         int[] viewport = new int[4];
-        gl.glGetIntegerv(GL.GL_VIEWPORT, viewport, 0);
+        gl.glGetIntegerv(GL2.GL_VIEWPORT, viewport, 0);
         
         return new int[] {viewport[2], viewport[3]};
     }
@@ -153,33 +154,33 @@ public class GLScreenShotHandler extends ScreenShotHandler
      */
     public static void doGLScreenShot(GLAutoDrawable gld)
     {
-        GL gl = gld.getGL();
+        GL2 gl = (GL2) gld.getGL();
         GLU glu = new GLU();
         int[] size = getSize(gld);
         int width = size[0];
         int height = size[1];
 
-        ByteBuffer image = BufferUtil.newByteBuffer(width * height * 3);
+        ByteBuffer image = Buffers.newDirectByteBuffer(width * height * 3);
 
         // Make the read buffer the same as the current drawbuffer.
         int[] origReadBuffer = new int[1];
-        gl.glGetIntegerv(GL.GL_READ_BUFFER, origReadBuffer, 0);
+        gl.glGetIntegerv(GL2.GL_READ_BUFFER, origReadBuffer, 0);
         int[] drawBuffer = new int[1];
-        gl.glGetIntegerv(GL.GL_DRAW_BUFFER, drawBuffer, 0);
+        gl.glGetIntegerv(GL2.GL_DRAW_BUFFER, drawBuffer, 0);
 
-        while(gl.glGetError() != GL.GL_NO_ERROR);
+        while(gl.glGetError() != GL2.GL_NO_ERROR);
         gl.glReadBuffer(drawBuffer[0]);
         int foo = gl.glGetError();
-        if (foo != GL.GL_NO_ERROR) {
+        if (foo != GL2.GL_NO_ERROR) {
             System.err.println("Error switching read buffer: " + 
                                     glu.gluErrorString(foo));
         }
 
         // Set transfer format and read the values into the image
         // buffer
-        gl.glPixelStorei(GL.GL_PACK_ALIGNMENT, 1);
-        gl.glReadPixels(0, 0, width, height, GL.GL_RGB,
-                        GL.GL_UNSIGNED_BYTE, image);
+        gl.glPixelStorei(GL2.GL_PACK_ALIGNMENT, 1);
+        gl.glReadPixels(0, 0, width, height, GL2.GL_RGB,
+                        GL2.GL_UNSIGNED_BYTE, image);
         
         // Repack image.
         int[] buf = new int[width * height];

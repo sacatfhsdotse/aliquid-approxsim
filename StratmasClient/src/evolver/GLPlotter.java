@@ -8,13 +8,15 @@ package StratmasClient.evolver;
 import StratmasClient.Debug;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
-import com.sun.opengl.util.GLUT;
-import com.sun.opengl.util.BufferUtil;
+import com.jogamp.opengl.util.gl2.GLUT;
+import com.jogamp.common.nio.Buffers;
 import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.GLCanvas;
+import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.GLCapabilities;
+import javax.media.opengl.GLProfile;
 import javax.media.opengl.GLDrawableFactory;
 
 import java.io.UnsupportedEncodingException;
@@ -99,7 +101,7 @@ public class GLPlotter extends JPanel implements GLEventListener, MatrixEventLis
     /**
      * The toplevel display lists used.
      */
-    IntBuffer topDisplayListsBuf = BufferUtil.newIntBuffer(SAMPLES_DISPLAY_LIST_POS + 1);
+    IntBuffer topDisplayListsBuf = Buffers.newDirectIntBuffer(SAMPLES_DISPLAY_LIST_POS + 1);
 
     /**
      * Position of the display list drawing the box
@@ -293,7 +295,7 @@ public class GLPlotter extends JPanel implements GLEventListener, MatrixEventLis
     {
         super();
         setEvolver(evolver);
-        GLCapabilities glCapabilities = new GLCapabilities();
+        GLCapabilities glCapabilities = new GLCapabilities(GLProfile.getDefault());
         glCapabilities.setHardwareAccelerated(true);
         this.glu = new GLU();
         this.gld = new GLCanvas(glCapabilities);
@@ -1128,29 +1130,29 @@ public class GLPlotter extends JPanel implements GLEventListener, MatrixEventLis
      */
     public void init(GLAutoDrawable drawable)
     {
-        GL gl = drawable.getGL();
+        GL2 gl = (GL2) drawable.getGL();
 
         gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
         // enable smoothing for lines
-        gl.glEnable(GL.GL_LINE_SMOOTH);
+        gl.glEnable(GL2.GL_LINE_SMOOTH);
         
         // Enable auto normalizing.
-        gl.glEnable(GL.GL_NORMALIZE);
+        gl.glEnable(GL2.GL_NORMALIZE);
         
         // enable shading
-        gl.glShadeModel(GL.GL_SMOOTH);
+        gl.glShadeModel(GL2.GL_SMOOTH);
 
         // enable depth buffering
-        gl.glEnable(GL.GL_DEPTH_TEST);
+        gl.glEnable(GL2.GL_DEPTH_TEST);
 
         // enable blending
-        gl.glEnable(GL.GL_BLEND);
-        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+        gl.glEnable(GL2.GL_BLEND);
+        gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
 
         // Enable material color tracking
-        gl.glColorMaterial(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT_AND_DIFFUSE);
-        gl.glEnable(GL.GL_COLOR_MATERIAL);
+        gl.glColorMaterial(GL2.GL_FRONT_AND_BACK, GL2.GL_AMBIENT_AND_DIFFUSE);
+        gl.glEnable(GL2.GL_COLOR_MATERIAL);
     }
     
     /**
@@ -1160,16 +1162,16 @@ public class GLPlotter extends JPanel implements GLEventListener, MatrixEventLis
      */
     public void display(GLAutoDrawable drawable)
     {
-        GL gl = drawable.getGL();
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT);
-        gl.glClear(GL.GL_DEPTH_BUFFER_BIT);
+        GL2 gl = (GL2) drawable.getGL();
+        gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        gl.glClear(GL2.GL_DEPTH_BUFFER_BIT);
         
         // Update view bounds
-        gl.glMatrixMode(GL.GL_PROJECTION);
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
         glu.gluPerspective(45.0d, 1.0d, 0.01d, 10000.0d);
 
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glLoadIdentity();
 
 
@@ -1178,24 +1180,24 @@ public class GLPlotter extends JPanel implements GLEventListener, MatrixEventLis
 
         // Enable lighting (or not). 
         if (isLightingEnabled()) {
-            gl.glLightModeli(GL.GL_LIGHT_MODEL_LOCAL_VIEWER, 1);
-            gl.glLightfv(GL.GL_LIGHT0, 
-                         GL.GL_DIFFUSE, 
+            gl.glLightModeli(GL2.GL_LIGHT_MODEL_LOCAL_VIEWER, 1);
+            gl.glLightfv(GL2.GL_LIGHT0, 
+                         GL2.GL_DIFFUSE, 
                          new float[] {0.5f, 0.5f, 0.5f, 0.5f}, 0);
-            gl.glLightfv(GL.GL_LIGHT0, 
-                         GL.GL_POSITION, 
+            gl.glLightfv(GL2.GL_LIGHT0, 
+                         GL2.GL_POSITION, 
                          new float[] {(float) getXMax(), 
                                       (float) getYMax(), 
                                       (float) getZMax(), 0f}, 0);
             
-            gl.glLightfv(GL.GL_LIGHT0, GL.GL_SPOT_DIRECTION, 
+            gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_SPOT_DIRECTION, 
                          new float[] {0.0f, 0.0f, 0.0f}, 0);
-            gl.glLightf(GL.GL_LIGHT0, GL.GL_LINEAR_ATTENUATION, 0.05f);
-            gl.glLightf(GL.GL_LIGHT0, GL.GL_CONSTANT_ATTENUATION, 0.1f);
-            gl.glEnable(GL.GL_LIGHT0);
-            gl.glEnable(GL.GL_LIGHTING);
+            gl.glLightf(GL2.GL_LIGHT0, GL2.GL_LINEAR_ATTENUATION, 0.05f);
+            gl.glLightf(GL2.GL_LIGHT0, GL2.GL_CONSTANT_ATTENUATION, 0.1f);
+            gl.glEnable(GL2.GL_LIGHT0);
+            gl.glEnable(GL2.GL_LIGHTING);
         } else {
-            gl.glDisable(GL.GL_LIGHTING);
+            gl.glDisable(GL2.GL_LIGHTING);
         }
 
         // Recompile updated parts.
@@ -1213,7 +1215,7 @@ public class GLPlotter extends JPanel implements GLEventListener, MatrixEventLis
         }
 
         // Call lists
-        gl.glCallLists(topDisplayListsBuf.capacity(), GL.GL_INT, topDisplayListsBuf);
+        gl.glCallLists(topDisplayListsBuf.capacity(), GL2.GL_INT, topDisplayListsBuf);
 
         // Force rendering
         gl.glFlush();
@@ -1226,7 +1228,7 @@ public class GLPlotter extends JPanel implements GLEventListener, MatrixEventLis
      */
     public void recompileSamples(GLAutoDrawable drawable)
     {
-        GL gl = drawable.getGL();
+        GL2 gl = (GL2) drawable.getGL();
 
         topDisplayListsBuf.put(SAMPLES_DISPLAY_LIST_POS,  
                                (gl.glIsList(topDisplayListsBuf.get(SAMPLES_DISPLAY_LIST_POS))) ?
@@ -1239,7 +1241,7 @@ public class GLPlotter extends JPanel implements GLEventListener, MatrixEventLis
         int cIndex = getMatrix().getColumnMap().getIndex(getCParameter());
 
         // Start list
-        gl.glNewList(topDisplayListsBuf.get(SAMPLES_DISPLAY_LIST_POS), GL.GL_COMPILE);
+        gl.glNewList(topDisplayListsBuf.get(SAMPLES_DISPLAY_LIST_POS), GL2.GL_COMPILE);
         if (drawsSamples()) {
             gl.glColor4d(0.7, 0.7, 0.7, 1.0);
             for (int i = 0; i < data.length; i++) {
@@ -1249,7 +1251,7 @@ public class GLPlotter extends JPanel implements GLEventListener, MatrixEventLis
                 double c = data[i][cIndex];
                 double sz = .1;
 
-                gl.glBegin(GL.GL_QUADS);
+                gl.glBegin(GL2.GL_QUADS);
                 gl.glVertex3d(x - sz, y - sz, z - sz);
                 gl.glVertex3d(x - sz, y - sz, z + sz);
                 gl.glVertex3d(x - sz, y + sz, z + sz);
@@ -1318,14 +1320,14 @@ public class GLPlotter extends JPanel implements GLEventListener, MatrixEventLis
      */
     public void recompileAxes(GLAutoDrawable drawable)
     {
-        GL gl = drawable.getGL();
+        GL2 gl = (GL2) drawable.getGL();
 
         topDisplayListsBuf.put(AXES_DISPLAY_LIST_POS, 
                                (gl.glIsList(topDisplayListsBuf.get(AXES_DISPLAY_LIST_POS))) ?
                                topDisplayListsBuf.get(AXES_DISPLAY_LIST_POS) : gl.glGenLists(1));
         
         // Start list
-        gl.glNewList(topDisplayListsBuf.get(AXES_DISPLAY_LIST_POS), GL.GL_COMPILE);
+        gl.glNewList(topDisplayListsBuf.get(AXES_DISPLAY_LIST_POS), GL2.GL_COMPILE);
         if (drawsAxes() &&
             getXParameter() != null &&
             getYParameter() != null &&
@@ -1370,17 +1372,17 @@ public class GLPlotter extends JPanel implements GLEventListener, MatrixEventLis
      */
     public void recompileBox(GLAutoDrawable drawable)
     {
-        GL gl = drawable.getGL();
+        GL2 gl = (GL2) drawable.getGL();
 
         topDisplayListsBuf.put(BOX_DISPLAY_LIST_POS, 
                                (gl.glIsList(topDisplayListsBuf.get(BOX_DISPLAY_LIST_POS))) ?
                                topDisplayListsBuf.get(BOX_DISPLAY_LIST_POS) : gl.glGenLists(1));
         
         // Start list
-        gl.glNewList(topDisplayListsBuf.get(BOX_DISPLAY_LIST_POS), GL.GL_COMPILE);
+        gl.glNewList(topDisplayListsBuf.get(BOX_DISPLAY_LIST_POS), GL2.GL_COMPILE);
         
         if (drawsBox()) {
-             gl.glBegin(GL.GL_QUADS);
+             gl.glBegin(GL2.GL_QUADS);
              gl.glNormal3d(1.0d, 0.0d, 0.0d);
             gl.glColor4d(0.0, 0.0, 0.4, 1.0);
             gl.glVertex3d(getXMin(), getYMax(), getZMin());
@@ -1426,8 +1428,9 @@ public class GLPlotter extends JPanel implements GLEventListener, MatrixEventLis
      * @param start the point to start at.
      * @param string the string to draw.
      */
-    protected void drawBanner(GL gl, GLUT glut, double[] start, 
+    protected void drawBanner(GL gl2, GLUT glut, double[] start, 
                               String string) {
+        GL2 gl = (GL2) gl2;
         // Wash string, replace unknowns with '_';
         double textScale = 0.5/(119.05 + 33.33);
         try {
@@ -1439,10 +1442,10 @@ public class GLPlotter extends JPanel implements GLEventListener, MatrixEventLis
             }
             String washed = new String(bytes, "US-ASCII");
             
-            gl.glMatrixMode(GL.GL_MODELVIEW);
+            gl.glMatrixMode(GL2.GL_MODELVIEW);
             gl.glPushMatrix();
             double[] matrix = new double[16];
-            gl.glGetDoublev(GL.GL_MODELVIEW_MATRIX, matrix, 0);
+            gl.glGetDoublev(GL2.GL_MODELVIEW_MATRIX, matrix, 0);
 
             double[] right = new double[] {
                 matrix[0],
@@ -1459,7 +1462,7 @@ public class GLPlotter extends JPanel implements GLEventListener, MatrixEventLis
             gl.glTranslated(start[0], start[1], start[2]);
             gl.glScaled(textScale, textScale , textScale);
             glut.glutStrokeString(GLUT.STROKE_MONO_ROMAN, washed);
-            gl.glMatrixMode(GL.GL_MODELVIEW);
+            gl.glMatrixMode(GL2.GL_MODELVIEW);
             gl.glPopMatrix();
         } catch (UnsupportedEncodingException ex) {
             System.err.println(ex.toString());
@@ -1475,10 +1478,11 @@ public class GLPlotter extends JPanel implements GLEventListener, MatrixEventLis
      * @param arrowLength the length of the arrow
      * @param arrowSpread the spread of the arrow.
      */
-    protected void drawArrow(GL gl, double[] start,  double[] end, 
+    protected void drawArrow(GL gl2, double[] start,  double[] end, 
                              double arrowLength, double arrowSpread)
     {
-        gl.glBegin(GL.GL_LINES);
+        GL2 gl = (GL2) gl2;
+        gl.glBegin(GL2.GL_LINES);
         gl.glVertex3dv(start, 0);
         gl.glVertex3dv(end, 0);
         gl.glEnd();
@@ -1518,12 +1522,12 @@ public class GLPlotter extends JPanel implements GLEventListener, MatrixEventLis
 //                           angle + ", " +  
 //                           vNorm);
         
-        gl.glMatrixMode(GL.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
         gl.glTranslated(start[0], start[1], start[2]);
         gl.glRotated(angle, r[0], r[1], r[2]);
         gl.glTranslated(vNorm, 0.0, 0.0);
-        gl.glBegin(GL.GL_TRIANGLES);
+        gl.glBegin(GL2.GL_TRIANGLES);
         gl.glVertex3d(-arrowLength, 
                       arrowLength * arrowSpread, 
                       arrowLength * arrowSpread);
@@ -1568,20 +1572,20 @@ public class GLPlotter extends JPanel implements GLEventListener, MatrixEventLis
      */
     protected void recompileInterpolation(GLAutoDrawable drawable)
     {
-        GL gl = drawable.getGL();
+        GL2 gl = (GL2) drawable.getGL();
 
         topDisplayListsBuf.put(INTERPOLATION_DISPLAY_LIST_POS, 
                                (gl.glIsList(topDisplayListsBuf.get(INTERPOLATION_DISPLAY_LIST_POS))) ?
                                topDisplayListsBuf.get(INTERPOLATION_DISPLAY_LIST_POS) : gl.glGenLists(1));
                             
         // Start list
-        gl.glNewList(topDisplayListsBuf.get(INTERPOLATION_DISPLAY_LIST_POS), GL.GL_COMPILE);
+        gl.glNewList(topDisplayListsBuf.get(INTERPOLATION_DISPLAY_LIST_POS), GL2.GL_COMPILE);
 
         if (drawsInterpolation()) {
             double[] grid = getGrid();
             if (grid != null) {
                 for (int i = 0; i < xTiles; i++) {
-                    gl.glBegin(GL.GL_TRIANGLE_STRIP);
+                    gl.glBegin(GL2.GL_TRIANGLE_STRIP);
                     for (int j = 0; j < yTiles + 1; j++) {
                         int p1Index = 4 * (i * (yTiles + 1) + j);
                         int p2Index = 4 * ((i + 1) * (yTiles + 1) + j);
@@ -1602,14 +1606,14 @@ public class GLPlotter extends JPanel implements GLEventListener, MatrixEventLis
         if (drawsInterpolationOutline()) {
             if (grid != null) {
                 int[] oldMode = new int[2];
-                gl.glGetIntegerv(GL.GL_POLYGON_MODE, oldMode, 0);
+                gl.glGetIntegerv(GL2.GL_POLYGON_MODE, oldMode, 0);
                 
-                gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_LINE);
-                gl.glPolygonMode(GL.GL_FRONT, GL.GL_LINE);
-                gl.glPolygonMode(GL.GL_BACK, GL.GL_LINE);
+                gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_LINE);
+                gl.glPolygonMode(GL2.GL_FRONT, GL2.GL_LINE);
+                gl.glPolygonMode(GL2.GL_BACK, GL2.GL_LINE);
 
                 for (int i = 0; i < xTiles; i++) {
-                    gl.glBegin(GL.GL_TRIANGLE_STRIP);
+                    gl.glBegin(GL2.GL_TRIANGLE_STRIP);
                     for (int j = 0; j < yTiles + 1; j++) {
                         int p1Index = 4 * (i * (yTiles + 1) + j);
                         int p2Index = 4 * ((i + 1) * (yTiles + 1) + j);
@@ -1625,9 +1629,9 @@ public class GLPlotter extends JPanel implements GLEventListener, MatrixEventLis
                     }
                     gl.glEnd();
                 }
-                gl.glPolygonMode(GL.GL_FRONT_AND_BACK, oldMode[1]);
-                gl.glPolygonMode(GL.GL_FRONT, oldMode[0]);
-                gl.glPolygonMode(GL.GL_BACK, oldMode[0]);
+                gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, oldMode[1]);
+                gl.glPolygonMode(GL2.GL_FRONT, oldMode[0]);
+                gl.glPolygonMode(GL2.GL_BACK, oldMode[0]);
             }
         }
         
@@ -1685,4 +1689,7 @@ public class GLPlotter extends JPanel implements GLEventListener, MatrixEventLis
         }
     }
 
+    public void dispose(GLAutoDrawable glad){
+      //TODO implement
+    }
 }

@@ -295,7 +295,12 @@ public class JoglLibExtractor
             return "/lib/macosx-universal/";
         }
 
-        return "/lib/" + os + "-" + System.getProperty("os.arch") + "/";
+        String arch = System.getProperty("os.arch");
+        if (arch.equals("i386")){
+            arch = "i586";
+        }
+
+        return "/lib/" + os + "-" + arch + "/";
     }
 
     /**

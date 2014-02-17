@@ -37,7 +37,7 @@ public class PathFilter extends StratmasObjectFilter
      * This filter is currently broken.
      * Creates a new PathFilter
      */
-    private PathFilter()
+    protected PathFilter()
     {                
         this.filters = new Vector();
     }
@@ -127,8 +127,8 @@ public class PathFilter extends StratmasObjectFilter
         }
 
         // Check downwards.
-        walker = sObj.getChild();
-        for (int i = getTargetIndex() + 1; res && i < getComponentCount; i++) {
+        walker = sObj.getChild(0); // TODO woot? called with no args before. added a 0 to make it compile.
+        for (int i = getTargetIndex() + 1; res && i < getComponentCount(); i++) {
             res = (walker != null || getComponent(i).pass(walker));
             walker = walker.getParent();
         }

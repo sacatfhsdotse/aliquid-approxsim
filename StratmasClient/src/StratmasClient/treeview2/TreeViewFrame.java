@@ -9,7 +9,7 @@ import StratmasClient.object.StratmasObject;
 import StratmasClient.object.StratmasEventListener;
 import StratmasClient.object.StratmasEvent;
 import StratmasClient.Debug;
-import StratmasClient.object.StratmasAbstractAction;
+import StratmasClient.StratmasAbstractAction;
 import StratmasClient.ClientMainFrame;
 
 import java.util.Enumeration;

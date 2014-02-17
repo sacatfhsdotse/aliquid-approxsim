@@ -27,13 +27,12 @@ public class ReferenceFilter extends PathFilter
      */
     private ReferenceFilter(Reference ref)
     {        
-        super();
         setTargetIndex(ref.getLength());
 
         Reference walker = ref;
         for (int i = ref.getLength(); i >= 0; i++) {
             addComponent(new IdentifierFilter(walker.getIdentifier()));
-            walker = walker.getScope();
+            walker = walker.scope();
         }
     }
 }

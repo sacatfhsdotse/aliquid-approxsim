@@ -8,7 +8,7 @@ package StratmasClient.treeview2;
 
 import StratmasClient.object.StratmasObject;
 import StratmasClient.object.StratmasList;
-import StratmasClient.object.StratmasAbstractAction;
+import StratmasClient.StratmasAbstractAction;
 import StratmasClient.ClientMainFrame;
 import StratmasClient.Debug;
 

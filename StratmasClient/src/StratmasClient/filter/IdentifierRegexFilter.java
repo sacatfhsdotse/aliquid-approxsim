@@ -59,6 +59,6 @@ public class IdentifierRegexFilter extends StratmasObjectFilter
      */
     public boolean pass(StratmasObject sObj)
     {
-        return applyInverted(sObj.getIdentifier().matches(getRegex()));
+        return applyInverted(sObj.getIdentifier().matches(getIdentifierRegex()));
     }
 }

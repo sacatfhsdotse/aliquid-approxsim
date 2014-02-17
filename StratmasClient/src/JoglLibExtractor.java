@@ -59,6 +59,10 @@ public class JoglLibExtractor
                 libPaths[i] = new File(tempdir, libNames[i]).getPath();
             }
             joglLoadLibrary(libPaths);
+            for (int i = 0; i < libNames.length; i++) {
+                System.err.println("Registering with JogAmp: " + libNames[i].replaceAll("\\..*$","").replaceAll("^lib",""));
+                JNILibLoaderBase.addLoaded(libNames[i].replaceAll("\\..*$","").replaceAll("^lib",""));
+            }
             return true;
         } else {
             return false;
@@ -243,9 +247,9 @@ public class JoglLibExtractor
         if (os.equals("Linux") || os.equals("SunOS")) {
             return new String[] {"libjogl_desktop.so", "libgluegen-rt.so","libnativewindow_awt.so","libnativewindow_x11.so" };
         } else if (os.equals("Mac OS X")) {
-            return new String[] {"libjogl_desktop.jnilib", "libgluegen-rt.jnilib", "libnativewindow_awt.jnilib" };
+            return new String[] {"libjogl_desktop.jnilib", "libgluegen-rt.jnilib", "libnativewindow_awt.jnilib", "libnativewindow_macosx.jnilib" };
         } else if (os.matches("Windows.*")) {
-            return new String[] {"jogl_desktop.dll", "gluegen-rt.dll", "nativewindow_awt.dll" };
+            return new String[] {"jogl_desktop.dll", "gluegen-rt.dll", "nativewindow_awt.dll", "nativewindow_win32.dll" };
         } else {
             return null;
         }
@@ -338,11 +342,6 @@ public class JoglLibExtractor
                         if (paths[i] != null) {
                             System.err.println("Loading: " + paths[i]);
                             System.load(paths[i]);
-                            JNILibLoaderBase.addLoaded(paths[i]);
-                            JNILibLoaderBase.addLoaded("gluegen-rt");
-                            JNILibLoaderBase.addLoaded("nativewindow_awt");
-                            JNILibLoaderBase.addLoaded("nativewindow_x11");
-                            //JNILibLoaderBase.addLoaded("jogl_desktop");
                         }                
                     }
 

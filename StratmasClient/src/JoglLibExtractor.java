@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.FileOutputStream;
 
+import com.jogamp.common.jvm.JNILibLoaderBase;
+
 /**
  * Extracts and optionally loads jogl libraries from jarfile.
  *
@@ -239,7 +241,7 @@ public class JoglLibExtractor
         String os = System.getProperty("os.name");
 
         if (os.equals("Linux") || os.equals("SunOS")) {
-            return new String[] {"libjogl_desktop.so", "libgluegen-rt.so","libnativewindow_awt.so" };
+            return new String[] {"libjogl_desktop.so", "libgluegen-rt.so","libnativewindow_awt.so","libnativewindow_x11.so" };
         } else if (os.equals("Mac OS X")) {
             return new String[] {"libjogl_desktop.jnilib", "libgluegen-rt.jnilib", "libnativewindow_awt.jnilib" };
         } else if (os.matches("Windows.*")) {
@@ -314,7 +316,7 @@ public class JoglLibExtractor
     protected synchronized static void joglLoadLibrary(final String[] paths)
     {
         // Disable loading
-        com.jogamp.common.jvm.JNILibLoaderBase.disableLoading();
+        //JNILibLoaderBase.disableLoading();
         System.setProperty("jogamp.gluegen.UseTempJarCache", "false");
         
         java.security.AccessController.doPrivileged(new java.security.PrivilegedAction() {
@@ -336,6 +338,11 @@ public class JoglLibExtractor
                         if (paths[i] != null) {
                             System.err.println("Loading: " + paths[i]);
                             System.load(paths[i]);
+                            JNILibLoaderBase.addLoaded(paths[i]);
+                            JNILibLoaderBase.addLoaded("gluegen-rt");
+                            JNILibLoaderBase.addLoaded("nativewindow_awt");
+                            JNILibLoaderBase.addLoaded("nativewindow_x11");
+                            //JNILibLoaderBase.addLoaded("jogl_desktop");
                         }                
                     }
 

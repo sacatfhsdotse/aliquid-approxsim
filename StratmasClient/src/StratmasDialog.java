@@ -50,17 +50,17 @@ public class StratmasDialog {
         progressBarDialog.setSize(screen_size.width/5, screen_size.height/9); 
         progressBarDialog.setLocation(screen_size.width/2, screen_size.height/2);
         progressBarDialog.validate();
-        progressBarDialog.addWindowListener(new WindowAdapter() {
-                public void windowDeactivated(WindowEvent we) {
-                    if (fprogressBarOnTop) {
-                        dialog.toFront(); 
-                        dialog.pack();
-                        dialog.setSize(screen_size.width/5, screen_size.height/9); 
-                        dialog.setLocation(screen_size.width/2, screen_size.height/2);
-                        dialog.validate();
-                    }
-                }
-            });
+        //progressBarDialog.addWindowListener(new WindowAdapter() {
+        //        public void windowDeactivated(WindowEvent we) {
+        //            if (fprogressBarOnTop) {
+        //                dialog.toFront(); 
+        //                dialog.pack();
+        //                dialog.setSize(screen_size.width/5, screen_size.height/9); 
+        //                dialog.setLocation(screen_size.width/2, screen_size.height/2);
+        //                dialog.validate();
+        //            }
+        //        }
+        //    });
         // show the dialog
         SwingWorker worker = new SwingWorker() {
                 public Object construct() {

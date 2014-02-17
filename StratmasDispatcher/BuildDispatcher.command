@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Go to the Dispatcher source code directory.
-#cd "`dirname \"$0\"`/StratmasDispatcher"
+pushd "`dirname \"$0\"`"
 
 # Run make
 make clean jar
@@ -11,7 +11,7 @@ make clean jar
 if [ $? -eq 0 ]; then 
     echo =============================================================
     echo Build completed. Copying jar...
-    cp classes/StratmasDispatcher.jar ../../bin/
+    cp classes/StratmasDispatcher.jar ../StratmasServer/bin/
     echo Done!
     echo =============================================================
 else
@@ -19,3 +19,5 @@ else
     echo The build was incomplete. No new jar has been created.
     echo =============================================================
 fi
+
+popd

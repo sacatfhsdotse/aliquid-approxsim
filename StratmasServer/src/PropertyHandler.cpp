@@ -12,7 +12,7 @@ using namespace std;
 
 // Static Definitions
 bool PropertyHandler::mUnitRandomWalk = false;
-bool PropertyHandler::mValidateXML    = false;
+bool PropertyHandler::mValidateXML    = true;
 
 
 /**

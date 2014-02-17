@@ -3,7 +3,7 @@
         Program to manage and allocate StratmasServers.
     </description>
   <!-- set global properties for this build -->
-  <property name="src" location="../"/>
+  <property name="src" location="src"/>
   <property name="build" location="build"/>
   <property name="dist" location="dist"/>
   <property name="externaljars" location="externaljars"/>
@@ -15,20 +15,7 @@
     <mkdir dir="${build}"/>
   </target>
 
-  <target name="compile" depends="init"
-        description="compile the source " >
-    <!-- Compile the java code from ${src} into ${build} -->
-    <javac srcdir="${src}" destdir="${build}" source="1.4" deprecation="yes"/>
-    <copy todir="${build}">
-        <fileset dir="${src}" includes="**/*.xsd"/>
-    </copy>
-  </target>
-
-  <target name="dist" depends="compile"
-        description="generate the distribution" >
-    <!-- Create the distribution directory -->
-    <mkdir dir="${dist}"/>
-
+  <target name="extractJars" depends="init">
     <unjar dest="${build}" src="${externaljars}/resolver.jar">
         <patternset>
             <exclude name="META-INF/**"/>
@@ -44,6 +31,22 @@
             <exclude name="META-INF/**"/>
         </patternset>
     </unjar>
+  </target>
+
+  <target name="compile" depends="init,extractJars"
+        description="compile the source " >
+    <javac srcdir="${src}" destdir="${build}" source="1.4" deprecation="yes"/>
+    <copy todir="${build}">
+        <fileset dir="${src}" includes="**/*.xsd"/>
+    </copy>
+  </target>
+
+  <!-- dist smashes all binaries, including dependencies,
+       into one giant jar.
+    -->
+  <target name="dist" depends="compile"
+        description="generate the distribution" >
+    <mkdir dir="${dist}"/>
 
     <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
     <jar jarfile="${dist}/${ant.project.name}-${DSTAMP}.jar" 
@@ -76,7 +79,6 @@
     
   <target name="clean"
         description="clean up" >
-    <!-- Delete the ${build} and ${dist} directory trees -->
     <delete dir="${build}"/>
     <delete dir="${dist}"/>
   </target>

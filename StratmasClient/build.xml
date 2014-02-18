@@ -263,7 +263,7 @@
     <!-- Compile the java code from ${src} into ${build} -->
     <javac srcdir="${src}"
            destdir="${build}" 
-           source="1.4" 
+           source="7" 
            deprecation="yes"
            debug="on"
            fork="yes"
@@ -421,7 +421,7 @@
         version="true"
         use="true"
         windowtitle="${ant.project.name}">
-      <link href="http://java.sun.com/j2se/1.4/docs/api"/>
+      <link href="http://docs.oracle.com/javase/7/docs/api/"/>
       <packageset dir="${src}" defaultexcludes="yes">
         <include name="**"/>
         <exclude name="StratmasClient/treeview2/**"/>

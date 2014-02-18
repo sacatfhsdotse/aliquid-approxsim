@@ -35,7 +35,7 @@
 
   <target name="compile" depends="init,extractJars"
         description="compile the source " >
-    <javac srcdir="${src}" destdir="${build}" source="1.4" deprecation="yes"/>
+    <javac srcdir="${src}" destdir="${build}" source="7" deprecation="yes"/>
     <copy todir="${build}">
         <fileset dir="${src}" includes="**/*.xsd"/>
     </copy>
@@ -70,7 +70,7 @@
       version="true"
       use="true"
       windowtitle="${ant.project.name}">
-      <link href="http://java.sun.com/j2se/1.4/docs/api"/>
+      <link href="http://docs.oracle.com/javase/7/docs/api/"/>
       <packageset dir="${src}" defaultexcludes="yes">
         <include name="StratmasDispatcher/**"/>
       </packageset>

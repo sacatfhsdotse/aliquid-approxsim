@@ -65,7 +65,7 @@ public abstract class DefaultEvaluator implements Evaluator
      */
     public void addEventListener(EvaluatorEventListener listener)
     {
-        this.getEventListenerList().add(listener.getClass(), listener);
+        this.getEventListenerList().add(EvaluatorEventListener.class, listener);
     }
 
     /**
@@ -75,7 +75,7 @@ public abstract class DefaultEvaluator implements Evaluator
      */
     public void removeEventListener(EvaluatorEventListener listener)
     {
-        this.getEventListenerList().remove(listener.getClass(), listener);
+        this.getEventListenerList().remove(EvaluatorEventListener.class, listener);
     }
 
     /**

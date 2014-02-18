@@ -5,6 +5,7 @@ import java.lang.StringBuffer;
 import java.util.EventListener;
 import javax.swing.event.EventListenerList;
 import StratmasClient.StratmasConstants;
+import StratmasClient.evolver.EvolverEventListener;
 
 /**
  * Abstract class that is the super class of all messages to be sent
@@ -32,7 +33,7 @@ public abstract class StratmasMessage extends XMLHelper {
       * @param listener the listener to add.
       */
      public void addEventListener(StratmasMessageListener listener) {
-          this.getEventListenerList().add(listener.getClass(), listener);
+          this.getEventListenerList().add(StratmasMessageListener.class, listener);
      }
 
      /**
@@ -41,7 +42,7 @@ public abstract class StratmasMessage extends XMLHelper {
       * @param listener the listener to remove.
       */
      public void removeEventListener(StratmasMessageListener listener) {
-          this.getEventListenerList().remove(listener.getClass(), listener);
+          this.getEventListenerList().remove(StratmasMessageListener.class, listener);
      }
 
     /**

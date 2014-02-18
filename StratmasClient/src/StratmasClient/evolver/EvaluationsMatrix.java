@@ -295,7 +295,7 @@ public class EvaluationsMatrix
      */
     public void addEventListener(MatrixEventListener listener)
     {
-        this.getEventListenerList().add(listener.getClass(), listener);
+        this.getEventListenerList().add(MatrixEventListener.class, listener);
     }
 
     /**
@@ -305,7 +305,7 @@ public class EvaluationsMatrix
      */
     public void removeEventListener(MatrixEventListener listener)
     {
-        this.getEventListenerList().remove(listener.getClass(), listener);
+        this.getEventListenerList().remove(MatrixEventListener.class, listener);
     }
 
     /**

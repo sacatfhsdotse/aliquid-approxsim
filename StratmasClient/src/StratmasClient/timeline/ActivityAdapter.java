@@ -705,7 +705,7 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
      * @param listener the listener to add.
      */
     private void addEventListener(EventListener listener) {
-        getEventListenerList().add(ActivityAdapterListener.class, listener);
+        getEventListenerList().add(EventListener.class, listener);
     }
 
     /**
@@ -714,7 +714,7 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
      * @param listener the listener to add.
      */
     private void removeEventListener(EventListener listener) {
-        this.getEventListenerList().remove(ActivityAdapterListener.class, listener);
+        this.getEventListenerList().remove(EventListener.class, listener);
     }
     
     /**

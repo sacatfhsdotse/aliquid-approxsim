@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="externaljars/App6A.jar"/>
+	<classpathentry kind="lib" path="externaljars/gluegen-rt.jar"/>
+	<classpathentry kind="lib" path="externaljars/javadbf.jar"/>
+	<classpathentry kind="lib" path="externaljars/JCup.jar"/>
+	<classpathentry kind="lib" path="externaljars/JFlex.jar"/>
+	<classpathentry kind="lib" path="externaljars/jogl-all.jar"/>
+	<classpathentry kind="lib" path="externaljars/resolver.jar"/>
+	<classpathentry kind="lib" path="externaljars/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="externaljars/xml-apis.jar"/>
+	<classpathentry kind="output" path="build"/>
+</classpath>

@@ -405,7 +405,7 @@ public class Evolver extends Thread
      */
     public void addEventListener(EvolverEventListener listener)
     {
-        this.getEventListenerList().add(listener.getClass(), listener);
+        this.getEventListenerList().add(EvolverEventListener.class, listener);
     }
 
     /**
@@ -415,7 +415,7 @@ public class Evolver extends Thread
      */
     public void removeEventListener(EvolverEventListener listener)
     {
-        this.getEventListenerList().remove(listener.getClass(), listener);
+        this.getEventListenerList().remove(EvolverEventListener.class, listener);
     }
 
     /**

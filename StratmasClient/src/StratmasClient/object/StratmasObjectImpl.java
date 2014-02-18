@@ -161,7 +161,7 @@ abstract class StratmasObjectImpl extends StratmasObject
         if (getEventListenerList() == null) {
             this.eventListenerList = new EventListenerList();
         }
-        this.getEventListenerList().add(listener.getClass(), listener);
+        this.getEventListenerList().add(StratmasEventListener.class, listener);
     }
 
     /**
@@ -172,7 +172,7 @@ abstract class StratmasObjectImpl extends StratmasObject
     public void removeEventListener(StratmasEventListener listener)
     {
         if (getEventListenerList() != null) {
-            this.getEventListenerList().remove(listener.getClass(), listener);
+            this.getEventListenerList().remove(StratmasEventListener.class, listener);
         }
     }
 

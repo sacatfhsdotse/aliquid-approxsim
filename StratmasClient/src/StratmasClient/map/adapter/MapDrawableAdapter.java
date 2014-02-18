@@ -229,7 +229,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
      * @param listener the listener to add.
      */
     private void addEventListener(EventListener listener) {
-        this.getEventListenerList().add(MapDrawableAdapterListener.class, listener);
+        this.getEventListenerList().add(EventListener.class, listener);
     }
 
     /**
@@ -238,7 +238,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
      * @param listener the listener to add.
      */
     private void removeEventListener(EventListener listener) {
-        this.getEventListenerList().remove(MapDrawableAdapterListener.class, listener);
+        this.getEventListenerList().remove(EventListener.class, listener);
     }
 
     /**

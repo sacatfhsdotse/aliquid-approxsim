@@ -674,7 +674,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     private void addEventListener(EventListener listener)
     {
-        this.getEventListenerList().add(TreeModelListener.class, listener);
+        this.getEventListenerList().add(EventListener.class, listener);
     }
 
     /**
@@ -684,7 +684,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     private void removeEventListener(EventListener listener)
     {
-        this.getEventListenerList().remove(TreeModelListener.class, listener);
+        this.getEventListenerList().remove(EventListener.class, listener);
     }
 
     /**

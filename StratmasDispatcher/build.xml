@@ -35,7 +35,10 @@
 
   <target name="compile" depends="init,extractJars"
         description="compile the source " >
-    <javac srcdir="${src}" destdir="${build}" source="7" deprecation="yes"/>
+    <javac srcdir="${src}" destdir="${build}"
+           source="7"
+           deprecation="yes"
+           includeantruntime="false"/>
     <copy todir="${build}">
         <fileset dir="${src}" includes="**/*.xsd"/>
     </copy>

@@ -270,6 +270,9 @@
            memoryMaximumSize="300m"
            classpath="${build}"
            includeantruntime="false">
+      <!--
+      <compilerarg value="-Xlint:all"/>
+      -->
       <include name="**"/>
 
       <!-- EXCLUDE BROKEN CODE: -->

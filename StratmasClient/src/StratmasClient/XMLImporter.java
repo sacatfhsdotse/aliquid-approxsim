@@ -867,7 +867,7 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
                          URLDecoder.decode(url.getPath(), enc);
                     file = new File(absPath);
                     if (file.exists()) {
-                         String newURL = file.toURL().toString();
+                         String newURL = file.toURI().toURL().toString();
                          if (url.getQuery() != null) {
                              newURL += "?" + url.getQuery();
                          }

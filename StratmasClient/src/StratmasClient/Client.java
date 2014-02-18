@@ -1671,7 +1671,7 @@ public class Client implements StratmasEventListener {
             try {
                 InputSource source = new InputSource(new BufferedInputStream(new FileInputStream(filename)));
                 try {
-                    source.setSystemId(new File(filename).toURL().toString());
+                    source.setSystemId(new File(filename).toURI().toURL().toString());
                 } catch (MalformedURLException e) {
                     // Ok, don't set system id...
                 }

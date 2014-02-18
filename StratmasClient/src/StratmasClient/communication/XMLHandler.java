@@ -549,8 +549,8 @@ public class XMLHandler implements Runnable {
           }
           if (checkSchemaTypeInfo) {
                try {
-                    Method getSchemaTypeInfo = element.getClass().getMethod("getSchemaTypeInfo", null);
-                    TypeInfo typeInfo = (TypeInfo)getSchemaTypeInfo.invoke(element, null);
+                    Method getSchemaTypeInfo = element.getClass().getMethod("getSchemaTypeInfo", (Class<?>[])null);
+                    TypeInfo typeInfo = (TypeInfo)getSchemaTypeInfo.invoke(element, (Object[])null);
                     ret = TypeFactory.getType(typeInfo.getTypeName(), typeInfo.getTypeNamespace());
                     if (ret == null) {
                          throw new AssertionError("Can't create Type object for '" + typeInfo.getTypeName() +

@@ -258,11 +258,10 @@ public class CreateFactionDialog extends JDialog implements ActionListener, Fact
         }
         // handle "Remove Faction" button
         else if (removeFactionButton.equals(obj)) {
-            Object[] sValues = factionList.getSelectedValues();
-            for (int i = 0; i < sValues.length; i++) {
-                if (!factionHandler.getSelectedFaction().equals(sValues[i])) {
-                    listModel.removeElement(sValues[i]);
-                    ((StratmasObject)sValues[i]).remove();
+            for (Object val : factionList.getSelectedValuesList()) {
+                if (!factionHandler.getSelectedFaction().equals(val)) {
+                    listModel.removeElement(val);
+                    ((StratmasObject)val).remove();
                 }
                 else {
                     StratmasDialog.showErrorMessageDialog(null, "Selected faction can't be removed!", "Error message");

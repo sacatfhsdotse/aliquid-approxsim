@@ -95,9 +95,9 @@ public class SubstrateXMLReader {
         } catch (FileNotFoundException e) {
             StratmasDialog.showErrorMessageDialog(null, "File '" + filename + "' not found.", "File Not Found"); 
         }
-        catch (IOException e) {
-            StratmasDialog.showErrorMessageDialog(null, "Error while reading the input file", "IO Error"); 
-        } 
+        //catch (IOException e) {
+        //    StratmasDialog.showErrorMessageDialog(null, "Error while reading the input file", "IO Error"); 
+        //} 
         catch (LSException e) {
             StratmasDialog.showErrorMessageDialog(null, "Error while parsing the input file", "Parsing Error");    
         }

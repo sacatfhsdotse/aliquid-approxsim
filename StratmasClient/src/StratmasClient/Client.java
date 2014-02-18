@@ -38,6 +38,8 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import java.text.ParseException;
 
@@ -648,6 +650,12 @@ public class Client implements StratmasEventListener {
      * Sets up a default ClientMainFrame.
      */
     public void initClientMainFrame(boolean show) {
+    	try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
+    	
         clientMainFrame =  new ClientMainFrame(getClient());
         final ClientMainFrame mainFrame =  clientMainFrame;
          if (getRootObject() != null) {

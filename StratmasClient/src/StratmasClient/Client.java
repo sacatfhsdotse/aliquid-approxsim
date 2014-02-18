@@ -650,12 +650,12 @@ public class Client implements StratmasEventListener {
      * Sets up a default ClientMainFrame.
      */
     public void initClientMainFrame(boolean show) {
-    	try {
-    		//TODO make setting
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
-		}
+        try {
+           //TODO make setting
+           UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
     	
         clientMainFrame =  new ClientMainFrame(getClient());
         final ClientMainFrame mainFrame =  clientMainFrame;

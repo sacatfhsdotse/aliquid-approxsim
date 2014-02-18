@@ -70,14 +70,23 @@ public class MapDrawableComparator implements Comparator<MapDrawableAdapter> {
                 Type t1 = a1.getStratmasObject().getType();
                 Type t2 = a2.getStratmasObject().getType();
                 if (t1.canSubstitute("Activity")) {
+                	if (t2.canSubstitute("Activity")) {
+                        return 0;
+                    }
                     return 1;
                 } else if (t2.canSubstitute("Activity")) {
                     return -1;
                 }else if (t1.canSubstitute("MilitaryUnit")) {
+                	if (t2.canSubstitute("MilitaryUnit")) {
+                        return 0;
+                    }
                     return 1;
                 } else if (t2.canSubstitute("MilitaryUnit")) {
                     return -1;
                 } else if (t1.canSubstitute("AgencyTeam")) {
+                	if (t2.canSubstitute("AgencyTeam")) {
+                        return 0;
+                    } 
                     return 1;
                 } else {
                     return -1;

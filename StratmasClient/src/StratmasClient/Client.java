@@ -651,6 +651,7 @@ public class Client implements StratmasEventListener {
      */
     public void initClientMainFrame(boolean show) {
     	try {
+    		//TODO make setting
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
 			e.printStackTrace();

@@ -34,18 +34,27 @@ public class MapDrawableComparator implements Comparator<MapDrawableAdapter> {
     public int compare(MapDrawableAdapter d1, MapDrawableAdapter d2)
     {
         if (d1 instanceof MapPointAdapter) {
+        	if (d2 instanceof MapPointAdapter) {
+                return 0;
+            }
             return 1;
         }
         else if (d2 instanceof MapPointAdapter) {
             return -1;
         }
         else if (d1 instanceof MapLineAdapter) {
+        	if (d2 instanceof MapLineAdapter) {
+                return 0;
+            }
             return 1;
         }
         else if (d2 instanceof MapLineAdapter) {
             return -1;
         }
         else if (d1 instanceof MapShapeAdapter) {
+        	if (d2 instanceof MapShapeAdapter) {
+                return 0;
+            }
             return -1;
         }
         else if (d2 instanceof MapShapeAdapter) {
@@ -56,7 +65,7 @@ public class MapDrawableComparator implements Comparator<MapDrawableAdapter> {
             MapElementAdapter a2 = (MapElementAdapter) d2;
             if (a1.isSelected() ^ a2.isSelected()) {
                 return a1.isSelected() ? 1 : -1;
-            } else if (!(a1.getStratmasObject().getType().canSubstitute(a2.getStratmasObject().getType())) || 
+            } else if (a1.getStratmasObject().getType().canSubstitute(a2.getStratmasObject().getType()) || 
                        a2.getStratmasObject().getType().canSubstitute(a1.getStratmasObject().getType())) {
                 Type t1 = a1.getStratmasObject().getType();
                 Type t2 = a2.getStratmasObject().getType();

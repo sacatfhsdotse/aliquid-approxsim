@@ -1,56 +1,52 @@
 package StratmasClient.map;
 
-import java.util.Stack;
-import java.util.Vector;
-import java.util.Hashtable;
-import java.util.Comparator;
-import java.util.Enumeration;
-import java.text.DecimalFormat;
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.awt.Color;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.JTextField;
-import javax.swing.JPanel;
-import javax.swing.JFrame;
-import javax.swing.JPopupMenu;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
+import java.nio.IntBuffer;
+import java.text.DecimalFormat;
+import java.util.Comparator;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Stack;
+import java.util.Vector;
 
-import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
-import javax.media.opengl.glu.GLU;
-import javax.media.opengl.awt.GLCanvas;
-import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.GLDrawableFactory;
+import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.GLProfile;
-import com.jogamp.opengl.util.gl2.GLUT;
-import com.jogamp.common.nio.Buffers;
-
-import java.nio.IntBuffer;
+import javax.media.opengl.awt.GLCanvas;
+import javax.media.opengl.glu.GLU;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import StratmasClient.BoundingBox;
 import StratmasClient.Configuration;
+import StratmasClient.Debug;
+import StratmasClient.map.adapter.MapDrawableAdapter;
+import StratmasClient.map.adapter.MapDrawableAdapterListener;
 import StratmasClient.object.Shape;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasList;
 import StratmasClient.object.StratmasEvent;
 import StratmasClient.object.StratmasEventListener;
+import StratmasClient.object.StratmasList;
+import StratmasClient.object.StratmasObject;
 import StratmasClient.object.primitive.Reference;
-import StratmasClient.Debug;
-import StratmasClient.map.adapter.MapDrawableAdapterListener;
-import StratmasClient.map.adapter.MapDrawableAdapter;
-import StratmasClient.map.adapter.MapShapeAdapter;
-import StratmasClient.map.adapter.MapLineAdapter;
 import StratmasClient.proj.MGRSConversion;
+
+import com.jogamp.common.nio.Buffers;
+import com.jogamp.opengl.util.gl2.GLUT;
 
 /**
  * The base class for the map. The shapes of the region and the graticules are displayed. Further
@@ -190,7 +186,7 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
     /**
      * The hashtable mapping renderSelectionNames to MapDrawableAdapters.
      */
-    protected Hashtable renderSelectionNames = new Hashtable();
+    protected Hashtable<Integer, StratmasEventListener> renderSelectionNames = new Hashtable<Integer, StratmasEventListener>();
     /**
      * The counter assigning new renderSelectionNames
      */
@@ -218,20 +214,20 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
     /**
      * Stack containing empty slots in mapDrawableDisplayList array.
      */
-    protected Stack mapDrawableDisplayListFreeStack = null;
+    protected Stack<Integer> mapDrawableDisplayListFreeStack = null;
     /**
      * Vector containing mapDrawableAdapters that has indicated that they
      * need a recompile.
      */
-    protected Vector mapDrawableAdapterRecompilation = new Vector();
+    protected Vector<MapDrawableAdapter> mapDrawableAdapterRecompilation = new Vector<MapDrawableAdapter>();
     /**
      * Hashtable containing all mapDrawableAdapters that are used by this Map.
      */
-    protected Hashtable mapDrawableAdapters = new Hashtable();
+    protected Hashtable<StratmasObject, MapDrawableAdapter> mapDrawableAdapters = new Hashtable<StratmasObject, MapDrawableAdapter>();
     /**
      * Comparator used to sort mapDrawableAdapters before drawing.
      */
-    protected final Comparator mapDrawableAdapterComparator = new MapDrawableComparator();
+    protected final Comparator<MapDrawableAdapter> mapDrawableAdapterComparator = new MapDrawableComparator();
 
     /**
      * Creates new BasicMapDrawer
@@ -257,8 +253,8 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
         
         // region associated with the map
         this.region = region;
-        for (Enumeration e = region.getShapes().elements();e.hasMoreElements();) {
-            Shape s = (Shape)e.nextElement();
+        for (Enumeration<Shape> e = region.getShapes().elements(); e.hasMoreElements();) {
+            Shape s = e.nextElement();
             addMapDrawableAdapter(s);  
         }
         
@@ -314,8 +310,8 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
         updateGraticuleList(gl);
         
         // Possibly new GL,  reregister all mapDrawableAdapters
-        for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
-            ((MapDrawableAdapter) e.nextElement()).invalidateAllLists();
+        for (Enumeration<MapDrawableAdapter> e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
+            e.nextElement().invalidateAllLists();
         }
         
         int[] viewport = new int[4];
@@ -654,8 +650,8 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
         renderSelectionNames.clear();
         // remove all adapters
         mapDrawableAdapterRecompilation.removeAllElements();
-        for (Enumeration e = mapDrawableAdapters.keys(); e.hasMoreElements(); ) {
-            removeMapDrawableAdapter((MapDrawableAdapter)mapDrawableAdapters.get(e.nextElement()));
+        for (Enumeration<StratmasObject> e = mapDrawableAdapters.keys(); e.hasMoreElements(); ) {
+            removeMapDrawableAdapter(mapDrawableAdapters.get(e.nextElement()));
         }
     }
     
@@ -797,10 +793,10 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      *
      * @return the list of elements.  
      */
-    public Vector mapDrawableAdapters(Class specifiedClass) {
-        Vector res = new Vector();
-        for(Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
-            Object o = e.nextElement();
+    public Vector<MapDrawableAdapter> mapDrawableAdapters(Class<? extends MapDrawableAdapter> specifiedClass) {
+        Vector<MapDrawableAdapter> res = new Vector<MapDrawableAdapter>();
+        for(Enumeration<MapDrawableAdapter> e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
+        	MapDrawableAdapter o = e.nextElement();
             if (specifiedClass.isInstance(o)) {
                 res.add(o);
             }
@@ -816,8 +812,8 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      *
      */
     public MapDrawableAdapter getMapDrawableAdapter(Reference ref) {
-        for(Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
-            MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
+        for(Enumeration<MapDrawableAdapter> e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
+            MapDrawableAdapter mda = e.nextElement();
             if (mda.getObject().getReference().equals(ref)) {
                 return mda;
             }
@@ -896,8 +892,8 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
     public void updateDrawnMapDrawablesList() {
         if (!isDrawnMapDrawablesListUpdated()) {
             // get all mapDrawableAdapters that should be drawn
-            Vector v = new Vector();
-            for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements(); ) {
+            Vector<MapDrawableAdapter> v = new Vector<MapDrawableAdapter>();
+            for (Enumeration<MapDrawableAdapter> e = mapDrawableAdapters.elements(); e.hasMoreElements(); ) {
                 v.add(e.nextElement());
             }
             
@@ -939,14 +935,14 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * @param mapDrawable the mapDrawable that is added.
      */
     public void addMapDrawable(StratmasObject mapDrawable) {
-        for (Enumeration ee = mapDrawable.children(); ee.hasMoreElements();) {
-            StratmasObject candidate = (StratmasObject) ee.nextElement();
+        for (Enumeration<StratmasObject> ee = mapDrawable.children(); ee.hasMoreElements();) {
+            StratmasObject candidate = ee.nextElement();
             if (candidate.getType().canSubstitute("Element") || candidate.getType().canSubstitute("Activity")) {
                 if (candidate instanceof StratmasList) {
                     // Add any current elements and add a listener
                     // that imports any consequent ones.
-                    for (Enumeration le = candidate.children(); le.hasMoreElements();) {
-                        addMapDrawable((StratmasObject) le.nextElement());
+                    for (Enumeration<StratmasObject> le = candidate.children(); le.hasMoreElements();) {
+                        addMapDrawable(le.nextElement());
                     }
                 } else {
                     addMapDrawable((StratmasObject) candidate);
@@ -1019,10 +1015,10 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      *
      * @param specifiedClass the class of the adapters to remove.
      */
-    protected void removeMapDrawableAdapters(Class specifiedClass) {
-        Vector adapters = mapDrawableAdapters(specifiedClass);
+    protected void removeMapDrawableAdapters(Class<? extends MapDrawableAdapter> specifiedClass) {
+        Vector<MapDrawableAdapter> adapters = mapDrawableAdapters(specifiedClass);
         for (int i = 0; i < adapters.size(); i++) {
-            removeMapDrawableAdapter((MapDrawableAdapter)adapters.get(i));
+            removeMapDrawableAdapter(adapters.get(i));
         }
     }
 
@@ -1071,7 +1067,7 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      */
     protected void initMapDrawableDisplayLists() {
         this.mapDrawableDisplayLists = new int[0];
-        mapDrawableDisplayListFreeStack = new Stack();
+        mapDrawableDisplayListFreeStack = new Stack<Integer>();
     }
 
     /**

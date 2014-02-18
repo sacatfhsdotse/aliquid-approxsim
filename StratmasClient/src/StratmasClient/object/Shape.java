@@ -55,14 +55,14 @@ public abstract class Shape extends DefaultComplex
      *
      *@param res vector to add result to.
      */
-    public abstract Vector constructSimpleShapes(Vector res);
+    public abstract Vector<SimpleShape> constructSimpleShapes(Vector<SimpleShape> res);
 
     /**
      * Reduces this Shape to a Vector of SimepleShapes.
      */
-    public Vector constructSimpleShapes()
+    public Vector<SimpleShape> constructSimpleShapes()
     {
-        Vector res = new Vector();
+        Vector<SimpleShape> res = new Vector<SimpleShape>();
         return constructSimpleShapes(res);
     }
     
@@ -134,14 +134,14 @@ public abstract class Shape extends DefaultComplex
     /**
      *
      */
-    public Vector getAncestralShapes()
+    public Vector<Shape> getAncestralShapes()
     {
-        Vector res = new Vector();
+        Vector<Shape> res = new Vector<Shape>();
         for (StratmasObject walker = this; walker.getParent() != null && (walker.getParent() instanceof Shape ||
                                                               walker.getParent() instanceof StratmasList);
              walker = (StratmasObject) walker.getParent()) {
             if (walker.getParent() instanceof Shape) {
-                res.add(walker.getParent());
+                res.add((Shape)walker.getParent());
             }
         }
         

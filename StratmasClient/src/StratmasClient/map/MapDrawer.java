@@ -1,92 +1,56 @@
 package StratmasClient.map;
 
-import java.io.*;
-import java.awt.*;
-import java.awt.Graphics2D;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.color.ColorSpace;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DragSource;
-import java.awt.dnd.DragSourceDragEvent;
-import java.awt.dnd.DragSourceMotionListener;
-import java.awt.dnd.DragSourceAdapter;
-import java.awt.dnd.DragGestureRecognizer;
-import java.awt.dnd.DragGestureListener;
 import java.awt.dnd.DragGestureEvent;
+import java.awt.dnd.DragGestureListener;
+import java.awt.dnd.DragGestureRecognizer;
+import java.awt.dnd.DragSource;
+import java.awt.dnd.DragSourceAdapter;
 import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetEvent;
-import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetListener;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.event.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.awt.image.ComponentColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-
-import java.nio.channels.FileChannel;
-import java.nio.ByteBuffer;
-import java.nio.MappedByteBuffer;
-
-import java.lang.Math;
-import java.lang.NullPointerException;
-
-import java.text.DecimalFormat;
+import java.awt.event.MouseEvent;
 import java.io.UnsupportedEncodingException;
-
-import java.util.*;
-
-import java.nio.IntBuffer;
 import java.nio.DoubleBuffer;
-import com.jogamp.common.nio.Buffers;
+import java.nio.IntBuffer;
+import java.util.Enumeration;
+import java.util.TimerTask;
+import java.util.Vector;
 
-import javax.swing.*;
-
-import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
-import javax.media.opengl.glu.GLU;
-import com.jogamp.opengl.util.gl2.GLUT;
+import javax.media.opengl.GLAutoDrawable;
+import javax.swing.JMenu;
+import javax.swing.JPopupMenu;
 
-import StratmasClient.Configuration;
 import StratmasClient.BoundingBox;
-import StratmasClient.object.Circle;
-import StratmasClient.Client;
-import StratmasClient.object.Composite;
 import StratmasClient.Debug;
 import StratmasClient.Icon;
-import StratmasClient.HierarchyImportSet;
-import StratmasClient.object.Line;
-import StratmasClient.object.Point;
-import StratmasClient.object.Polygon;
-import StratmasClient.object.primitive.Reference;
-import StratmasClient.object.Shape;
-import StratmasClient.object.SimpleShape;
-import StratmasClient.object.StratmasBoolean;
-import StratmasClient.object.StratmasList;
-import StratmasClient.StratmasConstants;
-import StratmasClient.StratmasDialog;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.object.type.Type;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.treeview.TreeView;
-import StratmasClient.treeview.TreeViewFrame;
+import StratmasClient.filter.CombinedORFilter;
+import StratmasClient.filter.PassFilter;
 import StratmasClient.filter.StratmasObjectFilter;
 import StratmasClient.filter.TypeFilter;
-import StratmasClient.filter.PassFilter;
-import StratmasClient.filter.CombinedORFilter;
-import StratmasClient.filter.ChildWithNameAndTypeFilter;
-import StratmasClient.proj.*;
-import StratmasClient.map.adapter.*;
+import StratmasClient.map.adapter.ElementAdapter;
+import StratmasClient.map.adapter.MapActivityAdapter;
+import StratmasClient.map.adapter.MapDrawableAdapter;
+import StratmasClient.map.adapter.MapElementAdapter;
+import StratmasClient.map.adapter.MapShapeAdapter;
+import StratmasClient.map.adapter.PopulationAdapter;
+import StratmasClient.object.Shape;
+import StratmasClient.object.SimpleShape;
+import StratmasClient.object.StratmasEvent;
+import StratmasClient.object.StratmasEventListener;
+import StratmasClient.object.StratmasList;
+import StratmasClient.object.StratmasObject;
+import StratmasClient.object.type.Type;
+import StratmasClient.object.type.TypeFactory;
+import StratmasClient.treeview.TreeView;
+import StratmasClient.treeview.TreeViewFrame;
+
+import com.jogamp.common.nio.Buffers;
+import com.jogamp.opengl.util.gl2.GLUT;
 
 /**
  * All currently visible elements in the main map are drawed in this class. Thus all shapes,
@@ -1229,10 +1193,10 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
     public void updateDrawnMapDrawablesList() {
         if (!isDrawnMapDrawablesListUpdated()) {
             // Get all mapDrawableAdapters that should be drawn
-            Vector v = this.drawnMapElementsFilter.filter(mapDrawableAdapters.elements());
+            Vector<MapDrawableAdapter> v = this.drawnMapElementsFilter.filter(mapDrawableAdapters.elements());
             // add selected element
-            for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements(); ) {
-                MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
+            for (Enumeration<MapDrawableAdapter> e = mapDrawableAdapters.elements(); e.hasMoreElements(); ) {
+                MapDrawableAdapter mda = e.nextElement();
                 if (mda instanceof MapElementAdapter) {
                     MapElementAdapter mea = (MapElementAdapter)mda;
                     if (mea.isSelected() && !v.contains(mea)) {
@@ -1241,8 +1205,8 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
                 }
             }
             // update activities with connection arrows
-            for (Enumeration e = v.elements(); e.hasMoreElements(); ) {
-                MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
+            for (Enumeration<MapDrawableAdapter> e = v.elements(); e.hasMoreElements(); ) {
+                MapDrawableAdapter mda = e.nextElement();
                 if (mda instanceof MapActivityAdapter) {
                     MapActivityAdapter maa = (MapActivityAdapter)mda;
                     if (maa.getOwner() != null && v.contains(getMapElementAdapter(maa.getOwner()))) {
@@ -1256,8 +1220,8 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
             }
             // update the list with the shapes
             if (show_geo_region || !grid_based_pv) {
-                for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements(); ) {
-                    MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
+                for (Enumeration<MapDrawableAdapter> e = mapDrawableAdapters.elements(); e.hasMoreElements(); ) {
+                    MapDrawableAdapter mda = e.nextElement();
                     if (mda instanceof MapShapeAdapter && region.contains((Shape)mda.getObject())) {
                         v.add((MapShapeAdapter)mda);
                     }
@@ -1268,7 +1232,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
             java.util.Collections.sort(v, mapDrawableAdapterComparator);
             int[] res = new int[v.size()];
             for (int i = 0; i < res.length; i++) {
-                MapDrawableAdapter mda = (MapDrawableAdapter) v.get(i);
+                MapDrawableAdapter mda = v.get(i);
                 res[i] = mda.getDisplayList();
             }
             // update the list of the drawn elements

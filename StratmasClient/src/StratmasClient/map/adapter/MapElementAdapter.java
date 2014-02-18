@@ -1,59 +1,32 @@
 package StratmasClient.map.adapter;
 
+import java.nio.DoubleBuffer;
+import java.nio.IntBuffer;
 import java.util.Enumeration;
+
+import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
+import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.glu.GLU;
+import javax.media.opengl.glu.GLUquadric;
+import javax.media.opengl.glu.GLUtessellator;
+import javax.media.opengl.glu.GLUtessellatorCallback;
+import javax.media.opengl.glu.GLUtessellatorCallbackAdapter;
+
+import StratmasClient.BoundingBox;
 import StratmasClient.Debug;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.SymbolIDCode;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasBoolean;
+import StratmasClient.map.Projection;
+import StratmasClient.map.SymbolToTextureMapper;
+import StratmasClient.object.Circle;
 import StratmasClient.object.Line;
 import StratmasClient.object.Shape;
 import StratmasClient.object.SimpleShape;
 import StratmasClient.object.StratmasDecimal;
-import StratmasClient.object.Point;
-import StratmasClient.BoundingBox;
-import StratmasClient.Icon;
-import StratmasClient.object.Circle;
+import StratmasClient.object.StratmasEvent;
+import StratmasClient.object.StratmasObject;
+import StratmasClient.object.SymbolIDCode;
 
-import StratmasClient.filter.StratmasObjectFilter;
-import StratmasClient.filter.StratmasObjectAdapter;
-
-import StratmasClient.map.SymbolToTextureMapper;
-import StratmasClient.map.Projection;
-
-import java.util.Vector;
-import java.util.Comparator;
-import java.util.Collections;
-import java.util.Hashtable;
-
-import java.nio.DoubleBuffer;
-import java.nio.IntBuffer;
-
-import javax.media.opengl.GL;
-import javax.media.opengl.GL2;
-import javax.media.opengl.glu.GLU;
-import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.glu.GLUtessellator;
-import javax.media.opengl.glu.GLUtessellatorCallbackAdapter;
-import javax.media.opengl.glu.GLUtessellatorCallback;
-import javax.media.opengl.glu.GLUquadric;
 import com.jogamp.common.nio.Buffers;
-
-import java.awt.image.WritableRaster;
-import java.awt.image.Raster;
-import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.awt.Image;
-import java.awt.image.ComponentColorModel;
-import java.awt.color.ColorSpace;
-
-import java.awt.image.DataBufferByte;
-import java.awt.image.DataBuffer;
-
-import java.util.EventListener;
-import javax.swing.event.EventListenerList;
 
 /**
  * MapElementAdapter adapts StratmasObjects descendants of Element and Activity for
@@ -401,9 +374,9 @@ public class MapElementAdapter extends MapDrawableAdapter{
             Shape shape = (Shape) getStratmasObject().getChild("location");
 
             if (shape != null) {
-                for (Enumeration se = shape.constructSimpleShapes().elements(); 
+                for (Enumeration<SimpleShape> se = shape.constructSimpleShapes().elements(); 
                      se.hasMoreElements();) {
-                    SimpleShape simpleShape = (SimpleShape) se.nextElement();        
+                    SimpleShape simpleShape = se.nextElement();        
                     if (simpleShape instanceof Circle) {
                         if (quadric == null) {
                             quadric = glu.gluNewQuadric();

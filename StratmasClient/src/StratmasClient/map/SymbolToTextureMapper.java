@@ -31,6 +31,7 @@ import com.jogamp.common.nio.Buffers;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
+import javax.media.opengl.glu.gl2.GLUgl2;
 import javax.media.opengl.GLAutoDrawable;
 
 import java.awt.image.WritableRaster;
@@ -94,7 +95,7 @@ public class SymbolToTextureMapper
     /**
      * GLU to use.
      */
-    public static GLU glu = new GLU();
+    public static GLUgl2 glu = new GLUgl2();
 
     /**
      * Returns the texture for the given icon.

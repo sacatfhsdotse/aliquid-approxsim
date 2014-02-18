@@ -29,7 +29,7 @@ public class Region implements StratmasEventListener {
     /**
      * Region borders (shapes).
      */ 
-    private Vector shapes = new Vector();
+    private Vector<Shape> shapes = new Vector<Shape>();
     /**
      * Boundary box of the region in longitude and latitude coordinates.
      */
@@ -37,7 +37,7 @@ public class Region implements StratmasEventListener {
     /**
      * List of listeners.
      */
-    private Vector listeners = new Vector();
+    private Vector<StratmasEventListener> listeners = new Vector<StratmasEventListener>();
     
     /**
      * Creates geographical region.
@@ -150,8 +150,8 @@ public class Region implements StratmasEventListener {
     private void listenToShape(StratmasObject shape) {
         if (!shape.getIdentifier().equals("curves")) {
             shape.addEventListener(this);
-            for (Enumeration e = shape.children(); e.hasMoreElements(); ) {
-                listenToShape((StratmasObject)e.nextElement());
+            for (Enumeration<StratmasObject> e = shape.children(); e.hasMoreElements(); ) {
+                listenToShape(e.nextElement());
             }
         }
     }
@@ -176,7 +176,7 @@ public class Region implements StratmasEventListener {
      * @param list list of <code>Shape</code> objects contained in the Region 
      *             after reseting.
      */
-    public void reset(Vector list) {
+    public void reset(Vector<Shape> list) {
         shapes.clear();
         try {
             // add first shape in the list
@@ -203,10 +203,10 @@ public class Region implements StratmasEventListener {
     public boolean contains(Shape shape) {
         // for all shapes
         for (int i = 0; i < shapes.size(); i++) {
-            Shape sh = (Shape)shapes.get(i);
-            Vector simple_shapes = sh.constructSimpleShapes(new Vector());
+            Shape sh = shapes.get(i);
+            Vector<SimpleShape> simple_shapes = sh.constructSimpleShapes(new Vector<SimpleShape>());
             for (int j = 0; j < simple_shapes.size(); j++) {
-                Shape simple_shape = (Shape)simple_shapes.get(j);
+                Shape simple_shape = simple_shapes.get(j);
                 if (simple_shape.getReference().equals(shape.getReference())) {
                     return true;
                 }
@@ -240,12 +240,12 @@ public class Region implements StratmasEventListener {
      *
      * @return <code>Shape</code> objects that describe the region.
      */
-    public Vector getShapes() {
-        Vector sShapes = new Vector();
+    public Vector<Shape> getShapes() {
+        Vector<Shape> sShapes = new Vector<Shape>();
         // for all shapes
         for (int i = 0; i < shapes.size(); i++) {
             Shape sh = (Shape)shapes.get(i);
-            sShapes.addAll(sh.constructSimpleShapes(new Vector()));
+            sShapes.addAll(sh.constructSimpleShapes(new Vector<SimpleShape>()));
         }
         return sShapes;
     }
@@ -272,7 +272,7 @@ public class Region implements StratmasEventListener {
         // get actual projection
         Projection proj = basicMap.getProjection();
         if (!shapes.isEmpty()) {
-            Enumeration e = getShapes().elements();
+            Enumeration<Shape> e = getShapes().elements();
             BoundingBox res = ((Shape)e.nextElement()).getBoundingBox(proj);
             for (;e.hasMoreElements();) {
                 res = BoundingBox.combine(res, ((Shape)e.nextElement()).getBoundingBox(proj), proj);

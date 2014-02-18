@@ -12,7 +12,7 @@ import StratmasClient.object.type.Type;
 /**
  * MapDrawableComparator is used to compare adapters drawn in the map.
  */
-public class MapDrawableComparator implements Comparator {
+public class MapDrawableComparator implements Comparator<MapDrawableAdapter> {
     
     /**
      * Returns -1, 0, 1 if o1 is less than, equal to or greater than o2.
@@ -31,10 +31,8 @@ public class MapDrawableComparator implements Comparator {
      * @param o1 the first object to be compared.
      * @param o2 the second object to be compared.
      */            
-    public int compare(Object o1, Object o2)
+    public int compare(MapDrawableAdapter d1, MapDrawableAdapter d2)
     {
-        MapDrawableAdapter d1 = (MapDrawableAdapter) o1;
-        MapDrawableAdapter d2 = (MapDrawableAdapter) o2;
         if (d1 instanceof MapPointAdapter) {
             return 1;
         }

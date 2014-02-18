@@ -1,24 +1,14 @@
 package StratmasClient.map.adapter;
 
-import java.util.Enumeration;
-import java.awt.Color;
-
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.Shape;
-import StratmasClient.object.SimpleShape;
-import StratmasClient.object.Point;
-import StratmasClient.object.Line;
-import StratmasClient.BoundingBox;
-import StratmasClient.object.SymbolIDCode;
-import StratmasClient.map.Projection;
-import StratmasClient.map.SymbolToTextureMapper;
-
-import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
-import javax.media.opengl.glu.GLU;
 import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.glu.GLUtessellator;
+
+import StratmasClient.BoundingBox;
+import StratmasClient.map.Projection;
+import StratmasClient.object.Shape;
+import StratmasClient.object.StratmasEvent;
+import StratmasClient.object.StratmasObject;
+import StratmasClient.object.SymbolIDCode;
 
 /**
  * MapActivityAdapter adapts StratmasObjects descendants of Activity for

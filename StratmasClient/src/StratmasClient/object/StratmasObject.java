@@ -5,35 +5,26 @@
 
 package StratmasClient.object;
 
-import StratmasClient.Client;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.NoSuchElementException;
+import java.util.Vector;
 
-import StratmasClient.object.type.Type;
-import StratmasClient.object.type.Declaration;
-
-import StratmasClient.object.primitive.Identifier;
-import StratmasClient.object.primitive.Timestamp;
-import StratmasClient.object.primitive.Reference;
+import org.w3c.dom.Element;
 
 import StratmasClient.ActionGroup;
 import StratmasClient.Debug;
 import StratmasClient.Icon;
 import StratmasClient.StratmasConstants;
-
 import StratmasClient.filter.StratmasObjectFilter;
-
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.util.Enumeration;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.NoSuchElementException;
-import java.util.EventObject;
-import java.util.EventListener;
-import javax.swing.event.EventListenerList;
-import java.awt.event.ActionEvent;
-
-import org.w3c.dom.Element;
+import StratmasClient.object.primitive.Identifier;
+import StratmasClient.object.primitive.Reference;
+import StratmasClient.object.primitive.Timestamp;
+import StratmasClient.object.type.Declaration;
+import StratmasClient.object.type.Type;
 
 
 /**
@@ -65,13 +56,13 @@ public abstract class StratmasObject implements Transferable
     /**
      * A copy of an empty enumeration to use for children().
      */
-    static Enumeration emptyEnumeration = new 
-        Enumeration() {
+    static Enumeration<StratmasObject> emptyEnumeration = new 
+        Enumeration<StratmasObject>() {
             public boolean hasMoreElements() 
             {
                 return false;
             }
-            public Object nextElement() throws NoSuchElementException
+            public StratmasObject nextElement() throws NoSuchElementException
             {
                 throw new NoSuchElementException("No more elements.");
             }
@@ -177,7 +168,7 @@ public abstract class StratmasObject implements Transferable
     /**
      * Returns the children of this object.
      */
-    public Enumeration children()
+    public Enumeration<StratmasObject> children()
     {
         return emptyEnumeration;
     }
@@ -232,10 +223,10 @@ public abstract class StratmasObject implements Transferable
      *
      * @param parts the StratmasObjects to add.
      */
-    public void add(Vector parts)
+    public void add(Vector<StratmasObject> parts)
     {
-        for (Enumeration ps = parts.elements(); ps.hasMoreElements();) {
-            this.add((StratmasObject) ps.nextElement());
+        for (Enumeration<StratmasObject> ps = parts.elements(); ps.hasMoreElements();) {
+            this.add(ps.nextElement());
         }
     }
 
@@ -529,9 +520,9 @@ public abstract class StratmasObject implements Transferable
      *
      * @param filter the filter to use.
      */
-    public Enumeration getFilteredChildren(StratmasObjectFilter filter)
+    public Enumeration<StratmasObject> getFilteredChildren(StratmasObjectFilter filter)
     {
-        return getFilteredChildren(filter, new Vector()).elements();
+        return getFilteredChildren(filter, new Vector<StratmasObject>()).elements();
     }
     
     /**
@@ -541,13 +532,13 @@ public abstract class StratmasObject implements Transferable
      * @param filter the filter to use.
      * @param v the vector to which to add the objects.
      */
-    private Vector getFilteredChildren(StratmasObjectFilter filter, Vector v)
+    private Vector<StratmasObject> getFilteredChildren(StratmasObjectFilter filter, Vector<StratmasObject> v)
     {
         if (filter.pass(this)) {
             v.add(this);
         }
-        for (Enumeration e = children(); e.hasMoreElements();) {
-            StratmasObject sObj = (StratmasObject) e.nextElement();
+        for (Enumeration<StratmasObject> e = children(); e.hasMoreElements();) {
+            StratmasObject sObj = e.nextElement();
             sObj.getFilteredChildren(filter, v);
         }
 
@@ -587,9 +578,9 @@ public abstract class StratmasObject implements Transferable
         buf.append(indent + getType().toTaclanV2() + " " + 
                    Identifier.toTaclanV2(getIdentifier()) + " {");
         if (! isLeaf()) {
-            for (Enumeration cs = children(); cs.hasMoreElements();) {
+            for (Enumeration<StratmasObject> cs = children(); cs.hasMoreElements();) {
                 buf.append("\n");
-                ((StratmasObject) cs.nextElement()).toTaclanV2StringBuffer(buf,
+                (cs.nextElement()).toTaclanV2StringBuffer(buf,
                                                                          indent + 
                                                                          TACLANV2_INDENTATION);
             }
@@ -662,7 +653,7 @@ public abstract class StratmasObject implements Transferable
      */
     public StratmasObject getYoungestCommonAncestor(StratmasObject other)
     {
-        HashSet set = new HashSet();
+        HashSet<StratmasObject> set = new HashSet<StratmasObject>();
         
         for (StratmasObject walker = other; walker != null; 
              walker = walker.getParent()) {

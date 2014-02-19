@@ -146,6 +146,7 @@ int XMLHandler::handle(const string &xml)
 {
      int res = eUnknown;
      mLastType = "Unknown";
+     debug(xml.c_str());
      const char *xmlChar = xml.c_str();
      MemBufInputSource* memBuf = new MemBufInputSource((XMLByte*)xmlChar, xml.size(), "ClientMessage", false);
      memBuf->setCopyBufToStream(false);

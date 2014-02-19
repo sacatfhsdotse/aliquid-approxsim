@@ -169,7 +169,7 @@
 
   <target name="extractLibs" depends="init">
     <!-- Copy non-java files, e.g schemas and icons, into build dir -->
-    <copy todir="${build}/StratmasClient">
+    <copy todir="${build}">
       <fileset dir="${src}"> 
         <include name="**/*.xsd"/>
         <include name="**/*.gif"/>

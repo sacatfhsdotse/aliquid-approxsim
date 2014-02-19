@@ -15,13 +15,15 @@ import StratmasClient.object.type.Type;
 public class MapDrawableComparator implements Comparator<MapDrawableAdapter> {
     
     /**
-     * Returns -1, 0, 1 if o1 is less than, equal to or greater than o2.
+     * Returns -1, 0, 1 if d1 is less than, equal to or greater than d2.
      *
      * Order as follows (most significant discriminator to least significant):
-     * Selection:  unSelected < Selected  
-     * Type:       Shape < Line < Point < Population < AgencyTeam < MilitaryUnit < Activity
-     * Hiearchy    child < parent
-     * Identifier:  o1.getIdentifier.toString().compare(o2.getStratmasObject().getIdentifier().toString)).
+     * Selection:  {@code unSelected < Selected}
+     * Type:       {@code Shape < Line < Point < Population <
+     *  AgencyTeam < MilitaryUnit < Activity}
+     * Hiearchy:    {@code child < parent}
+     * Identifier:  {@code d1.getIdentifier.toString()
+     *  .compare(d2.getStratmasObject().getIdentifier().toString())}
      *
      * Note that the type discriminator takes inheritance into
      * account, meaning that any derived type of Population,

@@ -1,5 +1,5 @@
 FILE (GLOB_RECURSE project_SRCS *.cpp *.cxx *.cc *.C *.c *.h *.hpp)
-FILE (GLOB glob_remove s_subst.c schemas/file2h.c GridCellPV.cpp XMLHelper.cpp)
+FILE (GLOB glob_remove s_subst.c schemas/file2h.cpp GridCellPV.cpp XMLHelper.cpp)
 LIST(REMOVE_ITEM project_SRCS ${glob_remove})
 
 SET (project_LIBS ${Boost_LIBRARIES} ${XERCESC_LIBRARIES} ${Log4Cxx_LIBRARIES})
@@ -43,7 +43,8 @@ IF(${CMAKE_COMPILER_IS_GNUCXX})
 ENDIF()
 
 #Generate schema header from .xsd files
-ADD_EXECUTABLE(file2h schemas/file2h.c)
+ADD_EXECUTABLE(file2h schemas/file2h.cpp)
+TARGET_LINK_LIBRARIES(file2h ${project_LIBS} ${project_OS_SPECIFIC})
 FILE (GLOB_RECURSE project_schemas *.xsd)
 ADD_CUSTOM_COMMAND(
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/schemas.h ${CMAKE_CURRENT_BINARY_DIR}/schemas.cpp

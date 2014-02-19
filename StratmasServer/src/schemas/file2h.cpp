@@ -4,12 +4,16 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <boost/filesystem.hpp>
+
+namespace fs = boost::filesystem;
+
 // Simple application to generate char[] array definitions of files.
 // Usage: file2h outfile.h file1.ext, file2.ext, ...
 // Will generate variables on the form:
 // char file1[] = {0x10, 0x30, ...
 
-char* progname = "file2h";
+const char* progname = "file2h";
 
 int main(int argc, char** argv)
 {
@@ -85,11 +89,13 @@ int main(int argc, char** argv)
                    printf("Unable to find %s\n", argv[i]);
                exit(1);
           } else {
+               const char* lookupName =
+                   fs::path(argv[i]).filename().generic_string().c_str();
                if (fprintf(coutfile, 
                            "\t/* From %s */\n"
                            "\t\"%s\",\n"
                            "",
-                           argv[i], argv[i]) < 0) {
+                           argv[i], lookupName) < 0) {
                     perror(progname);
                     exit(1);
                }

@@ -4,6 +4,7 @@ LIST(REMOVE_ITEM project_SRCS ${glob_remove})
 
 SET (project_LIBS ${Boost_LIBRARIES} ${XERCESC_LIBRARIES} ${Log4Cxx_LIBRARIES})
 SET (project_BIN ${PROJECT_NAME})
+SET (schemas_dir "${MAINFOLDER}/../schemas")
 
 #OS
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
@@ -45,9 +46,7 @@ ENDIF()
 #Generate schema header from .xsd files
 ADD_EXECUTABLE(file2h schemas/file2h.cpp)
 TARGET_LINK_LIBRARIES(file2h ${project_LIBS} ${project_OS_SPECIFIC})
-FILE (GLOB_RECURSE shared_schemas "${MAINFOLDER}/../shared_schemas/*.xsd")
-FILE (GLOB_RECURSE private_schemas "${PROJECT_SOURCE_DIR}/schemas/*.xsd")
-set (project_schemas "${shared_schemas}" "${private_schemas}")
+FILE (GLOB_RECURSE project_schemas "${schemas_dir}/stratmasProtocol/*.xsd")
 ADD_CUSTOM_COMMAND(
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/schemas.h ${CMAKE_CURRENT_BINARY_DIR}/schemas.cpp
   COMMAND file2h ${CMAKE_CURRENT_BINARY_DIR}/schemas.cpp ${CMAKE_CURRENT_BINARY_DIR}/schemas.h ${project_schemas}

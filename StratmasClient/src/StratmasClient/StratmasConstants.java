@@ -17,7 +17,7 @@ public class StratmasConstants
     public static String stratmasNamespace = "http://pdc.kth.se/stratmasNamespace";
     public static String xsdNamespace = "http://www.w3.org/2001/XMLSchema";
     public static String xmlnsNamespace = "http://www.w3.org/2001/XMLSchema-instance";
-    public static String JAR_SCHEMA_LOCATION = "/StratmasClient/schemas/";
+    public static String JAR_SCHEMA_LOCATION = "/schemas/";
     public static String STRATMAS_SIMULATION_SCHEMA = "taclan2sim.xsd";
     public static String STRATMAS_PROTOCOL_SCHEMA = "stratmasProtocol.xsd";
 

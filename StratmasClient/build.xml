@@ -9,7 +9,7 @@
   <property name="externaljars" location="externaljars"/>
   <property name="samples" location="samples"/>
   <property name="buildutils" location="buildutils"/>
-  <property name="shared_schemas" location="../shared_schemas"/>
+  <property name="schemas" location="../schemas"/>
 
   <!-- Following lines not implemented yet, just here for reference-->
   <!-- Uncomment to use JProfile -->
@@ -172,16 +172,16 @@
     <!-- Copy non-java files, e.g schemas and icons, into build dir -->
     <copy todir="${build}">
       <fileset dir="${src}"> 
-        <include name="**/*.xsd"/>
         <include name="**/*.gif"/>
         <include name="**/*.JPG"/>
         <include name="**/*.png"/>
         <include name="**/*.txt"/>
       </fileset>
     </copy>
-    <copy todir="${build}/StratmasClient/schemas">
-      <fileset dir="${shared_schemas}">
-        <include name="**/*.xsd"/>
+    <copy todir="${build}/schemas" flatten="true">
+      <fileset dir="${schemas}">
+          <include name="dispatcherProtocol/*.xsd"/>
+          <include name="stratmasProtocol/*.xsd"/>
       </fileset>
     </copy>
 

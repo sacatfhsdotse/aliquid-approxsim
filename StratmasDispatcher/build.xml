@@ -7,6 +7,7 @@
   <property name="build" location="build"/>
   <property name="dist" location="dist"/>
   <property name="externaljars" location="externaljars"/>
+  <property name="schemas" location="../schemas"/>
 
   <target name="init">
     <!-- Create the time stamp -->
@@ -39,9 +40,12 @@
            source="7"
            deprecation="yes"
            includeantruntime="false"/>
-    <copy todir="${build}">
-        <fileset dir="${src}" includes="**/*.xsd"/>
-    </copy>
+      <copy todir="${build}/schemas" flatten="true">
+        <fileset dir="${schemas}">
+          <include name="dispatcherProtocol/*.xsd"/>
+          <include name="stratmasProtocol/*.xsd"/>
+        </fileset>
+      </copy>
   </target>
 
   <!-- dist smashes all binaries, including dependencies,

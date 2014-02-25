@@ -296,7 +296,7 @@
     
     <!-- Put almost everything in ${build} into the
          MyProject-${DSTAMP}.jar file -->
-    <jar jarfile="${dist}/${ant.project.name}-${DSTAMP}.jar" 
+    <jar jarfile="${dist}/${ant.project.name}.jar" 
          basedir="${build}"
          excludes="antMarkerFile-*.mark,antSamples.xml,/license/*"
          index="true">

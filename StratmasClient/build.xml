@@ -9,6 +9,7 @@
   <property name="externaljars" location="externaljars"/>
   <property name="samples" location="samples"/>
   <property name="buildutils" location="buildutils"/>
+  <property name="shared_schemas" location="../shared_schemas"/>
 
   <!-- Following lines not implemented yet, just here for reference-->
   <!-- Uncomment to use JProfile -->
@@ -176,6 +177,11 @@
         <include name="**/*.JPG"/>
         <include name="**/*.png"/>
         <include name="**/*.txt"/>
+      </fileset>
+    </copy>
+    <copy todir="${build}/StratmasClient/schemas">
+      <fileset dir="${shared_schemas}">
+        <include name="**/*.xsd"/>
       </fileset>
     </copy>
 

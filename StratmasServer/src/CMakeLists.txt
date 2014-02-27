@@ -4,8 +4,12 @@ FILE (GLOB_RECURSE project_SRCS *.cpp *.cxx *.cc *.C *.c)
 FILE (GLOB_RECURSE project_HEADERS *.h *.hpp)
 
 # but remove files to not compile/link with the rest:
-FILE (GLOB glob_remove s_subst.c schemas/file2h.cpp Grid/GridCellPV.cpp XMLHelper.cpp)
+FILE (GLOB_RECURSE glob_remove s_subst.c file2h.cpp GridCellPV.cpp XMLHelper.cpp)
 LIST(REMOVE_ITEM project_SRCS ${glob_remove})
+
+FOREACH (_cs ${project_SRCS})
+    message("${_cs}")
+ENDFOREACH()
 
 # more vars.
 SET (project_LIBS ${Boost_LIBRARIES} ${XERCESC_LIBRARIES} ${Log4Cxx_LIBRARIES})

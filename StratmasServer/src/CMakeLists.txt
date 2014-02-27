@@ -1,20 +1,13 @@
-FILE (GLOB_RECURSE project_SRCS *.cpp *.cxx *.cc *.C *.c *.h *.hpp)
-FILE (GLOB glob_remove s_subst.c schemas/file2h.cpp GridCellPV.cpp XMLHelper.cpp)
+
+# all our files.
+FILE (GLOB_RECURSE project_SRCS *.cpp *.cxx *.cc *.C *.c)
+FILE (GLOB_RECURSE project_HEADERS *.h *.hpp)
+
+# but remove files to not compile/link with the rest:
+FILE (GLOB glob_remove s_subst.c schemas/file2h.cpp Grid/GridCellPV.cpp XMLHelper.cpp)
 LIST(REMOVE_ITEM project_SRCS ${glob_remove})
 
-MACRO(SUBDIRLIST result curdir)
-  FILE(GLOB children RELATIVE ${curdir} ${curdir}/*)
-  SET(dirlist "")
-  FOREACH(child ${children})
-    IF(IS_DIRECTORY ${curdir}/${child})
-        SET(dirlist ${dirlist} ${child})
-    ENDIF()
-  ENDFOREACH()
-  SET(${result} ${dirlist})
-ENDMACRO()
-SUBDIRLIST(project_includes ${CMAKE_CURRENT_SOURCE_DIR})
-LIST(APPEND project_includes ${CMAKE_CURRENT_SOURCE_DIR})
-
+# more vars.
 SET (project_LIBS ${Boost_LIBRARIES} ${XERCESC_LIBRARIES} ${Log4Cxx_LIBRARIES})
 SET (project_BIN ${PROJECT_NAME})
 SET (schemas_dir "${MAINFOLDER}/../schemas")
@@ -47,16 +40,18 @@ IF(${MSVC})
 ENDIF()
 
 IF(${MINGW})
+  # TODO ?
 ENDIF()
 
 IF(${CYGWIN})
+  # TODO ?
 ENDIF()
 
 IF(${CMAKE_COMPILER_IS_GNUCXX})
   #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64")
 ENDIF()
 
-#Generate schema header from .xsd files
+#Generate schemas.h and schemas.cpp from *.xsd files.
 ADD_EXECUTABLE(file2h schemas/file2h.cpp)
 TARGET_LINK_LIBRARIES(file2h ${project_LIBS} ${project_OS_SPECIFIC})
 FILE (GLOB_RECURSE project_schemas "${schemas_dir}/stratmasProtocol/*.xsd")
@@ -66,9 +61,19 @@ ADD_CUSTOM_COMMAND(
   DEPENDS file2h
 )
 
+### Get include dirs based on header locations.
+# help by: http://stackoverflow.com/questions/6921695/how-can-i-build-a-c-project-with-multiple-interdependent-subdirectories
+SET (project_includes "")
+FOREACH (_hs ${project_HEADERS})
+    GET_FILENAME_COMPONENT(_dir ${_hs} PATH)
+    LIST (APPEND project_includes ${_dir})
+ENDFOREACH()
+LIST(REMOVE_DUPLICATES project_includes)
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${project_includes})
+###
 
-ADD_EXECUTABLE(${project_BIN} ${project_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/schemas.h ${CMAKE_CURRENT_BINARY_DIR}/schemas.cpp)
+#stratmas
+ADD_EXECUTABLE(${project_BIN} ${project_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/schemas.cpp)
 TARGET_LINK_LIBRARIES(${project_BIN} ${project_LIBS} ${project_OS_SPECIFIC})
 SET_TARGET_PROPERTIES(${project_BIN} PROPERTIES VERSION "${APPLICATION_VERSION_MAJOR}.${APPLICATION_VERSION_MINOR}" OUTPUT_NAME ${project_BIN} CLEAN_DIRECT_OUTPUT 1)
 

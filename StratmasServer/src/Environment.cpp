@@ -94,7 +94,7 @@ std::string Environment::getNativePath(const fs::path& path)
  * returns the stratmas native path representation. The following
  * implicit conventions apply:
  *
- * 1. If the filename is absolute (:absolute) it is stored absolute.
+ * 1. If the filename is absolute it is stored as is.
  * 2. If the filename is relative it is resolved relative to
  *    getInstallDir() which currently is the directory where the
  *    executable lives (that may change).

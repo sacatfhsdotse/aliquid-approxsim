@@ -2,6 +2,19 @@ FILE (GLOB_RECURSE project_SRCS *.cpp *.cxx *.cc *.C *.c *.h *.hpp)
 FILE (GLOB glob_remove s_subst.c schemas/file2h.cpp GridCellPV.cpp XMLHelper.cpp)
 LIST(REMOVE_ITEM project_SRCS ${glob_remove})
 
+MACRO(SUBDIRLIST result curdir)
+  FILE(GLOB children RELATIVE ${curdir} ${curdir}/*)
+  SET(dirlist "")
+  FOREACH(child ${children})
+    IF(IS_DIRECTORY ${curdir}/${child})
+        SET(dirlist ${dirlist} ${child})
+    ENDIF()
+  ENDFOREACH()
+  SET(${result} ${dirlist})
+ENDMACRO()
+SUBDIRLIST(project_includes ${CMAKE_CURRENT_SOURCE_DIR})
+LIST(APPEND project_includes ${CMAKE_CURRENT_SOURCE_DIR})
+
 SET (project_LIBS ${Boost_LIBRARIES} ${XERCESC_LIBRARIES} ${Log4Cxx_LIBRARIES})
 SET (project_BIN ${PROJECT_NAME})
 SET (schemas_dir "${MAINFOLDER}/../schemas")
@@ -52,8 +65,8 @@ ADD_CUSTOM_COMMAND(
   COMMAND file2h ${CMAKE_CURRENT_BINARY_DIR}/schemas.cpp ${CMAKE_CURRENT_BINARY_DIR}/schemas.h ${project_schemas}
   DEPENDS file2h
 )
-include_directories(${project_BIN} ${CMAKE_CURRENT_BINARY_DIR})
 
+include_directories(${CMAKE_CURRENT_BINARY_DIR} ${project_includes})
 
 ADD_EXECUTABLE(${project_BIN} ${project_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/schemas.h ${CMAKE_CURRENT_BINARY_DIR}/schemas.cpp)
 TARGET_LINK_LIBRARIES(${project_BIN} ${project_LIBS} ${project_OS_SPECIFIC})

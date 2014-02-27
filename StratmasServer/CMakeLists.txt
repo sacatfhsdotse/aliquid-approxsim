@@ -54,7 +54,7 @@ SET (Boost_ADDITIONAL_VERSIONS "1.39" "1.39.0" "1.40" "1.40.0" "1.41" "1.41.0" "
 SET (Boost_USE_MULTITHREADED ON)
 FIND_PACKAGE (Boost 1.37 COMPONENTS "date_time" "filesystem" "program_options" "system" "thread")
 
-IF (${Boost_FOUND})
+IF (Boost_FOUND)
 #  message("Found Boost")
 ELSE()
   message("Boost not found locally, will download during build")

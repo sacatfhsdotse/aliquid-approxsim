@@ -82,8 +82,8 @@ std::string Environment::getNativePath(const std::string& path)
  */
 std::string Environment::getNativePath(const fs::path& path)
 {
-     if (!path.is_complete()) {
-          return fs::complete(path, getInstallDir()).string();
+     if (!path.is_absolute()) {
+          return fs::absolute(path, getInstallDir()).string();
      } else {
           return path.string();
      }
@@ -94,7 +94,7 @@ std::string Environment::getNativePath(const fs::path& path)
  * returns the stratmas native path representation. The following
  * implicit conventions apply:
  *
- * 1. If the filename is absolute (=complete) it is stored absolute.
+ * 1. If the filename is absolute (:absolute) it is stored absolute.
  * 2. If the filename is relative it is resolved relative to
  *    getInstallDir() which currently is the directory where the
  *    executable lives (that may change).
@@ -104,8 +104,8 @@ std::string Environment::getNativePath(const fs::path& path)
 fs::path Environment::importNativePath(const std::string& nativePath)
 {
      fs::path path(nativePath);
-     if (!path.is_complete()) {
-          return fs::complete(path, getInstallDir());
+     if (!path.is_absolute()) {
+          return fs::absolute(path, getInstallDir());
      } else {
           return path;
      }
@@ -252,7 +252,7 @@ void Environment::initEnvironment(int argc, char** argv)
      if (argc > 0) {
           // Can't use importNativePath here since it depends on values
           // initialized by sExecutable
-          sExecutable = fs::complete(fs::path(std::string(argv[0])));
+          sExecutable = fs::absolute(fs::path(std::string(argv[0])));
      }
 
      // Use progname to figure out install dir.

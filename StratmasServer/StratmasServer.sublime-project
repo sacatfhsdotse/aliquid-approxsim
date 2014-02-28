@@ -1,0 +1,44 @@
+{
+	"folders":
+	[
+		{
+			"follow_symlinks": true,
+			"path": "./src"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "./test"
+		},
+	],
+	"build_systems":
+    [
+        {
+            "name": "Stratmas Cmake",
+            "cmd": ["make", "-j", "4"],
+            "working_dir": "${project_path}",
+             "variants":
+		    [
+		      {
+		      	"name": "make without -j",
+		      	"cmd": ["make"]
+		      },
+		      {
+		        "name": "Clean",
+		        "cmd": ["make", "clean"]
+		      },
+		      {
+		        "name": "Test",
+		        "cmd": ["make", "test"]
+		      },
+		      {
+		      	"name": "Docs",
+		      	"cmd":	["make", "documentation"]
+		      },
+		      {
+		      	"name": "show docs",
+		      	"cmd": ["firefox", "${project_path}/docs/index.html"]
+		      }
+		    ]
+        }
+    ]
+}

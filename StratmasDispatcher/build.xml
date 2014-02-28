@@ -40,12 +40,12 @@
            source="7"
            deprecation="yes"
            includeantruntime="false"/>
-      <copy todir="${build}/schemas" flatten="true">
-        <fileset dir="${schemas}">
-          <include name="dispatcherProtocol/*.xsd"/>
-          <include name="stratmasProtocol/*.xsd"/>
-        </fileset>
-      </copy>
+    <copy todir="${build}/schemas" flatten="true">
+      <fileset dir="${schemas}">
+        <include name="dispatcherProtocol/*.xsd"/>
+        <include name="stratmasProtocol/*.xsd"/>
+      </fileset>
+    </copy>
   </target>
 
   <!-- dist smashes all binaries, including dependencies,

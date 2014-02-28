@@ -30,7 +30,7 @@ public class LSJarXSDResolver implements LSResourceResolver, XMLEntityResolver
     /**
      * The default location for scheamas in the jar file.
      */
-    public static String JAR_SCHEMA_LOCATION = "/StratmasDispatcher/schemas/";
+    public static String JAR_SCHEMA_LOCATION = "/schemas/";
 
     /**
      * The XMLEntityResolver this object uses before own resolving.

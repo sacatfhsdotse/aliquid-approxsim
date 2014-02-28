@@ -54,7 +54,7 @@ int          Environment::sServerPort = 28444;
 bool         Environment::useDispatcher = false;
 string       Environment::sDispatcherHost("");
 int          Environment::sDispatcherPort = 4181;
-ClientValidator*         Environment::spClientValidator = new PassClientValidator();
+ClientValidator* Environment::spClientValidator = new PassClientValidator();
 
 /**
  * \brief Gets the absolute path to the given filename.  The following

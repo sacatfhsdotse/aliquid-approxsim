@@ -7,10 +7,6 @@ FILE (GLOB_RECURSE project_HEADERS *.h *.hpp)
 FILE (GLOB_RECURSE glob_remove s_subst.c file2h.cpp GridCellPV.cpp XMLHelper.cpp)
 LIST(REMOVE_ITEM project_SRCS ${glob_remove})
 
-FOREACH (_cs ${project_SRCS})
-    message("${_cs}")
-ENDFOREACH()
-
 # more vars.
 SET (project_LIBS ${Boost_LIBRARIES} ${XERCESC_LIBRARIES} ${Log4Cxx_LIBRARIES})
 SET (project_BIN ${PROJECT_NAME})

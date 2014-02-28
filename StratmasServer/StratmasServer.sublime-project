@@ -14,12 +14,18 @@
     [
         {
             "name": "Stratmas Cmake",
+            "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
             "cmd": ["make", "-j", "4"],
+            "shell":true,
             "working_dir": "${project_path}",
              "variants":
 		    [
 		      {
-		      	"name": "make without -j",
+		      	"name": "run",
+		      	"cmd":	["./bin/stratmas-server"]
+		      },
+		      {
+		      	"name": "make basic",
 		      	"cmd": ["make"]
 		      },
 		      {
@@ -35,7 +41,7 @@
 		      	"cmd":	["make", "documentation"]
 		      },
 		      {
-		      	"name": "show docs",
+		      	"name": "Show Docs",
 		      	"cmd": ["firefox", "${project_path}/docs/index.html"]
 		      }
 		    ]

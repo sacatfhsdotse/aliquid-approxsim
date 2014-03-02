@@ -55,7 +55,7 @@
         description="generate the distribution" >
     <mkdir dir="${dist}"/>
 
-    <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+    <!-- Put everything in ${build} into the MyProject.jar file -->
     <jar jarfile="${dist}/${ant.project.name}.jar" 
          basedir="${build}">
        <manifest>

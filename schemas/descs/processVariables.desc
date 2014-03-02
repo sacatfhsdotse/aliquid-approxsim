@@ -1,0 +1,28 @@
+xmlns:sp = "http://pdc.kth.se/stratmasNamespace"
+targetNamespace = "http://pdc.kth.se/stratmasNamespace">
+
+ProcessVariable {
+  name: string
+  faction?: sp.Reference
+  value+: double
+}
+
+<!-- Description stuff -->
+abstract Range
+
+DoubleRange < sp.Range {
+  min: double
+  max: double
+}
+
+ProcessVariableDescription {
+  name: string
+  //type: string
+  category: string
+  factions: boolean
+  range: sp.Range
+}
+
+ProcessVariableDescriptionSet {
+  pv*: sp.ProcessVariableDescription
+}

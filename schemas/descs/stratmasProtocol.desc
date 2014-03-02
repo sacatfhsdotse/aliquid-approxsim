@@ -1,0 +1,167 @@
+sp = "http://pdc.kth.se/stratmasNamespace"
+targetNamespace = "http://pdc.kth.se/stratmasNamespace">
+
+<!-- Description -->
+      A test schema for the Stratmas client server protocol
+
+include "taclan2sim.xsd"
+include "subscription.xsd"
+include "processVariables.xsd"
+include "substrateXML.xsd"
+
+stratmasMessage: sp.StratmasMessage
+root: sp.Root
+
+  <!-- Messages -->
+
+abstract StratmasMessage
+
+  <!-- Client -> Server Messages -->
+
+ConnectMessage < sp.StratmasMessage {
+  bigEndian: boolean
+}
+
+DisconnectMessage < sp.StratmasMessage {}
+
+ServerCapabilitiesMessage < sp.StratmasMessage {}
+
+InitializationMessage < sp.StratmasMessage {
+  simulation: sp.Simulation
+  pvinitvalues*: sp.ProcessVariableInitialValues
+}
+
+GetGridMessage < sp.StratmasMessage {}
+
+RegisterForUpdatesMessage < sp.StratmasMessage {
+  register: bool
+}
+
+SubscriptionMessage < sp.StratmasMessage {
+  subscription+: sp.Subscription
+}
+
+StepMessage < sp.StratmasMessage {
+  numberOfTimesteps: nonNegativeInt
+  detached?: bool
+}
+
+UpdateServerMessage < sp.StratmasMessage {
+  update*: sp.ServerUpdate
+}
+
+abstract ServerUpdate {
+  reference: sp.Reference
+}
+
+ServerUpdateAdd < sp.ServerUpdate {
+  identifiable: sp.Identifiable
+}
+
+ServerUpdateRemove < sp.ServerUpdate {}
+
+ServerUpdateReplace < sp.ServerUpdate {
+  newObject: sp.Identifiable
+}
+
+ServerUpdateModify < sp.ServerUpdate {
+  newValue: sp.ValueType
+}
+
+ResetMessage < sp.StratmasMessage {}
+
+SetPropertyMessage < sp.StratmasMessage {
+  property: string
+  value: string
+}
+
+  <!-- Server -> Client messges -->
+
+ConnectResponseMessage < sp.StratmasMessage {
+  active: bool
+}
+
+GetGridResponseMessage < sp.StratmasMessage {
+  gridData: sp.Grid
+}
+
+Grid {
+  numberOfRows: int
+  numberOfCols: int
+      <!-- Base64 encoded array of doubles where the first element is
+                 the position of the top left corner of the top left cell and the
+                 last element is the bottom right corner of the bottom right
+                 cell. -->
+  positionData: base64Binary
+      <!-- Base64 encoded array of octets where an octet value of 0 means
+                 inactive and 1 active. The first element represents the top left
+                 cell and the last element the bottom right cell. -->
+  activeCells: base64Binary
+  regionData*: sp.Regiondata
+}
+
+RegionData {
+  reference: sp.Reference
+      <!-- Base64 encoded array of 32 bit integers representing
+           the indices (in the active cells array) of the cells that
+           the region contains -->
+  cells: base64Binary
+}
+
+StatusMessage < sp.StratmasMessage {
+  type: string
+  error*: sp.Error
+}
+
+Error {
+  type: sp.ErrorType
+  description: string
+}
+
+ErrorType < string (matching /warning|general|fatal/)
+
+ServerCapabilitiesResponseMessage < sp.StratmasMessage {
+  processVariables: sp.ProcessVariableDescriptionSet
+}
+
+UpdateClientMessage < sp.StratmasMessage {
+  simulationTime: sp.Timestamp
+  update?: sp.Update
+  subscribedData*: sp.SubscribedData
+}
+
+abstract Update <identifier="": sp.Identifier>
+
+UpdateScope < sp.Update {
+  update+: sp.Update
+}
+
+UpdateRemove < sp.Update {
+  # The identifier for this is the identifier of the removed object
+}
+
+UpdateAdd < sp.Update {
+  # The identifier for this is the identifier of the added object
+  identifiable: sp.Identifiable
+}
+
+UpdateReplace < sp.Update {
+  # The identifier for this is the identifier of the replaced object
+  newObject: sp.Identifiable
+}
+
+UpdateModify < sp.Update {
+  # The identifier for this is the indentifier of the modified object
+  newValue: sp.ValueType
+}
+
+  <!-- Dispatcher -> Server Messages -->
+
+LoadQueryMessage < sp.StratmasMessage {}
+
+  <!-- Server -> Dispatcher messges -->
+
+LoadQueryResponseMessage < sp.StratmasMessage {
+  hasActiveClient: bool
+  simulation*: sp.Identifier
+}

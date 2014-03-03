@@ -1,0 +1,35 @@
+sp = "http://pdc.kth.se/stratmasNamespace"
+targetNamespace = "http://pdc.kth.se/stratmasNamespace"
+
+<!-- Description -->
+      Schema used with the substrate editor.
+
+ProcessVariableInitialValuesSet {
+  pviv+: sp.ProcessVariableInitialValues
+}
+
+abstract ProcessVariableInitialValues
+
+ProcessVariableInitialValuesForServer < sp.ProcessVariableInitialValues {
+  pv: sp.ProcessVariableDescription
+  faction?: sp.Reference
+  regions+: sp.InitializedRegion
+}
+
+ProcessVariableInitialValuesForFile < sp.ProcessVariableInitialValues {
+  pv: sp.ProcessVariableDescription
+  faction?: sp.Reference
+  regions+: sp.InitializedRegion
+}
+
+abstract InitializedRegion {
+  value: double
+}
+
+ESRIRegion < sp.InitializedRegion {
+  reference: sp.Reference
+}
+
+CreatedRegion < sp.InitializedRegion {
+  shape: sp.Shape
+}

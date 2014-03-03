@@ -1,0 +1,38 @@
+<!-- Description -->
+The schema describing the communication between:
+1. Dispatcher and server upon (de)registration.
+2. Dispatcher and clients on inventory control.
+
+<!-- Messages -->
+abstract DispatcherRequest
+
+RegistrationRequest < DispatcherRequest {
+  stratmasServer: StratmasServer
+}
+
+DeRegistrationRequest < DispatcherRequest {
+  statmasServer: StratmasServer
+}
+
+ListRequest < DispatcherRequest {}
+
+
+abstract DispatcherReply
+
+ListReply < DispatcherReply {
+  stratmasServer*: StratmasServer
+}
+
+StratmasServer {
+  host: string (length=1+)
+  port: int
+  hasActiveClient: bool
+  isPending: bool
+  simulation*: string
+}
+
+<!-- Things that are part of a request -->
+dispatcherRequest: DispatcherRequest
+
+<!-- Things that are part of a reply -->
+dispatcherReply: DispatcherReply

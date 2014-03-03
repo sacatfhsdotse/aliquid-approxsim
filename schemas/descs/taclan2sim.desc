@@ -1,0 +1,375 @@
+sp = "http://pdc.kth.se/stratmasNamespace"
+targetNamespace = "http://pdc.kth.se/stratmasNamespace">
+
+  <!-- For xml:base attribute of Identifiable -->
+  <xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
+
+  <xsd:annotation>
+    <xsd:documentation xml:lang="en">
+      This is a schema defining the correspondence between a Stratmas
+      client and server on initialization of a scenario.
+    </xsd:documentation>
+  </xsd:annotation>
+
+Root {
+  identifiables*: sp.Identifiables
+}
+
+abstract Simulation < sp.ComplexType {
+  # This element represents all the server needs to know to start a simulation
+  timeStepper: sp.TimeStepper
+  gridPartitioner: sp.GridPartitioner
+  scenario: sp.Scenario
+  startTime: sp.Timestamp
+  randomSeed?: sp.NonNegativeInteger
+  modelParameters?: sp.ModelParameters
+  parameters?: sp.ParameterGroup
+}
+
+CommonSimulation < sp.Simulation {}
+
+abstract TimeStepper {
+  # This element contains the information needed to decide the next timestep
+}
+
+ConstantStepper < sp.TimeStepper {
+  # This derivation of timestepper takes constant sized steps
+  dt: sp.Duration
+}
+
+abstract GridPartitioner < sp.ComplexType {
+  # This type contains the information needed to decide a partitioning into cells of the map
+}
+
+SquarePartitioner < sp.GridPartitioner {
+  # This derivation of GridPartitioner partitions the map into square cells of the specified size.
+  cellSizeMeters
+}
+
+ParameterGroup < sp.ComplexType {
+  parameterGroups*: sp.ParameterGroup
+  parameters*: sp.SimpleType
+}
+
+ModelParameters < sp.ComplexType {
+  fractionPotentialInsurgents: sp.Double
+  insurgentDisaffectionThreshold: sp.Double
+  insurgentGenerationCoefficient: sp.Double
+  insurgentStrengthFactor: sp.Double
+}
+
+abstract Scenario < sp.ComplexType {}
+
+CommonScenario < sp.Scenario {
+  activities*: sp.ActorLessActivity
+  map: sp.Shape
+  regions*: sp.Region
+  disease: sp.Disease
+  populationCenters*: sp.Population
+  militaryUnits*: sp.MilitaryUnit
+  agencyTeams*: sp.AgencyTeam
+  factions*: sp.Faction
+  HDI: sp.Double
+  unemployment: sp.Double
+}
+
+Region < sp.ComplexType {
+  area: sp.Reference
+  fractionArableLand: sp.Double
+}
+
+Disease < sp.ComplexType {
+  description: sp.String
+  infectionRate: sp.Double
+  recoveryRate: sp.Double
+  mortalityRate: sp.Double
+}
+
+abstract Shape < sp.ValueType {}
+
+Composite < sp.Shape {
+  shapes+: sp.Shape
+}
+
+Hole < sp.Composite {}
+
+Circle < sp.Shape {
+  radius: sp.Double
+  center: sp.Point
+}
+
+Segmented < sp.Shape {
+  curves+: sp.Curve
+}
+
+Polygon < sp.Segmented {}
+
+abstract Curve < sp.ComplexType {}
+
+Line < sp.Curve {
+  p1: sp.Point
+  p2: sp.Point
+}
+
+Point < sp.ComplexType {
+  lat: xsd.double
+  lon: xsd.double
+}
+
+abstract FactionMembership < sp.ComplexType {
+  faction: sp.FactionReference
+}
+
+Ethnic < sp.FactionMembership {}
+
+Religous < sp.FactionMembership {}
+
+Activity < sp.ComplexType {
+  active: sp.Boolean
+  start: sp.Timestamp
+}
+
+abstract ActorLessActivity < sp.Activity {}
+
+abstract ActorBasedActivity < sp.Activity {}
+
+abstract Order < sp.ActorBasedActivity {
+  carriedOut: sp.Boolean
+}
+
+GoToOrder < sp.Order {
+  location: sp.Shape
+}
+
+abstract AreaOrder < sp.Order {
+  end: sp.Timestamp
+  target?: sp.EthnicFactionReference
+  location?: sp.Shape
+  foodDays?: sp.Double
+  waterDays?: sp.Double
+  fractionNoMedical?: sp.Double
+  fractionInfected?: sp.Double
+  fractionRecovered?: sp.Double
+  displaced?: sp.Double
+  protected?: sp.Double
+  sheltered?: sp.Double
+  perceivedThreat?: sp.Double
+  ethnicTension?: sp.Double
+  violence?: sp.Double
+  fractionCrimeVictims?: sp.Double
+  disaffection?: sp.Double
+  fractionNoWork?: sp.Double
+  infrastructure?: sp.Double
+  insurgents?: sp.Double
+}
+
+AmbushOrder < sp.Order {
+  end: sp.Timestamp
+  location?: sp.Shape
+  startAmbush: sp.Timestamp
+  endAmbush: sp.Timestamp
+}
+
+TerroristAttackOrder < sp.AreaOrder {
+  actionTime: sp.Timestamp
+}
+
+PresenceOrder < sp.AreaOrder {}
+
+ControlOrder < sp.AreaOrder {}
+
+SecureOrder < sp.AreaOrder {}
+
+FreedomOfMovementOrder < sp.AreaOrder {}
+
+AttackOrder < sp.Order {
+  location: sp.Shape
+}
+
+DefendOrder < sp.Order {
+  location?: sp.Shape
+  end: sp.Timestamp
+}
+
+ProvideCivilianFunctionsOrder < sp.AreaOrder {}
+
+CustomAreaOrder < sp.AreaOrder {}
+
+CustomPVModification < sp.ActorLessActivity {
+  end: sp.Timestamp
+  target?: sp.EthnicFactionReference
+  location: sp.Shape
+  foodDays?: sp.Double
+  waterDays?: sp.Double
+  fractionNoMedical?: sp.Double
+  fractionInfected?: sp.Double
+  fractionRecovered?: sp.Double
+  displaced?: sp.Double
+  protected?: sp.Double
+  sheltered?: sp.Double
+  perceivedThreat?: sp.Double
+  ethnicTension?: sp.Double
+  violence?: sp.Double
+  fractionCrimeVictims?: sp.Double
+  disaffection?: sp.Double
+  fractionNoWork?: sp.Double
+  infrastructure?: sp.Double
+  insurgents?: sp.Double
+}
+
+Timestamp < sp.SimpleType {
+  # This element contains a timestamp in UTC format e.g. the number of seconds since 1:st jan 1970 00:00:00
+  value: dateTime
+}
+
+Fraction: double (inclusive 0-1 inclusive)
+
+Percent: double (inclusive 0-100 inclusive)
+
+Positive: double (inclusive 0-Inf)
+
+abstract Element < sp.ComplexType {
+  present: sp.Boolean
+  activities*: sp.ActorBasedActivity
+  location: sp.Shape
+  deployment: sp.Distribution
+}
+
+Population < sp.Element {
+  ethnicGroups*: sp.PopulationGroup
+}
+
+PopulationGroup < sp.ComplexType {
+  ethnicity?: sp.EthnicFactionReference
+  inhabitants: sp.Double
+}
+
+AgencyTeam < sp.Element {
+  capacityPPD: sp.Double
+  responseTimeSecs: sp.Double
+  violenceThreshold?: sp.Double
+  deployTime?: sp.Timestamp
+  departTime?: sp.Timestamp
+  ownInitiative?: sp.Boolean
+}
+
+FoodAgencyTeam < sp.AgencyTeam {}
+
+WaterAgencyTeam < sp.AgencyTeam {}
+
+ShelterAgencyTeam < sp.AgencyTeam {}
+
+HealthAgencyTeam < sp.AgencyTeam {}
+
+PoliceAgencyTeam < sp.AgencyTeam {}
+
+CustomAgencyTeam < sp.AgencyTeam {
+  target?: sp.EthnicFactionReference
+  foodDays?: sp.Double
+  waterDays?: sp.Double
+  fractionNoMedical?: sp.Double
+  fractionInfected?: sp.Double
+  fractionRecovered?: sp.Double
+  displaced?: sp.Double
+  protected?: sp.Double
+  sheltered?: sp.Double
+  perceivedThreat?: sp.Double
+  ethnicTension?: sp.Double
+  violence?: sp.Double
+  fractionCrimeVictims?: sp.Double
+  disaffection?: sp.Double
+  fractionNoWork?: sp.Double
+  infrastructure?: sp.Double
+  insurgents?: sp.Double
+}
+
+abstract Unit < sp.Element {
+  inventory*: sp.Equipment
+}
+
+MilitaryUnit < sp.Unit {
+  symbolIDCode: sp.SymbolIDCode
+  affiliation: sp.FactionReference
+  personnel: sp.NonNegativeInteger
+  casualties: sp.NonNegativeInteger
+  strengthFactor: sp.Double
+  attackFactor: sp.Double
+  defenseFactor: sp.Double
+  maxVelocity: sp.Double
+  deployTime: sp.Timestamp
+  departTime: sp.Timestamp
+  WithdrawThreshold: sp.Double
+  subunits*: sp.MilitaryUnit
+}
+
+SymbolIDCode < sp.SimpleType {
+  value: sp.String
+}
+
+abstract Equipment < sp.ComplexType {}
+
+abstract Distribution < sp.ComplexType {}
+
+UniformDistribution < sp.Distribution {}
+
+RandomUniformDistribution < sp.Distribution {}
+
+NormalDistribution < sp.Distribution {
+  sigmaMeters: sp.Double
+}
+
+StratmasCityDistribution < sp.Distribution {
+  sigmaMeters: sp.Double
+}
+
+abstract ValueType < sp.Identifiable {}
+
+NonNegativeInteger < sp.SimpleType {
+  value: unsignedLong
+}
+
+Duration < sp.SimpleType {
+  value: long
+}
+
+Double < sp.SimpleType {
+  value: double
+}
+
+String < sp.SimpleType {
+  value: string
+}
+
+Boolean < sp.SimpleType {
+  value: boolean
+}
+
+abstract Faction < sp.ComplexType {
+  enemies*: sp.FactionReference
+}
+
+FactionRelation < sp.ComplexType {
+  faction: sp.FactionReference
+  stance: sp.Double
+}
+
+EthnicFaction < sp.Faction {}
+
+MilitaryFaction < sp.Faction {}
+
+Identifier: string (matching /[^&#xA;&#x9;&#xD;]*/)
+
+abstract Identifiable <identifier="": sp.Identifier, ref="xml:base">
+
+abstract SimpleType < sp.ValueType {}
+
+ComplexType < sp.Identifiable {}
+
+Reference < sp.SimpleType {
+  name: sp.Identifier
+  scope?: sp.Reference
+}
+
+FactionReference < sp.Reference <target: string fixed="Faction">
+
+EtnicfactionReference < sp.Reference <target: string fixed="EthnicFaction">

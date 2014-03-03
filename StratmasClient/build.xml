@@ -290,12 +290,13 @@
     </javac>
   </target>
   
+  <!-- dist smashes everyting in build into one giant jar. -->
   <target name="dist" depends="compile"
           description="generate the distribution" >
     <mkdir dir="${dist}"/>
     
     <!-- Put almost everything in ${build} into the
-         MyProject-${DSTAMP}.jar file -->
+         MyProject.jar file -->
     <jar jarfile="${dist}/${ant.project.name}.jar" 
          basedir="${build}"
          excludes="antMarkerFile-*.mark,antSamples.xml,/license/*"

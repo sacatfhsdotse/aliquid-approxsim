@@ -40,12 +40,12 @@
            source="7"
            deprecation="yes"
            includeantruntime="false"/>
-      <copy todir="${build}/schemas" flatten="true">
-        <fileset dir="${schemas}">
-          <include name="dispatcherProtocol/*.xsd"/>
-          <include name="stratmasProtocol/*.xsd"/>
-        </fileset>
-      </copy>
+    <copy todir="${build}/schemas" flatten="true">
+      <fileset dir="${schemas}">
+        <include name="dispatcherProtocol/*.xsd"/>
+        <include name="stratmasProtocol/*.xsd"/>
+      </fileset>
+    </copy>
   </target>
 
   <!-- dist smashes all binaries, including dependencies,
@@ -55,8 +55,8 @@
         description="generate the distribution" >
     <mkdir dir="${dist}"/>
 
-    <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
-    <jar jarfile="${dist}/${ant.project.name}-${DSTAMP}.jar" 
+    <!-- Put everything in ${build} into the MyProject.jar file -->
+    <jar jarfile="${dist}/${ant.project.name}.jar" 
          basedir="${build}">
        <manifest>
           <attribute name="Main-Class" 

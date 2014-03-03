@@ -2,13 +2,19 @@
 	"folders":
 	[
 		{
+			"name":"✐",
 			"follow_symlinks": true,
 			"path": "./src"
 		},
 		{
+			"name":"⚗",
 			"follow_symlinks": true,
 			"path": "./test"
 		},
+		{
+			"name":"⚒",
+			"path": ".",
+		}
 	],
 	"build_systems":
     [
@@ -34,7 +40,7 @@
 		      },
 		      {
 		        "name": "Test",
-		        "cmd": ["make", "test"]
+		        "cmd": ["make", "TESTS"]
 		      },
 		      {
 		      	"name": "Docs",
@@ -42,7 +48,7 @@
 		      },
 		      {
 		      	"name": "Show Docs",
-		      	"cmd": ["firefox", "${project_path}/docs/index.html"]
+		      	"cmd": ["firefox ${project_path}/docs/index.html"]
 		      }
 		    ]
         }

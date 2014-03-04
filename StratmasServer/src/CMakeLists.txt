@@ -52,7 +52,7 @@ IF(${CMAKE_COMPILER_IS_GNUCXX})
 ENDIF()
 
 #Generate schemas.h and schemas.cpp from *.xsd files.
-ADD_EXECUTABLE(file2h schemas/file2h.cpp)
+ADD_EXECUTABLE(file2h Schemas/file2h.cpp)
 TARGET_LINK_LIBRARIES(file2h ${project_LIBS} ${project_OS_SPECIFIC})
 FILE (GLOB_RECURSE project_schemas "${schemas_dir}/stratmasProtocol/*.xsd")
 ADD_CUSTOM_COMMAND(

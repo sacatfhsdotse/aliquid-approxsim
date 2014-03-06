@@ -802,7 +802,6 @@ public class StratmasObjectFactory
      * Creates an empty StratmasList of the specified declaration.
      *
      * @param declaration the declaration to use.
-     * @param vector the children to add to the list.
      */
     public static StratmasObject createList(Declaration declaration)
     {
@@ -846,7 +845,6 @@ public class StratmasObjectFactory
      * to the tree. 
      *
      * @param object the object constructed
-     * @return the provided object as a convinience
      */
     protected static void attached(StratmasObject object)
     {

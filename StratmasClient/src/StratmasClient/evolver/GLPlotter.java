@@ -1423,7 +1423,7 @@ public class GLPlotter extends JPanel implements GLEventListener, MatrixEventLis
     /**
      * Draws a banner starting at the specified location
      *
-     * @param gl the gl to draw on.
+     * @param gl2 the gl to draw on.
      * @param glut the glut to use
      * @param start the point to start at.
      * @param string the string to draw.
@@ -1472,7 +1472,7 @@ public class GLPlotter extends JPanel implements GLEventListener, MatrixEventLis
     /**
      * Draws an arrow between two points
      *
-     * @param gl the gl to draw on.
+     * @param gl2 the gl to draw on.
      * @param start the start of the arrow
      * @param end the end of the arrow (the pointy end)
      * @param arrowLength the length of the arrow

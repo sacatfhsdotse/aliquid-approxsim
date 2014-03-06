@@ -638,11 +638,9 @@ public class MapElementAdapter extends MapDrawableAdapter{
     }
 
     /**
-     * 
-     *
-     * @param span the length of the diagonal of the box.
-     * @param x the x component of the point
-     
+     * TODO
+     * span is the length of the diagonal of the box.
+     * x is the x component of the point.
      */
     public void normalF(double[] values, int i, double sigma, double xspan, double yspan) 
     {

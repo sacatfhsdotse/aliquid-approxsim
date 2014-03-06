@@ -29,7 +29,7 @@ public class GraticuleLayer {
     /**
      * Computes graticule lines over an area inside the bounding box.
      *
-     * @param gl the gl to draw on.
+     * @param gl2 the gl to draw on.
      * @param box bounding box of the actual area. 
      * @param proj the projection from lat,lon to XY.
      * @param spacing spacing between graticules.

@@ -255,7 +255,7 @@ public class TimelineActivityTable extends JTable implements MouseListener{
     /**
      * Updates the list of resources.
      *
-     * @param simulation the parent node of all resources.
+     * @param root the parent node of all resources.
      */
     public void updateResources(StratmasObject root) {
         ActivityTableComboBox militaryUnitsComboBox = 

@@ -30,8 +30,8 @@ public class MapDrawableComparator implements Comparator<MapDrawableAdapter> {
      * AgencyTeam, MilitaryUnit, Activity and Shape is treated as above.
      * 
      * 
-     * @param o1 the first object to be compared.
-     * @param o2 the second object to be compared.
+     * @param d1 the first object to be compared.
+     * @param d2 the second object to be compared.
      */            
     public int compare(MapDrawableAdapter d1, MapDrawableAdapter d2)
     {

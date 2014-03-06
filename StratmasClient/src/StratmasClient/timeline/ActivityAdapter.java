@@ -217,7 +217,7 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
      * object.
      *
      * @param timelineActivityPanel the panel where this activity is displayed.
-     * @param gl the gl drawable targeted.
+     * @param gl2 the gl drawable targeted.
      */
     protected void updateActivityDisplayList(TimelineActivityPanel timelineActivityPanel, GL gl2) {
         GL2 gl = (GL2) gl2;
@@ -350,7 +350,7 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
      * Draws the boundary box around the symbols representing the activity adapted
      * by this adapter.
      *
-     * @param gl interface to OpenGL.
+     * @param gl2 interface to OpenGL.
      * @param x1 x-coordinate of the left arrow.
      * @param x2 x-coordinate of the right arrow.
      * @param y y-coordinate of the symbols.
@@ -375,7 +375,7 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
     /**
      * Used to draw the connection line between the arrows.
      *
-     * @param gl interface to OpenGL.
+     * @param gl2 interface to OpenGL.
      * @param x1 x-coordinate of the left arrow.
      * @param x2 x-coordinate of the right arrow.
      * @param y y-coordinate of the symbols.
@@ -407,7 +407,7 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
     /**
      * Used to draw the left arrow.
      *
-     * @param gl interface to OpenGL.
+     * @param gl2 interface to OpenGL.
      * @param x x-coordinate of the arrow.
      * @param y y-coordinate of the arrow.
      */
@@ -426,7 +426,7 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
     /**
      * Used to draw the right arrow.
      *
-     * @param gl interface to OpenGL.
+     * @param gl2 interface to OpenGL.
      * @param x x-coordinate of the arrow.
      * @param y y-coordinate of the arrow.
      */

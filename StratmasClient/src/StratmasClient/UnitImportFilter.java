@@ -326,8 +326,6 @@ public class UnitImportFilter
      * @param unit the unit to apply changed to
      * @param lineIndex the values to apply to unit.
      * @param warnings to add warnings to.
-     *
-     * @param returns vector with warnings.
      */
     public void applyLine(StratmasObject unit, int lineIndex, Vector warnings) 
     {

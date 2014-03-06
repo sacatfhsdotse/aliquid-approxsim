@@ -315,7 +315,7 @@ public class JoglLibExtractor
      * Acknowledgement: Taken directly from:
      * com.sun.opengl.impl.NativeLibLoader:load()
      *
-     * @param str the library to load.
+     * @param paths the libraries to load.
      */    
     protected synchronized static void joglLoadLibrary(final String[] paths)
     {

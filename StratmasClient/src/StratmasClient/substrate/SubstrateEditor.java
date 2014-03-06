@@ -116,7 +116,7 @@ public class SubstrateEditor {
     /**
      * Creates the substrate editor.
      *
-     * @param reference o the client.
+     * @param client reference to the client.
      * @param shape the shape of the actual region.
      */
     public SubstrateEditor(Client client, Shape shape) {

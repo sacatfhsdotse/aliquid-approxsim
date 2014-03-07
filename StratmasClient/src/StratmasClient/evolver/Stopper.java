@@ -5,8 +5,6 @@
 
 package StratmasClient.evolver;
 
-import java.util.Vector;
-
 /**
  * A stopper encapsulates the stop criterion for evolvers and
  * some evaluators.

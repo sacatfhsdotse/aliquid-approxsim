@@ -1,6 +1,5 @@
 package StratmasClient;
 
-import StratmasClient.communication.XMLHandler;
 import StratmasClient.object.Point;
 import StratmasClient.object.StratmasList;
 import StratmasClient.object.StratmasObject;
@@ -14,7 +13,6 @@ import StratmasClient.object.type.TypeFactory;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;

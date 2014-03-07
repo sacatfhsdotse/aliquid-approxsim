@@ -1,15 +1,7 @@
 package StratmasClient.timeline;
 
-import java.util.Vector;
-import java.text.SimpleDateFormat;
-import java.text.DecimalFormat;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import javax.swing.JPanel;
-import javax.swing.BorderFactory;
-import javax.swing.border.EmptyBorder;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseEvent;
@@ -22,9 +14,6 @@ import javax.media.opengl.glu.GLU;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLProfile;
-import javax.media.opengl.GLDrawableFactory;
-import com.jogamp.opengl.util.GLReadBufferUtil;
-import com.jogamp.opengl.util.gl2.GLUT;
 
 /**
  * Super class for all timeline panels which contain GLCanvas.

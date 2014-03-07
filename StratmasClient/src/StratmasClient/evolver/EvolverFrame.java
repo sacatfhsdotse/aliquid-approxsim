@@ -6,52 +6,14 @@
 
 package StratmasClient.evolver;
 
-import java.util.Enumeration;
-import java.util.Vector;
-import java.util.Hashtable;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.JOptionPane;
-import javax.swing.JMenuBar;
-import javax.swing.JButton;
-import javax.swing.JMenuItem;
-import javax.swing.JRootPane;
-import javax.swing.JWindow;
-import javax.swing.JProgressBar;
-import javax.swing.JFileChooser;
-import javax.swing.ImageIcon;
-import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.JComponent;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JToolBar;
-import javax.swing.JMenu;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
-import javax.swing.JProgressBar;
-import javax.swing.JScrollPane;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.WindowConstants;
-import javax.swing.event.MenuListener;
-import javax.swing.event.MenuEvent;
-
-import java.awt.event.ActionEvent;
-import java.awt.Component;
-import java.awt.Image;
 import java.awt.BorderLayout;
-import java.awt.Frame;
-import java.awt.event.ContainerListener;
-import java.awt.event.ContainerEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetAdapter;
-import java.awt.dnd.DropTargetEvent;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
 
 /**
  * EvolverFrame is JFrame adapted to use as the main window for the

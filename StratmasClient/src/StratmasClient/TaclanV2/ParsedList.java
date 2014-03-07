@@ -11,7 +11,6 @@ import StratmasClient.object.StratmasObject;
 import StratmasClient.object.StratmasObjectFactory;
 import StratmasClient.object.type.TypeInformation;
 import StratmasClient.object.type.Declaration;
-import StratmasClient.object.type.Type;
 
 
 /**

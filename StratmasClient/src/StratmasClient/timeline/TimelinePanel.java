@@ -1,23 +1,16 @@
 package StratmasClient.timeline;
 
-import java.util.Vector;
 import java.text.SimpleDateFormat;
-import java.text.DecimalFormat;
-import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.Dimension;
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import javax.swing.JSlider;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.JPopupMenu;
 import javax.swing.ToolTipManager;
-import javax.swing.BorderFactory;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
-
 import StratmasClient.object.StratmasObject;
 import StratmasClient.filter.StratmasObjectFilter;
 

@@ -2,13 +2,6 @@ package StratmasClient.communication;
 
 import java.util.Timer;
 import java.util.TimerTask;
-import java.awt.Cursor;
-import java.awt.GridLayout;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-
 import StratmasClient.ClientMainFrame;
 
 /**

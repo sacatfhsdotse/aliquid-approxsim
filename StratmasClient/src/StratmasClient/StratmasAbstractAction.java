@@ -6,8 +6,6 @@
 package StratmasClient;
 
 import javax.swing.AbstractAction;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 
 /**
  * StratmasAbstractAction is subclass of AbstractAction that allows

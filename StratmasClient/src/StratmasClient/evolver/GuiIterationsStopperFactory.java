@@ -6,7 +6,6 @@
 package StratmasClient.evolver;
 
 import javax.swing.JSpinner;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.BoxLayout;

@@ -5,8 +5,6 @@
 
 package StratmasClient.object.type;
 
-import org.apache.xerces.xs.*;
-
 /**
  * An object representing an attribute in the Taclan type 
  * language.

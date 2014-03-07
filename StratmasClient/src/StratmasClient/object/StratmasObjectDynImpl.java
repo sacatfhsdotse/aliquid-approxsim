@@ -5,29 +5,9 @@
 
 package StratmasClient.object;
 
-import StratmasClient.Client;
-
 import StratmasClient.object.type.Type;
 import StratmasClient.object.type.Declaration;
-import StratmasClient.object.primitive.Identifier;
-import StratmasClient.object.primitive.Timestamp;
-import StratmasClient.object.primitive.Reference;
-
-import StratmasClient.Debug;
 import StratmasClient.Icon;
-
-import StratmasClient.filter.StratmasObjectFilter;
-
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.util.Enumeration;
-import java.util.Vector;
-import java.util.Hashtable;
-import java.util.EventObject;
-import java.util.EventListener;
-import javax.swing.event.EventListenerList;
-import java.awt.event.ActionEvent;
 
 
 /**

@@ -1,31 +1,22 @@
 package StratmasClient.substrate;
 
 import java.text.DecimalFormat;
-import java.lang.RuntimeException;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Insets;
-import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.BorderLayout;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.JPanel;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JLayeredPane;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
-import javax.swing.border.TitledBorder;
-import javax.swing.border.EmptyBorder;
-
 import StratmasClient.ProcessVariableDescription;
 import StratmasClient.StratmasDialog;
-import StratmasClient.Debug;
 
 /**
  * This class is used to select a color from the color map and fill arbitrary shapes. Each color in the color

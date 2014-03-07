@@ -7,7 +7,6 @@ import java.net.ConnectException;
 import java.net.UnknownHostException;
 import StratmasClient.Client;
 import StratmasClient.Debug;
-import StratmasClient.TimeSliderDebugFrame;
 import java.util.Timer;
 import java.util.TimerTask;
 

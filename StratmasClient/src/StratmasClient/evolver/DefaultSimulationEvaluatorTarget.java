@@ -6,9 +6,6 @@
 package StratmasClient.evolver;
 
 import StratmasClient.communication.Subscription;
-import StratmasClient.communication.StepMessage;
-import StratmasClient.communication.ServerConnection;
-import StratmasClient.communication.ServerException;
 
 /**
  * A default implementation for a SimulationEvaluatorTarget. Before

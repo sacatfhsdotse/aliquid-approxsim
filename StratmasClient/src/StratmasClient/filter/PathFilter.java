@@ -8,7 +8,6 @@ package StratmasClient.filter;
 import StratmasClient.object.StratmasObject;
 
 import java.util.Vector;
-import java.util.Enumeration;
 
 /**
  * Pathfilter filters out StratmasObjects accordning to

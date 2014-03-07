@@ -8,12 +8,10 @@ package StratmasClient.symbolloader;
 
 import StratmasClient.Debug;
 import java.awt.*;
-import java.awt.geom.*;
 import java.awt.image.*;
 import java.io.*;
 import java.net.*;
 import javax.imageio.*;
-import javax.swing.*;
 
 class ImageSymbolLoader {
         private Rectangle lastFrame = null;

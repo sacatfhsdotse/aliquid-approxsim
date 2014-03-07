@@ -3,17 +3,10 @@ package StratmasClient.substrate;
 import java.util.Enumeration;
 import java.util.Vector;
 import java.io.BufferedWriter;
-import java.io.OutputStreamWriter;
-import java.io.FileWriter;
 import java.io.IOException;
-import javax.swing.JFrame;
-import javax.swing.JFileChooser;
-
-import StratmasClient.Client;
 import StratmasClient.StratmasConstants;
 import StratmasClient.ProcessVariableDescription;
 import StratmasClient.object.StratmasObject;
-import StratmasClient.object.Shape;
 import StratmasClient.object.Polygon;
 import StratmasClient.object.Circle;
 import StratmasClient.object.Line;

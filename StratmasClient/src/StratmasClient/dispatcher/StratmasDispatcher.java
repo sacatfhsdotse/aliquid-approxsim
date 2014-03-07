@@ -19,7 +19,6 @@ import java.util.Random;
 import java.io.IOException;
 import java.io.ByteArrayOutputStream;
 
-import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.ByteBuffer;
 
@@ -27,7 +26,6 @@ import java.net.InetSocketAddress;
 
 import  javax.xml.parsers.DocumentBuilderFactory;
 import  org.w3c.dom.bootstrap.DOMImplementationRegistry;
-import  org.w3c.dom.DOMImplementation;
 import  org.w3c.dom.Document;
 import  org.w3c.dom.Element;
 import  org.w3c.dom.NodeList;
@@ -38,10 +36,7 @@ import  org.w3c.dom.ls.LSInput;
 import  org.w3c.dom.ls.LSOutput;
 import  org.w3c.dom.ls.LSParser;
 import  org.w3c.dom.ls.LSException;
-import org.w3c.dom.DOMError;
-import org.w3c.dom.DOMErrorHandler;
 import org.w3c.dom.ls.LSResourceResolver;
-import org.w3c.dom.ls.LSException;
 
 /**
  * StratmasDispatcher represents information about a dispatcher server

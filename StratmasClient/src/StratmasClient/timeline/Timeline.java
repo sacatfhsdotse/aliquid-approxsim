@@ -11,7 +11,6 @@ import StratmasClient.object.StratmasTimestamp;
 import StratmasClient.object.StratmasDuration;
 import StratmasClient.object.primitive.Timestamp;
 import StratmasClient.object.type.TypeFactory;
-import StratmasClient.map.GridLayer;
 import StratmasClient.filter.TypeFilter;
 import StratmasClient.filter.CombinedORFilter;
 

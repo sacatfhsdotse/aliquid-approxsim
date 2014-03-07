@@ -1,6 +1,5 @@
 package StratmasClient.map;
 
-import java.util.Hashtable;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
@@ -8,11 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.*;
 import javax.swing.*;
 
-import java.io.File;
-
 import StratmasClient.Client;
 import StratmasClient.object.Shape;
-import StratmasClient.BoundingBox;
 import StratmasClient.communication.GridData;
 
 

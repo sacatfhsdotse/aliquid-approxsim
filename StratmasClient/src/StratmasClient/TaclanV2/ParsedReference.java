@@ -5,13 +5,8 @@
 
 package StratmasClient.TaclanV2;
 
-import StratmasClient.object.StratmasReference;
 import StratmasClient.object.primitive.Reference;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.type.Declaration;
-
 import java.util.Vector;
-import java.util.Enumeration;
 
 /**
  * An object representing a reference to some declared object of the

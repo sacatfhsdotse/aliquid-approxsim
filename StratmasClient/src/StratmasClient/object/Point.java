@@ -6,23 +6,15 @@
 
 package StratmasClient.object;
 
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.NoSuchElementException;
-
 import org.w3c.dom.Element;
-
-import java.text.ParseException;
 
 import StratmasClient.IconFactory;
 import StratmasClient.Icon;
-import StratmasClient.Debug;
 import StratmasClient.proj.MGRSConversion;
 import StratmasClient.object.type.Type;
 import StratmasClient.object.type.Declaration;
 import StratmasClient.object.type.TypeFactory;
 import StratmasClient.object.primitive.Timestamp;
-import StratmasClient.object.primitive.Reference;
 import StratmasClient.object.primitive.Identifier;
 
 import javax.swing.JTextField;

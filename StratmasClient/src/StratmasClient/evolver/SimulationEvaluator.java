@@ -7,14 +7,10 @@ package StratmasClient.evolver;
 
 import StratmasClient.object.StratmasObject;
 import StratmasClient.Debug;
-import StratmasClient.object.type.TypeFactory;
-
 import StratmasClient.object.StratmasEvent;
 import StratmasClient.object.StratmasEventListener;
 
 import StratmasClient.communication.ServerException;
-import StratmasClient.communication.Subscription;
-
 import java.util.Vector;
 import java.util.Enumeration;
 

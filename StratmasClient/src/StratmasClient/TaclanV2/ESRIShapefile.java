@@ -12,7 +12,6 @@ import java.nio.MappedByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
-import java.util.Iterator;
 import java.util.Vector;
 import java.nio.BufferOverflowException;
 import java.util.Hashtable;

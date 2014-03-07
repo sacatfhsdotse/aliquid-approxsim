@@ -5,8 +5,6 @@
 
 package StratmasClient.evolver;
 
-import StratmasClient.Debug;
-
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
@@ -17,42 +15,13 @@ import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLProfile;
-import javax.media.opengl.GLDrawableFactory;
-
 import java.io.UnsupportedEncodingException;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
-import javax.swing.JComponent;
-import javax.swing.JSplitPane;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JScrollPane;
-import javax.swing.BoxLayout;
-import javax.swing.event.MouseInputListener;
-import javax.swing.event.MouseInputAdapter;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.AbstractAction;
-
 import java.nio.IntBuffer;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseEvent;
 import java.awt.Component;
-import java.awt.Point;
 import java.awt.BorderLayout;
-
-import java.awt.Cursor;
-
-import java.util.Vector;
-import java.util.NoSuchElementException;
-import java.util.Collections;
-import java.util.Arrays;
-import java.util.Enumeration;
 
 /**
  * Plots data using Jogl, uses trianglestrips since Jogl does not support

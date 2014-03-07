@@ -13,7 +13,6 @@ import java.lang.ref.WeakReference;
 import StratmasClient.Debug;
 import StratmasClient.Icon;
 import StratmasClient.IconFactory;
-import StratmasClient.object.StratmasObjectFactory;
 import StratmasClient.object.StratmasObject;
 import StratmasClient.object.StratmasEvent;
 import StratmasClient.object.StratmasEventListener;
@@ -26,7 +25,6 @@ import StratmasClient.map.SymbolToTextureMapper;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
-import javax.media.opengl.glu.GLU;
 import javax.media.opengl.GLAutoDrawable;
 
 /**

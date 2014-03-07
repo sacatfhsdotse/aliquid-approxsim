@@ -2,15 +2,9 @@ package StratmasClient.map;
 
 import java.util.Vector;
 import java.util.Enumeration;
-import java.lang.String;
-
 import StratmasClient.object.StratmasObject;
 import StratmasClient.object.Shape;
 import StratmasClient.object.SimpleShape;
-import StratmasClient.object.Composite;
-import StratmasClient.object.Polygon;
-import StratmasClient.object.Line;
-import StratmasClient.object.Point;
 import StratmasClient.BoundingBox;
 import StratmasClient.object.StratmasEvent;
 import StratmasClient.object.StratmasEventListener;

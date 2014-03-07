@@ -3,13 +3,10 @@ package StratmasClient;
 import java.util.Vector;
 import java.util.Enumeration;
 
-import StratmasClient.map.Visualizer;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import StratmasClient.timeline.Timeline;
-import StratmasClient.treeview.TreeView;
 import StratmasClient.filter.TypeFilter;
 
 import StratmasClient.communication.GetGridMessage;
@@ -19,7 +16,6 @@ import StratmasClient.communication.ResetMessage;
 import StratmasClient.communication.StratmasMessage;
 import StratmasClient.communication.ServerException;
 import StratmasClient.communication.StepMessage;
-import StratmasClient.communication.StratmasObjectSubscription;
 import StratmasClient.communication.StratmasSocket;
 
 import StratmasClient.object.StratmasObject;

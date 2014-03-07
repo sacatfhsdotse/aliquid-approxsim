@@ -7,10 +7,6 @@ package StratmasClient.map;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.ImageWriter;
-
-import java.util.Iterator;
-
 import java.io.File;
 import java.io.IOException;
 

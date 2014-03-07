@@ -4,11 +4,9 @@ import java.awt.Color;
 import java.util.Vector;
 import java.util.Enumeration;
 
-import StratmasClient.object.StratmasObject;
 import StratmasClient.object.Line;
 import StratmasClient.object.Point;
 import StratmasClient.object.Polygon;
-import StratmasClient.object.Shape;
 import StratmasClient.object.StratmasObjectFactory;
 import StratmasClient.BoundingBox;
 import StratmasClient.map.adapter.MapDrawableAdapter;

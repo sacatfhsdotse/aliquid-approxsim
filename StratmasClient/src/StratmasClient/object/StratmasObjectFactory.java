@@ -9,16 +9,12 @@ import StratmasClient.object.type.Type;
 import StratmasClient.object.type.TypeFactory;
 import StratmasClient.object.type.Declaration;
 
-import StratmasClient.object.primitive.Reference;
-import StratmasClient.object.primitive.Timestamp;
-
 import StratmasClient.StratmasConstants;
 
 import org.w3c.dom.Element;
 
 import java.util.Hashtable;
 import java.util.Vector;
-import javax.swing.JComponent;
 
 /**
  * StratmasObjectFactory is mapping of different sources of

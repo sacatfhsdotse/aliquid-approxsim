@@ -1,26 +1,18 @@
 package StratmasClient.treeview;
 
-import java.util.Comparator;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Vector;
 
-import javax.swing.tree.MutableTreeNode;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasList;
-import StratmasClient.object.StratmasDecimal;
 import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasString;
-import StratmasClient.object.type.TypeFactory;
 import StratmasClient.object.Point;
 import StratmasClient.Icon;
 import StratmasClient.IconFactory;
 import StratmasClient.Configuration;
 import StratmasClient.filter.StratmasObjectFilter;
-import StratmasClient.object.type.Type;
 import StratmasClient.proj.MGRSConversion;
 
 /**

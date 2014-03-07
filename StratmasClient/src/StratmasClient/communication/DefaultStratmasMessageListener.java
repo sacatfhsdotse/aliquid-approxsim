@@ -2,8 +2,6 @@
 
 package StratmasClient.communication;
 
-import StratmasClient.Debug;
-
 /**
  * This class provides a default implementation of the
  * StratmasMessageListener interface.

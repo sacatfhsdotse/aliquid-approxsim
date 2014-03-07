@@ -11,7 +11,6 @@ import org.apache.xerces.xni.parser.XMLEntityResolver;
 import org.apache.xerces.xni.parser.XMLInputSource;
 import org.apache.xerces.xni.XNIException;
 import java.io.IOException;
-import java.io.Reader;
 import java.io.InputStream;
 import org.apache.xerces.xni.XMLResourceIdentifier;
 

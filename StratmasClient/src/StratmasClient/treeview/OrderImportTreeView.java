@@ -9,18 +9,10 @@ import StratmasClient.map.DraggedElement;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DragGestureRecognizer;
-import java.awt.dnd.DragSource;
-import java.awt.dnd.DragSourceAdapter;
-import java.awt.dnd.DragSourceDropEvent;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
 
 /**
  * Treeview used when importing orders from an order library. The main

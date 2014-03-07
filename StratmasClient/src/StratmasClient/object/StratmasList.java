@@ -15,8 +15,6 @@ import StratmasClient.object.type.Type;
 import StratmasClient.object.type.Declaration;
 import StratmasClient.object.primitive.Identifier;
 
-import java.awt.event.ActionEvent;
-
 /**
  * StratmasList is an helper class to deal with non singular
  * declarations with the same tag.

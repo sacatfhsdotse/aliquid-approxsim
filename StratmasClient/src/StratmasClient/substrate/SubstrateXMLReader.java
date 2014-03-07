@@ -3,14 +3,12 @@ package StratmasClient.substrate;
 import java.util.Vector;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.FileNotFoundException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
-import org.w3c.dom.TypeInfo;
 import org.w3c.dom.DOMError;
 import org.w3c.dom.DOMErrorHandler;
 import org.w3c.dom.ls.DOMImplementationLS;
@@ -29,7 +27,6 @@ import StratmasClient.object.Circle;
 import StratmasClient.object.Polygon;
 import StratmasClient.object.StratmasObjectFactory;
 import StratmasClient.object.primitive.Reference;
-import StratmasClient.object.type.Type;
 import StratmasClient.object.type.TypeFactory;
 import StratmasClient.communication.XMLHandler;
 

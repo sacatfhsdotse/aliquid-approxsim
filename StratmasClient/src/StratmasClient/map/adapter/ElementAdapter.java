@@ -11,43 +11,11 @@ import StratmasClient.object.StratmasObject;
 import StratmasClient.object.StratmasEventListener;
 import StratmasClient.object.StratmasEvent;
 import StratmasClient.object.StratmasBoolean;
-import StratmasClient.object.Line;
-import StratmasClient.object.Shape;
-import StratmasClient.object.SimpleShape;
-import StratmasClient.object.Point;
-import StratmasClient.BoundingBox;
 import StratmasClient.object.StratmasList;
-import StratmasClient.Icon;
-
-import StratmasClient.filter.StratmasObjectFilter;
-import StratmasClient.filter.StratmasObjectAdapter;
-
 import StratmasClient.map.Projection;
 
-import java.util.Vector;
-import java.util.Comparator;
-import java.util.Collections;
-import java.util.Hashtable;
-
-import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
-import javax.media.opengl.glu.GLU;
 import javax.media.opengl.GLAutoDrawable;
-
-import java.awt.image.WritableRaster;
-import java.awt.image.Raster;
-import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.awt.Image;
-import java.awt.image.ComponentColorModel;
-import java.awt.color.ColorSpace;
-
-import java.awt.image.DataBufferByte;
-import java.awt.image.DataBuffer;
-
-import java.util.EventListener;
-import javax.swing.event.EventListenerList;
 
 /**
  * ElementAdapter adapts StratmasObjects descendants of Elements for

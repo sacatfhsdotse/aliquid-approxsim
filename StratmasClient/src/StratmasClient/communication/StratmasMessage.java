@@ -2,10 +2,8 @@ package StratmasClient.communication;
 
 
 import java.lang.StringBuffer;
-import java.util.EventListener;
 import javax.swing.event.EventListenerList;
 import StratmasClient.StratmasConstants;
-import StratmasClient.evolver.EvolverEventListener;
 
 /**
  * Abstract class that is the super class of all messages to be sent

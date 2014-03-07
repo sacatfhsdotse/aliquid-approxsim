@@ -7,8 +7,6 @@ package StratmasClient.object;
 
 import java.util.Vector;
 
-import StratmasClient.object.type.Type;
-
 /**
  * A curve defines a contigous set of one-dimensional points.
  *

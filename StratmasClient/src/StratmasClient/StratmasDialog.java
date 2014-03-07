@@ -5,20 +5,12 @@ import java.awt.Container;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.Font;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JDialog;
 import javax.swing.BoxLayout;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
-import javax.swing.ProgressMonitor;
 
 /**
  * This class implements the different dialogs used in STRATMAS.

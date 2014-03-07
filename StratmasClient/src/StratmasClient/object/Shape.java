@@ -10,15 +10,9 @@ import StratmasClient.map.Projection;
 import StratmasClient.object.type.Type;
 import StratmasClient.object.type.Declaration;
 import StratmasClient.object.type.TypeFactory;
-import StratmasClient.object.primitive.Reference;
-import StratmasClient.object.primitive.Identifier;
-
-import org.w3c.dom.Element;
-
 import StratmasClient.ActionGroup;
 import StratmasClient.BoundingBox;
 
-import java.util.Enumeration;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 

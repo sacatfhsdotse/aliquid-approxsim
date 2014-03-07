@@ -1,22 +1,15 @@
 package StratmasClient.map.adapter;
 
-import javax.swing.event.EventListenerList;
-import java.util.EventListener;
 import java.nio.DoubleBuffer;
 
 import StratmasClient.object.Point;
 import StratmasClient.Icon;
 import StratmasClient.IconFactory;
-import StratmasClient.object.StratmasObject;
 import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.filter.StratmasObjectAdapter;
 import StratmasClient.map.Projection;
 import StratmasClient.map.SymbolToTextureMapper;
 
-import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
-import javax.media.opengl.glu.GLU;
 import javax.media.opengl.GLAutoDrawable;
 import com.jogamp.common.nio.Buffers;
 

@@ -53,7 +53,7 @@ public class Duration
     /**
      * Unit to multiplier lookup table.
      */
-    static Hashtable unitLookupTable = createUnitLookupTable();
+    static Hashtable<String, Long> unitLookupTable = createUnitLookupTable();
 
     /** 
      * Number of milliseconds
@@ -205,9 +205,9 @@ public class Duration
      * Creates a lookup table matching unit strings to tics
      * multipliers.
      */
-    private static Hashtable createUnitLookupTable()
+    private static Hashtable<String, Long> createUnitLookupTable()
     {
-        Hashtable res = new Hashtable();
+        Hashtable<String, Long> res = new Hashtable<String, Long>();
 
         res.put("ms", new Long(1));
         res.put("millisecond", new Long(1));

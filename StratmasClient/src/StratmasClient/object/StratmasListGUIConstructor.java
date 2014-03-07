@@ -9,26 +9,16 @@ import StratmasClient.treeview.TreeView;
 
 import StratmasClient.object.type.Declaration;
 
-import java.util.Enumeration;
 import java.util.Vector;
 
 import javax.swing.AbstractAction;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
-import javax.swing.JList;
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
-import javax.swing.JOptionPane;
 import javax.swing.JLabel;
-import javax.swing.JTabbedPane;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 /**
  * StratmasListGUIConstructor creates GUIs for creating

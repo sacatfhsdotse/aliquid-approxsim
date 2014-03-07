@@ -1,7 +1,5 @@
 package StratmasClient.map;
 
-import javax.swing.JOptionPane;
-import javax.swing.JFrame;
 import java.util.Vector;
 import java.util.Hashtable;
 import java.util.Enumeration;
@@ -9,34 +7,13 @@ import java.util.Collections;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
-import java.awt.color.ColorSpace;
-import java.awt.image.BufferedImage;
-import java.awt.image.ComponentColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-
-import StratmasClient.BoundingBox;
-import StratmasClient.Configuration;
 import StratmasClient.Client;
 import StratmasClient.object.StratmasEventListener;
 import StratmasClient.object.Shape;
-import StratmasClient.object.SimpleShape;
-import StratmasClient.object.Composite;
-import StratmasClient.object.Polygon;
-import StratmasClient.object.Line;
-import StratmasClient.object.Point;
 import StratmasClient.ProcessVariableDescription;
 import StratmasClient.object.StratmasObject;
-import StratmasClient.Icon;
-import StratmasClient.object.type.TypeFactory;
 import StratmasClient.communication.GridData;
 import StratmasClient.communication.RegionData;
-import StratmasClient.object.type.Declaration;
-import StratmasClient.filter.MilitaryCodeFilter;
 import StratmasClient.map.graph.ProcessVariableXYGraph;
 import StratmasClient.timeline.Timeline;
 

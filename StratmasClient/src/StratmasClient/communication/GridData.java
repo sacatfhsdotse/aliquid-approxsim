@@ -8,7 +8,6 @@ import java.util.Hashtable;
 import org.apache.xerces.impl.dv.util.Base64; 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import StratmasClient.Debug;
 import StratmasClient.object.primitive.Reference;
 
 /**

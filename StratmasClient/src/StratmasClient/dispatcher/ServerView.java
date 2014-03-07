@@ -10,21 +10,11 @@ import StratmasClient.Client;
 import StratmasClient.StratmasDialog;
 
 import java.util.Enumeration;
-import java.util.Vector;
 import java.awt.event.KeyEvent;
 import java.awt.Image;
 
 import javax.swing.JTree;
-import javax.swing.JMenuBar;
 import javax.swing.ImageIcon;
-import javax.swing.JMenu;
-import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JComponent;
-import javax.swing.tree.TreeModel;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.JPopupMenu;
 import javax.swing.event.TreeModelEvent;
@@ -32,7 +22,6 @@ import javax.swing.tree.TreePath;
 import javax.swing.ProgressMonitor;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.DefaultTreeCellEditor;
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.event.MouseEvent;
 import javax.swing.event.MouseInputAdapter;
@@ -41,25 +30,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import java.awt.event.ActionEvent;
 
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
-import java.awt.dnd.DnDConstants;
 import java.awt.Point;
-import java.awt.Toolkit;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.dnd.DragSource;
-import java.awt.dnd.DragSourceDropEvent;
-import java.awt.dnd.DragSourceAdapter;
-import java.awt.dnd.DragGestureRecognizer;
-import java.awt.dnd.DragGestureListener;
-import java.awt.dnd.DragGestureEvent;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetAdapter;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
 
 /**
  * ServerView is presentation of servers.

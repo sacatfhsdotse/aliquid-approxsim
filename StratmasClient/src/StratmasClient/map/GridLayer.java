@@ -1,9 +1,7 @@
 package StratmasClient.map;
 
 import java.util.Vector;
-import java.util.Hashtable;
 import java.util.Enumeration;
-import java.nio.ByteBuffer;
 import java.text.DecimalFormat;
 
 import StratmasClient.BoundingBox;
@@ -15,18 +13,13 @@ import StratmasClient.ProcessVariableDescription;
 import StratmasClient.object.primitive.Timestamp;
 import StratmasClient.object.Shape;
 import StratmasClient.object.SimpleShape;
-import StratmasClient.object.Polygon;
 import StratmasClient.object.Point;
-import StratmasClient.object.Circle;
-import StratmasClient.object.type.TypeFactory;
 import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.object.Line;
 import StratmasClient.communication.GridData;
 import StratmasClient.communication.LayerData;
 import StratmasClient.proj.MGRSConversion;
 
 import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 
 /**

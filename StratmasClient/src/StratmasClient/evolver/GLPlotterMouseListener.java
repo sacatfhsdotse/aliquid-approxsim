@@ -6,8 +6,6 @@
 package StratmasClient.evolver;
 
 import javax.swing.event.MouseInputAdapter;
-import javax.swing.AbstractAction;
-
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.event.MouseWheelEvent;

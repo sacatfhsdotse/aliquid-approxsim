@@ -1,12 +1,9 @@
 package StratmasClient.map.adapter;
 
 import java.awt.Color;
-import javax.swing.event.EventListenerList;
 import java.util.Enumeration;
 import java.util.Vector;
 import java.util.Hashtable;
-import java.util.EventListener;
-
 import StratmasClient.object.Point;
 import StratmasClient.object.Line;
 import StratmasClient.object.Polygon;
@@ -15,15 +12,11 @@ import StratmasClient.object.Shape;
 import StratmasClient.object.SimpleShape;
 import StratmasClient.object.Composite;
 import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasList;
 import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.filter.StratmasObjectAdapter;
 import StratmasClient.map.Projection;
 import StratmasClient.substrate.SubstrateEditor;
 import StratmasClient.substrate.ShapeValuePair;
 
-import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.GLAutoDrawable;

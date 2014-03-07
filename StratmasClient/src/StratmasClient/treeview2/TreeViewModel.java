@@ -12,8 +12,6 @@ import StratmasClient.object.StratmasEventListener;
 import StratmasClient.object.StratmasEvent;
 
 import StratmasClient.object.type.Declaration;
-import StratmasClient.object.type.Type;
-
 import java.util.Vector;
 import java.util.Enumeration;
 import java.util.Iterator;

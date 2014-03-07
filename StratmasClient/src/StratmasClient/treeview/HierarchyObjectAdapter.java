@@ -3,7 +3,6 @@ package StratmasClient.treeview;
 import java.util.Enumeration;
 import java.util.Vector;
 
-import StratmasClient.Debug;
 import StratmasClient.object.StratmasList;
 import StratmasClient.object.StratmasObject;
 import StratmasClient.object.StratmasObjectFactory;

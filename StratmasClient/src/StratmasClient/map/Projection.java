@@ -1,10 +1,6 @@
 package StratmasClient.map;
 
-import java.lang.Math;
 import java.lang.String;
-import java.lang.Class;
-import java.util.Vector;
-
 import StratmasClient.BoundingBox;
 
 import StratmasClient.object.Point;

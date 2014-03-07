@@ -18,17 +18,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
-
 import java.net.MalformedURLException;
 
 import javax.swing.AbstractAction;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -39,8 +35,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
 import java.text.ParseException;
 
 import java.util.Enumeration;
@@ -49,33 +43,20 @@ import java.util.Vector;
 
 import org.xml.sax.InputSource;
 
-import StratmasClient.communication.DisconnectMessage;
 import StratmasClient.communication.GridData;
-import StratmasClient.communication.LayerData;
-import StratmasClient.communication.LayerSubscription;
 import StratmasClient.communication.RegionData;
-import StratmasClient.communication.RegionSubscription;
-import StratmasClient.communication.ResetMessage;
 import StratmasClient.communication.ServerCapabilitiesMessage;
 import StratmasClient.communication.ServerConnection;
 import StratmasClient.communication.ServerException;
-import StratmasClient.communication.StepMessage;
 import StratmasClient.communication.StratmasSocket;
 import StratmasClient.communication.SubscriptionCounter;
 import StratmasClient.communication.SubscriptionHandler;
 import StratmasClient.communication.Unsubscription;
 import StratmasClient.communication.XMLHandler;
-import StratmasClient.communication.InitializationMessage;
-import StratmasClient.communication.StratmasMessage;
-import StratmasClient.communication.GetGridMessage;
-import StratmasClient.communication.RegisterForUpdatesMessage;
-
 import StratmasClient.dispatcher.StratmasDispatcher;
 
 import StratmasClient.filter.TypeFilter;
 
-import StratmasClient.map.GridLayer;
-import StratmasClient.map.StratMap;
 import StratmasClient.map.Visualizer;
 
 import StratmasClient.substrate.SubstrateEditor;
@@ -87,7 +68,6 @@ import StratmasClient.object.StratmasEvent;
 import StratmasClient.object.StratmasEventListener;
 import StratmasClient.object.StratmasGUIConstructor;
 import StratmasClient.object.StratmasGUIConstructorDialog;
-import StratmasClient.object.StratmasList;
 import StratmasClient.object.StratmasObject;
 import StratmasClient.object.StratmasObjectFactory;
 import StratmasClient.object.StratmasTimestamp;
@@ -96,7 +76,6 @@ import StratmasClient.object.primitive.Duration;
 import StratmasClient.object.primitive.Timestamp;
 
 import StratmasClient.object.type.Declaration;
-import StratmasClient.object.type.Type;
 import StratmasClient.object.type.TypeFactory;
 
 import StratmasClient.TaclanV2.TaclanV2Utils;

@@ -1,9 +1,6 @@
 package StratmasClient.filter;
 
-import java.util.Enumeration;
-
 import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasDecimal;
 import StratmasClient.object.SymbolIDCode;
 
 /**

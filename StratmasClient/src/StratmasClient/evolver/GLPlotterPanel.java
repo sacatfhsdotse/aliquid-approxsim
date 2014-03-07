@@ -5,26 +5,17 @@
 
 package StratmasClient.evolver;
 
-import StratmasClient.object.StratmasObject;
-import StratmasClient.Debug;
-
 import javax.swing.JScrollPane;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JSeparator;
-import javax.swing.ImageIcon;
 import javax.swing.AbstractAction;
-import javax.swing.JComponent;
 import javax.swing.BoxLayout;
 import javax.swing.Box;
 
 import java.util.Vector;
-import java.util.Enumeration;
-
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
 

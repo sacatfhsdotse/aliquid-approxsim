@@ -7,10 +7,8 @@ package StratmasClient.object;
 
 import java.text.ParseException;
 
-import StratmasClient.Icon;
 import StratmasClient.object.primitive.Identifier;
 import StratmasClient.object.primitive.Timestamp;
-import StratmasClient.object.primitive.Reference;
 import StratmasClient.object.type.TypeFactory;
 import StratmasClient.object.type.Declaration;
 import StratmasClient.object.type.Type;

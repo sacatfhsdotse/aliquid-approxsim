@@ -11,8 +11,6 @@ import StratmasClient.object.type.TypeFactory;
 
 import StratmasClient.object.primitive.Timestamp;
 import StratmasClient.object.primitive.Identifier;
-import StratmasClient.object.primitive.Reference;
-
 import StratmasClient.ActionGroup;
 import StratmasClient.Debug;
 
@@ -23,10 +21,7 @@ import java.util.Hashtable;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.tree.TreeNode;
-
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 /**
  * DefaultComplex is the common origin of the objects handled by the

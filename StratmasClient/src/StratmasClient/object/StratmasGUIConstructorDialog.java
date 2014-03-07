@@ -5,23 +5,7 @@
 
 package StratmasClient.object;
 
-import StratmasClient.object.type.Declaration;
-import StratmasClient.object.type.Type;
-import StratmasClient.TypeSelector;
-import javax.swing.JPanel;
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import javax.swing.JButton;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.AbstractAction;
-import javax.swing.JComboBox;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.awt.event.ActionEvent;
-import javax.swing.BoxLayout;
 
 /**
  * A JDialog used to create a StratmasObject.

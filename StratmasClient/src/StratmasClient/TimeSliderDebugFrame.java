@@ -11,8 +11,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.text.DecimalFormat;
 
-import StratmasClient.Debug;
-
 
 /**
  * Debug frame for the time slider.

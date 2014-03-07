@@ -12,8 +12,6 @@ import java.io.Reader;
 import java.io.IOException;
 
 import java.util.Vector;
-import java.util.Hashtable;
-import java.util.Enumeration;
 import java.util.Iterator;
 
 import java.text.ParseException;

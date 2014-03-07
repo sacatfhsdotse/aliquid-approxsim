@@ -8,19 +8,10 @@ import java.awt.dnd.DragGestureRecognizer;
 import java.awt.dnd.DragGestureListener;
 import java.awt.dnd.DragGestureEvent;
 
-import javax.swing.ImageIcon;
 import java.awt.Cursor;
 import java.awt.Toolkit;
 import java.awt.Image;
 import java.awt.Dimension;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.awt.image.WritableRaster;
-import java.awt.image.Raster;
-import java.awt.image.DataBuffer;
-import java.awt.image.ComponentColorModel;
-import java.awt.color.ColorSpace;
-
 import StratmasClient.object.StratmasObject;
 import StratmasClient.Icon;
 

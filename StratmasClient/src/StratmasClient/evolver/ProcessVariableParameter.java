@@ -5,8 +5,6 @@
 
 package StratmasClient.evolver;
 
-import java.util.Comparator;
-
 import java.util.Vector;
 import java.util.Enumeration;
 
@@ -19,7 +17,6 @@ import StratmasClient.StratmasConstants;
 
 import StratmasClient.communication.ServerException;
 import StratmasClient.communication.RegionData;
-import StratmasClient.object.primitive.Timestamp;
 import StratmasClient.communication.StratmasMessage;
 import StratmasClient.communication.Subscription;
 import StratmasClient.communication.RegionSubscription;
@@ -29,18 +26,10 @@ import StratmasClient.communication.DefaultStratmasMessageListener;
 
 import StratmasClient.filter.TypeFilter;
 
-import org.w3c.dom.Element;
-
 import javax.swing.JMenu;
 import javax.swing.JPopupMenu;
-import javax.swing.Action;
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
-
-import java.util.Random;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.Hashtable;
 
 import java.awt.event.ActionEvent;
 

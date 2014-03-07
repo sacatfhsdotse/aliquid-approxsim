@@ -12,10 +12,6 @@ import StratmasClient.object.type.Declaration;
 import StratmasClient.object.primitive.Identifier;
 import StratmasClient.object.primitive.Timestamp;
 
-import java.util.Enumeration;
-import java.util.Vector;
-import javax.swing.tree.TreeNode;
-
 import java.text.ParseException;
 
 import org.w3c.dom.Element;

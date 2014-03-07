@@ -10,8 +10,6 @@ import StratmasClient.object.StratmasDecimal;
 import StratmasClient.object.StratmasInteger;
 import StratmasClient.object.type.Type;
 import StratmasClient.object.type.TypeFactory;
-import StratmasClient.object.type.Declaration;
-
 import java.util.Hashtable;
 
 /**

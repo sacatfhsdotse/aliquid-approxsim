@@ -4,32 +4,21 @@ import javax.swing.JSlider;
 import javax.swing.JLabel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.BoxLayout;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.AbstractAction;
-
 import javax.media.opengl.GL;
 
 import java.util.Enumeration;
-import java.io.File;
-
-import java.awt.Window;
 import java.awt.event.ItemListener;
-import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
-import java.awt.event.WindowStateListener;
 import javax.swing.WindowConstants;
 
 import StratmasClient.map.adapter.MapElementAdapter;
 import StratmasClient.map.adapter.ElementAdapter;
-
-import StratmasClient.Debug;
 
 /**
  * Debug frame for the MapDrawer class 

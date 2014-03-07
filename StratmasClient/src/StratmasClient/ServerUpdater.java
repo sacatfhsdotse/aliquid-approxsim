@@ -9,7 +9,6 @@ import StratmasClient.communication.TSQueue;
 import StratmasClient.communication.UpdateMessage;
 import StratmasClient.communication.Update;
 import StratmasClient.object.type.Declaration;
-import StratmasClient.object.type.Type;
 import StratmasClient.object.StratmasEvent;
 import StratmasClient.object.StratmasEventListener;
 import StratmasClient.object.StratmasObject;

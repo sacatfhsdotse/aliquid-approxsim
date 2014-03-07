@@ -1,19 +1,10 @@
 package StratmasClient.map.adapter;
 
 import java.awt.Color;
-import javax.swing.event.EventListenerList;
-import java.util.EventListener;
-
 import StratmasClient.object.Line;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.filter.StratmasObjectAdapter;
 import StratmasClient.map.Projection;
 
-import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
-import javax.media.opengl.glu.GLU;
 import javax.media.opengl.GLAutoDrawable;
 
 /**

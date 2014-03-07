@@ -4,9 +4,6 @@
  */
 
 package StratmasClient.TaclanV2;
-import StratmasClient.object.StratmasDecimal;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.type.Declaration;
 
 /**
  * An object representing the type float of the Taclan language.  As

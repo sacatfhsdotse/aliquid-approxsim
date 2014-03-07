@@ -14,8 +14,6 @@ import java.awt.dnd.DragGestureListener;
 import java.awt.dnd.DragGestureEvent;
 import java.awt.datatransfer.StringSelection;
 
-import StratmasClient.object.StratmasObject;
-
 /**
  * This class enables drag action in DnD.
  */

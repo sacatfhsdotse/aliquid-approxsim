@@ -6,7 +6,6 @@ import java.util.Vector;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import StratmasClient.Client;
-import StratmasClient.Debug;
 import StratmasClient.object.primitive.Reference;
 import StratmasClient.object.Shape;
 import StratmasClient.object.StratmasEvent;

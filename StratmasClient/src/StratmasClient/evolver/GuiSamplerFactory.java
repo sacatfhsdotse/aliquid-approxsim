@@ -5,13 +5,10 @@
 
 package StratmasClient.evolver;
 
-import javax.swing.Action;
 import javax.swing.AbstractAction;
 import javax.swing.JRadioButton;
-import javax.swing.ButtonModel;
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
-import javax.swing.JLabel;
 import javax.swing.BoxLayout;
 import javax.swing.BorderFactory;
 

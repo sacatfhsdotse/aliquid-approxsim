@@ -4,7 +4,6 @@ import StratmasClient.object.type.Type;
 import StratmasClient.object.type.Declaration;
 import StratmasClient.object.type.TypeFactory;
 
-import StratmasClient.object.primitive.Reference;
 import StratmasClient.object.primitive.Identifier;
 
 import org.w3c.dom.Element;

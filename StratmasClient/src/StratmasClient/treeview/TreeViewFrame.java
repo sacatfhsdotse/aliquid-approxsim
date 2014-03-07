@@ -8,24 +8,15 @@ package StratmasClient.treeview;
 import StratmasClient.object.StratmasObject;
 import StratmasClient.object.StratmasEventListener;
 import StratmasClient.object.StratmasEvent;
-import StratmasClient.Debug;
-import StratmasClient.ClientMainFrame;
-
-import java.util.Enumeration;
-import java.util.Vector;
 import javax.swing.JMenuBar;
 import javax.swing.JToolBar;
 import javax.swing.JMenu;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.WindowConstants;
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.event.ContainerListener;
-import java.awt.event.ContainerEvent;
 
 
 /**

@@ -1,7 +1,5 @@
 package StratmasClient.map;
 
-import java.awt.Color;
-
 /**
  * This class contains several constants used in this package. 
  */

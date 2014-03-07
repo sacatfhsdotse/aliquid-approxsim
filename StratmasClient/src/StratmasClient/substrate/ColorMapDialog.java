@@ -1,6 +1,5 @@
 package StratmasClient.substrate;
 
-import java.util.Vector;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Dimension;

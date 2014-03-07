@@ -1,31 +1,17 @@
 package StratmasClient.timeline;
 
 import java.util.Vector;
-import java.text.DecimalFormat;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Dimension;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.BoxLayout;
 import javax.swing.BorderFactory;
-import javax.swing.border.EmptyBorder;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseEvent;
 
-import javax.media.opengl.GLEventListener;
-import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
-import javax.media.opengl.glu.GLU;
 import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.GLCapabilities;
-import javax.media.opengl.GLDrawableFactory;
-import com.jogamp.opengl.util.GLReadBufferUtil;
-import com.jogamp.opengl.util.gl2.GLUT;
 
 /**
  * A panel which displays the scale as well as the selected times in the timeline.

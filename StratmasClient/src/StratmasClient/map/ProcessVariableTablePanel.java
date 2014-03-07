@@ -1,29 +1,17 @@
 package StratmasClient.map;
 
-import java.text.DecimalFormat;
-import java.util.Vector;
 import java.util.Hashtable;
-import java.util.Random;
 import java.util.Comparator;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Container;
-import java.awt.Color;
-import java.awt.GridLayout;
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.JComboBox;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JMenuBar;
@@ -33,24 +21,10 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.BorderFactory;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
-import javax.swing.ListSelectionModel;
-
 import StratmasClient.Client;
 import StratmasClient.object.Shape;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.StratmasConstants;
-import StratmasClient.ProcessVariableDescription;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.StratmasWindowListener;
-import StratmasClient.communication.RegionData;
 import StratmasClient.map.graph.ProcessVariableXYGraph;
 
 /**

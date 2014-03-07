@@ -18,32 +18,14 @@ import StratmasClient.filter.StratmasObjectFilter;
 
 import StratmasClient.map.Projection;
 
-import java.util.Vector;
-import java.util.Comparator;
-
-import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
-import javax.media.opengl.glu.GLU;
 import com.jogamp.opengl.util.gl2.GLUT;
 import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.glu.GLUtessellator;
 import javax.media.opengl.glu.GLUtessellatorCallbackAdapter;
 import javax.media.opengl.glu.GLUtessellatorCallback;
 import com.jogamp.common.nio.Buffers;
 
 import java.nio.DoubleBuffer;
-
-import java.awt.image.WritableRaster;
-import java.awt.image.Raster;
-import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.awt.Image;
-import java.awt.image.ComponentColorModel;
-import java.awt.color.ColorSpace;
-
-import java.awt.image.DataBufferByte;
-import java.awt.image.DataBuffer;
 
 /**
  * PopulationAdapter adapts StratmasObjects descendants of Population for

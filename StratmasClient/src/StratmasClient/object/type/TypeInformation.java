@@ -6,8 +6,6 @@
 package StratmasClient.object.type;
 
 import StratmasClient.LSJarXSDResolver;
-import org.apache.xerces.xni.grammars.XMLGrammarLoader;
-
 import java.util.Hashtable;
 import java.util.Enumeration;
 import org.w3c.dom.bootstrap.DOMImplementationRegistry;

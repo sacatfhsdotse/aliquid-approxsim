@@ -16,9 +16,6 @@ import java.awt.Dimension;
 
 import java.util.WeakHashMap;
 
-import StratmasClient.object.type.Type;
-import StratmasClient.object.type.Declaration;
-
 /**
  * A Icon used for StratmasObjects in StratmasClient.
  *

@@ -4,8 +4,6 @@
  */
 
 package StratmasClient.TaclanV2;
-import java.util.Vector;
-import java.util.Enumeration;
 
 /**
  * An object representing and error in a handler when importing

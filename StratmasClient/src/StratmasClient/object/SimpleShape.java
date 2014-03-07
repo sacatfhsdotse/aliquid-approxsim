@@ -7,7 +7,6 @@ package StratmasClient.object;
 
 import StratmasClient.object.type.Type;
 
-import java.util.Enumeration;
 import java.util.Vector;
 
 /**

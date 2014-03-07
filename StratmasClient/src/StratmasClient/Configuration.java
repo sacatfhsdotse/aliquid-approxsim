@@ -1,11 +1,7 @@
 package StratmasClient;
 
 import java.util.Enumeration;
-import java.util.Hashtable;
 import java.util.Vector;
-import java.awt.GraphicsEnvironment;
-import java.awt.GraphicsDevice;
-import java.awt.DisplayMode;
 import java.awt.Font;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -14,22 +10,12 @@ import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JDialog;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
-import javax.swing.JTextField;
-import javax.swing.JOptionPane;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.BorderFactory;
-import javax.swing.border.TitledBorder;
-import javax.swing.border.EmptyBorder;
-
-import StratmasClient.map.Visualizer;
-import StratmasClient.map.StratMap;
-import StratmasClient.map.MapDrawer;
-
 import StratmasClient.object.StratmasEventListener;
 import StratmasClient.object.StratmasEvent;
 

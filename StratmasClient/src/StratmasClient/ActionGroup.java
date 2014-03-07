@@ -5,8 +5,6 @@
 
 package StratmasClient;
 
-import StratmasClient.Debug;
-
 import java.awt.event.ActionEvent;
 
 import java.util.Vector;

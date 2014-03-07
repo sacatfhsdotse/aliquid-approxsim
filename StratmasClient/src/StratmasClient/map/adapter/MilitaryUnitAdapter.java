@@ -5,19 +5,12 @@
 
 package StratmasClient.map.adapter;
 
-import java.util.Enumeration;
 import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasEventListener;
 import StratmasClient.object.StratmasEvent;
 import StratmasClient.object.SymbolIDCode;
 import StratmasClient.object.StratmasInteger;
-import StratmasClient.Debug;
-
-import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
-import javax.media.opengl.glu.GLU;
 import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.glu.GLUtessellator;
 import javax.media.opengl.glu.GLUtessellatorCallbackAdapter;
 import javax.media.opengl.glu.GLUtessellatorCallback;
 

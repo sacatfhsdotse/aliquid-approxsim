@@ -9,15 +9,11 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.BorderFactory;
 
-import StratmasClient.Client;
 import StratmasClient.object.StratmasObject;
 import StratmasClient.object.StratmasObjectFactory;
 import StratmasClient.object.FactoryListener;
 import StratmasClient.object.StratmasEvent;
 import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.primitive.Reference;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.filter.TypeFilter;
 
 /**
  * This class takes care of the factions used with SubstrateEditor. The list of factions is displayed

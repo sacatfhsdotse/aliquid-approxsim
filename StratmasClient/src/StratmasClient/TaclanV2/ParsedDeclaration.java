@@ -5,7 +5,6 @@
 
 package StratmasClient.TaclanV2;
 
-import StratmasClient.object.type.TypeFactory;
 import StratmasClient.object.StratmasObject;
 import StratmasClient.object.StratmasObjectFactory;
 

@@ -5,9 +5,6 @@
 
 package StratmasClient.TaclanV2;
 
-import java.util.Vector;
-import java.util.Enumeration;
-
 /**
  * An object representing an identifier of the Taclan language.  As
  * such it contains artefacts of the language, it also contains the

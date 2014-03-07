@@ -5,7 +5,6 @@ import java.lang.Object;
 import java.lang.Math;
 import java.lang.String;
 import java.lang.RuntimeException;
-import java.net.URL;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -16,7 +15,6 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
 import StratmasClient.BoundingBox;
-import StratmasClient.Configuration;
 import StratmasClient.StratmasDialog;
 
 /**

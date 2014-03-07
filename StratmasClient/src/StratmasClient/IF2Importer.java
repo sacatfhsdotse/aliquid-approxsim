@@ -19,7 +19,6 @@ import StratmasClient.object.type.Declaration;
 
 import StratmasClient.object.primitive.Reference;
 import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasObject;
 import StratmasClient.object.StratmasList;
 import StratmasClient.object.StratmasObjectFactory;
 import StratmasClient.object.StratmasReference;

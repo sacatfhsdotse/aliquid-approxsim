@@ -4,10 +4,6 @@
  */
 
 package StratmasClient.TaclanV2;
-import StratmasClient.object.StratmasSimple;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.type.Declaration;
-import StratmasClient.object.StratmasObjectFactory;
 
 /**
  * An object representing the type boolean of the Taclan language.  As

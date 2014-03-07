@@ -4,7 +4,6 @@
  */
 
 package StratmasClient.TaclanV2;
-import java.util.Enumeration;
 import java.util.Vector;
 import java.io.File;
 import java.lang.reflect.Constructor;

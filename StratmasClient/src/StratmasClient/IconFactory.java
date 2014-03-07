@@ -6,8 +6,6 @@
 package StratmasClient;
 
 import StratmasClient.object.type.Type;
-import StratmasClient.object.type.Declaration;
-
 import StratmasClient.symbolloader.SymbolLoader;
 import StratmasClient.object.SymbolIDCode;
 import StratmasClient.object.StratmasList;
@@ -16,17 +14,11 @@ import StratmasClient.filter.OrderColorFilter;
 
 import java.awt.Color;
 import java.awt.Toolkit;
-import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.awt.image.RGBImageFilter;
 import java.awt.image.ImageFilter;
 import java.awt.image.FilteredImageSource;
-import javax.imageio.ImageIO;
-
-import java.util.WeakHashMap;
 import java.util.Hashtable;
-import java.util.Collections;
 import java.lang.ref.WeakReference;
 
 /**

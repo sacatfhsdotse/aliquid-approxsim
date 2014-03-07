@@ -7,12 +7,8 @@ package StratmasClient.treeview;
 
 import java.util.Enumeration;
 import StratmasClient.object.StratmasObject;
-import StratmasClient.Debug;
 import StratmasClient.object.StratmasSimple;
 import StratmasClient.object.StratmasList;
-import StratmasClient.Configuration;
-import StratmasClient.object.type.TypeFactory;
-
 import StratmasClient.filter.StratmasObjectFilter;
 
 import java.util.Iterator;
@@ -22,10 +18,7 @@ import java.util.Collections;
 
 import java.text.ParseException;
 
-import javax.swing.JLabel;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.MutableTreeNode;

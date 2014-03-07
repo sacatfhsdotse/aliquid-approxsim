@@ -2,7 +2,6 @@ package StratmasClient;
 
 import java.util.Vector;
 import java.io.File;
-import javax.swing.filechooser.FileFilter;
 
 /**
  * FileFilter implementation for file extensions.

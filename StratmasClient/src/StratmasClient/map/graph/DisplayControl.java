@@ -2,7 +2,6 @@ package StratmasClient.map.graph;
 
 import java.awt.Font;
 import java.awt.Color;
-import java.awt.GridLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import javax.swing.ButtonGroup;

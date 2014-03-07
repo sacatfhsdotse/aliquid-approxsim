@@ -5,9 +5,6 @@
 
 package StratmasClient.filter;
 
-import java.util.Enumeration;
-import java.util.Vector;
-
 import StratmasClient.object.StratmasObject;
 
 import StratmasClient.object.type.Type;

@@ -12,7 +12,6 @@ import StratmasClient.object.StratmasObject;
 import StratmasClient.object.StratmasSimple;
 import StratmasClient.object.type.TypeInformation;
 import StratmasClient.object.type.Declaration;
-import StratmasClient.object.type.Type;
 
 /**
  * An object representing a declaration of a primitive type in the

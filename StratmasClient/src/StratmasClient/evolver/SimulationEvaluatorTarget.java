@@ -5,10 +5,6 @@
 package StratmasClient.evolver;
 
 import StratmasClient.communication.Subscription;
-import StratmasClient.communication.ServerConnection;
-import StratmasClient.communication.ServerException;
-
-import java.util.Vector;
 
 /**
  * Interface used to abstract away subscription- and Evaluation-

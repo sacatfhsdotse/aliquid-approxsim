@@ -7,24 +7,19 @@ import java.awt.Dimension;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Frame;
-import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JDialog;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 import javax.swing.JOptionPane;
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.CompoundBorder;
@@ -258,7 +253,7 @@ public class CreateFactionDialog extends JDialog implements ActionListener, Fact
         }
         // handle "Remove Faction" button
         else if (removeFactionButton.equals(obj)) {
-            for (Object val : factionList.getSelectedValuesList()) {
+            for (Object val : factionList.getSelectedValues()) {
                 if (!factionHandler.getSelectedFaction().equals(val)) {
                     listModel.removeElement(val);
                     ((StratmasObject)val).remove();

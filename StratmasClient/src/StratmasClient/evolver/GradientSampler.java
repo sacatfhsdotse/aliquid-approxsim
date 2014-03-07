@@ -5,8 +5,6 @@
 
 package StratmasClient.evolver;
 
-import StratmasClient.Debug;
-
 import java.util.Vector;
 import java.util.Hashtable;
 import java.util.Enumeration;

@@ -11,12 +11,6 @@ import StratmasClient.object.StratmasEventListener;
 import StratmasClient.object.StratmasDecimal;
 import StratmasClient.object.StratmasObject;
 import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.object.primitive.Timestamp;
-
-import java.util.Vector;
-
-import org.w3c.dom.Element;
-
 import StratmasClient.communication.Subscription;
 import StratmasClient.communication.StratmasObjectSubscription;
 

@@ -2,7 +2,6 @@ package StratmasClient.timeline;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetAdapter;

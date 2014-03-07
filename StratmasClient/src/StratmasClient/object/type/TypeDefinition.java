@@ -5,11 +5,6 @@
 
 package StratmasClient.object.type;
 
-import StratmasClient.Debug;
-
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.Enumeration;
 import org.apache.xerces.xs.*;
 
 /**

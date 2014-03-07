@@ -7,10 +7,8 @@ package StratmasClient.object;
 
 import java.util.Vector;
 
-import StratmasClient.Debug;
 import StratmasClient.BoundingBox;
 
-import StratmasClient.object.type.Type;
 import StratmasClient.object.type.Declaration;
 import StratmasClient.object.type.TypeFactory;
 import StratmasClient.object.primitive.Identifier;
@@ -18,8 +16,6 @@ import StratmasClient.object.primitive.Timestamp;
 import StratmasClient.map.Projection;
 
 import org.w3c.dom.Element;
-
-import java.util.Enumeration;
 
 /**
  * A circle defines a set of two dimensional points contained by a

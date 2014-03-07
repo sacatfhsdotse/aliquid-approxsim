@@ -11,13 +11,9 @@ import StratmasClient.object.type.TypeFactory;
 import StratmasClient.object.primitive.Duration;
 import StratmasClient.object.primitive.Identifier;
 import StratmasClient.object.primitive.Timestamp;
-import StratmasClient.object.primitive.Reference;
-
 import org.w3c.dom.Element;
 
 import java.text.ParseException;
-
-import java.text.SimpleDateFormat;
 
 /**
  * StratmasDuration is a Stratmas duration class

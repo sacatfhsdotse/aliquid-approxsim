@@ -2,7 +2,6 @@ package StratmasClient.timeline;
 
 import java.util.Hashtable;
 import java.util.Vector;
-import java.util.Enumeration;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JComboBox;

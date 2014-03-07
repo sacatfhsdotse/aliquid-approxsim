@@ -7,68 +7,29 @@ package StratmasClient.evolver;
 
 import StratmasClient.object.StratmasObject;
 import StratmasClient.Debug;
-import StratmasClient.Client;
-import StratmasClient.object.Shape;
-import StratmasClient.object.primitive.Timestamp;
-import StratmasClient.object.type.TypeFactory;
-
-import StratmasClient.dispatcher.StratmasDispatcher;
-
-import StratmasClient.communication.Subscription;
-import StratmasClient.communication.RegionData;
-import StratmasClient.communication.RegionSubscription;
-import StratmasClient.communication.ServerConnection;
-import StratmasClient.communication.StepMessage;
-
-import org.w3c.dom.Element;
-
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.JButton;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JSeparator;
 import javax.swing.ImageIcon;
 import javax.swing.AbstractAction;
-import javax.swing.JComponent;
 import javax.swing.BoxLayout;
-import javax.swing.SwingUtilities;
-import javax.swing.ListModel;
-import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.Action;
 
-import java.util.Random;
-import java.util.Vector;
 import java.util.Enumeration;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Hashtable;
 
-import java.io.IOException;
-
-import java.awt.Point;
-import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
-import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DragSource;
-import java.awt.dnd.DragSourceDropEvent;
-import java.awt.dnd.DragSourceAdapter;
-import java.awt.dnd.DragGestureRecognizer;
-import java.awt.dnd.DragGestureListener;
-import java.awt.dnd.DragGestureEvent;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetEvent;

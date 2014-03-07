@@ -3,7 +3,6 @@ package StratmasClient.communication;
 
 import java.io.*;
 import java.net.*;
-import StratmasClient.Debug;
 
 /**
  * Wrapper around Socket class that may send and receive stratmas

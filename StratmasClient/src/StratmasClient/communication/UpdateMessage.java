@@ -4,7 +4,6 @@ package StratmasClient.communication;
 import java.lang.StringBuffer;
 import java.util.Iterator;
 import java.util.Vector;
-import StratmasClient.object.StratmasObject;
 
 
 /**

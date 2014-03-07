@@ -37,7 +37,7 @@
   <target name="compile" depends="init,extractJars"
         description="compile the source " >
     <javac srcdir="${src}" destdir="${build}"
-           source="7"
+           source="6"
            deprecation="yes"
            includeantruntime="false"/>
     <copy todir="${build}/schemas" flatten="true">
@@ -77,7 +77,7 @@
       version="true"
       use="true"
       windowtitle="${ant.project.name}">
-      <link href="http://docs.oracle.com/javase/7/docs/api/"/>
+      <link href="http://docs.oracle.com/javase/6/docs/api/"/>
       <packageset dir="${src}" defaultexcludes="yes">
         <include name="StratmasDispatcher/**"/>
       </packageset>

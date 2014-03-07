@@ -1,3 +1,4 @@
 /build
 /dist
 /install
+/hs_err_pid*.log

@@ -653,7 +653,7 @@ public class Client implements StratmasEventListener {
         try {
            //TODO make setting
            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+        } catch(Exception e) {
             e.printStackTrace();
         }
     	

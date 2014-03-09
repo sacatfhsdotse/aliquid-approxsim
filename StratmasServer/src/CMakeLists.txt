@@ -13,27 +13,26 @@ SET (project_BIN ${PROJECT_NAME})
 SET (schemas_dir "${MAINFOLDER}/../schemas")
 
 #OS
-IF(${UNIX} AND NOT ${WIN32})
-  add_definitions(-DOS_UNIX)
-ENDIF()
-
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
   add_definitions(-DOS_WIN32)
 ENDIF()
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+  add_definitions(-DOS_UNIX)
   add_definitions(-DOS_LINUX)
   #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
   LIST (APPEND project_OS_SPECIFIC "-pthread")
 ENDIF()
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+  add_definitions(-DOS_UNIX)
   add_definitions(-DOS_DARWIN)
 ELSE()
   #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wl,-rpath")
 ENDIF()
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Solaris")
+  add_definitions(-DOS_UNIX)
   add_definitions(-DOS_SOLARIS)
   LIST (APPEND project_OS_SPECIFIC "-lsocket -lnsl")
 ENDIF()

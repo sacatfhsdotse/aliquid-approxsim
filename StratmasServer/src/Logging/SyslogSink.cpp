@@ -1,5 +1,5 @@
 // $Id: SyslogSink.cpp,v 1.1 2006/07/25 14:52:00 dah Exp $
-#ifdef OS_LINUX
+#ifdef OS_UNIX
 
 // System
 #include <syslog.h>

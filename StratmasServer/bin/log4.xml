@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd" >
-<log4j:configuration>
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 	<appender name="file" class="org.apache.log4j.FileAppender" >
        <param name="File" value="log.log" />
        <param name="Append" value="true" />
@@ -35,7 +35,7 @@
 		<appender-ref ref="file-error" />
 		<appender-ref ref="stdout" />
 	</root>
-	<logger name="se.exuvo" additivity="false">
+	<logger name="stratmas" additivity="false">
 		<level value="info"/>
 		<appender-ref ref="file" />
 		<appender-ref ref="file-error" />

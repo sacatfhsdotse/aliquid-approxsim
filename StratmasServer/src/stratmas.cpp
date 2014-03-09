@@ -12,6 +12,7 @@
 #include <cstdio>
 
 // Own
+#include "Log4C.h"
 #include "Registrator.h"
 #include "debugheader.h"
 #include "Environment.h"
@@ -43,6 +44,9 @@ int main(int argc, char **argv)
      // Note that Environment::initEnvironment(argc, argv); is
      // expected to be called first in main.
      Environment::initEnvironment(argc, argv);
+
+     // Initialize logging
+     Log4C::init(Environment::getInstallDir() / "/log4.xml");
 
      // Set timezone to UTC (for XMLHelper)
      initTimeZone();

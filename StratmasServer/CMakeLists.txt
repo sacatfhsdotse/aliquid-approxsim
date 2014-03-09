@@ -69,26 +69,26 @@ ENDIF()
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
 
-#FIND_PACKAGE (Log4Cxx)
-#IF (${Log4Cxx_FOUND})
-##  message("Found Log4Cxx")
-#ELSE()
-#  message("Log4Cxx not found locally, will download during build")
-#  include(ExternalProject)
-#  ExternalProject_Add(
-#    Log4Cxx
-#    URL http://apache.mirrors.spacedump.net/logging/log4cxx/0.10.0/apache-log4cxx-0.10.0.tar.gz
-#    URL_MD5 b30ffb8da3665178e68940ff7a61084c
-#    CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
-#    BUILD_COMMAND make -j${cores}
-#  )
-#  ExternalProject_Get_Property(Log4Cxx install_dir)
-#  SET (Log4Cxx_INCLUDE_DIRS ${install_dir}/include)
-#  SET (Log4Cxx_LIBRARY_DIRS ${install_dir}/lib)
-#  SET (Log4Cxx_LIBRARIES xerces-c)
-#ENDIF()
-#INCLUDE_DIRECTORIES(${Log4Cxx_INCLUDE_DIRS})
-#LINK_DIRECTORIES(${Log4Cxx_LIBRARY_DIRS})
+FIND_PACKAGE (Log4Cxx)
+IF (${Log4Cxx_FOUND})
+#  message("Found Log4Cxx")
+ELSE()
+  message("Log4Cxx not found locally, will download during build")
+  include(ExternalProject)
+  ExternalProject_Add(
+    Log4Cxx
+    URL http://apache.mirrors.spacedump.net/logging/log4cxx/0.10.0/apache-log4cxx-0.10.0.tar.gz
+    URL_MD5 b30ffb8da3665178e68940ff7a61084c
+    CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
+    BUILD_COMMAND make -j${cores}
+  )
+  ExternalProject_Get_Property(Log4Cxx install_dir)
+  SET (Log4Cxx_INCLUDE_DIRS ${install_dir}/include)
+  SET (Log4Cxx_LIBRARY_DIRS ${install_dir}/lib)
+  SET (Log4Cxx_LIBRARIES xerces-c)
+ENDIF()
+INCLUDE_DIRECTORIES(${Log4Cxx_INCLUDE_DIRS})
+LINK_DIRECTORIES(${Log4Cxx_LIBRARY_DIRS})
 
 if(TESTS)
   FIND_PACKAGE (UnitTestPlusPlus)

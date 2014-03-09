@@ -79,7 +79,6 @@ private:
                                     po::options_description* development);
      static void handlePlatformOptions(po::variables_map* vm);
 
-     static const fs::path& getInstallDir();
      static std::string getNativePath(const fs::path& path);
      static std::string getInstalledPath(const fs::path& installedPath);
 
@@ -96,6 +95,7 @@ public:
      // File operations.
      static std::string getNativePath(const std::string& path);
      static std::string getDumpDir();
+     static const fs::path& getInstallDir();
 
      // Misc utilities
      static void milliSleep(int secs);

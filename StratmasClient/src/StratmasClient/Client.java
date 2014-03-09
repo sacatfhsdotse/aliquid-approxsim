@@ -117,6 +117,10 @@ public class Client implements StratmasEventListener {
      */
     private String serverName = null;
     /**
+     * The name of the previous server used.
+     */
+    private String previousServerName = "localhost";
+    /**
      * Indicates the status of the server. 
      */
     private Hashtable status = new Hashtable();
@@ -946,7 +950,9 @@ public class Client implements StratmasEventListener {
      * Shows a gui that sets the name of the server to use.
      */
     public void setServerNameGUI() {
-        setServerName(StratmasDialog.showInputDialog(null, "Choose simulation server", "localhost"));
+    	String value = StratmasDialog.showInputDialog(null, "Choose simulation server", previousServerName);
+    	previousServerName = value.equals("") ? previousServerName : value;
+        setServerName(previousServerName);
     }
     
     /**

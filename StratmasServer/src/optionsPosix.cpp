@@ -1,5 +1,5 @@
 // $Id: optionsPosix.cpp,v 1.2 2006/09/11 09:00:30 dah Exp $
-#ifdef OS_LINUX
+#ifdef OS_UNIX
 // System
 #include <unistd.h>
 
@@ -46,4 +46,4 @@ void Environment::handlePlatformOptions(po::variables_map* vm)
      }
 }
 
-#endif /* OS_LINUX */
+#endif /* OS_UNIX */

@@ -1,4 +1,4 @@
-#ifdef OS_LINUX
+#ifdef OS_UNIX
 // System
 #include <errno.h>
 #include <fcntl.h>
@@ -331,4 +331,4 @@ std::string PosixSocket::address() const
      return ost.str();
 }
 
-#endif /* OS_LINUX */
+#endif /* OS_UNIX */

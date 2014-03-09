@@ -8,7 +8,7 @@
 // Own
 #include "Lockable.h"
 #include "Mapper.h"
-#include "Time.h"
+#include "Time2.h"
 
 // Forward declarations
 class CombatGrid;

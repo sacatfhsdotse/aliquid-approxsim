@@ -6,7 +6,7 @@
 // Own
 #include "stdint.h"
 #include "Lockable.h"
-#include "Time.h"
+#include "Time2.h"
 #include "TSQueue.h"
 
 // Forward declarations

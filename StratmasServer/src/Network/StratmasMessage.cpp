@@ -15,7 +15,7 @@
 #include "Session.h"
 #include "StratmasMessage.h"
 #include "Subscription.h"
-#include "Time.h"
+#include "Time2.h"
 #include "XMLHelper.h"
 
 // Xerces-c

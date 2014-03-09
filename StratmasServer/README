@@ -31,6 +31,7 @@
 
  To generate documentation run 'make docs'
  To run tests './configure -DTESTS=On' and then 'make'
+ To run with extra debug output './configure -DDEBUG=On' and then 'make'
 
 == 3. INSTALLING ==
 

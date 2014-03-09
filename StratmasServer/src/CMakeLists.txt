@@ -13,6 +13,10 @@ SET (project_BIN ${PROJECT_NAME})
 SET (schemas_dir "${MAINFOLDER}/../schemas")
 
 #OS
+IF(${UNIX} AND NOT ${WIN32})
+  add_definitions(-DOS_UNIX)
+ENDIF()
+
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
   add_definitions(-DOS_WIN32)
 ENDIF()

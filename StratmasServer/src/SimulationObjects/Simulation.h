@@ -2,7 +2,7 @@
 #define STRATMAS_SIMULATION_H
 
 // Own
-#include "Time.h"
+#include "Time2.h"
 #include "UpdatableSOAdapter.h"
 
 // Forward Declarations

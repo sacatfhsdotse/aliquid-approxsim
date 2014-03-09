@@ -10,7 +10,7 @@
 // Own
 #include "GridEffect.h"
 #include "ProcessVariables.h"
-#include "Time.h"
+#include "Time2.h"
 #include "UpdatableSOAdapter.h"
 
 // Forward Declarations

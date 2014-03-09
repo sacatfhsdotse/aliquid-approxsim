@@ -10,7 +10,7 @@
 #include <xercesc/util/XercesDefs.hpp>
 
 // Own
-#include "Time.h"
+#include "Time2.h"
 #include "StrX.h"
 
 using namespace std;

@@ -15,6 +15,11 @@ SET (APPLICATION_VENDOR_NAME "Your Company")
 SET (APPLICATION_VENDOR_URL "yourcompany.com")
 
 option(TESTS "Enable tests build" OFF)
+option(DEBUG "Enable debug output" OFF)
+
+IF(DEBUG)
+  add_definitions(-DDEBUG)
+ENDIF()
 
 set (CMAKE_CONFIGURATION_TYPES Debug Release)
 set (CMAKE_BUILD_TYPE Debug)

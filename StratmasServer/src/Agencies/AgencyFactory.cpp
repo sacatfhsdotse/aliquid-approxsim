@@ -77,27 +77,27 @@ void AgencyFactory::createAgencies(Grid& grid, const vector<AgencyTeam*>& teams,
      
      if (!teamVecs[eFood].empty()) {
           ioAgencies.push_back(new FoodAgency(teamVecs[eFood], grid));
-//          debug("Created FoodAgency with " << teamVecs[eFood].size() << " teams");
+//          stratmasDebug("Created FoodAgency with " << teamVecs[eFood].size() << " teams");
      }
      if (!teamVecs[eHealth].empty()) {
           ioAgencies.push_back(new HealthAgency(teamVecs[eHealth], grid));
-//          debug("Created HealthAgency with " << teamVecs[eHealth].size() << " teams");
+//          stratmasDebug("Created HealthAgency with " << teamVecs[eHealth].size() << " teams");
      }
      if (!teamVecs[ePolice].empty()) {
           ioAgencies.push_back(new PoliceAgency(teamVecs[ePolice], grid));
-//          debug("Created PoliceAgency with " << teamVecs[ePolice].size() << " teams");
+//          stratmasDebug("Created PoliceAgency with " << teamVecs[ePolice].size() << " teams");
      }
      if (!teamVecs[eCustom].empty()) {
           ioAgencies.push_back(new CustomAgency(teamVecs[eCustom], grid));
-//          debug("Created CustomAgency with " << teamVecs[eCustom].size() << " teams");
+//          stratmasDebug("Created CustomAgency with " << teamVecs[eCustom].size() << " teams");
      }
      if (!teamVecs[eShelter].empty()) {
           ioAgencies.push_back(new ShelterAgency(teamVecs[eShelter], grid));
-//          debug("Created ShelterAgency with " << teamVecs[eShelter].size() << " teams");
+//          stratmasDebug("Created ShelterAgency with " << teamVecs[eShelter].size() << " teams");
      }
      if (!teamVecs[eWater].empty()) {
           ioAgencies.push_back(new WaterAgency(teamVecs[eWater], grid));
-//          debug("Created WaterAgency with " << teamVecs[eWater].size() << " teams");
+//          stratmasDebug("Created WaterAgency with " << teamVecs[eWater].size() << " teams");
      }
 }
 

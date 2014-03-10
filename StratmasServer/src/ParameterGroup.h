@@ -201,7 +201,7 @@ public:
      }
 
      void addObject(DataObject& toAdd, int64_t initiator) {
-          debug("ParameterGroup " << ref() << " ignoring added object " << toAdd.ref().name());
+          stratmasDebug("ParameterGroup " << ref() << " ignoring added object " << toAdd.ref().name());
      }
 
      void removeObject(const Reference& toRemove, int64_t initiator) {
@@ -227,17 +227,17 @@ public:
      }
 
      void replaceObject(DataObject& newObject, int64_t initiator) {
-          debug("ParameterGroup " << ref() << " ignoring to replace object " << newObject.identifier());
+          stratmasDebug("ParameterGroup " << ref() << " ignoring to replace object " << newObject.identifier());
      }
 
      void modify(const DataObject& d) {
           typename std::map<std::string, ENUM>::iterator it = mNameToIndex.find(d.identifier());
           if (it != mNameToIndex.end()) {
                mParameters[it->second] = d.getDouble();
-               debug("Setting " << it->first << " to " << mParameters[it->second]);
+               stratmasDebug("Setting " << it->first << " to " << mParameters[it->second]);
           }
           else {
-               debug("No updatable attribute '" << d.identifier() << "' in '" << ref() << "'. Ignoring...");
+               stratmasDebug("No updatable attribute '" << d.identifier() << "' in '" << ref() << "'. Ignoring...");
           }
      }
 

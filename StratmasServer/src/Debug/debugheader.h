@@ -4,12 +4,13 @@
 
 #ifdef DEBUG
 #include <iostream>
-#define debug(x) std::cerr << x << std::endl;
-#define debugnnl(x) std::cerr << x;
-#define debugl0(x, y) if (y > 0) { std::cerr << x << ": " << y << std::endl; }
+#include "Log4C.h"
+#define stratmasDebug(x) LOG4CXX_DEBUG(debugLog, x)
+#define debugnnl(x) LOG4CXX_DEBUG(debugLog, x)
+#define debugl0(x, y) if (y > 0) { LOG4CXX_DEBUG(debugLog, << x << ": " << y << std::endl); }
 #define INDENT ("  ")
 #else
-#define debug(x)
+#define stratmasDebug(x)
 #define debugnnl(x)
 #define debugl0(x, y)
 #define INDENT ("")

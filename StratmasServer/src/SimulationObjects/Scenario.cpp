@@ -322,11 +322,11 @@ void Scenario::modify(const DataObject& d)
      const string& attr = d.identifier();
      if (attr == "HDI") {
           mHDI = d.getDouble();
-          debug("Setting HDI to " << mHDI);
+          stratmasDebug("Setting HDI to " << mHDI);
      }
      else if (attr == "unemployment") {
           mUnemployment = d.getDouble();
-          debug("Setting unemployment to " << mUnemployment);
+          stratmasDebug("Setting unemployment to " << mUnemployment);
      }
      else {
           Error e;

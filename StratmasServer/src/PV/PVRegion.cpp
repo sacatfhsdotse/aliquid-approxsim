@@ -25,7 +25,7 @@ PVInitValueSet* PVInitValueSet::sCurrentSet(0);
 PVRegion::PVRegion(const DOMElement* n) : mValue(0), mShapeRef(0), mArea(0)
 {
      mValue = XMLHelper::getDouble(*n, "value");
-     //debug("value: " << mValue);
+     //stratmasDebug("value: " << mValue);
      string type = XMLHelper::getTypeAttribute(*n);
      if (type == "ESRIRegion") {
           mShapeRef = &Reference::get(XMLHelper::getFirstChildByTag(*n, "reference"));
@@ -98,7 +98,7 @@ PVInitValue::PVInitValue(const DOMElement* n)
      string pvName;
      XMLHelper::getString(*XMLHelper::getFirstChildByTag(*n, "pv"), "name", pvName);
      mPV = PVHelper::displayNameToOverAllOrder(pvName);
-     //debug("pvName: " << pvName<< ", pvIndex: " << mPV);
+     //stratmasDebug("pvName: " << pvName<< ", pvIndex: " << mPV);
      vector<DOMElement*> elems;
      XMLHelper::getChildElementsByTag(*n, "faction", elems);
      for(vector<DOMElement*>::const_iterator it = elems.begin(); it != elems.end(); ++it) {

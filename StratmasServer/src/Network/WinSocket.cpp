@@ -134,7 +134,7 @@ bool WinSocket::bind(const char *host, int port)
      mAddr.sin_addr.s_addr = (host ? *(unsigned int*)*tmp->h_addr_list : INADDR_ANY);
      mAddr.sin_port        = htons(port);
 
-     debug("Server is binding to " << address() << ":" << port);
+     stratmasDebug("Server is binding to " << address() << ":" << port);
 
      int bindRet = ::bind(mSock, (struct sockaddr*)(&mAddr), sizeof(mAddr));
 
@@ -297,7 +297,7 @@ bool WinSocket::connect(const std::string host, const int port)
          << ((int)(address>>8)&0xFF) << "." 
          << ((int)address&0xFF) << ":"
          << port;
-     debug("Server is connecting to " << ost.str());
+     stratmasDebug("Server is connecting to " << ost.str());
 
      int status = ::connect(mSock, (sockaddr*) &mAddr, sizeof(mAddr));
 

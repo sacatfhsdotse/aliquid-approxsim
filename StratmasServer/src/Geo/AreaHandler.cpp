@@ -253,7 +253,7 @@ inline GridPos AreaHandler::cellPos(double x, double y) const
      GridPos po(mRows - static_cast<int>((y - mBottom) / mDy) - 1, static_cast<int>((x - mLeft) / mDx));
 
 //      if (po.c < 0 || po.c >= mCols || po.r < 0 || po.r >= mRows) {
-//           debug("point " << x << ", " << y << " is outside grid - e.g. " << po);
+//           stratmasDebug("point " << x << ", " << y << " is outside grid - e.g. " << po);
 //      }
 
      return po;
@@ -427,7 +427,7 @@ void AreaHandler::polygonBoundaryToCellBoundary(gpc_vertex *inP, int inNumPoints
                               y = borderBetweenRows(row, row + 1);
                               x = (y - p1->y) * oneOverk + p1->x;
                               if (x < 0) {
-//                                   debug("STOP");
+//                                   stratmasDebug("STOP");
                               }
                               ctmp = cellPos(x, p1->y - count * mDy);
                               addCellsInCurrentRow(outB, ctmp.c - lastc);
@@ -442,7 +442,7 @@ void AreaHandler::polygonBoundaryToCellBoundary(gpc_vertex *inP, int inNumPoints
                               y = borderBetweenRows(row, row - 1);
                               x = (y - p1->y) * oneOverk + p1->x;
                               if (x < 0) {
-//                                   debug("STOP");
+//                                   stratmasDebug("STOP");
                               }
                               ctmp = cellPos(x, p1->y + count * mDy);
                               addCellsInCurrentRow(outB, ctmp.c - lastc);

@@ -71,7 +71,7 @@ int main(int argc, char **argv)
                     << Environment::getDispatcherPort() << logEnd;
                exit(1);
           } else {
-               debug("Registered with dispatcher at "
+               stratmasDebug("Registered with dispatcher at "
                      << Environment::getDispatcherHost() << ":" 
                      << Environment::getDispatcherPort());
 

@@ -186,7 +186,7 @@ void GridCell::doDisplaced(double* data)
                     if (pvfGet(ePopulation, i) > 0.0) {
                          double prop = pvfGet(ePopulation, i) / pvfGet(ePopulation);
                          dPop[i] -= (prop * nKilled * pvfGet(eDisplaced, i) / pvfGet(ePopulation, i));
-                         debug((prop * nKilled * pvfGet(eDisplaced, i) / pvfGet(ePopulation, i))
+                         stratmasDebug((prop * nKilled * pvfGet(eDisplaced, i) / pvfGet(ePopulation, i))
                               << " displaced people of faction " << i << " dies from military engagement");
                     }
                }
@@ -710,7 +710,7 @@ void GridCell::doDAvailableFood(double* data)
 //           totSuDN = 0;
 //      }
 //      if (pvfGet(ePopulation) > 0) {
-//           debug(row() << ", " << col());
+//           stratmasDebug(row() << ", " << col());
 //      }
 
      double cellImport = 0;
@@ -734,13 +734,13 @@ void GridCell::doDAvailableFood(double* data)
 //                fracTotN += ownSurpDef / regSurpDef;
 //           }
            if (pvfGet(ePopulation) > 0) {
-//                debug("  prod        : " << prodShare << " (" << prodShare / r.pvrGet(eRFoodProduction) << " of tot for region)");
-//                debug("  weighted pop: " << pvfGet(ePopulation) * weight() << " ("
+//                stratmasDebug("  prod        : " << prodShare << " (" << prodShare / r.pvrGet(eRFoodProduction) << " of tot for region)");
+//                stratmasDebug("  weighted pop: " << pvfGet(ePopulation) * weight() << " ("
 //                      << pvfGet(ePopulation) * weight() / r.cellGroup().pvfGet(ePopulation) << " of tot for region)");
-//                debug("  ownSurpDef  : " << ownSurpDef << " (" << ownSurpDef / regSurpDef << " of tot for region)");
-//                debug("  contrib from " << r.ref().name() << ": " << (regSurpDef != 0 ? regImport * ownSurpDef * weight() / regSurpDef : 0));
-//                debug("  fracTot     : " << fracTot);
-//                debug("  fracTotN    : " << fracTotN);
+//                stratmasDebug("  ownSurpDef  : " << ownSurpDef << " (" << ownSurpDef / regSurpDef << " of tot for region)");
+//                stratmasDebug("  contrib from " << r.ref().name() << ": " << (regSurpDef != 0 ? regImport * ownSurpDef * weight() / regSurpDef : 0));
+//                stratmasDebug("  fracTot     : " << fracTot);
+//                stratmasDebug("  fracTotN    : " << fracTotN);
            }
      }
 
@@ -751,9 +751,9 @@ void GridCell::doDAvailableFood(double* data)
 //           totImpN += cellImport;
 //      }
      if (pvfGet(ePopulation) > 0) {
-//           debug("  cellImport: " << cellImport);
-//           debug("  totImp    : " << totImp);
-//           debug("  totImpN   : " << totImpN);
+//           stratmasDebug("  cellImport: " << cellImport);
+//           stratmasDebug("  totImp    : " << totImp);
+//           stratmasDebug("  totImpN   : " << totImpN);
      }
 
      *data = pvGet(eStoredFood) + pvGet(eMarketedFood) + cellImport;
@@ -800,7 +800,7 @@ void GridCell::doPrecalculated()
                pcfSet(ePUnsheltered, i, pcfGet(ePUnsheltered, i) * factor);
                double sum2 = pcfGet(ePAtHome, i) + pcfGet(ePSheltered, i) + pcfGet(ePUnsheltered, i) + pvfGet(eProtected, i);
                if (sum2 > pvfGet(ePopulation, i)) {
-                    debug("sum2 > population[" << i << "]: " << sum2 << " > " << pvfGet(ePopulation, i) 
+                    stratmasDebug("sum2 > population[" << i << "]: " << sum2 << " > " << pvfGet(ePopulation, i) 
                          << ", factor: " << factor);
                }
           }
@@ -1065,7 +1065,7 @@ void GridCell::exposeProtected(double* data, const EthnicFaction& fac, double si
                }
 
                if (data[i] != pvfGet(eProtected, i)) {
-                    debug("data[" << i << "] != pvfGet(eProtected, " << i << ") - "
+                    stratmasDebug("data[" << i << "] != pvfGet(eProtected, " << i << ") - "
                          << data[i] << " != " << pvfGet(eProtected, i));
                }
 
@@ -1075,10 +1075,10 @@ void GridCell::exposeProtected(double* data, const EthnicFaction& fac, double si
 
                if (pvfGet(eDisplaced, i) < pvfGet(eSheltered, i) ||
                    pvfGet(eDisplaced, i) + data[i] > pvfGet(ePopulation, i)) {
-                    debug("target: " << target << ", delta: " << delta);
-                    debug("displaced: " << pvfGet(eDisplaced, i) << ", data[" << i << "]: " << data[i]);
-                    debug("sheltered: " << pvfGet(eSheltered, i));
-                    debug("displaced + protected: " << pvfGet(eDisplaced, i) + data[i]);
+                    stratmasDebug("target: " << target << ", delta: " << delta);
+                    stratmasDebug("displaced: " << pvfGet(eDisplaced, i) << ", data[" << i << "]: " << data[i]);
+                    stratmasDebug("sheltered: " << pvfGet(eSheltered, i));
+                    stratmasDebug("displaced + protected: " << pvfGet(eDisplaced, i) + data[i]);
                }
           }
      }

@@ -146,7 +146,7 @@ int XMLHandler::handle(const string &xml)
 {
      int res = eUnknown;
      mLastType = "Unknown";
-     debug(xml.c_str());
+     stratmasDebug(xml.c_str());
      const char *xmlChar = xml.c_str();
      MemBufInputSource* memBuf = new MemBufInputSource((XMLByte*)xmlChar, xml.size(), "ClientMessage", false);
      memBuf->setCopyBufToStream(false);
@@ -189,7 +189,7 @@ int XMLHandler::handle(const string &xml)
      if (mErrorReporter->errorsOccurred() || errOcc) {
           mParser->resetDocumentPool();   // Destroy parsed document
           delete memBuf;
-          debug("Dumping discarded message!");
+          stratmasDebug("Dumping discarded message!");
           IOHandler::dumpToFile(xml, "DISCARDED_MESSAGE.tmp");
           if (errOcc) {
                throw anError;
@@ -206,16 +206,16 @@ int XMLHandler::handle(const string &xml)
                mLastType = type.str();
                XMLHelper::removeNamespace(mLastType);
                if (type == "sp:ConnectMessage") {
-                    debug("ConnectMessage received.");
+                    stratmasDebug("ConnectMessage received.");
                     handleConnectMessage(*root);
                     res = eConnect;
                }
                else if (type == "sp:DisconnectMessage") {
-                    debug("DisconnectMessage received.");
+                    stratmasDebug("DisconnectMessage received.");
                     res = eDisconnect;
                }
                else if (type == "sp:InitializationMessage") {
-                    debug("InitializationMessage received.");
+                    stratmasDebug("InitializationMessage received.");
 //                    IOHandler::dumpToFile(xml, "init.xml");
                     StopWatch s;
                     s.start();
@@ -232,48 +232,48 @@ int XMLHandler::handle(const string &xml)
 //                     ofs.close();
 
                     s.stop();
-                    debug("DataObject creation took " << s.secs() << " secs" );
+                    stratmasDebug("DataObject creation took " << s.secs() << " secs" );
 
                     res = eInitialization;
                }
                else if (type == "sp:ServerCapabilitiesMessage") {
-                    debug("ServerCapabilitiesMessage received.");
+                    stratmasDebug("ServerCapabilitiesMessage received.");
                     res = eServerCapabilities;
                }
                else if (type == "sp:GetGridMessage") {
-                    debug("GetGridMessage received.");
+                    stratmasDebug("GetGridMessage received.");
                     res = eGetGrid;
                }
                else if (type == "sp:RegisterForUpdatesMessage") {
-                    debug("RegisterForUpdatesMessage received.");
+                    stratmasDebug("RegisterForUpdatesMessage received.");
                     handleRegisterForUpdatesMessage(*root);
                     res = eRegisterForUpdates;
                }
                else if (type == "sp:SubscriptionMessage") {
-                    debug("SubscriptionMessage received.");
+                    stratmasDebug("SubscriptionMessage received.");
                     handleSubscriptionMessage(*root);
                     res = eSubscription;
                }
                else if (type == "sp:StepMessage") {
-                    debug("StepMessage received.");
+                    stratmasDebug("StepMessage received.");
                     handleStepMessage(*root);
                     res = eStep;
                }
                else if (type == "sp:UpdateServerMessage") {
-                    debug("UpdateServerMessage received.");
+                    stratmasDebug("UpdateServerMessage received.");
                     handleServerUpdateMessage(*root);
                     res = eUpdateServer;
                }
                else if (type == "sp:ResetMessage") {
-                    debug("ResetMessage received.");
+                    stratmasDebug("ResetMessage received.");
                     res = eReset;
                }
                else if (type == "sp:ProgressQueryMessage") {
-                    debug("ProgressQueryMessage received.");
+                    stratmasDebug("ProgressQueryMessage received.");
                     res = eProgressQuery;
                }
                else if (type == "sp:SetPropertyMessage") {
-                    debug("SetPropertyMessage received.");
+                    stratmasDebug("SetPropertyMessage received.");
                     handleSetPropertyMessage(*root);
                     res = eSetProperty;
                }
@@ -341,7 +341,7 @@ void XMLHandler::handleSubscriptionMessage(DOMElement &n)
 void XMLHandler::handleStepMessage(DOMElement &n)
 {
      mNumberOfTimesteps = XMLHelper::getInt(n, "numberOfTimesteps");
-//     debug("====== Number of timesteps " << mNumberOfTimesteps);
+//     stratmasDebug("====== Number of timesteps " << mNumberOfTimesteps);
      // Shouldn't be optional in the future...
      if (XMLHelper::getFirstChildByTag(n, "detached")) {
           mDetachedStep = XMLHelper::getBool(n, "detached");
@@ -422,11 +422,11 @@ void XMLHandler::createSubscription(DOMElement &n)
      StrX type(n.getAttribute(XStr("xsi:type").str()));
      if (type == "sp:RootSubscription") {
 //          addSubscription(new GeneralSubscription(&n, mBuf));
-          debug("=========== RootSubscriptions no longer supported! ===========");
+          stratmasDebug("=========== RootSubscriptions no longer supported! ===========");
      }
      else if (type == "sp:GeneralSubscription") {
 //          addSubscription(new GeneralSubscription(&n, mBuf));
-          debug("=========== GeneralSubscriptions no longer supported! ===========");
+          stratmasDebug("=========== GeneralSubscriptions no longer supported! ===========");
      }
      else if (type == "sp:StratmasObjectSubscription") {
           addSubscription(new StratmasObjectSubscription(&n, mBuf, mId));
@@ -440,9 +440,9 @@ void XMLHandler::createSubscription(DOMElement &n)
      else if (type == "sp:Unsubscription") {
           int toRemove = XMLHelper::getIntAttribute(n, "id");
           map<int, Subscription*>::iterator it = mSubscriptions.find(toRemove);
-          debug("%%%%%%%%% Got remove subscription message");
+          stratmasDebug("%%%%%%%%% Got remove subscription message");
           if (it != mSubscriptions.end()) {
-               debug("Removing Subscription: '" << it->first << "'");
+               stratmasDebug("Removing Subscription: '" << it->first << "'");
                delete it->second;
                mSubscriptions.erase(it->first);
           }

@@ -299,7 +299,7 @@ void ContainerChangeTrackerAdapter::removeChild(const Reference& ref)
                mChildren.erase(it);
           }
           else {
-               debug("Removed change adapter for " << ref << " twice!!! But it's ok...");
+               stratmasDebug("Removed change adapter for " << ref << " twice!!! But it's ok...");
           }
      }
 }
@@ -335,11 +335,11 @@ void ContainerChangeTrackerAdapter::objectAdded(const Reference& ref, int64_t in
           std::map<const Reference*, char>::iterator it = mChanges.find(&ref);
           if (it == mChanges.end()) {
                mChanges[&ref] = 'a';
-               debug("---Object " << ref << " added -> 'a'");
+               stratmasDebug("---Object " << ref << " added -> 'a'");
           }
           else if (it->second == 'r') {
                mChanges[&ref] = 'x';
-               debug("---Object " << ref << " added -> 'x'");
+               stratmasDebug("---Object " << ref << " added -> 'x'");
           }
           else {
                Error e;

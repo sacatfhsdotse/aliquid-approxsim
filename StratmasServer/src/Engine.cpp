@@ -103,12 +103,12 @@ void Engine::run() {
                          s.start();
                          mSimulation->step();
                          s.stop();
-                         debug("Step took " << s.secs() << " seconds");
+                         stratmasDebug("Step took " << s.secs() << " seconds");
                          Lock bufLock(mBuf.mutex());
                          s.start();
                          SOMapper::extract(mBuf);
                          s.stop();
-                         debug("Extraction took " << s.secs() << " seconds");
+                         stratmasDebug("Extraction took " << s.secs() << " seconds");
                          bufLock.unlock();
 
                          // Notify all listeners listening for the
@@ -120,7 +120,7 @@ void Engine::run() {
                               mTimeListeners.erase(mTimeListeners.begin());
                          }
                          lock.unlock();
-//                         debug("Simulation time after timestep: " << tt - mBuf.simulationData().mStartTime);
+//                         stratmasDebug("Simulation time after timestep: " << tt - mBuf.simulationData().mStartTime);
                     }
 
                     mBuf.engineIdle(true);
@@ -239,13 +239,13 @@ UniqueTime Engine::registerInterestInTime(Time t, TSQueue<EngineStatusObject>* q
      UniqueTime ut(t);
      if (mBuf.simTime() >= t) {
           q->enqueue(EngineStatusObject());
-          debug("Time " << t << " has already past");
+          stratmasDebug("Time " << t << " has already past");
      }
      else {
           Lock lock(mutex());
           mTimeListeners[ut] = q;
           lock.unlock();
-//          debug("Registering interest in time " << ut.time() - mBuf.simulationData().mStartTime);
+//          stratmasDebug("Registering interest in time " << ut.time() - mBuf.simulationData().mStartTime);
      }
      return ut;
 }

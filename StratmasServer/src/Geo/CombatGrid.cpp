@@ -424,7 +424,7 @@ void CombatGrid::registerCombat()
                         c.pvfGet(ePopulation, j) / c.pvfGet(ePopulation) > 0.35 &&
                         ins / totEnemyCount[j - 1] > 0.1 &&
                         u.faction().isHostileTowards(*EthnicFaction::faction(j))) {
-//                          debug(EthnicFaction::faction(j)->ref().name() << " is hostile towards "
+//                          stratmasDebug(EthnicFaction::faction(j)->ref().name() << " is hostile towards "
 //                                << u.ref().name() << " since " << ins /areakm2 << " > 10 and "
 //                                << c.pvfGet(ePopulation, j) / c.pvfGet(ePopulation) << " > 0.35 and "
 //                                << ins / max(kSmallNumber, totEnemyCount[j - 1]) << " > 0.1");
@@ -436,7 +436,7 @@ void CombatGrid::registerCombat()
 //                               ins / value(index, u.faction().ref().name()) > 0.1 && 
                              u.faction().isHostileTowards(*EthnicFaction::faction(j))) {
                          
-//                          debug(EthnicFaction::faction(j)->ref().name() << " is hostile towards "
+//                          stratmasDebug(EthnicFaction::faction(j)->ref().name() << " is hostile towards "
 //                                << u.ref().name() << " since " << ins /areakm2 << " > 1 and "
 //                                << ins / value(index, u.faction().ref().name()) << " > 0.1");
 
@@ -500,11 +500,11 @@ void CombatGrid::registerCombat()
                          // Don't fight insurgents if we're fighting other units.
                          if (!u.combatSituation() && !u.searching() && unitImpact > 0) {
                               facDamage[faction - 1] += unitImpact;
-//                              debug(u.ref().name() << " impacts faction " << faction << " with " << unitImpact);
+//                              stratmasDebug(u.ref().name() << " impacts faction " << faction << " with " << unitImpact);
                          }
                          if (c.pvfGet(eInsurgents, faction) * facFactor > 0) {
                               facImpact += c.pvfGet(eInsurgents, faction) * facFactor;
-//                                debug("### Faction " << faction << " impacts " << u.ref().name() <<
+//                                stratmasDebug("### Faction " << faction << " impacts " << u.ref().name() <<
 //                                      " with " << c.pvfGet(eInsurgents, faction) * facFactor);
                          }
                     }

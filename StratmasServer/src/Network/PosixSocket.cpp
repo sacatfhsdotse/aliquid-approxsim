@@ -79,7 +79,7 @@ bool PosixSocket::create()
 
      mSock = socket(AF_INET, SOCK_STREAM, 0);
 
-     //debug("mSock == " << mSock << std::endl)
+     //stratmasDebug("mSock == " << mSock << std::endl)
 
      if (valid()) {
           const int on = 1;
@@ -119,7 +119,7 @@ bool PosixSocket::bind(const char *host, int port)
      mAddr.sin_addr.s_addr = (host ? *(unsigned int*)*tmp->h_addr_list : INADDR_ANY);
      mAddr.sin_port        = htons(port);
 
-     debug("Server is binding to " << address() << ":" << port);
+     stratmasDebug("Server is binding to " << address() << ":" << port);
 
      int bindRet = ::bind(mSock, (struct sockaddr*)(&mAddr), sizeof(mAddr));
 
@@ -283,7 +283,7 @@ bool PosixSocket::connect(const std::string host, const int port)
          << ((int)(address>>8)&0xFF) << "." 
          << ((int)address&0xFF) << ":"
          << port;
-     debug("Server is connecting to " << ost.str());
+     stratmasDebug("Server is connecting to " << ost.str());
 
      int status = ::connect(mSock, (sockaddr*) &mAddr, sizeof(mAddr));
 

@@ -382,7 +382,7 @@ void GridCell::expose(eAllPV pv, const EthnicFaction& faction, double size)
      if (pv < static_cast<int>(eNumWithFac)) {
           if (exposeFaction[pv]) {
                (this->*exposeFaction[pv])(mPVF[mWriteInd][pv], faction, size);
-//               debug("exposing ePVF " << pv << " = "<< PVHelper::pvfName(static_cast<ePVF>(pv)));
+//               stratmasDebug("exposing ePVF " << pv << " = "<< PVHelper::pvfName(static_cast<ePVF>(pv)));
           }
           else {
                slog << "Shouldn't expose faction pv " << pv << logEnd;
@@ -392,7 +392,7 @@ void GridCell::expose(eAllPV pv, const EthnicFaction& faction, double size)
           int i = pv - eNumWithFac;
           if (exposeNoFaction[i]) {
                (this->*exposeNoFaction[i])(&mPV[mWriteInd][i], size);
-//               debug("exposing ePV " << i << " = "<< PVHelper::pvName(static_cast<ePV>(i)));
+//               stratmasDebug("exposing ePV " << i << " = "<< PVHelper::pvName(static_cast<ePV>(i)));
           }
           else {
                slog << "Shouldn't expose pv " << pv << logEnd;
@@ -402,7 +402,7 @@ void GridCell::expose(eAllPV pv, const EthnicFaction& faction, double size)
           int i = pv - eNumWithFac - eNumNoFac;
           if (exposeDFaction[i]) {
                (this->*exposeDFaction[i])(&mDerivedF[i * (sFactions + 1)], faction, size);
-//               debug("exposing eDerivedF " << i << " = "<< PVHelper::pdfName(static_cast<eDerivedF>(i)));
+//               stratmasDebug("exposing eDerivedF " << i << " = "<< PVHelper::pdfName(static_cast<eDerivedF>(i)));
           }
           else {
                slog << "Shouldn't expose derived faction pv " << pv << logEnd;
@@ -502,7 +502,7 @@ void GridCell::handleRoundOffErrors()
           pvSetR(eFractionRecovered, 1 - pvGet(eFractionInfected));
      }
      if (o.str() != "") {
-          debug("Cell: " << mRow << ", " << mCol << endl << o.str());
+          stratmasDebug("Cell: " << mRow << ", " << mCol << endl << o.str());
      }
 }
 

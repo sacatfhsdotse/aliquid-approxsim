@@ -173,14 +173,14 @@ void Session::handleStratmasMessage(const std::string &xml, std::string &respons
                               mXMLHandler->getSubscriptions(msg);
                               msg.toXML(ost);
                               s.stop();
-                              debug("Production of UpdateMessage took " << s.secs() << " seconds");
+                              stratmasDebug("Production of UpdateMessage took " << s.secs() << " seconds");
 //                              mLastSentTime = msg.validForTime();
                          }
                     }
                     else {
-                         debug("lasttime: " << mLastSentTime.milliSeconds());
-                         debug("num ts  : " << mXMLHandler->numberOfTimesteps());
-                         debug("timestep: " << Simulation::timestep().milliSeconds());
+                         stratmasDebug("lasttime: " << mLastSentTime.milliSeconds());
+                         stratmasDebug("num ts  : " << mXMLHandler->numberOfTimesteps());
+                         stratmasDebug("timestep: " << Simulation::timestep().milliSeconds());
                          Time nextTime = Time(0, 0, 0, 0, mLastSentTime.milliSeconds() +
                                               mXMLHandler->numberOfTimesteps() *
                                               Simulation::timestep().milliSeconds());
@@ -317,7 +317,7 @@ void Session::handleInitialization()
  */
 void Session::start()
 {
-     debug("Comm thread created");
+     stratmasDebug("Comm thread created");
 
      float totSecs = 0;
      int totRecvBytes = 0;
@@ -335,10 +335,10 @@ void Session::start()
                totSecs      += s.secs();
                totRecvBytes += xml.length();
                totProdBytes += response.length();
-//                 debug("Took " << s.secs() << " seconds to handle " 
+//                 stratmasDebug("Took " << s.secs() << " seconds to handle " 
 //                      << xml.length() << " bytes msg and produce and send a " 
 //                      << response.length() << " bytes response.");
-//                 debug("Tot: Recv: " << totRecvBytes << ", prod: " 
+//                 stratmasDebug("Tot: Recv: " << totRecvBytes << ", prod: " 
 //                      << totProdBytes << ", secs: " << totSecs);
           }
      }
@@ -362,7 +362,7 @@ void Session::start()
      delete mSocket;
      mSocket = 0;
 
-     debug("Session with id " << mId << " run by thread "
+     stratmasDebug("Session with id " << mId << " run by thread "
            << (mDisconnect ? "ending" : "pausing"));
 }
 

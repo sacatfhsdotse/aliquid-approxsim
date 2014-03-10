@@ -109,7 +109,7 @@ void Agency::aggregateCapacity()
 int Agency::cluster(int inNumClusters, std::vector<LatLng>& outCenters)
 {
      // Perform the clustering:
-//     debug("Clustering for " << type << "Agency");
+//     stratmasDebug("Clustering for " << type << "Agency");
      ClusterSet zones(inNumClusters);
      int outNumClusters = zones.FitToData(mGrid.active(), mVindex, mGrid.cellCenterCoordsX(),
                                           mGrid.cellCenterCoordsY(), mVw);
@@ -119,15 +119,15 @@ int Agency::cluster(int inNumClusters, std::vector<LatLng>& outCenters)
           outCenters[i] = LatLng(e.my, e.mx);
      }
 /*
-     debug("got " << outNumClusters << " clusters";
+     stratmasDebug("got " << outNumClusters << " clusters";
      if (outNumClusters > 0) {
-          debug(" with centerpoints at:");
+          stratmasDebug(" with centerpoints at:");
           for (int i = 0; i < outNumClusters; i++) {
-               debug(outCenters[i].lat() << ", " << outCenters[i].lng());
+               stratmasDebug(outCenters[i].lat() << ", " << outCenters[i].lng());
           }
      }
      else {
-          debug(endl;
+          stratmasDebug(endl;
      }
 */     
      return outNumClusters;
@@ -171,7 +171,7 @@ void Agency::orderTeamsToClusters(int nTeams, int firstTeam)
                          team.setGoal(clusters[j]);   // Set team goal to cluster center
 //                     }
 //                     else {
-//                          debug("team " << team.ref().name() << " can't go to " << clusters[j]);
+//                          stratmasDebug("team " << team.ref().name() << " can't go to " << clusters[j]);
 //                     }
                }
           }
@@ -467,7 +467,7 @@ void ShelterAgency::act(Time now)
 //                          team.setGoal(clusters[i - mOperationalTeams]);
 //                          team.setStartTime(now + Time(Poisson(static_cast<double>(mResponseDays))));
 // //                    team.setStartTime(now);
-// //                     debug("=============== Start time for " << mType << "Agency team " << i
+// //                     stratmasDebug("=============== Start time for " << mType << "Agency team " << i
 // //                          << " is " << team.startTime());
 //                          team.setCapacity(mCapacityPPD / mNumTeams);
 //                     }
@@ -481,7 +481,7 @@ void ShelterAgency::act(Time now)
 //                     team.setGoal(team.location().cenCoord());
 //                     team.setStartTime(now + Time(Poisson(static_cast<double>(mResponseDays))));
 //                     team.setStartTime(now);
-//                      debug("=============== Start time for " << mType << "Agency team " << i
+//                      stratmasDebug("=============== Start time for " << mType << "Agency team " << i
 //                           << " is " << team.startTime());
 //                     team.setCapacity(mCapacityPPD / mNumTeams);
 //                     mOperationalTeams++;

@@ -97,11 +97,11 @@ void PropertyHandler::setProperty(string property, string value)
           mValidateXML = stringToBool(value);
      }
      else {
-          debug("Unknown propery '" << property << "'");
+          stratmasDebug("Unknown propery '" << property << "'");
           set = false;
      }
 
      if (set) {
-          debug("Property '" << property << "' set to " << value);
+          stratmasDebug("Property '" << property << "' set to " << value);
      }
 }

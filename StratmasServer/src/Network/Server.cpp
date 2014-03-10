@@ -153,7 +153,7 @@ void *Server::dispatcherThreadMain(void *data) {
      while (true) {
           sock = server.mConQ.dequeue();
           if (!sock) {
-               debug("Dispatcher thread dequeued a null socket. This should not happen!!!");
+               stratmasDebug("Dispatcher thread dequeued a null socket. This should not happen!!!");
                continue;
           }
           try {
@@ -214,7 +214,7 @@ void *Server::dispatcherThreadMain(void *data) {
           boost::thread tmpObj(boost::bind(&Session::staticStart, (void*) sess));
      }
      
-     debug("Congratulations! You have just done the impossible...");
+     stratmasDebug("Congratulations! You have just done the impossible...");
 
      return 0;
 }
@@ -275,7 +275,7 @@ void Server::handleTemporarySession(Server& server, StratmasSocket& sock)
 //      while (line != "q") {
 //           cin >> line;
 //      }
-//      debug("Cleaning up server and shutting down...");
+//      stratmasDebug("Cleaning up server and shutting down...");
 //      delete server;
 //      exit(0);
 //      return 0;

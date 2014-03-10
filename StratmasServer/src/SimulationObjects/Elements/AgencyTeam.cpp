@@ -324,7 +324,7 @@ void FoodAgencyTeam::act(Time now)
      mLocation->move(mGoal);
 //     mLat = mGoal.lat();
 //     mLng = mGoal.lng();
-//     debug("FoodTeam has location (lat, lng): " << location().center().lat() << ", " << location().center().lng());
+//     stratmasDebug("FoodTeam has location (lat, lng): " << location().center().lat() << ", " << location().center().lng());
 
      // Do our thing...
      list<GridPos> cells;
@@ -398,7 +398,7 @@ void WaterAgencyTeam::act(Time now)
      }
      // Move - Teleport for now...
      mLocation->move(mGoal);
-//     debug("WaterTeam has location (lat, lng): " << location().center().lat() << ", " << location().center().lng());
+//     stratmasDebug("WaterTeam has location (lat, lng): " << location().center().lat() << ", " << location().center().lng());
 
      // Do our thing...
      list<GridPos> cells;
@@ -455,16 +455,16 @@ void ShelterAgencyTeam::act(Time now)
      else if (!mCamp) {
           // Move - Teleport for now...
           mLocation->move(mGoal);
-//          debug("ShelterTeam has location (lat, lng): " << location().center().lat() << ", " << location().center().lng());
+//          stratmasDebug("ShelterTeam has location (lat, lng): " << location().center().lat() << ", " << location().center().lng());
 
           // We've been ordered to build a camp but we haven't started yet so
           // let's start building.
           mCamp = new Camp(Reference::get(ref(), "camp"), location(), mGrid->factions());
-          debug("%%%%% Building Camp at location: " << mCamp->center().lat() << ", " << mCamp->center().lng());
+          stratmasDebug("%%%%% Building Camp at location: " << mCamp->center().lat() << ", " << mCamp->center().lng());
           GridCell *ccc = mGrid->cell(mCamp->center());
           if (ccc) {
                mGrid->notifyAboutCamp(mCamp);
-               debug("Row, col: " << ccc->row() << ", " << ccc->col());
+               stratmasDebug("Row, col: " << ccc->row() << ", " << ccc->col());
           }
           else {
                slog << "NULL cell for Camp in ShelterAgencyTeam::act()" << logEnd;
@@ -549,7 +549,7 @@ void HealthAgencyTeam::act(Time now)
      }
      // Move - Teleport for now...
      mLocation->move(mGoal);
-//     debug("HealthTeam has location (lat, lng): " << location().center().lat() << ", " << location().center().lng());
+//     stratmasDebug("HealthTeam has location (lat, lng): " << location().center().lat() << ", " << location().center().lng());
 
      // Do our thing...
      list<GridPos> cells;
@@ -570,7 +570,7 @@ void HealthAgencyTeam::act(Time now)
                sumServed += c->pvfGet(ePopulation);
           }
      }
-//     FIXME... probably... debug("Should increase recovered here!!!");
+//     FIXME... probably... stratmasDebug("Should increase recovered here!!!");
 }
 
 
@@ -589,7 +589,7 @@ void PoliceAgencyTeam::act(Time now)
      }
      // Move - Teleport for now...
      mLocation->move(mGoal);
-//     debug("PoliceTeam has location (lat, lng): " << location().center().lat() << ", " << location().center().lng());
+//     stratmasDebug("PoliceTeam has location (lat, lng): " << location().center().lat() << ", " << location().center().lng());
 
      // Do our thing...
      list<GridPos> cells;
@@ -656,7 +656,7 @@ void CustomAgencyTeam::createEffects() {
 
      mEffects.clear();
      for (std::map<string, double>::iterator it = mSeverities.begin(); it != mSeverities.end(); it++) {
-//          debug("  " << it->first << " - " << it->second);
+//          stratmasDebug("  " << it->first << " - " << it->second);
           addEffect(PVHelper::nameToOverAllOrder(it->first), it->second, targetFaction);
      }
 }

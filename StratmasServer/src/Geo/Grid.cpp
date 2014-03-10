@@ -121,10 +121,10 @@ Grid::Grid(const Map& amap, double cellSizeMeters, int factions)
      // Hack for precalculating expensive exp and sqrt operations in the epidemics model
      EpidemicsWeights::setEpidemicsWeights(10000.0, 50000.0, mCellSideMeters, mRows, mCols);
 
-     debug("units per cell x: " << mDx);
-     debug("units per cell y: " << mDy);
-     debug("rows: " << mRows << ", cols: " << mCols << ", cells: " << mCells);
-     debug("Number of active cells: " << mActive);
+     stratmasDebug("units per cell x: " << mDx);
+     stratmasDebug("units per cell y: " << mDy);
+     stratmasDebug("rows: " << mRows << ", cols: " << mCols << ", cells: " << mCells);
+     stratmasDebug("Number of active cells: " << mActive);
 }
 
 /**
@@ -219,7 +219,7 @@ void Grid::notifyAboutCamp(Camp* c)
 {
      if (c) {
           const GridCell* gc = cell(c->location().cenCoord());
-          debug("Grid added camp in cell " << (gc ? gc->row() : -1) << ", " << (gc ? gc->col() : -1));
+          stratmasDebug("Grid added camp in cell " << (gc ? gc->row() : -1) << ", " << (gc ? gc->col() : -1));
           mCamps.push_back(c);
      }
 }
@@ -330,7 +330,7 @@ void Grid::populate(const vector<City*>& cities)
           mTotalInitialPopulation[0] = sum;
      }
      mTotalPopulation = mTotalInitialPopulation[0];
-     debug("Total pop: " << sum);
+     stratmasDebug("Total pop: " << sum);
 }
 
 void Grid::initializeGrid(const vector<PVArea*>& v)
@@ -448,7 +448,7 @@ void Grid::initializeGrid(const vector<PVArea*>& v)
      else {
           mTotalInitialPopulation[0] = sum;
      }
-     debug("Total pop: " << sum);
+     stratmasDebug("Total pop: " << sum);
 }
 
 /**
@@ -589,7 +589,7 @@ void Grid::step(const vector<Region*>& regions)
 //      static int foo = 0;
 //      if (foo % 1 == 0) {
 //           ofstream ofs("new.tmp");
-//           debug("--- DUMPING ---");
+//           stratmasDebug("--- DUMPING ---");
 //           for (int i = 0; i < mActive; ++i) {
 //                ofs << *mCell[i];
 //           }
@@ -728,7 +728,7 @@ void Grid::expose(const Action &inA)
      const GridAction &a = dynamic_cast<const GridAction&>(inA);
 
      if (!&a) {
-          debug("Tried to expose Grid to non GridAction. Ignoring...");
+          stratmasDebug("Tried to expose Grid to non GridAction. Ignoring...");
           return;
      }
 
@@ -795,7 +795,7 @@ void Grid::expose(const Action &inA)
 
                     double size = between(0.05 * (*dit) * severity * duration, -0.5, 0.5);
                     c.expose(e.mPV, *e.mFaction, size);
-//                        debug("Exposing " << PVHelper::allPVName(e.mPV) << ", faction " << e.mFaction->ref().name()
+//                        stratmasDebug("Exposing " << PVHelper::allPVName(e.mPV) << ", faction " << e.mFaction->ref().name()
 //                              << ", magnitude " << size);
                }
                dit++;

@@ -154,7 +154,7 @@ void TypeDefinition::processParticle(XSParticle& xsParticle)
           processParticles(*xsParticle.getModelGroupTerm());
      }
      else if (termType == XSParticle::TERM_WILDCARD) {
-          debug("* (wildcard) NOT IMPLEMENTED");
+          stratmasDebug("* (wildcard) NOT IMPLEMENTED");
      }
 }
 

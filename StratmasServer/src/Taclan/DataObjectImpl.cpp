@@ -755,8 +755,8 @@ void StratmasShape::setShape(const Shape* v)
 {
      if (mValue) {
           if (v->type() != mValue->type()) {
-               debug("this " << this << ", mValue " << mValue << ", v " << v);
-               debug("mValue->type() " << mValue->type() << ", v->type() " << v->type());
+               stratmasDebug("this " << this << ", mValue " << mValue << ", v " << v);
+               stratmasDebug("mValue->type() " << mValue->type() << ", v->type() " << v->type());
                StratmasShape* s = new StratmasShape(ref(), TypeFactory::getType(v->type()));
                s->setShape(v);
                SOFactory::simulationObjectReplaced(*s, -1);
@@ -777,7 +777,7 @@ DataObject& StratmasShape::operator = (const DataObject& d)
           setShape(d.getShape());
           Circle* c = dynamic_cast<Circle*>(getShape());
           if (c) {
-               debug("New value: " << *c);
+               stratmasDebug("New value: " << *c);
           }
      }
      else {

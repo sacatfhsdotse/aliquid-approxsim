@@ -81,9 +81,9 @@ StratmasObjectSubscription::~StratmasObjectSubscription()
  */
 void StratmasObjectSubscription::getSubscribedData(std::ostream &o)
 {
-     debug("In SOSub:");
+     stratmasDebug("In SOSub:");
      if (mData->changed()) {
-          debug("    Changed == true");
+          stratmasDebug("    Changed == true");
           o << "<subscribedData xsi:type=\"sp:SubscribedStratmasObjectData\" id=\"" << mId << "\">" << endl;
           mData->toXML(o);
           o << "</subscribedData>" << endl;
@@ -125,7 +125,7 @@ LayerSubscription::LayerSubscription(DOMElement* n, Buffer& buf, bool sbe)
           mLength = mBuf.grid().active();
           mIndex = 0;
      }
-     debug("Created LayerSubscription for layer '" << mLayer << "', faction: '" << *mFaction << "'");
+     stratmasDebug("Created LayerSubscription for layer '" << mLayer << "', faction: '" << *mFaction << "'");
 }
 
 /**
@@ -181,7 +181,7 @@ RegionSubscription::RegionSubscription(DOMElement *n, Buffer &buf)
      // Notice that the area must be in projection space for cells() to work properly
      area->toProj(*Projection::mCurrent);
      area->cells(mBuf.grid(), mPositions);
-     debug("Created RegionSubscription with id: '" << mId << "' and " << mPositions.size() << " cells");
+     stratmasDebug("Created RegionSubscription with id: '" << mId << "' and " << mPositions.size() << " cells");
      for (list<GridPos>::iterator it = mPositions.begin(); it != mPositions.end(); it++) {
           mRegion->addMember(mBuf.grid().cell(*it));
      }

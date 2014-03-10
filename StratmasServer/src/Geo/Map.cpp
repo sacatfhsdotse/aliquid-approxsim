@@ -25,12 +25,12 @@ Map::Map(const Shape &s)
 
      // Neccessary for creating Projection
      mBorders->boundingBox(mMaxY, mMinX, mMinY, mMaxX);   // top, left, bottom, right...
-     debug("mMinX: " << mMinX << ", mMinY: " << mMinY);
-     debug("mMaxX: " << mMaxX << ", mMaxY: " << mMaxY);
+     stratmasDebug("mMinX: " << mMinX << ", mMinY: " << mMinY);
+     stratmasDebug("mMaxX: " << mMaxX << ", mMaxY: " << mMaxY);
 
      mCenLng = mBorders->cenCoord().lng();
      mCenLat = mBorders->cenCoord().lat();
-     debug("mCenLat, mCenLng: " << mCenLat << ", " << mCenLng);
+     stratmasDebug("mCenLat, mCenLng: " << mCenLat << ", " << mCenLng);
 
      // Project lat, lng coordinates
      mProj = new Projection(6371000, mMinY + height() / 2.0, mMinX + width() / 2.0);
@@ -40,9 +40,9 @@ Map::Map(const Shape &s)
 
      // Find out the new boundaries
      mBorders->boundingBox(mMaxY, mMinX, mMinY, mMaxX);   // top, left, bottom, right...
-     debug("mMinX: " << mMinX << ", mMinY: " << mMinY);
-     debug("mMaxX: " << mMaxX << ", mMaxY: " << mMaxY);
-     debug("mCenLat, mCenLng: " << mCenLat << ", " << mCenLng);
+     stratmasDebug("mMinX: " << mMinX << ", mMinY: " << mMinY);
+     stratmasDebug("mMaxX: " << mMaxX << ", mMaxY: " << mMaxY);
+     stratmasDebug("mCenLat, mCenLng: " << mCenLat << ", " << mCenLng);
 
 //     ofstream ofs("map.tmp", ios_base::trunc);
 //     mBorders->toXML(ofs);
@@ -71,7 +71,7 @@ const Shape *Map::getRegionForPoint(const ProjCoord &p) const
           return cs->getRegionForPoint(p);
      }
      else {
-          debug("Not a Composite map!");
+          stratmasDebug("Not a Composite map!");
      }
      return 0;
 }

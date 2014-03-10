@@ -35,7 +35,7 @@ public class ServerConnection implements Runnable {
      private boolean             mAlive             = false;
      private XMLHandler          mXMLHandler;
      private StratmasSocket      mSocket            = null;
-     private PriorityQueue       mPQ                = new PriorityQueue();
+     private PriorityQueue<StratmasMessage>       mPQ                = new PriorityQueue<StratmasMessage>();
      private Client              mClient;
      private int                 messTreshold       = 2;
      private Hashtable           mPrioHash          = new Hashtable();
@@ -165,7 +165,9 @@ public class ServerConnection implements Runnable {
                msg.addEventListener(listener);
                mPQ.enqueue(msg, prio == null ? sDefaultPrio : prio.intValue());
                try {
-                    listener.getBlock().wait();
+            	   System.out.println("a");
+            	   listener.getBlock().wait();
+                   System.out.println("b");
                } catch(InterruptedException e) {
                    throw new ServerException(e.getMessage());
                }
@@ -336,7 +338,7 @@ public class ServerConnection implements Runnable {
                
                // Running
                while (true) {
-                    msg = (StratmasMessage)mPQ.blockingDequeue();
+                    msg = mPQ.blockingDequeue();
                     if (msg == null) {
                          break;
                     }
@@ -375,7 +377,12 @@ public class ServerConnection implements Runnable {
           } catch (IOException e) {
                e.printStackTrace();
                sendErrorMessage("general", "IOException", "Unknown");
+          }finally{
+        	  while(!mPQ.empty()){
+        		  mPQ.dequeue().fireErrorOccurred();
+        	  }
           }
+          
           // Close socket if opened.
           if (mSocket != null) {
                mSocket.close();

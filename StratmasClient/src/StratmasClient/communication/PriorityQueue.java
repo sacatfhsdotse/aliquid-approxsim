@@ -13,12 +13,12 @@ import java.util.TreeMap;
  * @version 1, $Date: 2005/10/19 13:11:57 $
  * @author  Per Alexius
 */
-public class PriorityQueue {
+public class PriorityQueue<T> {
      /** The counter that keeps track of the FIFO order. */
      private int mCount = 0;
 
      /** The TreeMap used to implement the queue. */
-     private TreeMap mMap = new TreeMap();
+     private TreeMap<PQKey, T> mMap = new TreeMap<PQKey, T>();
 
      /**
       * Enqueues an Object with priority prio.
@@ -26,7 +26,7 @@ public class PriorityQueue {
       * @param o The Object to be enqueued.
       * @param prio The priority of the enqueued Object.
       */
-     public synchronized void enqueue(Object o, int prio) {
+     public synchronized void enqueue(T o, int prio) {
           mMap.put(new PQKey(prio, mCount++), o);
           notifyAll();
      }
@@ -37,7 +37,7 @@ public class PriorityQueue {
       * @return The Object with the highest priority in the queue or
       * null if the queue is empty.
       */
-    public synchronized Object dequeue() {
+    public synchronized T dequeue() {
         return (mMap.isEmpty() ? null : mMap.remove(mMap.lastKey()));
     }
      
@@ -54,7 +54,7 @@ public class PriorityQueue {
       * 
       * @return The Object with the highest priority in the queue.
       */
-     public synchronized Object blockingDequeue() {
+     public synchronized T blockingDequeue() {
           while (mMap.isEmpty()) {
                try {
                     wait();
@@ -90,7 +90,7 @@ public class PriorityQueue {
       * priority is less than B's priority or if A and B has the same
       * priority and A's count is larger than B's.
       */
-     public class PQKey implements Comparable {
+     public class PQKey implements Comparable<PQKey> {
           /** The priority */
           private int mPrio;
           /** The count keeping track of the key enqueuement order */
@@ -115,8 +115,7 @@ public class PriorityQueue {
            * @return -1, 0 or 1 if this key is less than, equal to
            * or greater than o, respectively.
            */
-          public int compareTo(Object o) {
-               PQKey p = (PQKey)o;
+          public int compareTo(PQKey p) {
                if (equals(p)) {
                     return 0;
                }

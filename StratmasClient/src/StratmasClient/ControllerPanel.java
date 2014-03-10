@@ -69,7 +69,7 @@ public class ControllerPanel extends JPanel implements ActionListener {
     /**
      * The list of listeners.
      */
-    private Vector listeners = new Vector();
+    private Vector<StratmasEventListener> listeners = new Vector<StratmasEventListener>();
     /**
      * The frame in which this panel is shown. 
      */
@@ -269,44 +269,45 @@ public class ControllerPanel extends JPanel implements ActionListener {
         }
         // connect/disconnect button
         else if (source.equals(connect)) {
-            enableConnectButton(false);
-            if (!client.isConnected()) {
-                final Controller tmpController = controller;
-                final Client tmpClient = client;
-                final JButton tmpConnect = connect;
-                final ControllerPanel self = this;
-                final Thread worker = new Thread() {
-                        public void run() {
-                            tmpController.connectToServer();
-                            enableConnectButton(true);
-                            // check once again if the connection succeded
-                            if (tmpClient.isConnected()) {
-                                tmpConnect.setText("Disconnect");
-                                tmpConnect.setToolTipText("Disconnect from the server");
-                            }  
-                        }
-                    };
-                worker.start();
-            }
-            else {
-                int answer = disconnectMess();
-                if (answer == JOptionPane.YES_OPTION) {
-                    // disconnect from the server
-                    if (controller.isSimulationOn()) {
-                        // if the thread in the client is running 
-                        controller.updateSimulationMode("disconnect");
-                    }
-                    else {
-                        // if the thread in the client is not running 
-                        controller.disconnectFromServer();
-                    }
-                    // disable control buttons 
-                    enableControlButtons(false);
-                    connect.setText("Connect");
-                    connect.setToolTipText("Connect to the server");
-                }
-                enableConnectButton(true);
-            }
+        	if(connect.isEnabled()){
+	            enableConnectButton(false);
+	            if (!client.isConnected()) {
+	                final Controller tmpController = controller;
+	                final Client tmpClient = client;
+	                final JButton tmpConnect = connect;
+	                final ControllerPanel self = this;
+	                final Thread worker = new Thread() {
+	                        public void run() {
+	                        	tmpController.connectToServer();
+	                            enableConnectButton(true);
+	                            // check once again if the connection succeeded
+	                            if (tmpClient.isConnected()) {
+	                                tmpConnect.setText("Disconnect");
+	                                tmpConnect.setToolTipText("Disconnect from the server");
+	                            }
+	                        }
+	                    };
+	                worker.start();
+	            } else {
+	                int answer = disconnectMess();
+	                if (answer == JOptionPane.YES_OPTION) {
+	                    // disconnect from the server
+	                    if (controller.isSimulationOn()) {
+	                        // if the thread in the client is running 
+	                        controller.updateSimulationMode("disconnect");
+	                    }
+	                    else {
+	                        // if the thread in the client is not running 
+	                        controller.disconnectFromServer();
+	                    }
+	                    // disable control buttons 
+	                    enableControlButtons(false);
+	                    connect.setText("Connect");
+	                    connect.setToolTipText("Connect to the server");
+	                }
+	                enableConnectButton(true);
+	            }
+        	}
         }
         // exit button
         else if (source.equals(exit)) {
@@ -355,7 +356,7 @@ public class ControllerPanel extends JPanel implements ActionListener {
     }
     
     /**
-     * Enables/dissables the connect button.
+     * Enables/disables the connect button.
      */
     public void enableConnectButton(final boolean b) {
         SwingUtilities.invokeLater (new Runnable() {
@@ -438,7 +439,7 @@ public class ControllerPanel extends JPanel implements ActionListener {
         }
         for (int i = 0; i < listeners.size(); i++) {
             if (listeners.get(i) != null) {
-                ((StratmasEventListener)listeners.get(i)).eventOccured(StratmasEvent.getRemoved(this, null));
+                (listeners.get(i)).eventOccured(StratmasEvent.getRemoved(this, null));
             }
         }
     }

@@ -139,7 +139,7 @@ public class Controller implements Runnable, StratmasEventListener {
                     return false;
                 }
             }
-        }    
+        }
         // connect without the dispatcher
         if (socket == null) {
             if (client.getServerName() == null) {
@@ -155,7 +155,7 @@ public class Controller implements Runnable, StratmasEventListener {
         // implies that dispatcher succeded from which follows
         // that we have become an active client.
         client.setActiveClient(true);
-                
+        
         // initialize the server
         StratmasMessage sm = new InitializationMessage((StratmasObject)client.getRootObject().children().nextElement(), client);
         try {

@@ -951,7 +951,7 @@ public class Client implements StratmasEventListener {
      */
     public void setServerNameGUI() {
     	String value = StratmasDialog.showInputDialog(null, "Choose simulation server", previousServerName);
-    	previousServerName = value.equals("") ? previousServerName : value;
+    	previousServerName = (value == null || value.equals("")) ? previousServerName : value;
         setServerName(previousServerName);
     }
     
@@ -1803,6 +1803,8 @@ public class Client implements StratmasEventListener {
             System.arraycopy(args, 1, newArgs, 0, args.length - 1);
             args = newArgs;
         } 
+        
+        System.setProperty("StratmasClientDebug", "");
 
         Client client = new Client(args);
     }     

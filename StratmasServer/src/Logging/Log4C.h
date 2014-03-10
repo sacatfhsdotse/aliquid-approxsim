@@ -41,6 +41,6 @@ public:
 };
 
 extern log4cxx::LoggerPtr agenciesLog, dataManagementLog, debugLog, geoLog, networkLog, 
-       pvLog, simulationObjectsLog, taclanLog;
+       pvLog, simulationObjectsLog, taclanLog, stratmasLog;
 
 #endif /* STRATMAS_LOG4C_H */

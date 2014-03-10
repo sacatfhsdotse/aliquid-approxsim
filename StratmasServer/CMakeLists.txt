@@ -138,8 +138,8 @@ LINK_DIRECTORIES(${XercesC_LIBRARY_DIRS})
 # Build settings
 #
 
-set(DEBUG_FLAGS "-g -O0 -Wall")
-set(RELEASE_FLAGS "-O3")
+set(DEBUG_FLAGS "-g -O0 -Wall -std=c++11")
+set(RELEASE_FLAGS "-O3 -std=c++11")
 
 set(CMAKE_CXX_FLAGS_DEBUG ${DEBUG_FLAGS})
 set(CMAKE_C_FLAGS_DEBUG ${DEBUG_FLAGS})

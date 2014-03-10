@@ -294,7 +294,7 @@ void RegionSubscription::printPV(ostream& o, const char* name, const char* type,
           o << "</faction>" << endl;
      }
      o << "<value xsi:type=\"" << type << "\">";
-     if (!isnan(value)) {
+     if (!std::isnan(value)) {
           o << value;
      }
      else {

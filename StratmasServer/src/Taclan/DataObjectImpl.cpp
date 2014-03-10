@@ -614,7 +614,7 @@ DataObject& StratmasDouble::operator = (const DataObject& d)
 ostream& StratmasDouble::bodyXML(ostream& o, string indent) const
 {
      o << indent << "<value>";
-     if (!isnan(getDouble())) {
+     if (!std::isnan(getDouble())) {
           o << getDouble();
      }
      else {

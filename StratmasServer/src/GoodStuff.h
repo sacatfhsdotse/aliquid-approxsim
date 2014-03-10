@@ -126,7 +126,7 @@ inline void ByteSwapX(unsigned char *b, int n)
 #include <float.h>
 #define isnan(x) (_isnan(x))
 #else
-#define isnan(x) (isnan(x))
+//#define isnan(x) (isnan(x))
 #endif
 
 #endif   // STRATMAS_GOODSTUFF_H

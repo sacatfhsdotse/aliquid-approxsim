@@ -106,7 +106,7 @@ Ellipse::SetStats(
         
      InvSqrtDisc = 1.0 / sqrt(Disc);        //        Inverse square root of discriminant
         
-     if ( isnan(InvSqrtDisc) || InvSqrtDisc >= HUGE_VAL ) {
+     if ( std::isnan(InvSqrtDisc) || InvSqrtDisc >= HUGE_VAL ) {
           return false;
      }
                 

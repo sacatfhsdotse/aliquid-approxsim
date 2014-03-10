@@ -2,7 +2,7 @@
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd" >
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 	<appender name="file" class="org.apache.log4j.FileAppender" >
-       <param name="File" value="log.log" />
+       <param name="File" value="${stratmas.install}logs/log.log" />
        <param name="Append" value="true" />
        <layout class="org.apache.log4j.PatternLayout">
            <!-- <param name="ConversionPattern" value="[%p] %d{[yyyy-MM-dd] [HH:mm:ss]} %C{1}.%M %m%n"/> -->
@@ -10,7 +10,7 @@
        </layout>
     </appender>
     <appender name="file-error" class="org.apache.log4j.FileAppender" >
-       <param name="File" value="log.error" />
+       <param name="File" value="${stratmas.install}logs/log.error" />
        <param name="Threshold" value="error"/> 
        <param name="Append" value="true" />
        <layout class="org.apache.log4j.PatternLayout">

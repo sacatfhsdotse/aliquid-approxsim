@@ -165,9 +165,7 @@ public class ServerConnection implements Runnable {
                msg.addEventListener(listener);
                mPQ.enqueue(msg, prio == null ? sDefaultPrio : prio.intValue());
                try {
-            	   System.out.println("a");
             	   listener.getBlock().wait();
-                   System.out.println("b");
                } catch(InterruptedException e) {
                    throw new ServerException(e.getMessage());
                }

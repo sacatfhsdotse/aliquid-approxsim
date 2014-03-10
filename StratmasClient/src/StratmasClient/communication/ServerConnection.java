@@ -377,7 +377,8 @@ public class ServerConnection implements Runnable {
                sendErrorMessage("general", "IOException", "Unknown");
           }finally{
         	  while(!mPQ.empty()){
-        		  mPQ.dequeue().fireErrorOccurred();
+        		  StratmasMessage m = mPQ.dequeue();
+        		  if(m != null) m.fireErrorOccurred();
         	  }
           }
           

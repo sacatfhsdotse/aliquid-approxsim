@@ -17,6 +17,7 @@
 #include "Subscription.h"
 #include "Time2.h"
 #include "XMLHelper.h"
+#include "Log4C.h"
 
 // Xerces-c
 #include <xercesc/util/Base64.hpp>
@@ -38,6 +39,8 @@ static std::ostream &gridToXML(std::ostream& o, const BasicGrid& grid, bool bigE
      int rows = grid.rows();
      int cols = grid.cols();
      int nCellPos = (rows + 1) * (cols + 1) * 2;
+
+     LOG_TRACE(networkLog, "Building grid XML of size " << nCellPos);
 
      // Build array marking which cells that are active.
      int8_t *activeCells = new int8_t[grid.cells()];

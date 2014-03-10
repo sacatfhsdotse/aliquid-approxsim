@@ -19,6 +19,7 @@
 #include "Shape.h" 
 #include "StrX.h"
 #include "XMLHelper.h"
+#include "Log4C.h"
 
 
 using namespace std;
@@ -176,19 +177,19 @@ Time XMLHelper::dateTimeToTime(const string& dateTime)
           if (ist) {
                ist >> ts.tm_year >> c;
           }
-          if (c == '-' && ist) {
+          if (ist && c == '-') {
                ist >> ts.tm_mon >> c;
           }
-          if (c == '-' && ist) {
+          if (ist && c == '-') {
                ist >> ts.tm_mday >> c;
           }
-          if (c == 'T' && ist) {
+          if (ist && c == 'T') {
                ist >> ts.tm_hour >> c;
           }
-          if (c == ':' && ist) {
+          if (ist && c == ':') {
                ist >> ts.tm_min >> c;
           }
-          if (c == ':' && ist) {
+          if (ist && c == ':') {
                ist >> ts.tm_sec;
           }
           else {
@@ -273,10 +274,9 @@ template<class T> ostream& XMLHelper::base64Print(const T* const toEncode,
  */
 ostream& XMLHelper::base64Print(const int8_t* toEncode, int nBytesToEncode, ostream& o)
 {
-     unsigned int encodedLength = 0;
-     XMLSize_t outputlength;
+     XMLSize_t encodedLength = 0;
      XMLByte* encoded = Base64::encode(reinterpret_cast<const XMLByte*>(toEncode),
-                                       (const XMLSize_t)(nBytesToEncode / sizeof(XMLByte)), (XMLSize_t*)&encodedLength);
+                                       (const XMLSize_t)(nBytesToEncode / sizeof(XMLByte)), &encodedLength);
      
      if(!encodedLength) {
           Error e;

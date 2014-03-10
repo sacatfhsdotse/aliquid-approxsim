@@ -50,7 +50,7 @@
 		<appender-ref ref="stdout-error" />
 	</logger>
 	<logger name="stratmas.network">
-		<level value="trace"/>
+		<level value="debug"/>
 		<appender-ref ref="file-network" />
 	</logger>
 </log4j:configuration>

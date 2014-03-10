@@ -96,7 +96,7 @@ inline double between(double x, double bot, double top)
 #endif
 
 /// For swapping endian of data type of any size
-#define ByteSwap(x) ByteSwapX((unsigned char *) &x,sizeof(x))
+#define ByteSwap(x) ByteSwapX((unsigned char *) &x, sizeof(x))
 
 /**
  * \brief For swapping byte order of data type of any size.
@@ -106,8 +106,8 @@ inline double between(double x, double bot, double top)
  */
 inline void ByteSwapX(unsigned char *b, int n)
 {
-     register int i = 0;
-     register int j = n - 1;
+     int i = 0;
+     int j = n - 1;
      while (i<j) {
           std::swap(b[i], b[j]);
           i++;

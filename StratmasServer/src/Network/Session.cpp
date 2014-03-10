@@ -2,6 +2,7 @@
 #include <sstream>
 #include <string>
 #include <boost/thread.hpp>
+#include <log4cxx/ndc.h>
 
 // Own
 #include "ChangeTrackerAdapter.h"
@@ -17,6 +18,7 @@
 #include "XMLHandler.h"
 #include "stdint.h"
 #include "LogStream.h"
+#include "Log4C.h"
 
 // Temporary
 #include <fstream>
@@ -100,6 +102,7 @@ void Session::handleStratmasMessage(const std::string &xml, std::string &respons
      try {
           switch (mXMLHandler->handle(xml)) {
           case eConnect: {
+               LOG_TRACE(networkLog, "eConnect");
                // We must lock since we want to be sure that we are
                // not in a state where the scenario has been destroyed
                // but the active client has not yet been deregistered.
@@ -120,22 +123,26 @@ void Session::handleStratmasMessage(const std::string &xml, std::string &respons
                break;
           }
           case eDisconnect: {
+               LOG_TRACE(networkLog, "eDisconnect");
                closeSession();
                StatusMessage msg(mXMLHandler->lastType());
                msg.toXML(ost);
                break;
           }
           case eServerCapabilities: {
+               LOG_TRACE(networkLog, "eServerCapabilities");
                ServerCapabilitiesResponseMessage msg;
                msg.toXML(ost);
                break;
           }
           case eGetGrid: {
+               LOG_TRACE(networkLog, "eGetGrid");
                GetGridResponseMessage msg(mBuf, mBigEndian);
                msg.toXML(ost);
                break;
           }
           case eRegisterForUpdates: {
+               LOG_TRACE(networkLog, "eRegisterForUpdates");
                mRegisteredForUpdates = mXMLHandler->registeredForUpdatesFlag();
                UpdateMessage msg(mBuf, *mChangeTracker, mRegisteredForUpdates);
                mLastSentTime = msg.validForTime();
@@ -143,18 +150,21 @@ void Session::handleStratmasMessage(const std::string &xml, std::string &respons
                break;
           }
           case eInitialization: {
+               LOG_TRACE(networkLog, "eInitialization");
                handleInitialization();
                StatusMessage msg(mXMLHandler->lastType());
                msg.toXML(ost);
                break;
           }
           case eSubscription: {
+               LOG_TRACE(networkLog, "eSubscription");
                UpdateMessage msg(mBuf, *mChangeTracker, mRegisteredForUpdates);
                mXMLHandler->getSubscriptions(msg);
                msg.toXML(ost);
                break;
           }
           case eStep: {
+               LOG_TRACE(networkLog, "eStep");
                if (mEng.initialized()) {
                     if (mActive) {
                          mEng.setNumberOfTimesteps(mXMLHandler->numberOfTimesteps());
@@ -173,14 +183,14 @@ void Session::handleStratmasMessage(const std::string &xml, std::string &respons
                               mXMLHandler->getSubscriptions(msg);
                               msg.toXML(ost);
                               s.stop();
-                              stratmasDebug("Production of UpdateMessage took " << s.secs() << " seconds");
+                              LOG_TRACE(networkLog, "Production of UpdateMessage took " << s.secs() << " seconds");
 //                              mLastSentTime = msg.validForTime();
                          }
                     }
                     else {
-                         stratmasDebug("lasttime: " << mLastSentTime.milliSeconds());
-                         stratmasDebug("num ts  : " << mXMLHandler->numberOfTimesteps());
-                         stratmasDebug("timestep: " << Simulation::timestep().milliSeconds());
+                         LOG_TRACE(networkLog, "lasttime: " << mLastSentTime.milliSeconds());
+                         LOG_TRACE(networkLog, "num ts  : " << mXMLHandler->numberOfTimesteps());
+                         LOG_TRACE(networkLog, "timestep: " << Simulation::timestep().milliSeconds());
                          Time nextTime = Time(0, 0, 0, 0, mLastSentTime.milliSeconds() +
                                               mXMLHandler->numberOfTimesteps() *
                                               Simulation::timestep().milliSeconds());
@@ -211,6 +221,7 @@ void Session::handleStratmasMessage(const std::string &xml, std::string &respons
                break;
           }
           case eUpdateServer: {
+               LOG_TRACE(networkLog, "eUpdateServer");
                if (mActive && mEng.initialized()) {
                      mBuf.put(mXMLHandler->takeOverUpdates());
                      mEng.put(eEngUpdate);
@@ -231,6 +242,7 @@ void Session::handleStratmasMessage(const std::string &xml, std::string &respons
                break;
           }
           case eReset: {
+               LOG_TRACE(networkLog, "eReset");
                if (mActive) {
                     mEng.put(eEngReset);
                     EngineStatusObject o = mEng.wait();
@@ -250,27 +262,30 @@ void Session::handleStratmasMessage(const std::string &xml, std::string &respons
                break;
           }
           case eProgressQuery: {
+               LOG_TRACE(networkLog, "eProgressQuery");
                ProgressQueryResponseMessage msg(mBuf);
                msg.toXML(ost);
                break;
           }
           case eSetProperty: {
+               LOG_TRACE(networkLog, "eSetProperty");
                StatusMessage msg(mXMLHandler->lastType());
                msg.toXML(ost);
                break;
           }
           case eLoadQuery: {
+               LOG_TRACE(networkLog, "eLoadQuery");
                LoadQueryResponseMessage msg(mServer);
                msg.toXML(ost);
                break;
           }
           default:
-               slog << "This is impossible. Please sit down and have a drink." << logEnd;
+               LOG_DEBUG(networkLog, "This is impossible. Please sit down and have a drink.");
                break;
           }
      }
      catch (Error& e) {
-          slog << "Session " << id() << " caught Error: '" << e << "'" << logEnd;
+          LOG_ERROR(networkLog, "Session " << id() << " caught Error: '" << e << "'" );
           ost.str("");
           StatusMessage msg(mXMLHandler->lastType());
           msg.addError(e);
@@ -278,11 +293,11 @@ void Session::handleStratmasMessage(const std::string &xml, std::string &respons
           if (!isActive()) { closeSession(); }
      }
      catch (vector<Error>& e) {
-          slog << "Session " << id() << " caught Errors:" << "---" << logEnd;
+          LOG_ERROR(networkLog, "Session " << id() << " caught Errors:" << "---" );
           ost.str("");
           StatusMessage msg(mXMLHandler->lastType());
           for(vector<Error>::iterator it = e.begin(); it != e.end(); it++) {
-               slog << *it << logEnd;
+               LOG_ERROR(networkLog, *it );
                msg.addError(*it);
           }
           msg.toXML(ost);
@@ -317,7 +332,8 @@ void Session::handleInitialization()
  */
 void Session::start()
 {
-     stratmasDebug("Comm thread created");
+     log4cxx::NDC::push(std::to_string(mId));
+     LOG_DEBUG(networkLog, "Comm thread created");
 
      float totSecs = 0;
      int totRecvBytes = 0;
@@ -335,35 +351,35 @@ void Session::start()
                totSecs      += s.secs();
                totRecvBytes += xml.length();
                totProdBytes += response.length();
-//                 stratmasDebug("Took " << s.secs() << " seconds to handle " 
-//                      << xml.length() << " bytes msg and produce and send a " 
-//                      << response.length() << " bytes response.");
-//                 stratmasDebug("Tot: Recv: " << totRecvBytes << ", prod: " 
+                 LOG_TRACE(networkLog, "Took " << s.secs() << " seconds to handle " 
+                      << xml.length() << " bytes msg and produce and send a " 
+                      << response.length() << " bytes response.");
+//                 LOG_TRACE(networkLog, "Tot: Recv: " << totRecvBytes << ", prod: " 
 //                      << totProdBytes << ", secs: " << totSecs);
           }
      }
      catch (ConnectionClosedException &e) {
-          slog << "Connection closed by client" << logEnd;
+          LOG_INFO(networkLog, "Connection closed by client");
           closeSession();
      }
      catch (SocketException &e) {
-          slog << "Exception was caught:" << e.description() << logEnd;
+          LOG_WARN(networkLog, "Exception was caught:" << e.description());
           closeSession();
      }
      catch (std::exception &e) {
-          slog << "Exception was caught:" <<  e.what() << logEnd;
+          LOG_WARN(networkLog, "Exception was caught:" <<  e.what());
            closeSession();
      }
      catch (...) {
-           slog << "Exception was caught when receiving or sending a StratmasMessage" << logEnd;
+           LOG_WARN(networkLog, "Exception was caught when receiving or sending a StratmasMessage" );
            closeSession();
      }
 
      delete mSocket;
      mSocket = 0;
 
-     stratmasDebug("Session with id " << mId << " run by thread "
-           << (mDisconnect ? "ending" : "pausing"));
+     LOG_INFO(networkLog, "Session with id " << mId << " run by thread " << (mDisconnect ? "ending" : "pausing"));
+     log4cxx::NDC::pop();
 }
 
 /**

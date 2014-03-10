@@ -32,6 +32,7 @@
  To generate documentation run 'make docs'
  To run tests './configure -DTESTS=On' and then 'make'
  To run with extra debug output './configure -DDEBUG=On' and then 'make'
+ To run with different compiler than default 'make distclean' then 'CC=/usr/bin/clang CXX=/usr/bin/clang++ ./configure'
 
 == 3. INSTALLING ==
 

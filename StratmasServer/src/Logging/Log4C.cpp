@@ -14,18 +14,23 @@ log4cxx::LoggerPtr agenciesLog(log4cxx::Logger::getLogger("stratmas.agencies")),
  simulationObjectsLog(log4cxx::Logger::getLogger("stratmas.simulationObjects")),
  taclanLog(log4cxx::Logger::getLogger("stratmas.taclan"));
 
-bool Log4C::init(const boost::filesystem::path& config){
+Log4SinkDebug log4debug("stratmas.debug");
+Log4SinkInfo log4info("stratmas.info");
+
+void Log4C::init(const boost::filesystem::path& config){
     if(exists(config)){
         //try{
             log4cxx::xml::DOMConfigurator::configureAndWatch(config.string());
-            return true;
         /*}catch (log4cxx::helpers::Exception& e){
             std::cerr << e.what() << std::endl;
             exit(EXIT_FAILURE);
         }*/
     }else{
         log4cxx::BasicConfigurator::configure();
-        LOG4CXX_ERROR(log4cxx::Logger::getLogger("logging.Log4C"), "Log4C config \"" << config << "\" not found, using default." )
-        return false;
+        LOG4CXX_ERROR(log4cxx::Logger::getLogger("stratmas.log"), "Log4C config \"" << config << "\" not found, using default configuration." )
     }
+
+    //TODO not working
+    //slog.setLogSink(&log4info);
+    //debug.setLogSink(&log4debug);
 }

@@ -4,6 +4,7 @@
 //Own
 #include "Buffer.h"
 #include "ChangeTrackerAdapter.h"
+#include "Log4C.h"
 #include "debugheader.h"
 #include "Engine.h"
 #include "Error.h"
@@ -83,7 +84,7 @@ void Engine::notifyAllTimeListeners(const char* errMsg)
  */
 void Engine::run() {
      int msg;
-     cout << "Engine running" << endl;
+     LOG4CXX_FATAL(stratmasLog, "Engine running");
      while (true) {
           try {
                msg = mQ.dequeue();

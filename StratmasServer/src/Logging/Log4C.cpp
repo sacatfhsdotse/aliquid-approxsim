@@ -19,8 +19,6 @@ log4cxx::LoggerPtr agenciesLog(log4cxx::Logger::getLogger("stratmas.agencies")),
  taclanLog(log4cxx::Logger::getLogger("stratmas.taclan")),
  stratmasLog(log4cxx::Logger::getLogger("stratmas.log"));
 
-Log4SinkDebug log4debug("stratmas.debug");
-Log4SinkInfo log4info("stratmas.info");
 
 const bool logDebug = false;
 
@@ -65,6 +63,9 @@ void Log4C::init(const boost::filesystem::path& config){
     LOG4CXX_FATAL(stratmasLog, "Logging started");
 
     //TODO not working
-    slog.setLogSink(&log4info);
-    debug.setLogSink(&log4debug);
+    Log4SinkDebug* log4debug = new Log4SinkDebug("stratmas.debug");
+    Log4SinkInfo* log4info = new Log4SinkInfo("stratmas.info");
+
+    slog.setLogSink(log4info);
+    debug.setLogSink(log4debug);
 }

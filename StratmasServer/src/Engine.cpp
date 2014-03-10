@@ -84,7 +84,7 @@ void Engine::notifyAllTimeListeners(const char* errMsg)
  */
 void Engine::run() {
      int msg;
-     LOG4CXX_FATAL(stratmasLog, "Engine running");
+     LOG_FATAL(stratmasLog, "Engine running");
      while (true) {
           try {
                msg = mQ.dequeue();
@@ -155,7 +155,7 @@ void Engine::run() {
                     endSimulation();
                     break;
                default:
-                    slog << "Unknown" << logEnd;
+                    LOG_ERROR(stratmasLog, "Unknown");
                     break;
                }
                // Everything is ok.

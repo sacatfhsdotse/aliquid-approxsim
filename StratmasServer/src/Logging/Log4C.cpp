@@ -22,6 +22,10 @@ log4cxx::LoggerPtr agenciesLog(log4cxx::Logger::getLogger("stratmas.agencies")),
 
 const bool logDebug = false;
 
+void Log4CexitHook(){
+    LOG_FATAL(stratmasLog, "--Shutting down--\n");
+}
+
 void Log4C::init(const boost::filesystem::path& config){
     if(exists(config)){
         //try{
@@ -60,7 +64,7 @@ void Log4C::init(const boost::filesystem::path& config){
         LOG4CXX_ERROR(stratmasLog, "Log4C config \"" << config << "\" not found, using default configuration." )
     }
 
-    LOG4CXX_FATAL(stratmasLog, "Logging started");
+    LOG_INFO(stratmasLog, "Logging started");
 
     //TODO not working
     Log4SinkDebug* log4debug = new Log4SinkDebug("stratmas.debug");
@@ -68,4 +72,6 @@ void Log4C::init(const boost::filesystem::path& config){
 
     slog.setLogSink(log4info);
     debug.setLogSink(log4debug);
+
+    atexit(&Log4CexitHook);
 }

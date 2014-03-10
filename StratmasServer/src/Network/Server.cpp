@@ -13,6 +13,7 @@
 #include "StratmasSocket.h"
 #include "StratmasServerSocket.h"
 #include "LogStream.h"
+#include "Log4C.h"
 
 // Temporary
 #include "StratmasMessage.h"
@@ -47,9 +48,8 @@ Server::Server(int port, const std::string &host,
      : mNumSessions(0), mIdCount(0), mBuf(new Buffer()), 
        mEng(new Engine(*mBuf)), mActiveId(-1), 
        mClientValidator(clientValidator)
-{
-     cout << "host = " << (host.empty() ? "any" : host) << endl
-          << "port = " << port << endl;
+{ 
+     LOG_FATAL(networkLog, "host = " << (host.empty() ? "any" : host) << ", port = " << port );
 
      try {
           mSocket = new StratmasServerSocket(host.empty() ? 0 : host.c_str(), 

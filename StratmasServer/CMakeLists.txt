@@ -62,7 +62,7 @@ FIND_PACKAGE (Boost 1.37 COMPONENTS "date_time" "filesystem" "program_options" "
 IF (Boost_FOUND)
 #  message("Found Boost")
 ELSE()
-  message("Boost not found locally, will download during build")
+  message(WARNING "Boost not found locally, you should attempt to install it or let me download and compile during build")
   include(External-Boost)
   SET (Boost_LIBRARIES boost_date_time boost_filesystem boost_program_options boost_system boost_thread)
 ENDIF()
@@ -73,7 +73,7 @@ FIND_PACKAGE (Log4Cxx)
 IF (${Log4Cxx_FOUND})
 #  message("Found Log4Cxx")
 ELSE()
-  message("Log4Cxx not found locally, will download during build")
+  message(WARNING "Log4Cxx not found locally, you should attempt to install it or let me download and compile during build")
   include(ExternalProject)
   ExternalProject_Add(
     Log4Cxx
@@ -94,9 +94,9 @@ LINK_DIRECTORIES(${Log4Cxx_LIBRARY_DIRS})
 if(TESTS)
   FIND_PACKAGE (UnitTestPlusPlus)
   IF (${UnitTestPlusPlus_FOUND})
-#		message("Found UnitTestPlusPlus")
+#    message("Found UnitTestPlusPlus")
   ELSE()
-		message("UnitTestPlusPlus not found locally, will download during build")
+    message(WARNING "UnitTestPlusPlus not found locally, you should attempt to install it or let me download and compile during build")
     include(ExternalProject)
     ExternalProject_Add(
       UnitTestPlusPlus
@@ -117,7 +117,7 @@ FIND_PACKAGE (XercesC)
 IF (${XercesC_FOUND})
 #  message("Found XercesC")
 ELSE()
-  message("XercesC not found locally, will download during build")
+  message(WARNING "XercesC not found locally, you should attempt to install it or let me download and compile during build")
   include(ExternalProject)
   ExternalProject_Add(
     XercesC

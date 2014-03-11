@@ -29,6 +29,8 @@
 
  You can speed up compilation by running on multiple cores with ex. 'make -j4' if you have 4 cores.
 
+ To clean compiled code 'make clean'
+ To clean CMake cached configuration 'make distclean'
  To generate documentation run 'make docs'
  To run tests './configure -DTESTS=On' and then 'make'
  To run with extra debug output './configure -DDEBUG=On' and then 'make'

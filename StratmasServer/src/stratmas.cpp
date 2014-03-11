@@ -12,6 +12,10 @@
 #include <cstdio>
 #include <ctime>
 
+#if defined(COMPILER_CYGWIN) || defined(COMPILER_MINGW) || defined(OS_WIN32)
+#include <windows.h>
+#endif
+
 // Own
 #include "Log4C.h"
 #include "Registrator.h"
@@ -93,9 +97,16 @@ int main(int argc, char **argv)
 
 void initTimeZone()
 {
+#if defined(COMPILER_CYGWIN) || defined(COMPILER_MINGW) || defined(OS_WIN32)
+     SetEnvironmentVariable ("TZ", "UTC");
+#else
      putenv("TZ=UTC");
+#endif
+
 #ifdef OS_WIN32
      _tzset();
+#elif defined(COMPILER_CYGWIN)
+	//TODO fix
 #else
       tzset();
 #endif

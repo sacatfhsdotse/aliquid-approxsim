@@ -10,6 +10,10 @@
 #include <log4cxx/logmanager.h>
 #include <log4cxx/fileappender.h>
 
+#if defined(COMPILER_CYGWIN) || defined(COMPILER_MINGW) || defined(OS_WIN32)
+#include <windows.h>
+#endif
+
 // Own
 #include "Log4C.h"
 #include "../Environment.h"
@@ -34,10 +38,20 @@ void Log4CexitHook(){
 void Log4C::init(const boost::filesystem::path& config){
     if(exists(config)){
         //try{
+#if defined(COMPILER_CYGWIN) || defined(COMPILER_MINGW) || defined(OS_WIN32)
+            std::string installDir = (Environment::getInstallDir() / "/").string();
+#else
             std::string installDir = std::string("stratmas.install=") + (Environment::getInstallDir() / "/").string();
+#endif
             char cInstallDir[installDir.size()+1];
             strcpy(cInstallDir, installDir.c_str());
+#if defined(COMPILER_CYGWIN) || defined(COMPILER_MINGW) || defined(OS_WIN32)
+            SetEnvironmentVariable ("stratmas.install", cInstallDir);
+#else
             putenv(cInstallDir);
+#endif
+
+
             if(logDebug) std::cout << "stratmas.install = " << log4cxx::helpers::System::getProperty("stratmas.install") << std::endl;
 
             log4cxx::xml::DOMConfigurator::configureAndWatch(config.string());

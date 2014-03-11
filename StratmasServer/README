@@ -35,6 +35,9 @@
  To run tests './configure -DTESTS=On' and then 'make'
  To run with extra debug output './configure -DDEBUG=On' and then 'make'
  To run with different compiler than default 'make distclean' then 'CC=/usr/bin/clang CXX=/usr/bin/clang++ ./configure'
+ Cygwin
+   install make, cmake, [doxygen], libboost, libxerces-c, a c++ compiler and bintuils. Ex minggw64-x86_64-[gcc,g++,binutils]
+   configure with 'CC=/usr/bin/x86_64-w64-mingw32-gcc CXX=/usr/bin/x86_64-w64-mingw32-g++ RC=/usr/bin/x86_64-w64-mingw32-windres.exe ./configure'
 
 == 3. INSTALLING ==
 

@@ -110,12 +110,8 @@ XMLHandler::XMLHandler(Buffer &buf, string ns, string schemaLocation, int64_t id
      mParser->setXMLEntityResolver(mpEntityResolver);
 
      if (schemaLocation != "") {
-//            mParser->setExternalSchemaLocation(XStr(XMLHelper::encodeURLSpecialCharacters(ns) +
-//                                                    " " + XMLHelper::encodeURLSpecialCharacters(schemaLocation)).str());
-         std::string asd = XMLHelper::encodeURLSpecialCharacters(ns) + " " + XMLHelper::encodeURLSpecialCharacters(schemaLocation);
-         const XMLCh* dsa = XStr(asd).str();
-//         LOG_FATAL(networkLog, "asd " << asd << " dsa " << dsa);
-         mParser->setExternalSchemaLocation(dsa);
+         mParser->setExternalSchemaLocation(XStr(XMLHelper::encodeURLSpecialCharacters(ns) +
+                                                 " " + XMLHelper::encodeURLSpecialCharacters(schemaLocation)).str());
      }
      
      mErrorReporter = new ParserErrorReporter();

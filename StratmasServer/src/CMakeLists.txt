@@ -80,4 +80,20 @@ ADD_EXECUTABLE(${project_BIN} ${project_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/schema
 TARGET_LINK_LIBRARIES(${project_BIN} ${project_LIBS} ${project_OS_SPECIFIC})
 SET_TARGET_PROPERTIES(${project_BIN} PROPERTIES VERSION "${APPLICATION_VERSION_MAJOR}.${APPLICATION_VERSION_MINOR}" OUTPUT_NAME ${project_BIN} CLEAN_DIRECT_OUTPUT 1)
 
+IF(NOT Boost_FOUND)
+  add_dependencies(${project_BIN} Boost)
+ENDIF()
+
+IF(NOT Log4Cxx_FOUND)
+  add_dependencies(${project_BIN} Log4Cxx)
+ENDIF()
+
+IF(NOT XercesC_FOUND)
+  add_dependencies(${project_BIN} XercesC)
+ENDIF()
+
+IF(TESTS AND NOT UnitTestPlusPlus_FOUND)
+  add_dependencies(${project_BIN} UnitTestPlusPlus)
+ENDIF()
+
 INSTALL(TARGETS ${project_BIN} DESTINATION bin)

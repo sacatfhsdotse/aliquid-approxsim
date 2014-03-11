@@ -116,9 +116,6 @@ public:
 
 //Fixes for broken environments
 #if defined(COMPILER_CYGWIN) || defined(COMPILER_MINGW)
-// Mingw doesn't define putenv()
-extern int putenv(char*);
-extern void tzset(void);
 
 // Mingw doesn't implement to_string
 namespace std {

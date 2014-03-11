@@ -50,6 +50,7 @@ ENDIF()
 IF(${CYGWIN})
   add_definitions(-DOS_UNIX)
   add_definitions(-DCOMPILER_CYGWIN)
+  add_definitions(-D_XOPEN_SOURCE)
 ENDIF()
 
 IF(${CMAKE_COMPILER_IS_GNUCXX})

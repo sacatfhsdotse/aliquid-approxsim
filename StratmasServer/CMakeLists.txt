@@ -82,7 +82,7 @@ ELSE()
     URL http://apache.mirrors.spacedump.net//apr/apr-1.5.0.tar.gz
     URL_MD5 6419a8f7e89ad51b5bad7b0c84cc818c
     CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
-    PATCH_COMMAND patch -p1 -t -N < ${MAINFOLDER}/tools/share/cmake/apr-1.5.0-out-of-tree-build.patch
+    PATCH_COMMAND patch -p1 -t -N < ${MAINFOLDER}/tools/share/cmake/apr-1.5.0-out-of-tree-build.patch 
     BUILD_COMMAND make -j${cores}
   )
   ExternalProject_Get_Property(APR install_dir)

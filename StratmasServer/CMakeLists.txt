@@ -77,6 +77,7 @@ ELSE()
   include(ExternalProject)
   ExternalProject_Add(
     Log4Cxx
+    //maybe use http://svn.apache.org/viewvc/incubator/log4cxx/tags/latest_stable/ ?
     URL http://apache.mirrors.spacedump.net/logging/log4cxx/0.10.0/apache-log4cxx-0.10.0.tar.gz
     URL_MD5 b30ffb8da3665178e68940ff7a61084c
     CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>

@@ -11,11 +11,13 @@
   * Cross-platform Make (CMake) v2.6.2+
   * GNU Make or equivalent.
   * GCC or an alternative, reasonably conformant C++11 compiler.
- The following are automatically downloaded and built if missing:
+ The following are automatically downloaded and slowly built if missing:
   * Boost C++ Libraries v1.37+ [HEADERS and LIBRARIES]
-  * Log4Cxx v0.10.0+ 
-  * UnitTest++ (a.k.a. unittest-cpp)
-  * Xerces-c 3.1.1+
+  * Log4Cxx v0.10.0+ (Apache logging framework)
+  * UnitTest++ (a.k.a. unittest-cpp, testing framework)
+  * Xerces-c 3.1.1+ (Apache XML parser)
+  * APR 1.5.0 (Apache portable runtime)
+  * APRUtil 1.5.3 (Apache portable runtime utilities)
 
 == 2. BUILDING ==
  
@@ -38,8 +40,10 @@
  
 == 2.1 BUILDING with Cygwin ==
  Install make, cmake, doxygen, libboost, libboost-devel, libapr1, libapr1-devel, libaprutil1, libaprutil1-devel,
-         libxerces-c, libgdbm-devel and c++ compiler with bintuils. Ex gcc,g++,binutils or minggw64-x86_64-[gcc,g++,binutils]
- If you use a non default compiler you have to add 'CC=/usr/bin/x86_64-w64-mingw32-gcc CXX=/usr/bin/x86_64-w64-mingw32-g++ RC=/usr/bin/x86_64-w64-mingw32-windres.exe' before each configure and compile command.
+         libxerces-c, libgdbm-devel and a c++ compiler with bintuils. Ex gcc,g++,binutils or minggw64-x86_64-[gcc,g++,binutils]
+ If you use a non default compiler, ex minggw64-x86_64, you have to add:
+ 'CC=/usr/bin/x86_64-w64-mingw32-gcc CXX=/usr/bin/x86_64-w64-mingw32-g++ RC=/usr/bin/x86_64-w64-mingw32-windres.exe' 
+ before each configure and compile command.
 
 == 3. INSTALLING ==
 

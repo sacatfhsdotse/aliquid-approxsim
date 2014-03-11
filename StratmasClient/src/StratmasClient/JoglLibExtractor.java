@@ -326,6 +326,21 @@ public class JoglLibExtractor
                 public Object run() {
                     boolean isOSX = System.getProperty("os.name").equals("Mac OS X");
                     if (!isOSX) {
+                            // TODO make less ugly:
+                            String libs = System.getProperty("java.library.path");
+                            String[] mawts = {
+                            "/usr/lib/jvm/java-6-openjdk/jre/lib/amd64/xawt/libmawt.so",
+                            "/usr/lib/jvm/java-6-openjdk-amd64/jre/lib/amd64/xawt/libmawt.so",
+                            "/usr/lib/jvm/java-7-openjdk/jre/lib/amd64/xawt/libmawt.so",
+                            "/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/xawt/libmawt.so"};
+                            for (String s : mawts) {
+                                libs += ":" + s;
+                                try {
+                                    System.load(s);
+                                } catch (UnsatisfiedLinkError e) {
+                                    // do nothing.
+                                }
+                            }
                         try {
                             System.loadLibrary("jawt");
                         } catch (UnsatisfiedLinkError e) {

@@ -98,6 +98,7 @@ int main(int argc, char **argv)
 void initTimeZone()
 {
 #if defined(COMPILER_CYGWIN) || defined(COMPILER_MINGW) || defined(OS_WIN32)
+	//TODO fix not working
      SetEnvironmentVariable ("TZ", "UTC");
 #else
      putenv("TZ=UTC");

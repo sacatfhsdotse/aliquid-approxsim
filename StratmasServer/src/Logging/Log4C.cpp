@@ -46,6 +46,7 @@ void Log4C::init(const boost::filesystem::path& config){
             char cInstallDir[installDir.size()+1];
             strcpy(cInstallDir, installDir.c_str());
 #if defined(COMPILER_CYGWIN) || defined(COMPILER_MINGW) || defined(OS_WIN32)
+            //TODO fix not working
             SetEnvironmentVariable ("stratmas.install", cInstallDir);
 #else
             putenv(cInstallDir);

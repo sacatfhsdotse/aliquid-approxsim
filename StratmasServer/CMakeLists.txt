@@ -62,7 +62,7 @@ FIND_PACKAGE (Boost 1.37 COMPONENTS "date_time" "filesystem" "program_options" "
 IF (Boost_FOUND)
 #  message("Found Boost")
 ELSE()
-  message(WARNING "Boost not found locally, you should attempt to install it or let me download and compile during build")
+  message(WARNING "Boost not found locally, you should attempt to install it or let me download and compile during build (slow)")
   include(External-Boost)
   SET (Boost_LIBRARIES boost_date_time boost_filesystem boost_program_options boost_system boost_thread)
 ENDIF()
@@ -73,14 +73,16 @@ FIND_PACKAGE (APR)
 IF (APR_FOUND)
 #  message("Found Apache Runtime Environment")
 ELSE()
-  message("APR not found locally, will download during build")
+  message("APR not found locally, you should attempt to install it or let me download and compile during build (slow)")
   include(ExternalProject)
   ExternalProject_Add(
     APR
     URL http://apache.mirrors.spacedump.net//apr/apr-1.5.0.tar.gz
     URL_MD5 6419a8f7e89ad51b5bad7b0c84cc818c
     CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
+    PATCH_COMMAND patch -p1 -t -N < ${MAINFOLDER}/tools/share/cmake/apr-1.5.0-out-of-tree-build.patch
     BUILD_COMMAND make -j${cores}
+
   )
   ExternalProject_Get_Property(APR install_dir)
   SET ($APR_INCLUDE_DIRS ${install_dir}/include)
@@ -93,7 +95,7 @@ LINK_DIRECTORIES(${APR_LIBRARY_DIRS})
 IF (APRUTIL_FOUND)
 #  message("Found Apache Runtime Environment Utilities")
 ELSE()
-  message("APRUTIL not found locally, will download during build")
+  message("APRUTIL not found locally, you should attempt to install it or let me download and compile during build (slow)")
   include(ExternalProject)
   ExternalProject_Add(
     APRUTIL
@@ -101,6 +103,7 @@ ELSE()
     URL_MD5 71a11d037240b292f824ba1eb537b4e3
     CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
     BUILD_COMMAND make -j${cores}
+    DEPENDS APR
   )
   ExternalProject_Get_Property(APRUTIL install_dir)
   SET ($APRUTIL_INCLUDE_DIRS ${install_dir}/include)
@@ -114,7 +117,7 @@ FIND_PACKAGE (Log4Cxx)
 IF (${Log4Cxx_FOUND})
 #  message("Found Log4Cxx")
 ELSE()
-  message(WARNING "Log4Cxx not found locally, you should attempt to install it or let me download and compile during build")
+  message(WARNING "Log4Cxx not found locally, you should attempt to install it or let me download and compile during build (slow)")
   include(ExternalProject)
   ExternalProject_Add(
     Log4Cxx
@@ -124,6 +127,7 @@ ELSE()
     CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
     PATCH_COMMAND patch -p1 -t -N < ${MAINFOLDER}/tools/share/cmake/Log4Cxx.patch
     BUILD_COMMAND make -j${cores}
+    DEPENDS APR APRUTIL
   )
   ExternalProject_Get_Property(Log4Cxx install_dir)
   SET (Log4Cxx_INCLUDE_DIRS ${install_dir}/include)
@@ -138,7 +142,7 @@ if(TESTS)
   IF (${UnitTestPlusPlus_FOUND})
 #    message("Found UnitTestPlusPlus")
   ELSE()
-    message(WARNING "UnitTestPlusPlus not found locally, you should attempt to install it or let me download and compile during build")
+    message(WARNING "UnitTestPlusPlus not found locally, you should attempt to install it or let me download and compile during build (slow)")
     include(ExternalProject)
     ExternalProject_Add(
       UnitTestPlusPlus
@@ -159,7 +163,7 @@ FIND_PACKAGE (XercesC)
 IF (${XercesC_FOUND})
 #  message("Found XercesC")
 ELSE()
-  message(WARNING "XercesC not found locally, you should attempt to install it or let me download and compile during build")
+  message(WARNING "XercesC not found locally, you should attempt to install it or let me download and compile during build (slow)")
   include(ExternalProject)
   ExternalProject_Add(
     XercesC

@@ -81,6 +81,7 @@ ELSE()
     URL http://apache.mirrors.spacedump.net/logging/log4cxx/0.10.0/apache-log4cxx-0.10.0.tar.gz
     URL_MD5 b30ffb8da3665178e68940ff7a61084c
     CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
+    PATCH_COMMAND patch -p1 -t -N < ${MAINFOLDER}/tools/share/cmake/Log4Cxx.patch
     BUILD_COMMAND make -j${cores}
   )
   ExternalProject_Get_Property(Log4Cxx install_dir)

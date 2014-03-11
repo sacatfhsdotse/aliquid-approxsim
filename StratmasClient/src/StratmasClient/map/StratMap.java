@@ -249,7 +249,7 @@ public class StratMap extends BasicMap {
     }
 
     /**
-     * Returns the zoom & scale controller.
+     * Returns the zoom &amp; scale controller.
      */
     public ZoomAndScale getZoomAndScale() {
         return zoom;

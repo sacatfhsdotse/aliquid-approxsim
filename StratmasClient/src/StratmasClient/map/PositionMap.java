@@ -945,7 +945,7 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
      */
     public void mouseClicked(MouseEvent e) {
     }
-    
+
     /**
      * Not implemented. 
      */
@@ -955,7 +955,7 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
      * Not implemented. 
      */
     public void mouseExited(MouseEvent e) {}
-    
+
     /**
      * Starts the dragging action of the rectangular area visible in the main map. 
      */
@@ -974,8 +974,8 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
             drag_started = true;
         }
     }
-    
-    
+
+
     /**
      * Ends the dragging action. 
      */

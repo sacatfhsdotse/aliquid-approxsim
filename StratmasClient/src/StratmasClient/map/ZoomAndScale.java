@@ -123,13 +123,13 @@ public class ZoomAndScale implements ActionListener, ChangeListener {
         JLabel zoom_in = new JLabel(new ImageIcon(ZoomAndScale.class.getResource("images/zoom_in16.gif")));
         zoom_in.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
-                    self.increaseSliderValue(1);
+                    self.changeSliderValue(1);
                 }
             });
         JLabel zoom_out = new JLabel(new ImageIcon(ZoomAndScale.class.getResource("images/zoom_out16.gif")));
         zoom_out.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
-                    self.decreaseSliderValue(1);
+                    self.changeSliderValue(1);
                 }
             });
         
@@ -250,34 +250,34 @@ public class ZoomAndScale implements ActionListener, ChangeListener {
     /**
      * Increases the value of the slider and updates the map.
      *
-     * @param i increment of the slider.
+     * @param i increment of the slider. Negative to decrement.
      */
-    public void increaseSliderValue(int i) {
+    public void changeSliderValue(int i) {
         slide_index += i;
-        slide_index = (slide_index > MAX_VALUE) ? MAX_VALUE : slide_index;
+        if (slide_index > MAX_VALUE) {
+            slide_index = MAX_VALUE;
+        } else if (slide_index < MIN_VALUE) {
+            slide_index = MIN_VALUE;
+        }
         // set the new slider value
         slider.setValue(slide_index);
         update();
     }
 
     /**
-     * Decreases the value of the slider and updates the map.
+     * Retrieves the current map scale (0 .. 1).
      *
-     * @param i decrement of the slider.
+     * @return the scale.
      */
-    public void decreaseSliderValue(int i) {
-        slide_index -= i;
-        slide_index = (slide_index < MIN_VALUE) ? MIN_VALUE : slide_index;
-        // set the new slider value
-        slider.setValue(slide_index);
-        update();
+    public double getScale() {
+        return (double)slide_index / (double)MAX_VALUE;
     }
     
     /**
      * Updates map scale.
      */
     public void update() {
-        setOrthoBounds((double)slide_index / (double)MAX_VALUE);
+        setOrthoBounds(getScale());
     }
     
     /**
@@ -295,7 +295,7 @@ public class ZoomAndScale implements ActionListener, ChangeListener {
         try {
             char one = text.charAt(0);
             char colon = text.charAt(1);
-            // unvalid string
+            // invalid string
             if (one != '1' || colon != ':') {
                 throw new RuntimeException();
             }

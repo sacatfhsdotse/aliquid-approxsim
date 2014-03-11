@@ -399,6 +399,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param e the generated event.
      */
     public void mouseDragged(MouseEvent e) {
+        super.mouseDragged(e);
         // get window coordinates
         int x = (int)e.getX();
         int y = (int)e.getY();

@@ -8,6 +8,8 @@ import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.nio.IntBuffer;
@@ -56,7 +58,7 @@ import com.jogamp.opengl.util.gl2.GLUT;
  * @author Amir Filipovic, Daniel Ahlin
  */
 public abstract class BasicMapDrawer extends JPanel implements GLEventListener, MapDrawableAdapterListener, 
-                                                               MouseListener, MouseMotionListener
+                                                               MouseListener, MouseMotionListener, MouseWheelListener
 {
     /**
      * The reference to the map container.
@@ -120,9 +122,24 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      */
     protected int view_height;
     /**
-     * Current position of the mouse cursor.
+     * Current position (on map) of the mouse cursor.
      */
     protected MapPoint current_pos;
+    /**
+     * Whether the mouse is currently being dragged
+     * (i.e. with left mousebutton pressed).
+     */
+    protected boolean draggingMouse = false;
+    /**
+     * X-position of mouse when mousedrag started or
+     * after last time map was moved.
+     */
+    protected int mouseDragStartX;
+    /**
+     * Y-position of mouse when mousedrag started or
+     * after last time map was moved.
+     */
+    protected int mouseDragStartY;
     /**
      * The latest time the map is drawn. 
      */
@@ -244,6 +261,7 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
         glc.addGLEventListener(this);
         glc.addMouseListener(this);
         glc.addMouseMotionListener(this);
+        glc.addMouseWheelListener(this);
 
         // initialize the list of display lists for drawables
         initMapDrawableDisplayLists();
@@ -452,28 +470,52 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
     }
     
     /**
-     * Not implemented. Part of MouseListener interface.
+     * Starts the dragging action.
      */
+    @Override
     public void mousePressed(MouseEvent e) {
+        mouseDragStartX = e.getX();
+        mouseDragStartY = e.getY();
+        draggingMouse = true;
     }        
     
     /**
-     * Not implemented. Part of MouseListener interface.
+     * Ends the dragging action.
      */
+    @Override
     public void mouseReleased(MouseEvent e) {
+        if (draggingMouse) {
+            draggingMouse = false;
+        }
     }
     
     /**
-     * Not implemented. Part of MouseMotionListener interface.
+     * Performs the dragging action.
+     * I.e. moves the map a little bit.
      */
+    @Override
     public void mouseDragged(MouseEvent e) {
+        if (draggingMouse) {
+            int x = e.getX();
+            int y = e.getY();
+            MapPoint p1 = convertToLonLat(mouseDragStartX, mouseDragStartY);
+            MapPoint p2 = convertToLonLat(x, y);
+            p1 = p1.getProjectedPoint(getProjection());
+            p2 = p2.getProjectedPoint(getProjection());
+            double dx = p2.getX() - p1.getX();
+            double dy = p2.getY() - p1.getY();
+            setXYCenter(ort_xc-dx, ort_yc-dy); // move reverse motion dirction
+            mouseDragStartX = x;
+            mouseDragStartY = y;
+        }
     }
     
     /**
-     * Upadates the curent position on the map. Part of MouseMotionListener interface. 
+     * Upadates the current position on the map. Part of MouseMotionListener interface. 
      *
      * @param e event created by changing the position of the mouse cursor on the map.
      */
+    @Override
     public void mouseMoved(MouseEvent e) {
         // get window coordinates
         int x = (int) e.getX();
@@ -490,6 +532,17 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
         
         // redraw
         update();
+    }
+
+    /**
+     * Part of MouseWheelListener interface.
+     * Zooms the map as the mousewheel is moved.
+     */
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        int rot = - e.getWheelRotation(); // zoom in on scroll up.
+        zoom_and_scale.changeSliderValue(rot);
+        // TODO dx and dy
+        //setXYCenter(ort_xc+dx, ort_yc+dy);
     }
 
     /**
@@ -838,6 +891,7 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
         
         return new MapPoint(ll[0], ll[1]);
     }
+
     
     /**
      * Converts distance in the screen coordinates to distance in the projected coordinates.

@@ -325,29 +325,38 @@ public class JoglLibExtractor
         java.security.AccessController.doPrivileged(new java.security.PrivilegedAction() {
                 public Object run() {
                     boolean isOSX = System.getProperty("os.name").equals("Mac OS X");
+                    boolean isLinux = System.getProperty("os.name").equals("Linux");
+                    boolean isAmd64 = System.getProperty("os.arch").equals("amd64");
                     if (!isOSX) {
-                            // TODO make less ugly:
-                            String libs = System.getProperty("java.library.path");
-                            String[] mawts = {
-                            "/usr/lib/jvm/java-6-openjdk/jre/lib/amd64/xawt/libmawt.so",
-                            "/usr/lib/jvm/java-6-openjdk-amd64/jre/lib/amd64/xawt/libmawt.so",
-                            "/usr/lib/jvm/java-7-openjdk/jre/lib/amd64/xawt/libmawt.so",
-                            "/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/xawt/libmawt.so"};
-                            for (String s : mawts) {
-                                libs += ":" + s;
-                                try {
-                                    System.load(s);
-                                } catch (UnsatisfiedLinkError e) {
-                                    // do nothing.
-                                }
-                            }
                         try {
                             System.loadLibrary("jawt");
                         } catch (UnsatisfiedLinkError e) {
                             // Accessibility technologies load JAWT themselves; safe to continue
                             // as long as JAWT is loaded by any loader
                             if (e.getMessage().indexOf("already loaded") == -1) {
-                                throw e;
+                                // TODO make less ugly:
+                                if (isLinux && isAmd64) {
+                                    String[] mawts = {
+                                        "/usr/lib/jvm/java-6-openjdk/jre/lib/amd64/xawt/libmawt.so",
+                                        "/usr/lib/jvm/java-6-openjdk-amd64/jre/lib/amd64/xawt/libmawt.so",
+                                        "/usr/lib/jvm/java-7-openjdk/jre/lib/amd64/xawt/libmawt.so",
+                                        "/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/amd64/xawt/libmawt.so"
+                                    };
+                                    for (String s : mawts) {
+                                        try {
+                                            System.load(s);
+                                        } catch (UnsatisfiedLinkError e3) {
+                                            // do nothing.
+                                        }
+                                    }
+                                    try {
+                                        System.loadLibrary("jawt");
+                                    } catch (UnsatisfiedLinkError e2) {
+                                        throw e2;
+                                    }
+                                } else {
+                                    throw e;
+                                }
                             }
                         }
                     }

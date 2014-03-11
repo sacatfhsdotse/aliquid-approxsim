@@ -69,6 +69,13 @@
            <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] - %m%n"/>
        </layout>
     </appender>
+    <appender name="file-debug" class="org.apache.log4j.FileAppender" >
+       <param name="File" value="${stratmas.install}logs/oldDebug" />
+       <param name="Append" value="false" />
+       <layout class="org.apache.log4j.PatternLayout">
+           <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] - %m%n"/>
+       </layout>
+    </appender>
     <appender name="stdout" class="org.apache.log4j.ConsoleAppender">
    		<param name="Threshold" value="info"/> 
        <layout class="org.apache.log4j.PatternLayout">
@@ -120,5 +127,9 @@
 	<logger name="stratmas.simulationObjects">
 		<level value="debug"/>
 		<appender-ref ref="file-simulationObjects" />
+	</logger>
+	<logger name="stratmas.debug"> <!-- remove when all old debug has been moved to new logging system -->
+		<level value="trace"/>
+		<appender-ref ref="file-debug" />
 	</logger>
 </log4j:configuration>

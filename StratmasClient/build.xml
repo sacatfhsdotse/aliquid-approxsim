@@ -281,13 +281,7 @@
       <compilerarg value="-Xlint:all"/>
       -->
       <include name="**"/>
-
-      <!-- EXCLUDE BROKEN CODE: -->
-      <exclude name="StratmasClient/treeview2/**"/>
-      <exclude name="StratmasClient/filter/PathFilter.java"/>
-      <exclude name="StratmasClient/filter/ReferenceFilter.java"/>
-      <exclude name="StratmasClient/filter/IdentifierRegexFilter.java"/>
-      <exclude name="StratmasClient/evolver/PointComponentParameter.java"/>
+    	
     </javac>
   </target>
 

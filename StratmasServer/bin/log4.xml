@@ -4,6 +4,7 @@
 	<appender name="file" class="org.apache.log4j.FileAppender" >
        <param name="File" value="${stratmas.install}logs/log" />
        <param name="Append" value="true" />
+   		<param name="Threshold" value="info"/> 
        <layout class="org.apache.log4j.PatternLayout">
            <!-- google log4j PatternLayout for how to format -->
            <!-- <param name="ConversionPattern" value="[%p] %d{[yyyy-MM-dd] [HH:mm:ss]} %C{1}.%M %m%n"/> -->
@@ -23,52 +24,53 @@
        <param name="File" value="${stratmas.install}logs/network" />
        <param name="Append" value="false" />
        <layout class="org.apache.log4j.PatternLayout">
-           <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] %5c{1} %x - %m%n"/>
+           <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] %x - %m%n"/>
        </layout>
     </appender>
     <appender name="file-taclan" class="org.apache.log4j.FileAppender" >
        <param name="File" value="${stratmas.install}logs/taclan" />
        <param name="Append" value="false" />
        <layout class="org.apache.log4j.PatternLayout">
-           <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] %5c{1} - %m%n"/>
+           <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] - %m%n"/>
        </layout>
     </appender>
     <appender name="file-agencies" class="org.apache.log4j.FileAppender" >
        <param name="File" value="${stratmas.install}logs/agencies" />
        <param name="Append" value="false" />
        <layout class="org.apache.log4j.PatternLayout">
-           <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] %5c{1} - %m%n"/>
+           <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] - %m%n"/>
        </layout>
     </appender>
     <appender name="file-dataManagement" class="org.apache.log4j.FileAppender" >
        <param name="File" value="${stratmas.install}logs/dataManagement" />
        <param name="Append" value="false" />
        <layout class="org.apache.log4j.PatternLayout">
-           <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] %5c{1} - %m%n"/>
+           <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] - %m%n"/>
        </layout>
     </appender>
     <appender name="file-geo" class="org.apache.log4j.FileAppender" >
        <param name="File" value="${stratmas.install}logs/geo" />
        <param name="Append" value="false" />
        <layout class="org.apache.log4j.PatternLayout">
-           <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] %5c{1} - %m%n"/>
+           <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] - %m%n"/>
        </layout>
     </appender>
     <appender name="file-pv" class="org.apache.log4j.FileAppender" >
        <param name="File" value="${stratmas.install}logs/pv" />
        <param name="Append" value="false" />
        <layout class="org.apache.log4j.PatternLayout">
-           <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] %5c{1} - %m%n"/>
+           <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] - %m%n"/>
        </layout>
     </appender>
     <appender name="file-simulationObjects" class="org.apache.log4j.FileAppender" >
        <param name="File" value="${stratmas.install}logs/simulation" />
        <param name="Append" value="false" />
        <layout class="org.apache.log4j.PatternLayout">
-           <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] %5c{1} - %m%n"/>
+           <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] - %m%n"/>
        </layout>
     </appender>
     <appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+   		<param name="Threshold" value="info"/> 
        <layout class="org.apache.log4j.PatternLayout">
            <param name="ConversionPattern" value="[%p] %d{[HH:mm:ss]} %m%n"/>
        </layout>
@@ -89,7 +91,7 @@
 		<level value="info"/>
 		<appender-ref ref="file" />
 		<appender-ref ref="file-error" />
-		<appender-ref ref="stdout-error" />
+		<appender-ref ref="stdout" />
 	</logger>
 	<logger name="stratmas.network">
 		<level value="debug"/>

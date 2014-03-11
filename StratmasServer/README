@@ -10,7 +10,7 @@
  This project requires:
   * Cross-platform Make (CMake) v2.6.2+
   * GNU Make or equivalent.
-  * GCC or an alternative, reasonably conformant C++ compiler.
+  * GCC or an alternative, reasonably conformant C++11 compiler.
  The following are automatically downloaded and built if missing:
   * Boost C++ Libraries v1.37+ [HEADERS and LIBRARIES]
   * Log4Cxx v0.10.0+ 

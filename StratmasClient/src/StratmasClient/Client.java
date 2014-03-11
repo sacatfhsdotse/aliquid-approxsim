@@ -1804,7 +1804,7 @@ public class Client implements StratmasEventListener {
             args = newArgs;
         } 
         
-        System.setProperty("StratmasClientDebug", "");
+//        System.setProperty("StratmasClientDebug", "");
 
         Client client = new Client(args);
     }     

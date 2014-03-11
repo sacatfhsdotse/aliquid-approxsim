@@ -49,7 +49,8 @@ Server::Server(int port, const std::string &host,
        mEng(new Engine(*mBuf)), mActiveId(-1), 
        mClientValidator(clientValidator)
 { 
-     LOG_FATAL(networkLog, "Listening on interface = " << (host.empty() ? "any" : host) << ", port = " << port );
+     LOG_FATAL(networkLog, "Listening on interface = " << 
+         (host.empty() ? "any" : host) << ", port = " << port );
 
      try {
           mSocket = new StratmasServerSocket(host.empty() ? 0 : host.c_str(), 
@@ -80,10 +81,10 @@ Server::~Server()
 void Server::start()
 {
      // Start Engine (get mEng to thread (void*)mEng)
-     boost::thread tmpObj(boost::bind(&Engine::start, (void*)mEng));
+     boost::thread tmpObj(&Engine::start, mEng);
 
      // Start Dispatcher (get this to thread (void*)this)
-     boost::thread tmpObj2(boost::bind(&Server::dispatcherThreadMain, (void*)this));
+     boost::thread tmpObj2(&Server::dispatcherThreadMain, this);
 
      // Loop through requests
      while (true) {
@@ -91,26 +92,26 @@ void Server::start()
 
           // Accept request
           try {
-               sock = new StratmasSocket();
-               if (!mSocket->accept(*sock)) {
-                    LOG_WARN(networkLog, "Error while accepting connection. Ignoring..." 
-                         );
-                    delete sock;
-               }
+              sock = new StratmasSocket();
+              if (!mSocket->accept(*sock)) {
+                   LOG_WARN(networkLog, "Error while accepting connection. Ignoring..." 
+                        );
+                   delete sock;
+              } else {
+                  if (mClientValidator != 0 && !mClientValidator->isValidClient(sock)) {
+                      LOG_WARN(networkLog, "Connection from invalid ip address " <<
+                          sock->address() << " rejected" );
+                      delete sock;
+                      continue;
+                  }
+
+                  mConQ.enqueue(sock);
+              }
           } catch (...) {
                LOG_WARN(networkLog, "Error occured" );
                delete sock;
                continue;
           }
-
-          if (mClientValidator != 0 && 
-              !mClientValidator->isValidClient(sock)) {
-               LOG_WARN(networkLog, "Connection from invalid ip address " << sock->address() << " rejected" );
-               delete sock;
-               continue;
-          }
-
-          mConQ.enqueue(sock);
      }
 }
 
@@ -142,8 +143,8 @@ void Server::notifyClosure(int64_t id)
  *    
  * \return NULL if everything is ok.
  */
-void *Server::dispatcherThreadMain(void *data) {
-     Server &server = *static_cast<Server*>(data);
+void *Server::dispatcherThreadMain(Server *data) {
+     Server &server = *data;
 
      int64_t          id;
      Session          *sess;
@@ -204,13 +205,12 @@ void *Server::dispatcherThreadMain(void *data) {
                }
                server.mSessions[sock->id()] = sess;
                server.mNumSessions++;
-               LOG_WARN(networkLog, "Id given but there was no matching Session" );
+               LOG_WARN(networkLog, "ID given but there was no matching Session" );
                // Somehow produce a warning...
           }
 
-          // Spawn session (get sess to thread (void*)sess) fix thread
-          // detach.
-          boost::thread tmpObj(boost::bind(&Session::staticStart, (void*) sess));
+          // Spawn session (get sess to thread (void*)sess) fix thread detach.
+          boost::thread tmpObj(&Session::staticStart, sess);
      }
      
      LOG_ERROR(networkLog,"Congratulations! You have just done the impossible...");

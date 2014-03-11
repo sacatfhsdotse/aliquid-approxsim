@@ -21,6 +21,7 @@
 #include "XMLHandler.h"
 #include "XMLHelper.h"
 #include "Reference.h"
+#include "Log4C.h"
 
 // Xerces
 #include <xercesc/dom/DOMElement.hpp>
@@ -102,15 +103,19 @@ XMLHandler::XMLHandler(Buffer &buf, string ns, string schemaLocation, int64_t id
 //     mParser->setIncludeIgnorableWhitespace(true);
      mParser->setIncludeIgnorableWhitespace(false);
      mParser->cacheGrammarFromParse(true);
-     mParser->useCachedGrammarInParse(true);
+//     mParser->useCachedGrammarInParse(true);
      
      mpEntityResolver = 
           new MemEntityResolver(mParser->getXMLEntityResolver());
      mParser->setXMLEntityResolver(mpEntityResolver);
 
      if (schemaLocation != "") {
-            mParser->setExternalSchemaLocation(XStr(XMLHelper::encodeURLSpecialCharacters(ns) +
-                                                    " " + XMLHelper::encodeURLSpecialCharacters(schemaLocation)).str());
+//            mParser->setExternalSchemaLocation(XStr(XMLHelper::encodeURLSpecialCharacters(ns) +
+//                                                    " " + XMLHelper::encodeURLSpecialCharacters(schemaLocation)).str());
+         std::string asd = XMLHelper::encodeURLSpecialCharacters(ns) + " " + XMLHelper::encodeURLSpecialCharacters(schemaLocation);
+         const XMLCh* dsa = XStr(asd).str();
+//         LOG_FATAL(networkLog, "asd " << asd << " dsa " << dsa);
+         mParser->setExternalSchemaLocation(dsa);
      }
      
      mErrorReporter = new ParserErrorReporter();

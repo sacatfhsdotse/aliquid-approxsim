@@ -73,7 +73,7 @@ public:
      void handleInitialization();
 
      void start();
-     static void *staticStart(void *instance);
+     static void *staticStart(Session* instance);
      
      bool setSocket(StratmasSocket *s);
 

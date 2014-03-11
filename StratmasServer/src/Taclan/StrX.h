@@ -33,7 +33,7 @@ private:
       * \brief Block size used internally by the parser. Should
       * according to xercesc documentation be in the 4 to 64k range.
       */
-     static const int kBlockSize = 1024 * 16;
+     static const unsigned int kBlockSize = 1024 * 16;
 
      // The maximum size of a character in the current encoding.
      static unsigned int sMaxCharSize;
@@ -134,21 +134,21 @@ public :
       */
      StrX(const XMLCh* const toTranscode) : mLongStr(0) {
           int maxCharSize = TranscoderWrapper::getMaxCharSize();
-          unsigned int charsEaten;
+          XMLSize_t charsEaten;
           unsigned int charsToTranscode = XMLString::stringLen(toTranscode) + 1;
           if (charsToTranscode <= kBlock / maxCharSize) {
                TranscoderWrapper::getTranscoder()->transcodeTo(toTranscode,
                                                                (const XMLSize_t)charsToTranscode,
                                                                (XMLByte*)mStr,
                                                                (const XMLSize_t)kBlock,
-                                                               (XMLSize_t &)charsEaten,
+                                                               charsEaten,
                                                                XMLTranscoder::UnRep_RepChar);
           }
           else {
                mLongStr = new char[charsToTranscode * sizeof(XMLCh)];
                unsigned int chunkSize;
                char* writeHere = mLongStr;
-               unsigned int readBytes;
+               XMLSize_t readBytes;
                for (unsigned int i = 0; i < charsToTranscode; i += charsEaten) {
                     chunkSize = (charsToTranscode - i < TranscoderWrapper::getBlockSize() ? 
                                  charsToTranscode - i : TranscoderWrapper::getBlockSize());
@@ -156,7 +156,7 @@ public :
                                                                                 (const XMLSize_t)chunkSize,
                                                                                 (XMLByte*)writeHere,
                                                                                 (const XMLSize_t)(charsToTranscode - i) * maxCharSize,
-                                                                                (XMLSize_t &)charsEaten,
+                                                                                charsEaten,
                                                                                 XMLTranscoder::UnRep_RepChar);
                     writeHere += readBytes;
                }
@@ -231,7 +231,7 @@ private:
           if (mLongStr) {
                delete [] mLongStr;
           }
-          unsigned int bytesEaten;
+          XMLSize_t bytesEaten;
           unsigned int bytesToTranscode = strlen(toTranscode) + 1;
           if (bytesToTranscode <= kBlock) {
                mLongStr = 0;
@@ -239,14 +239,14 @@ private:
                                                                  (const XMLSize_t)bytesToTranscode,
                                                                  mStr,
                                                                  (const XMLSize_t)kBlock,
-                                                                 (XMLSize_t &)bytesEaten,
+                                                                 bytesEaten,
                                                                  mNumBytesPerChar);
           }
           else {
                mLongStr = new XMLCh[bytesToTranscode];
                unsigned char* numBytesPerChar = new unsigned char[bytesToTranscode];
                XMLCh* writeHere = mLongStr;
-               unsigned int readChars;
+               XMLSize_t readChars;
                unsigned int chunkSize;
                for (unsigned int i = 0; i < bytesToTranscode; i += bytesEaten) {
                     chunkSize = (bytesToTranscode - i < TranscoderWrapper::getBlockSize() ? 
@@ -255,7 +255,7 @@ private:
                                                                                   (const XMLSize_t)chunkSize,
                                                                                   writeHere,
                                                                                   (const XMLSize_t)bytesToTranscode - i,
-                                                                                  (XMLSize_t &)bytesEaten,
+                                                                                  bytesEaten,
                                                                                   numBytesPerChar);
                     writeHere += readChars;
                }

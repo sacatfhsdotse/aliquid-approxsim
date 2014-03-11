@@ -280,7 +280,7 @@ void Session::handleStratmasMessage(const std::string &xml, std::string &respons
                break;
           }
           default:
-               LOG_DEBUG(networkLog, "This is impossible. Please sit down and have a drink.");
+               LOG_ERROR(networkLog, "This is impossible. Please sit down and have a drink.");
                break;
           }
      }
@@ -333,7 +333,7 @@ void Session::handleInitialization()
 void Session::start()
 {
      log4cxx::NDC::push(std::to_string(mId));
-     LOG_DEBUG(networkLog, "Comm thread created");
+     LOG_DEBUG(networkLog, "Session thread started");
 
      float totSecs = 0;
      int totRecvBytes = 0;
@@ -390,11 +390,10 @@ void Session::start()
  *
  * \return NULL if everything is ok.
  */
-void *Session::staticStart(void *instance)
+void *Session::staticStart(Session *instance)
 {
-     Session *s = static_cast<Session*>(instance);
-     s->start();
-     delete s;
+     instance->start();
+     delete instance;
      return 0;
 }
 

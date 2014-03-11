@@ -75,7 +75,7 @@ public:
      bool hasActiveClient() const { return mActiveId != -1; }
 
      static void sigpipe_handle(int sig);
-     static void *dispatcherThreadMain(void* data);
+     static void *dispatcherThreadMain(Server* data);
 
      /**
       * \brief Returns endian of current architecture.

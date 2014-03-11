@@ -8,7 +8,7 @@ FILE (GLOB_RECURSE glob_remove s_subst.c file2h.cpp GridCellPV.cpp XMLHelper.cpp
 LIST(REMOVE_ITEM project_SRCS ${glob_remove})
 
 # more vars.
-SET (project_LIBS ${Boost_LIBRARIES} ${XERCESC_LIBRARIES} ${Log4Cxx_LIBRARIES})
+SET (project_LIBS ${Boost_LIBRARIES} ${XERCESC_LIBRARIES} ${Log4Cxx_LIBRARIES} ${APR_LIBRARIES} ${APRUTIL_LIBRARIES})
 SET (project_BIN ${PROJECT_NAME})
 SET (schemas_dir "${MAINFOLDER}/../schemas")
 
@@ -40,23 +40,26 @@ ENDIF()
 #Compiler
 IF(${MSVC})
   #set(CMAKE_EXE_LINKER_FLAGS "/machine:x86_64")
+  add_definitions(-DCOMPILER_MSVC)
 ENDIF()
 
 IF(${MINGW})
-  # TODO ?
+  add_definitions(-DCOMPILER_MINGW)
 ENDIF()
 
 IF(${CYGWIN})
-  # TODO ?
+  add_definitions(-DOS_UNIX)
+  add_definitions(-DCOMPILER_CYGWIN)
 ENDIF()
 
 IF(${CMAKE_COMPILER_IS_GNUCXX})
   #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64")
+  #add_definitions(-DCOMPILER_GNU)
 ENDIF()
 
 #Generate schemas.h and schemas.cpp from *.xsd files.
 ADD_EXECUTABLE(file2h Schemas/file2h.cpp)
-TARGET_LINK_LIBRARIES(file2h ${project_LIBS} ${project_OS_SPECIFIC})
+TARGET_LINK_LIBRARIES(file2h ${Boost_LIBRARIES})
 FILE (GLOB_RECURSE project_schemas "${schemas_dir}/stratmasProtocol/*.xsd")
 ADD_CUSTOM_COMMAND(
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/schemas.h ${CMAKE_CURRENT_BINARY_DIR}/schemas.cpp
@@ -90,6 +93,14 @@ ENDIF()
 
 IF(NOT XercesC_FOUND)
   add_dependencies(${project_BIN} XercesC)
+ENDIF()
+
+IF(NOT APR_FOUND)
+  add_dependencies(${project_BIN} APR)
+ENDIF()
+
+IF(NOT APRUTIL_FOUND)
+  add_dependencies(${project_BIN} APRUTIL)
 ENDIF()
 
 IF(TESTS AND NOT UnitTestPlusPlus_FOUND)

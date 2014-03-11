@@ -12,7 +12,7 @@
  */
 
 // Constants
-#ifdef __win__
+#ifdef OS_WIN32
 const double kPi      = (4.0 * ::atan2(1.0, 1.0));   ///< pi
 #else
 const double kPi      = (4.0 * std::atan2(1.0, 1.0));   ///< pi
@@ -62,7 +62,7 @@ inline int Round(double x) { return int(x + 0.5); }
  * \param top   The upper bound
  * \return      An integer value in the intervall [bot, top]
  */
-#ifdef __win__
+#ifdef OS_WIN32
 inline int    between(int x, int bot, int top)
 {
   int res = bot < x ? x : bot;
@@ -84,7 +84,7 @@ inline int    between(int x, int bot, int top)
  * \param top   The upper bound
  * \return      A double value in the intervall [bot, top]
  */
-#ifdef __win__
+#ifdef OS_WIN32
 inline double between(double x, double bot, double top)
 {
   double res = bot < x ? x : bot;
@@ -118,11 +118,11 @@ inline void ByteSwapX(unsigned char *b, int n)
 // Plattform Dependent
 // Must define own isnan since cmath undefines it. This macro is
 // copied from /usr/include/architecture/ppc/math.h
-#ifdef __CYGWIN__
+//#ifdef COMPILER_CYGWIN
+//#define isnan(x) (isnan(x))
+#if defined(OS_SOLARIS)
 #define isnan(x) (isnan(x))
-#elif __sun__
-#define isnan(x) (isnan(x))
-#elif __win__
+#elif defined(OS_WIN32)
 #include <float.h>
 #define isnan(x) (_isnan(x))
 #else

@@ -2,7 +2,7 @@
 #define _STRATMAS_SOMAPPER_H
 
 // System
-#ifdef __win__
+#ifdef OS_WIN32
 #include <map>
 #else
 #include <ext/hash_map>
@@ -16,12 +16,12 @@
 class Buffer;
 class SimulationObject;
 
-#ifndef __win__
+#ifndef OS_WIN32
 namespace stdext = ::__gnu_cxx; 
 #endif
 
 
-#ifdef __win__
+#ifdef OS_WIN32
 typedef std::map<const Reference*, SimulationObject*, lessReferenceP> SOMap;
 #else
  typedef stdext::hash_map<const Reference*, SimulationObject*, hashReferenceP> SOMap;

@@ -7,7 +7,7 @@
 #include "GridPartitioner.h"
 #include "Mapper.h"
 #include "ModelParameters.h"
-#include "random.h"
+#include "random2.h"
 #include "Reference.h"
 #include "ParameterGroup.h"
 #include "Scenario.h"

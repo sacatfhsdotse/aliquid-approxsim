@@ -8,7 +8,7 @@
 #include "ModelParameters.h"
 #include "PresenceObject.h"
 #include "PVInfo.h"
-#include "random.h"
+#include "random2.h"
 #include "Reference.h"
 #include "Shape.h"
 #include "Simulation.h"  // For fractionOfDay()

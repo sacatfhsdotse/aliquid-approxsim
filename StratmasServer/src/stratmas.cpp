@@ -10,6 +10,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstdio>
+#include <ctime>
 
 // Own
 #include "Log4C.h"
@@ -20,7 +21,7 @@
 #include "LogStream.h"
 #include "PropertyHandler.h"
 #include "PVInfo.h"
-#include "random.h"
+#include "random2.h"
 #include "Server.h"
 
 // Static Definitions
@@ -93,7 +94,7 @@ int main(int argc, char **argv)
 void initTimeZone()
 {
      putenv("TZ=UTC");
-#ifdef __win__
+#ifdef OS_WIN32
      _tzset();
 #else
       tzset();

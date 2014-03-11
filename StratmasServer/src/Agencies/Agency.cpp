@@ -14,7 +14,7 @@
 #include "Grid.h"
 #include "Mapper.h"  // For operator << 
 #include "ProcessVariables.h"
-#include "random.h"
+#include "random2.h"
 #include "SOFactory.h"
 #include "StratmasConstants.h"
 #include "Type.h"

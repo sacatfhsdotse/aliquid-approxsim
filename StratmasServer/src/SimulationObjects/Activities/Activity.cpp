@@ -12,7 +12,7 @@
 #include "Faction.h"
 #include "Grid.h"
 #include "ProcessVariables.h"
-#include "random.h"
+#include "random2.h"
 #include "Shape.h"
 #include "Simulation.h"
 #include "SOFactory.h"

@@ -69,6 +69,47 @@ ENDIF()
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
 
+FIND_PACKAGE (APR)
+IF (APR_FOUND)
+#  message("Found Apache Runtime Environment")
+ELSE()
+  message("APR not found locally, will download during build")
+  include(ExternalProject)
+  ExternalProject_Add(
+    APR
+    URL http://apache.mirrors.spacedump.net//apr/apr-1.5.0.tar.gz
+    URL_MD5 6419a8f7e89ad51b5bad7b0c84cc818c
+    CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
+    BUILD_COMMAND make -j${cores}
+  )
+  ExternalProject_Get_Property(APR install_dir)
+  SET ($APR_INCLUDE_DIRS ${install_dir}/include)
+  SET (APR_LIBRARY_DIRS ${install_dir}/lib)
+  SET (APR_LIBRARIES apr-1)
+ENDIF()
+INCLUDE_DIRECTORIES($APR_INCLUDE_DIRS})
+LINK_DIRECTORIES(${APR_LIBRARY_DIRS})
+
+IF (APRUTIL_FOUND)
+#  message("Found Apache Runtime Environment Utilities")
+ELSE()
+  message("APRUTIL not found locally, will download during build")
+  include(ExternalProject)
+  ExternalProject_Add(
+    APRUTIL
+    URL http://apache.mirrors.spacedump.net//apr/apr-util-1.5.3.tar.gz
+    URL_MD5 71a11d037240b292f824ba1eb537b4e3
+    CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
+    BUILD_COMMAND make -j${cores}
+  )
+  ExternalProject_Get_Property(APRUTIL install_dir)
+  SET ($APRUTIL_INCLUDE_DIRS ${install_dir}/include)
+  SET (APRUTIL_LIBRARY_DIRS ${install_dir}/lib)
+  SET (APRUTIL_LIBRARIES aprutil-1)
+ENDIF()
+INCLUDE_DIRECTORIES($APRUTIL_INCLUDE_DIRS})
+LINK_DIRECTORIES(${APRUTIL_LIBRARY_DIRS})
+
 FIND_PACKAGE (Log4Cxx)
 IF (${Log4Cxx_FOUND})
 #  message("Found Log4Cxx")
@@ -87,7 +128,7 @@ ELSE()
   ExternalProject_Get_Property(Log4Cxx install_dir)
   SET (Log4Cxx_INCLUDE_DIRS ${install_dir}/include)
   SET (Log4Cxx_LIBRARY_DIRS ${install_dir}/lib)
-  SET (Log4Cxx_LIBRARIES xerces-c)
+  SET (Log4Cxx_LIBRARIES log4cxx)
 ENDIF()
 INCLUDE_DIRECTORIES(${Log4Cxx_INCLUDE_DIRS})
 LINK_DIRECTORIES(${Log4Cxx_LIBRARY_DIRS})

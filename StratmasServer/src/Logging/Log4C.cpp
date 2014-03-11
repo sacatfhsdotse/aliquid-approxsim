@@ -1,13 +1,18 @@
-#include "Log4C.h"
+// System
+#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
+
 #include <iostream>
 #include <log4cxx/helpers/system.h>
 #include <log4cxx/xml/domconfigurator.h>
 #include <log4cxx/basicconfigurator.h>
 #include <log4cxx/logmanager.h>
 #include <log4cxx/fileappender.h>
+
+// Own
+#include "Log4C.h"
 #include "../Environment.h"
-#include <stdlib.h>
-#include <cstring>
 
 log4cxx::LoggerPtr agenciesLog(log4cxx::Logger::getLogger("stratmas.agencies")),
  dataManagementLog(log4cxx::Logger::getLogger("stratmas.dataManagement")),

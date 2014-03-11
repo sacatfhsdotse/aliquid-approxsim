@@ -10,7 +10,7 @@
  * \author Per Alexius
  * \date   $Date: 2006/07/03 14:18:23 $
  */
-#ifdef __win__
+#ifdef OS_WIN32
 #include "WinSocket.h"
 class Socket : public WinSocket {
 #else 

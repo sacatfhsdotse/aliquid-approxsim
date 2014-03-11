@@ -238,7 +238,7 @@ LatLng BasicGrid::center(int r, int c) const
      double dmin = numeric_limits<double>::min();
      double ll =           mCellPosProj[(r + 1) * (mCols + 1) * 2  +  2 *  c         ];        
      double bb =           mCellPosProj[(r + 1) * (mCols + 1) * 2  +  2 *  c      + 1];
-#ifdef __win__
+#ifdef OS_WIN32
      double rr = _nextafter(mCellPosProj[ r      * (mCols + 1) * 2  +  2 * (c + 1)    ], dmin);
      double tt = _nextafter(mCellPosProj[ r      * (mCols + 1) * 2  +  2 * (c + 1) + 1], dmin);
 #else

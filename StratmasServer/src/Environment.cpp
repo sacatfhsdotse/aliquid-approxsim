@@ -215,7 +215,7 @@ void Environment::setDumpDir(const std::string& dirname)
  */
 void Environment::milliSleep(int milliSecs)
 {
-#ifdef __win__
+#ifdef OS_WIN32
                Sleep(milliSecs);
 #else
                timespec ts;

@@ -14,7 +14,7 @@
 #include "StratmasConstants.h"
 #include "LogStream.h"
 #include "ModelParameters.h"
-#include "random.h"
+#include "random2.h"
 
 // The process variable update code.
 #include "GridCellPV.cpp"

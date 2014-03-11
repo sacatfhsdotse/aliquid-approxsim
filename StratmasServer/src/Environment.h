@@ -3,6 +3,7 @@
 
 // System
 #include <string>
+#include <sstream>
 
 // Own
 #include "ClientValidator.h"
@@ -113,5 +114,21 @@ public:
      static int getDispatcherPort() {return sDispatcherPort;}
 };
 
+//Fixes for broken environments
+#if defined(COMPILER_CYGWIN) || defined(COMPILER_MINGW)
+// Mingw doesn't define putenv()
+extern int putenv(char*);
+extern void tzset(void);
+
+// Mingw doesn't implement to_string
+namespace std {
+    template < typename T > std::string to_string( const T& n ) {
+        std::ostringstream stm ;
+        stm << n ;
+        return stm.str() ;
+    }
+}
+
+#endif
 
 #endif   // STRATMAS_ENVIRONMENT

@@ -6,7 +6,7 @@
 #include "Error.h"
 #include "GridPos.h"
 #include "LatLng.h"
-#include "random.h"
+#include "random2.h"
 #include "Reference.h"
 #include "Update.h"
 

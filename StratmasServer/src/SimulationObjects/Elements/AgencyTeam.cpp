@@ -16,7 +16,7 @@
 #include "Grid.h"
 #include "LogStream.h"
 #include "ProcessVariables.h"
-#include "random.h"
+#include "random2.h"
 #include "Reference.h"
 #include "Shape.h"
 #include "SOFactory.h"

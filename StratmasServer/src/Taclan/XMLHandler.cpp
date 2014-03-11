@@ -147,7 +147,7 @@ int XMLHandler::handle(const string &xml)
 {
      int res = eUnknown;
      mLastType = "Unknown";
-     stratmasDebug(xml.c_str());
+     LOG_TRACE(taclanLog, xml.c_str());
      const char *xmlChar = xml.c_str();
      MemBufInputSource* memBuf = new MemBufInputSource((XMLByte*)xmlChar, xml.size(), "ClientMessage", false);
      memBuf->setCopyBufToStream(false);
@@ -190,7 +190,7 @@ int XMLHandler::handle(const string &xml)
      if (mErrorReporter->errorsOccurred() || errOcc) {
           mParser->resetDocumentPool();   // Destroy parsed document
           delete memBuf;
-          stratmasDebug("Dumping discarded message!");
+          LOG_DEBUG(taclanLog,"Dumping discarded message!");
           IOHandler::dumpToFile(xml, "DISCARDED_MESSAGE.tmp");
           if (errOcc) {
                throw anError;
@@ -207,16 +207,16 @@ int XMLHandler::handle(const string &xml)
                mLastType = type.str();
                XMLHelper::removeNamespace(mLastType);
                if (type == "sp:ConnectMessage") {
-                    stratmasDebug("ConnectMessage received.");
+                    LOG_DEBUG(taclanLog,"ConnectMessage received.");
                     handleConnectMessage(*root);
                     res = eConnect;
                }
                else if (type == "sp:DisconnectMessage") {
-                    stratmasDebug("DisconnectMessage received.");
+                    LOG_DEBUG(taclanLog,"DisconnectMessage received.");
                     res = eDisconnect;
                }
                else if (type == "sp:InitializationMessage") {
-                    stratmasDebug("InitializationMessage received.");
+                    LOG_DEBUG(taclanLog,"InitializationMessage received.");
 //                    IOHandler::dumpToFile(xml, "init.xml");
                     StopWatch s;
                     s.start();
@@ -233,48 +233,48 @@ int XMLHandler::handle(const string &xml)
 //                     ofs.close();
 
                     s.stop();
-                    stratmasDebug("DataObject creation took " << s.secs() << " secs" );
+                    LOG_DEBUG(taclanLog,"DataObject creation took " << s.secs() << " secs" );
 
                     res = eInitialization;
                }
                else if (type == "sp:ServerCapabilitiesMessage") {
-                    stratmasDebug("ServerCapabilitiesMessage received.");
+                    LOG_DEBUG(taclanLog,"ServerCapabilitiesMessage received.");
                     res = eServerCapabilities;
                }
                else if (type == "sp:GetGridMessage") {
-                    stratmasDebug("GetGridMessage received.");
+                    LOG_DEBUG(taclanLog,"GetGridMessage received.");
                     res = eGetGrid;
                }
                else if (type == "sp:RegisterForUpdatesMessage") {
-                    stratmasDebug("RegisterForUpdatesMessage received.");
+                    LOG_DEBUG(taclanLog,"RegisterForUpdatesMessage received.");
                     handleRegisterForUpdatesMessage(*root);
                     res = eRegisterForUpdates;
                }
                else if (type == "sp:SubscriptionMessage") {
-                    stratmasDebug("SubscriptionMessage received.");
+                    LOG_DEBUG(taclanLog,"SubscriptionMessage received.");
                     handleSubscriptionMessage(*root);
                     res = eSubscription;
                }
                else if (type == "sp:StepMessage") {
-                    stratmasDebug("StepMessage received.");
+                    LOG_DEBUG(taclanLog,"StepMessage received.");
                     handleStepMessage(*root);
                     res = eStep;
                }
                else if (type == "sp:UpdateServerMessage") {
-                    stratmasDebug("UpdateServerMessage received.");
+                    LOG_DEBUG(taclanLog,"UpdateServerMessage received.");
                     handleServerUpdateMessage(*root);
                     res = eUpdateServer;
                }
                else if (type == "sp:ResetMessage") {
-                    stratmasDebug("ResetMessage received.");
+                    LOG_DEBUG(taclanLog,"ResetMessage received.");
                     res = eReset;
                }
                else if (type == "sp:ProgressQueryMessage") {
-                    stratmasDebug("ProgressQueryMessage received.");
+                    LOG_DEBUG(taclanLog,"ProgressQueryMessage received.");
                     res = eProgressQuery;
                }
                else if (type == "sp:SetPropertyMessage") {
-                    stratmasDebug("SetPropertyMessage received.");
+                    LOG_DEBUG(taclanLog,"SetPropertyMessage received.");
                     handleSetPropertyMessage(*root);
                     res = eSetProperty;
                }
@@ -342,7 +342,7 @@ void XMLHandler::handleSubscriptionMessage(DOMElement &n)
 void XMLHandler::handleStepMessage(DOMElement &n)
 {
      mNumberOfTimesteps = XMLHelper::getInt(n, "numberOfTimesteps");
-//     stratmasDebug("====== Number of timesteps " << mNumberOfTimesteps);
+//     LOG_TRACE(taclanLog,"====== Number of timesteps " << mNumberOfTimesteps);
      // Shouldn't be optional in the future...
      if (XMLHelper::getFirstChildByTag(n, "detached")) {
           mDetachedStep = XMLHelper::getBool(n, "detached");
@@ -404,8 +404,8 @@ void XMLHandler::addSubscription(Subscription *sub)
 
      map<int, Subscription*>::iterator it = mSubscriptions.find(sub->id());
      if (it != mSubscriptions.end()) {
-          slog << "Subscription " << it->first << " has same id as another Subscription. "
-               << "The other subscription will be deleted..." << logEnd;
+          LOG_DEBUG(taclanLog, "Subscription " << it->first << " has same id as another Subscription. "
+               << "The other subscription will be deleted..." );
           delete it->second;
           mSubscriptions.erase(it->first);
      }
@@ -423,11 +423,11 @@ void XMLHandler::createSubscription(DOMElement &n)
      StrX type(n.getAttribute(XStr("xsi:type").str()));
      if (type == "sp:RootSubscription") {
 //          addSubscription(new GeneralSubscription(&n, mBuf));
-          stratmasDebug("=========== RootSubscriptions no longer supported! ===========");
+          LOG_WARN(taclanLog,"=========== RootSubscriptions no longer supported! ===========");
      }
      else if (type == "sp:GeneralSubscription") {
 //          addSubscription(new GeneralSubscription(&n, mBuf));
-          stratmasDebug("=========== GeneralSubscriptions no longer supported! ===========");
+          LOG_WARN(taclanLog,"=========== GeneralSubscriptions no longer supported! ===========");
      }
      else if (type == "sp:StratmasObjectSubscription") {
           addSubscription(new StratmasObjectSubscription(&n, mBuf, mId));
@@ -441,15 +441,15 @@ void XMLHandler::createSubscription(DOMElement &n)
      else if (type == "sp:Unsubscription") {
           int toRemove = XMLHelper::getIntAttribute(n, "id");
           map<int, Subscription*>::iterator it = mSubscriptions.find(toRemove);
-          stratmasDebug("%%%%%%%%% Got remove subscription message");
+          LOG_DEBUG(taclanLog,"%%%%%%%%% Got remove subscription message");
           if (it != mSubscriptions.end()) {
-               stratmasDebug("Removing Subscription: '" << it->first << "'");
+               LOG_DEBUG(taclanLog,"Removing Subscription: '" << it->first << "'");
                delete it->second;
                mSubscriptions.erase(it->first);
           }
           else {
-               slog << "Tried to unsubscribe to non-existing Subscription (id: "
-                    << toRemove << ")" << logEnd;
+               LOG_DEBUG(taclanLog, "Tried to unsubscribe to non-existing Subscription (id: "
+                    << toRemove << ")" );
           }
      }
      else {

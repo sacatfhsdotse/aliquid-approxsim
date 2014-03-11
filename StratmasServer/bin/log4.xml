@@ -8,7 +8,7 @@
            <!-- google log4j PatternLayout for how to format -->
            <!-- <param name="ConversionPattern" value="[%p] %d{[yyyy-MM-dd] [HH:mm:ss]} %C{1}.%M %m%n"/> -->
            <!-- <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] %25C{2}.%M %x - %m%n"/> -->
-           <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] - %m%n"/>
+           <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] %5c{1} - %m%n"/>
        </layout>
     </appender>
     <appender name="file-error" class="org.apache.log4j.FileAppender" >
@@ -16,14 +16,56 @@
        <param name="Threshold" value="error"/> 
        <param name="Append" value="true" />
        <layout class="org.apache.log4j.PatternLayout">
-           <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] - %m%n"/>
+           <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] %5c{1} - %m%n"/>
        </layout>
     </appender>
     <appender name="file-network" class="org.apache.log4j.FileAppender" >
        <param name="File" value="${stratmas.install}logs/network" />
        <param name="Append" value="false" />
        <layout class="org.apache.log4j.PatternLayout">
-           <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] %x - %m%n"/>
+           <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] %5c{1} %x - %m%n"/>
+       </layout>
+    </appender>
+    <appender name="file-taclan" class="org.apache.log4j.FileAppender" >
+       <param name="File" value="${stratmas.install}logs/taclan" />
+       <param name="Append" value="false" />
+       <layout class="org.apache.log4j.PatternLayout">
+           <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] %5c{1} - %m%n"/>
+       </layout>
+    </appender>
+    <appender name="file-agencies" class="org.apache.log4j.FileAppender" >
+       <param name="File" value="${stratmas.install}logs/agencies" />
+       <param name="Append" value="false" />
+       <layout class="org.apache.log4j.PatternLayout">
+           <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] %5c{1} - %m%n"/>
+       </layout>
+    </appender>
+    <appender name="file-dataManagement" class="org.apache.log4j.FileAppender" >
+       <param name="File" value="${stratmas.install}logs/dataManagement" />
+       <param name="Append" value="false" />
+       <layout class="org.apache.log4j.PatternLayout">
+           <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] %5c{1} - %m%n"/>
+       </layout>
+    </appender>
+    <appender name="file-geo" class="org.apache.log4j.FileAppender" >
+       <param name="File" value="${stratmas.install}logs/geo" />
+       <param name="Append" value="false" />
+       <layout class="org.apache.log4j.PatternLayout">
+           <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] %5c{1} - %m%n"/>
+       </layout>
+    </appender>
+    <appender name="file-pv" class="org.apache.log4j.FileAppender" >
+       <param name="File" value="${stratmas.install}logs/pv" />
+       <param name="Append" value="false" />
+       <layout class="org.apache.log4j.PatternLayout">
+           <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] %5c{1} - %m%n"/>
+       </layout>
+    </appender>
+    <appender name="file-simulationObjects" class="org.apache.log4j.FileAppender" >
+       <param name="File" value="${stratmas.install}logs/simulation" />
+       <param name="Append" value="false" />
+       <layout class="org.apache.log4j.PatternLayout">
+           <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] %5c{1} - %m%n"/>
        </layout>
     </appender>
     <appender name="stdout" class="org.apache.log4j.ConsoleAppender">
@@ -50,7 +92,31 @@
 		<appender-ref ref="stdout-error" />
 	</logger>
 	<logger name="stratmas.network">
-		<level value="trace"/>
+		<level value="debug"/>
 		<appender-ref ref="file-network" />
+	</logger>
+	<logger name="stratmas.taclan">
+		<level value="debug"/>
+		<appender-ref ref="file-taclan" />
+	</logger>
+	<logger name="stratmas.agencies">
+		<level value="debug"/>
+		<appender-ref ref="file-agencies" />
+	</logger>
+	<logger name="stratmas.dataManagement">
+		<level value="debug"/>
+		<appender-ref ref="file-dataManagement" />
+	</logger>
+	<logger name="stratmas.geo">
+		<level value="debug"/>
+		<appender-ref ref="file-geo" />
+	</logger>
+	<logger name="stratmas.pv">
+		<level value="debug"/>
+		<appender-ref ref="file-pv" />
+	</logger>
+	<logger name="stratmas.simulationObjects">
+		<level value="debug"/>
+		<appender-ref ref="file-simulationObjects" />
 	</logger>
 </log4j:configuration>

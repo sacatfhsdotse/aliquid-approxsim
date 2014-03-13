@@ -4,19 +4,12 @@
 // System
 #include <string>
 #include <sstream>
+#include <boost/filesystem.hpp>
+#include <boost/program_options.hpp>
 
 // Own
 #include "ClientValidator.h"
 
-namespace boost {
-     namespace filesystem {
-          class path;
-     }
-     namespace program_options {
-          class options_description;
-          class variables_map;
-     }
-};
 namespace fs = boost::filesystem;
 namespace po = boost::program_options;
 

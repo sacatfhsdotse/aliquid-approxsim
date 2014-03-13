@@ -12,9 +12,7 @@
 #include <cstdio>
 #include <ctime>
 
-#if defined(COMPILER_CYGWIN) || defined(COMPILER_MINGW) || defined(OS_WIN32)
-#include <windows.h>
-#endif
+#include <apr-1/apr_env.h>
 
 // Own
 #include "Log4C.h"
@@ -97,12 +95,7 @@ int main(int argc, char **argv)
 
 void initTimeZone()
 {
-#if defined(COMPILER_CYGWIN) || defined(COMPILER_MINGW) || defined(OS_WIN32)
-	//TODO fix not working
-     SetEnvironmentVariable ("TZ", "UTC");
-#else
-     putenv("TZ=UTC");
-#endif
+     apr_env_set("TZ", "UTC", Environment::apr_pool);
 
 #ifdef OS_WIN32
      _tzset();

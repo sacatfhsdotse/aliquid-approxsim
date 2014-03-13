@@ -6,6 +6,7 @@
 #include <sstream>
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
+#include <apr-1/apr_pools.h>
 
 // Own
 #include "ClientValidator.h"
@@ -78,6 +79,7 @@ private:
 
      static fs::path importNativePath(const std::string& nativePath);
      static bool isFile(const fs::path& path);
+	 static void initAPR(int* argc, char const *const ** argv);
 public:
      /// The default namespace.
      static const std::string DEFAULT_SCHEMA_NAMESPACE;
@@ -105,6 +107,7 @@ public:
      static bool getUseDispatcher() {return !getDispatcherHost().empty();}
      static const std::string& getDispatcherHost() {return sDispatcherHost;}
      static int getDispatcherPort() {return sDispatcherPort;}
+     static apr_pool_t* apr_pool;
 };
 
 //Fixes for broken environments

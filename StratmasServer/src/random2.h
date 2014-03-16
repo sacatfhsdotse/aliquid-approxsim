@@ -2,7 +2,7 @@
 #define STRATMAS_RANDOM_H
 
 /**
- * \file random.h"
+ * \file random2.h"
  *
  * \brief This file contains some useful functions for handling random
  * numbers and different probability distributions.
@@ -67,13 +67,13 @@ public:
       * Should be called once (and only once) at startup.
       */
      static inline void initRandomNumberArray() {
-#ifdef __win__
+#if defined(OS_WIN32) || defined(COMPILER_CYGWIN)
           srand(4711);
 #else
            srandom(4711);
 #endif
            for (int i = 0; i < kNumRand; i++) {
-#ifdef __win__
+#if defined(OS_WIN32) || defined(COMPILER_CYGWIN)
                sRandNum[i] = rand();
 #else
                 sRandNum[i] = random();
@@ -142,7 +142,7 @@ public:
 inline void setRandomSeed(unsigned long seed) 
 { 
      GaussSaver::setSaved(false); 
-#ifdef __win__
+#if defined(OS_WIN32) || defined(COMPILER_CYGWIN)
      srand(seed);
 #else
      srandom(seed);
@@ -179,7 +179,7 @@ inline double RandomUniform()
      return 0.5;
 #endif     
 
-#ifdef __win__
+#if defined(OS_WIN32) || defined(COMPILER_CYGWIN)
      double num = static_cast<double>(rand()) / kRandomMax;
 #else
      double num = static_cast<double>(random()) / kRandomMax;

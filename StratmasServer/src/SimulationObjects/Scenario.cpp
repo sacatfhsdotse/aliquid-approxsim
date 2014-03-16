@@ -19,7 +19,7 @@
 #include "GridDataHandler.h"
 #include "GridPartitioner.h"
 #include "Map.h"
-#include "random.h"
+#include "random2.h"
 #include "Region.h"
 #include "RegionFile.h"
 #include "Resetter.h"

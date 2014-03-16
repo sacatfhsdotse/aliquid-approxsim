@@ -62,40 +62,92 @@ FIND_PACKAGE (Boost 1.37 COMPONENTS "date_time" "filesystem" "program_options" "
 IF (Boost_FOUND)
 #  message("Found Boost")
 ELSE()
-  message("Boost not found locally, will download during build")
+  message("Boost not found locally, you should attempt to install it or let me download and compile during build (slow)")
   include(External-Boost)
   SET (Boost_LIBRARIES boost_date_time boost_filesystem boost_program_options boost_system boost_thread)
 ENDIF()
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
 
+FIND_PACKAGE (APR)
+IF (APR_FOUND)
+#  message("Found Apache Runtime Environment")
+# should not be needed but APRUTIL seems incapable at finding APR
+  SET (APR_WITH --with-apr=/usr/)
+ELSE()
+  message("APR not found locally, you should attempt to install it or let me download and compile during build (slow)")
+  include(ExternalProject)
+  ExternalProject_Add(
+    APR
+    URL http://apache.mirrors.spacedump.net//apr/apr-1.5.0.tar.gz
+    URL_MD5 6419a8f7e89ad51b5bad7b0c84cc818c
+    CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
+    PATCH_COMMAND patch -p1 -t -N < ${MAINFOLDER}/tools/share/cmake/apr-1.5.0-out-of-tree-build.patch 
+    BUILD_COMMAND make -j${cores}
+  )
+  ExternalProject_Get_Property(APR install_dir)
+  SET (APR_DEPEND APR)
+  SET (APR_WITH --with-apr=${install_dir})
+  SET (APR_INCLUDE_DIRS ${install_dir}/include)
+  SET (APR_LIBRARY_DIRS ${install_dir}/lib)
+  SET (APR_LIBRARIES apr-1)
+ENDIF()
+INCLUDE_DIRECTORIES($APR_INCLUDE_DIRS})
+LINK_DIRECTORIES(${APR_LIBRARY_DIRS})
+
+IF (APRUTIL_FOUND)
+#  message("Found Apache Runtime Environment Utilities")
+ELSE()
+  message("APRUTIL not found locally, you should attempt to install it or let me download and compile during build (slow)")
+  include(ExternalProject)
+  ExternalProject_Add(
+    APRUTIL
+    URL http://apache.mirrors.spacedump.net//apr/apr-util-1.5.3.tar.gz
+    URL_MD5 71a11d037240b292f824ba1eb537b4e3
+    CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> ${APR_WITH}
+    BUILD_COMMAND make -j${cores}
+    DEPENDS ${APR_DEPEND}
+  )
+  ExternalProject_Get_Property(APRUTIL install_dir)
+  SET (APRUTIL_DEPEND APRUTIL)
+  SET (APRUTIL_WITH --with-apr-util=${install_dir})
+  SET (APRUTIL_INCLUDE_DIRS ${install_dir}/include)
+  SET (APRUTIL_LIBRARY_DIRS ${install_dir}/lib)
+  SET (APRUTIL_LIBRARIES aprutil-1)
+ENDIF()
+INCLUDE_DIRECTORIES($APRUTIL_INCLUDE_DIRS})
+LINK_DIRECTORIES(${APRUTIL_LIBRARY_DIRS})
+
 FIND_PACKAGE (Log4Cxx)
-IF (${Log4Cxx_FOUND})
+IF (Log4Cxx_FOUND)
 #  message("Found Log4Cxx")
 ELSE()
-  message("Log4Cxx not found locally, will download during build")
+  message("Log4Cxx not found locally, you should attempt to install it or let me download and compile during build (slow)")
   include(ExternalProject)
   ExternalProject_Add(
     Log4Cxx
+    #maybe use http://svn.apache.org/viewvc/incubator/log4cxx/tags/latest_stable/ ?
     URL http://apache.mirrors.spacedump.net/logging/log4cxx/0.10.0/apache-log4cxx-0.10.0.tar.gz
     URL_MD5 b30ffb8da3665178e68940ff7a61084c
-    CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
+    CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> ${APR_WITH} ${APRUTIL_WITH}
+    PATCH_COMMAND patch -p1 -t -N < ${MAINFOLDER}/tools/share/cmake/Log4Cxx.patch
     BUILD_COMMAND make -j${cores}
+    DEPENDS ${APR_DEPEND} ${APRUTIL_DEPEND}
   )
   ExternalProject_Get_Property(Log4Cxx install_dir)
   SET (Log4Cxx_INCLUDE_DIRS ${install_dir}/include)
   SET (Log4Cxx_LIBRARY_DIRS ${install_dir}/lib)
-  SET (Log4Cxx_LIBRARIES xerces-c)
+  SET (Log4Cxx_LIBRARIES log4cxx)
 ENDIF()
 INCLUDE_DIRECTORIES(${Log4Cxx_INCLUDE_DIRS})
 LINK_DIRECTORIES(${Log4Cxx_LIBRARY_DIRS})
 
 if(TESTS)
   FIND_PACKAGE (UnitTestPlusPlus)
-  IF (${UnitTestPlusPlus_FOUND})
-#		message("Found UnitTestPlusPlus")
+  IF (UnitTestPlusPlus_FOUND)
+#    message("Found UnitTestPlusPlus")
   ELSE()
-		message("UnitTestPlusPlus not found locally, will download during build")
+    message("UnitTestPlusPlus not found locally, you should attempt to install it or let me download and compile during build (slow)")
     include(ExternalProject)
     ExternalProject_Add(
       UnitTestPlusPlus
@@ -113,10 +165,10 @@ if(TESTS)
 endif()
 
 FIND_PACKAGE (XercesC)
-IF (${XercesC_FOUND})
+IF (XERCESC_FOUND)
 #  message("Found XercesC")
 ELSE()
-  message("XercesC not found locally, will download during build")
+  message("XercesC not found locally, you should attempt to install it or let me download and compile during build (slow)")
   include(ExternalProject)
   ExternalProject_Add(
     XercesC
@@ -128,7 +180,7 @@ ELSE()
   ExternalProject_Get_Property(XercesC install_dir)
   SET (XercesC_INCLUDE_DIRS ${install_dir}/include)
   SET (XercesC_LIBRARY_DIRS ${install_dir}/lib)
-  SET (XercesC_LIBRARIES xerces-c)
+  SET (XERCESC_LIBRARIES xerces-c)
 ENDIF()
 INCLUDE_DIRECTORIES(${XercesC_INCLUDE_DIRS})
 LINK_DIRECTORIES(${XercesC_LIBRARY_DIRS})

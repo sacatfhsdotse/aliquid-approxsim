@@ -16,7 +16,7 @@
 #include "PresenceObject.h"
 #include "PresenceObjectAllocator.h"
 #include "PropertyHandler.h"
-#include "random.h"
+#include "random2.h"
 #include "Resetter.h"
 #include "Shape.h"
 #include "Simulation.h"       // For timestep()

@@ -3,7 +3,7 @@
 
 // System
 #include <map>
-#ifndef __win__
+#ifndef OS_WIN32
 #include <ext/hash_map>
 #endif
 
@@ -16,12 +16,12 @@
 
 // Forward Declarations
 
-#ifndef __win__
+#ifndef OS_WIN32
 namespace stdext = ::__gnu_cxx; 
 #endif
 
 
-#ifdef __win__
+#ifdef OS_WIN32
 typedef std::map<const Reference*, DataObject*, lessReferenceP> MapType;
 #else
 typedef stdext::hash_map<const Reference*, DataObject*, hashReferenceP> MapType;

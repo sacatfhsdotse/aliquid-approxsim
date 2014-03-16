@@ -17,7 +17,7 @@
 // Temporary
 #include <sstream>
 #include <fstream>
-#include "random.h"
+#include "random2.h"
 #include "stopwatch.h"
 
 // Static Definitions

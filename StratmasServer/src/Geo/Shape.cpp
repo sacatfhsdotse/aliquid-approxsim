@@ -4,7 +4,7 @@
 //Own
 #include "BasicGrid.h"
 #include "debugheader.h"
-#include "random.h"
+#include "random2.h"
 #include "Reference.h"
 #include "Shape.h"
 #include "XMLHelper.h"

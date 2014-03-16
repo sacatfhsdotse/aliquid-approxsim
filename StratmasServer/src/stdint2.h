@@ -6,9 +6,9 @@
 #define STRATMAS_STDINT_H
 
 // Platform Dependent
-#ifdef __sun__
+#ifdef OS_SOLARIS
 #include <inttypes.h>
-#elif __win__
+#elif OS_WIN32
 
 #ifdef _LONGLONG
 typedef _LONGLONG int64_t;

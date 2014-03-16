@@ -138,7 +138,7 @@ void XMLHelper::timeToDateTime(ostream& o, Time time)
 
      struct tm ts;
      memset(&ts, '0', sizeof(ts));
-#ifdef __win__
+#ifdef OS_WIN32
      _gmtime64_s(&ts, &sec);
 #else
       gmtime_r(&sec, &ts);
@@ -288,7 +288,7 @@ ostream& XMLHelper::base64Print(const int8_t* toEncode, int nBytesToEncode, ostr
 
      // Should be this way in order to avoid mismatched delete [] and new. Can't
      // use XMLString::release since it uses delete [].
-#ifdef __win__
+#ifdef OS_WIN32
      XMLString::release(&encoded);
 #else
      delete encoded;
@@ -460,7 +460,7 @@ int64_t XMLHelper::getLongInt(const DOMElement &n, const char *tag)
      string tmp;
      int64_t res;
      getString(n, tag, tmp);
-#ifdef __win__
+#ifdef OS_WIN32
      res = _strtoi64(tmp.c_str(), 0, 10);
 #else
      res = strtoll(tmp.c_str(), 0, 10);

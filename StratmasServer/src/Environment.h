@@ -3,19 +3,14 @@
 
 // System
 #include <string>
+#include <sstream>
+#include <boost/filesystem.hpp>
+#include <boost/program_options.hpp>
+#include <apr-1/apr_pools.h>
 
 // Own
 #include "ClientValidator.h"
 
-namespace boost {
-     namespace filesystem {
-          class path;
-     }
-     namespace program_options {
-          class options_description;
-          class variables_map;
-     }
-};
 namespace fs = boost::filesystem;
 namespace po = boost::program_options;
 
@@ -84,6 +79,7 @@ private:
 
      static fs::path importNativePath(const std::string& nativePath);
      static bool isFile(const fs::path& path);
+	 static void initAPR(int* argc, char const *const ** argv);
 public:
      /// The default namespace.
      static const std::string DEFAULT_SCHEMA_NAMESPACE;
@@ -111,7 +107,21 @@ public:
      static bool getUseDispatcher() {return !getDispatcherHost().empty();}
      static const std::string& getDispatcherHost() {return sDispatcherHost;}
      static int getDispatcherPort() {return sDispatcherPort;}
+     static apr_pool_t* apr_pool;
 };
 
+//Fixes for broken environments
+#if defined(COMPILER_CYGWIN) || defined(COMPILER_MINGW)
+
+// Mingw doesn't implement to_string
+namespace std {
+    template < typename T > std::string to_string( const T& n ) {
+        std::ostringstream stm ;
+        stm << n ;
+        return stm.str() ;
+    }
+}
+
+#endif
 
 #endif   // STRATMAS_ENVIRONMENT

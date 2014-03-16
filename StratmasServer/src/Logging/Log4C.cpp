@@ -1,13 +1,19 @@
-#include "Log4C.h"
+// System
+#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
+
 #include <iostream>
 #include <log4cxx/helpers/system.h>
 #include <log4cxx/xml/domconfigurator.h>
 #include <log4cxx/basicconfigurator.h>
 #include <log4cxx/logmanager.h>
 #include <log4cxx/fileappender.h>
+#include <apr-1/apr_env.h>
+
+// Own
+#include "Log4C.h"
 #include "../Environment.h"
-#include <stdlib.h>
-#include <cstring>
 
 log4cxx::LoggerPtr agenciesLog(log4cxx::Logger::getLogger("stratmas.agencies")),
  dataManagementLog(log4cxx::Logger::getLogger("stratmas.dataManagement")),
@@ -29,10 +35,9 @@ void Log4CexitHook(){
 void Log4C::init(const boost::filesystem::path& config){
     if(exists(config)){
         //try{
-            std::string installDir = std::string("stratmas.install=") + (Environment::getInstallDir() / "/").string();
-            char cInstallDir[installDir.size()+1];
-            strcpy(cInstallDir, installDir.c_str());
-            putenv(cInstallDir);
+            std::string installDir = (Environment::getInstallDir() / "/").string();
+            apr_env_set("stratmas.install", installDir.c_str(), Environment::apr_pool);
+
             if(logDebug) std::cout << "stratmas.install = " << log4cxx::helpers::System::getProperty("stratmas.install") << std::endl;
 
             log4cxx::xml::DOMConfigurator::configureAndWatch(config.string());
@@ -73,5 +78,5 @@ void Log4C::init(const boost::filesystem::path& config){
     slog.setLogSink(log4info);
     debug.setLogSink(log4debug);
 
-    atexit(&Log4CexitHook);
+    atexit(Log4CexitHook);
 }

@@ -10,6 +10,9 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstdio>
+#include <ctime>
+
+#include <apr-1/apr_env.h>
 
 // Own
 #include "Log4C.h"
@@ -20,7 +23,7 @@
 #include "LogStream.h"
 #include "PropertyHandler.h"
 #include "PVInfo.h"
-#include "random.h"
+#include "random2.h"
 #include "Server.h"
 
 // Static Definitions
@@ -92,9 +95,12 @@ int main(int argc, char **argv)
 
 void initTimeZone()
 {
-     putenv("TZ=UTC");
-#ifdef __win__
+     apr_env_set("TZ", "UTC", Environment::apr_pool);
+
+#ifdef OS_WIN32
      _tzset();
+#elif defined(COMPILER_CYGWIN)
+	//TODO fix
 #else
       tzset();
 #endif

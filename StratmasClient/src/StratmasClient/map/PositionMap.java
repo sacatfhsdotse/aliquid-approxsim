@@ -962,17 +962,8 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
     public void mousePressed(MouseEvent e) {
         int x = (int)e.getX();
         int y = (int)e.getY();
-        // convert to projected coordinates
-        double[] xy = convertToProjCoords(x, y);
-        // convert to lat/lon
-        double[] lon_lat = toLonLat(xy[0], xy[1]);
-        // get the box boundaries
-        double[] lon_lat1 = toLonLat(pbox.getXmin(), pbox.getYmin());
-        double[] lon_lat2 = toLonLat(pbox.getXmax(), pbox.getYmax());
-        if (lon_lat[0] >= lon_lat1[0] && lon_lat[0] <= lon_lat2[0] &&
-            lon_lat[1] >= lon_lat1[1] && lon_lat[1] <= lon_lat2[1]) {
-            drag_started = true;
-        }
+        drag_started = true;
+        mouseDragged(e); // TODO bad
     }
 
 

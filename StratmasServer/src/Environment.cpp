@@ -7,6 +7,8 @@
 #include <fstream>
 #include <string>
 
+#include <apr-1/apr_general.h>
+
 // Boost
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/convenience.hpp>
@@ -32,6 +34,7 @@ const string Environment::DEFAULT_SCHEMA_NAMESPACE("http://pdc.kth.se/stratmasNa
 const string Environment::XSD_NAMESPACE("http://www.w3.org/2001/XMLSchema");
 const string Environment::STRATMAS_PROTOCOL_SCHEMA("stratmasProtocol.xsd");
 bool         Environment::initStarted = false;
+apr_pool_t* Environment::apr_pool;
 
 // File related variables
 // BUG With regard to path:
@@ -55,6 +58,10 @@ bool         Environment::useDispatcher = false;
 string       Environment::sDispatcherHost("");
 int          Environment::sDispatcherPort = 4181;
 ClientValidator* Environment::spClientValidator = new PassClientValidator();
+
+void EnvironmentExitHook(){
+    apr_terminate();
+}
 
 /**
  * \brief Gets the absolute path to the given filename.  The following
@@ -215,7 +222,7 @@ void Environment::setDumpDir(const std::string& dirname)
  */
 void Environment::milliSleep(int milliSecs)
 {
-#ifdef __win__
+#ifdef OS_WIN32
                Sleep(milliSecs);
 #else
                timespec ts;
@@ -258,11 +265,15 @@ void Environment::initEnvironment(int argc, char** argv)
      // Use progname to figure out install dir.
      initInstallDir(sExecutable);
 
+     initAPR(&argc, (char const *const **)&argv);
+
      // Handle configuration last. Note that the Windows Service code
      // depends on this being the last function called in this
      // scope. (When starting stratmas as a Windows Service the
      // start/main thread will not return from this call-path.)
      initConfig(argc, argv); return;
+
+     atexit(EnvironmentExitHook);
 }
 
 /**
@@ -402,4 +413,17 @@ void Environment::initConfig(int argc, char** argv)
      // scope. (When starting stratmas as a Windows Service the
      // start/main thread will not return from this call-path.)
      handlePlatformOptions(&vm); return;
+}
+
+void Environment::initAPR(int* argc, char const *const ** argv){
+    apr_status_t apr_status = apr_app_initialize(argc, argv, NULL);
+    if(apr_status){
+    std::cerr << "APR init failed: " << apr_status << std::endl;
+        exit(1);
+     }
+     apr_status = apr_pool_create(&apr_pool, NULL);
+    if(apr_status){
+        std::cerr << "APR pool creation failed: " << apr_status << std::endl;
+        exit(1);
+    }
 }

@@ -25,7 +25,7 @@
 #include "Projection.h"
 #include "PVArea.h"
 #include "PVRegion.h"
-#include "random.h"
+#include "random2.h"
 #include "Region.h"
 #include "StratmasConstants.h"
 #include "Unit.h"
@@ -80,7 +80,7 @@ Grid::Grid(const Map& amap, double cellSizeMeters, int factions)
                     corner[0] = mCellPosProj[(r + 1) * (mCols + 1) * 2  +  2 *  c         ];                  // x
                     corner[1] = mCellPosProj[(r + 1) * (mCols + 1) * 2  +  2 *  c      + 1];                  // y
                     corner[2] = mCellPosProj[ r      * (mCols + 1) * 2  +  2 *  c         ];                  // x
-#ifdef __win__
+#ifdef OS_WIN32
                     corner[3] = _nextafter(mCellPosProj[ r      * (mCols + 1) * 2  +  2 *  c      + 1], dmin); // y
                     corner[4] = _nextafter(mCellPosProj[ r      * (mCols + 1) * 2  +  2 * (c + 1)    ], dmin); // x
                     corner[5] = _nextafter(mCellPosProj[ r      * (mCols + 1) * 2  +  2 * (c + 1) + 1], dmin); // y

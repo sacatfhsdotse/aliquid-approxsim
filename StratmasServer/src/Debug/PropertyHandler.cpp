@@ -1,6 +1,7 @@
 // System
 #include <fstream>
 #include <cstring>
+#include <strings.h>
 
 // Own
 #include "PropertyHandler.h"
@@ -23,7 +24,7 @@ bool PropertyHandler::mValidateXML    = true;
  */
 bool PropertyHandler::stringToBool(std::string& value)
 {
-#ifdef __win__
+#ifdef OS_WIN32
       if (_stricmp(value.c_str(), "true") == 0 ||
           _stricmp(value.c_str(), "on") == 0 ||
 #else

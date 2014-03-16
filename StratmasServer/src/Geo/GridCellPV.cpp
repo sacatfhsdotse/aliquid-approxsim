@@ -8,7 +8,7 @@
 #include "Grid.h"
 #include "GridCell.h"
 #include "ModelParameters.h"
-#include "random.h"
+#include "random2.h"
 #include "StratmasConstants.h"
 
 // Temporary

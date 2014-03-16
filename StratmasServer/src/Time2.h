@@ -10,7 +10,7 @@
 // Own
 #include "stdint.h"
 
-#ifdef __win__
+#if defined(OS_WIN32) && !defined(COMPILER_CYGWIN)
 #define STRATMAS_INVALID_TIME (LLONG_MIN)
 #define STRATMAS_MIN_TIME (LLONG_MIN + 1)
 #define STRATMAS_MAX_TIME (LLONG_MAX)

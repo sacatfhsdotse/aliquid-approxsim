@@ -209,7 +209,7 @@ public class ZoomAndScale implements ActionListener, ChangeListener {
      * @param i scaled value between 0 and 1.
      */
     private void setOrthoBounds(double i) {
-        double scale = a * Math.pow(i, 0.25) + 1.0;
+        double scale = calcScale(i);
         // compute new orthographics view bounds
         BoundingBox box = drawer.getBoundingBox();
         double dx1 = box.getXmax()-box.getXmin();
@@ -230,6 +230,20 @@ public class ZoomAndScale implements ActionListener, ChangeListener {
         act_scale = compScale(ort_xmins, (ort_ymins+ort_ymaxs)/2, ort_xmaxs, (ort_ymins+ort_ymaxs)/2);
         scale_field.setText("1:"+act_scale);
         zoomAndScalePanel.updateUI();
+    }
+    
+    /**
+     * TODO
+     */
+    private double calcScale(double i) {
+        return a * Math.pow(i, 0.25) + 1.0;
+    }
+
+    /**
+     * TODO
+     */
+    public double getCurrentScale() {
+        return calcScale(getScale());
     }
     
     /**

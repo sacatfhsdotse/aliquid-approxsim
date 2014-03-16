@@ -69,7 +69,7 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      */
     protected Region region;
     /**
-     * The zooming & scaling.
+     * The zooming &amp; scaling.
      */
     protected ZoomAndScale zoom_and_scale;
     /**
@@ -539,10 +539,26 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
      * Zooms the map as the mousewheel is moved.
      */
     public void mouseWheelMoved(MouseWheelEvent e) {
+        int x = e.getX();
+        int y = e.getY();
         int rot = - e.getWheelRotation(); // zoom in on scroll up.
+
+        // mouse point before
+        MapPoint p = convertToLonLat(x,y).getProjectedPoint(getProjection());
+        double ux = p.getX();
+        double uy = p.getY();
+
         zoom_and_scale.changeSliderValue(rot);
-        // TODO dx and dy
-        //setXYCenter(ort_xc+dx, ort_yc+dy);
+
+        // mouse point after
+        p = convertToLonLat(x,y).getProjectedPoint(getProjection());
+        double ux2 = p.getX();
+        double uy2 = p.getY();
+
+        // adjust so after = before.
+        double dx = ux-ux2;
+        double dy = uy-uy2;
+        setXYCenter(ort_xc+dx, ort_yc+dy);
     }
 
     /**

@@ -40,7 +40,7 @@
  
 == 2.1 BUILDING with Cygwin ==
  Install make, cmake, doxygen, libboost, libboost-devel, libapr1, libapr1-devel, libaprutil1, libaprutil1-devel,
-         libxerces-c, libgdbm-devel and a c++ compiler with bintuils. Ex gcc,g++,binutils or minggw64-x86_64-[gcc,g++,binutils]
+ libxerces-c, libgdbm-devel and a c++ compiler with bintuils. Ex gcc,g++,binutils or minggw64-x86_64-[gcc,g++,binutils]
  If you use a non default compiler, ex minggw64-x86_64, you have to add:
  'CC=/usr/bin/x86_64-w64-mingw32-gcc CXX=/usr/bin/x86_64-w64-mingw32-g++ RC=/usr/bin/x86_64-w64-mingw32-windres.exe' 
  before each configure and compile command.

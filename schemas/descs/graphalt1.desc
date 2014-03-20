@@ -1,0 +1,50 @@
+CommonScenario < sp.Scenario {
+  ...
+  path: sp.UndirGraph
+  graphs*: sp.DirGraph
+}
+
+# Alt 1
+NodeReference < sp.Reference <target: string fixed="Node"> {}
+
+UndirGraph < sp.ComplexType {
+  nodes+: sp.Node //May not be a directednode
+  edges+: sp.TwoDirEdge
+}
+
+DirGraph < sp.ComplexType {
+  nodes+: sp.Node
+  nodeConnected?: sp.Effect // These could also be on the nodes/edges, thus enabling specific events for each specific node
+  nodeDisconnected?: sp.Effect
+  edgeConnected?: sp.Effect
+  edgeDisconnected?: sp.Effect
+}
+
+Effect < sp.ComplexType {
+  continuos: bool //not sure if this is a good idea, but it might allow for both triggered effects and continuous
+  //TODO: represent the changes that can be applied in a useful way
+}
+
+Node < sp.ComplexType {
+  # Is a source in a Graph, but merely another Node in a PathGraph
+  point: sp.Point
+}
+
+TwoDirEdge < sp.OneDirEdge {
+  origin: sp.NodeReference
+}
+
+OneDirEdge < sp.ComplexType {
+  target: sp.NodeReference
+  connected: boolean
+}
+
+DirectedNode < sp.Node {
+  # Is connected to source if one or more parents are connected or a source themselves
+  parent+: sp.OneDirEdge
+}
+
+//TODO: why ComplexType as opposed to something else?
+  //TODO: what is the difference between SimpleType and ComplexType? They seem to be identical except for name and SimpleType inheriting ValueType that inherits Identifiable instead of just directly inheriting Identifiable
+//TODO: what is substrate editor
+//TODO: the substrate editor is quite likely where things should be added

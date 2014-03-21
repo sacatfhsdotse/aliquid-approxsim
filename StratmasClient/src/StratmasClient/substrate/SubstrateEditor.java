@@ -627,7 +627,7 @@ public class SubstrateEditor {
      * Saves values from the editor to a user defined file.
      */
     protected void saveValuesToNewFile() {
-        String filename = Client.getFileNameFromDialog(".ini", JFileChooser.SAVE_DIALOG, new JFrame());
+        String filename = Client.getFileNameFromDialog(".prv", JFileChooser.SAVE_DIALOG, new JFrame());
         saveToFile(filename);
     }
     
@@ -635,7 +635,7 @@ public class SubstrateEditor {
      * Saves values from the editor to an existing  file.
      */
     protected void saveValuesToExistingFile() {
-        outFile = (outFile != null)? outFile : Client.getFileNameFromDialog(".ini", JFileChooser.SAVE_DIALOG, new JFrame());
+        outFile = (outFile != null)? outFile : Client.getFileNameFromDialog(".prv", JFileChooser.SAVE_DIALOG, new JFrame());
         saveToFile(outFile);
     }
     

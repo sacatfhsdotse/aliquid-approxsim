@@ -256,7 +256,7 @@ public class Client implements StratmasEventListener {
               // sets inBatchMode and possibly fileName
         handleArguments(parameters);
 
-        initClientMainFrame((substrateEditorMode)? false : true);
+        initClientMainFrame(!substrateEditorMode);
         
         // passive client
         if (inBatchPassiveMode) {
@@ -373,7 +373,7 @@ public class Client implements StratmasEventListener {
         final Client self = this;
         // check if the file is scenario
         if (filename.endsWith(".scn")) {
-            this.fileName = filename;        
+            this.fileName = filename;
         }
         setSubstrateEditorMode(true);
         Thread thread = new Thread() {

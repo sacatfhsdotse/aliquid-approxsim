@@ -540,6 +540,14 @@ public class ClientMainFrame extends JFrame
              };
         knownServers.setEnabled(getClient().getStratmasDispatcher() != null);
         menu.add(knownServers);
+        
+        Action substrate = new AbstractAction("Edit in Substrate") {
+        	public void actionPerformed(ActionEvent e) {
+        		client.startSubstrateEditor(getFilename());
+        	}
+        };
+        substrate.setEnabled(getClient().getRootObject().getChildCount() > 0);	// Can't edit nothing
+        menu.add(substrate);
     }
 
     /**

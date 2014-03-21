@@ -501,8 +501,6 @@ public class DisplayControl {
                     if (JOptionPane.showConfirmDialog(null, "Do you want to exit?", "Exiting ...", 
                                                       JOptionPane.YES_NO_OPTION) == 0) {
                         sEditor.getSubstrateDrawer().doDispose();
-                        // finally
-                        System.exit(0);
                     }
                 }
             });

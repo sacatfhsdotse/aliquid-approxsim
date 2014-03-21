@@ -143,8 +143,6 @@ public class SubstrateEditor {
                     if (JOptionPane.showConfirmDialog(frame, "Do you want to exit?", "Exiting ...", 
                                                       JOptionPane.YES_NO_OPTION) == 0) {
                         drawer.doDispose();
-                        // finally
-                        System.exit(0);
                     }
                 }
             });

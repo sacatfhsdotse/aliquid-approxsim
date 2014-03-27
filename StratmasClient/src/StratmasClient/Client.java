@@ -1805,6 +1805,8 @@ public class Client implements StratmasEventListener {
         } 
         
 //        System.setProperty("StratmasClientDebug", "");
+        //"Fix" for "Comparsion method violates its general contract" in MapDrawableComparator
+        System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
 
         Client client = new Client(args);
     }     

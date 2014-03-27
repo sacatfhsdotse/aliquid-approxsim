@@ -35,6 +35,7 @@ public class MapDrawableComparator implements Comparator<MapDrawableAdapter> {
      */            
     public int compare(MapDrawableAdapter d1, MapDrawableAdapter d2)
     {
+    	//TODO fix: in java 7 it throws "Comparsion method violates its general contract"
         if (d1 instanceof MapPointAdapter) {
             if (d2 instanceof MapPointAdapter) {
                 return 0;

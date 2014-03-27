@@ -954,6 +954,54 @@ public class DisplayControl {
     }
     
     /**
+     * Returns the panel which chooses what tool to use.
+     */
+	public JPanel getToolsPanel() {
+		JPanel toolsPanel = new JPanel();
+		toolsPanel.setLayout(new BoxLayout(toolsPanel, BoxLayout.PAGE_AXIS));
+		toolsPanel.add(createViewToolsPanel());
+		toolsPanel.add(createInfrastructureToolsPanel());
+		toolsPanel.add(createProcessvariablesToolsPanel());
+		toolsPanel.add(createAgentToolsPanel());
+		return toolsPanel;
+	}
+	
+	private JPanel createViewToolsPanel() {
+        JPanel viewtoolsPanel = new JPanel();
+        viewtoolsPanel.setBorder(BorderFactory.
+                                  createCompoundBorder(BorderFactory.createTitledBorder("View"),
+                                                       BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+        return viewtoolsPanel;
+	}
+    
+	private JPanel createInfrastructureToolsPanel() {
+        JPanel infrastructureToolsPanel = new JPanel();
+        infrastructureToolsPanel.setBorder(BorderFactory.
+                                  createCompoundBorder(BorderFactory.createTitledBorder("Infrastructure"),
+                                                       BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+        
+        return infrastructureToolsPanel;
+	}
+
+    private JPanel createAgentToolsPanel() {
+        JPanel agentvariablesToolsPanel = new JPanel();
+        agentvariablesToolsPanel.setBorder(BorderFactory.
+                                  createCompoundBorder(BorderFactory.createTitledBorder("Agents"),
+                                                       BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+        
+        return agentvariablesToolsPanel;
+	}
+
+	private JPanel createProcessvariablesToolsPanel() {
+        JPanel processvariablesToolsPanel = new JPanel();
+        processvariablesToolsPanel.setBorder(BorderFactory.
+                                  createCompoundBorder(BorderFactory.createTitledBorder("Process variables"),
+                                                       BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+        
+        return processvariablesToolsPanel;
+	}
+
+	/**
      * Returns the panel which controls display of the military units, activities, agencies
      * and process variables.
      */

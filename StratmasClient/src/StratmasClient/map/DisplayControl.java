@@ -1,6 +1,7 @@
 package StratmasClient.map;
 
 import java.util.Enumeration;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ActionEvent;
@@ -28,7 +29,7 @@ import StratmasClient.filter.StratmasObjectFilter;
  * @version 1.0
  * @author Amir Filipovic 
  */
-public class DisplayControl {
+public class DisplayControl implements ActionListener {
     /**
      * Reference to the client.
      */
@@ -61,6 +62,11 @@ public class DisplayControl {
         this.client = client;
         this.drawer = drawer;
     }
+    
+    /**
+     * Tools reference for disabeling
+     */
+    private JButton[] toolsButtons = new JButton[7];
 
     /**
      * Creates the panel for controling size of the symbols displayed in the map.
@@ -971,6 +977,14 @@ public class DisplayControl {
         viewtoolsPanel.setBorder(BorderFactory.
                                   createCompoundBorder(BorderFactory.createTitledBorder("View"),
                                                        BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+        JButton hand = new JButton("Hand");
+        hand.setVerticalTextPosition(AbstractButton.CENTER);
+        hand.setActionCommand("hand");
+        hand.setToolTipText("Move and zoom the map");
+        hand.addActionListener(this);
+        hand.setEnabled(false);
+        viewtoolsPanel.add(hand);
+        this.toolsButtons[0] = hand;
         return viewtoolsPanel;
 	}
     
@@ -979,6 +993,23 @@ public class DisplayControl {
         infrastructureToolsPanel.setBorder(BorderFactory.
                                   createCompoundBorder(BorderFactory.createTitledBorder("Infrastructure"),
                                                        BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+        JButton node = new JButton("Start new chain");
+        node.setVerticalTextPosition(AbstractButton.CENTER);
+        node.setActionCommand("node");
+        node.setToolTipText("Create or move nodes, remove on right click");
+        node.addActionListener(this);
+        node.setEnabled(true);
+        infrastructureToolsPanel.add(node);
+        this.toolsButtons[1] = node;
+        
+        JButton edge = new JButton("More edges");
+        edge.setVerticalTextPosition(AbstractButton.CENTER);
+        edge.setActionCommand("edge");
+        edge.setToolTipText("add more edges to existing nodes");
+        edge.addActionListener(this);
+        edge.setEnabled(true);
+        infrastructureToolsPanel.add(edge);
+        this.toolsButtons[2] = edge;
         
         return infrastructureToolsPanel;
 	}
@@ -988,7 +1019,14 @@ public class DisplayControl {
         agentvariablesToolsPanel.setBorder(BorderFactory.
                                   createCompoundBorder(BorderFactory.createTitledBorder("Agents"),
                                                        BorderFactory.createEmptyBorder(2, 2, 2, 2)));
-        
+        JButton agent = new JButton("Agent");
+        agent.setVerticalTextPosition(AbstractButton.CENTER);
+        agent.setActionCommand("agent");
+        agent.setToolTipText("Create or move agents, remove on right click");
+        agent.addActionListener(this);
+        agent.setEnabled(true);
+        agentvariablesToolsPanel.add(agent);
+        this.toolsButtons[3] = agent;
         return agentvariablesToolsPanel;
 	}
 
@@ -997,8 +1035,39 @@ public class DisplayControl {
         processvariablesToolsPanel.setBorder(BorderFactory.
                                   createCompoundBorder(BorderFactory.createTitledBorder("Process variables"),
                                                        BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+        JButton Circle = new JButton("Circle");
+        Circle.setVerticalTextPosition(AbstractButton.CENTER);
+        Circle.setActionCommand("circle");
+        Circle.setToolTipText("Change process variables, negative on right click");
+        Circle.addActionListener(this);
+        Circle.setEnabled(true);
+        processvariablesToolsPanel.add(Circle);
+        this.toolsButtons[4] = Circle;
+        
+        JButton Rect = new JButton("Rectangle");
+        Rect.setVerticalTextPosition(AbstractButton.CENTER);
+        Rect.setActionCommand("rect");
+        Rect.setToolTipText("Change process variables, negative on right click");
+        Rect.addActionListener(this);
+        Rect.setEnabled(true);
+        processvariablesToolsPanel.add(Rect);
+        this.toolsButtons[5] = Rect;
+        
+        JButton polygon = new JButton("Polygon");
+        polygon.setVerticalTextPosition(AbstractButton.CENTER);
+        polygon.setActionCommand("poly");
+        polygon.setToolTipText("Change process variables, negative on right click");
+        polygon.addActionListener(this);
+        polygon.setEnabled(true);
+        processvariablesToolsPanel.add(polygon);
+        this.toolsButtons[6] = polygon;
         
         return processvariablesToolsPanel;
+	}
+	
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/**

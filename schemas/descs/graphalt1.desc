@@ -44,7 +44,20 @@ DirectedNode < sp.Node {
   parent+: sp.OneDirEdge
 }
 
-//TODO: why ComplexType as opposed to something else?
-  //TODO: what is the difference between SimpleType and ComplexType? They seem to be identical except for name and SimpleType inheriting ValueType that inherits Identifiable instead of just directly inheriting Identifiable
-//TODO: what is substrate editor
-//TODO: the substrate editor is quite likely where things should be added
+-------------------------------------------------
+
+Can support redundancy. In its simplest form there is no concept of things "running out" or there not being enough for the entire graph.
+Changes spread instantaneously.
+Adding support for drainage is non-trivial as nodes might be connected to multiple sources and spread isn't obvious.
+-------------------------------------------------
+
+Each node could potentially drain from its parent, in which case change would probably spread at one edge per server tick.
+Each node would have a need per time which would be reported to its parent nodes (along with the sum of reported needs to that node)
+The effect would probably be two-state, enough/connected and not enough/not connected.
+-------------------------------------------------
+
+An effect graph might also be twodir, in which case the existance of a path to a source node means it is connected.
+This model could be extended/changed to have an entire connected graph be "powered" if the sum total of "power" provided is positive (where sources have positive "power" and other nodes have negative "power").
+-------------------------------------------------
+
+It could also be a directed graph where each edge has a power-drain on it. A node is connected if a powersurge can reach from a source node. (basically bfs where each edge has a length and the path has a maximum length).

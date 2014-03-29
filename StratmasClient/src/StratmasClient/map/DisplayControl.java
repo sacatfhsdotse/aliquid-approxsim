@@ -1,5 +1,7 @@
 package StratmasClient.map;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Enumeration;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
@@ -29,7 +31,7 @@ import StratmasClient.filter.StratmasObjectFilter;
  * @version 1.0
  * @author Amir Filipovic 
  */
-public class DisplayControl implements ActionListener {
+public class DisplayControl {
     /**
      * Reference to the client.
      */
@@ -66,7 +68,7 @@ public class DisplayControl implements ActionListener {
     /**
      * Tools reference for disabeling
      */
-    private JButton[] toolsButtons = new JButton[7];
+    private List<JButton> toolsButtons = new ArrayList<JButton>();
 
     /**
      * Creates the panel for controling size of the symbols displayed in the map.
@@ -977,14 +979,9 @@ public class DisplayControl implements ActionListener {
         viewtoolsPanel.setBorder(BorderFactory.
                                   createCompoundBorder(BorderFactory.createTitledBorder("View"),
                                                        BorderFactory.createEmptyBorder(2, 2, 2, 2)));
-        JButton hand = new JButton("Hand");
-        hand.setVerticalTextPosition(AbstractButton.CENTER);
-        hand.setActionCommand("hand");
-        hand.setToolTipText("Move and zoom the map");
-        hand.addActionListener(this);
-        hand.setEnabled(false);
+        JButton hand = buttonInToolPanel("Hand", "Move and zoom the map");
+        hand.setEnabled(false);		// Already selected
         viewtoolsPanel.add(hand);
-        this.toolsButtons[0] = hand;
         return viewtoolsPanel;
 	}
     
@@ -993,24 +990,8 @@ public class DisplayControl implements ActionListener {
         infrastructureToolsPanel.setBorder(BorderFactory.
                                   createCompoundBorder(BorderFactory.createTitledBorder("Infrastructure"),
                                                        BorderFactory.createEmptyBorder(2, 2, 2, 2)));
-        JButton node = new JButton("Start new chain");
-        node.setVerticalTextPosition(AbstractButton.CENTER);
-        node.setActionCommand("node");
-        node.setToolTipText("Create or move nodes, remove on right click");
-        node.addActionListener(this);
-        node.setEnabled(true);
-        infrastructureToolsPanel.add(node);
-        this.toolsButtons[1] = node;
-        
-        JButton edge = new JButton("More edges");
-        edge.setVerticalTextPosition(AbstractButton.CENTER);
-        edge.setActionCommand("edge");
-        edge.setToolTipText("add more edges to existing nodes");
-        edge.addActionListener(this);
-        edge.setEnabled(true);
-        infrastructureToolsPanel.add(edge);
-        this.toolsButtons[2] = edge;
-        
+        infrastructureToolsPanel.add(buttonInToolPanel("Start new chain", "Create or move nodes, remove on right click"));
+        infrastructureToolsPanel.add(buttonInToolPanel("Connect chains", "add more edges to existing nodes"));
         return infrastructureToolsPanel;
 	}
 
@@ -1019,14 +1000,7 @@ public class DisplayControl implements ActionListener {
         agentvariablesToolsPanel.setBorder(BorderFactory.
                                   createCompoundBorder(BorderFactory.createTitledBorder("Agents"),
                                                        BorderFactory.createEmptyBorder(2, 2, 2, 2)));
-        JButton agent = new JButton("Agent");
-        agent.setVerticalTextPosition(AbstractButton.CENTER);
-        agent.setActionCommand("agent");
-        agent.setToolTipText("Create or move agents, remove on right click");
-        agent.addActionListener(this);
-        agent.setEnabled(true);
-        agentvariablesToolsPanel.add(agent);
-        this.toolsButtons[3] = agent;
+        agentvariablesToolsPanel.add(buttonInToolPanel("Agent", "Create or move agents, remove on right click"));
         return agentvariablesToolsPanel;
 	}
 
@@ -1035,39 +1009,21 @@ public class DisplayControl implements ActionListener {
         processvariablesToolsPanel.setBorder(BorderFactory.
                                   createCompoundBorder(BorderFactory.createTitledBorder("Process variables"),
                                                        BorderFactory.createEmptyBorder(2, 2, 2, 2)));
-        JButton Circle = new JButton("Circle");
-        Circle.setVerticalTextPosition(AbstractButton.CENTER);
-        Circle.setActionCommand("circle");
-        Circle.setToolTipText("Change process variables, negative on right click");
-        Circle.addActionListener(this);
-        Circle.setEnabled(true);
-        processvariablesToolsPanel.add(Circle);
-        this.toolsButtons[4] = Circle;
-        
-        JButton Rect = new JButton("Rectangle");
-        Rect.setVerticalTextPosition(AbstractButton.CENTER);
-        Rect.setActionCommand("rect");
-        Rect.setToolTipText("Change process variables, negative on right click");
-        Rect.addActionListener(this);
-        Rect.setEnabled(true);
-        processvariablesToolsPanel.add(Rect);
-        this.toolsButtons[5] = Rect;
-        
-        JButton polygon = new JButton("Polygon");
-        polygon.setVerticalTextPosition(AbstractButton.CENTER);
-        polygon.setActionCommand("poly");
-        polygon.setToolTipText("Change process variables, negative on right click");
-        polygon.addActionListener(this);
-        polygon.setEnabled(true);
-        processvariablesToolsPanel.add(polygon);
-        this.toolsButtons[6] = polygon;
-        
+        String tooltip = "Change process variables, negative on right click";
+        processvariablesToolsPanel.add(buttonInToolPanel("Circle", tooltip));
+        processvariablesToolsPanel.add(buttonInToolPanel("Polygon", tooltip));
+        processvariablesToolsPanel.add(buttonInToolPanel("Rectangle", tooltip));
         return processvariablesToolsPanel;
 	}
 	
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	private JButton buttonInToolPanel(String name, String tooltip) {
+        JButton btn = new JButton(name);
+        btn.setVerticalTextPosition(AbstractButton.CENTER);
+        btn.setToolTipText(tooltip);
+        btn.setEnabled(true);
+        this.toolsButtons.add(btn);
+        btn.addActionListener(new ToolActionListener(this.toolsButtons, this.toolsButtons.size()-1));
+        return btn;
 	}
 
 	/**

@@ -437,7 +437,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
 
         setRenderSelectionArea(x, y);
         
-        // check if the symbol magnifier should be turned on 
+        /*// check if the symbol magnifier should be turned on 
         mouseMovedTimer.cancel();
         if (isEnabledSymbolMagnifier()) {
             mouseMovedTimer = new java.util.Timer();
@@ -454,7 +454,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
                     }, this.magnifierTimeout + (long) ((((double) (i))
                                                         /((double) getMagnifierSizeSteps())) * this.magnifierTimeout));
             }
-        }
+        }*/
         
         // necessary for multi-screen enviroment
         mouse_on = (x >= view_x && x <= view_x+view_width && y >= view_y && y <= view_y+view_height)? true : false;

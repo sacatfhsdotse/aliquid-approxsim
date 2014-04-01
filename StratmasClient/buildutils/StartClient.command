@@ -4,7 +4,7 @@
 cd "`dirname "$0"`"
 
 # Find out the which platform we run on and set the LIBPATH to point
-# to lib directory for that platform.
+# to the lib directory for that platform.
 UNAME=`uname`
 if [ $UNAME = Darwin ]; then    
     LIBPATH="StratmasClient/lib/Mac OS X-ppc"

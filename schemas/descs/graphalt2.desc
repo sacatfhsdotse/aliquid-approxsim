@@ -46,11 +46,14 @@ abstract Edge < sp.ComplexType {
   connected: bool
 }
 
-EffectEdge < sp.Edge {}
+EffectEdge < sp.Edge {
+  connected: sp.Effect
+  disconnected : sp.Effect
+}
 
 PathEdge < sp.Edge {
   travelSpeed: float //A factor of original travelspeed perhaps?
 }
 
 -------------------------------------------------
-A simple model that should be easily extendable. It supports redundancy, different effects on different edges/nodes (with defaults), different travel speed per road. Edges can be interpreted as directed or not, and various models for spread of "power" throughout the graph can be implemented through algorithms. 
+A simple model that should be easily extendable. It supports redundancy, different effects on different edges/nodes (with defaults), different travel speed per road. Edges can be interpreted as directed or not, and various models for spread of "power" throughout the graph can be implemented through algorithms.

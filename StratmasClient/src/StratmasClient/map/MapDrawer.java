@@ -526,7 +526,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
         
             // new projection update positioning of symbols
             for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
-                ((MapDrawableAdapter) e.nextElement()).invalidateDisplayList();
+                ((MapDrawableAdapter) e.nextElement()).invalidateAllLists();
             }
             
             // update map scale

@@ -42,6 +42,7 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import StratmasClient.communication.GridData;
 import StratmasClient.communication.RegionData;
@@ -111,7 +112,7 @@ public class Client implements StratmasEventListener {
     /**
      * List of process variables.
      */
-    private Vector process_variables;
+    private Vector<ProcessVariableDescription> process_variables;
     /**
      * The name of the server to use.
      */
@@ -123,7 +124,7 @@ public class Client implements StratmasEventListener {
     /**
      * Indicates the status of the server. 
      */
-    private Hashtable status = new Hashtable();
+    private Hashtable<String, String> status = new Hashtable<String, String>();
     /**
      * Indicates if this client is an active client.
      */
@@ -159,7 +160,7 @@ public class Client implements StratmasEventListener {
     /**
      * Contains eventListeners listening to this object.
      */
-    private Hashtable eventListeners = new Hashtable();
+    private Hashtable<StratmasEventListener, StratmasEventListener> eventListeners = new Hashtable<StratmasEventListener, StratmasEventListener>();
     /**
      * If the client was started in batch mode.
      */
@@ -469,7 +470,7 @@ public class Client implements StratmasEventListener {
                 }
             }
         }
-        String status_message = (String)status.remove(toRemove);
+        String status_message = status.remove(toRemove);
         // if connection unsuccesfull
         if (status_message.equals("error")) {
             serverName = null;
@@ -621,9 +622,9 @@ public class Client implements StratmasEventListener {
             ServerCapabilitiesMessage scm = new ServerCapabilitiesMessage();
             server_connection.blockingSend(scm);
             
-            String stat = (String)status.remove(scm.getTypeAsString());
+            String stat = status.remove(scm.getTypeAsString());
             if (stat == null) {
-                stat = (String)status.remove("Unknown");
+                stat = status.remove("Unknown");
                 if (stat == null) {
                     throw new AssertionError("No matching status response to " + scm.getTypeAsString());
                 }
@@ -1088,20 +1089,20 @@ public class Client implements StratmasEventListener {
     /**
      * Updates the status flag and displays errors and warnings if any.
      *
-     * @param errors list of errors and warnings if any.
+     * @param hashtable list of errors and warnings if any.
      */
-    public void updateStatus(Hashtable errors, String msg_type) {
+    public void updateStatus(Hashtable<String, Vector<String>> hashtable, String msg_type) {
         // collect all messages
-        Vector fatal = (Vector)errors.get("fatal");
-        final Vector general = (Vector)errors.get("general");
-        Vector warning = (Vector)errors.get("warning");
+        Vector<String> fatal = hashtable.get("fatal");
+        final Vector<String> general = hashtable.get("general");
+        Vector<String> warning = hashtable.get("warning");
         // fatal errors
         if (fatal != null && !fatal.isEmpty()) {
             status.put(msg_type, new String("error"));
             setNotify();
             SubscriptionCounter.endTimer();
             for (int i = 0; i < fatal.size(); i++) {
-                final String message = (String)fatal.get(i);
+                final String message = fatal.get(i);
                 SwingUtilities.invokeLater(new Runnable() {
                         public void run() {
                             StratmasDialog.showErrorMessageDialog(new JFrame(), message, "Fatal Error");
@@ -1115,7 +1116,7 @@ public class Client implements StratmasEventListener {
             setNotify();
             SubscriptionCounter.endTimer();
             for (int i = 0; i < general.size(); i++) {
-                final String message = (String)general.get(i);
+                final String message = general.get(i);
                 SwingUtilities.invokeLater(new Runnable() {
                         public void run() {
                             StratmasDialog.showErrorMessageDialog(new JFrame(), message, "General Error");
@@ -1128,7 +1129,7 @@ public class Client implements StratmasEventListener {
             status.put(msg_type, new String("warning"));
             setNotify();
             for (int i = 0; i < warning.size(); i++) {
-                final String message = (String)warning.get(i);
+                final String message = warning.get(i);
                 SwingUtilities.invokeLater(new Runnable() {
                         public void run() {
                             StratmasDialog.showWarningMessageDialog(new JFrame(), message, "Warning");
@@ -1146,7 +1147,7 @@ public class Client implements StratmasEventListener {
     /**
      * Returns the status of the client.
      */
-    public Hashtable getStatus() {
+    public Hashtable<String, String> getStatus() {
         return status;
     }
     
@@ -1155,20 +1156,20 @@ public class Client implements StratmasEventListener {
      *
      * @param pv list of process variables. All elements are of type <code>ProcessVariableDescription</code>.
      */
-    public void setProcessVariables(Vector pv) {
+    public void setProcessVariables(Vector<ProcessVariableDescription> pv) {
         process_variables = pv;
         
         if (visualizer != null) {
             // update visualizer with process variables
             for (int i = 0; i < process_variables.size(); i++) {
-                visualizer.importProcessVariable((ProcessVariableDescription)process_variables.get(i));
+                visualizer.importProcessVariable(process_variables.get(i));
             }
             // get factions
             TypeFilter factionFilter = new TypeFilter(TypeFactory.getType("EthnicFaction"));
-            Enumeration ethnicFactions = rootObject.getFilteredChildren(factionFilter);
+            Enumeration<StratmasObject> ethnicFactions = rootObject.getFilteredChildren(factionFilter);
             // extract factions
             while(ethnicFactions.hasMoreElements()) {
-                visualizer.importFaction((StratmasObject)ethnicFactions.nextElement());
+                visualizer.importFaction(ethnicFactions.nextElement());
             }
             // set initial pv and faction
             Visualizer.setInitialView();
@@ -1232,8 +1233,8 @@ public class Client implements StratmasEventListener {
      */
     public void notifyHandledSubs(Timestamp t) {
         StratmasEvent e = StratmasEvent.getSubscriptionHandled(this, t);
-        for (Enumeration en = eventListeners.elements(); en.hasMoreElements(); ) {
-            ((StratmasEventListener)en.nextElement()).eventOccured(e);
+        for (Enumeration<StratmasEventListener> en = eventListeners.elements(); en.hasMoreElements(); ) {
+            en.nextElement().eventOccured(e);
         }
     }
     
@@ -1261,7 +1262,7 @@ public class Client implements StratmasEventListener {
     /**
      * Returns the list of process variables.
      */
-    public Vector getProcessVariables() {
+    public Vector<ProcessVariableDescription> getProcessVariables() {
         return process_variables;
     }
     
@@ -1270,7 +1271,7 @@ public class Client implements StratmasEventListener {
      */
     public ProcessVariableDescription getProcessVariable(String name) {
         for (int i = 0; i < process_variables.size(); i++) {
-            ProcessVariableDescription pv = (ProcessVariableDescription)process_variables.get(i);
+            ProcessVariableDescription pv = process_variables.get(i);
             if (pv.getName().equals(name)) {
                 return pv;
             }
@@ -1281,10 +1282,10 @@ public class Client implements StratmasEventListener {
     /**
      * Returns the list of factions.
      */
-    public Vector getFactions() {
-        Vector v = new Vector();
+    public Vector<StratmasObject> getFactions() {
+        Vector<StratmasObject> v = new Vector<StratmasObject>();
         TypeFilter factionFilter = new TypeFilter(TypeFactory.getType("EthnicFaction"));
-        Enumeration ethnicFactions = rootObject.getFilteredChildren(factionFilter);
+        Enumeration<StratmasObject> ethnicFactions = rootObject.getFilteredChildren(factionFilter);
         while(ethnicFactions.hasMoreElements()) {
             v.add(ethnicFactions.nextElement());
         }
@@ -1629,13 +1630,13 @@ public class Client implements StratmasEventListener {
           } 
           catch (ExceptionCollection e) {
               StratmasDialog.quitProgressBarDialog();
-              Vector v = e.getExceptions();
+              Vector<SAXException> v = e.getExceptions();
               for (int i = 0; i < v.size(); i++) {
                    String [] options = new String[2];
                    options[0] = (i == v.size() - 1 ? "Ok" : "View next");
                    options[1] = "Cancel";
                    if (StratmasDialog.showOptionDialog(null,
-                                                       ((Exception) v.elementAt(i)).getMessage(),
+                                                       v.elementAt(i).getMessage(),
                                                        "Error " + ( i + 1 ) + " of " + v.size(),
                                                        JOptionPane.YES_NO_OPTION,
                                                        JOptionPane.ERROR_MESSAGE,

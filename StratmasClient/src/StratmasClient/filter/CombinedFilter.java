@@ -22,7 +22,7 @@ public class CombinedFilter extends StratmasObjectFilter
     /**
      * The filters this filter is made of.
      */
-    Vector filters = new Vector();
+    Vector<StratmasObjectFilter> filters = new Vector<StratmasObjectFilter>();
 
     /**
      * Creates a new filter.
@@ -53,8 +53,8 @@ public class CombinedFilter extends StratmasObjectFilter
     {
         boolean res = true;
         
-        for (Enumeration e = getFilters(); e.hasMoreElements();) {
-            if (! ((StratmasObjectFilter) e.nextElement()).pass(sObj)) {
+        for (Enumeration<StratmasObjectFilter> e = getFilters(); e.hasMoreElements();) {
+            if (! e.nextElement().pass(sObj)) {
                 res = false;
                 break;
             }
@@ -104,7 +104,7 @@ public class CombinedFilter extends StratmasObjectFilter
     /**
      * Returns the filters making up this filter.
      */
-    public Enumeration getFilters()
+    public Enumeration<StratmasObjectFilter> getFilters()
     {
         return this.filters.elements();
     }

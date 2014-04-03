@@ -1520,7 +1520,7 @@ class ESRIDBF
     /**
      * A mapping of attribute name -> field index table
      */
-    Hashtable fieldNames = new Hashtable();
+    Hashtable<String, Integer> fieldNames = new Hashtable<String, Integer>();
 
     /**
      * Tries to read a ESRIDBFile from the provided stream
@@ -1549,9 +1549,9 @@ class ESRIDBF
                 this.records.add(reader.nextRecord());
             }
 
-            Vector v = getMatchingFieldNames(nameRegexp);
+            Vector<String> v = getMatchingFieldNames(nameRegexp);
             if (v.size() != 0) {
-                nameField = (String) v.get(0);
+                nameField = v.get(0);
             } else {
                 nameField = null;
             }
@@ -1587,7 +1587,7 @@ class ESRIDBF
     public int getFieldIndex(String name)
         throws ESRIDBNoSuchFieldException
     {
-        Integer index = (Integer) this.fieldNames.get(name);
+        Integer index = this.fieldNames.get(name);
         if (index == null) {            
             throw new ESRIDBNoSuchFieldException();
         } else {
@@ -1600,12 +1600,12 @@ class ESRIDBF
      *
      * @param regex the regex to match.
      */
-    public Vector getMatchingFieldNames(String regex)
+    public Vector<String> getMatchingFieldNames(String regex)
     {
-        Vector res = new Vector();
+        Vector<String> res = new Vector<String>();
 
-        for (Enumeration e = fieldNames.keys(); e.hasMoreElements();) {
-            String fieldName = (String) e.nextElement();
+        for (Enumeration<String> e = fieldNames.keys(); e.hasMoreElements();) {
+            String fieldName = e.nextElement();
             if (fieldName.matches(regex)) {
                 res.add(fieldName);
             }

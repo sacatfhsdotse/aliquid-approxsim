@@ -26,7 +26,7 @@ public class ActivityTableComboBox extends JComboBox implements StratmasEventLis
      * the values are Vector objects containing the military units. Vector is used
      * as the value because of possible multiple occurance of the identifiers.
      */
-    private Hashtable resources = new Hashtable();
+    private Hashtable<String, Vector<StratmasObject>> resources = new Hashtable<String, Vector<StratmasObject>>();
     
     /**
      * Creates new combo box.
@@ -62,14 +62,14 @@ public class ActivityTableComboBox extends JComboBox implements StratmasEventLis
     public void addResource(StratmasObject resource) {
         // a resource with the similar identifier already exists in the list
         if (resources.containsKey(resource.getIdentifier())) {
-            Vector resVec = (Vector)resources.get(resource.getIdentifier());
+            Vector<StratmasObject> resVec = resources.get(resource.getIdentifier());
             if (!resVec.contains(resource)) {
                 resVec.add(resource);
             }
         }
         // no resources with the similar identifier exist in the list
         else {
-            Vector refVec = new Vector();
+            Vector<StratmasObject> refVec = new Vector<StratmasObject>();
             refVec.add(resource);
             resources.put(resource.getIdentifier(), refVec);
             // update the combo box
@@ -96,7 +96,7 @@ public class ActivityTableComboBox extends JComboBox implements StratmasEventLis
      */
     public void removeResource(StratmasObject resource, String identifier) {
         if (resources.containsKey(identifier)) {
-            Vector res = (Vector)resources.get(identifier);
+            Vector res = resources.get(identifier);
             res.remove(resource);
             // remove the identifier from the list
             if (res.isEmpty()) {
@@ -113,7 +113,7 @@ public class ActivityTableComboBox extends JComboBox implements StratmasEventLis
      * Returns the resources with the given identifier.
      */
     public Vector getResources(String id) {
-        return (Vector)resources.get(id);
+        return resources.get(id);
     } 
     
     /**

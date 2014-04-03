@@ -11,7 +11,7 @@ package StratmasClient.symbolloader;
 class MRUCache {
         // An entry in the cache. Retains key, value associated with key,
         // and time of last access.
-        static class Entry implements Comparable {
+        static class Entry implements Comparable<Entry> {
                 public Object key, value;
                 public long time;                // No C. :)
 
@@ -31,13 +31,9 @@ class MRUCache {
                 }
 
                 // Here is the Comparable interface.
-                public int compareTo(Object o) {
-                        if(o instanceof Entry) {
-                            long now = System.currentTimeMillis();
-                            //return (int) ((now - ((Entry) o).time) - ((int) (now - time)));
-                            return ((int) (now - time)) - ((int) (now - ((Entry) o).time));
-                        }
-                        return 0;
+                public int compareTo(Entry o) {
+                        long now = System.currentTimeMillis();
+                        return ((int) (now - time)) - ((int) (now - ((Entry) o).time));
                 }
         }
 

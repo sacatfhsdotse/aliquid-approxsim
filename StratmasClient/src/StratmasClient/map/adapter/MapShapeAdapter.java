@@ -69,7 +69,7 @@ public class MapShapeAdapter extends MapDrawableAdapter {
     /**
      * The list of ShapeColorPair objects. Each object contains an intersecting shape with its color value.
      */
-    private Vector intersectingShapes = new Vector();
+    private Vector<ShapeColorPair> intersectingShapes = new Vector<ShapeColorPair>();
     
     /**
      * Creates new adapter.
@@ -280,8 +280,8 @@ public class MapShapeAdapter extends MapDrawableAdapter {
         GLU glu = new GLU();
         // find intersections
         for (int i = 0; i < intersectingShapes.size(); i++) {
-            Shape sh  = ((ShapeColorPair)intersectingShapes.get(i)).getShape();
-            Color color = ((ShapeColorPair)intersectingShapes.get(i)).getColor();
+            Shape sh  = intersectingShapes.get(i).getShape();
+            Color color = intersectingShapes.get(i).getColor();
             Polygon pol = (sh instanceof Circle)? ((Circle)sh).getPolygon(1) : ((sh instanceof Polygon)? (Polygon)sh : null);
             if (pol != null) {
                 GLUtessellatorCallback adapter = getLocationTessellatorCallback(gld, color);
@@ -371,7 +371,7 @@ public class MapShapeAdapter extends MapDrawableAdapter {
      * @param comp the composite to draw.
      */
     protected void drawCompositeLines(GLAutoDrawable gld, Projection proj, Composite comp) {
-        Vector simpleShapes = comp.constructSimpleShapes(new Vector());
+        Vector simpleShapes = comp.constructSimpleShapes(new Vector<SimpleShape>());
         for (Enumeration e = simpleShapes.elements(); e.hasMoreElements(); ) {
             SimpleShape sShape = (SimpleShape)e.nextElement();
             if (sShape instanceof Polygon) {
@@ -391,7 +391,7 @@ public class MapShapeAdapter extends MapDrawableAdapter {
      * @param comp the composite to draw.
      */
     protected void fillComposite(GLAutoDrawable gld, Projection proj, Composite comp) {
-        Vector simpleShapes = comp.constructSimpleShapes(new Vector());
+        Vector simpleShapes = comp.constructSimpleShapes(new Vector<SimpleShape>());
         for (Enumeration e = simpleShapes.elements(); e.hasMoreElements(); ) {
             SimpleShape sShape = (SimpleShape)e.nextElement();
             if (sShape instanceof Polygon) {
@@ -613,7 +613,7 @@ public class MapShapeAdapter extends MapDrawableAdapter {
     public void removeIntersectingShape(Shape sh) {
         sh.removeEventListener(this);
         for (int i = 0; i < intersectingShapes.size(); i++) {
-            ShapeColorPair scp = (ShapeColorPair)intersectingShapes.get(i);
+            ShapeColorPair scp = intersectingShapes.get(i);
             if (scp.getShape().equals(sh)) {
                 intersectingShapes.remove(scp);
                 break;
@@ -631,7 +631,7 @@ public class MapShapeAdapter extends MapDrawableAdapter {
      */
     public void updateIntersectingShapes(Hashtable createdShapeAreas, SubstrateEditor substrateEditor) {
         for (int i = 0; i < intersectingShapes.size(); i++) {
-            ShapeColorPair shp = (ShapeColorPair)intersectingShapes.get(i);
+            ShapeColorPair shp = intersectingShapes.get(i);
             if (createdShapeAreas.get(shp.getShape()) != null) { 
                 double value = ((ShapeValuePair)createdShapeAreas.get(shp.getShape())).getValue();
                 shp.setColor(substrateEditor.getMappingColor(value));
@@ -644,10 +644,10 @@ public class MapShapeAdapter extends MapDrawableAdapter {
     /**
      * Returns the list of intersecting shapes.
      */
-    public Vector getIntersectingShapes() {
-        Vector inShapes = new Vector();
+    public Vector<Shape> getIntersectingShapes() {
+        Vector<Shape> inShapes = new Vector<Shape>();
         for (int i = 0; i < intersectingShapes.size(); i++) {
-            inShapes.add(((ShapeColorPair)intersectingShapes.get(i)).getShape());
+            inShapes.add(intersectingShapes.get(i).getShape());
         }
         return inShapes;
     }

@@ -56,12 +56,12 @@ public class StratmasObjectAdapter implements MutableTreeNode,
     /**
      * A vector containing child StratmasObjectAdapters
      */
-    Vector children = null;
+    Vector<MutableTreeNode> children = null;
 
     /**
      * A vector containing listeners for invisible lists.
      */
-    Vector invisibleListListeners = null;
+    Vector<InvisibleListListener> invisibleListListeners = null;
 
     /**
      * StratmasObjectAdapter
@@ -115,7 +115,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
     /**
      * Returns the children vector, creating it if necessary.
      */
-    protected Vector getChildren()
+    protected Vector<MutableTreeNode> getChildren()
     {
         synchronized (this) {
             if (children == null) {
@@ -132,9 +132,9 @@ public class StratmasObjectAdapter implements MutableTreeNode,
     protected void createChildren()
     {
         if (stratmasObject == null) {
-            this.children = new Vector();
+            this.children = new Vector<MutableTreeNode>();
         } else {
-            this.children = new Vector();
+            this.children = new Vector<MutableTreeNode>();
             
             if (filter == null) {
                 for (Enumeration e = stratmasObject.children(); e.hasMoreElements();) {
@@ -172,15 +172,13 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     public synchronized void sort()
     {
-        Comparator comparator = new Comparator() {
-                public int compare(Object o1, Object o2)
+        Comparator<MutableTreeNode> comparator = new Comparator<MutableTreeNode>() {
+                public int compare(MutableTreeNode sObj1, MutableTreeNode sObj2)
                 {
-                    StratmasObjectAdapter sObj1 = (StratmasObjectAdapter) o1;
-                    StratmasObjectAdapter sObj2 = (StratmasObjectAdapter) o2;
-                    
-                    if (sObj1.getUserObject().getType().equals(sObj2.getUserObject().getType())) {
-                        return sObj1.getUserObject().getIdentifier().compareTo
-                            (sObj2.getUserObject().getIdentifier());
+                	
+                    if (((StratmasObjectAdapter) sObj1).getUserObject().getType().equals(((StratmasObjectAdapter) sObj2).getUserObject().getType())) {
+                        return ((StratmasObjectAdapter) sObj1).getUserObject().getIdentifier().compareTo
+                            (((StratmasObjectAdapter) sObj2).getUserObject().getIdentifier());
                     } else {
                         return 0;
                     }
@@ -265,7 +263,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
     /**
      * Returns the children of this object.
      */
-    public Enumeration children()
+    public Enumeration<MutableTreeNode> children()
     {
         return getChildren().elements();
     }
@@ -449,7 +447,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
         if (getParent() != null) {
             Object[] children = {this};
             int[] childIndices = {getParent().getIndex(this)};
-            Vector ancestors = new Vector();
+            Vector<StratmasObjectAdapter> ancestors = new Vector<StratmasObjectAdapter>();
             for (StratmasObjectAdapter walker = (StratmasObjectAdapter) getParent();
                  walker != null; walker = (StratmasObjectAdapter) walker.getParent()) {
                 ancestors.add(0, walker);
@@ -484,7 +482,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
     {
         Object[] children = {object};
         int[] childIndices = {getIndex(object)};
-        Vector ancestors = new Vector();
+        Vector<StratmasObjectAdapter> ancestors = new Vector<StratmasObjectAdapter>();
         for (StratmasObjectAdapter walker = this;
              walker != null; walker = (StratmasObjectAdapter) walker.getParent()) {
             ancestors.add(0, walker);
@@ -513,7 +511,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
         if (getParent() != null) {
             Object[] children = {this};
             //int[] childIndices = {getParent().getIndex(this)};
-            Vector ancestors = new Vector();
+            Vector<StratmasObjectAdapter> ancestors = new Vector<StratmasObjectAdapter>();
             for (StratmasObjectAdapter walker = (StratmasObjectAdapter) getParent();
                  walker != null; walker = (StratmasObjectAdapter) walker.getParent()) {
                 ancestors.add(0, walker);
@@ -870,8 +868,8 @@ public class StratmasObjectAdapter implements MutableTreeNode,
         else if (invisibleListListeners != null) {
             // The user object will (should... must!) be set to null
             // when the adapter is destroyed.
-            for (Iterator it = invisibleListListeners.iterator(); it.hasNext(); ) {
-                ((InvisibleListListener)it.next()).dispose();
+            for (Iterator<InvisibleListListener> it = invisibleListListeners.iterator(); it.hasNext(); ) {
+                it.next().dispose();
             }
             invisibleListListeners.clear();
         }
@@ -937,7 +935,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      * @return tree path of this adapter.
      */
     public TreePath getTreePath() {
-        Vector ancestors = new Vector();
+        Vector<StratmasObjectAdapter> ancestors = new Vector<StratmasObjectAdapter>();
         for (StratmasObjectAdapter walker = (StratmasObjectAdapter) this;
              walker != null; walker = (StratmasObjectAdapter) walker.getParent()) {
             ancestors.add(0, walker);
@@ -957,7 +955,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
         synchronized (this) {
             // If any children, dispose them first;
             if (children != null) {
-                for (Enumeration e = children(); e.hasMoreElements();) {
+                for (Enumeration<MutableTreeNode> e = children(); e.hasMoreElements();) {
                     ((StratmasObjectAdapter) e.nextElement()).dispose();
                 }
             }
@@ -980,7 +978,7 @@ public class StratmasObjectAdapter implements MutableTreeNode,
      */
     private void addInvisibleListListener(InvisibleListListener listener) {
         if (invisibleListListeners == null) {
-            invisibleListListeners = new Vector();
+            invisibleListListeners = new Vector<InvisibleListListener>();
         }
         invisibleListListeners.add(listener);
     }

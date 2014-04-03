@@ -101,13 +101,13 @@ class FunctionIDTree {
         }
 
         // A hash to map symbol IDs to FunctionIDNodes. Symbol IDs are non-hierarchical.
-        private HashMap hash;
+        private HashMap<String, FunctionIDNode> hash;
         // This tree organizes the FunctionIDNodes into the proper hierarchy.
         private FunctionIDNode root;
         private long size;
 
         FunctionIDTree() {
-                hash = new HashMap(600);
+                hash = new HashMap<String, FunctionIDNode>(600);
                 root = new FunctionIDNode("", "", "");
                 size = 0;
         }
@@ -228,7 +228,7 @@ class FunctionIDTree {
                 for(int i = 0; i < sb.length(); i++)
                         sb.setCharAt(i, Character.toUpperCase(sb.charAt(i)));
                 // Once the string has been massaged, do a hash lookup.
-                return (FunctionIDNode) hash.get(sb.toString());
+                return hash.get(sb.toString());
         }
 
         public Vector findByFunctionName(String str) {

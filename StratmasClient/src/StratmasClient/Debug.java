@@ -47,12 +47,12 @@ public class Debug
     /**
      * Vector containing debugActions.
      */
-    static Vector debugActions = createDebugActions();
+    static Vector<Action> debugActions = createDebugActions();
 
     /**
      * Vector containing debugActions.
      */
-    static Vector debugComponents = createDebugComponents();
+    static Vector<JComponent> debugComponents = createDebugComponents();
 
     /**
      * Disables debug outputs to stderr.
@@ -190,9 +190,9 @@ public class Debug
     {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        for (Iterator it = getDebugActions().iterator(); 
+        for (Iterator<Action> it = getDebugActions().iterator(); 
              it.hasNext();
-             panel.add(new JButton((Action) it.next())));
+             panel.add(new JButton(it.next())));
         return panel;
     }
 
@@ -241,7 +241,7 @@ public class Debug
     /**
      * Returns a vector of debug actions.
      */
-    public static Vector getDebugActions()
+    public static Vector<Action> getDebugActions()
     {
         return debugActions;
     }
@@ -249,7 +249,7 @@ public class Debug
     /**
      * Returns a vector of debug actions.
      */
-    public static Vector getDebugComponents()
+    public static Vector<JComponent> getDebugComponents()
     {
         return debugComponents;
     }
@@ -257,9 +257,9 @@ public class Debug
     /**
      * Creates a vector of default debug actions.
      */
-    private static Vector createDebugActions()
+    private static Vector<Action> createDebugActions()
     {
-        Vector actions = new Vector();
+        Vector<Action> actions = new Vector<Action>();
 
         actions.add(new AbstractAction("export PVs") 
             {
@@ -310,9 +310,9 @@ public class Debug
     /**
      * Creates a vector of default debug components.
      */
-    private static Vector createDebugComponents()
+    private static Vector<JComponent> createDebugComponents()
     {
-        return new Vector();
+        return new Vector<JComponent>();
     }
 
     /**

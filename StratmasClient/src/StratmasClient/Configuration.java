@@ -31,7 +31,7 @@ public class Configuration {
     /**
      * List of listeners.
      */
-    public static Vector listeners = new Vector();
+    public static Vector<StratmasEventListener> listeners = new Vector<StratmasEventListener>();
     /**
      * Indicator for geodetic coordinates (latitude and longitude).
      */
@@ -383,7 +383,7 @@ public class Configuration {
      * Updates the listeners with new event.
      */
     public static void fireEventOccured() {
-        for (Enumeration e = listeners.elements(); e.hasMoreElements(); ) {
+        for (Enumeration<StratmasEventListener> e = listeners.elements(); e.hasMoreElements(); ) {
             Object obj = e.nextElement();
             if (obj != null) {
                 ((StratmasEventListener)obj).eventOccured(StratmasEvent.

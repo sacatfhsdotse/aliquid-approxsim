@@ -71,10 +71,8 @@ public class ProcessVariableTablePanel extends JPanel {
     /**
      * Used to compare the graphs wrt the category of the process variable.
      */
-    public static Comparator GRAPH_COMPARATOR = new Comparator() {
-            public int compare(Object o1, Object o2) {
-                ProcessVariableXYGraph graph1 = (ProcessVariableXYGraph)o1;
-                ProcessVariableXYGraph graph2 = (ProcessVariableXYGraph)o2;
+    public static Comparator<ProcessVariableXYGraph> GRAPH_COMPARATOR = new Comparator<ProcessVariableXYGraph>() {
+            public int compare(ProcessVariableXYGraph graph1, ProcessVariableXYGraph graph2) {
                 String c1 = graph1.getProcessVariable().getCategory();
                 String c2 = graph2.getProcessVariable().getCategory();
                 if (c1.equals(c2)) {
@@ -330,8 +328,8 @@ public class ProcessVariableTablePanel extends JPanel {
     /**
      * Returns the parameters needed to re-create this table panel.
      */
-    public Hashtable getParameters() {
-        Hashtable hTable = new Hashtable();
+    public Hashtable<String, Object> getParameters() {
+        Hashtable<String, Object> hTable = new Hashtable<String, Object>();
         hTable.put("shape", shape);
         hTable.put("location", frame.getLocationOnScreen());
         hTable.put("size", frame.getSize());

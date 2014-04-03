@@ -174,7 +174,7 @@ public class IF2Importer {
       */
      protected StratmasObject handleSymbol(Element symbol) {
           String id = new String();
-          Vector subunits = new Vector();
+          Vector<StratmasObject> subunits = new Vector<StratmasObject>();
           String symbolIDCode = XMLHandler.getString(symbol, "symid");
 
           // Assure uppercase.
@@ -238,7 +238,7 @@ public class IF2Importer {
       *
       * @return The unit created.
       */
-     public StratmasObject createDefaultImportedUnit(String id, String symCode, Vector subunits) {
+     public StratmasObject createDefaultImportedUnit(String id, String symCode, Vector<StratmasObject> subunits) {
           // Create new default unit.
           Declaration unitDec = new Declaration(TypeFactory.getType("MilitaryUnit"), "", 1, 1, false);
           StratmasObject unit = (StratmasObject)StratmasObjectFactory.defaultCreate(unitDec);
@@ -254,7 +254,7 @@ public class IF2Importer {
                     setErrorMessage("No faction list in scenario object");
                     return null;
                }
-               Vector facs = new Vector();
+               Vector<String> facs = new Vector<String>();
                for (java.util.Enumeration en = facList.children(); en.hasMoreElements(); ) {
                     facs.add(((StratmasObject)en.nextElement()).getIdentifier());
                }

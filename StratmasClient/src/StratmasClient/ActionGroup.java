@@ -32,7 +32,7 @@ public class ActionGroup extends StratmasAbstractAction
 	/**
      * The Vector containing the members of this group.
      */
-    Vector members;
+    Vector<ActionGroup> members;
 
     /**
      * Flag indicating submenuableness.
@@ -48,7 +48,7 @@ public class ActionGroup extends StratmasAbstractAction
     public ActionGroup(String name, boolean isMutator, boolean isSubmenuable) {
         super(name, isMutator);
         this.isSubmenuable = isSubmenuable;
-        members = new Vector();
+        members = new Vector<ActionGroup>();
     }
 
     /**
@@ -85,9 +85,9 @@ public class ActionGroup extends StratmasAbstractAction
      * @param mutatePermission Flag indicating whether we have
      * permission to mutate or not.
      */
-    private void collectMenuItems(Vector menuItems, boolean mutatePermission) {
-        for (Iterator it = members.iterator(); it.hasNext(); ) {
-            ActionGroup action = (ActionGroup)it.next();
+    private void collectMenuItems(Vector<JMenuItem> menuItems, boolean mutatePermission) {
+        for (Iterator<ActionGroup> it = members.iterator(); it.hasNext(); ) {
+            ActionGroup action = it.next();
             if (action.isSubmenuable()) {
                 JMenu submenu = new JMenu((String)action.getValue(Action.NAME));
                 action.addToMenu(submenu, mutatePermission);
@@ -113,10 +113,10 @@ public class ActionGroup extends StratmasAbstractAction
      * permission to mutate or not.
      */
     public void addToPopupMenu(JPopupMenu menu, boolean mutatePermission) {
-        Vector menuItems = new Vector();
+        Vector<JMenuItem> menuItems = new Vector<JMenuItem>();
         collectMenuItems(menuItems, mutatePermission);
-        for (Iterator it = menuItems.iterator(); it.hasNext(); ) {
-            menu.add((JMenuItem)it.next());
+        for (Iterator<JMenuItem> it = menuItems.iterator(); it.hasNext(); ) {
+            menu.add(it.next());
         }
     }
 
@@ -128,10 +128,10 @@ public class ActionGroup extends StratmasAbstractAction
      * permission to mutate or not.
      */
     public void addToMenu(JMenu menu, boolean mutatePermission) {
-        Vector menuItems = new Vector();
+        Vector<JMenuItem> menuItems = new Vector<JMenuItem>();
         collectMenuItems(menuItems, mutatePermission);
-        for (Iterator it = menuItems.iterator(); it.hasNext(); ) {
-            menu.add((JMenuItem)it.next());
+        for (Iterator<JMenuItem> it = menuItems.iterator(); it.hasNext(); ) {
+            menu.add(it.next());
         }
     }
 }

@@ -154,7 +154,7 @@ class ImportHandlerFactory
      */    
     public ImportHandler getHandler(String location) throws NoImportHandlerException
     {
-        Vector errors = new Vector();
+        Vector<Throwable> errors = new Vector<Throwable>();
         for (int i = 0; i < handlers.length; i++) {
             Class handler = ImportHandlerFactory.handlers[i];
             try {

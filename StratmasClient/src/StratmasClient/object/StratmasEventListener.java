@@ -1,5 +1,7 @@
 package StratmasClient.object;
 
-public interface StratmasEventListener extends java.util.EventListener {
+import java.util.EventListener;
+
+public interface StratmasEventListener extends EventListener {
      public void eventOccured(StratmasEvent event);
 }

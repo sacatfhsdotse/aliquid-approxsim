@@ -37,7 +37,7 @@ public abstract class StratmasVectorConstructor
      *
      * @param parts the parts to use in constructing the object.
      */
-    public abstract StratmasObject getStratmasObject(Vector parts);
+    public abstract StratmasObject getStratmasObject(Vector<StratmasObject> parts);
 
     /**
      * Returns the StratmasObject this component was created to provide.
@@ -45,7 +45,7 @@ public abstract class StratmasVectorConstructor
      * @param identifier sets the identifier of the object to the one provided
      * @param parts the parts to use in constructing the object.
      */
-    public StratmasObject getStratmasObject(String identifier, Vector parts)
+    public StratmasObject getStratmasObject(String identifier, Vector<StratmasObject> parts)
     {
         StratmasObject object = getStratmasObject(parts);
         object.setIdentifier(identifier);

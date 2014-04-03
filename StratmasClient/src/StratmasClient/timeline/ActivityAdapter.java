@@ -100,11 +100,11 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
     /**
      * The list of images for the left arrow.
      */
-    public static Hashtable leftArrowSymbols = new Hashtable();
+    public static Hashtable<String, WeakReference<Icon>> leftArrowSymbols = new Hashtable<String, WeakReference<Icon>>();
     /**
      * The list of images for the right arrow.
      */
-    public static Hashtable rightArrowSymbols = new Hashtable();
+    public static Hashtable<String, WeakReference<Icon>> rightArrowSymbols = new Hashtable<String, WeakReference<Icon>>();
     /**
      * The listeners of this adapter.
      */
@@ -436,9 +436,9 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
      * @param src the dafault image of activity.
      * @param imageList the list of arrow images.
      */
-    public Icon getArrowIcon(SymbolIDCode code, Image src, Hashtable imageList) {
+    public Icon getArrowIcon(SymbolIDCode code, Image src, Hashtable<String, WeakReference<Icon>> imageList) {
         String key = (code == null || code.valueToString().length() < 2) ? "-" : code.valueToString().substring(1, 2);
-        WeakReference reference = (WeakReference) imageList.get(key);        
+        WeakReference reference = imageList.get(key);        
         Icon icon = null;
         if (reference != null) {
             icon = (Icon) reference.get();
@@ -452,7 +452,7 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
             // set the color to the order
             ImageFilter colorFilter = OrderColorFilter.getFilter(muColor);
             Icon newIcon = new Icon(Toolkit.getDefaultToolkit().createImage(new FilteredImageSource(src.getSource(),colorFilter)));
-            imageList.put(key, new WeakReference(newIcon));
+            imageList.put(key, new WeakReference<Icon>(newIcon));
             return newIcon;
         }
     }

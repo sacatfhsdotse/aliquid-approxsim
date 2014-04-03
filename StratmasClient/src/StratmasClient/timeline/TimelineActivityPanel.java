@@ -1,6 +1,7 @@
 package StratmasClient.timeline;
 
 import java.nio.IntBuffer;
+import java.util.EventListener;
 import java.util.Vector;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -70,7 +71,7 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
     /**
      * The list of currently drawn activities
      */
-    private Hashtable drawnActivities = new Hashtable();
+    private Hashtable<StratmasObject, ActivityAdapter> drawnActivities = new Hashtable<StratmasObject, ActivityAdapter>();
     /**
      * Indicates if the list of drawn activities has to be updated.
      */
@@ -102,7 +103,7 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
     /**
      * The hashtable mapping renderSelectionNames to ActivityAdapters.
      */
-    protected Hashtable render_selection_names = new Hashtable();
+    protected Hashtable<Integer, EventListener> render_selection_names = new Hashtable<Integer, EventListener>();
     /**
      * The horizontal center coordinate for render selection.
      */
@@ -311,8 +312,8 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
         glu.gluOrtho2D(xmin, xmax, ymin, ymax);
         
         // update the activities 
-        for (Enumeration e = drawnActivities.elements(); e.hasMoreElements(); ) {
-            ((ActivityAdapter)e.nextElement()).setSymbolUpdated(false);
+        for (Enumeration<ActivityAdapter> e = drawnActivities.elements(); e.hasMoreElements(); ) {
+            e.nextElement().setSymbolUpdated(false);
         }
         updateActivityDisplayLists(gld);
     }
@@ -406,8 +407,8 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
             updateActivityDisplayLists(gld);
 
             // Draw activities
-            for (Enumeration e = drawnActivities.elements(); e.hasMoreElements(); ) {
-                    gl.glCallList(((ActivityAdapter)e.nextElement()).getActivityDisplayList());
+            for (Enumeration<ActivityAdapter> e = drawnActivities.elements(); e.hasMoreElements(); ) {
+                    gl.glCallList(e.nextElement().getActivityDisplayList());
             }
                         
             // Restore view
@@ -573,8 +574,8 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      * Updates the list of the activities.
      */
     public void updateActivityDisplayLists(GLAutoDrawable gld) {
-        for (Enumeration e = drawnActivities.elements(); e.hasMoreElements(); ) {
-            ActivityAdapter adapter = (ActivityAdapter)e.nextElement();
+        for (Enumeration<ActivityAdapter> e = drawnActivities.elements(); e.hasMoreElements(); ) {
+            ActivityAdapter adapter = e.nextElement();
             if (!adapter.isSymbolUpdated()) {
                 adapter.updateSymbolDisplayLists(gld);
             }
@@ -726,7 +727,7 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
             // draw the activity
             StratmasObject activity = activityTable.getActivity(i);
             if (activity != null) {
-                gl.glCallList(((ActivityAdapter)drawnActivities.get(activity)).getActivityDisplayList());
+                gl.glCallList(drawnActivities.get(activity).getActivityDisplayList());
             }
             //
             i    = (rev) ? i - 1 : i + 1;
@@ -809,7 +810,7 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
                 if (validAction) {
                     // left arrow
                     if (getLeftArrowUnderCursor() != null) {
-                        ActivityAdapter tmpAdapter = (ActivityAdapter)drawnActivities.get(getLeftArrowUnderCursor());
+                        ActivityAdapter tmpAdapter = drawnActivities.get(getLeftArrowUnderCursor());
                         if (tmpAdapter.getLeftArrowPointedTime() >= timeline.getCurrentTime()) {
                             active_adapter = tmpAdapter;
                             active_render_selection_name = active_adapter.getLeftArrowRenderSelectionName();
@@ -817,7 +818,7 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
                     }
                     // right arrow
                     else if (getRightArrowUnderCursor() != null) {
-                        ActivityAdapter tmpAdapter = (ActivityAdapter)drawnActivities.get(getRightArrowUnderCursor());
+                        ActivityAdapter tmpAdapter = drawnActivities.get(getRightArrowUnderCursor());
                         if (tmpAdapter.getRightArrowPointedTime() >= timeline.getCurrentTime()) {
                             active_adapter = tmpAdapter;
                             active_render_selection_name = active_adapter.getRightArrowRenderSelectionName();
@@ -944,9 +945,9 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      * @return hashtable with all Activities presently drawn under the cursor. The
      *         render selection names are used as keys.
      */
-    public Hashtable elementsUnderCursor()
+    public Hashtable<Integer, Object> elementsUnderCursor()
     {
-        Hashtable res = new Hashtable();
+        Hashtable<Integer, Object> res = new Hashtable<Integer, Object>();
         Vector selected_objects = latest_render_selection.getTopSelectionObjects();
         int[] selected_names = latest_render_selection.getTopSelectionNames();
         for(int i = 0; i < selected_objects.size(); i++) {
@@ -963,8 +964,8 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      * no such activity null is returned.
      */
     public StratmasObject getLeftArrowUnderCursor() {
-        for (Enumeration e = elementsUnderCursor().keys(); e.hasMoreElements(); ) {
-            Integer key = (Integer) e.nextElement();
+        for (Enumeration<Integer> e = elementsUnderCursor().keys(); e.hasMoreElements(); ) {
+            Integer key = e.nextElement();
             ActivityAdapter adapter = (ActivityAdapter) elementsUnderCursor().get(key);
             int renderSelectionName = key.intValue();
             if (adapter.isLeftArrowRenderSelectionName(renderSelectionName)) {
@@ -979,8 +980,8 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      * no such activity null is returned.
      */
     public StratmasObject getRightArrowUnderCursor() {
-        for (Enumeration e = elementsUnderCursor().keys(); e.hasMoreElements(); ) {
-            Integer key = (Integer) e.nextElement();
+        for (Enumeration<Integer> e = elementsUnderCursor().keys(); e.hasMoreElements(); ) {
+            Integer key = e.nextElement();
             ActivityAdapter adapter = (ActivityAdapter) elementsUnderCursor().get(key);
             int renderSelectionName = key.intValue();
             if (adapter.isRightArrowRenderSelectionName(renderSelectionName)) {
@@ -995,8 +996,8 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements DragGe
      * no such activity null is returned.
      */
     public StratmasObject getActivityUnderCursor() {
-        for (Enumeration e = elementsUnderCursor().keys(); e.hasMoreElements(); ) {
-            Integer key = (Integer) e.nextElement();
+        for (Enumeration<Integer> e = elementsUnderCursor().keys(); e.hasMoreElements(); ) {
+            Integer key = e.nextElement();
             ActivityAdapter adapter = (ActivityAdapter) elementsUnderCursor().get(key);
             int renderSelectionName = key.intValue();
             if (adapter.isRenderSelectionName(renderSelectionName)) {

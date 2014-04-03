@@ -160,7 +160,7 @@ public class PolygonMaker extends ShapeMaker {
      */
     protected void movePolygonPoint(Point point, double lon, double lat) {
         // find another Point objects which represents the same point 
-        Point twinP = (Point)overlappingPoints.get(point);
+        Point twinP = overlappingPoints.get(point);
         if (twinP != null) {
             point.setLat(lat, this);
             point.setLon(lon, this);
@@ -182,7 +182,7 @@ public class PolygonMaker extends ShapeMaker {
             //change identifiers for all the lines that come after the actual line 
             int lineId = Integer.parseInt(lineAdapter.getObject().getIdentifier().toString());
             for (int i = 0; i < lineAdapters.size(); i++) {
-                MapLineAdapter ad = (MapLineAdapter)lineAdapters.get(i);
+                MapLineAdapter ad = lineAdapters.get(i);
                 int id = Integer.parseInt(ad.getObject().getIdentifier().toString());
                 if (id > lineId) {
                     ((Line)ad.getObject()).setIdentifier(String.valueOf(id+1));
@@ -230,8 +230,8 @@ public class PolygonMaker extends ShapeMaker {
             double lonCenter = (box.getEastLon() + box.getWestLon()) / 2;
             double latCenter = (box.getNorthLat() + box.getSouthLat()) / 2;
             // polygonial area
-            for (Enumeration e = lineAdapters.elements(); e.hasMoreElements(); ) {
-                Line line = (Line)((MapLineAdapter)e.nextElement()).getObject();
+            for (Enumeration<MapLineAdapter> e = lineAdapters.elements(); e.hasMoreElements(); ) {
+                Line line = (Line)e.nextElement().getObject();
                 line.move(lon - lonCenter, lat - latCenter);
             }
         }
@@ -245,13 +245,13 @@ public class PolygonMaker extends ShapeMaker {
     protected BoundingBox getAreaBoundingBox() {
         // bounding box of the polygonial
         if (!pointAdapters.isEmpty()) {
-            Point p = (Point)((MapPointAdapter)pointAdapters.firstElement()).getObject();
+            Point p = (Point)((MapDrawableAdapter) pointAdapters.firstElement()).getObject();
             double minLon = p.getLon();
             double maxLon = p.getLon();
             double minLat = p.getLat();
             double maxLat = p.getLat();
             for (int i = 1; i < pointAdapters.size(); i++) {
-                p = (Point)((MapPointAdapter)pointAdapters.get(i)).getObject();
+                p = (Point)((MapDrawableAdapter) pointAdapters.get(i)).getObject();
                 minLon = (p.getLon() < minLon)? p.getLon() : minLon;
                 maxLon = (p.getLon() > maxLon)? p.getLon() : maxLon;
                 minLat = (p.getLat() < minLat)? p.getLat() : minLat;
@@ -317,10 +317,10 @@ public class PolygonMaker extends ShapeMaker {
         // create the polygonial
         if (lineAdapters.size() >= 3) {
             // get all the lines
-            Vector lines = new Vector();
+            Vector<Line> lines = new Vector<Line>();
             lines.setSize(lineAdapters.size());
             for (int i = 0; i < lineAdapters.size(); i++) {
-                Line line = (Line)((MapLineAdapter)lineAdapters.get(i)).getObject();
+                Line line = (Line)lineAdapters.get(i).getObject();
                 lines.removeElementAt(Integer.parseInt(line.getIdentifier()));
                 lines.add(Integer.parseInt(line.getIdentifier()), line);
             }
@@ -348,7 +348,7 @@ public class PolygonMaker extends ShapeMaker {
      */
     protected void updateShapeColor(Color color) {
         for (int i = 0; i < lineAdapters.size(); i++) {
-            ((MapLineAdapter)lineAdapters.get(i)).setLineColor(color);
+            lineAdapters.get(i).setLineColor(color);
             if (shapeAdapter != null) {
                 shapeAdapter.setShapeAreaColor(color);
             }

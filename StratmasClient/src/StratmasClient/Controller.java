@@ -50,7 +50,7 @@ public class Controller implements Runnable, StratmasEventListener {
     /**
      * Queue of commands for controlling the simulation.
      */ 
-    private Vector commandQueue = new Vector();
+    private Vector<String> commandQueue = new Vector<String>();
     /**
      * Handles updates from client to server during simulations. 
      */
@@ -103,7 +103,7 @@ public class Controller implements Runnable, StratmasEventListener {
     public boolean connectToServer() {
         String status_message;
         // check for the unresolved references
-        Enumeration unResolved = unresolvedRefFilter.filterTree(client.getRootObject());
+        Enumeration<StratmasObject> unResolved = unresolvedRefFilter.filterTree(client.getRootObject());
         if (unResolved.hasMoreElements()) {
             StringBuffer buf = new StringBuffer("The following references could not be resolved:\n");
             while(unResolved.hasMoreElements()) {
@@ -280,7 +280,7 @@ public class Controller implements Runnable, StratmasEventListener {
         while (true) {
             // get the command
             if (!commandQueue.isEmpty()) {
-                setSimulationMode((String)commandQueue.remove(0));
+                setSimulationMode(commandQueue.remove(0));
             }
             // send step message
             if (isSimulationMode("continuous")) {
@@ -533,7 +533,7 @@ public class Controller implements Runnable, StratmasEventListener {
         try {
             wait();
             if (!commandQueue.isEmpty()) {
-                setSimulationMode((String)commandQueue.remove(0));
+                setSimulationMode(commandQueue.remove(0));
             }
         }
         catch (InterruptedException e) {

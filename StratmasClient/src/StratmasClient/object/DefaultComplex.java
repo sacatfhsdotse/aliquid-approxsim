@@ -36,12 +36,12 @@ class DefaultComplex extends StratmasObjectDynImpl
     /**
      * The children of the node. Note that the order has significance.
      */
-    Vector parts = new Vector();
+    Vector<StratmasObject> parts = new Vector<StratmasObject>();
 
     /**
      * The children of the node hashed on identifier.
      */
-    Hashtable partsHash = new Hashtable();
+    Hashtable<String, StratmasObject> partsHash = new Hashtable<String, StratmasObject>();
         
     /**
      * Creates a new DefaultComplex, taking subparts from provided vector.
@@ -50,7 +50,7 @@ class DefaultComplex extends StratmasObjectDynImpl
      * @param type the type of the object.
      * @param parts the parts of this complex
      */
-    protected DefaultComplex(String identifier, Type type, Vector parts)
+    protected DefaultComplex(String identifier, Type type, Vector<StratmasObject> parts)
     {
         super(identifier, type);
         this.add(parts);
@@ -99,7 +99,7 @@ class DefaultComplex extends StratmasObjectDynImpl
      * @param declaration the declaration for this object.
      * @param parts the parts of this complex
      */
-    protected DefaultComplex(Declaration declaration, Vector parts)
+    protected DefaultComplex(Declaration declaration, Vector<StratmasObject> parts)
     {
         super(declaration);
         this.add(parts);
@@ -108,7 +108,7 @@ class DefaultComplex extends StratmasObjectDynImpl
     /**
      * Returns the children of this object.
      */
-    public Enumeration children()
+    public Enumeration<StratmasObject> children()
     {
         return this.parts.elements();
     }
@@ -183,7 +183,7 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     protected static StratmasObject defaultCreate(Declaration declaration)
     {
-        Vector newParts = new Vector();
+        Vector<StratmasObject> newParts = new Vector<StratmasObject>();
         for (Iterator it = declaration.getType().getSubElements().iterator();
              it.hasNext(); ) {
             Declaration dec = (Declaration)it.next();
@@ -207,11 +207,11 @@ class DefaultComplex extends StratmasObjectDynImpl
     protected static StratmasObject domCreate(Element n)
     {
           Type myType = TypeFactory.getType(n);
-          Vector newParts = new Vector();
+          Vector<StratmasObject> newParts = new Vector<StratmasObject>();
           for (Iterator it = myType.getSubElements().iterator(); it.hasNext(); ) {
               Declaration dec = (Declaration)it.next();
               if (dec.isUnbounded()) {
-                  Vector listElems = new Vector();
+                  Vector<StratmasObject> listElems = new Vector<StratmasObject>();
                   Vector elems = XMLHelper.getChildElementsByTag(n, dec.getName());
                   for (Iterator it2 = elems.iterator(); it2.hasNext(); ) {
                       Element elem = (Element)it2.next();
@@ -239,7 +239,7 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     public StratmasObject getChild(String id) 
     {
-        return (StratmasObject) partsHash.get(id);
+        return partsHash.get(id);
     }
 
     /**
@@ -271,7 +271,7 @@ class DefaultComplex extends StratmasObjectDynImpl
     public void removeAllChildren() 
     {
         while (!parts.isEmpty()) {
-            remove((StratmasObject)parts.firstElement());
+            remove(parts.firstElement());
         }
     }
     
@@ -336,7 +336,7 @@ class DefaultComplex extends StratmasObjectDynImpl
             // index is found when the outer loop exits we know we
             // should add the new part to the end of the parts vector.
             for(int i = 0; i < parts.size() && indexOfNewElement == -1; i++) {
-                 StratmasObject obj = (StratmasObject)parts.elementAt(i);
+                 StratmasObject obj = parts.elementAt(i);
                  String objName = obj.getIdentifier();
                  for (int j = currentIndex; j < subDecs.size(); j++) {
                       String decName = ((Declaration)subDecs.elementAt(j)).getName();
@@ -399,8 +399,8 @@ class DefaultComplex extends StratmasObjectDynImpl
         }
         
         // The children must be removed too.
-        for (Enumeration en = children(); en.hasMoreElements(); ) {
-            ((StratmasObject)en.nextElement()).fireRemoved(initiator);
+        for (Enumeration<StratmasObject> en = children(); en.hasMoreElements(); ) {
+            en.nextElement().fireRemoved(initiator);
         }
     }
 
@@ -415,9 +415,9 @@ class DefaultComplex extends StratmasObjectDynImpl
      */
     protected Object clone()
     {
-        Vector elements = new Vector();
-        for (Enumeration en = children(); en.hasMoreElements(); ) {
-            elements.add(((StratmasObject)en.nextElement()).clone());
+        Vector<StratmasObject> elements = new Vector<StratmasObject>();
+        for (Enumeration<StratmasObject> en = children(); en.hasMoreElements(); ) {
+            elements.add((StratmasObject) en.nextElement().clone());
         }
         return new DefaultComplex(identifier, type, elements);
     }

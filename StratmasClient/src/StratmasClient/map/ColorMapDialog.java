@@ -61,7 +61,7 @@ public class ColorMapDialog extends JDialog implements ActionListener {
     /**
      * List of values that returns ie., [scale, min, max, color_map] (all strings).
      */
-    private static Vector values = new Vector();
+    private static Vector<String> values = new Vector<String>();
     /**
      * The button for the linear scale selection.
      */
@@ -107,7 +107,7 @@ public class ColorMapDialog extends JDialog implements ActionListener {
      * @return updated variables for color map setup. The vector contains four
      *         <code>String</code> elements ie. {scale, min, max, color map}.
      */
-    public static Vector showDialog(Component frame_comp, Component location_comp, String scale,
+    public static Vector<String> showDialog(Component frame_comp, Component location_comp, String scale,
                                     float min, float max, String color_map) {
         Frame frame = JOptionPane.getFrameForComponent(frame_comp);
         dialog = new ColorMapDialog(frame, location_comp, scale, min, max, color_map);

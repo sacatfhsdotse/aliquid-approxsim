@@ -18,7 +18,7 @@ public class CommTest {
      final private static String path = "/afs/pdc.kth.se/projects/stratmas/alexius/xml/CommTest_files/";
      final private static String mLoadQueryFileName = path + "loadQuery.xml";
 
-     private static Hashtable mPropHash = new Hashtable();
+     private static Hashtable<String, String> mPropHash = new Hashtable<String, String>();
 
      public static String getMsgFromFile(String filename) {
           String ret = null;
@@ -147,7 +147,7 @@ public class CommTest {
                          System.out.println("Property <return> value <return> ");
                          String prop = stdIn.readLine();
                          if (mPropHash.containsKey(prop)) {
-                              prop = (String)mPropHash.get(prop);
+                              prop = mPropHash.get(prop);
                          }
                          sc.send(new SetPropertyMessage(prop, stdIn.readLine()));
                     }

@@ -95,7 +95,7 @@ public class AreaCreationDrawer extends BasicMapDrawer
     /**
      * The list of the overlapping points.
      */ 
-    private Hashtable overlappingPoints = new Hashtable();
+    private Hashtable<Point, Point> overlappingPoints = new Hashtable<Point, Point>();
     /**
      * Idicator for the undefined mode.  
      */
@@ -275,7 +275,7 @@ public class AreaCreationDrawer extends BasicMapDrawer
             }
             // insert new point into the polygon
             else if (getCreatorMode() == AreaCreationDrawer.INSERTPOINT) {
-                Vector mlAdapters = mapDrawableAdaptersUnderCursor(MapLineAdapter.class);
+                Vector<Object> mlAdapters = mapDrawableAdaptersUnderCursor(MapLineAdapter.class);
                 if (!mlAdapters.isEmpty()) {
                     MapLineAdapter mlAdapter = (MapLineAdapter)mlAdapters.firstElement();
                     Line line = (Line)mlAdapter.getObject();
@@ -325,13 +325,13 @@ public class AreaCreationDrawer extends BasicMapDrawer
             // move the dragged point. In fact two Point objects are moved here. Both Point objects
             // represents one point which connects two lines. 
             else if (getCreatorMode() == AreaCreationDrawer.MOVEPOINT) {
-                Vector mpAdapters = mapDrawableAdaptersUnderCursor(MapPointAdapter.class);
+                Vector<Object> mpAdapters = mapDrawableAdaptersUnderCursor(MapPointAdapter.class);
                 if (!mpAdapters.isEmpty()) {
                     // get the first Point object
                     MapPointAdapter mpAdapter = (MapPointAdapter)mpAdapters.firstElement();
                     Point point = (Point)mpAdapter.getObject();
                     // find another Point objects which represents the same point as the first one
-                    Point twinP = (Point)overlappingPoints.get(point);
+                    Point twinP = overlappingPoints.get(point);
                     if (twinP == null) {
                         //twinP = findMeetingPoint(point);
                     }
@@ -396,7 +396,7 @@ public class AreaCreationDrawer extends BasicMapDrawer
         displayCurrentPosition(current_pos);
         
         // display the region under the mouse cursor
-        Vector adVec = mapDrawableAdaptersUnderCursor(MapShapeAdapter.class);
+        Vector<Object> adVec = mapDrawableAdaptersUnderCursor(MapShapeAdapter.class);
         if (!adVec.isEmpty()) {
             if (adVec.size() == 1) {
                 displayPointedRegion(((Shape)((MapShapeAdapter)adVec.firstElement()).getObject()).getIdentifier()); 
@@ -762,8 +762,8 @@ public class AreaCreationDrawer extends BasicMapDrawer
      *
      * @return MapDrawables currently under the cursor on the map.
      */
-    public Vector mapDrawableAdaptersUnderCursor() {
-        Vector res = new Vector();
+    public Vector<Object> mapDrawableAdaptersUnderCursor() {
+        Vector<Object> res = new Vector<Object>();
         for(Enumeration e = latestRenderSelection.getTopSelectionObjects().elements(); e.hasMoreElements();) {
             Object o = e.nextElement();
             if (o instanceof MapDrawableAdapter) {
@@ -781,8 +781,8 @@ public class AreaCreationDrawer extends BasicMapDrawer
      *
      * @return the list of elements.  
      */
-    public Vector mapDrawableAdaptersUnderCursor(Class specifiedClass) {
-        Vector res = new Vector();
+    public Vector<Object> mapDrawableAdaptersUnderCursor(Class specifiedClass) {
+        Vector<Object> res = new Vector<Object>();
         for(Enumeration e = latestRenderSelection.getTopSelectionObjects().elements(); e.hasMoreElements();) {
             Object o = e.nextElement();
             if (specifiedClass.isInstance(o)) {
@@ -834,10 +834,10 @@ public class AreaCreationDrawer extends BasicMapDrawer
         gl.glCallList(graticuleDisplayList);
          
         // recompile changed elements
-        Vector toUpdate = mapDrawableAdapterRecompilation;
-        this.mapDrawableAdapterRecompilation = new Vector();
-        for(Enumeration e = toUpdate.elements(); e.hasMoreElements();) {
-            MapDrawableAdapter adapter = (MapDrawableAdapter) e.nextElement();
+        Vector<MapDrawableAdapter> toUpdate = mapDrawableAdapterRecompilation;
+        this.mapDrawableAdapterRecompilation = new Vector<MapDrawableAdapter>();
+        for(Enumeration<MapDrawableAdapter> e = toUpdate.elements(); e.hasMoreElements();) {
+            MapDrawableAdapter adapter = e.nextElement();
             int oldDisplayList = adapter.getDisplayList();
             adapter.reCompile(basicMap.getProjection(), glc);
             if (oldDisplayList != adapter.getDisplayList()) {
@@ -1200,8 +1200,8 @@ public class AreaCreationDrawer extends BasicMapDrawer
         orts_box = (BoundingBox)sbox.clone();
         
         // Projection will change, so we need to update symbols if they are invariant.
-        for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
-            MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
+        for (Enumeration<MapDrawableAdapter> e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
+            MapDrawableAdapter mda = e.nextElement();
             if (mda instanceof MapElementAdapter) {
                 ((MapElementAdapter)mda).invalidateSymbolList();
             }
@@ -1284,7 +1284,7 @@ public class AreaCreationDrawer extends BasicMapDrawer
         Vector lineAdapters = mapDrawableAdapters(MapLineAdapter.class);
         if (lineAdapters.size() >= 3) {
             // get all the lines
-            Vector lines = new Vector();
+            Vector<Line> lines = new Vector<Line>();
             lines.setSize(lineAdapters.size());
             for (int i = 0; i < lineAdapters.size(); i++) {
                 Line line = (Line)((MapLineAdapter)lineAdapters.get(i)).getObject();

@@ -97,12 +97,12 @@ public class ClientMainFrame extends JFrame
     /**
      * The frames of tabs included into this frame.
      */
-    Hashtable tabFrames = new Hashtable();
+    Hashtable<JFrame, PropertyChangeListener> tabFrames = new Hashtable<JFrame, PropertyChangeListener>();
 
     /**
      * The mapping of tabs to tabbed frames
      */
-    Hashtable componentFrames = new Hashtable();
+    Hashtable<JRootPane, JFrame> componentFrames = new Hashtable<JRootPane, JFrame>();
     
     /**
      * The ToolBar of the frame.
@@ -306,7 +306,7 @@ public class ClientMainFrame extends JFrame
 									public void actionPerformed(ActionEvent ev) {
                                         Component component = getTabPane().getComponentAt(index);
                                         if (component != null) {
-                                            JFrame frame = (JFrame) componentFrames.get(component);
+                                            JFrame frame = componentFrames.get(component);
                                             if (frame != null) {
                                                 frameTab(component);
                                                 frame.dispose();
@@ -425,7 +425,7 @@ public class ClientMainFrame extends JFrame
                     {
                         JMenu menu = (JMenu) e.getSource();
                         menu.removeAll();
-                        for (Iterator it = Debug.getDebugActions().iterator(); 
+                        for (Iterator<Action> it = Debug.getDebugActions().iterator(); 
                              it.hasNext();
                              menu.add((Action) it.next()));
                     }
@@ -898,7 +898,7 @@ public class ClientMainFrame extends JFrame
                 continue;
             }
             // To avoid locking the frame in memory.
-            final WeakReference frameReference = new WeakReference(frame);
+            final WeakReference<Frame> frameReference = new WeakReference<Frame>(frame);
             JCheckBoxMenuItem showMenuItem = 
                 new JCheckBoxMenuItem(new AbstractAction(frame.getTitle())
                     {
@@ -910,7 +910,7 @@ public class ClientMainFrame extends JFrame
 						public void actionPerformed(ActionEvent e) 
                         {
                             JCheckBoxMenuItem box = (JCheckBoxMenuItem) e.getSource();
-                            Frame f = (Frame) frameReference.get();
+                            Frame f = frameReference.get();
                             if (f != null) {
                                 f.setVisible(box.isSelected());
                             } else {
@@ -1139,7 +1139,7 @@ public class ClientMainFrame extends JFrame
      */
     private JFrame frameTabImpl(Component component)
     {
-        JFrame frame = (JFrame) componentFrames.remove(component);
+        JFrame frame = componentFrames.remove(component);
         if (frame == null) {
             String title = this.tabPane.getTitleAt(this.tabPane.indexOfComponent(component));
             ImageIcon icon = (ImageIcon) this.tabPane.getIconAt(this.tabPane.indexOfComponent(component));
@@ -1150,7 +1150,7 @@ public class ClientMainFrame extends JFrame
             }
         } else {
              // Remove the tab name update listener.
-             frame.removePropertyChangeListener((PropertyChangeListener)tabFrames.get(frame));
+             frame.removePropertyChangeListener(tabFrames.get(frame));
             // Unregister frame;
              tabFrames.remove(frame);
         }
@@ -1391,7 +1391,7 @@ class ImportSourceDialog extends JDialog {
             StratmasObject root = (StratmasObject)client.getRootObject().children().nextElement();
             StratmasObject scenario = root.getChild("scenario");
             StratmasList facList = (StratmasList)scenario.getChild("factions");        
-            for (java.util.Enumeration en = facList.children(); en.hasMoreElements(); ) {
+            for (Enumeration<StratmasObject> en = facList.children(); en.hasMoreElements(); ) {
                 factionBox.addItem((StratmasObject)en.nextElement());
             }
         }
@@ -1506,7 +1506,7 @@ class ImportSourceDialog extends JDialog {
         if (typeFilter.pass(root) && !(root instanceof StratmasList)) {
             filter.apply(root);
         }
-        for (Enumeration e = root.children(); e.hasMoreElements(); ) {
+        for (Enumeration<StratmasObject> e = root.children(); e.hasMoreElements(); ) {
             StratmasObject obj = (StratmasObject)e.nextElement();
             applyFilterToSubtree(obj, filter, typeFilter);
         }

@@ -250,15 +250,15 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
                                 // Add to vector first to not
                                 // disturb the enumeration we are
                                 // using by removing objects from its collection.
-                                Vector v = new Vector();
+                                Vector<StratmasObject> v = new Vector<StratmasObject>();
                                 for (Enumeration e = stratmasList.children(); e.hasMoreElements();) {
                                     StratmasObject sObj = (StratmasObject) e.nextElement();
                                     if (sObj.getType().canSubstitute(targetList.getType())) {
                                         v.add(sObj);
                                     }
                                 }
-                                for (Enumeration e = v.elements(); e.hasMoreElements();) {
-                                    StratmasObject sObj = (StratmasObject) e.nextElement();
+                                for (Enumeration<StratmasObject> e = v.elements(); e.hasMoreElements();) {
+                                    StratmasObject sObj = e.nextElement();
                                     sObj.remove();
                                     targetList.add(sObj);
                                 }
@@ -433,9 +433,9 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      *
      * @param transferable transferable to extract.
     */
-    public Vector transferableToObjects(Transferable transferable)
+    public Vector<StratmasObject> transferableToObjects(Transferable transferable)
     {
-        Vector res = new Vector();
+        Vector<StratmasObject> res = new Vector<StratmasObject>();
         DataFlavor[] flavors = transferable.getTransferDataFlavors();        
         try {
             for (int i = 0; i < flavors.length; i++) {

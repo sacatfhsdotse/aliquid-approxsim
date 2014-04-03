@@ -372,10 +372,10 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
             // show information of the pointed element
             if (e.getClickCount() == 2) {
                 // find all elemets located at the pointed location 
-                Vector pointedElements = mapElementsUnderCursor();
+                Vector<StratmasObject> pointedElements = mapElementsUnderCursor();
                 // if only one element found
                 if (pointedElements.size() == 1) {
-                    final TreeViewFrame frame = TreeView.getDefaultFrame((StratmasObject)pointedElements.firstElement());
+                    final TreeViewFrame frame = TreeView.getDefaultFrame(pointedElements.firstElement());
                     javax.swing.SwingUtilities.invokeLater(new Runnable() {
                             public void run() {
                                 frame.setEditable(true);
@@ -469,7 +469,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
             // display current position
             displayCurrentPosition(current_pos);
             // display the region under the mouse cursor
-            Vector adVec = mapDrawableAdaptersUnderCursor(MapShapeAdapter.class);
+            Vector<Object> adVec = mapDrawableAdaptersUnderCursor(MapShapeAdapter.class);
             if (!adVec.isEmpty()) {
                 if (adVec.size() == 1) {
                     displayPointedRegion(((Shape)((MapShapeAdapter)adVec.firstElement()).getObject()).getIdentifier()); 
@@ -528,8 +528,8 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
             ort_box = updateOrthographicBounds(view_width, view_height);
         
             // new projection update positioning of symbols
-            for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
-                ((MapDrawableAdapter) e.nextElement()).invalidateAllLists();
+            for (Enumeration<MapDrawableAdapter> e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
+                e.nextElement().invalidateAllLists();
             }
             
             // update map scale
@@ -800,8 +800,8 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
         grid_based_pv = ok;
         if (grid_based_pv) {
             // update the shape adapters
-            for (Enumeration adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
-                MapDrawableAdapter mdAdapter = (MapDrawableAdapter) adapters.nextElement();
+            for (Enumeration<MapDrawableAdapter> adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
+                MapDrawableAdapter mdAdapter = adapters.nextElement();
                 if (mdAdapter instanceof MapShapeAdapter && region.contains((Shape)mdAdapter.getObject())) {
                     ((MapShapeAdapter) mdAdapter).setShapeAreaTransparent();
                 }
@@ -809,8 +809,8 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
         }
         else if (cell_layer != null) {
             // update the shape adapters
-            for (Enumeration adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
-                MapDrawableAdapter mdAdapter = (MapDrawableAdapter) adapters.nextElement();
+            for (Enumeration<MapDrawableAdapter> adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
+                MapDrawableAdapter mdAdapter = adapters.nextElement();
                 if (mdAdapter instanceof MapShapeAdapter && region.contains((Shape)mdAdapter.getObject())) {
                     double value = cell_layer.getAverageValueForCells((Shape)mdAdapter.getObject());
                     ((MapShapeAdapter) mdAdapter).setShapeAreaColor(color_map.getMappingColor(value));
@@ -829,8 +829,8 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
     public void setDrawRegionShapes(boolean vis) {
         show_geo_region = vis;
         // update the shape adapters
-        for (Enumeration adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
-            MapDrawableAdapter mdAdapter = (MapDrawableAdapter) adapters.nextElement();
+        for (Enumeration<MapDrawableAdapter> adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
+            MapDrawableAdapter mdAdapter = adapters.nextElement();
             if (mdAdapter instanceof MapShapeAdapter && region.contains((Shape)mdAdapter.getObject())) {
                 ((MapShapeAdapter) mdAdapter).setShapeVisible(show_geo_region);
             }
@@ -870,8 +870,8 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
         
         // Projection will change, so we need to update symbols if they are invariant.
         if (getInvariantSymbolSize()) {
-            for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
-                MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
+            for (Enumeration<MapDrawableAdapter> e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
+                MapDrawableAdapter mda = e.nextElement();
                 if (mda instanceof MapElementAdapter) {
                     ((MapElementAdapter)mda).invalidateSymbolList();
                 }
@@ -895,8 +895,8 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
         cell_layer.invalidateDisplayList();
         if (!grid_based_pv) {
             // update the shape adapters
-            for (Enumeration adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
-                MapDrawableAdapter mdAdapter = (MapDrawableAdapter) adapters.nextElement();
+            for (Enumeration<MapDrawableAdapter> adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
+                MapDrawableAdapter mdAdapter = adapters.nextElement();
                 if (mdAdapter instanceof MapShapeAdapter && region.contains((Shape)mdAdapter.getObject())) {
                     double value = cell_layer.getAverageValueForCells((Shape)mdAdapter.getObject());
                     ((MapShapeAdapter) mdAdapter).setShapeAreaColor(color_map.getMappingColor(value));
@@ -922,8 +922,8 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      *
      * @return the drawn elements and activities currently under the cursor.
      */
-    public Vector mapElementsUnderCursor() {
-        Vector res = new Vector();
+    public Vector<StratmasObject> mapElementsUnderCursor() {
+        Vector<StratmasObject> res = new Vector<StratmasObject>();
         for(Enumeration e = latestRenderSelection.getTopSelectionObjects().elements(); e.hasMoreElements();) {
             Object o = e.nextElement();
             if (o instanceof MapElementAdapter) {
@@ -939,8 +939,8 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      *
      * @return MapDrawables currently under the cursor on the map.
      */
-    public Vector mapDrawableAdaptersUnderCursor() {
-        Vector res = new Vector();
+    public Vector<Object> mapDrawableAdaptersUnderCursor() {
+        Vector<Object> res = new Vector<Object>();
         for(Enumeration e = latestRenderSelection.getTopSelectionObjects().elements(); e.hasMoreElements();) {
             Object o = e.nextElement();
             if (o instanceof MapDrawableAdapter) {
@@ -958,8 +958,8 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      *
      * @return the list of elements.  
      */
-    public Vector mapDrawableAdaptersUnderCursor(Class specifiedClass) {
-        Vector res = new Vector();
+    public Vector<Object> mapDrawableAdaptersUnderCursor(Class specifiedClass) {
+        Vector<Object> res = new Vector<Object>();
         for(Enumeration e = latestRenderSelection.getTopSelectionObjects().elements(); e.hasMoreElements();) {
             Object o = e.nextElement();
             if (specifiedClass.isInstance(o)) {
@@ -994,10 +994,10 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
         if (show_elements) {
             // draw elements
             // Recompile changed elements
-            Vector toUpdate = mapDrawableAdapterRecompilation;
-            this.mapDrawableAdapterRecompilation = new Vector();
-            for(Enumeration e = toUpdate.elements(); e.hasMoreElements();) {
-                MapDrawableAdapter adapter = (MapDrawableAdapter) e.nextElement();
+            Vector<MapDrawableAdapter> toUpdate = mapDrawableAdapterRecompilation;
+            this.mapDrawableAdapterRecompilation = new Vector<MapDrawableAdapter>();
+            for(Enumeration<MapDrawableAdapter> e = toUpdate.elements(); e.hasMoreElements();) {
+                MapDrawableAdapter adapter = e.nextElement();
                 int oldDisplayList = adapter.getDisplayList();
                 adapter.reCompile(basicMap.getProjection(), glc);
                 if (oldDisplayList != adapter.getDisplayList()) {
@@ -1120,8 +1120,8 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
     public void setIsEnabledLocation(boolean flag) {
         if (this.showLocation != flag) {
             this.showLocation = flag;
-            for (Enumeration adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
-                MapDrawableAdapter mdAdapter = (MapDrawableAdapter) adapters.nextElement();
+            for (Enumeration<MapDrawableAdapter> adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
+                MapDrawableAdapter mdAdapter = adapters.nextElement();
                 if (mdAdapter instanceof MapElementAdapter) {
                     ((MapElementAdapter) mdAdapter).setDrawLocation(flag);
                 }
@@ -1137,8 +1137,8 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param type the type of the object.
      */
     public void setIsEnabledLocation(boolean flag, Type type) {
-        for (Enumeration adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
-            MapDrawableAdapter mdAdapter = (MapDrawableAdapter) adapters.nextElement();
+        for (Enumeration<MapDrawableAdapter> adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
+            MapDrawableAdapter mdAdapter = adapters.nextElement();
             if (mdAdapter.getObject().getType().canSubstitute(type)) {
                 if (mdAdapter instanceof MapElementAdapter) {
                     ((MapElementAdapter) mdAdapter).setDrawLocation(flag);
@@ -1163,8 +1163,8 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
     public void setIsEnabledOutline(boolean flag) {
         if (this.showOutline != flag) {
             this.showOutline = flag;
-            for (Enumeration adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
-                MapDrawableAdapter mdAdapter = (MapDrawableAdapter) adapters.nextElement();
+            for (Enumeration<MapDrawableAdapter> adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
+                MapDrawableAdapter mdAdapter = adapters.nextElement();
                 if (mdAdapter instanceof MapElementAdapter) {
                     ((MapElementAdapter) mdAdapter).setDrawLocationOutline(flag);
                 }
@@ -1180,8 +1180,8 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * @param type the type of the object.
      */
     public void setIsEnabledOutline(boolean flag, Type type) {
-        for (Enumeration adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
-            MapDrawableAdapter mdAdapter = (MapDrawableAdapter) adapters.nextElement();
+        for (Enumeration<MapDrawableAdapter> adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
+            MapDrawableAdapter mdAdapter = adapters.nextElement();
             if (mdAdapter.getObject().getType().canSubstitute(type)) {
                 if (mdAdapter instanceof MapElementAdapter) {
                     ((MapElementAdapter) mdAdapter).setDrawLocationOutline(flag);
@@ -1293,7 +1293,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
     public void setShowPopulationNames(boolean flag) {
         if (getShowPopulationNames() != flag) {
             this.showPopulationNames = flag;
-            for (Enumeration e = (new TypeFilter(TypeFactory.getType("Population"))).
+            for (Enumeration<MapDrawableAdapter> e = (new TypeFilter(TypeFactory.getType("Population"))).
                      filter(mapDrawableAdapters.elements()).elements(); 
                  e.hasMoreElements();) {
                 ((PopulationAdapter) e.nextElement()).setDrawElementName(getShowPopulationNames());
@@ -1317,8 +1317,8 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
     public void setInvariantSymbolSize(boolean flag) {
         if (getInvariantSymbolSize() != flag) {
             this.invariantSymbolSize = flag;
-            for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
-                MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
+            for (Enumeration<MapDrawableAdapter> e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
+                MapDrawableAdapter mda = e.nextElement();
                 if (mda instanceof MapElementAdapter) {
                     ((MapElementAdapter) mda).setInvariantSymbolSize(flag);
                 }
@@ -1343,8 +1343,8 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
     public void setSymbolOpacity(double symbolOpacity) {
         if (this.symbolOpacity != symbolOpacity) {
             this.symbolOpacity = symbolOpacity;
-            for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
-                MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
+            for (Enumeration<MapDrawableAdapter> e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
+                MapDrawableAdapter mda = e.nextElement();
                 if (mda instanceof MapElementAdapter) {
                     ((MapElementAdapter) mda).setSymbolOpacity(getSymbolOpacity());
                 }
@@ -1368,8 +1368,8 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
     public void setSymbolScale(double symbolScale) {
         if (this.symbolScale != symbolScale) {
             this.symbolScale = symbolScale;
-            for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
-                MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
+            for (Enumeration<MapDrawableAdapter> e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
+                MapDrawableAdapter mda = e.nextElement();
                 if (mda instanceof MapElementAdapter) {
                     ((MapElementAdapter) mda).setSymbolScale(getSymbolScale());
                 }
@@ -1401,8 +1401,8 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
     public void setLocationOpacity(double locationOpacity) {
         if (this.locationOpacity != locationOpacity) {
             this.locationOpacity = locationOpacity;
-            for (Enumeration e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
-                MapDrawableAdapter mda = (MapDrawableAdapter)e.nextElement();
+            for (Enumeration<MapDrawableAdapter> e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
+                MapDrawableAdapter mda = e.nextElement();
                 if (mda instanceof MapElementAdapter) {
                     ((MapElementAdapter) mda).setLocationOpacity(getLocationOpacity());
                 }
@@ -1418,8 +1418,8 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
     protected void setIgnorePresent(boolean flag) {
         if (flag != getIgnorePresent()) {
             this.ignorePresent = flag;
-            for (Enumeration adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
-                MapDrawableAdapter adapter = (MapDrawableAdapter)adapters.nextElement();
+            for (Enumeration<MapDrawableAdapter> adapters = mapDrawableAdapters.elements(); adapters.hasMoreElements();) {
+                MapDrawableAdapter adapter = adapters.nextElement();
                 if (adapter instanceof ElementAdapter) {
                     ((ElementAdapter)adapter).setIgnorePresent(getIgnorePresent());
                 }
@@ -1479,7 +1479,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      */
     protected void magnifyElements(GLAutoDrawable gld) {
         GL2 gl = (GL2) gld.getGL();
-        Vector elements = mapDrawableAdaptersUnderCursor(MapElementAdapter.class);
+        Vector<Object> elements = mapDrawableAdaptersUnderCursor(MapElementAdapter.class);
         if (elements.size() > 0) {
             // Draws a magnification of the symbols under the cursor
             
@@ -1551,7 +1551,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
             gl.glColor4d(1.0d, 1.0d, 1.0d, 0.2d);
             gl.glRectd(0, 0, hPanelSize, vPanelSize);
             
-            Enumeration e = elements.elements();
+            Enumeration<Object> e = elements.elements();
             GLUT glut = new GLUT();
             for (int i = (vTiles - 1); i >= 0 && e.hasMoreElements(); i--) {
                 for (int j = 0; j < hTiles && e.hasMoreElements(); j++) {

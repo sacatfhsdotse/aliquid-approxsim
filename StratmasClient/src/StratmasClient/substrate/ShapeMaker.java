@@ -4,9 +4,11 @@ import java.awt.Color;
 import java.util.Vector;
 import java.util.Hashtable;
 
+import StratmasClient.map.adapter.MapDrawableAdapter;
 import StratmasClient.map.adapter.MapShapeAdapter;
 import StratmasClient.map.adapter.MapPointAdapter;
 import StratmasClient.map.adapter.MapLineAdapter;
+import StratmasClient.object.Point;
 
 /**
  * This class implements methods used to construct, change and move shapes. 
@@ -27,15 +29,15 @@ public abstract class ShapeMaker {
     /**
      * The list of the overlapping points.
      */ 
-    protected Hashtable overlappingPoints = new Hashtable();
+    protected Hashtable<Point, Point> overlappingPoints = new Hashtable<Point, Point>();
     /**
      * The list of line adapters.
      */
-    protected Vector lineAdapters = new Vector();
+    protected Vector<MapLineAdapter> lineAdapters = new Vector<MapLineAdapter>();
     /**
      * The list of point adapters.
      */
-    protected Vector pointAdapters = new Vector();
+    protected Vector<MapDrawableAdapter> pointAdapters = new Vector<MapDrawableAdapter>();
     
     /**
      * Creates new shape constructor.

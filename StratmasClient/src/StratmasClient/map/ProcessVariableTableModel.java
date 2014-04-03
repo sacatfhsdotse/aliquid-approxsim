@@ -31,7 +31,7 @@ public class ProcessVariableTableModel extends AbstractTableModel {
     /**
      * Used to compare the process variable wrt the categories and the names.
      */
-    private Comparator categoryComparator = new Comparator() {
+    private Comparator<Object> categoryComparator = new Comparator<Object>() {
             public int compare(Object o1, Object o2) {
                 ProcessVariableDescription pvd1 = (ProcessVariableDescription)((Object[])o1)[0];
                 ProcessVariableDescription pvd2 = (ProcessVariableDescription)((Object[])o2)[0];
@@ -146,8 +146,8 @@ public class ProcessVariableTableModel extends AbstractTableModel {
      *
      * @param category the category of the process variables.
      */
-    public Vector getProcessVariables(String category) {
-        Vector pvs = new Vector();
+    public Vector<ProcessVariableDescription> getProcessVariables(String category) {
+        Vector<ProcessVariableDescription> pvs = new Vector<ProcessVariableDescription>();
         for (int i = 0; i < pvValues.length; i++) {
             ProcessVariableDescription pv = (ProcessVariableDescription)pvValues[i][0];
             if (pv.getCategory().equals(category)) {

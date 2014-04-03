@@ -1,9 +1,9 @@
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"        
-            xmlns:sp="http://pdc.kth.se/stratmasNamespace"        
-            targetNamespace="http://pdc.kth.se/stratmasNamespace">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:sp="http://pdc.kth.se/stratmasNamespace"
+  targetNamespace="http://pdc.kth.se/stratmasNamespace">
 
   <!-- For xml:base attribute of Identifiable -->
-  <xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/> 
+  <xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
 
   <xsd:annotation>
     <xsd:documentation xml:lang="en">
@@ -132,7 +132,7 @@
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
- 
+
   <xsd:complexType name="Scenario" abstract="true">
     <xsd:complexContent>
       <xsd:extension base="sp:ComplexType">
@@ -154,6 +154,8 @@
           <xsd:element name="factions" type="sp:Faction" minOccurs="0" maxOccurs="unbounded"/>
           <xsd:element name="HDI" type="sp:Double"/>
           <xsd:element name="unemployment" type="sp:Double"/>
+          <xsd:element name="path" type="sp:PathGraph"/>
+          <xsd:element name="graphs" type="sp:EffectGraph" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
@@ -183,7 +185,7 @@
     </xsd:complexContent>
   </xsd:complexType>
 
- <xsd:complexType name="Shape" abstract="true">
+  <xsd:complexType name="Shape" abstract="true">
     <xsd:complexContent>
       <xsd:extension base="sp:ValueType">
       </xsd:extension>
@@ -195,7 +197,7 @@
       <xsd:extension base="sp:Shape">
         <xsd:sequence>
           <xsd:element name="shapes" type="sp:Shape" minOccurs="1" maxOccurs="unbounded"/>
-       </xsd:sequence>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -213,7 +215,7 @@
         <xsd:sequence>
           <xsd:element name="radius" type="sp:Double"/>
           <xsd:element name="center" type="sp:Point"/>
-       </xsd:sequence>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -222,16 +224,16 @@
     <xsd:complexContent>
       <xsd:extension base="sp:Shape">
         <xsd:sequence>
-           <xsd:element name="curves" type="sp:Curve" minOccurs="1" maxOccurs="unbounded"/>
-       </xsd:sequence>
+          <xsd:element name="curves" type="sp:Curve" minOccurs="1" maxOccurs="unbounded"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
 
   <xsd:complexType name="Polygon">
     <xsd:complexContent>
-    <xsd:extension base="sp:Segmented">
-    </xsd:extension>
+      <xsd:extension base="sp:Segmented">
+      </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
 
@@ -341,19 +343,19 @@
           <xsd:element name="target" type="sp:EthnicFactionReference" minOccurs="0"/>
           <xsd:element name="location" type="sp:Shape" minOccurs="0"/>
           <xsd:element name="foodDays" type="sp:Double" minOccurs="0"/>
-          <xsd:element name="waterDays" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="fractionNoMedical" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="fractionInfected" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="fractionRecovered" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="displaced" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="protected" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="sheltered" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="perceivedThreat" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="ethnicTension" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="violence" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="fractionCrimeVictims" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="disaffection" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="fractionNoWork" type="sp:Double" minOccurs="0"/>  
+          <xsd:element name="waterDays" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="fractionNoMedical" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="fractionInfected" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="fractionRecovered" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="displaced" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="protected" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="sheltered" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="perceivedThreat" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="ethnicTension" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="violence" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="fractionCrimeVictims" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="disaffection" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="fractionNoWork" type="sp:Double" minOccurs="0"/>
           <xsd:element name="infrastructure" type="sp:Double" minOccurs="0"/>
           <xsd:element name="insurgents" type="sp:Double" minOccurs="0"/>
         </xsd:sequence>
@@ -455,19 +457,19 @@
           <xsd:element name="target" type="sp:EthnicFactionReference" minOccurs="0"/>
           <xsd:element name="location" type="sp:Shape"/>
           <xsd:element name="foodDays" type="sp:Double" minOccurs="0"/>
-          <xsd:element name="waterDays" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="fractionNoMedical" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="fractionInfected" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="fractionRecovered" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="displaced" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="protected" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="sheltered" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="perceivedThreat" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="ethnicTension" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="violence" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="fractionCrimeVictims" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="disaffection" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="fractionNoWork" type="sp:Double" minOccurs="0"/>  
+          <xsd:element name="waterDays" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="fractionNoMedical" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="fractionInfected" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="fractionRecovered" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="displaced" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="protected" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="sheltered" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="perceivedThreat" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="ethnicTension" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="violence" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="fractionCrimeVictims" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="disaffection" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="fractionNoWork" type="sp:Double" minOccurs="0"/>
           <xsd:element name="infrastructure" type="sp:Double" minOccurs="0"/>
           <xsd:element name="insurgents" type="sp:Double" minOccurs="0"/>
         </xsd:sequence>
@@ -601,19 +603,19 @@
         <xsd:sequence>
           <xsd:element name="target" type="sp:EthnicFactionReference" minOccurs="0"/>
           <xsd:element name="foodDays" type="sp:Double" minOccurs="0"/>
-          <xsd:element name="waterDays" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="fractionNoMedical" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="fractionInfected" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="fractionRecovered" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="displaced" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="protected" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="sheltered" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="perceivedThreat" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="ethnicTension" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="violence" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="fractionCrimeVictims" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="disaffection" type="sp:Double" minOccurs="0"/> 
-          <xsd:element name="fractionNoWork" type="sp:Double" minOccurs="0"/>  
+          <xsd:element name="waterDays" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="fractionNoMedical" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="fractionInfected" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="fractionRecovered" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="displaced" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="protected" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="sheltered" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="perceivedThreat" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="ethnicTension" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="violence" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="fractionCrimeVictims" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="disaffection" type="sp:Double" minOccurs="0"/>
+          <xsd:element name="fractionNoWork" type="sp:Double" minOccurs="0"/>
           <xsd:element name="infrastructure" type="sp:Double" minOccurs="0"/>
           <xsd:element name="insurgents" type="sp:Double" minOccurs="0"/>
         </xsd:sequence>
@@ -810,7 +812,7 @@
 
   <xsd:complexType name="Identifiable" abstract="true">
     <xsd:attribute name="identifier" type="sp:Identifier" default=""/>
-    <xsd:attribute ref="xml:base"/> 
+    <xsd:attribute ref="xml:base"/>
   </xsd:complexType>
 
   <xsd:complexType name="SimpleType" abstract="true">
@@ -834,24 +836,123 @@
           <xsd:element name="name" type="sp:Identifier"/>
           <xsd:element name="scope" type="sp:Reference" minOccurs="0"/>
         </xsd:sequence>
-       </xsd:extension>
+      </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
 
-    <xsd:complexType name="FactionReference">
-     <xsd:complexContent>
-       <xsd:extension base="sp:Reference">
-       <xsd:attribute name="target" type="xsd:string" fixed="Faction"/>
+  <xsd:complexType name="FactionReference">
+    <xsd:complexContent>
+      <xsd:extension base="sp:Reference">
+        <xsd:attribute name="target" type="xsd:string" fixed="Faction"/>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
 
   <xsd:complexType name="EthnicFactionReference">
-    <xsd:complexContent>    
+    <xsd:complexContent>
       <xsd:extension base="sp:Reference">
-       <xsd:attribute name="target" type="xsd:string" fixed="EthnicFaction"/>
-     </xsd:extension>
-   </xsd:complexContent>
+        <xsd:attribute name="target" type="xsd:string" fixed="EthnicFaction"/>
+      </xsd:extension>
+    </xsd:complexContent>
   </xsd:complexType>
+
+  <xsd:complexType name="NodeReference">
+    <xsd:complexContent>
+      <xsd:extension base="sp:Reference">
+        <xsd:attribute name="target" type="xsd:string" fixed="Node"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="Graph" abstract="true">
+    <xsd:complexContent>
+      <xsd:extension base="sp:Complextype">
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="EffectGraph">
+    <xsd:complexContent>
+      <xsd:extension base="Graph">
+        <xsd:element name="nodes" type="sp:EffectNode" maxOccurs="unbounded"/>
+        <xsd:element name="edges" type="sp:EffectEdge" maxOccurs="unbounded"/>
+        <xsd:element name="nodeConnected" type="sp:Effect" minOccurs="0"/>
+        <xsd:element name="nodeDisconnected" type="sp:Effect" minOccurs="0"/>
+        <xsd:element name="edgeConnected" type="sp:Effect" minOccurs="0"/>
+        <xsd:element name="edgeDisconnected" type="sp:Effect" minOccurs="0"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PathGraph">
+    <xsd:complexContent>
+      <xsd:extension base="sp:Graph">
+        <xsd:element name="nodes" type="sp:PathNode" maxOccurs="unbounded"/>
+        <xsd:element name="edges" type="sp:PathEdge" maxOccurs="unbounded"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="Effect">
+    <xsd:complexContent>
+      <xsd:extension base="sp:ComplexType">
+        <xsd:element name="continuous" type="xsd:boolean"/>
+        <xsd:element name="radius" type="sp:Double"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="Node" abstract="true">
+    <xsd:complexContent>
+      <xsd:extension base="sp:ComplexType">
+        <xsd:element name="point" type="sp:Point"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="EffectNode">
+    <xsd:complexContent>
+      <xsd:extension base="sp:Node">
+        <xsd:element name="power" type="sp:Double"/>
+        <xsd:element name="connected" type="sp:Effect" minOccurs="0"/>
+        <xsd:element name="disconnected" type="sp:Effect" minOccurs="0"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PathNode">
+    <xsd:complexContent>
+      <xsd:extension base="sp:Node">
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="Edge" abstract="true">
+    <xsd:complexContent>
+      <xsd:extension base="sp:ComplexType">
+        <xsd:element name="origin" type="sp:NodeReference"/>
+        <xsd:element name="target" type="sp:NodeReference"/>
+        <xsd:element name="connected" type="xsd:boolean"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="EffectEdge">
+    <xsd:complexContent>
+      <xsd:extension base="sp:Edge">
+        <xsd:element name="connected" type="sp:Effect"/>
+        <xsd:element name="disconnected " type="sp:Effect"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PathEdge">
+    <xsd:complexContent>
+      <xsd:extension base="sp:Edge">
+        <xsd:element name="travelSpeed" type="sp:Double"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
 </xsd:schema>
 

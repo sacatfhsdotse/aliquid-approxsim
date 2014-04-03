@@ -15,6 +15,11 @@ package StratmasClient.TaclanV2;
 public class ImportException extends SemanticException
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1771118682196424978L;
+
+	/**
      * The incorrect import.
      */
     ParsedImport importation;

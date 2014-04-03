@@ -25,6 +25,11 @@ import javax.swing.JPopupMenu;
 public class ActionGroup extends StratmasAbstractAction
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -148393534237020841L;
+
+	/**
      * The Vector containing the members of this group.
      */
     Vector members;

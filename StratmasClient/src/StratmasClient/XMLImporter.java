@@ -153,7 +153,11 @@ public class XMLImporter {
 }
 
 class ExceptionCollection extends Exception {
-     private Vector exceptions;
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 915907813229174695L;
+	private Vector exceptions;
      public ExceptionCollection(Vector v) {
           super("Collection of " + v.size() + " exceptions.");
           exceptions = v;
@@ -972,6 +976,11 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
  */
 class IncompleteVectorConstructException extends Exception {
      /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7912081760833458804L;
+
+	/**
       * Creates an exception with the specified message.
       *
       * @param msg The message.

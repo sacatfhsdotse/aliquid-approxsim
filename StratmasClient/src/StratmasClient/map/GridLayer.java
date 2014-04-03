@@ -401,8 +401,7 @@ public class GridLayer implements StratmasEventListener {
     public Shape getCellShape(Cell cell) {
         // get cell positions
         double[] pos = gridData.getCellPositions();
-        // get row and column of the cell
-        int row_nr = gridData.getRows();
+        gridData.getRows();
         int col_nr = gridData.getCols();
         int row = cell.cellPos/col_nr;
         int col = cell.cellPos%col_nr;
@@ -474,23 +473,16 @@ public class GridLayer implements StratmasEventListener {
         // Pushes the name for RenderSelection mode.        
         gl.glPushName(getRenderSelectionName());
         
-        // draw the cells of the grid
-        // the counter of the active cells that cover the actual region
-        int validCellCounter = 0;
-        // the counter of all the active cells in the grid  
-        int activeCellCounter = 0;
         // get cell values
         int[] grid_values = color_map.getScaledPV();
         // get the actual color table
         float[][] color_table = color_map.getColorTable();
         if (grid_values != null) {
-            // get number of rows and columns
-            int row_nr = gridData.getRows();
+            gridData.getRows();
             int col_nr = gridData.getCols();
             // get position for all the cells
             double[] pos = gridData.getCellPositions();
-            // for each cell
-            byte[] ind = gridData.getActiveCells();
+            gridData.getActiveCells();
             // for each cell in the grid
             for (int ii = 0; ii < cellInfo.length; ii++) { 
                 // get row and column of the cell

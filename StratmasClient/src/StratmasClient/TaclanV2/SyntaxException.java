@@ -14,7 +14,11 @@ package StratmasClient.TaclanV2;
 
 public class SyntaxException extends Exception
 {
-    String info;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3304919893350236621L;
+	String info;
 
     public SyntaxException(String info)
     {

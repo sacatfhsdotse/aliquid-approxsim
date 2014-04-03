@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Enumeration;
 import java.util.Iterator;
-import java.util.Vector;
 import java.util.Hashtable;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -86,6 +85,11 @@ import StratmasClient.map.Visualizer;
 public class ClientMainFrame extends JFrame
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 959130962719129281L;
+
+	/**
      * The current client instance
      */
     Client client;
@@ -281,7 +285,12 @@ public class ClientMainFrame extends JFrame
                         if (index != -1) {
                             JPopupMenu menu = new JPopupMenu();
                             menu.add(new AbstractAction("Evict") {
-                                    public void actionPerformed(ActionEvent ev) {
+                                    /**
+								 * 
+								 */
+								private static final long serialVersionUID = -2718205416779788574L;
+
+									public void actionPerformed(ActionEvent ev) {
                                         Component component = getTabPane().getComponentAt(index);
                                         if (component != null) {
                                             frameTab(component);
@@ -289,7 +298,12 @@ public class ClientMainFrame extends JFrame
                                     }
                                 });
                             menu.add(new AbstractAction("Close") {
-                                    public void actionPerformed(ActionEvent ev) {
+                                    /**
+								 * 
+								 */
+								private static final long serialVersionUID = 7730114120753963653L;
+
+									public void actionPerformed(ActionEvent ev) {
                                         Component component = getTabPane().getComponentAt(index);
                                         if (component != null) {
                                             JFrame frame = (JFrame) componentFrames.get(component);
@@ -434,7 +448,12 @@ public class ClientMainFrame extends JFrame
         menu.removeAll();
 
         Action importResourceAction = new AbstractAction("Import from IconFactory2") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 7173282375223367665L;
+
+				public void actionPerformed(ActionEvent e) {
                     SwingUtilities.invokeLater(new Runnable() {
                             public void run() {
                                 ImportSourceDialog.showDialog(self);
@@ -446,7 +465,12 @@ public class ClientMainFrame extends JFrame
         menu.add(importResourceAction);
         
         Action importOrderLib = new AbstractAction("Import Order Library") {
-                  public void actionPerformed(ActionEvent e) {
+                  /**
+			 * 
+			 */
+			private static final long serialVersionUID = -3401463626694788137L;
+
+				public void actionPerformed(ActionEvent e) {
                        final String filename = Client.getFileNameFromDialog(".oli", JFileChooser.OPEN_DIALOG);
                        if (filename != null) {
                             StratmasDialog.showProgressBarDialog(self, "Importing an order library ...");
@@ -476,7 +500,12 @@ public class ClientMainFrame extends JFrame
         menu.add(importOrderLib);
 
         Action importMUTac = new AbstractAction("Import Military Unit Library") {
-                  public void actionPerformed(ActionEvent e) {
+                  /**
+			 * 
+			 */
+			private static final long serialVersionUID = -3391479623087100926L;
+
+				public void actionPerformed(ActionEvent e) {
                        final String filename = Client.getFileNameFromDialog(".uli", JFileChooser.OPEN_DIALOG);
                        if (filename != null) {
                             StratmasDialog.showProgressBarDialog(self, "Importing Military Units...");
@@ -507,7 +536,12 @@ public class ClientMainFrame extends JFrame
 
         Action evolverAction = new AbstractAction("Evolve scenario")
             {
-                public void actionPerformed(ActionEvent e) 
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = 663418595609287008L;
+
+				public void actionPerformed(ActionEvent e) 
                 {
                     SwingUtilities.invokeLater(new Runnable() {
                             public void run() {
@@ -525,13 +559,23 @@ public class ClientMainFrame extends JFrame
         menu.add(evolverAction);
         
         menu.add(new AbstractAction("Preferences") {
-                  public void actionPerformed(ActionEvent e) {
+                  /**
+			 * 
+			 */
+			private static final long serialVersionUID = 3442973424707132550L;
+
+				public void actionPerformed(ActionEvent e) {
                        Configuration.showConfigurationFrame(null);
                   }
              });
         
         Action knownServers = new AbstractAction("Known Servers") {
-                  public void actionPerformed(ActionEvent e) {
+                  /**
+			 * 
+			 */
+			private static final long serialVersionUID = -2925122339205165467L;
+
+				public void actionPerformed(ActionEvent e) {
                        JFrame frame = ServerView.getDefaultFrame(getClient().getStratmasDispatcher());
                        frame.pack();
                        frame.setVisible(true);
@@ -542,7 +586,12 @@ public class ClientMainFrame extends JFrame
         menu.add(knownServers);
         
         Action substrate = new AbstractAction("Edit in Substrate") {
-        	public void actionPerformed(ActionEvent e) {
+        	/**
+			 * 
+			 */
+			private static final long serialVersionUID = -935702147105928933L;
+
+			public void actionPerformed(ActionEvent e) {
         		client.startSubstrateEditor(getFilename());
         	}
         };
@@ -560,8 +609,14 @@ public class ClientMainFrame extends JFrame
         menu.removeAll();
         
         Action createSimulation = new AbstractAction("Create") {
-                public void actionPerformed(ActionEvent e) {
-                       final String filePath =  getClient().getTemplateFilePath();
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 6045024397470503167L;
+
+				public void actionPerformed(ActionEvent e) {
+                       getClient();
+					final String filePath =  Client.getTemplateFilePath();
                        if (filePath != null) {
                             StratmasDialog.showProgressBarDialog(self, "Loading an empty scenario ...");
                             Thread thread = new Thread() {
@@ -582,7 +637,12 @@ public class ClientMainFrame extends JFrame
         menu.add(createSimulation);
 
         Action saveAsAction = new AbstractAction("Save as")  {
-                  public void actionPerformed(ActionEvent e) {
+                  /**
+			 * 
+			 */
+			private static final long serialVersionUID = 2342413793263399990L;
+
+				public void actionPerformed(ActionEvent e) {
                        if (getClient().getRootObject().children().hasMoreElements()) {
                             final StratmasObject object = (StratmasObject) getRootObject().children().nextElement();
                             final String ext = "scn";
@@ -610,7 +670,12 @@ public class ClientMainFrame extends JFrame
         menu.add(saveAsAction);
 
         Action saveAction = new AbstractAction("Save") {
-                  public void actionPerformed(ActionEvent e) {
+                  /**
+			 * 
+			 */
+			private static final long serialVersionUID = 2469311998566638026L;
+
+				public void actionPerformed(ActionEvent e) {
                        if (getClient().getRootObject().children().hasMoreElements()) {
                             final StratmasObject object = (StratmasObject) getRootObject().children().nextElement();
                             if (getFilename() != null) {
@@ -630,16 +695,20 @@ public class ClientMainFrame extends JFrame
                               getFilename() != null);
         menu.add(saveAction);
         
-        final JTextField finfoField = infoField; 
-        final JProgressBar fprogressBar = progressBar;
         Action openAction = new AbstractAction("Open") {
-                  public void actionPerformed(ActionEvent e) {
+                  /**
+			 * 
+			 */
+			private static final long serialVersionUID = 8045827972226536868L;
+
+				public void actionPerformed(ActionEvent e) {
                        final String filename = Client.getFileNameFromDialog(".scn", JFileChooser.OPEN_DIALOG);
                        if (filename != null) {
                             StratmasDialog.showProgressBarDialog(self, "Loading a scenario ...");
                             Thread thread = new Thread() {
                                       public void run() {
-                                           StratmasObject obj = getClient().importXMLSimulation(filename);
+                                           getClient();
+										StratmasObject obj = Client.importXMLSimulation(filename);
                                            if (obj != null) {
                                                 getClient().getRootObject().add(obj);
                                                 setFilename(filename);
@@ -655,7 +724,12 @@ public class ClientMainFrame extends JFrame
         menu.add(openAction);
 
         Action closeAction = new AbstractAction("Close") {
-                  public void actionPerformed(ActionEvent e) {
+                  /**
+			 * 
+			 */
+			private static final long serialVersionUID = -6817846233558993065L;
+
+				public void actionPerformed(ActionEvent e) {
                        StratmasDialog.showProgressBarDialog(self, "Closing a scenario ...");
                        Thread thread = new Thread() {
                                public void run() {
@@ -673,7 +747,12 @@ public class ClientMainFrame extends JFrame
 
         menu.addSeparator();
         Action passiveMode = new AbstractAction("Passive mode") {
-                  public void actionPerformed(ActionEvent e) {
+                  /**
+			 * 
+			 */
+			private static final long serialVersionUID = -2696490218401276297L;
+
+				public void actionPerformed(ActionEvent e) {
                        final String serverName = getClient().getServerName();
                        if (serverName != null) {
                             StratmasDialog.showProgressBarDialog(self, "Initializing - passive mode ...");
@@ -697,7 +776,12 @@ public class ClientMainFrame extends JFrame
         }
         else {
              menu.add(new AbstractAction("Quit") {
-                       public void actionPerformed(ActionEvent e) {
+                       /**
+				 * 
+				 */
+				private static final long serialVersionUID = 5197123888331774243L;
+
+					public void actionPerformed(ActionEvent e) {
                            dispose();
                        }
                   });
@@ -718,7 +802,12 @@ public class ClientMainFrame extends JFrame
 
         JMenuItem showAll = new JMenuItem(new AbstractAction("All")
             {
-                public void actionPerformed(ActionEvent e)
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = 3222875167311783175L;
+
+				public void actionPerformed(ActionEvent e)
                 {
                     for (int i = 0; i < showMenu.getItemCount(); i++) {
                         JMenuItem item = showMenu.getItem(i);
@@ -733,7 +822,12 @@ public class ClientMainFrame extends JFrame
 
         JMenuItem showNone = new JMenuItem(new AbstractAction("None")
             {
-                public void actionPerformed(ActionEvent e)
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = -783188624734069428L;
+
+				public void actionPerformed(ActionEvent e)
                 {
                     for (int i = 0; i < showMenu.getItemCount(); i++) {
                         JMenuItem item = showMenu.getItem(i);
@@ -751,7 +845,12 @@ public class ClientMainFrame extends JFrame
 
         JMenuItem tabAll = new JMenuItem(new AbstractAction("All")
             {
-                public void actionPerformed(ActionEvent e)
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = -8106911070244413743L;
+
+				public void actionPerformed(ActionEvent e)
                 {
                     for (int i = 0; i < tabMenu.getItemCount(); i++) {
                         JMenuItem item = tabMenu.getItem(i);
@@ -766,7 +865,12 @@ public class ClientMainFrame extends JFrame
 
         JMenuItem tabNone = new JMenuItem(new AbstractAction("None")
             {
-                public void actionPerformed(ActionEvent e)
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = -5319677451572099156L;
+
+				public void actionPerformed(ActionEvent e)
                 {
                     for (int i = 0; i < tabMenu.getItemCount(); i++) {
                         JMenuItem item = tabMenu.getItem(i);
@@ -798,7 +902,12 @@ public class ClientMainFrame extends JFrame
             JCheckBoxMenuItem showMenuItem = 
                 new JCheckBoxMenuItem(new AbstractAction(frame.getTitle())
                     {
-                        public void actionPerformed(ActionEvent e) 
+                        /**
+						 * 
+						 */
+						private static final long serialVersionUID = -727765262280277950L;
+
+						public void actionPerformed(ActionEvent e) 
                         {
                             JCheckBoxMenuItem box = (JCheckBoxMenuItem) e.getSource();
                             Frame f = (Frame) frameReference.get();
@@ -816,7 +925,12 @@ public class ClientMainFrame extends JFrame
                 JCheckBoxMenuItem tabMenuItem = 
                     new JCheckBoxMenuItem(new AbstractAction(frame.getTitle())
                         {
-                            public void actionPerformed(ActionEvent e) 
+                            /**
+							 * 
+							 */
+							private static final long serialVersionUID = -5660800283579931616L;
+
+							public void actionPerformed(ActionEvent e) 
                             {
                                 JCheckBoxMenuItem box = (JCheckBoxMenuItem) e.getSource();
                                 JFrame f = (JFrame) frameReference.get();
@@ -837,7 +951,12 @@ public class ClientMainFrame extends JFrame
             JCheckBoxMenuItem tabMenuItem = 
                 new JCheckBoxMenuItem(new AbstractAction(this.tabPane.getTitleAt(i))
                     {
-                        public void actionPerformed(ActionEvent e) 
+                        /**
+						 * 
+						 */
+						private static final long serialVersionUID = -2449378619838935047L;
+
+						public void actionPerformed(ActionEvent e) 
                         {
                             frameTab(component);
                         }
@@ -867,7 +986,12 @@ public class ClientMainFrame extends JFrame
         menu.removeAll();
         
         JMenuItem about = new JMenuItem(new AbstractAction("About...") {
-                  public void actionPerformed(ActionEvent e) {
+                  /**
+			 * 
+			 */
+			private static final long serialVersionUID = -7105990138902744708L;
+
+				public void actionPerformed(ActionEvent e) {
                        AboutBox.show();
                   }
              });
@@ -1142,6 +1266,10 @@ public class ClientMainFrame extends JFrame
  */
 class ImportSourceDialog extends JDialog {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7991288015956992030L;
+	/**
      * Reference to the client.
      */
     private Client client;
@@ -1199,12 +1327,16 @@ class ImportSourceDialog extends JDialog {
      * Creates the panel which shows the name of the source file.
      */
     private JPanel createSourceFilePanel() {
-        final Client fclient = client;
-            // the file panel
+        // the file panel
         JButton fileButton = new JButton("...");
         fileButton.addActionListener(new AbstractAction() {
-                public void actionPerformed(ActionEvent e) {
-                    String filename = fclient.getFileNameFromDialog(".xml", JFileChooser.OPEN_DIALOG);
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = -5303759660663807065L;
+
+				public void actionPerformed(ActionEvent e) {
+                    String filename = Client.getFileNameFromDialog(".xml", JFileChooser.OPEN_DIALOG);
                     if (filename != null) {
                         fileTextField.setText(filename); 
                     }
@@ -1223,15 +1355,19 @@ class ImportSourceDialog extends JDialog {
      * different military units.
      */
     private JPanel createTableDefaultPanel() {
-        final Client fclient = client;
         // the table panel
         if (actualSymbolIDCodeMappingTable != null) {
             tableTextField.setText(actualSymbolIDCodeMappingTable);
         }
         JButton tableButton = new JButton("...");
         tableButton.addActionListener(new AbstractAction() {
-                public void actionPerformed(ActionEvent e) {
-                    String filename = fclient.getFileNameFromDialog(".csv", JFileChooser.OPEN_DIALOG);
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1625812086132286049L;
+
+				public void actionPerformed(ActionEvent e) {
+                    String filename = Client.getFileNameFromDialog(".csv", JFileChooser.OPEN_DIALOG);
                     if (filename != null) {
                         tableTextField.setText(filename); 
                     }
@@ -1368,7 +1504,7 @@ class ImportSourceDialog extends JDialog {
      */
     private void applyFilterToSubtree(StratmasObject root, UnitImportFilter filter, TypeFilter typeFilter) {
         if (typeFilter.pass(root) && !(root instanceof StratmasList)) {
-            Vector warnings = filter.apply(root);
+            filter.apply(root);
         }
         for (Enumeration e = root.children(); e.hasMoreElements(); ) {
             StratmasObject obj = (StratmasObject)e.nextElement();

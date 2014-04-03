@@ -1,16 +1,12 @@
 package StratmasClient.timeline;
 
 import java.text.SimpleDateFormat;
-import java.awt.Toolkit;
-import java.awt.Dimension;
 import java.awt.BorderLayout;
 import javax.swing.JSlider;
 import javax.swing.JPanel;
-import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.JPopupMenu;
 import javax.swing.ToolTipManager;
-import javax.swing.SwingUtilities;
 import StratmasClient.object.StratmasObject;
 import StratmasClient.filter.StratmasObjectFilter;
 
@@ -18,7 +14,11 @@ import StratmasClient.filter.StratmasObjectFilter;
  * The panel for the timeline.
  */
 public class TimelinePanel extends JPanel {
-    /** 
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6656487273312701330L;
+	/** 
      * The start time of the currently visible part of the timeline bar.
      */
     protected long tstart;
@@ -100,42 +100,6 @@ public class TimelinePanel extends JPanel {
         // used when mixing awt and swing components
         ToolTipManager.sharedInstance().setLightWeightPopupEnabled(false);
         JPopupMenu.setDefaultLightWeightPopupEnabled(false);
-    }
-    
-    /**
-     * Creates the GUI and shows it. 
-     */
-    private void createAndShowGUI() {
-        // create and set up the window
-        JFrame frame = new JFrame(" Stratmas Timeline");
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        
-        // used when mixing awt and swing components
-        ToolTipManager.sharedInstance().setLightWeightPopupEnabled(false);
-        JPopupMenu.setDefaultLightWeightPopupEnabled(false);
-        
-        // frame size (test adapted for now on)
-        int frame_width = 600;
-        int frame_height = 400;
-        Dimension screen_size = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setSize(frame_width, frame_height); 
-        frame.setLocation(screen_size.width-frame_width, screen_size.height-frame_height-screen_size.height/20);
-        
-        // set up the content pane
-        setOpaque(true);
-        frame.getContentPane().add(this);
-        
-        // display the window
-        frame.setSize(frame_width, frame_height);
-        frame.setResizable(true);
-        
-        // thread safety recommendation
-        final JFrame fframe = frame;
-        SwingUtilities.invokeLater (new Runnable() {
-                public void run() {
-                    fframe.setVisible(true);
-                }
-            });
     }
     
     /**
@@ -390,7 +354,6 @@ public class TimelinePanel extends JPanel {
      */
     public static String millisecondsToString(long time, int format)
     {
-        int milliseconds = (int)(time % 1000);
         int seconds = (int)((time / 1000) % 60);
         int minutes = (int)((time / 60000) % 60);
         int hours = (int)((time / 3600000) % 24);
@@ -441,7 +404,6 @@ public class TimelinePanel extends JPanel {
      */
     public void updateTimeUnit() {
         long dt = timeline.getDT();
-        int seconds = (int)((dt / 1000) % 60);
         int minutes = (int)((dt / 60000) % 60);
         int hours = (int)((dt / 3600000) % 24);
         int days = (int)((dt / 3600000)/24);

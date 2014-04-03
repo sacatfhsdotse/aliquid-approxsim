@@ -138,7 +138,12 @@ public class DisplayControl {
         JCheckBox symbolMagnifierCheckBox = 
             new JCheckBox(new AbstractAction("Magnify symbols under mouse pointer") 
             {
-                public void actionPerformed(ActionEvent e)
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = -481572609108159156L;
+
+				public void actionPerformed(ActionEvent e)
                 {
                     JCheckBox box = (JCheckBox) e.getSource();
                     mapDrawer.setIsEnabledSymbolMagnifier(box.isSelected());
@@ -149,7 +154,12 @@ public class DisplayControl {
         // invariant symbol sizes switch
         JCheckBox invariantSymbolSizeCheckBox = new JCheckBox(new AbstractAction("Constant symbol size") 
             {
-                public void actionPerformed(ActionEvent e)
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = -977190264641104247L;
+
+				public void actionPerformed(ActionEvent e)
                 {
                     JCheckBox box = (JCheckBox) e.getSource();
                     mapDrawer.setInvariantSymbolSize(box.isSelected());
@@ -166,77 +176,6 @@ public class DisplayControl {
     }
     
     /**
-     * Creates the panel for controling opacity of the location of the elements displayed in the map.
-     */
-    private JPanel createLocationOpacityPanel() {
-        final MapDrawer mapDrawer = drawer;
-        final JLabel locationOpacityLabel = new JLabel(Double.toString(mapDrawer.getLocationOpacity()));
-        // slider for controling opacity of the element's locations
-        JSlider locationOpacitySlider = new JSlider(0, 100, 100);
-        locationOpacityLabel.setFont(locationOpacityLabel.getFont().deriveFont(Font.PLAIN));
-        locationOpacitySlider.addChangeListener(new ChangeListener() 
-            {
-                public void stateChanged(ChangeEvent e) 
-                {
-                    JSlider source = (JSlider) e.getSource();
-                    if (!source.getValueIsAdjusting()) {
-                        int scale = source.getValue();
-                        mapDrawer.setLocationOpacity(((double) scale) / (source.getMaximum() - 
-                                                                         source.getMinimum()));
-                        locationOpacityLabel.setText(Double.toString(mapDrawer.locationOpacity));
-                    }
-                }
-            });
-        JPanel locationOpacityPanel = new JPanel();
-        locationOpacityPanel.setLayout(new BoxLayout(locationOpacityPanel, BoxLayout.Y_AXIS));
-        JLabel locationOpacitySliderLabel = new JLabel("Location Opacity (0.0 - 1.0)");
-        locationOpacitySliderLabel.setFont(locationOpacitySliderLabel.getFont().deriveFont(Font.PLAIN));
-        locationOpacityPanel.add(locationOpacitySliderLabel);
-        locationOpacityPanel.add(locationOpacitySlider);
-        locationOpacityPanel.add(locationOpacityLabel);
-        
-        return locationOpacityPanel;
-    }
-
-    /**
-     * Creates the panel for selection of :
-     *   1. Wheather the location of the elements will be displayed on the map or not.
-     *   2. Wheather the location outline of the elements will be displayed on the map or not.
-     */
-    private JPanel createElementLocationCheckBoxPanel() {
-        final MapDrawer mapDrawer = drawer;
-        // location drawing switch
-        JCheckBox locationCheckBox = new JCheckBox(new AbstractAction("Draw location") 
-            {
-                public void actionPerformed(ActionEvent e)
-                {
-                    JCheckBox box = (JCheckBox) e.getSource();
-                    mapDrawer.setIsEnabledLocation(box.isSelected());
-                }
-            });
-        locationCheckBox.setSelected(mapDrawer.isEnabledLocation());
-        locationCheckBox.setFont(locationCheckBox.getFont().deriveFont(Font.PLAIN));
-        // location outline drawing switch
-        JCheckBox outlineCheckBox = new JCheckBox(new AbstractAction("Draw outline") 
-            {
-                public void actionPerformed(ActionEvent e)
-                {
-                    JCheckBox box = (JCheckBox) e.getSource();
-                    mapDrawer.setIsEnabledOutline(box.isSelected());
-                }
-            });
-        outlineCheckBox.setSelected(mapDrawer.isEnabledOutline());
-        outlineCheckBox.setFont(outlineCheckBox.getFont().deriveFont(Font.PLAIN));
-        JPanel symbolLocationPanel = new JPanel();
-        symbolLocationPanel.setLayout(new GridLayout(2,1));
-        symbolLocationPanel.add(locationCheckBox);
-        symbolLocationPanel.add(outlineCheckBox);
-        
-        return symbolLocationPanel;
-        
-    }
-    
-    /**
      * Creates the panel for selection of :
      *   1. Wheather only the present elements or all the elements will be displayed
      *      on the map.
@@ -247,7 +186,12 @@ public class DisplayControl {
         presencePanel.setLayout(new GridLayout(1,2,2,2));
         // button for selection of all the elements 
         JRadioButton all_elements = new JRadioButton(new AbstractAction("All Units & Teams") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 903883054654956809L;
+
+				public void actionPerformed(ActionEvent e) {
                     mapDrawer.setIgnorePresent(true);
                 }
             });
@@ -255,7 +199,12 @@ public class DisplayControl {
         all_elements.setFont(all_elements.getFont().deriveFont(Font.PLAIN));
         // button for selection of the present elements only 
         JRadioButton present_elements = new JRadioButton(new AbstractAction("Present Units & Teams") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 2066617015277340404L;
+
+				public void actionPerformed(ActionEvent e) {
                     mapDrawer.setIgnorePresent(false);
                 }
             });
@@ -283,7 +232,12 @@ public class DisplayControl {
         graticules.setLayout(new GridLayout(2,2,2,2));
         // button for selection of no graticules
         JRadioButton graticules_off = new JRadioButton(new AbstractAction("None") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = -5272754506300499338L;
+
+				public void actionPerformed(ActionEvent e) {
                     mapDrawer.setGraticulesVisible(false);
                 }
             });
@@ -291,7 +245,12 @@ public class DisplayControl {
         graticules.add(graticules_off);
         // button for selection of graticules with one degree density
         JRadioButton graticule_01 = new JRadioButton(new AbstractAction("1 degree") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 5891387780840774911L;
+
+				public void actionPerformed(ActionEvent e) {
                     mapDrawer.setGraticuleSpacing(GraticuleLayer.ONE_DEGREE);
                     mapDrawer.setGraticulesVisible(true);
                 }
@@ -300,7 +259,12 @@ public class DisplayControl {
         graticules.add(graticule_01);
         // button for selection of graticules with five degrees density
         JRadioButton graticule_05 = new JRadioButton(new AbstractAction("5 degrees") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = -5518823757796781171L;
+
+				public void actionPerformed(ActionEvent e) {
                     mapDrawer.setGraticuleSpacing(GraticuleLayer.FIVE_DEGREES);
                     mapDrawer.setGraticulesVisible(true);
                 }
@@ -309,7 +273,12 @@ public class DisplayControl {
         graticules.add(graticule_05);
         // button for selection of graticules with ten degrees density
         JRadioButton graticule_10 = new JRadioButton(new AbstractAction("10 degrees") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 6590218413603073521L;
+
+				public void actionPerformed(ActionEvent e) {
                     mapDrawer.setGraticuleSpacing(GraticuleLayer.TEN_DEGREES);
                     mapDrawer.setGraticulesVisible(true);
                 }
@@ -338,7 +307,12 @@ public class DisplayControl {
         pos_panel.setLayout(new GridLayout(1,2,2,2));
         // button for selection of names of the cities
         JRadioButton pos_show = new JRadioButton(new AbstractAction("Show") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = -2744191142537284881L;
+
+				public void actionPerformed(ActionEvent e) {
                     mapDrawer.setShowPopulationNames(true);
                 }
             });
@@ -346,7 +320,12 @@ public class DisplayControl {
         pos_panel.add(pos_show);
         // button for deselection of names of the cities
         JRadioButton pos_hide = new JRadioButton(new AbstractAction("Hide") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 8593298642944973785L;
+
+				public void actionPerformed(ActionEvent e) {
                     mapDrawer.setShowPopulationNames(false);
                 }
             });
@@ -371,7 +350,12 @@ public class DisplayControl {
         pop_panel.setLayout(new GridLayout(2,3,2,2));
         // button for deselection of locations of the cities
         JRadioButton p_none = new JRadioButton(new AbstractAction("None") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 2174062811143043544L;
+
+				public void actionPerformed(ActionEvent e) {
                     self.setPopulationFilter(null);
                 }
             });
@@ -379,7 +363,12 @@ public class DisplayControl {
         pop_panel.add(p_none);
         // button for selection of locations of all the cities
         JRadioButton p_all = new JRadioButton(new AbstractAction("All") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = -5210902590689479872L;
+
+				public void actionPerformed(ActionEvent e) {
                     self.setPopulationFilter(new TypeFilter(TypeFactory.getType("Population")));
                 }
             });
@@ -388,7 +377,12 @@ public class DisplayControl {
         pop_panel.add(p_all);
         // button for selection of locations of the cities with more then 100000 inhabitants
         JRadioButton p_100000 = new JRadioButton(new AbstractAction("> 100 000") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = -3454182932747058616L;
+
+				public void actionPerformed(ActionEvent e) {
                     self.setPopulationFilter(new PopulationFilter(100000));
                 }
             });
@@ -396,7 +390,12 @@ public class DisplayControl {
         pop_panel.add(p_100000);
         // button for selection of locations of the cities with more then 500000 inhabitants
         JRadioButton p_500000 = new JRadioButton(new AbstractAction("> 500 000") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 132237975167177916L;
+
+				public void actionPerformed(ActionEvent e) {
                     self.setPopulationFilter(new PopulationFilter(500000));
                 }
             });
@@ -404,7 +403,12 @@ public class DisplayControl {
         pop_panel.add(p_500000);
         // button for selection of locations of the cities with more then 1000000 inhabitants        
         JRadioButton p_1000000 = new JRadioButton(new AbstractAction("> 1 000 000") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = -364185548771163402L;
+
+				public void actionPerformed(ActionEvent e) {
                     self.setPopulationFilter(new PopulationFilter(1000000));
                 }
             });
@@ -494,7 +498,12 @@ public class DisplayControl {
         for (int i = 0; i < MapConstants.forceUnits.length; i++) {
             final char rankSymbol = MapConstants.forceSymbols[i];
             force_items[i] = new JCheckBoxMenuItem(new AbstractAction(MapConstants.forceUnits[i]) {
-                    public void actionPerformed(ActionEvent e) {
+                    /**
+				 * 
+				 */
+				private static final long serialVersionUID = 5545955183982926793L;
+
+					public void actionPerformed(ActionEvent e) {
                         self.updateMilitaryUnitFilter(force_items, mobile_items);
                         // uncheck the item for top rank military units
                         JCheckBoxMenuItem thisItem = (JCheckBoxMenuItem)e.getSource();
@@ -519,7 +528,12 @@ public class DisplayControl {
         menu2.setFont(menu2.getFont().deriveFont(Font.PLAIN));
         for (int i = 0; i < MapConstants.mobileUnits.length; i++) {
             mobile_items[i] = new JCheckBoxMenuItem(new AbstractAction(MapConstants.mobileUnits[i]) {
-                    public void actionPerformed(ActionEvent e) {
+                    /**
+				 * 
+				 */
+				private static final long serialVersionUID = 2195017416207928926L;
+
+					public void actionPerformed(ActionEvent e) {
                         self.updateMilitaryUnitFilter(force_items, mobile_items);        
                     }
                 });
@@ -666,7 +680,12 @@ public class DisplayControl {
         button_panel.setLayout(new GridLayout(2,1,2,2));
         // button for selection of grid representation for the process variables & factions
         JRadioButton grid_button = new JRadioButton(new AbstractAction("Grid Based Representation") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = -3351700659400941864L;
+
+				public void actionPerformed(ActionEvent e) {
                     mapDrawer.setPVGrid(true); 
                 }
             });
@@ -675,7 +694,12 @@ public class DisplayControl {
         button_panel.add(grid_button);
         // button for selection of region based representation for the process variables & factions
         JRadioButton reg_button = new JRadioButton(new AbstractAction("Region Based Representation") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = -696736514796263674L;
+
+				public void actionPerformed(ActionEvent e) {
                     mapDrawer.setPVGrid(false);
                 }
             });
@@ -724,7 +748,12 @@ public class DisplayControl {
         JPanel populationPanel = new JPanel(new GridLayout(1, 2, 2, 2));
         JCheckBox populationLocationCheckBox = 
             new JCheckBox(new AbstractAction("Show Location") {
-                    public void actionPerformed(ActionEvent e){
+                    /**
+				 * 
+				 */
+				private static final long serialVersionUID = -2929965831575446010L;
+
+					public void actionPerformed(ActionEvent e){
                         JCheckBox box = (JCheckBox) e.getSource();
                         mapDrawer.setIsEnabledOutline(box.isSelected(), TypeFactory.getType("Population"));
                     }
@@ -733,7 +762,12 @@ public class DisplayControl {
         populationPanel.add(populationLocationCheckBox);
         JCheckBox populationDeploymentCheckBox = 
             new JCheckBox(new AbstractAction("Show Deployment") {
-                    public void actionPerformed(ActionEvent e){
+                    /**
+				 * 
+				 */
+				private static final long serialVersionUID = 5646499091972004407L;
+
+					public void actionPerformed(ActionEvent e){
                         JCheckBox box = (JCheckBox) e.getSource();
                         mapDrawer.setIsEnabledLocation(box.isSelected(), TypeFactory.getType("Population"));
                     }
@@ -748,7 +782,12 @@ public class DisplayControl {
         JPanel militaryUnitsPanel = new JPanel(new GridLayout(1, 2, 2, 2));
         JCheckBox militaryUnitLocationCheckBox = 
             new JCheckBox(new AbstractAction("Show Location") {
-                    public void actionPerformed(ActionEvent e){
+                    /**
+				 * 
+				 */
+				private static final long serialVersionUID = -953469475624748271L;
+
+					public void actionPerformed(ActionEvent e){
                         JCheckBox box = (JCheckBox) e.getSource();
                         mapDrawer.setIsEnabledOutline(box.isSelected(), TypeFactory.getType("MilitaryUnit"));
                     }
@@ -757,7 +796,12 @@ public class DisplayControl {
         militaryUnitsPanel.add(militaryUnitLocationCheckBox);
         JCheckBox militaryUnitDeploymentCheckBox = 
             new JCheckBox(new AbstractAction("Show Deployment") {
-                    public void actionPerformed(ActionEvent e){
+                    /**
+				 * 
+				 */
+				private static final long serialVersionUID = 273754542727809467L;
+
+					public void actionPerformed(ActionEvent e){
                         JCheckBox box = (JCheckBox) e.getSource();
                         mapDrawer.setIsEnabledLocation(box.isSelected(), TypeFactory.getType("MilitaryUnit"));
                     }
@@ -772,7 +816,12 @@ public class DisplayControl {
         JPanel agencyTeamsPanel = new JPanel(new GridLayout(1, 2, 2, 2));
         JCheckBox agencyTeamLocationCheckBox = 
             new JCheckBox(new AbstractAction("Show Location") {
-                    public void actionPerformed(ActionEvent e){
+                    /**
+				 * 
+				 */
+				private static final long serialVersionUID = -4198976078454643694L;
+
+					public void actionPerformed(ActionEvent e){
                         JCheckBox box = (JCheckBox) e.getSource();
                         mapDrawer.setIsEnabledOutline(box.isSelected(), TypeFactory.getType("AgencyTeam"));
                     }
@@ -781,7 +830,12 @@ public class DisplayControl {
         agencyTeamsPanel.add(agencyTeamLocationCheckBox);
         JCheckBox agencyTeamDeploymentCheckBox = 
             new JCheckBox(new AbstractAction("Show Deployment") {
-                    public void actionPerformed(ActionEvent e){
+                    /**
+				 * 
+				 */
+				private static final long serialVersionUID = -273797585921848337L;
+
+					public void actionPerformed(ActionEvent e){
                         JCheckBox box = (JCheckBox) e.getSource();
                         mapDrawer.setIsEnabledLocation(box.isSelected(), TypeFactory.getType("AgencyTeam"));
                     }
@@ -796,7 +850,9 @@ public class DisplayControl {
         JPanel activityPanel = new JPanel(new GridLayout(1, 1, 2, 2));
         JCheckBox activityLocationCheckBox = 
             new JCheckBox(new AbstractAction("Show Location") {
-                    public void actionPerformed(ActionEvent e){
+				private static final long serialVersionUID = 650911501488149982L;
+
+					public void actionPerformed(ActionEvent e){
                         JCheckBox box = (JCheckBox) e.getSource();
                         mapDrawer.setIsEnabledOutline(box.isSelected(), TypeFactory.getType("Activity"));
                     }

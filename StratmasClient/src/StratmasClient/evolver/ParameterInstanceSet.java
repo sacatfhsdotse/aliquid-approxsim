@@ -21,6 +21,11 @@ import java.util.Enumeration;
 public class ParameterInstanceSet extends Hashtable
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1142748381424157410L;
+
+	/**
      * Creates a new empty ParameterInstanceSet.
      */    
     public ParameterInstanceSet()

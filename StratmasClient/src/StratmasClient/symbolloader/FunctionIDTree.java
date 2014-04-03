@@ -47,7 +47,11 @@ class FunctionIDTree {
 
         // A little wrapper class to save on type casts and things.
         public class FunctionIDNode extends DefaultMutableTreeNode {
-                private String fullAddress;
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 7473416659964513554L;
+				private String fullAddress;
 
                 FunctionIDNode(String address, String id, String func) {
                         super(new FunctionInfo(address, id, func));

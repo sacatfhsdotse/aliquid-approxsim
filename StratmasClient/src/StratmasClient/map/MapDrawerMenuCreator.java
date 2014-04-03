@@ -369,7 +369,12 @@ class MapDrawerMenuCreator {
                                                  BorderFactory.createEmptyBorder(5,5,5,5)));
         // create and initialize the buttons
         JButton okButton = new JButton(new AbstractAction("OK") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = -3554852954132541162L;
+
+				public void actionPerformed(ActionEvent e) {
                     dialog.setVisible(false);
                     dialog.dispose(); 
                 }
@@ -383,7 +388,12 @@ class MapDrawerMenuCreator {
         editMenu.setFont(editMenu.getFont().deriveFont(Font.PLAIN));
         menuBar.add(editMenu);
         JMenuItem copyMenuItem = new JMenuItem(new AbstractAction("Copy") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 4582611533869859121L;
+
+				public void actionPerformed(ActionEvent e) {
                     valueTextField.copy();
                 }
             });

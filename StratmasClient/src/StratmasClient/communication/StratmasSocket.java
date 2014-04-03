@@ -113,8 +113,7 @@ public class StratmasSocket {
      public void sendMessage(String msg) throws IOException {
           byte [] flk = msg.getBytes("ISO-8859-1");
 
-          // 64 bit
-          long length = msg.length();
+          msg.length();
           mOut.writeLong(flk.length);
           mOut.writeLong(mId);
           mOut.write(flk, 0, flk.length);

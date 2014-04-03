@@ -25,19 +25,6 @@ public class SubscriptionCounter {
      */
     private static int messNrInSendingQueue2 = 0;
     /**
-     * Number of messages in the receiving queue.
-     */
-    private static int messNrInReceivingQueue = 0;
-    /**
-     * The total number of messages sended to the server.
-     */
-    private static int nrOfSendedMessages = 0;
-    /**
-     * The total number of messages received from the server.
-     */
-    private static int nrOfReceivedMessages = 0;
-    
-    /**
      * Update the number of messages in the first sending queue.
      */
     public static void updateNrOfMessInSendingQueue1(int messNr) {
@@ -55,14 +42,12 @@ public class SubscriptionCounter {
      * Update the number of messages in the receiving queue.
      */
     public static void updateNrOfMessInReceivingQueue(int messNr) {
-        messNrInReceivingQueue = messNr;
     }
     
     /**
      * Update the total number of the sended messages.
      */
     public static void updateNrOfSendedMessages() {
-        nrOfSendedMessages++;
         startTimer(0.5);
     }
     
@@ -70,7 +55,6 @@ public class SubscriptionCounter {
      * Update the total number of the received messages.
      */
     public static void updateNrOfReceivedMessages() {
-        nrOfReceivedMessages++;
         endTimer();
     }
         

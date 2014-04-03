@@ -15,7 +15,12 @@ package StratmasClient.TaclanV2;
 public abstract class SemanticException extends Exception
 {
 
-    public String toString() 
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5373292493538416116L;
+
+	public String toString() 
     {
         return getMessage();
     }

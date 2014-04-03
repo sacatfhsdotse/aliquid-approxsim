@@ -108,14 +108,6 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
      */
     private GLU glu = new GLU();
     /**
-     * Width of the drawing area.
-     */
-    private int glcanvas_width = 150;
-    /**
-     * Height of the drawing area.
-     */
-    private int glcanvas_height = 150;
-    /**
      * Button for panning the map up.
      */
     private JButton up_button;
@@ -852,16 +844,16 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
         }
         
         // create new tessellator
-        GLUtessellator tess = glu.gluNewTess();
-        glu.gluTessProperty(tess,GLU.GLU_TESS_BOUNDARY_ONLY,GLU.GLU_FALSE);
-        glu.gluTessProperty(tess,GLU.GLU_TESS_WINDING_RULE,GLU.GLU_TESS_WINDING_ODD);
+        GLUtessellator tess = GLU.gluNewTess();
+        GLU.gluTessProperty(tess,GLU.GLU_TESS_BOUNDARY_ONLY,GLU.GLU_FALSE);
+        GLU.gluTessProperty(tess,GLU.GLU_TESS_WINDING_RULE,GLU.GLU_TESS_WINDING_ODD);
         
         // define callback functions
-        glu.gluTessCallback(tess, GLU.GLU_TESS_VERTEX, adapter);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_BEGIN, adapter);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_END, adapter);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_ERROR, adapter);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_COMBINE, adapter);
+        GLU.gluTessCallback(tess, GLU.GLU_TESS_VERTEX, adapter);
+        GLU.gluTessCallback(tess, GLU.GLU_TESS_BEGIN, adapter);
+        GLU.gluTessCallback(tess, GLU.GLU_TESS_END, adapter);
+        GLU.gluTessCallback(tess, GLU.GLU_TESS_ERROR, adapter);
+        GLU.gluTessCallback(tess, GLU.GLU_TESS_COMBINE, adapter);
 
         // create display list for all shapes
         gl.glNewList(tess_reg, GL2.GL_COMPILE);
@@ -871,17 +863,17 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
             if (!ssh.isHole()) {
                 Polygon pol = (Polygon)ssh.getPolygon(1.0);
                 // start tesselation
-                glu.gluBeginPolygon(tess);
+                GLU.gluBeginPolygon(tess);
                 // for each polygonial
                 for (Enumeration e = pol.getCurves(); e.hasMoreElements();) {
                     Line line = (Line) e.nextElement();
                     double[] xy = proj.projToXY(line.getStartPoint());
                     double[] vv = {xy[0], xy[1], 0};
-                    glu.gluTessVertex(tess, vv, 0, vv);
+                    GLU.gluTessVertex(tess, vv, 0, vv);
                 }
                 //
-                glu.gluNextContour(tess,GLU.GLU_UNKNOWN);
-                glu.gluEndPolygon(tess);
+                GLU.gluNextContour(tess,GLU.GLU_UNKNOWN);
+                GLU.gluEndPolygon(tess);
             }
         }
         // ends display list
@@ -960,8 +952,8 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
      * Starts the dragging action of the rectangular area visible in the main map. 
      */
     public void mousePressed(MouseEvent e) {
-        int x = (int)e.getX();
-        int y = (int)e.getY();
+        e.getX();
+        e.getY();
         drag_started = true;
         mouseDragged(e); // TODO bad
     }

@@ -223,7 +223,7 @@ class DefaultComplex extends StratmasObjectDynImpl
               else {
                   Element elem = XMLHelper.getFirstChildByTag(n, dec.getName());
                   if (elem != null) {
-                      StratmasObject no = StratmasObjectFactory.domCreate(elem);
+                      StratmasObjectFactory.domCreate(elem);
                       newParts.add(StratmasObjectFactory.domCreate(elem));
                   }
               }
@@ -533,7 +533,12 @@ class DefaultComplex extends StratmasObjectDynImpl
                 final Declaration dec = (Declaration) e.nextElement();
                 if (!hasChild(dec.getName())) {
                     ag.add(new ActionGroup("Add " + dec.getName(), true, false) {
-                            public void actionPerformed(ActionEvent e) {
+                            /**
+						 * 
+						 */
+						private static final long serialVersionUID = -7535608805159655813L;
+
+							public void actionPerformed(ActionEvent e) {
                                 StratmasObject newObject = StratmasObjectFactory.defaultCreate(dec);
                                 if (newObject != null) {
                                     self.orderPreservingAdd(newObject);
@@ -579,7 +584,12 @@ class DefaultComplex extends StratmasObjectDynImpl
         ActionGroup ret;
         Type t = fDec.getType();
         ActionGroup agToAdd = new ActionGroup("Add " + t.getName() + " to " + fDec.getName(), true, false) {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = -3149299615409272768L;
+
+				public void actionPerformed(ActionEvent e) {
                     Declaration toCreate = (Declaration)fDec.clone();
                     toCreate.setMinOccurs(1);
                     toCreate.setMaxOccurs(1);

@@ -26,6 +26,10 @@ import java.util.WeakHashMap;
 public class Icon extends ImageIcon
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1214318186452215999L;
+	/**
      * Weakly cached version of icons
      */
     WeakHashMap cache = new WeakHashMap();

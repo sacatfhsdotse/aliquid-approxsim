@@ -222,7 +222,11 @@ public class StratmasReference extends StratmasSimple
 */
 class StratmasReferenceGUIConstructor extends StratmasGUIConstructor
 {
-    javax.swing.JTextField field;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6003112187583127032L;
+	javax.swing.JTextField field;
 
     /**
      * Creates a new StratmasReferenceGUIConstructor using the supplied

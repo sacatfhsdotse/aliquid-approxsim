@@ -23,6 +23,10 @@ import javax.swing.JOptionPane;
 public class StratmasComplexGUIConstructor extends StratmasGUIConstructor
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8177601284453709935L;
+	/**
      * The StratmasGUIConstructor's for each subpart of this constructor.
      */
     Vector subDeclarations;

@@ -18,6 +18,7 @@ import StratmasClient.communication.ServerException;
 import StratmasClient.communication.StepMessage;
 import StratmasClient.communication.StratmasSocket;
 
+import StratmasClient.map.Visualizer;
 import StratmasClient.object.StratmasObject;
 import StratmasClient.object.StratmasEventListener;
 import StratmasClient.object.StratmasEvent;
@@ -252,12 +253,16 @@ public class Controller implements Runnable, StratmasEventListener {
         // reset the timeline and all the maps
         client.resetTimeline();
         client.resetVisualizer();
-        // dispose the list of process variables & factions for all the maps
-        client.getVisualizer().saveOpenedTablesParameters();
-        client.getVisualizer().saveOpenedGraphsParameters();
+        client.getVisualizer();
+		// dispose the list of process variables & factions for all the maps
+        Visualizer.saveOpenedTablesParameters();
+        client.getVisualizer();
+		Visualizer.saveOpenedGraphsParameters();
         client.getVisualizer().removeProcessVariablesAndFactions();
-        client.getVisualizer().removeAllGraphs();
-        client.getVisualizer().removeAllTables();
+        client.getVisualizer();
+		Visualizer.removeAllGraphs();
+        client.getVisualizer();
+		Visualizer.removeAllTables();
         // 
         simulation_mode = "inactive";
         // the client is now disconnected
@@ -449,13 +454,6 @@ public class Controller implements Runnable, StratmasEventListener {
     }
     
     /**
-     * Returns the simulation mode.
-     */
-    private String getSimulationMode() {
-        return simulation_mode;
-    }
-    
-    /**
      * Returns true if the actual simulation mode is equal to the input mode.
      */
     private boolean isSimulationMode(String mode) {
@@ -522,7 +520,8 @@ public class Controller implements Runnable, StratmasEventListener {
             client.getXMLHandler().reset();
             // let the XMLHandler finish
             try {
-                Thread.currentThread().sleep(2000);
+                Thread.currentThread();
+				Thread.sleep(2000);
             } 
             catch (java.lang.InterruptedException e) {
             }

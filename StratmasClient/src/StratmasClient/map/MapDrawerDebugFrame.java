@@ -28,7 +28,11 @@ import StratmasClient.map.adapter.ElementAdapter;
  */
 public class MapDrawerDebugFrame extends JFrame
 {
-    public static int locationLoops = 10;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1202973251902467674L;
+	public static int locationLoops = 10;
     public static int locationSlices = 10;
     public static double locationAlphaAdjust = 0.0d;
 
@@ -42,8 +46,6 @@ public class MapDrawerDebugFrame extends JFrame
     public MapDrawerDebugFrame(MapDrawer drawer)
     {
         super("MapDrawerDebugFrame");
-        final MapDrawerDebugFrame self = this;
-
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         
         // Add listener that kills the pane if the frame is disposed

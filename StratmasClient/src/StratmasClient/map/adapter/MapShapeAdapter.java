@@ -241,7 +241,7 @@ public class MapShapeAdapter extends MapDrawableAdapter {
      */
     protected void fillPolygon(GLAutoDrawable gld, Projection proj, Polygon polygon) {
         GL2 gl = (GL2) gld.getGL();
-        GLU glu = new GLU();
+        new GLU();
 
         // draw tesselated polygon
         gl.glMatrixMode(GL2.GL_MODELVIEW);
@@ -249,16 +249,16 @@ public class MapShapeAdapter extends MapDrawableAdapter {
         // create new tessellator
         GLUtessellator tess = getShapeTessellator(gld, fillColor);
         // start tesselation for the polygon
-        glu.gluBeginPolygon(tess);
+        GLU.gluBeginPolygon(tess);
         for (Enumeration e = polygon.getCurves(); e.hasMoreElements();) {
             Line line = (Line)e.nextElement();
             double[] xy = proj.projToXY(line.getStartPoint());
             float[] rgba = fillColor.getRGBComponents(null);
             double[] xyrgba = {xy[0], xy[1], 0, rgba[0], rgba[1], rgba[2], rgba[3]}; 
-            glu.gluTessVertex(tess, xyrgba, 0, xyrgba);
+            GLU.gluTessVertex(tess, xyrgba, 0, xyrgba);
         }        
-        glu.gluNextContour(tess,GLU.GLU_UNKNOWN);
-        glu.gluEndPolygon(tess);
+        GLU.gluNextContour(tess,GLU.GLU_UNKNOWN);
+        GLU.gluEndPolygon(tess);
 
         // find intersections with the intersecting shapes 
         fillPolygonIntersections(gld, proj, polygon);
@@ -276,7 +276,7 @@ public class MapShapeAdapter extends MapDrawableAdapter {
      * @param polygon the polygon to draw.
      */
     protected void fillPolygonIntersections(GLAutoDrawable gld, Projection proj, Polygon polygon) {
-        GL2 gl = (GL2) gld.getGL();
+        gld.getGL();
         GLU glu = new GLU();
         // find intersections
         for (int i = 0; i < intersectingShapes.size(); i++) {
@@ -287,12 +287,12 @@ public class MapShapeAdapter extends MapDrawableAdapter {
                 GLUtessellatorCallback adapter = getLocationTessellatorCallback(gld, color);
                 // tesselate the shape intersection
                 GLUtessellator tess =  getShapeIntersectionTessellator(gld, adapter);
-                glu.gluTessBeginPolygon(tess, null);
+                GLU.gluTessBeginPolygon(tess, null);
                 // the actual shape
                 tesselateContour(proj, glu, tess, polygon, color);
                 // the intersecting shape
                 tesselateContour(proj, glu, tess, pol, color);
-                glu.gluTessEndPolygon(tess);
+                GLU.gluTessEndPolygon(tess);
             }
         }
     }
@@ -301,7 +301,7 @@ public class MapShapeAdapter extends MapDrawableAdapter {
      * This method is used for contour tesselation from a set of points.
      */
     private void tesselateContour(Projection proj, GLU glu, GLUtessellator tess, Polygon polygon, Color color) {
-        glu.gluTessBeginContour(tess);
+        GLU.gluTessBeginContour(tess);
         // the set of points
         Vector polygonPoints = polygon.getOrderedSetOfPoints();
         // check winding
@@ -313,9 +313,9 @@ public class MapShapeAdapter extends MapDrawableAdapter {
             double[] xy = proj.projToXY((Point)polygonPoints.get(i));
             float[] rgba = color.getRGBComponents(null);
             double[] xyrgba = {xy[0], xy[1], 0, rgba[0], rgba[1], rgba[2], rgba[3]}; 
-            glu.gluTessVertex(tess, xyrgba, 0, xyrgba);
+            GLU.gluTessVertex(tess, xyrgba, 0, xyrgba);
         }
-        glu.gluTessEndContour(tess);
+        GLU.gluTessEndContour(tess);
     }
     
     /**
@@ -409,16 +409,16 @@ public class MapShapeAdapter extends MapDrawableAdapter {
      * @param gld the glDrawable context to use.
      */
     protected GLUtessellator getShapeTessellator(GLAutoDrawable gld, Color color) {
-        GLU glu = new GLU();
+        new GLU();
         
-        GLUtessellator tess = glu.gluNewTess();
+        GLUtessellator tess = GLU.gluNewTess();
         GLUtessellatorCallback adapter = getLocationTessellatorCallback(gld, color);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_BEGIN, adapter);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_VERTEX, adapter);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_END, adapter);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_ERROR, adapter);
-        glu.gluTessProperty(tess, GLU.GLU_TESS_BOUNDARY_ONLY, GLU.GLU_FALSE);
-        glu.gluTessProperty(tess, GLU.GLU_TESS_WINDING_RULE, GLU.GLU_TESS_WINDING_ODD);
+        GLU.gluTessCallback(tess, GLU.GLU_TESS_BEGIN, adapter);
+        GLU.gluTessCallback(tess, GLU.GLU_TESS_VERTEX, adapter);
+        GLU.gluTessCallback(tess, GLU.GLU_TESS_END, adapter);
+        GLU.gluTessCallback(tess, GLU.GLU_TESS_ERROR, adapter);
+        GLU.gluTessProperty(tess, GLU.GLU_TESS_BOUNDARY_ONLY, GLU.GLU_FALSE);
+        GLU.gluTessProperty(tess, GLU.GLU_TESS_WINDING_RULE, GLU.GLU_TESS_WINDING_ODD);
                 
         return tess;
     }
@@ -429,15 +429,15 @@ public class MapShapeAdapter extends MapDrawableAdapter {
      * @param gld the glDrawable context to use.
      */
     protected GLUtessellator getShapeIntersectionTessellator(GLAutoDrawable gld, GLUtessellatorCallback adapter) {
-        GLU glu = new GLU();
+        new GLU();
         
-        GLUtessellator tess = glu.gluNewTess();
-        glu.gluTessProperty(tess, GLU.GLU_TESS_WINDING_RULE, GLU.GLU_TESS_WINDING_ABS_GEQ_TWO);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_BEGIN, adapter);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_VERTEX, adapter);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_END, adapter);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_ERROR, adapter);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_COMBINE, adapter);
+        GLUtessellator tess = GLU.gluNewTess();
+        GLU.gluTessProperty(tess, GLU.GLU_TESS_WINDING_RULE, GLU.GLU_TESS_WINDING_ABS_GEQ_TWO);
+        GLU.gluTessCallback(tess, GLU.GLU_TESS_BEGIN, adapter);
+        GLU.gluTessCallback(tess, GLU.GLU_TESS_VERTEX, adapter);
+        GLU.gluTessCallback(tess, GLU.GLU_TESS_END, adapter);
+        GLU.gluTessCallback(tess, GLU.GLU_TESS_ERROR, adapter);
+        GLU.gluTessCallback(tess, GLU.GLU_TESS_COMBINE, adapter);
         
         return tess;
     }

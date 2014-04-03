@@ -31,6 +31,10 @@ import StratmasClient.ProcessVariableDescription;
  */
 public class ColorMapDialog extends JDialog implements ActionListener {
    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2552288079896338217L;
+/**
      * Instance of the actual dialog.
      */
     private static ColorMapDialog dialog;
@@ -47,10 +51,6 @@ public class ColorMapDialog extends JDialog implements ActionListener {
      */
     private JComboBox colorMapBox;
     /**
-     * The help button.
-     */
-    private JButton helpButton;
-    /**
      * The cancel button.
      */
     private JButton cancelButton;
@@ -66,10 +66,6 @@ public class ColorMapDialog extends JDialog implements ActionListener {
      * The text field for the the maximum value.
      */
     private JTextField maxTextField;
-    /**
-     * The font for the gui components.
-     */
-    private Font font;
     /**
      * The actual process variable.
      */

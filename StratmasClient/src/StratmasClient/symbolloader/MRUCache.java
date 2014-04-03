@@ -21,7 +21,6 @@ class MRUCache {
                 
                 public Entry(Object key) {
                         clear();
-                        key = key;
                         time = System.currentTimeMillis();
                 }
                 

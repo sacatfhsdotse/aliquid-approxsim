@@ -91,7 +91,7 @@ public class IF2Importer {
       * imported or null if the file did not contain any importable objects.
       */
      public StratmasObject importFromFile(String fileName) {
-          Vector vec = new Vector();
+          new Vector();
           StratmasObject ret = null;
           try {
               // InputSource inputSource = new InputSource(new BufferedReader(new FileReader(fileName)));
@@ -131,7 +131,7 @@ public class IF2Importer {
       * imported or null if the file did not contain any importable objects.
       */
     public StratmasObject importFromFile(String fileName, Reference faction) {
-        Vector vec = new Vector();
+        new Vector();
         StratmasObject ret = null;        
         sFaction = faction;
         try {

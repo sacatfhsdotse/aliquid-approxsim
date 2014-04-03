@@ -392,7 +392,6 @@ public class TimelineDisplayControl {
      * Creates a panel which contains the slider used in the timeline.
      */
     public JPanel getTimelineSliderPanel(TimelinePanel timelinePanel) {
-        final TimelineDisplayControl self = this;
         final TimelinePanel tlinePanel    = timelinePanel;
         // the slider
         int halfInterval = (int) (tlinePanel.getDisplayedEndTime() - tlinePanel.getDisplayedStartTime()) / 2;
@@ -446,7 +445,12 @@ public class TimelineDisplayControl {
         addHandOfGod.setMargin(new Insets(0, 10, 0, 10));
         addHandOfGod.setToolTipText("Add Event");
         addHandOfGod.addActionListener(new AbstractAction() {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = -2250180086264966237L;
+
+				public void actionPerformed(ActionEvent e) {
                     StratmasObject activity = StratmasObjectFactory.create(TypeFactory.getType("CustomPVModification"));
                     IdentifierFilter scFilter = new IdentifierFilter("scenario");
                     StratmasObject scenario = (StratmasObject)scFilter.filterTree(tline.getClient().getRootObject()).nextElement();
@@ -459,7 +463,12 @@ public class TimelineDisplayControl {
         addMUActivity.setMargin(new Insets(0, 10, 0, 10));
         addMUActivity.setToolTipText("Add Order");
         addMUActivity.addActionListener(new AbstractAction() {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 3289433899719925644L;
+
+				public void actionPerformed(ActionEvent e) {
                     final JDialog dialog = self.getSelectResourceDialog();
                     dialog.setSize(new Dimension(200, 200));
                     dialog.setLocationRelativeTo(tline.getTimelinePanel());
@@ -475,7 +484,12 @@ public class TimelineDisplayControl {
         info_button.setMargin(new Insets(0, 10, 0, 10));
         info_button.setToolTipText("Information");
         info_button.addActionListener(new AbstractAction() {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 7600508564077994238L;
+
+				public void actionPerformed(ActionEvent e) {
                     final JDialog dialog = self.getInformationDialog();
                     dialog.setSize(new Dimension(300, 250));
                     dialog.setLocationRelativeTo(tlinePanel);
@@ -491,7 +505,12 @@ public class TimelineDisplayControl {
         zoom_in.setMargin(new Insets(0, 10, 0, 10));
         zoom_in.setToolTipText("Zoom In");
         zoom_in.addActionListener(new AbstractAction() {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = -8856555516154869972L;
+
+				public void actionPerformed(ActionEvent e) {
                     tlinePanel.zoomInScale();
                     // update the slider
                     int halfInterval = (int) (tlinePanel.getDisplayedEndTime() - tlinePanel.getDisplayedStartTime()) / 2;
@@ -506,7 +525,12 @@ public class TimelineDisplayControl {
         zoom_out.setMargin(new Insets(0, 10, 0, 10));
         zoom_out.setToolTipText("Zoom Out");
         zoom_out.addActionListener(new AbstractAction() {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1034407522137421951L;
+
+				public void actionPerformed(ActionEvent e) {
                     tlinePanel.zoomOutScale();
                     // update the slider
                     int halfInterval = (int) (tlinePanel.getDisplayedEndTime() - tlinePanel.getDisplayedStartTime()) / 2;

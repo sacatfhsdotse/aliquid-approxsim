@@ -24,6 +24,10 @@ import javax.swing.BorderFactory;
 abstract public class GuiIterationsStopperFactory extends JPanel implements StopperFactory 
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3897340493385037785L;
+	/**
      * The min number of iterations for this stopper.
      */
     int iterations = 10;

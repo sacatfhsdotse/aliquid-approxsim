@@ -263,7 +263,12 @@ public class Debug
 
         actions.add(new AbstractAction("export PVs") 
             {
-                public void actionPerformed(ActionEvent e)
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = -1395006387926617430L;
+
+				public void actionPerformed(ActionEvent e)
                 {
                     Client.getClient().createStreamPVExporter();
                 }
@@ -271,10 +276,15 @@ public class Debug
 
         actions.add(new AbstractAction("toXML (ms)") 
             {
-                public void actionPerformed(ActionEvent e)
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = -8777483834713566113L;
+
+				public void actionPerformed(ActionEvent e)
                 {
                     long start = System.currentTimeMillis();
-                    String xml = Client.getClient().getRootObject().toXML();
+                    Client.getClient().getRootObject().toXML();
                     long duration = System.currentTimeMillis() - start;
                     System.err.println("XML creation took " + duration + "ms");
                 }
@@ -282,7 +292,12 @@ public class Debug
 
         actions.add(new AbstractAction("gc()") 
             {
-                public void actionPerformed(ActionEvent e)
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = 3874553261088907635L;
+
+				public void actionPerformed(ActionEvent e)
                 {
                     System.gc();
                     System.runFinalization();

@@ -2,12 +2,10 @@ package StratmasClient;
 
 import java.io.*;
 import java.util.Hashtable;
-import java.util.Vector;
 import StratmasClient.communication.*;
 
 import StratmasClient.object.StratmasEvent;
 import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.StratmasObject;
 import StratmasClient.object.StratmasObject;
 import StratmasClient.object.StratmasObjectFactory;
 import StratmasClient.object.type.TypeFactory;
@@ -28,7 +26,7 @@ public class CommTest {
                FileInputStream fi   = new FileInputStream(filename);
                int size             = (int)fi.getChannel().size();
                byte [] buf          = new byte[size];
-               int read             = fi.read(buf);
+               fi.read(buf);
                ret                  = new String(buf);
           } catch (IOException e) {
                e.printStackTrace();
@@ -66,11 +64,8 @@ public class CommTest {
 
           boolean conn = false;
           boolean fromFile = false;
-          long id = -1;
           String line = null;
           String old = null;
-          String ret;
-
           StratmasObject root = null;
           MyClient fooClient = new MyClient("");
           MyXMLHandler xh = new MyXMLHandler(fooClient, "stratmasProtocol.xsd");
@@ -157,8 +152,7 @@ public class CommTest {
                          sc.send(new SetPropertyMessage(prop, stdIn.readLine()));
                     }
                     else if (line.equalsIgnoreCase("d") && conn == true) {
-                         // Disconnect
-                         id = sock.id();
+                         sock.id();
                          sc.disconnect();
                          sock = null;
                          conn = false;

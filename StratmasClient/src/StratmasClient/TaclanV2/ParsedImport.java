@@ -74,7 +74,7 @@ public class ParsedImport extends ParsedObject
     protected ImportHandler getImportHandler() throws ImportException
     {
         try {
-            return this.handlerFactory.getHandler(this.location);
+            return ParsedImport.handlerFactory.getHandler(this.location);
         } 
         catch (NoImportHandlerException e) {
             // Befor giving up, try once more with the location made
@@ -82,7 +82,7 @@ public class ParsedImport extends ParsedObject
             try {
                 String relativePath = getRelativePath();
                 if (relativePath != null) {
-                    return this.handlerFactory.getHandler(relativePath);
+                    return ParsedImport.handlerFactory.getHandler(relativePath);
                 } else {
                     // Did not work, giving up. Throw first error.
                     throw new ImportException(this, e.getMessage());
@@ -156,7 +156,7 @@ class ImportHandlerFactory
     {
         Vector errors = new Vector();
         for (int i = 0; i < handlers.length; i++) {
-            Class handler = this.handlers[i];
+            Class handler = ImportHandlerFactory.handlers[i];
             try {
                 Constructor constructor = 
                     handler.getConstructor(new Class[] {location.getClass()});

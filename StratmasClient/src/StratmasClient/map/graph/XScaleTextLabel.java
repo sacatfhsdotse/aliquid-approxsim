@@ -12,6 +12,10 @@ import javax.swing.JLabel;
  */
 public class XScaleTextLabel extends JLabel{
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -270179816409395839L;
+	/**
      * The actual font.
      */
     private Font font;

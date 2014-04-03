@@ -1679,6 +1679,11 @@ class ESRIDBF
 class ESRIDBFileException extends Exception
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8995527486325297510L;
+
+	/**
      * Creates a new ESRIDBFileException with the provided message.
      *
      * @param message a description of the condition causing the
@@ -1699,6 +1704,11 @@ class ESRIDBFileException extends Exception
 class ESRIDBNoSuchFieldException extends Exception
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2894180699843602170L;
+
+	/**
      * Creates a new ESRIDBNoSuchFieldException
      */
     ESRIDBNoSuchFieldException()

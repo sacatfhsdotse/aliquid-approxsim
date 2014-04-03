@@ -17,6 +17,11 @@ import java.util.EventObject;
 public class EvaluatorEvent extends EventObject
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3710990400871605723L;
+
+	/**
      * Constructs a new EvaluatorEvent representing the specified type.
      *
      * @param evaluator the evaluator causing the event.

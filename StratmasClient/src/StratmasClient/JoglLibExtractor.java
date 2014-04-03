@@ -81,7 +81,7 @@ public class JoglLibExtractor
 
         if (extractToDir(tempdir, false)) {
             String[] libNames = joglOsLibNames();
-            File library = new File(tempdir, libNames[0]);
+            new File(tempdir, libNames[0]);
 
 
             String[] envp = new String[] {joglOsLDName(tempdir)};

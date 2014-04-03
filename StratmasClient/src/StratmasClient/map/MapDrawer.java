@@ -17,10 +17,10 @@ import java.io.UnsupportedEncodingException;
 import java.nio.DoubleBuffer;
 import java.nio.IntBuffer;
 import java.util.Enumeration;
-import java.util.TimerTask;
 import java.util.Vector;
 
 import javax.media.opengl.GL2;
+import javax.media.opengl.GL2ES2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.swing.JMenu;
 import javax.swing.JPopupMenu;
@@ -67,6 +67,10 @@ import com.jogamp.opengl.util.gl2.GLUT;
 public class MapDrawer extends BasicMapDrawer implements DragGestureListener, StratmasEventListener
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2900439555092722945L;
+	/**
      * Layer of cells that cover the geographical region.
      */
     protected GridLayer cell_layer;
@@ -321,8 +325,8 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
 
         // get projected coordinates        
         Projection proj = basicMap.getProjection();
-        double xx = p.getProjectedPoint(proj).getX();
-        double yy = p.getProjectedPoint(proj).getY();
+        p.getProjectedPoint(proj).getX();
+        p.getProjectedPoint(proj).getY();
         
         // right mouse button
         if (e.getButton() == MouseEvent.BUTTON3) {
@@ -405,8 +409,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
         int y = (int)e.getY();
         setRenderSelectionArea(x, y);
 
-        // convert to lon/lat
-        MapPoint p = convertToLonLat(x, y);
+        convertToLonLat(x, y);
         
         // necessary for multi-screen enviroment
         mouse_on = (x >= view_x && x <= view_x+view_width && y >= view_y && y <= view_y+view_height)? true : false;
@@ -630,7 +633,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
                            renderSelectionY + renderSelectionDeltaY/2);
             // Draw symbols.
             updateDrawnMapDrawablesList();
-            gl.glCallLists(drawnMapDrawablesListBuf.capacity(), gl.GL_INT, drawnMapDrawablesListBuf);
+            gl.glCallLists(drawnMapDrawablesListBuf.capacity(), GL2ES2.GL_INT, drawnMapDrawablesListBuf);
             
             // draw the grid
             if (grid_based_pv && cell_layer != null) {
@@ -1003,7 +1006,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
                 }
             }
             updateDrawnMapDrawablesList();
-            gl.glCallLists(drawnMapDrawablesListBuf.capacity(), gl.GL_INT, drawnMapDrawablesListBuf);
+            gl.glCallLists(drawnMapDrawablesListBuf.capacity(), GL2ES2.GL_INT, drawnMapDrawablesListBuf);
             
             if (isShowingSymbolMagnification()) {
                 // magnify drawn elements

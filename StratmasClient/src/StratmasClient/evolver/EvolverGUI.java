@@ -48,6 +48,10 @@ import java.awt.dnd.DropTargetDropEvent;
 public class EvolverGUI extends JTabbedPane
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3199626341709273120L;
+	/**
      * A map of string->AbstractActions targeted to this EvolverGUI
      */
     Hashtable actionMap;
@@ -353,17 +357,6 @@ public class EvolverGUI extends JTabbedPane
                                         evaluatorTableModel.removeRow(i);
                                     }
                                 }
-                                
-                                void addEntry(Evaluator evaluator)
-                                {
-                                    int i = findRow(evaluator);
-                                    if (i == -1) {
-                                        i = evaluatorTableModel.getRowCount();
-                                        evaluatorTableModel.setRowCount(i + 1);
-                                        evaluatorTableModel.setValueAt(evaluator, i, 
-                                                                       evaluatorTableModel.findColumn("Resource"));
-                                    }
-                                }
                             });
                         log("New evaluator: " + evaluator.toString());
                     }
@@ -466,7 +459,6 @@ public class EvolverGUI extends JTabbedPane
                             dtde.getTransferable().getTransferData(DataFlavor.stringFlavor);
                             //
                             if (obj instanceof StratmasObject) {
-                                StratmasObject so = (StratmasObject) obj;
                                 dtde.dropComplete(true);
                             } else {
                                 dtde.dropComplete(false);
@@ -539,7 +531,11 @@ public class EvolverGUI extends JTabbedPane
         
         res.put("Run", new EvolverAction(evolver, "Run", playHack)
             {
-                Icon pause = new ImageIcon(getClass().getResource("icons/pause.png"));
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = 5843522612034027333L;
+				Icon pause = new ImageIcon(getClass().getResource("icons/pause.png"));
                 Icon play = playHack;
 
                 public void initValues()
@@ -619,7 +615,12 @@ public class EvolverGUI extends JTabbedPane
         res.put("Abort", new EvolverAction(evolver, "Abort", 
                                            new ImageIcon(getClass().getResource("icons/abort.png")))
             {
-                public void initValues()
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = 1926286491260057144L;
+
+				public void initValues()
                 {
                     putValue(Action.SHORT_DESCRIPTION, 
                              "Forcibly aborts evolver (no resume possible)");
@@ -664,6 +665,10 @@ public class EvolverGUI extends JTabbedPane
 abstract class EvolverAction extends AbstractAction implements EvolverEventListener
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7302824644199823764L;
+	/**
      * The evolver this action controls
      */
     Evolver evolver;

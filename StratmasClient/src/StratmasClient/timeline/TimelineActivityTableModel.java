@@ -45,10 +45,10 @@ import StratmasClient.object.type.Declaration;
  */
 public class TimelineActivityTableModel extends AbstractTableModel implements StratmasEventListener {
     /**
-     * Reference to the timeline.
-     */
-    private Timeline timeline;
-    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7305358507421557020L;
+	/**
      * The table header.
      */
     private JTableHeader tableHeader;
@@ -192,7 +192,6 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
      * Creates new table model.
      */
     public TimelineActivityTableModel(Timeline timeline) {
-        this.timeline = timeline;
         // update the display of the activity symbols when the table changes
         final Timeline tline = timeline;
         addTableModelListener(new TableModelListener() {
@@ -405,7 +404,12 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
                                 final StratmasObject mUnit = (StratmasObject)e.nextElement();
                                 JMenuItem item = new JMenuItem(getPathOfMilitaryUnits(mUnit));
                                 item.addActionListener(new AbstractAction() {
-                                        public void actionPerformed(ActionEvent event) {
+                                        /**
+									 * 
+									 */
+									private static final long serialVersionUID = 3644128782915075854L;
+
+										public void actionPerformed(ActionEvent event) {
                                             activity.remove();
                                             ((StratmasList)mUnit.getChild("activities")).addWithUniqueIdentifier(activity);
                                         }

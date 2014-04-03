@@ -58,10 +58,6 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
      */
     private Client client;
     /**
-     * Indicates if the client is in the state of waiting for the message from the timeline.
-     */
-    private boolean isClientWaiting = false;
-    /**
      * Indicates if the time step is changed.
      */
     public boolean isdtChanged = false;
@@ -401,9 +397,6 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
         }
         // update the information labels
         timelinePanel.updateInfoDialog();
-        
-        // indicates if the client is in the state of waiting for the message from the timeline
-        isClientWaiting = false;
         
         // activities
         activityAdapters = new Vector();

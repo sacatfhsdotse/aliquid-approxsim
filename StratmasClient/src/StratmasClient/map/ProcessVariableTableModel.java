@@ -17,6 +17,10 @@ import StratmasClient.ProcessVariableDescription;
  */
 public class ProcessVariableTableModel extends AbstractTableModel {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2644064665423546096L;
+	/**
      * Names of the colum headers.
      */
     private Object[] columns;

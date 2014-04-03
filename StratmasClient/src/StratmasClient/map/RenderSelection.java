@@ -16,6 +16,11 @@ import java.nio.IntBuffer;
 public class RenderSelection extends Vector
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6733942852458970842L;
+
+	/**
      * The result of the selection.
      */
     int[] selectionBuffer = null;

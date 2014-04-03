@@ -18,6 +18,10 @@ import StratmasClient.object.StratmasEventListener;
  */
 public class ActivityTableComboBox extends JComboBox implements StratmasEventListener{
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -976031962278506052L;
+	/**
      * The list of the military units. The StratmasObject identifiers are used as keys while
      * the values are Vector objects containing the military units. Vector is used
      * as the value because of possible multiple occurance of the identifiers.

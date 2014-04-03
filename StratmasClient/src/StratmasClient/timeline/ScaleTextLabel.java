@@ -11,6 +11,10 @@ import javax.swing.JLabel;
  */
 public class ScaleTextLabel extends JLabel{
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1548321135549416539L;
+	/**
      * The actual color.
      */
     private Color color;

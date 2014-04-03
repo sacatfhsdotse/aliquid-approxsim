@@ -21,7 +21,6 @@ import javax.swing.JFrame;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.ImageIcon;
@@ -30,6 +29,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.BorderFactory;
 
 import javax.media.opengl.GL2;
+import javax.media.opengl.GL2ES2;
 import javax.media.opengl.GLAutoDrawable;
 import com.jogamp.common.nio.Buffers;
 
@@ -61,6 +61,10 @@ import StratmasClient.map.adapter.MapShapeAdapter;
 public class AreaCreationDrawer extends BasicMapDrawer
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1242952984259236078L;
+	/**
      * Last horizontal mouse coordinate for last renderselction.
      */
     protected int renderSelectionMouseX = 0;
@@ -189,11 +193,6 @@ public class AreaCreationDrawer extends BasicMapDrawer
      */
     private JButton cancelButton;
     /**
-     * Information label.
-     */
-    private JLabel infoLabel;
-    
-    /**
      * Creates new AreaCreationDrawer.
      *
      * @param basicMap the map container.
@@ -256,8 +255,8 @@ public class AreaCreationDrawer extends BasicMapDrawer
 
         // get projected coordinates        
         Projection proj = basicMap.getProjection();
-        double xx = p.getProjectedPoint(proj).getX();
-        double yy = p.getProjectedPoint(proj).getY();
+        p.getProjectedPoint(proj).getX();
+        p.getProjectedPoint(proj).getY();
         
         // left mouse button
         if (e.getButton() == MouseEvent.BUTTON1){
@@ -706,7 +705,7 @@ public class AreaCreationDrawer extends BasicMapDrawer
             
             // Draw symbols.
             updateDrawnMapDrawablesList();
-            gl.glCallLists(drawnMapDrawablesListBuf.capacity(), gl.GL_INT, drawnMapDrawablesListBuf);
+            gl.glCallLists(drawnMapDrawablesListBuf.capacity(), GL2ES2.GL_INT, drawnMapDrawablesListBuf);
 
             // Restore view
             gl.glMatrixMode(GL2.GL_PROJECTION);
@@ -847,7 +846,7 @@ public class AreaCreationDrawer extends BasicMapDrawer
             }
         }
         updateDrawnMapDrawablesList();
-        gl.glCallLists(drawnMapDrawablesListBuf.capacity(), gl.GL_INT, drawnMapDrawablesListBuf);
+        gl.glCallLists(drawnMapDrawablesListBuf.capacity(), GL2ES2.GL_INT, drawnMapDrawablesListBuf);
 
         // definition of new area for the element
         gl.glMatrixMode(GL2.GL_MODELVIEW);

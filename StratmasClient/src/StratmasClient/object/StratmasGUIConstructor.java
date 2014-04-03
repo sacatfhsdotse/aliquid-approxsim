@@ -29,6 +29,11 @@ import javax.swing.BoxLayout;
 public abstract class StratmasGUIConstructor extends JPanel
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -856452493384542570L;
+
+	/**
      * The declaration for which the result is constructed.
      */
     Declaration declaration;
@@ -100,6 +105,11 @@ public abstract class StratmasGUIConstructor extends JPanel
         final JButton createButton = new JButton();
         createButton.setAction(new AbstractAction("Create...") {
                 /**
+			 * 
+			 */
+			private static final long serialVersionUID = 4651651108071129477L;
+
+				/**
                  * Invoked when an action occurs.
                  *
                  * @param e the event
@@ -264,7 +274,12 @@ public abstract class StratmasGUIConstructor extends JPanel
         final StratmasGUIConstructorDialog dialog = d;
         final StratmasGUIConstructor target = this;
         panel.add(new JButton(new AbstractAction("Create") {
-                public void actionPerformed(ActionEvent e)                {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = -3635537960479502675L;
+
+				public void actionPerformed(ActionEvent e)                {
                     if (target.getStratmasObject() != null) {
                         dialog.dispose();
                     } else {
@@ -279,7 +294,12 @@ public abstract class StratmasGUIConstructor extends JPanel
             }));
 
         panel.add(new JButton(new AbstractAction("Cancel") {
-                public void actionPerformed(ActionEvent e)
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 2459531676002574967L;
+
+				public void actionPerformed(ActionEvent e)
                 {
                     dialog.cancel();
                 }

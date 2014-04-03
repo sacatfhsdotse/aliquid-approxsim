@@ -46,10 +46,6 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
      */
     private int activityDisplayList;
     /**
-     * Whether the display list is updated since last redraw.
-     */
-    private boolean displayListUpdated = false;
-    /**
      * All display lists used by this adapter except the total display list.
      */
     private int displayLists[] = new int[3];
@@ -57,10 +53,6 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
      * The position of the activity symbol in the display lists array.
      */
     private static final int ACTIVITY_POS = 0;
-    /**
-     * The position of the left arrow symbol in the display lists array.
-     */
-    private static final int LEFT_ARROW_POS = 1;
     /**
      * The position of the right arrow symbol in the display lists array.
      */
@@ -93,10 +85,6 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
      * Whether the activity is selected in the tree view.
      */
     private boolean isSelected = false;
-    /**
-     * Whether location is updated since last redraw.
-     */
-    private boolean locationUpdated = false;
     /**
      * The StratmasObject this adapter adapts.
      */
@@ -254,7 +242,6 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
             drawBoundaryBox(gl, x1, x2, y);
         }
         gl.glEndList();
-        displayListUpdated = true;
     }
     
     /**
@@ -680,12 +667,10 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
             if (getActivity().getChild("end") == null) {
                 setRightArrowPointedTime(getStartTime());
             }
-            displayListUpdated = false;
             fireActivityAdapterUpdated();
         }
         else if (child.getIdentifier().equals("end")) {
             setRightArrowPointedTime(getEndTime());
-            displayListUpdated = false;
             fireActivityAdapterUpdated();
         }
     }

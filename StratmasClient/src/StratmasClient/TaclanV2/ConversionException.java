@@ -9,6 +9,11 @@ import StratmasClient.object.type.Declaration;
 public class ConversionException extends SemanticException
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1669175292310529768L;
+
+	/**
      * The erroneous primitive.
      */
     ParsedPrimitive primitive;

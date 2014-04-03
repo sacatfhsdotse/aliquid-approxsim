@@ -37,6 +37,10 @@ import StratmasClient.communication.SubscriptionHandler;
  */
 public class PVPanel extends JPanel implements ActionListener, StratmasEventListener {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5282843262385928351L;
+	/**
      * Combo box for process variables.
      */
     private JComboBox pv_combo;

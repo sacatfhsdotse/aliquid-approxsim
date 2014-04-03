@@ -37,6 +37,10 @@ import StratmasClient.map.graph.ProcessVariableXYGraph;
  */
 public class ProcessVariableTablePanel extends JPanel {  
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7476888794323785028L;
+	/**
      * The actual frame.
      */
     private final JFrame frame = new JFrame("Stratmas PV Table");
@@ -226,7 +230,12 @@ public class ProcessVariableTablePanel extends JPanel {
         ButtonGroup categoryButtonGroup = new ButtonGroup();
         // the main category is unspecified
         JRadioButtonMenuItem unspecifiedButton = new JRadioButtonMenuItem(new AbstractAction("Unspecified") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = -3473930048180062913L;
+
+				public void actionPerformed(ActionEvent e) {
                     ProcessVariableTablePanel.setMainCategory("Unspecified");
                     Visualizer.sortTables();
                     Visualizer.sortGraphs();
@@ -243,7 +252,12 @@ public class ProcessVariableTablePanel extends JPanel {
         for (int i = 0; i < MapConstants.pvCategories.length; i++) {
             final int ii = i;
             JRadioButtonMenuItem categoryButton = new JRadioButtonMenuItem(new AbstractAction(MapConstants.pvCategories[i]) {
-                    public void actionPerformed(ActionEvent e) {
+                    /**
+				 * 
+				 */
+				private static final long serialVersionUID = -2206250754755079900L;
+
+					public void actionPerformed(ActionEvent e) {
                         ProcessVariableTablePanel.setMainCategory(MapConstants.pvCategories[ii]);
                         Visualizer.sortTables();
                         Visualizer.sortGraphs();
@@ -262,7 +276,12 @@ public class ProcessVariableTablePanel extends JPanel {
         sortSubmenu.setFont(sortSubmenu.getFont().deriveFont(Font.PLAIN));
         optionsMenu.add(sortSubmenu);
         JMenuItem sortByCategoryItem = new JMenuItem(new AbstractAction("By category") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = -2406206042088592466L;
+
+				public void actionPerformed(ActionEvent e) {
                     Visualizer.sortGraphs();
                     ProcessVariableTable.layoutAllGraphs(fTable);
                 }

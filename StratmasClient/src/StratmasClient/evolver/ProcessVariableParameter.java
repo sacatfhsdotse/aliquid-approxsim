@@ -234,7 +234,12 @@ public class ProcessVariableParameter extends DoubleParameter implements Simulat
                     JMenu menu = new JMenu(pvd.getName());
                     menu.add(new AbstractAction(StratmasConstants.factionAll) 
                         {
-                            public void actionPerformed(ActionEvent event)
+                            /**
+							 * 
+							 */
+							private static final long serialVersionUID = 3068517775357377746L;
+
+							public void actionPerformed(ActionEvent event)
                             {
                                 setProcessVariable(pvd.getName());
                                 setFaction(StratmasConstants.factionAll);
@@ -244,7 +249,12 @@ public class ProcessVariableParameter extends DoubleParameter implements Simulat
                         final StratmasObject obj = (StratmasObject) f.nextElement();
                         menu.add(new AbstractAction(obj.getIdentifier()) 
                             {
-                                public void actionPerformed(ActionEvent event)
+                                /**
+								 * 
+								 */
+								private static final long serialVersionUID = -2659906693791684061L;
+
+								public void actionPerformed(ActionEvent event)
                                 {
                                     setProcessVariable(pvd.getName());
                                     setFaction(obj.getReference().toString());
@@ -254,7 +264,12 @@ public class ProcessVariableParameter extends DoubleParameter implements Simulat
                 } else {
                     res.add(new AbstractAction(pvd.getName()) 
                         {
-                            public void actionPerformed(ActionEvent event)
+                            /**
+							 * 
+							 */
+							private static final long serialVersionUID = -9220062326430754626L;
+
+							public void actionPerformed(ActionEvent event)
                             {
                                 setProcessVariable(pvd.getName());
                                 setFaction(StratmasConstants.factionAll);

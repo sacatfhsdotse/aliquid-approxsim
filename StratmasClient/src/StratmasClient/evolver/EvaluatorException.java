@@ -15,6 +15,11 @@ package StratmasClient.evolver;
 public class EvaluatorException extends Exception
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -758637620484065503L;
+
+	/**
      * A string describing the exception.
      */
     String description;

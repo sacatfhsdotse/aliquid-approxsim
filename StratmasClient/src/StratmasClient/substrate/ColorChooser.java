@@ -24,6 +24,10 @@ import StratmasClient.StratmasDialog;
  */
 public class ColorChooser extends JPanel {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4445583561493247899L;
+	/**
      * The actual value.
      */
     private double actualValue;
@@ -110,7 +114,12 @@ public class ColorChooser extends JPanel {
         adjustButton.setMargin(new Insets(1, 5, 1, 5));
         adjustButton.setFont(adjustButton.getFont().deriveFont(Font.PLAIN));
         adjustButton.addActionListener(new AbstractAction() {
-                public void actionPerformed(ActionEvent event) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 2978082836343174536L;
+
+				public void actionPerformed(ActionEvent event) {
                     String textValue = selectedValue.getText();
                     try {
                         textValue =  textValue.replace(',','.');

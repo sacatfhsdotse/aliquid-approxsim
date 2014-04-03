@@ -107,7 +107,7 @@ class SymbolID {
 
             protected void initFromStream(InputStream stream) {
                 LineNumberReader r = null;
-                Vector code = new Vector(50), name = new Vector(50);
+                new Vector(50);
                 r = new LineNumberReader(new InputStreamReader(stream));
                 initFromLineNumberReader(r);
             }
@@ -121,7 +121,7 @@ class SymbolID {
             protected void initFromFile(String fName)
             {
                 LineNumberReader r = null;
-                Vector code = new Vector(50), name = new Vector(50);
+                new Vector(50);
                 try {
                     r = new LineNumberReader(new FileReader(fName));
                     initFromLineNumberReader(r);

@@ -37,6 +37,11 @@ import javax.swing.tree.TreeSelectionModel;
  */
 public class HierarchyImportTreeView extends TreeView {
      /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6893214960707737382L;
+
+	/**
       * The import set used to transfer selected unused objects to the
       * simulation.
       */
@@ -59,7 +64,11 @@ public class HierarchyImportTreeView extends TreeView {
           mImportSet = importset;
 
           setSelectionModel(new javax.swing.tree.DefaultTreeSelectionModel() {
-                    public void setSelectionPath(TreePath path) {
+                    /**
+			 * 
+			 */
+			private static final long serialVersionUID = 8517870613054628304L;
+					public void setSelectionPath(TreePath path) {
                          Vector paths = new Vector();
                          for (TreePath tp = path; tp != null; tp = tp.getParentPath()) {
                               paths.add(tp);
@@ -213,6 +222,10 @@ public class HierarchyImportTreeView extends TreeView {
 
 class HierarchyImportTreeViewCellRenderer extends DefaultTreeCellRenderer {
      /**
+	 * 
+	 */
+	private static final long serialVersionUID = 368530113508044780L;
+	/**
       * The HierarchyImportTreeView this renderer renders for.
       */
      HierarchyImportTreeView mTreeView;

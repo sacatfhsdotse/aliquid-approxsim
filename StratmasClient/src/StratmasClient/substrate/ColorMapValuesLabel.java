@@ -11,6 +11,10 @@ import javax.swing.JLabel;
  */
 public class ColorMapValuesLabel extends JLabel{
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1017064844658174028L;
+	/**
      * The color map.
      */
     private ColorMap colorMap;

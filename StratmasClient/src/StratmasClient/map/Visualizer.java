@@ -66,7 +66,7 @@ public class Visualizer {
      * @param client the client.
      */
     public Visualizer(Client client) {
-        this.client = client;
+        Visualizer.client = client;
     }
     
     /**
@@ -116,7 +116,7 @@ public class Visualizer {
      * @param gridData information needed to create the grid.
      */
     public void createGrid(GridData gridData) {
-        this.gridData = gridData;
+        Visualizer.gridData = gridData;
         // update the maps with the cells
         for (Enumeration e = stratmaps.keys(); e.hasMoreElements(); ) {
             Object key = e.nextElement();
@@ -307,7 +307,7 @@ public class Visualizer {
      * Returns the client this visualizer is connected to.
      */
     public Client getClient() {
-        return this.client;
+        return Visualizer.client;
     }
     
     /**

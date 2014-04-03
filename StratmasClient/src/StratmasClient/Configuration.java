@@ -276,7 +276,6 @@ public class Configuration {
             });
         JButton ok_button = new JButton("OK");
         ok_button.setFont(ok_button.getFont().deriveFont(Font.PLAIN));
-        final JFrame fframe = frame;
         ok_button.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
                     //  try {
@@ -384,7 +383,6 @@ public class Configuration {
      * Updates the listeners with new event.
      */
     public static void fireEventOccured() {
-        int counter = 0;
         for (Enumeration e = listeners.elements(); e.hasMoreElements(); ) {
             Object obj = e.nextElement();
             if (obj != null) {

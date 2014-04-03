@@ -266,7 +266,11 @@ class SymbolIDCodeVectorConstructor extends StratmasVectorConstructor {
 */
 class SymbolIDCodeGUIConstructor extends StratmasGUIConstructor
 {
-    javax.swing.JTextField field;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2499712617976834287L;
+	javax.swing.JTextField field;
 
     /**
      * Creates a new SymbolIDCodeGUIConstructor using the supplied declaration.

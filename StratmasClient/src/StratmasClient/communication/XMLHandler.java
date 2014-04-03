@@ -327,7 +327,6 @@ public class XMLHandler implements Runnable {
       */
      private void handleConnectResponseMsg(Element elem) {
           boolean active = getBoolean(elem, "active");
-          GridData gd = null;
           Debug.err.println((active ? "active" : "passive"));
           if (mClient != null) {
               mClient.setActiveClient(active);
@@ -399,7 +398,12 @@ public class XMLHandler implements Runnable {
               final String errString = buffer.toString();
               return new HandleException()
                   {
-                      public String getMessage()
+                      /**
+					 * 
+					 */
+					private static final long serialVersionUID = -8195832072394647380L;
+
+					public String getMessage()
                       {
                           return super.getMessage() + " - " + errString;
                       }
@@ -789,6 +793,11 @@ class QueueEntry {
 class HandleException extends Exception
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1234433267375406352L;
+
+	/**
      * Creates a new HandleException
      */
     public HandleException()

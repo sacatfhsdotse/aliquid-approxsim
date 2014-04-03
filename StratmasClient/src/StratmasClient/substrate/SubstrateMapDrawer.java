@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JTextField;
 import javax.swing.JSlider;
 import javax.swing.JPopupMenu;
+import javax.media.opengl.GL2ES2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GL2;
 import javax.media.opengl.awt.GLCanvas;
@@ -46,6 +47,10 @@ import StratmasClient.map.adapter.MapLineAdapter;
  */
 public class SubstrateMapDrawer extends BasicMapDrawer {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8288422281564603856L;
+	/**
      * Indicates undefined mode.
      */
     public static int SET_UNDEFINED_MODE = 0;
@@ -251,7 +256,7 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
             
             // draw shapes
             updateDrawnMapDrawablesList();
-            gl.glCallLists(drawnMapDrawablesListBuf.capacity(), gl.GL_INT, drawnMapDrawablesListBuf);
+            gl.glCallLists(drawnMapDrawablesListBuf.capacity(), GL2ES2.GL_INT, drawnMapDrawablesListBuf);
             
             // draw the actual shape
             if (shapeMaker != null && shapeMaker.getShapeAdapter() != null) {
@@ -1015,19 +1020,19 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
         }
         
         // draw shape areas
-        gl.glCallLists(drawnShapeAreasListBuf.capacity(), gl.GL_INT, drawnShapeAreasListBuf);
+        gl.glCallLists(drawnShapeAreasListBuf.capacity(), GL2ES2.GL_INT, drawnShapeAreasListBuf);
         if (shapeMaker != null && shapeMaker.getShapeAdapter() != null) {
             gl.glCallList(shapeMaker.getShapeAdapter().getShapeAreaDisplayList());
         }
         
         // draw lines of the shapes
-        gl.glCallLists(drawnShapeLinesListBuf.capacity(), gl.GL_INT, drawnShapeLinesListBuf);
+        gl.glCallLists(drawnShapeLinesListBuf.capacity(), GL2ES2.GL_INT, drawnShapeLinesListBuf);
         if (shapeMaker != null && shapeMaker.getShapeAdapter() != null) {
             gl.glCallList(shapeMaker.getShapeAdapter().getShapeLinesDisplayList());
         }
         
         // draw lines
-        gl.glCallLists(drawnLinesListBuf.capacity(), gl.GL_INT, drawnLinesListBuf);
+        gl.glCallLists(drawnLinesListBuf.capacity(), GL2ES2.GL_INT, drawnLinesListBuf);
         
         // definition of new area for the element
         gl.glMatrixMode(GL2.GL_MODELVIEW);
@@ -1049,7 +1054,7 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
         gl.glPopMatrix();
 
         // draw points
-        gl.glCallLists(drawnPointsListBuf.capacity(), gl.GL_INT, drawnPointsListBuf);
+        gl.glCallLists(drawnPointsListBuf.capacity(), GL2ES2.GL_INT, drawnPointsListBuf);
         
         // draw graticules
         gl.glCallList(graticuleDisplayList);

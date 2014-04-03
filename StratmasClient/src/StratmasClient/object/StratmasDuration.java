@@ -209,7 +209,11 @@ public class StratmasDuration extends StratmasSimple
 */
 class StratmasDurationGUIConstructor extends StratmasGUIConstructor
 {
-    javax.swing.JTextField field;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8348999474215724056L;
+	javax.swing.JTextField field;
 
     /**
      * Creates a new StratmasDurationGUIConstructor using the supplied

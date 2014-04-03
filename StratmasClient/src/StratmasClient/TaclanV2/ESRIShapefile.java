@@ -244,14 +244,24 @@ public class ESRIShapefile
 
 class MalformedESRIRecordException extends Exception
 {
-    public MalformedESRIRecordException(String s) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5941648828671482856L;
+
+	public MalformedESRIRecordException(String s) {
         super(s);
     }
 }
 
 class UnsupportedESRIShapeException extends Exception
 {
-    public UnsupportedESRIShapeException(String s) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8820345592266956374L;
+
+	public UnsupportedESRIShapeException(String s) {
         super(s);
     }
 }
@@ -921,7 +931,7 @@ class ESRIShapeFactory
 
     public ESRIShape getNext(ByteBuffer buf) throws MalformedESRIRecordException, UnsupportedESRIShapeException
     {
-        ESRIRecordHeader rechdr = new ESRIRecordHeader(buf);
+        new ESRIRecordHeader(buf);
         return getShape(buf);
 
     }
@@ -940,11 +950,6 @@ class ESRIShapeFactory
             buf.order(inorder);
             throw new UnsupportedESRIShapeException("Shapes of type " + key + " not supported in this version");
         }
-    }
-
-    private void skipRecord(ByteBuffer buf, ESRIRecordHeader rechdr)
-    {
-        buf.position(buf.position() + rechdr.getContentLength() * 2);
     }
 
     public ESRIShape get(ByteBuffer buf, int index) throws MalformedESRIRecordException, UnsupportedESRIShapeException
@@ -1105,6 +1110,11 @@ class ESRIDBFFile
 class ESRIDBFileException extends Exception
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2480055653453979557L;
+
+	/**
      * Creates a new ESRIDBFileException with the provided message.
      *
      * @param message a description of the condition causing the
@@ -1125,6 +1135,11 @@ class ESRIDBFileException extends Exception
 class ESRIDBNoSuchFieldException extends Exception
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1135459522188706082L;
+
+	/**
      * Creates a new ESRIDBNoSuchFieldException
      */
     ESRIDBNoSuchFieldException()

@@ -18,6 +18,10 @@ import java.util.Enumeration;
 public class CollectedErrorsException extends SemanticException
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4347020574636698597L;
+	/**
      * The errors.
      */
     Vector errors;

@@ -141,10 +141,6 @@ public class Client implements StratmasEventListener {
      */
     private StratmasObject rootObject;
     /**
-     * Clone of the Root object uset to reset the simulation.
-     */
-    private StratmasObject rootClone;
-    /**
      * Handles subscription to and export of pv to file for a certain region.
      */
     StreamPVExporter mPVExporter = null;
@@ -549,7 +545,12 @@ public class Client implements StratmasEventListener {
         JPanel subpanel = new JPanel();
         subpanel.add(typeSelector);
         subpanel.add(new JButton(new AbstractAction("Create") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 4975404911216628103L;
+
+				public void actionPerformed(ActionEvent e) {
                     Declaration declaration = rootDeclaration.clone(typeSelector.getSelectedType());
                     declaration.setMinOccurs(1);
                     declaration.setMaxOccurs(1);
@@ -567,7 +568,12 @@ public class Client implements StratmasEventListener {
         
         panel.add(subpanel);
         panel.add(new JButton(new AbstractAction("Cancel") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 6667456845061104073L;
+
+				public void actionPerformed(ActionEvent e) {
                     chooser.dispose();
                 }            
             }));
@@ -869,7 +875,7 @@ public class Client implements StratmasEventListener {
             mPVExporter = new StreamPVExporter(batchModeOutputWriter, getSubscriptionHandler(), map);
         }
         // set initial pv and faction
-        visualizer.setInitialView();
+        Visualizer.setInitialView();
     }
     
     /**
@@ -928,7 +934,7 @@ public class Client implements StratmasEventListener {
      */
     private void createGrid() {
           if (gridData != null) {
-              Shape map = (Shape) ((StratmasObject) (this.getRootObject().children().nextElement())).getChild("scenario").getChild("map");
+              ((StratmasObject) (this.getRootObject().children().nextElement())).getChild("scenario").getChild("map");
               visualizer.createGrid(gridData);
           }
           else {
@@ -1165,7 +1171,7 @@ public class Client implements StratmasEventListener {
                 visualizer.importFaction((StratmasObject)ethnicFactions.nextElement());
             }
             // set initial pv and faction
-            visualizer.setInitialView();
+            Visualizer.setInitialView();
         }
     }
     
@@ -1808,7 +1814,7 @@ public class Client implements StratmasEventListener {
         //"Fix" for "Comparsion method violates its general contract" in MapDrawableComparator
         System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
 
-        Client client = new Client(args);
+        new Client(args);
     }     
 
 }

@@ -514,7 +514,7 @@ public class MapElementAdapter extends MapDrawableAdapter{
     {
         GL2 gl = (GL2) gl2;
         double[] color = getLocationColor();
-        double projectedPosition[] = proj.projToXY(getLonLat());
+        proj.projToXY(getLonLat());
 
         StratmasObject distribution = getObject().getChild("deployment");
         if (distribution == null) {
@@ -649,11 +649,6 @@ public class MapElementAdapter extends MapDrawableAdapter{
 
         values[i + 2] = normalDist(sigma, Math.sqrt(x*x + y*y));
     }
-
-    /**
-     * Precalculated Math.sqrt(2*Math.PI).
-     */
-    final private static double sqrt2pi = Math.sqrt(2.0*Math.PI);
 
     /**
      * The exponential

@@ -22,6 +22,10 @@ import StratmasClient.StratmasDialog;
  */
 public class ColorMapDialog extends JDialog implements ActionListener {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8680995148593814916L;
+	/**
      * Instance of the actual dialog.
      */
     private static ColorMapDialog dialog;
@@ -90,15 +94,6 @@ public class ColorMapDialog extends JDialog implements ActionListener {
      * The text field for the the maximum scale value.
      */
     private JTextField max_text_field;
-    /**
-     * The font for the gui components.
-     */
-    private Font font;
-    /**
-     * Size of the font.
-     */
-    private int font_size;
-    
     /**
      * Set up and show the dialog.
      *

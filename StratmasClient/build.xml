@@ -17,7 +17,7 @@
         value="-Xrunhprof:file=dump.hprof,format=b"/> -->
   <!-- Uncomment to use JDBDebug -->
   <property name="JDBDEBUG"
-        value="-Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n"/>
+    value="-Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n"/>
 
   <!-- Create the build directory structure used by compile -->
   <mkdir dir="${build}"/>
@@ -26,28 +26,28 @@
        loading) first find unwanted postfix and then remove it.
   -->
   <filelist id="libDirOSNameList"
-            dir="${build}/lib">
+    dir="${build}/lib">
     <file name="${os.name}"/>
   </filelist>
   <pathconvert property="unwantedTail"
-               refid="libDirOSNameList"
-               pathsep="">
+    refid="libDirOSNameList"
+    pathsep="">
     <regexpmapper from="Windows(.*)$$" to="\1"/>
   </pathconvert>
   <pathconvert property="libDir"
-               refid="libDirOSNameList"
-               pathsep="">
+    refid="libDirOSNameList"
+    pathsep="">
     <regexpmapper from="(.*)${unwantedTail}$$" to="\1-${os.arch}"/>
   </pathconvert>
 
   <presetdef name="jogljava">
     <java classpath="${build}"
-          dir="${build}"
-          fork="true">
+      dir="${build}"
+      fork="true">
       <jvmarg value="-Xmx300m"/>
       <sysproperty
-          key="java.library.path"
-          path="${libDir}"/>
+        key="java.library.path"
+        path="${libDir}"/>
     </java>
   </presetdef>
 
@@ -67,7 +67,7 @@
       <!-- Uncomment to use JConsole -->
       <!-- <sysproperty key="com.sun.management.jmxremote"/> -->
       <arg value="-noJoglResolve"/>
-     </jogljava>
+    </jogljava>
   </presetdef>
 
   <target name="init">
@@ -77,28 +77,28 @@
 
   <target name="checkGenerateParser">
     <uptodate srcfile="${src}/StratmasClient/TaclanV2/Parser.cup"
-              targetfile="${src}/StratmasClient/TaclanV2/Parser.java"
-              property="generateParser.uptodate"/>
+      targetfile="${src}/StratmasClient/TaclanV2/Parser.java"
+      property="generateParser.uptodate"/>
     <uptodate srcfile="${src}/StratmasClient/TaclanV2/Parser.cup"
-              targetfile="${src}/StratmasClient/TaclanV2/Sym.java"
-              property="generateParser.uptodate"/>
+      targetfile="${src}/StratmasClient/TaclanV2/Sym.java"
+      property="generateParser.uptodate"/>
   </target>
 
   <target name="checkGenerateLexer">
     <uptodate srcfile="${src}/StratmasClient/TaclanV2/Lexer.lex"
-              targetfile="${src}/StratmasClient/TaclanV2/Lexer.java"
-              property="generateLexer.uptodate"/>
+      targetfile="${src}/StratmasClient/TaclanV2/Lexer.java"
+      property="generateLexer.uptodate"/>
   </target>
 
   <target name="generateJava" depends="generateParser,generateLexer"/>
 
   <target name="generateParser"
-          depends="checkGenerateParser"
-          unless="generateParser.uptodate">
+    depends="checkGenerateParser"
+    unless="generateParser.uptodate">
     <!-- Generate parser files -->
     <java jar="${externaljars}/JCup.jar"
-          dir="${src}/StratmasClient/TaclanV2/"
-          fork="true">
+      dir="${src}/StratmasClient/TaclanV2/"
+      fork="true">
       <arg line="-package StratmasClient.TaclanV2 -parser Parser -symbols"/>
       <arg line="Sym -expect 0 Parser.cup"/>
     </java>
@@ -110,27 +110,27 @@
            java_cup.runtime will not be replaced by the second
            replace which is doing the actual work -->
       <replacefilter
-          token="StratmasClient.TaclanV2.java_cup.runtime"
-          value="java_cup.runtime"/>
+        token="StratmasClient.TaclanV2.java_cup.runtime"
+        value="java_cup.runtime"/>
       <replacefilter
-          token="java_cup.runtime"
-          value="StratmasClient.TaclanV2.java_cup.runtime"/>
+        token="java_cup.runtime"
+        value="StratmasClient.TaclanV2.java_cup.runtime"/>
       <replacefilter
-          token="throws java.lang.Exception"
-          value="throws SemanticException, SyntaxException"/>
+        token="throws java.lang.Exception"
+        value="throws SemanticException, SyntaxException"/>
       <replacefilter
-          token="throw new Exception"
-          value="throw new AssertionError"/>
+        token="throw new Exception"
+        value="throw new AssertionError"/>
     </replace>
   </target>
 
   <target name="generateLexer"
-          depends="checkGenerateLexer"
-          unless="generateLexer.uptodate">
+    depends="checkGenerateLexer"
+    unless="generateLexer.uptodate">
     <!-- Generate lexer files. -->
     <java jar="${externaljars}/JFlex.jar"
-          dir="${src}/StratmasClient/TaclanV2/"
-          fork="true">
+      dir="${src}/StratmasClient/TaclanV2/"
+      fork="true">
       <arg value="Lexer.lex"/>
     </java>
     <!-- Unfortunatelly the JCup version currently used does not allow
@@ -141,16 +141,16 @@
            java_cup.runtime will not be replaced by the second replace
            which is doing the actual work -->
       <replacefilter
-          token="StratmasClient.TaclanV2.java_cup.runtime"
-          value="java_cup.runtime"/>
+        token="StratmasClient.TaclanV2.java_cup.runtime"
+        value="java_cup.runtime"/>
       <replacefilter
-          token="java_cup.runtime"
-          value="StratmasClient.TaclanV2.java_cup.runtime"/>
+        token="java_cup.runtime"
+        value="StratmasClient.TaclanV2.java_cup.runtime"/>
     </replace>
   </target>
 
   <target name="extractJarHelper" unless="extractNotRequired">
-      <!--
+    <!--
            params: jarsrc jardest Unless the global variable
            extractNotRequired is set (yay ant), extracts the given jar
            to the given destination.
@@ -166,28 +166,28 @@
           <globmapper from="*" to="${build}/antMarkerFile-*.mark"/>
         </chainedmapper>
       </touch>
-  </target>
+    </target>
 
-  <target name="extractLibs" depends="init">
-    <!-- Copy non-java files, e.g schemas and icons, into build dir -->
-    <copy todir="${build}">
-      <fileset dir="${src}">
-        <include name="**/*.gif"/>
-        <include name="**/*.JPG"/>
-        <include name="**/*.png"/>
-        <include name="**/*.txt"/>
-      </fileset>
-    </copy>
-    <copy todir="${build}/schemas" flatten="true">
-      <fileset dir="${schemas}">
+    <target name="extractLibs" depends="init">
+      <!-- Copy non-java files, e.g schemas and icons, into build dir -->
+      <copy todir="${build}">
+        <fileset dir="${src}">
+          <include name="**/*.gif"/>
+          <include name="**/*.JPG"/>
+          <include name="**/*.png"/>
+          <include name="**/*.txt"/>
+        </fileset>
+      </copy>
+      <copy todir="${build}/schemas" flatten="true">
+        <fileset dir="${schemas}">
           <include name="dispatcherProtocol/*.xsd"/>
           <include name="stratmasProtocol/*.xsd"/>
-      </fileset>
-    </copy>
+        </fileset>
+      </copy>
 
-    <!-- Put dependencies and files in build dir -->
-    <macrodef name="extractJar">
-      <!--
+      <!-- Put dependencies and files in build dir -->
+      <macrodef name="extractJar">
+        <!--
            Extracts the given jar to the given destination.  In order
            to decide if the extraction the macro checks for the
            existance of a marker file in ${build}. The jar file is
@@ -199,7 +199,7 @@
       <attribute name="jardest"/>
       <sequential>
         <uptodate property="extractNotRequired"
-                  srcfile="@{jarsrc}">
+          srcfile="@{jarsrc}">
           <chainedmapper>
             <flattenmapper/>
             <globmapper from="*" to="${build}/antMarkerFile-*.mark"/>
@@ -224,7 +224,7 @@
       <sequential>
         <mkdir dir="${build}/lib/@{arch}"/>
         <extractJar jarsrc="${externaljars}/jogl-all-natives-@{arch}.jar"
-                    jardest="${build}/lib/@{arch}"/>
+          jardest="${build}/lib/@{arch}"/>
       </sequential>
     </macrodef>
     <extractLib arch="linux-amd64"/>
@@ -250,7 +250,7 @@
       <sequential>
         <mkdir dir="${build}/lib/@{arch}"/>
         <extractJar jarsrc="${externaljars}/gluegen-rt-natives-@{arch}.jar"
-                    jardest="${build}/lib/@{arch}"/>
+          jardest="${build}/lib/@{arch}"/>
       </sequential>
     </macrodef>
     <extractLib2 arch="linux-amd64"/>
@@ -265,40 +265,40 @@
   </target>
 
   <target name="compile" depends="extractLibs,generateJava"
-          description="compile the source " >
+    description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
     <javac srcdir="${src}"
-           encoding="UTF-8"
-           destdir="${build}"
-           source="6"
-           deprecation="yes"
-           debug="on"
-           fork="yes"
-           memoryMaximumSize="300m"
-           classpath="${build}"
-           includeantruntime="false">
+      encoding="UTF-8"
+      destdir="${build}"
+      source="6"
+      deprecation="yes"
+      debug="on"
+      fork="yes"
+      memoryMaximumSize="300m"
+      classpath="${build}"
+      includeantruntime="false">
       <!--
       <compilerarg value="-Xlint:all"/>
       -->
       <include name="**"/>
-    	
+
     </javac>
   </target>
 
   <!-- dist smashes everyting in build into one giant jar. -->
   <target name="dist" depends="compile"
-          description="generate the distribution" >
+    description="generate the distribution" >
     <mkdir dir="${dist}"/>
 
     <!-- Put almost everything in ${build} into the
          MyProject.jar file -->
     <jar jarfile="${dist}/${ant.project.name}.jar"
-         basedir="${build}"
-         excludes="antMarkerFile-*.mark,antSamples.xml,/license/*"
-         index="true">
+      basedir="${build}"
+      excludes="antMarkerFile-*.mark,antSamples.xml,/license/*"
+      index="true">
       <manifest>
         <attribute name="Main-Class"
-                   value="StratmasClient/Client"/>
+          value="StratmasClient/Client"/>
       </manifest>
     </jar>
   </target>
@@ -311,7 +311,7 @@
 
     <mkdir dir="${installPrefix}/StratmasClient"/>
     <unjar dest="${installPrefix}/StratmasClient"
-           src="${dist}/${ant.project.name}-${DSTAMP}.jar">
+      src="${dist}/${ant.project.name}-${DSTAMP}.jar">
     </unjar>
     <mkdir dir="${installPrefix}/samples"/>
     <copy todir="${installPrefix}/samples">
@@ -326,13 +326,13 @@
       </fileset>
     </copy>
     <copy todir="${installPrefix}"
-          file="${buildutils}/StartClient.bat"/>
+      file="${buildutils}/StartClient.bat"/>
     <chmod perm="755"
-           file="${installPrefix}/StartClient.bat"/>
+      file="${installPrefix}/StartClient.bat"/>
     <copy todir="${installPrefix}"
-          file="${buildutils}/StartClient.command"/>
+      file="${buildutils}/StartClient.command"/>
     <chmod perm="755"
-        file="${installPrefix}/StartClient.command"/>
+      file="${installPrefix}/StartClient.command"/>
   </target>
 
   <!-- Various Client test targets -->
@@ -344,9 +344,9 @@
 
   <target name="BatchClientCont" depends="compile">
     <joglClient>
-        <arg value="-batch=?,50d,continuous,fido.out"/>
-        <arg value="${basedir}/samples/Bogaland/Bogaland.scn"/>
-      </joglClient>
+      <arg value="-batch=?,50d,continuous,fido.out"/>
+      <arg value="${basedir}/samples/Bogaland/Bogaland.scn"/>
+    </joglClient>
   </target>
 
   <target name="BatchClient" depends="compile">
@@ -373,14 +373,14 @@
   <target name="PassiveClient" depends="compile">
     <joglClient>
       <arg value="-batch=localhost,0s,passive,fido.out"/>
-       <arg value="nofile"/>
+      <arg value="nofile"/>
     </joglClient>
   </target>
 
   <target name="SubstrateEditor" depends="compile">
     <joglClient>
       <arg value="-substrate=?"/>
-      </joglClient>
+    </joglClient>
   </target>
 
   <target name="testSample" depends="compile">
@@ -393,14 +393,14 @@
     </condition>
 
     <fileset id="testSample.files"
-             dir="${basedir}/samples"
-             casesensitive="yes">
+      dir="${basedir}/samples"
+      casesensitive="yes">
       <include name="**/${file}"/>
     </fileset>
 
     <pathconvert property="testSample.filesExpanded"
-                 refid="testSample.files"
-                 pathsep=" "/>
+      refid="testSample.files"
+      pathsep=" "/>
     <joglClient>
       <arg value="${testSample.filesExpanded}"/>
     </joglClient>
@@ -419,14 +419,24 @@
 
   <!-- Document generation -->
   <target name="docs" depends="compile">
+    <mkdir dir="docs"/>
     <javadoc
-        destdir="${dist}/docs/api"
-        classpath="${build}"
-        author="true"
-        version="true"
-        use="true"
-        windowtitle="${ant.project.name}">
+      destdir="docs"
+      classpath="${build}"
+      author="true"
+      version="true"
+      use="true"
+      windowtitle="${ant.project.name}"
+      private="true">
       <link href="http://docs.oracle.com/javase/6/docs/api/"/>
+      <doclet name="org.umlgraph.doclet.UmlGraphDoc"
+          path="${externaljars}/UmlGraph-5.6_6.6-SNAPSHOT.jar">
+        <param name="-attributes" />
+        <param name="-operations" />
+        <param name="-qualify" />
+        <param name="-types" />
+        <param name="-visibility" />
+      </doclet>
       <packageset dir="${src}" defaultexcludes="yes">
         <include name="**"/>
         <exclude name="StratmasClient/treeview2/**"/>
@@ -436,11 +446,19 @@
         <exclude name="StratmasClient/evolver/PointComponentParameter.java"/>
       </packageset>
     </javadoc>
+    <apply executable="dot" dest="." parallel="false">
+      <arg value="-Tpng"/>
+      <arg value="-o"/>
+      <targetfile/>
+      <srcfile/>
+      <fileset dir="." includes="*.dot"/>
+      <mapper type="glob" from="*.dot" to="*.png"/>
+    </apply>
   </target>
 
   <!-- Cleaning -->
   <target name="clean"
-          description="clean up" >
+    description="clean up" >
     <!-- Delete the ${build} and ${dist} directory trees -->
     <delete dir="${build}"/>
     <delete dir="${dist}"/>
@@ -451,13 +469,13 @@
 
   <!-- Make "ant foo.scn" work -->
   <fileset id="samples.files"
-           dir="${basedir}/samples"
-           casesensitive="yes">
+    dir="${basedir}/samples"
+    casesensitive="yes">
     <include name="**/*.scn"/>
   </fileset>
   <pathconvert property="sampleTargets"
-               refid="samples.files"
-               pathsep="">
+    refid="samples.files"
+    pathsep="">
     <chainedmapper>
       <flattenmapper/>
       <regexpmapper from=".*" to='&lt;target name="\0"&gt;&lt;antcall target="testSample"&gt;&lt;param name="file" value="\0"/&gt;&lt;/antcall&gt;&lt;/target&gt;'/>
@@ -465,6 +483,6 @@
   </pathconvert>
 
   <echo file="${build}/antSamples.xml"
-        message='&lt;project name="samples"&gt;${sampleTargets}&lt;/project&gt;'/>
+    message='&lt;project name="samples"&gt;${sampleTargets}&lt;/project&gt;'/>
   <import file="${build}/antSamples.xml"/>
 </project>

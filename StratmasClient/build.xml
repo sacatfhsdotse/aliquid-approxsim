@@ -431,11 +431,23 @@
       <link href="http://docs.oracle.com/javase/6/docs/api/"/>
       <doclet name="org.umlgraph.doclet.UmlGraphDoc"
           path="${externaljars}/UmlGraph-5.6_6.6-SNAPSHOT.jar">
+          <!-- see http://www.umlgraph.org/doc/indexw.html -->
+
         <param name="-attributes" />
+        <param name="-constructors" />
         <param name="-operations" />
+        <param name="-enumconstants" />
+        <param name="-enumerations" />
         <param name="-qualify" />
         <param name="-types" />
         <param name="-visibility" />
+
+        <param name="-inferdep" />
+        <param name="-inferdepinpackage" />
+        <param name="-inferrel" />
+        <param name="-useimports" />
+
+        <param name="-compact" />
       </doclet>
       <packageset dir="${src}" defaultexcludes="yes">
         <include name="**"/>

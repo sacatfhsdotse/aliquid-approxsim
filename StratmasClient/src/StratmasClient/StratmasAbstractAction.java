@@ -17,6 +17,10 @@ import javax.swing.AbstractAction;
 public abstract class StratmasAbstractAction extends AbstractAction
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3039626999751292803L;
+	/**
      * Indicates that this action changes the object.
      */
     boolean isMutator;

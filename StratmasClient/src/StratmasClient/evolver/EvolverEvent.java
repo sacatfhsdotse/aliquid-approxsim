@@ -17,6 +17,11 @@ import java.util.EventObject;
 public class EvolverEvent extends EventObject
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2157136702649080465L;
+
+	/**
      * Constructs a new EvolverEvent representing the specified type.
      *
      * @param evolver the evolver causing the event.

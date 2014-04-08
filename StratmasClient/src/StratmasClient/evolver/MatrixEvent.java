@@ -17,6 +17,11 @@ import java.util.EventObject;
 public class MatrixEvent extends EventObject
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2053066901785183479L;
+
+	/**
      * Constructs a new MatrixEvent representing the specified type.
      *
      * @param matrix the Matrix causing the event.

@@ -72,11 +72,6 @@ public class StratmasDispatcher
     private static DOMImplementationLS domImplementationLS = createDomImplementationLS();
 
     /**
-     * The list servers request.
-     */
-    private static Document listServers = createListServersMessage();
-
-    /**
      * The buffer containing a ready made bytebuffer of the
      * request. (Initialized by createLoadQueryMessage())
      */
@@ -186,43 +181,6 @@ public class StratmasDispatcher
 
         Debug.err.println("allocateServer failed to allocate server");
         return null;
-    }
-
-    /**
-     * Creates the list query message
-     */
-    private static Document createListServersMessage()
-    {
-        Document document = null;
-        if (domImplementationLS == null) {
-            domImplementationLS = createDomImplementationLS();
-        }
-        try {
-            document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-            document.createEntityReference("xsi");
-            Element element = document.createElement("dispatcherRequest");
-            element.setAttribute("xmlns:xsi", XML_SCHEMA_NS);
-            element.setAttribute("xsi:type", "ListRequest");
-            document.appendChild(element);
-            LSOutput output = domImplementationLS.createLSOutput();
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            output.setByteStream(outputStream);
-            document.normalize();
-            domImplementationLS.createLSSerializer().write(document, output);
-
-            byte[] array = outputStream.toByteArray();            
-            ByteBuffer byteBuffer = ByteBuffer.allocate(4 + array.length);
-            byteBuffer.putInt(array.length);
-            byteBuffer.put(array);
-            byteBuffer.rewind();
-            listServersMessageBuffer = byteBuffer.array();
-        } catch (javax.xml.parsers.ParserConfigurationException e) {
-            System.err.println("Unable to create vital XML-document: " + 
-                               e.getMessage());
-            System.exit(1);
-        }
-
-        return document;
     }
 
     /**
@@ -344,7 +302,7 @@ public class StratmasDispatcher
                 ByteBuffer header = ByteBuffer.allocate(4);
                 for(int r = 0; r < 4; r += channel.read(header));
                 header.rewind();
-                int length = header.getInt();
+                header.getInt();
                 parserInput.setByteStream(channel.socket().getInputStream());
                 Document reply = createDispatcherParser().parse(parserInput);
                 NodeList servers = reply.getDocumentElement().getElementsByTagName("stratmasServer");

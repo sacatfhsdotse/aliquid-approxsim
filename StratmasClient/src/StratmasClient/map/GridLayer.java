@@ -11,6 +11,7 @@ import StratmasClient.object.StratmasEvent;
 import StratmasClient.object.primitive.Reference;
 import StratmasClient.ProcessVariableDescription;
 import StratmasClient.object.primitive.Timestamp;
+import StratmasClient.object.Line;
 import StratmasClient.object.Shape;
 import StratmasClient.object.SimpleShape;
 import StratmasClient.object.Point;
@@ -64,7 +65,7 @@ public class GridLayer implements StratmasEventListener {
     /**
      * The list of listeners.
      */
-    private Vector listeners = new Vector();
+    private Vector<StratmasEventListener> listeners = new Vector<StratmasEventListener>();
     /**
      * The actual timestamp of the grid values.
      */
@@ -219,7 +220,7 @@ public class GridLayer implements StratmasEventListener {
         for (Enumeration e = region.getShapes().elements(); e.hasMoreElements();) {
             Shape shape = (Shape)e.nextElement();
             // get list of simle shapes
-            Vector simpleShapes = shape.constructSimpleShapes(new Vector());
+            Vector simpleShapes = shape.constructSimpleShapes(new Vector<SimpleShape>());
             for (Enumeration en = simpleShapes.elements(); en.hasMoreElements();) {
                 SimpleShape ssh = (SimpleShape)en.nextElement();
                 int[] indices = gridData.getCellsForRegion(ssh.getReference());
@@ -273,7 +274,7 @@ public class GridLayer implements StratmasEventListener {
         double value  = 0;
         int nrOfCells = 0;
         // get list of simle shapes
-        Vector simpleShapes = shape.constructSimpleShapes(new Vector());
+        Vector simpleShapes = shape.constructSimpleShapes(new Vector<SimpleShape>());
         for (Enumeration en = simpleShapes.elements(); en.hasMoreElements();) {
             SimpleShape ssh = (SimpleShape)en.nextElement();
             int[] indices = gridData.getCellsForRegion(ssh.getReference());
@@ -306,7 +307,7 @@ public class GridLayer implements StratmasEventListener {
      */
     public void notifyListeners(StratmasEvent se) {
         for(int i = 0; i < listeners.size(); i++) {
-            ((StratmasEventListener)listeners.get(i)).eventOccured(se);
+            listeners.get(i).eventOccured(se);
         }
     }
     
@@ -401,8 +402,7 @@ public class GridLayer implements StratmasEventListener {
     public Shape getCellShape(Cell cell) {
         // get cell positions
         double[] pos = gridData.getCellPositions();
-        // get row and column of the cell
-        int row_nr = gridData.getRows();
+        gridData.getRows();
         int col_nr = gridData.getCols();
         int row = cell.cellPos/col_nr;
         int col = cell.cellPos%col_nr;
@@ -412,7 +412,7 @@ public class GridLayer implements StratmasEventListener {
         Point lower_right = StratmasObjectFactory.createPoint("D", pos[2*((row+1)*(col_nr+1)+col+1)], pos[2*((row+1)*(col_nr+1)+col+1)+1]);
 
         // create lines
-        Vector lines = new Vector();
+        Vector<Line> lines = new Vector<Line>();
         lines.add(StratmasObjectFactory.createLine("0", upper_left, 
                                                    (Point) StratmasObjectFactory.cloneObject(upper_right)));
         lines.add(StratmasObjectFactory.createLine("1", upper_right, 
@@ -474,23 +474,16 @@ public class GridLayer implements StratmasEventListener {
         // Pushes the name for RenderSelection mode.        
         gl.glPushName(getRenderSelectionName());
         
-        // draw the cells of the grid
-        // the counter of the active cells that cover the actual region
-        int validCellCounter = 0;
-        // the counter of all the active cells in the grid  
-        int activeCellCounter = 0;
         // get cell values
         int[] grid_values = color_map.getScaledPV();
         // get the actual color table
         float[][] color_table = color_map.getColorTable();
         if (grid_values != null) {
-            // get number of rows and columns
-            int row_nr = gridData.getRows();
+            gridData.getRows();
             int col_nr = gridData.getCols();
             // get position for all the cells
             double[] pos = gridData.getCellPositions();
-            // for each cell
-            byte[] ind = gridData.getActiveCells();
+            gridData.getActiveCells();
             // for each cell in the grid
             for (int ii = 0; ii < cellInfo.length; ii++) { 
                 // get row and column of the cell

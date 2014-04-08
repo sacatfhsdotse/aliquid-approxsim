@@ -123,7 +123,7 @@ public class UnitImportFilter
                                                       ParseException
     {
         LineNumberReader lineReader = new LineNumberReader(reader);
-        Vector warnings = new Vector();
+        Vector<String> warnings = new Vector<String>();
         
         String headerString = lineReader.readLine();
         
@@ -135,7 +135,7 @@ public class UnitImportFilter
         int outColumnCounter = 0;
         int inColumnCounter = 0;
         int[] columnSorter = new int[headers.length];
-        Vector ovh = new Vector();
+        Vector<String> ovh = new Vector<String>();
         for (int j = 0; j < headers.length; j++) {
             int a = classifyColumn(headers[j]);
             if (a > 0) {
@@ -149,7 +149,7 @@ public class UnitImportFilter
             }
         }
            
-        this.outTableHeaders = (String[]) ovh.toArray(outTableHeaders);
+        this.outTableHeaders = ovh.toArray(outTableHeaders);
         this.outTableTargets = new Reference[outTableHeaders.length];
         for (int j = 0; j < outTableHeaders.length; j++) {
             Reference ref = resolveHeaderTarget(outTableHeaders[j]);
@@ -160,8 +160,8 @@ public class UnitImportFilter
             outTableTargets[j] = ref;
         }
 
-        Vector iv = new Vector();
-        Vector ov = new Vector();
+        Vector<String[]> iv = new Vector<String[]>();
+        Vector<String[]> ov = new Vector<String[]>();
         
         for (String line = lineReader.readLine(); line != null; 
              line = lineReader.readLine()) {
@@ -195,8 +195,8 @@ public class UnitImportFilter
             }
         }
 
-        this.inTable = (String[][]) iv.toArray(inTable);
-        this.outTable = (String[][]) ov.toArray(outTable);
+        this.inTable = iv.toArray(inTable);
+        this.outTable = ov.toArray(outTable);
 
         return warnings;
     }
@@ -325,7 +325,7 @@ public class UnitImportFilter
      * @param lineIndex the values to apply to unit.
      * @param warnings to add warnings to.
      */
-    public void applyLine(StratmasObject unit, int lineIndex, Vector warnings) 
+    public void applyLine(StratmasObject unit, int lineIndex, Vector<String> warnings) 
     {
         String[] line = outTable[lineIndex];
 

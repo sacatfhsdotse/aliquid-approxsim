@@ -116,7 +116,7 @@ public class SubscriptionHandler implements Runnable {
       */
      public void blockingRegSubscription(Subscription sub) throws ServerException {
           if (sub instanceof Unsubscription) {
-               Object o = mSubs.remove(new Integer(sub.id()));
+               mSubs.remove(new Integer(sub.id()));
           }
           else if (sub instanceof StratmasObjectSubscription) {
                StratmasObjectSubscription sosub = (StratmasObjectSubscription)sub;

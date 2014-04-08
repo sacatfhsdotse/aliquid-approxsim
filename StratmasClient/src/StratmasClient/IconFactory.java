@@ -44,12 +44,12 @@ public class IconFactory
     /**
      * A static mapping of icons to types.
      */
-    static Hashtable typeMapping;
+    static Hashtable<String, Icon> typeMapping;
 
     /**
      * A list of images for the activity symbols.
      */
-    static Hashtable activitySymbols = new Hashtable();
+    static Hashtable<Integer, WeakReference<Icon>> activitySymbols = new Hashtable<Integer, WeakReference<Icon>>();
 
     /**
      * A loader of app6a icons.
@@ -105,7 +105,7 @@ public class IconFactory
     static void createTypeMapping()
     {
         if (typeMapping == null) {
-            typeMapping = new Hashtable();
+            typeMapping = new Hashtable<String, Icon>();
 
             typeMapping.put("CommonSimulation", 
                             new Icon(IconFactory.class.getResource("icons/simulation.png")));
@@ -165,7 +165,7 @@ public class IconFactory
     public static Icon useTypeMapping(Type type)
     {
         createTypeMapping();
-        Icon res = (Icon) typeMapping.get(type.getName());
+        Icon res = typeMapping.get(type.getName());
 
         // Next, try to match against the types supertype (only
         // necessary to check direct parent since this is a
@@ -242,7 +242,7 @@ public class IconFactory
     public static Icon getActivityIcon(SymbolIDCode code, Image src) {
         int affChar = (code == null || code.valueToString().length() < 2) ? '-' : code.valueToString().charAt(1);
         Integer key = new Integer(affChar);
-        WeakReference reference = (WeakReference) activitySymbols.get(key);        
+        WeakReference reference = activitySymbols.get(key);        
         Icon icon = null;
         if (reference != null) {
             icon = (Icon) reference.get();
@@ -256,7 +256,7 @@ public class IconFactory
             // set the color to the order
             ImageFilter colorFilter = OrderColorFilter.getFilter(muColor);
             Icon newIcon = new Icon(Toolkit.getDefaultToolkit().createImage(new FilteredImageSource(src.getSource(),colorFilter)));
-            activitySymbols.put(key, new WeakReference(newIcon));
+            activitySymbols.put(key, new WeakReference<Icon>(newIcon));
             return newIcon;
         }
     }

@@ -3,8 +3,6 @@ package StratmasClient;
 import java.util.Vector;
 import java.awt.Font;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
@@ -35,6 +33,10 @@ import StratmasClient.timeline.SpringUtilities;
  */
 public class ControllerPanel extends JPanel implements ActionListener {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1206772052563346909L;
+	/**
      * The start/stop button.
      */
     final private JButton startStop = new JButton();
@@ -168,35 +170,6 @@ public class ControllerPanel extends JPanel implements ActionListener {
     }
     
     /**
-     * Creates the GUI and show it. 
-     */
-    private void createAndShowGUI() {
-        // create and set up the window
-        frame = new JFrame("Stratmas Simulation Control");
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        
-        // frame size (test adapted for now on)
-        int frame_width = 400;
-        int frame_height = 100;
-        Dimension screen_size = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setSize(frame_width, frame_height); 
-        frame.setLocation(screen_size.width-frame_width, screen_size.height/2+frame_height);
-        
-        // set up the content pane
-        setOpaque(true); //content panes must be opaque
-        frame.setContentPane(this);
-        frame.setResizable(true);
-        
-        // thread safety recomendation
-        final JFrame finalframe = frame;
-        SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    finalframe.setVisible(true);
-                }
-            });
-    }
-    
-    /**
      * Fires actions caused by pressing the buttons.
      */
     public void actionPerformed(ActionEvent e) {
@@ -275,7 +248,6 @@ public class ControllerPanel extends JPanel implements ActionListener {
 	                final Controller tmpController = controller;
 	                final Client tmpClient = client;
 	                final JButton tmpConnect = connect;
-	                final ControllerPanel self = this;
 	                final Thread worker = new Thread() {
 	                        public void run() {
 	                        	tmpController.connectToServer();

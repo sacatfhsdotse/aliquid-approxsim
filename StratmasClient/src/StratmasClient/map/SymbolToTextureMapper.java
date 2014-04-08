@@ -41,7 +41,7 @@ public class SymbolToTextureMapper
      *  A hashtabel mapping gl-contexts to hashtables mapping icons to
      *  texture names.
      */
-    private static Hashtable glContexts = new Hashtable();
+    private static Hashtable<GLWeakReference, Hashtable<Image, Integer>> glContexts = new Hashtable<GLWeakReference, Hashtable<Image, Integer>>();
 
     /**
      * Whether to use mipmap texturing. Default is true. See also textureMinFilter.
@@ -85,10 +85,10 @@ public class SymbolToTextureMapper
      */
     static public int getTexture(Icon icon, GLAutoDrawable glContext)
     {
-        Hashtable textureNames = getContext(glContext);
+        Hashtable<Image, Integer> textureNames = getContext(glContext);
         Integer textureName;
         synchronized (textureNames) {
-            textureName = (Integer) textureNames.get(icon.getImage());
+            textureName = textureNames.get(icon.getImage());
             if (textureName == null) {
                 textureName = createTexture(icon, glContext);
                 textureNames.put(icon.getImage(), textureName);
@@ -249,12 +249,12 @@ public class SymbolToTextureMapper
      * @param glDrawable the glDrawable for which to get the hashtable.
      *
      */
-    static private Hashtable getContext(GLAutoDrawable glDrawable)
+    static private Hashtable<Image, Integer> getContext(GLAutoDrawable glDrawable)
     {
         synchronized (glContexts) {
-            Hashtable res = (Hashtable) glContexts.get(glDrawable.getGL());
+            Hashtable<Image, Integer> res = glContexts.get(glDrawable.getGL());
             if (res == null) {
-                res = new Hashtable();
+                res = new Hashtable<Image, Integer>();
                 glContexts.put(new GLWeakReference(glDrawable.getGL()), res);
             }
             return res;

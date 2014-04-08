@@ -10,7 +10,7 @@ public class FileExtensionFilter2 extends FileExtensionFilter {
     /**
      * The extensions to pass.
      */
-    private Vector extensions = new Vector();
+    private Vector<String> extensions = new Vector<String>();
     
     /**
      * Creates a filter that passes files with the specified extensions.
@@ -49,7 +49,7 @@ public class FileExtensionFilter2 extends FileExtensionFilter {
         }
         else {
             for (int i = 0; i < extensions.size(); i++) {
-                if (((String)extensions.get(i)).equalsIgnoreCase(getExtension(f))) {
+                if (extensions.get(i).equalsIgnoreCase(getExtension(f))) {
                     return true;
                 }
             }

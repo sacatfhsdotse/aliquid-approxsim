@@ -16,6 +16,11 @@ package StratmasClient.TaclanV2;
 public class ImportHandlerException extends Exception
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3889327838985522138L;
+
+	/**
      * The handler causing the exception.
      */
     ImportHandler handler;

@@ -20,6 +20,10 @@ import javax.media.opengl.GLProfile;
  */
 public class TimelineCanvasPanel extends JPanel implements GLEventListener, MouseListener, MouseMotionListener {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4708754817104727820L;
+	/**
      * The left bound of the drawing area.
      */
     protected int xmin;
@@ -183,7 +187,7 @@ public class TimelineCanvasPanel extends JPanel implements GLEventListener, Mous
         if (src.equals(canvas)) {
             // get x window coordinate
             int x = (int)Math.round(e.getX());
-            int y = (int)Math.round(e.getY());
+            Math.round(e.getY());
             // update the position of the cursor
             setCurrentCursorProjectedPos(x);
             // redraw
@@ -204,7 +208,7 @@ public class TimelineCanvasPanel extends JPanel implements GLEventListener, Mous
         if (src.equals(canvas)) {
             // get x window coordinate
             int x = (int)e.getX();
-            int y = (int)e.getY();
+            e.getY();
             // update the position of the cursor
             setCurrentCursorProjectedPos(x);
             // redraw
@@ -334,7 +338,6 @@ public class TimelineCanvasPanel extends JPanel implements GLEventListener, Mous
     protected double dt2dx(long dt) {
         double x1 = convertCurrentTimeToProjectedX(0);
         double x2 = convertCurrentTimeToProjectedX(timelinePanel.millisecondsToTimeUnit(dt));
-        double res = x2 - x1;
         return x2 - x1;
     }
     
@@ -344,7 +347,6 @@ public class TimelineCanvasPanel extends JPanel implements GLEventListener, Mous
     protected int dW2dP(int dW) {
         int x1 = convertWindowXToProjectedX(0);
         int x2 = convertWindowXToProjectedX(dW);
-        int res = x2 - x1;
         return x2 - x1;
     }
    

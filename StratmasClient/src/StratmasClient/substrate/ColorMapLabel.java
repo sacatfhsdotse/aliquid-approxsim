@@ -13,6 +13,10 @@ import javax.swing.JLabel;
  */
 public class ColorMapLabel extends JLabel implements MouseListener, MouseMotionListener{
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6616285905535075550L;
+	/**
      * Reference to the color chooser.
      */
     private ColorChooser colorChooser;

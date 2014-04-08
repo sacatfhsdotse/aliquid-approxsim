@@ -129,7 +129,12 @@ public class DisplayControl {
         fileMenu.setFont(fileMenu.getFont().deriveFont(Font.PLAIN));
         // save the graph
         JMenuItem shotMenuItem = new JMenuItem(new AbstractAction("Save image as ...") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 3572435561663461949L;
+
+				public void actionPerformed(ActionEvent e) {
                     fgraph.saveImage();  
                 }
             });
@@ -137,7 +142,12 @@ public class DisplayControl {
         fileMenu.add(shotMenuItem);
         // export the graph
         JMenuItem exportMenuItem = new JMenuItem(new AbstractAction("Export values as ...") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = -8377546636853822853L;
+
+				public void actionPerformed(ActionEvent e) {
                     fgraph.exportSeries(); 
                 }
             });
@@ -146,7 +156,12 @@ public class DisplayControl {
         fileMenu.addSeparator();
         // exit the graph
         JMenuItem exitMenuItem = new JMenuItem(new AbstractAction("Exit") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 6875215378908409584L;
+
+				public void actionPerformed(ActionEvent e) {
                     fgraph.remove();
                 }
             });
@@ -168,7 +183,12 @@ public class DisplayControl {
         optionsMenu.add(scaleSubmenu);
         // set linear scale
         JRadioButtonMenuItem linScaleButton = new JRadioButtonMenuItem(new AbstractAction("Linear") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 8902247851790187120L;
+
+				public void actionPerformed(ActionEvent e) {
                     fgraph.setLinearScale();
                 }
             });
@@ -177,7 +197,12 @@ public class DisplayControl {
         scaleSubmenu.add(linScaleButton);
         // set logarithmic scale
         JRadioButtonMenuItem logScaleButton = new JRadioButtonMenuItem(new AbstractAction("Logarithmic") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = -8506357038404098275L;
+
+				public void actionPerformed(ActionEvent e) {
                     fgraph.setLogarithmicScale();
                 }
             });
@@ -204,7 +229,12 @@ public class DisplayControl {
         showMenu.add(showRunSubmenu);
         // show the current simulation run only
         JRadioButtonMenuItem currentRunButton = new JRadioButtonMenuItem(new AbstractAction("Current Run") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 8207254214714369783L;
+
+				public void actionPerformed(ActionEvent e) {
                     fgraph.setShowPrevious(false);  
                 }
             });
@@ -213,7 +243,12 @@ public class DisplayControl {
         showRunSubmenu.add(currentRunButton);
         // show both the current and the previous simulations
         JRadioButtonMenuItem twoConsRunsButton = new JRadioButtonMenuItem(new AbstractAction("Current and Previous Run") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1977979661960302791L;
+
+				public void actionPerformed(ActionEvent e) {
                     fgraph.setShowPrevious(true); 
                 }
             });
@@ -225,7 +260,12 @@ public class DisplayControl {
         runButtons.add(twoConsRunsButton);
         // show the legend
         JCheckBoxMenuItem legendMenuItem = new JCheckBoxMenuItem(new AbstractAction("Legend") {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = -5154454850877198639L;
+
+				public void actionPerformed(ActionEvent e) {
                     JCheckBoxMenuItem thisItem = (JCheckBoxMenuItem)e.getSource();
                     fgraph.setLegendVisible(thisItem.isSelected());
                 }
@@ -241,7 +281,6 @@ public class DisplayControl {
      * Creates the menu bar for the graph.
      */
     public static JMenuBar createMenuBar(ProcessVariableXYGraph graph) {
-        final ProcessVariableXYGraph fgraph = graph;
         // file menu bar
         JMenuBar menuBar = new JMenuBar();
         menuBar.add(createFileMenu(graph));

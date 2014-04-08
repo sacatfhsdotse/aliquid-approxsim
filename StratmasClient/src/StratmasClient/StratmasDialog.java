@@ -37,7 +37,7 @@ public class StratmasDialog {
         progressBarDialog = createProgressBarDialog(null, info);
         final boolean fprogressBarOnTop = progressBarOnTop;
         final JDialog dialog = progressBarDialog;
-        final Frame frame = JOptionPane.getFrameForComponent(f);
+        JOptionPane.getFrameForComponent(f);
         final Dimension screen_size = Toolkit.getDefaultToolkit().getScreenSize();
         progressBarDialog.setSize(screen_size.width/5, screen_size.height/9); 
         progressBarDialog.setLocation(screen_size.width/2, screen_size.height/2);

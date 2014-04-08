@@ -27,7 +27,7 @@ public class SimulationEvaluator extends DefaultEvaluator implements StratmasEve
      * Vector containing Evaluations that are results of measured
      * timesteps passed before this evaluator finished.
      */
-    Vector evaluations = new Vector();
+    Vector<Evaluation> evaluations = new Vector<Evaluation>();
 
     /**
      * The server session this SimulationEvaluator
@@ -202,12 +202,12 @@ public class SimulationEvaluator extends DefaultEvaluator implements StratmasEve
      * Returns copy of vector containing Evaluations that are results
      * of measured timesteps passed before this evaluator finished.
      */
-    public Vector getEvaluations()
+    public Vector<Evaluation> getEvaluations()
     {
-        Vector res = null;
+        Vector<Evaluation> res = null;
 
         synchronized (this.evaluations) {
-            res = (Vector) evaluations.clone();
+            res = (Vector<Evaluation>) evaluations.clone();
         }
 
         return res;
@@ -222,7 +222,7 @@ public class SimulationEvaluator extends DefaultEvaluator implements StratmasEve
 
         synchronized (this.evaluations) {
             if (this.evaluations.size() > 0) {
-                res = (Evaluation) this.evaluations.lastElement();
+                res = this.evaluations.lastElement();
             }
         }
 

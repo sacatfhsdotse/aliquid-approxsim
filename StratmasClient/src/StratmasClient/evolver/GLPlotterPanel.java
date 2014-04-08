@@ -28,6 +28,11 @@ import java.awt.BorderLayout;
 public class GLPlotterPanel extends JPanel
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2390950332683703274L;
+
+	/**
      * The GLPlotter this PlotterPanel encapsulates.
      */
     GLPlotter glPlotter;
@@ -78,6 +83,10 @@ public class GLPlotterPanel extends JPanel
 class GLPlotterControl extends JPanel
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6236891324701776213L;
+	/**
      * The plotter this panel controls.
      */
     GLPlotter plotter;
@@ -148,7 +157,12 @@ class GLPlotterControl extends JPanel
         
          xChooser.addActionListener(new AbstractAction()
             {
-                public void actionPerformed(ActionEvent e)
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = -3579874623138453372L;
+
+				public void actionPerformed(ActionEvent e)
                 {
                     getPlotter().setXParameter((Parameter) ((JComboBox) e.getSource()).getSelectedItem());
                 }
@@ -156,21 +170,36 @@ class GLPlotterControl extends JPanel
 
          yChooser.addActionListener(new AbstractAction()
             {
-                public void actionPerformed(ActionEvent e)
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = 5501121210271478816L;
+
+				public void actionPerformed(ActionEvent e)
                 {
                     getPlotter().setYParameter((Parameter) ((JComboBox) e.getSource()).getSelectedItem());
                 }
             });
          zChooser.addActionListener(new AbstractAction()
             {
-                public void actionPerformed(ActionEvent e)
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = -4856633540152664638L;
+
+				public void actionPerformed(ActionEvent e)
                 {
                     getPlotter().setZParameter((Parameter) ((JComboBox) e.getSource()).getSelectedItem());
                 }
             });
          cChooser.addActionListener(new AbstractAction()
             {
-                public void actionPerformed(ActionEvent e)
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = 4356433313985612746L;
+
+				public void actionPerformed(ActionEvent e)
                 {
                     getPlotter().setCParameter((Parameter) ((JComboBox) e.getSource()).getSelectedItem());
                 }
@@ -197,7 +226,12 @@ class GLPlotterControl extends JPanel
         // Draw interpolation or not.
         JCheckBox interpolationCheckBox = new JCheckBox(new AbstractAction("Solid Surface") 
             {
-                public void actionPerformed(ActionEvent e)
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = 2581678327430491700L;
+
+				public void actionPerformed(ActionEvent e)
                 {
                     getPlotter().drawInterpolation(!getPlotter().drawsInterpolation());
                 }
@@ -208,7 +242,12 @@ class GLPlotterControl extends JPanel
         // Draw interpolation outline or not.
         JCheckBox interpolationOutlineCheckBox = new JCheckBox(new AbstractAction("Surface Outline") 
             {
-                public void actionPerformed(ActionEvent e)
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = -2087887130189826459L;
+
+				public void actionPerformed(ActionEvent e)
                 {
                     getPlotter().drawInterpolationOutline(!getPlotter().drawsInterpolationOutline());
                 }
@@ -219,7 +258,12 @@ class GLPlotterControl extends JPanel
         // Draw axes or not.
         JCheckBox axesCheckBox = new JCheckBox(new AbstractAction("Show axes") 
             {
-                public void actionPerformed(ActionEvent e)
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = 3091700985827785729L;
+
+				public void actionPerformed(ActionEvent e)
                 {
                     getPlotter().drawAxes(!getPlotter().drawsAxes());
                 }
@@ -230,7 +274,12 @@ class GLPlotterControl extends JPanel
         // Draw samples or not.
         JCheckBox samplesCheckBox = new JCheckBox(new AbstractAction("Show samples") 
             {
-                public void actionPerformed(ActionEvent e)
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = -6421443066578610603L;
+
+				public void actionPerformed(ActionEvent e)
                 {
                     getPlotter().drawSamples(!getPlotter().drawsSamples());
                 }
@@ -241,7 +290,12 @@ class GLPlotterControl extends JPanel
         // Draw trace of samples or not.
         JCheckBox traceCheckBox = new JCheckBox(new AbstractAction("Show trace") 
             {
-                public void actionPerformed(ActionEvent e)
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = 2389280748246481632L;
+
+				public void actionPerformed(ActionEvent e)
                 {
                     getPlotter().drawTrace(!getPlotter().drawsTrace());        
                 }
@@ -252,7 +306,12 @@ class GLPlotterControl extends JPanel
         // Draw a box around graph or not
         JCheckBox boxCheckBox = new JCheckBox(new AbstractAction("Show box") 
             {
-                public void actionPerformed(ActionEvent e)
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = 5326880784643246947L;
+
+				public void actionPerformed(ActionEvent e)
                 {
                     getPlotter().drawBox(!getPlotter().drawsBox());
                 }
@@ -263,7 +322,12 @@ class GLPlotterControl extends JPanel
         // Whether to use GL lighting or not.
         JCheckBox lightingCheckBox = new JCheckBox(new AbstractAction("Enable GL lighting") 
             {
-                public void actionPerformed(ActionEvent e)
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = 194874165032251556L;
+
+				public void actionPerformed(ActionEvent e)
                 {
                     getPlotter().enableLighting(!getPlotter().isLightingEnabled());
                 }

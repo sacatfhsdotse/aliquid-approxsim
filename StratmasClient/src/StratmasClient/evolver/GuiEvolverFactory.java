@@ -49,6 +49,11 @@ import java.awt.dnd.DropTargetDropEvent;
 public class GuiEvolverFactory extends JPanel implements EvolverFactory 
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7658709396373524971L;
+
+	/**
      * The targetParameter of this factory
      */
     Parameter targetParameter;
@@ -89,7 +94,12 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory
         setSamplerFactory(new GuiSamplerFactory());
         setStopperFactory(new GuiIterationsStopperFactory("Evolver")
             {
-                public Stopper getStopper() {
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = -6831043980046147256L;
+
+				public Stopper getStopper() {
                     return new IterationsStopper(getIterations())
                         {
                             /**
@@ -129,7 +139,12 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory
         setSamplerFactory(new GuiSamplerFactory());
         setStopperFactory(new GuiIterationsStopperFactory("Evolver")
             {
-                public Stopper getStopper() {
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = 8385856821573978481L;
+
+				public Stopper getStopper() {
                     return new IterationsStopper(getIterations())
                         {
                             /**
@@ -408,7 +423,12 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory
 
                             setEvaluatorStopperFactory(new GuiIterationsStopperFactory("Simulation")
                                 {
-                                    public Stopper getStopper() {
+                                    /**
+									 * 
+									 */
+									private static final long serialVersionUID = 3762415824715475892L;
+
+									public Stopper getStopper() {
                                         return new IterationsStopper(getIterations())
                                             {
                                                 /**

@@ -36,17 +36,9 @@ import StratmasClient.map.adapter.MapShapeAdapter;
  */
 public class SubstrateEditor {
     /**
-     * Path to the images.
-     */
-    private static String path = "images/";
-    /**
      * Reference to the client.
      */
     private Client client;
-    /**
-     * Reference to the shape.
-     */
-    private Shape shape;
     /**
      * Reference to the substrate drawer.
      */
@@ -100,8 +92,6 @@ public class SubstrateEditor {
      */
     public SubstrateEditor(Client client, Shape shape) {
         this.client = client;
-        this.shape = shape;
-        
         // create the basic map 
         BasicMap basicMap = new BasicMap(client, shape);
         
@@ -551,13 +541,6 @@ public class SubstrateEditor {
     private void enableSaveItems() {
         displayControl.enableSaveItem(true);
         displayControl.enableSaveAsItem(true);
-    }
-    
-    /**
-     * Disables the menu items used to import process variables.
-     */
-    private void disableImportItems() {
-        displayControl.enableImportPVItem(false);
     }
     
     /**

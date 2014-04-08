@@ -219,7 +219,6 @@ class UTMConversion {
         if (lon_lat == null) {
             return null;
         }
-        double longitude = lon_lat[0];
         double latitude = lon_lat[1];
         // Latitude out of range
         if (latitude < MIN_LAT || latitude > MAX_LAT) {

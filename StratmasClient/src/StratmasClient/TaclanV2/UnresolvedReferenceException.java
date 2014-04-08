@@ -8,6 +8,11 @@ package StratmasClient.TaclanV2;
 public class UnresolvedReferenceException extends SemanticException
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 9099580719425446802L;
+
+	/**
      * The reference causing the error.
      */
     ParsedReference reference;

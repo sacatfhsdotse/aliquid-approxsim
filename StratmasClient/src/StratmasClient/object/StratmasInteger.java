@@ -171,7 +171,11 @@ public class StratmasInteger extends StratmasSimple
 */
 class StratmasIntegerGUIConstructor extends StratmasGUIConstructor
 {
-    javax.swing.JTextField field;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7202391616892372609L;
+	javax.swing.JTextField field;
 
     /**
      * Creates a new StratmasIntegerGUIConstructor using the supplied

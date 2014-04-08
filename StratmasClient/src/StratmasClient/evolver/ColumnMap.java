@@ -20,12 +20,12 @@ public class ColumnMap
     /**
      * Map from index -> parameter
      */
-    Hashtable parameterToIndex = new Hashtable();
+    Hashtable<Parameter, Integer> parameterToIndex = new Hashtable<Parameter, Integer>();
 
     /**
      * Map from parameter -> index
      */
-    Hashtable indexToParameter = new Hashtable();
+    Hashtable<Integer, Parameter> indexToParameter = new Hashtable<Integer, Parameter>();
 
     /**
      * The current max index.
@@ -48,7 +48,7 @@ public class ColumnMap
      */
     public synchronized int getIndex(Parameter parameter)
     {
-        Integer i = (Integer) parameterToIndex.get(parameter);
+        Integer i = parameterToIndex.get(parameter);
         if (i != null) {
             return i.intValue();
         } else {
@@ -64,18 +64,18 @@ public class ColumnMap
      */
     public synchronized Parameter getParameter(int index)
     {
-        return (Parameter) indexToParameter.get(new Integer(index));
+        return indexToParameter.get(new Integer(index));
     }
 
     /**
      * Returns the parameters of this map in the order of their
      * indexes.
      */
-    public synchronized Vector getParameters()
+    public synchronized Vector<Parameter> getParameters()
     {
         int[] indices = getIndices();
 
-        Vector v = new Vector();
+        Vector<Parameter> v = new Vector<Parameter>();
         for (int i = 0; i < indices.length; i++) {
             v.add(getParameter(indices[i]));
         }
@@ -90,8 +90,8 @@ public class ColumnMap
     {
         int[] res = new int[indexToParameter.size()];
         int i = 0;
-        for (Enumeration e = indexToParameter.keys(); e.hasMoreElements();) {
-            res[i++] = ((Integer) e.nextElement()).intValue();
+        for (Enumeration<Integer> e = indexToParameter.keys(); e.hasMoreElements();) {
+            res[i++] = e.nextElement().intValue();
         }
         Arrays.sort(res);
 

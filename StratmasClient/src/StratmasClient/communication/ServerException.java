@@ -15,6 +15,10 @@ package StratmasClient.communication;
 public class ServerException extends Exception
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7053742856137679342L;
+	/**
      * A string describing the exception.
      */
     String description;

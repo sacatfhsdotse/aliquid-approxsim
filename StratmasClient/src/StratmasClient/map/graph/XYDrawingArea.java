@@ -21,6 +21,10 @@ import javax.media.opengl.glu.GLU;
  */
 public class XYDrawingArea extends JPanel implements GLEventListener {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5145659013670805049L;
+	/**
      * The minimum horizontal coordinate of the graph.
      */
     private int xmin = 0; 
@@ -390,8 +394,8 @@ public class XYDrawingArea extends JPanel implements GLEventListener {
             if (graph.getLowerYBound() > 0 &&
                 (int)Math.round(graph.log10(graph.getUpperYBound()) - graph.log10(graph.getLowerYBound())) == 1) {
                 yValues[0] = graph.getLowerYBound();
-                for (int i = 0; i < graph.MIDDLE_LOG_VALUES.length; i++) {
-                    yValues[i + 1] = graph.getLowerYBound() * graph.MIDDLE_LOG_VALUES[i];
+                for (int i = 0; i < ProcessVariableXYGraph.MIDDLE_LOG_VALUES.length; i++) {
+                    yValues[i + 1] = graph.getLowerYBound() * ProcessVariableXYGraph.MIDDLE_LOG_VALUES[i];
                 } 
                 yValues[3] = graph.getUpperYBound();
             }

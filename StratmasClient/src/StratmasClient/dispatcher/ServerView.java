@@ -42,6 +42,10 @@ import java.awt.Point;
 public class ServerView extends JTree
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1580389445011598085L;
+	/**
      * The default prefered width of icons used in the TreeCellRenderers.
      */
     private static final int DEFAULT_PREFERED_ICON_WIDTH = 16;
@@ -158,7 +162,12 @@ public class ServerView extends JTree
                            new AbstractAction("Zoom In", 
                                               new ImageIcon(ServerView.class.getResource("images/zoom_in.png"))) 
                            { 
-                               public void actionPerformed(ActionEvent e) 
+                               /**
+							 * 
+							 */
+							private static final long serialVersionUID = 5115361397452350842L;
+
+							public void actionPerformed(ActionEvent e) 
                                {
                                    scalePreferedIconSize(1.1);
                                }
@@ -169,7 +178,12 @@ public class ServerView extends JTree
                                               new ImageIcon(ServerView.class.getResource("images/zoom_out.png"))) 
                            { 
                                
-                               public void actionPerformed(ActionEvent e) 
+                               /**
+							 * 
+							 */
+							private static final long serialVersionUID = 9148901834766633260L;
+
+							public void actionPerformed(ActionEvent e) 
                                {
                                    scalePreferedIconSize(0.9);
                                }
@@ -179,7 +193,12 @@ public class ServerView extends JTree
                                               new ImageIcon(new ImageIcon(ServerView.class.getResource("images/refresh.png")).getImage().getScaledInstance(16, 16, java.awt.Image.SCALE_SMOOTH))) 
                            { 
                                
-                               public void actionPerformed(ActionEvent e) 
+                               /**
+							 * 
+							 */
+							private static final long serialVersionUID = -7140756691643212889L;
+
+							public void actionPerformed(ActionEvent e) 
                                {
                                    Thread worker = new Thread()
                                        {
@@ -193,10 +212,9 @@ public class ServerView extends JTree
                                        {
                                            public void run()
                                            {
-                                               ProgressMonitor widget = 
-                                                     new ProgressMonitor(self, 
-                                                                     "Fetching server list", 
-                                                                     "", 0, 100); 
+                                               new ProgressMonitor(self, 
+											                 "Fetching server list", 
+											                 "", 0, 100); 
                                            }
                                        };
                                    monitor.start();
@@ -267,7 +285,12 @@ public class ServerView extends JTree
                      e.hasMoreElements();) {
                     AbstractAction action = new AbstractAction(e.nextElement().toString())
                         {
-                            public void actionPerformed(ActionEvent event)
+                            /**
+							 * 
+							 */
+							private static final long serialVersionUID = 51408121529017251L;
+
+							public void actionPerformed(ActionEvent event)
                             {
                                 Client.getClient().setServerName(server.getHost());
                                 Client.getClient().setServerPort(server.getPort());
@@ -291,7 +314,12 @@ public class ServerView extends JTree
             } else {
                 AbstractAction action = new AbstractAction("No simulations")
                     {
-                        public void actionPerformed(ActionEvent e)
+                        /**
+						 * 
+						 */
+						private static final long serialVersionUID = 6774201023927610260L;
+
+						public void actionPerformed(ActionEvent e)
                         {
                         }
                     };
@@ -415,6 +443,11 @@ public class ServerView extends JTree
 class ServerViewCellRenderer extends DefaultTreeCellRenderer
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8406233821734090601L;
+
+	/**
      * The serverView this renderer renders for.
      */
     ServerView serverView;

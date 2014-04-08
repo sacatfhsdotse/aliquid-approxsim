@@ -11,6 +11,10 @@ import javax.swing.JLabel;
  */
 public class PointedValueLabel extends JLabel{
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2250385010018148006L;
+	/**
      * The displayed value.
      */
     private String displayedValue;

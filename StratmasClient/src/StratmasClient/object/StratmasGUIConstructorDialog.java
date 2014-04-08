@@ -16,6 +16,11 @@ import javax.swing.JDialog;
 public class StratmasGUIConstructorDialog extends JDialog
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3832051310348235016L;
+
+	/**
      * The constructor this dialog wraps.
      */
     StratmasGUIConstructor constructor;

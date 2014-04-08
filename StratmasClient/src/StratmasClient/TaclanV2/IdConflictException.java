@@ -8,6 +8,11 @@ package StratmasClient.TaclanV2;
 public class IdConflictException extends SemanticException
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4661812412170444094L;
+
+	/**
      * The first declared identifier.
      */
     ParsedIdentifier first;

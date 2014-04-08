@@ -37,6 +37,10 @@ import StratmasClient.object.type.TypeFactory;
  */
 public class CreateFactionDialog extends JDialog implements ActionListener, FactoryListener, StratmasEventListener {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2649404440836166070L;
+	/**
      * Instance of the actual dialog.
      */
     private static CreateFactionDialog dialog;
@@ -68,11 +72,6 @@ public class CreateFactionDialog extends JDialog implements ActionListener, Fact
      * The remove faction button.
      */
     private JButton removeFactionButton;
-    /**
-     * The font for the gui components.
-     */
-    private Font font;
-    
     /**
      * Sets up and shows the dialog.
      *

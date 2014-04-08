@@ -12,6 +12,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 public class ActivityTableCellRenderer extends DefaultTableCellRenderer {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -504755902114378189L;
+
+	/**
      * Returns the default table cell renderer. 
      *
      * @param table the JTable.

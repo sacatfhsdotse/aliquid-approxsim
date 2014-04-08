@@ -40,27 +40,23 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
     /**
      * Selected times that are neither processed to Client nor executed.
      */
-    private Vector selectedTimes = new Vector();
+    private Vector<TimeInterval> selectedTimes = new Vector<TimeInterval>();
     /**
      * Executed times.
      */
-    private Vector executedTimes = new Vector();
+    private Vector<TimeInterval> executedTimes = new Vector<TimeInterval>();
     /**
      * The times processed to the server but not executed.
      */
-    private Vector timesInProcess = new Vector();
+    private Vector<TimeInterval> timesInProcess = new Vector<TimeInterval>();
     /**
      * Activities visualized in the timeline.
      */
-    private Vector activityAdapters = new Vector();
+    private Vector<ActivityAdapter> activityAdapters = new Vector<ActivityAdapter>();
     /**
      * Reference to Client.
      */
     private Client client;
-    /**
-     * Indicates if the client is in the state of waiting for the message from the timeline.
-     */
-    private boolean isClientWaiting = false;
     /**
      * Indicates if the time step is changed.
      */
@@ -175,7 +171,7 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
             synchronized (selectedTimes) {
                 int counter = 0;
                 while (counter < selectedTimes.size()) {
-                    boolean success = ((TimeInterval)selectedTimes.get(counter)).setTimeStep(deltat, refTime);
+                    boolean success = selectedTimes.get(counter).setTimeStep(deltat, refTime);
                     if (!success) {
                         selectedTimes.remove(counter);        
                     }
@@ -208,7 +204,7 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
                 // update the list of times in process
                 if (!timesInProcess.isEmpty()) {
                     // remove the first time
-                    TimeInterval ti = (TimeInterval)timesInProcess.firstElement();
+                    TimeInterval ti = timesInProcess.firstElement();
                     boolean decreasable = ti.decreaseInterval(TimeInterval.LEFT);
                     if (!decreasable) {
                         timesInProcess.remove(0);        
@@ -278,7 +274,7 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
         //
         if (timeStepExists()) {
             synchronized (selectedTimes) {
-                TimeInterval ti = (TimeInterval)selectedTimes.firstElement();
+                TimeInterval ti = selectedTimes.firstElement();
                 long tmpTime = ti.getStartTime();
                 // adjust the time interval
                 boolean decreasable = ti.decreaseInterval(TimeInterval.LEFT);
@@ -304,28 +300,28 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
     /**
      * Returns the list of adapters for the activities.
      */
-    public Vector getActivityAdapters() {
+    public Vector<ActivityAdapter> getActivityAdapters() {
         return activityAdapters;
     }
     
     /**
      * Retuns unexecuted time intervals.
      */
-    public Vector getUnexecutedTimes() {
+    public Vector<TimeInterval> getUnexecutedTimes() {
         return selectedTimes;
     }
 
     /**
      * Returns executed time intervals.
      */
-    public Vector getExecutedTimes() {
+    public Vector<TimeInterval> getExecutedTimes() {
         return executedTimes;
     }
     
     /**
      * Returns processed time intervals.
      */
-    public Vector getProcessedTimes() {
+    public Vector<TimeInterval> getProcessedTimes() {
         return timesInProcess;
     }
     
@@ -402,11 +398,8 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
         // update the information labels
         timelinePanel.updateInfoDialog();
         
-        // indicates if the client is in the state of waiting for the message from the timeline
-        isClientWaiting = false;
-        
         // activities
-        activityAdapters = new Vector();
+        activityAdapters = new Vector<ActivityAdapter>();
     }
     
     /**
@@ -500,12 +493,12 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
      * @param v list of selected time intervals.
      * @param interval selected time interval which is to be added in the list.
      */
-    private void insert(Vector v, TimeInterval interval) {
+    private void insert(Vector<TimeInterval> v, TimeInterval interval) {
         int counter = 0;
         boolean inserted = false;
         // insert the interval
         while (counter < v.size() && !inserted) {
-            TimeInterval ti = (TimeInterval)v.get(counter);
+            TimeInterval ti = v.get(counter);
             if (interval.getStartTime() <= ti.getStartTime()) {
                 v.add(counter, interval);
                 inserted = true;
@@ -521,8 +514,8 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
         // inetrvals on the left 
         boolean done = false; 
         while (counter > 0 && !done) {
-            TimeInterval ti = (TimeInterval)v.get(counter);
-            TimeInterval tprev = (TimeInterval)v.get(counter - 1);
+            TimeInterval ti = v.get(counter);
+            TimeInterval tprev = v.get(counter - 1);
             if ((ti.getStartTime() <= tprev.getEndTime() || ti.getStartTime() - tprev.getEndTime() == ti.getTimeStep())
                 && ti.getTimeStep() == tprev.getTimeStep()) {
                 ti.add(tprev);
@@ -536,8 +529,8 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
         // intervals on the right
         done = false; 
         while (counter < v.size() - 1 && !done) {
-            TimeInterval ti = (TimeInterval)v.get(counter);
-            TimeInterval tnext = (TimeInterval)v.get(counter + 1);
+            TimeInterval ti = v.get(counter);
+            TimeInterval tnext = v.get(counter + 1);
             if ((ti.getEndTime() >= tnext.getStartTime() || tnext.getStartTime() - ti.getEndTime() == ti.getTimeStep())
                 && ti.getTimeStep() == tnext.getTimeStep()) {
                 ti.add(tnext);
@@ -555,10 +548,10 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
      * @param v list of selected time intervals.
      * @param interval selected time interval which is to be deleted from the list.
      */
-    private void delete(Vector v, TimeInterval interval) {
+    private void delete(Vector<TimeInterval> v, TimeInterval interval) {
         int counter = 0;
         while (counter < v.size()) {
-            TimeInterval ti = (TimeInterval)v.get(counter);
+            TimeInterval ti = v.get(counter);
             if (interval.contains(ti)) {
                 v.remove(counter);
             }
@@ -639,8 +632,8 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
      */
     public void removeActivity(StratmasObject activity) {
         for (int i = 0; i <  activityAdapters.size(); i++) {
-            if (((ActivityAdapter)activityAdapters.get(i)).getActivity().equals(activity)) {
-                ActivityAdapter adapter = (ActivityAdapter)activityAdapters.remove(i);
+            if (activityAdapters.get(i).getActivity().equals(activity)) {
+                ActivityAdapter adapter = activityAdapters.remove(i);
                 if (timelinePanel != null) {
                     timelinePanel.updateActivityList(adapter, TimelineConstants.REMOVE);
                 }
@@ -652,8 +645,8 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
      * Checks if an activity is already contained in the timeline.
      */
     public boolean contains(StratmasObject activity) {
-        for (Enumeration e = activityAdapters.elements(); e.hasMoreElements(); ) {
-            if (((ActivityAdapter)e.nextElement()).getActivity().equals(activity)) {
+        for (Enumeration<ActivityAdapter> e = activityAdapters.elements(); e.hasMoreElements(); ) {
+            if (e.nextElement().getActivity().equals(activity)) {
                 return true;
             }
         }

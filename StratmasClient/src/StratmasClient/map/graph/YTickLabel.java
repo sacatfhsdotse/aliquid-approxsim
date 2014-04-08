@@ -10,6 +10,10 @@ import javax.swing.JLabel;
  */
 public class YTickLabel extends JLabel{
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6697725873669510899L;
+	/**
      * The actual color.
      */
     public static final Color COLOR = Color.BLACK;
@@ -44,8 +48,8 @@ public class YTickLabel extends JLabel{
         // the lower bound is different from zero
         if (graph.isLogarithmicScale() && graph.getLowerYBound() != 0 &&
             (int)Math.round(graph.log10(graph.getUpperYBound()) - graph.log10(graph.getLowerYBound())) == 1) {
-            for (int i = 0; i < graph.MIDDLE_LOG_VALUES.length; i++) {
-                int y = (int) (this.getHeight() - graph.log10(graph.MIDDLE_LOG_VALUES[i]) * this.getHeight());
+            for (int i = 0; i < ProcessVariableXYGraph.MIDDLE_LOG_VALUES.length; i++) {
+                int y = (int) (this.getHeight() - graph.log10(ProcessVariableXYGraph.MIDDLE_LOG_VALUES[i]) * this.getHeight());
                 g.drawLine(0, y, this.getWidth() - 1, y);
             }
         }

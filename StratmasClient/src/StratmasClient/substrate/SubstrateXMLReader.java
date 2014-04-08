@@ -35,10 +35,6 @@ import StratmasClient.communication.XMLHandler;
  */
 public class SubstrateXMLReader {
     /**
-     * XML Schema namespace.
-     */
-    private static String XML_SCHEMA_NS = "http://www.w3.org/2001/XMLSchema-instance";
-    /**
      * Protocol location for SubstrateEditor.
      */
     private static String SUBSTRATE_PROTOCOL = "substrateXML_IO.xsd";

@@ -9,7 +9,11 @@ import StratmasClient.object.primitive.Timestamp;
  * @author  Per Alexius
  */
 public class StratmasEvent extends java.util.EventObject {
-    protected static final String CHILDCHANGED         = "childChanged";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3946562583109509770L;
+	protected static final String CHILDCHANGED         = "childChanged";
     protected static final String GENERIC              = "generic";
     protected static final String OBJECTADDED          = "objectAdded";
     protected static final String OBJECTCREATED        = "objectCreated";

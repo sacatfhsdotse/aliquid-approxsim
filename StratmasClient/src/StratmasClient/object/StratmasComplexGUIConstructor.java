@@ -23,9 +23,13 @@ import javax.swing.JOptionPane;
 public class StratmasComplexGUIConstructor extends StratmasGUIConstructor
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8177601284453709935L;
+	/**
      * The StratmasGUIConstructor's for each subpart of this constructor.
      */
-    Vector subDeclarations;
+    Vector<StratmasGUIConstructor> subDeclarations;
 
     /**
      * Creates a new StratmasComplexGUIConstructor using
@@ -59,7 +63,7 @@ public class StratmasComplexGUIConstructor extends StratmasGUIConstructor
     protected void buildPanel() 
     {
         if (subDeclarations == null) {
-            subDeclarations = new Vector();
+            subDeclarations = new Vector<StratmasGUIConstructor>();
         }
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         for (Enumeration ss = getType().getSubElements().elements(); 
@@ -85,13 +89,13 @@ public class StratmasComplexGUIConstructor extends StratmasGUIConstructor
      */
     protected void createStratmasObject()
     {
-        Vector contents = new Vector();
-        Vector unFinished = new Vector();
+        Vector<StratmasObject> contents = new Vector<StratmasObject>();
+        Vector<String> unFinished = new Vector<String>();
 
-        for (Enumeration ss = this.subDeclarations.elements(); 
+        for (Enumeration<StratmasGUIConstructor> ss = this.subDeclarations.elements(); 
              ss.hasMoreElements();) {
             StratmasGUIConstructor s = 
-                (StratmasGUIConstructor) ss.nextElement();
+                ss.nextElement();
             StratmasObject sObj = s.getStratmasObject();
             if (sObj == null && s.getDeclaration().getMinOccurs() != 0) {
                 unFinished.add(s.getDeclaration().getName());
@@ -107,7 +111,7 @@ public class StratmasComplexGUIConstructor extends StratmasGUIConstructor
             this.result = vectorConstructor.getStratmasObject(getIdentifier(), contents);
         } else {
             String errmsg = "The following required items are missing:";
-            for (Enumeration ss = unFinished.elements(); ss.hasMoreElements();) {
+            for (Enumeration<String> ss = unFinished.elements(); ss.hasMoreElements();) {
                 errmsg = errmsg + "\n" + ss.nextElement().toString();            
             }
             JOptionPane.showMessageDialog(null, errmsg, 

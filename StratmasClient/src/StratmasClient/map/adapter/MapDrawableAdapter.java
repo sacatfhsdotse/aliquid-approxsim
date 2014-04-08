@@ -150,16 +150,6 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
         displayListUpdated = false;
         fireAdapterUpdated();
     }
-
-    /**
-     * Invalidates the display list.
-     */
-    public void invalidateDisplayList()
-    {
-        this.displayListUpdated = false;
-        fireAdapterUpdated();
-    }
-
     
     /**
      * Returns the StratmasObject this adapter adapts.

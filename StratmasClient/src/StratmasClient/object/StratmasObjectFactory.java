@@ -582,7 +582,6 @@ public class StratmasObjectFactory
      */
     public static StratmasObject create(Type type) 
     {
-        StratmasObject res = null;
         StratmasObjectConstructor constructor = 
             StratmasObjectFactory.getConstructor(type);
         if (constructor != null) {

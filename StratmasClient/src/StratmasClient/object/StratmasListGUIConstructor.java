@@ -30,6 +30,10 @@ import java.awt.event.ActionEvent;
 public class StratmasListGUIConstructor extends StratmasGUIConstructor
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4556531159302973339L;
+	/**
      * The StratmasList being built with this constructor;
      */
     StratmasList stratmasList;
@@ -57,6 +61,11 @@ public class StratmasListGUIConstructor extends StratmasGUIConstructor
         add(new JButton(new AbstractAction("Edit") 
             {
                 /**
+				 * 
+				 */
+				private static final long serialVersionUID = -2756869603941494642L;
+
+				/**
                  * Invoked when an action occurs.
                  *
                  * @param e the event
@@ -99,6 +108,11 @@ public class StratmasListGUIConstructor extends StratmasGUIConstructor
         panel.add(new JButton(new AbstractAction("Done")
             {
                 /**
+				 * 
+				 */
+				private static final long serialVersionUID = 6307745430212686755L;
+
+				/**
                  * Invoked when an action occurs.
                  *
                  * @param e the event

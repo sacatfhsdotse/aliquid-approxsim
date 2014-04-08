@@ -17,6 +17,8 @@ import java.nio.BufferOverflowException;
 import java.util.Hashtable;
 import java.nio.BufferUnderflowException;
 
+import StratmasClient.TaclanV2.ESRIShapeFactory.ESRIShapeCreator;
+
 import com.linuxense.javadbf.DBFReader;
 import com.linuxense.javadbf.DBFField;
 import com.linuxense.javadbf.DBFException;
@@ -33,7 +35,7 @@ public class ESRIShapefile
     ESRIDBFFile esriDBFFile = null;
     String esriDBNameField = "NAME";
     public ByteBuffer buf;
-    Vector shapes;
+    Vector<ESRIShape> shapes;
     
     public ESRIShapefile(String filename) throws FileNotFoundException, IOException
     {
@@ -47,9 +49,9 @@ public class ESRIShapefile
         // Try to read the dbfile if it exists:
         try {
             this.esriDBFFile = new ESRIDBFFile(esridbffilename);
-            Vector v = this.esriDBFFile.getMatchingFieldNames(".*NAME.*");
+            Vector<String> v = this.esriDBFFile.getMatchingFieldNames(".*NAME.*");
             if (!v.isEmpty()) {
-                esriDBNameField = (String) v.get(0);
+                esriDBNameField = v.get(0);
             }            
         } catch (ESRIDBFileException e) { 
             StratmasClient.Debug.err.println("Error reading " + esridbffilename + 
@@ -80,7 +82,7 @@ public class ESRIShapefile
         ESRIShape res;
 
         if (isParsed()) {
-            res = (ESRIShape) shapes.elementAt(index);
+            res = shapes.elementAt(index);
         }
         else {
             header = new ESRIShapefileHeader(buf);
@@ -165,8 +167,8 @@ public class ESRIShapefile
 
         if (isParsed()) {
             buf.append(header.toString());        
-            for (Enumeration ss = shapes.elements(); ss.hasMoreElements();) {
-                ESRIShape s = (ESRIShape) ss.nextElement();
+            for (Enumeration<ESRIShape> ss = shapes.elements(); ss.hasMoreElements();) {
+                ESRIShape s = ss.nextElement();
                 buf.append(s.toString());
             }
         }
@@ -244,14 +246,24 @@ public class ESRIShapefile
 
 class MalformedESRIRecordException extends Exception
 {
-    public MalformedESRIRecordException(String s) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5941648828671482856L;
+
+	public MalformedESRIRecordException(String s) {
         super(s);
     }
 }
 
 class UnsupportedESRIShapeException extends Exception
 {
-    public UnsupportedESRIShapeException(String s) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8820345592266956374L;
+
+	public UnsupportedESRIShapeException(String s) {
         super(s);
     }
 }
@@ -862,7 +874,7 @@ class ESRINullShape extends ESRIShape
 
 class ESRIShapeFactory
 {
-    Hashtable table;
+    Hashtable<Integer, ESRIShapeCreator> table;
 
     abstract class ESRIShapeCreator 
     {
@@ -871,7 +883,7 @@ class ESRIShapeFactory
 
     public ESRIShapeFactory()
     {
-        table = new Hashtable();
+        table = new Hashtable<Integer, ESRIShapeCreator>();
         table.put(new Integer(ESRINullShape.getType()), 
                   new ESRIShapeCreator() {
                       public ESRIShape get(ByteBuffer buf) throws MalformedESRIRecordException
@@ -902,9 +914,9 @@ class ESRIShapeFactory
                   });
     }
 
-    public Vector getAll(ByteBuffer buf) throws MalformedESRIRecordException, UnsupportedESRIShapeException
+    public Vector<ESRIShape> getAll(ByteBuffer buf) throws MalformedESRIRecordException, UnsupportedESRIShapeException
     {
-        Vector shapes = new Vector();
+        Vector<ESRIShape> shapes = new Vector<ESRIShape>();
 
         try {
             while (buf.hasRemaining()) {
@@ -921,7 +933,7 @@ class ESRIShapeFactory
 
     public ESRIShape getNext(ByteBuffer buf) throws MalformedESRIRecordException, UnsupportedESRIShapeException
     {
-        ESRIRecordHeader rechdr = new ESRIRecordHeader(buf);
+        new ESRIRecordHeader(buf);
         return getShape(buf);
 
     }
@@ -932,7 +944,7 @@ class ESRIShapeFactory
         buf.order(ByteOrder.LITTLE_ENDIAN);
         Integer key = new Integer(buf.getInt());
         if (table.containsKey(key)) {
-            ESRIShapeCreator c = (ESRIShapeCreator) table.get(key);
+            ESRIShapeCreator c = table.get(key);
             buf.order(inorder);
             return c.get(buf);
         }
@@ -940,11 +952,6 @@ class ESRIShapeFactory
             buf.order(inorder);
             throw new UnsupportedESRIShapeException("Shapes of type " + key + " not supported in this version");
         }
-    }
-
-    private void skipRecord(ByteBuffer buf, ESRIRecordHeader rechdr)
-    {
-        buf.position(buf.position() + rechdr.getContentLength() * 2);
     }
 
     public ESRIShape get(ByteBuffer buf, int index) throws MalformedESRIRecordException, UnsupportedESRIShapeException
@@ -998,7 +1005,7 @@ class ESRIDBFFile
     /**
      * A mapping of attribute name -> field index table
      */
-    Hashtable fieldNames = new Hashtable();
+    Hashtable<String, Integer> fieldNames = new Hashtable<String, Integer>();
 
     /**
      * Tries to read a ESRIDBFile from the provided filename
@@ -1058,7 +1065,7 @@ class ESRIDBFFile
     public int getFieldIndex(String name)
         throws ESRIDBNoSuchFieldException
     {
-        Integer index = (Integer) this.fieldNames.get(name);
+        Integer index = this.fieldNames.get(name);
         if (index == null) {            
             throw new ESRIDBNoSuchFieldException();
         } else {
@@ -1071,12 +1078,12 @@ class ESRIDBFFile
      *
      * @param regex the regex to match.
      */
-    public Vector getMatchingFieldNames(String regex)
+    public Vector<String> getMatchingFieldNames(String regex)
     {
-        Vector res = new Vector();
+        Vector<String> res = new Vector<String>();
 
-        for (Enumeration e = fieldNames.keys(); e.hasMoreElements();) {
-            String fieldName = (String) e.nextElement();
+        for (Enumeration<String> e = fieldNames.keys(); e.hasMoreElements();) {
+            String fieldName = e.nextElement();
             if (fieldName.matches(regex)) {
                 res.add(fieldName);
             }
@@ -1105,6 +1112,11 @@ class ESRIDBFFile
 class ESRIDBFileException extends Exception
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2480055653453979557L;
+
+	/**
      * Creates a new ESRIDBFileException with the provided message.
      *
      * @param message a description of the condition causing the
@@ -1125,6 +1137,11 @@ class ESRIDBFileException extends Exception
 class ESRIDBNoSuchFieldException extends Exception
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1135459522188706082L;
+
+	/**
      * Creates a new ESRIDBNoSuchFieldException
      */
     ESRIDBNoSuchFieldException()

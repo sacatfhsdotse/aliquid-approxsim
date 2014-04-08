@@ -120,7 +120,7 @@ public class Circle extends SimpleShape
 
 
         // Create lines
-        Vector lines = new Vector();
+        Vector<Line> lines = new Vector<Line>();
         // First line along degreeLine
         double startLat = centerLat + latDistance*Math.sin(0);
         double startLon = centerLon + lonDistance*Math.cos(0);
@@ -142,7 +142,7 @@ public class Circle extends SimpleShape
                            StratmasObjectFactory.createPoint("p2", startLat, startLon)));
         
         
-        Vector v = new Vector();
+        Vector<StratmasList> v = new Vector<StratmasList>();
         v.add(new StratmasList("curves", TypeFactory.getType("Line"), 
                                lines));
         return new Polygon("Approximation of " + getIdentifier(), v);
@@ -218,7 +218,7 @@ public class Circle extends SimpleShape
      */
     protected static StratmasObject defaultCreate(Declaration declaration)
     {
-        Vector newParts = new Vector();
+        Vector<StratmasObject> newParts = new Vector<StratmasObject>();
         for (java.util.Iterator it = declaration.getType().getSubElements().iterator(); it.hasNext(); ) {
             Declaration dec = (Declaration)it.next();
             if (dec.isSingular()) {
@@ -302,10 +302,10 @@ class CircleVectorConstructor extends StratmasVectorConstructor
      *
      * @param parts the parts to use in constructing the object.
      */
-    public StratmasObject getStratmasObject(Vector parts)
+    public StratmasObject getStratmasObject(Vector<StratmasObject> parts)
     {
-        StratmasObject position = (StratmasObject) parts.get(0);
-        StratmasObject radius = (StratmasObject) parts.get(1);
+        StratmasObject position = parts.get(0);
+        StratmasObject radius = parts.get(1);
         
         if (!position.getIdentifier().equals("center")) {
             StratmasObject temp = position;

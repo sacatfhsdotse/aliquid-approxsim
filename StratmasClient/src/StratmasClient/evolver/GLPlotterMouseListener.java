@@ -219,14 +219,6 @@ class GLPlotterMouseListener extends MouseInputAdapter implements MouseWheelList
     }
 
     /**
-     * Returns the location of where a mouse button was pressed last.
-     */
-    private Point getMousePressedLocation()
-    {
-        return this.mousePressedLocation;
-    }
-
-    /**
      * Sets the indicator that the mouse pointer is over the component
      *
      * @param flag true if the mouse is inside the component.
@@ -234,14 +226,6 @@ class GLPlotterMouseListener extends MouseInputAdapter implements MouseWheelList
     private void setIsMouseIn(boolean flag)
     {
         this.isMouseIn = flag;
-    }
-
-    /**
-     * Returns true if the mouse pointer is over the component
-     */
-    private boolean isMouseIn()
-    {
-        return this.isMouseIn;
     }
 
     /**
@@ -272,14 +256,6 @@ class GLPlotterMouseListener extends MouseInputAdapter implements MouseWheelList
     private void setIsPanning(boolean flag)
     {
         this.isPanning = flag;
-    }
-
-    /**
-     * Returns true if dragging is in progress.
-     */
-    private boolean isDragging()
-    {
-        return this.isDragging;
     }
 
     /**

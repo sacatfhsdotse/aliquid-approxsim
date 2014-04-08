@@ -88,9 +88,9 @@ public class XMLHelper
      * @return A Vector containing all elements with the specified
      * tag.
      */
-    public static Vector getChildElementsByTag(Node n, String tag)
+    public static Vector<Element> getChildElementsByTag(Node n, String tag)
     {
-        Vector ret = new Vector();
+        Vector<Element> ret = new Vector<Element>();
         for (Node child = n.getFirstChild(); child != null; 
              child = child.getNextSibling()) {
             if (child.getNodeType() == Node.ELEMENT_NODE) {

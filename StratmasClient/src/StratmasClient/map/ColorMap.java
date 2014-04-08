@@ -44,10 +44,6 @@ public class ColorMap implements GLEventListener, ActionListener {
      */
     private final float[] black_rgb = {0.0f, 0.0f, 0.0f};
     /**
-     * Brown color.
-     */
-    private final float[] brown_rgb = {0.6f, 0.3f, 0.1f};
-    /**
      * Olivebrown color.
      */
     private final float[] olivebrown_rgb = {0.5f, 0.5f, 0.0f};
@@ -80,14 +76,6 @@ public class ColorMap implements GLEventListener, ActionListener {
      */
     private final float[] orange_rgb = {1.0f, 0.5f, 0.1f};
     /**
-     * Cyan color.
-     */
-    private final float[] cyan_rgb = {0.0f, 1.0f, 1.0f};
-    /**
-     * Magenta color.
-     */
-    private final float[] magenta_rgb = {1.0f, 0.0f, 1.0f};
-    /**
      * White color.
      */
     private final float[] white_rgb = {1.0f, 1.0f, 1.0f};
@@ -99,10 +87,6 @@ public class ColorMap implements GLEventListener, ActionListener {
      * Bounding x-values for the colored area.
      */
     private int xlabel_min, xlabel_max;
-    /**
-     * Identifier for the display list.
-     */
-    private int col;
     /**
      * The  actual drawing area.
      */
@@ -435,8 +419,7 @@ public class ColorMap implements GLEventListener, ActionListener {
      * @throws RuntimeException if values returned from the dialog are not valid.
      */
     public void actionPerformed (ActionEvent ae) {
-        // get action
-        String action = ae.getActionCommand();
+        ae.getActionCommand();
         
         try {
             // change of map scale bounds

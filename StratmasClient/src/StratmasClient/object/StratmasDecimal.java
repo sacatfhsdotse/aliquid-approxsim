@@ -194,7 +194,11 @@ public class StratmasDecimal extends StratmasSimple
 */
 class StratmasDecimalGUIConstructor extends StratmasGUIConstructor
 {
-    javax.swing.JTextField field;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4717445994361906709L;
+	javax.swing.JTextField field;
 
     /**
      * Creates a new StratmasDecimalGUIConstructor using the supplied declaration.

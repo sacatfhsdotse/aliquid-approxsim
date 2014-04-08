@@ -28,6 +28,11 @@ import java.awt.BorderLayout;
 public class TreeViewFrame extends JFrame implements StratmasEventListener
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1487808271982898533L;
+
+	/**
      * The TreeView to frame 
      */
     TreeView treeView;
@@ -102,7 +107,12 @@ public class TreeViewFrame extends JFrame implements StratmasEventListener
         menu.addSeparator();
         menu.add(new AbstractAction("Close") 
             {
-                public void actionPerformed(ActionEvent e) 
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = 1057484815432648275L;
+
+				public void actionPerformed(ActionEvent e) 
                 {
                     if (getTreeView().getTopLevelAncestor() instanceof TreeViewFrame) {
                         ((TreeViewFrame) getTreeView().getTopLevelAncestor()).dispose();

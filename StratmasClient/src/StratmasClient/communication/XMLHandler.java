@@ -327,11 +327,10 @@ public class XMLHandler implements Runnable {
       */
      private void handleConnectResponseMsg(Element elem) {
           boolean active = getBoolean(elem, "active");
-          GridData gd = null;
           Debug.err.println((active ? "active" : "passive"));
           if (mClient != null) {
               mClient.setActiveClient(active);
-              mClient.updateStatus(new Hashtable(), "ConnectResponseMessage");
+              mClient.updateStatus(new Hashtable<String, Vector<String>>(), "ConnectResponseMessage");
           }
      }
     
@@ -361,7 +360,7 @@ public class XMLHandler implements Runnable {
               mClient.setGrid(gd);
               
               // FIXME - This is ugly...
-              mClient.updateStatus(new Hashtable(), "InitializationMessage");
+              mClient.updateStatus(new Hashtable<String, Vector<String>>(), "InitializationMessage");
           }
      }
     
@@ -371,10 +370,10 @@ public class XMLHandler implements Runnable {
       * @param n The message to handle.
       */
      private HandleException handleStatusMsg(Element n) {
-          Hashtable errs = new Hashtable();
-          errs.put("fatal", new Vector());
-          errs.put("general", new Vector());
-          errs.put("warning", new Vector());
+          Hashtable<String, Vector<String>> errs = new Hashtable<String, Vector<String>>();
+          errs.put("fatal", new Vector<String>());
+          errs.put("general", new Vector<String>());
+          errs.put("warning", new Vector<String>());
           StringBuffer buffer = new StringBuffer();
           
           String type = getString(n, "type");
@@ -383,7 +382,7 @@ public class XMLHandler implements Runnable {
                if (child.getNodeType() == Node.ELEMENT_NODE) {
                     Element elem = (Element)child;
                     if (elem.getTagName().equals("error")) {
-                         Vector v = (Vector)errs.get(getString(elem, "type"));
+                         Vector<String> v = errs.get(getString(elem, "type"));
                          String err = getString(elem, "description");
                          v.add(err);
                          buffer.append(" " + err);
@@ -399,7 +398,12 @@ public class XMLHandler implements Runnable {
               final String errString = buffer.toString();
               return new HandleException()
                   {
-                      public String getMessage()
+                      /**
+					 * 
+					 */
+					private static final long serialVersionUID = -8195832072394647380L;
+
+					public String getMessage()
                       {
                           return super.getMessage() + " - " + errString;
                       }
@@ -414,8 +418,8 @@ public class XMLHandler implements Runnable {
       *
       * @param n message to handle.
       */
-     private Vector handleServerCapabilitiesResponseMsg(Element n) {
-          Vector pvs = new Vector();
+     private Vector<ProcessVariableDescription> handleServerCapabilitiesResponseMsg(Element n) {
+          Vector<ProcessVariableDescription> pvs = new Vector<ProcessVariableDescription>();
           Element nn = getFirstChildByTag(n, "processVariables");
           for (Node child = nn.getFirstChild(); child != null; child = child.getNextSibling()) {
                if (child.getNodeType() == Node.ELEMENT_NODE) {
@@ -432,7 +436,7 @@ public class XMLHandler implements Runnable {
           }
           if (mClient != null) {
               mClient.setProcessVariables(pvs);
-              mClient.updateStatus(new Hashtable(), "ServerCapabilitiesMessage");
+              mClient.updateStatus(new Hashtable<String, Vector<String>>(), "ServerCapabilitiesMessage");
           }
           return pvs;
      }
@@ -471,8 +475,8 @@ public class XMLHandler implements Runnable {
           if (elem != null) {
                mClient.getRootObject().update(elem, t);
           }
-          for (Iterator it = getChildElementsByTag(n, "subscribedData").iterator(); it.hasNext(); ) {
-               mSH.handleSubscribedData((Element)it.next(), t);
+          for (Iterator<Element> it = getChildElementsByTag(n, "subscribedData").iterator(); it.hasNext(); ) {
+               mSH.handleSubscribedData(it.next(), t);
           }
           
           return t;
@@ -579,8 +583,8 @@ public class XMLHandler implements Runnable {
       * @return A Vector containing all elements with the specified
       * tag.
       */
-     public static Vector getChildElementsByTag(Node n, String tag) {
-          Vector ret = new Vector();
+     public static Vector<Element> getChildElementsByTag(Node n, String tag) {
+          Vector<Element> ret = new Vector<Element>();
           for (Node child = n.getFirstChild(); child != null; child = child.getNextSibling()) {
                if (child.getNodeType() == Node.ELEMENT_NODE) {
                     Element elem = (Element)child;
@@ -789,6 +793,11 @@ class QueueEntry {
 class HandleException extends Exception
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1234433267375406352L;
+
+	/**
      * Creates a new HandleException
      */
     public HandleException()

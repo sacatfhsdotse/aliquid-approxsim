@@ -26,9 +26,13 @@ import java.util.WeakHashMap;
 public class Icon extends ImageIcon
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1214318186452215999L;
+	/**
      * Weakly cached version of icons
      */
-    WeakHashMap cache = new WeakHashMap();
+    WeakHashMap<Dimension, Icon> cache = new WeakHashMap<Dimension, Icon>();
 
     /**
      * Creates an Icon from the specified URL.
@@ -89,7 +93,7 @@ public class Icon extends ImageIcon
     public Icon getScaledInstance(Dimension dim)
     {
         synchronized (cache) {
-            Icon cached = (Icon) cache.get(dim);
+            Icon cached = cache.get(dim);
             if (cached == null) {
                 cached = getScaledInstance(dim.width, dim.height, 
                                            Image.SCALE_SMOOTH);//DEFAULT);;

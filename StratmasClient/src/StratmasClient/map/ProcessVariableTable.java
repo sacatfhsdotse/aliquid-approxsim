@@ -38,7 +38,11 @@ import StratmasClient.map.graph.ProcessVariableXYGraph;
  * @author Amir Filipovic 
  */
 public class ProcessVariableTable extends JTable implements MouseListener, StratmasEventListener {  
-    /**  
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7984092561117178933L;
+	/**  
      * The process variables.
      */
     private Vector processVariables;
@@ -350,8 +354,6 @@ public class ProcessVariableTable extends JTable implements MouseListener, Strat
             // get the model
             ProcessVariableTableModel model = (ProcessVariableTableModel)getModel();
             // create default arrays
-            String[] fac = new String[1];
-            Color[] colors = new Color[1];
             // create one graph
             if (col != getColumnModel().getColumnIndex("Category")) {
                 ProcessVariableDescription pv = model.getProcessVariable(row);
@@ -448,6 +450,10 @@ public class ProcessVariableTable extends JTable implements MouseListener, Strat
  */
 class HeaderRenderer extends DefaultTableCellRenderer {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1677000508674483983L;
+	/**
      * The color of the text in the header
      */
     Color foregroundColor;

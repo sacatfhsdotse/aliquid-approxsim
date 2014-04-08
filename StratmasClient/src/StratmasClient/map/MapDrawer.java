@@ -991,10 +991,10 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
         if (show_elements) {
             // draw elements
             // Recompile changed elements
-            Vector toUpdate = mapDrawableAdapterRecompilation;
-            this.mapDrawableAdapterRecompilation = new Vector();
-            for(Enumeration e = toUpdate.elements(); e.hasMoreElements();) {
-                MapDrawableAdapter adapter = (MapDrawableAdapter) e.nextElement();
+            Vector<MapDrawableAdapter> toUpdate = mapDrawableAdapterRecompilation;
+            this.mapDrawableAdapterRecompilation = new Vector<MapDrawableAdapter>();
+            for(Enumeration<MapDrawableAdapter> e = toUpdate.elements(); e.hasMoreElements();) {
+                MapDrawableAdapter adapter = e.nextElement();
                 int oldDisplayList = adapter.getDisplayList();
                 adapter.reCompile(basicMap.getProjection(), glc);
                 if (oldDisplayList != adapter.getDisplayList()) {

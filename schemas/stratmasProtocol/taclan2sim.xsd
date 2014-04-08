@@ -874,12 +874,14 @@
   <xsd:complexType name="EffectGraph">
     <xsd:complexContent>
       <xsd:extension base="Graph">
-        <xsd:element name="nodes" type="sp:EffectNode" maxOccurs="unbounded"/>
-        <xsd:element name="edges" type="sp:EffectEdge" maxOccurs="unbounded"/>
-        <xsd:element name="nodeConnected" type="sp:Effect" minOccurs="0"/>
-        <xsd:element name="nodeDisconnected" type="sp:Effect" minOccurs="0"/>
-        <xsd:element name="edgeConnected" type="sp:Effect" minOccurs="0"/>
-        <xsd:element name="edgeDisconnected" type="sp:Effect" minOccurs="0"/>
+        <xsd:sequence>
+          <xsd:element name="nodes" type="sp:EffectNode" maxOccurs="unbounded"/>
+          <xsd:element name="edges" type="sp:EffectEdge" maxOccurs="unbounded"/>
+          <xsd:element name="nodeConnected" type="sp:Effect" minOccurs="0"/>
+          <xsd:element name="nodeDisconnected" type="sp:Effect" minOccurs="0"/>
+          <xsd:element name="edgeConnected" type="sp:Effect" minOccurs="0"/>
+          <xsd:element name="edgeDisconnected" type="sp:Effect" minOccurs="0"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -887,8 +889,10 @@
   <xsd:complexType name="PathGraph">
     <xsd:complexContent>
       <xsd:extension base="sp:Graph">
-        <xsd:element name="nodes" type="sp:PathNode" maxOccurs="unbounded"/>
-        <xsd:element name="edges" type="sp:PathEdge" maxOccurs="unbounded"/>
+        <xsd:sequence>
+          <xsd:element name="nodes" type="sp:PathNode" maxOccurs="unbounded"/>
+          <xsd:element name="edges" type="sp:PathEdge" maxOccurs="unbounded"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -896,8 +900,10 @@
   <xsd:complexType name="Effect">
     <xsd:complexContent>
       <xsd:extension base="sp:ComplexType">
-        <xsd:element name="continuous" type="xsd:boolean"/>
-        <xsd:element name="radius" type="sp:Double"/>
+        <xsd:sequence>
+          <xsd:element name="continuous" type="xsd:boolean"/>
+          <xsd:element name="radius" type="sp:Double"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -905,7 +911,9 @@
   <xsd:complexType name="Node" abstract="true">
     <xsd:complexContent>
       <xsd:extension base="sp:ComplexType">
-        <xsd:element name="point" type="sp:Point"/>
+        <xsd:sequence>
+          <xsd:element name="point" type="sp:Point"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -913,9 +921,11 @@
   <xsd:complexType name="EffectNode">
     <xsd:complexContent>
       <xsd:extension base="sp:Node">
-        <xsd:element name="power" type="sp:Double"/>
-        <xsd:element name="connected" type="sp:Effect" minOccurs="0"/>
-        <xsd:element name="disconnected" type="sp:Effect" minOccurs="0"/>
+        <xsd:sequence>
+          <xsd:element name="power" type="sp:Double"/>
+          <xsd:element name="connected" type="sp:Effect" minOccurs="0"/>
+          <xsd:element name="disconnected" type="sp:Effect" minOccurs="0"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -930,9 +940,11 @@
   <xsd:complexType name="Edge" abstract="true">
     <xsd:complexContent>
       <xsd:extension base="sp:ComplexType">
-        <xsd:element name="origin" type="sp:NodeReference"/>
-        <xsd:element name="target" type="sp:NodeReference"/>
-        <xsd:element name="connected" type="xsd:boolean"/>
+        <xsd:sequence>
+          <xsd:element name="origin" type="sp:NodeReference"/>
+          <xsd:element name="target" type="sp:NodeReference"/>
+          <xsd:element name="connected" type="xsd:boolean"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -940,8 +952,10 @@
   <xsd:complexType name="EffectEdge">
     <xsd:complexContent>
       <xsd:extension base="sp:Edge">
-        <xsd:element name="connected" type="sp:Effect"/>
-        <xsd:element name="disconnected " type="sp:Effect"/>
+        <xsd:sequence>
+          <xsd:element name="connected" type="sp:Effect"/>
+          <xsd:element name="disconnected " type="sp:Effect"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -949,7 +963,9 @@
   <xsd:complexType name="PathEdge">
     <xsd:complexContent>
       <xsd:extension base="sp:Edge">
-        <xsd:element name="travelSpeed" type="sp:Double"/>
+        <xsd:sequence>
+          <xsd:element name="travelSpeed" type="sp:Double"/>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>

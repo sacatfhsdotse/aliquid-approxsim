@@ -59,6 +59,8 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
             return new ElementAdapter(mapDrawable);
         } else if (mapDrawable.getType().canSubstitute("Activity")) {
             return new MapActivityAdapter(mapDrawable); 
+        } else if (mapDrawable.getType().canSubstitute("Graph")) {
+            return new GraphAdapter(mapDrawable);
         } else if (mapDrawable instanceof Shape) {
             return new MapShapeAdapter((Shape)mapDrawable); 
         } else if (mapDrawable instanceof Line) {

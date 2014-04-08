@@ -489,7 +489,6 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
                 displayPointedRegion("");
             }
             // redraw
-            setIsDrawnMapDrawablesListUpdated(false);
             update();
         }
     }
@@ -1683,6 +1682,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * Updates this component, calls super and sets latestUpdateTimer.
      */
     public void update() {
+    	setIsDrawnMapDrawablesListUpdated(false);
         super.update();
         latestUpdateTime = System.currentTimeMillis();
     }

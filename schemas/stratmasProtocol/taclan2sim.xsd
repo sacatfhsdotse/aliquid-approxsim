@@ -866,7 +866,7 @@
 
   <xsd:complexType name="Graph" abstract="true">
     <xsd:complexContent>
-      <xsd:extension base="sp:Complextype">
+      <xsd:extension base="sp:ComplexType">
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>

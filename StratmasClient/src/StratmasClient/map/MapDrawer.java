@@ -218,7 +218,8 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
     /**
      * Indicates that a screenshot should be made during the next redraw.
      */
-    protected boolean doScreenShot = false; 
+    protected boolean doScreenShot = false;
+	public ToolMode mode;
     
     /**
      * Creates new MapDrawer.

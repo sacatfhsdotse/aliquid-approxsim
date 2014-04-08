@@ -969,8 +969,8 @@ public class DisplayControl {
 		toolsPanel.setLayout(new BoxLayout(toolsPanel, BoxLayout.PAGE_AXIS));
 		toolsPanel.add(createViewToolsPanel());
 		toolsPanel.add(createInfrastructureToolsPanel());
-		toolsPanel.add(createProcessvariablesToolsPanel());
-		toolsPanel.add(createAgentToolsPanel());
+		//toolsPanel.add(createProcessvariablesToolsPanel());
+		//toolsPanel.add(createAgentToolsPanel());
 		return toolsPanel;
 	}
 	
@@ -979,7 +979,7 @@ public class DisplayControl {
         viewtoolsPanel.setBorder(BorderFactory.
                                   createCompoundBorder(BorderFactory.createTitledBorder("View"),
                                                        BorderFactory.createEmptyBorder(2, 2, 2, 2)));
-        JButton hand = buttonInToolPanel("Hand", "Move and zoom the map");
+        JButton hand = buttonInToolPanel("Hand", "Move and zoom the map", ToolMode.HAND);
         hand.setEnabled(false);		// Already selected
         viewtoolsPanel.add(hand);
         return viewtoolsPanel;
@@ -990,8 +990,7 @@ public class DisplayControl {
         infrastructureToolsPanel.setBorder(BorderFactory.
                                   createCompoundBorder(BorderFactory.createTitledBorder("Infrastructure"),
                                                        BorderFactory.createEmptyBorder(2, 2, 2, 2)));
-        infrastructureToolsPanel.add(buttonInToolPanel("Start new chain", "Create or move nodes, remove on right click"));
-        infrastructureToolsPanel.add(buttonInToolPanel("Connect chains", "add more edges to existing nodes"));
+        infrastructureToolsPanel.add(buttonInToolPanel("Graph", "Left click to create node, drag to create edges.", ToolMode.GRAPH));
         return infrastructureToolsPanel;
 	}
 
@@ -1000,7 +999,7 @@ public class DisplayControl {
         agentvariablesToolsPanel.setBorder(BorderFactory.
                                   createCompoundBorder(BorderFactory.createTitledBorder("Agents"),
                                                        BorderFactory.createEmptyBorder(2, 2, 2, 2)));
-        agentvariablesToolsPanel.add(buttonInToolPanel("Agent", "Create or move agents, remove on right click"));
+        agentvariablesToolsPanel.add(buttonInToolPanel("Agent", "NOT IMPLEMENTED Create or move agents, remove on right click", ToolMode.AGENT));
         return agentvariablesToolsPanel;
 	}
 
@@ -1009,20 +1008,20 @@ public class DisplayControl {
         processvariablesToolsPanel.setBorder(BorderFactory.
                                   createCompoundBorder(BorderFactory.createTitledBorder("Process variables"),
                                                        BorderFactory.createEmptyBorder(2, 2, 2, 2)));
-        String tooltip = "Change process variables, negative on right click";
-        processvariablesToolsPanel.add(buttonInToolPanel("Circle", tooltip));
-        processvariablesToolsPanel.add(buttonInToolPanel("Polygon", tooltip));
-        processvariablesToolsPanel.add(buttonInToolPanel("Rectangle", tooltip));
+        String tooltip = "NOT IMPLEMENTED Change process variables, negative on right click";
+        processvariablesToolsPanel.add(buttonInToolPanel("Circle", tooltip, ToolMode.CIRCLE));
+        processvariablesToolsPanel.add(buttonInToolPanel("Polygon", tooltip, ToolMode.POLYGON));
+        processvariablesToolsPanel.add(buttonInToolPanel("Rectangle", tooltip, ToolMode.RECTANGLE));
         return processvariablesToolsPanel;
 	}
 	
-	private JButton buttonInToolPanel(String name, String tooltip) {
+	private JButton buttonInToolPanel(String name, String tooltip, ToolMode mode) {
         JButton btn = new JButton(name);
         btn.setVerticalTextPosition(AbstractButton.CENTER);
         btn.setToolTipText(tooltip);
         btn.setEnabled(true);
         this.toolsButtons.add(btn);
-        btn.addActionListener(new ToolActionListener(this.toolsButtons, this.toolsButtons.size()-1));
+        btn.addActionListener(new ToolActionListener(this.toolsButtons, this.toolsButtons.size()-1, this.drawer, mode));
         return btn;
 	}
 

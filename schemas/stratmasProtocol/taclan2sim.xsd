@@ -873,7 +873,7 @@
 
   <xsd:complexType name="EffectGraph">
     <xsd:complexContent>
-      <xsd:extension base="Graph">
+      <xsd:extension base="sp:Graph">
         <xsd:sequence>
           <xsd:element name="nodes" type="sp:EffectNode" maxOccurs="unbounded"/>
           <xsd:element name="edges" type="sp:EffectEdge" maxOccurs="unbounded"/>
@@ -943,7 +943,7 @@
         <xsd:sequence>
           <xsd:element name="origin" type="sp:NodeReference"/>
           <xsd:element name="target" type="sp:NodeReference"/>
-          <xsd:element name="connected" type="xsd:boolean"/>
+          <xsd:element name="isConnected" type="xsd:boolean"/>
         </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>

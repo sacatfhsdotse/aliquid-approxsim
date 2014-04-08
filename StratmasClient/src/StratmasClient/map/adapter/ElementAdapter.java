@@ -24,8 +24,7 @@ import javax.media.opengl.GLAutoDrawable;
  * @version 1, $Date: 2006/09/04 18:57:30 $
  * @author  Daniel Ahlin
 */
-public class ElementAdapter extends MapElementAdapter
-{
+public class ElementAdapter extends MapElementAdapter {
     /**
      * Indicates if this element should be drawn even if not present.
      */
@@ -36,8 +35,7 @@ public class ElementAdapter extends MapElementAdapter
      *
      * @param element the Element to adapt.
      */
-    protected ElementAdapter(StratmasObject element)
-    {
+    protected ElementAdapter(StratmasObject element) {
         this(element, 0);
     }
     
@@ -47,21 +45,18 @@ public class ElementAdapter extends MapElementAdapter
      * @param element the Element to adapt.
      * @param renderSelectionName the integer to use as the base for names in RENDER_SELECTION
      */
-    protected ElementAdapter(StratmasObject element, int renderSelectionName)
-    {
+    protected ElementAdapter(StratmasObject element, int renderSelectionName) {
         super(element, renderSelectionName);
         
         // Set a listener on any lists that may generate new Elements.
-        for (Enumeration e = element.children(); e.hasMoreElements();) {
-            StratmasObject candidate = (StratmasObject) e.nextElement();
+        for (Enumeration<StratmasObject> e = element.children(); e.hasMoreElements();) {
+            StratmasObject candidate = e.nextElement();
             if (candidate.getType().canSubstitute("Element")) {
                 if (candidate instanceof StratmasList) {
                     // Add any current elements and add a listener
                     // that imports any consequent ones.
-                    candidate.addEventListener(new StratmasEventListener()
-                        {
-                            public void eventOccured(StratmasEvent subEvent)
-                            {
+                    candidate.addEventListener(new StratmasEventListener() {
+                            public void eventOccured(StratmasEvent subEvent) {
                                 if (subEvent.isObjectAdded()) {
                                     fireAdapterChildAdded((StratmasObject) subEvent.getArgument());
                                 } else if (subEvent.isRemoved()) {
@@ -80,8 +75,7 @@ public class ElementAdapter extends MapElementAdapter
         }
 
         // Add an adapter to listen to deployement changes.
-        element.getChild("deployment").addEventListener(new StratmasEventListener()
-            {
+        element.getChild("deployment").addEventListener(new StratmasEventListener() {
                 public void eventOccured(StratmasEvent event) {
                     if (event.isRemoved()) {
                         ((StratmasObject) event.getSource()).removeEventListener(this);
@@ -107,8 +101,7 @@ public class ElementAdapter extends MapElementAdapter
      * @param proj the projection that maps lat and long into GL coordinates.
      * @param gld the gl drawable targeted.
      */
-    protected void updateDisplayList(Projection proj, GLAutoDrawable gld)
-    {
+    protected void updateDisplayList(Projection proj, GLAutoDrawable gld) {
         GL2 gl = (GL2) gld.getGL();
          this.displayList = (gl.glIsList(this.displayList)) ? this.displayList : gl.glGenLists(1);
         
@@ -138,18 +131,15 @@ public class ElementAdapter extends MapElementAdapter
      *
      * @param event the event causing the call.
      */
-    public void eventOccured(StratmasEvent event)
-    {
+    public void eventOccured(StratmasEvent event) {
         super.eventOccured(event);
         //
         if (event.isObjectAdded() && 
             ((StratmasObject) event.getArgument()).getType().canSubstitute("Element")) {
             if (event.getArgument() instanceof StratmasList) {
                 // A list which may generate new Elements has been added. Will have to listen to that.
-                ((StratmasObject) event.getArgument()).addEventListener(new StratmasEventListener() 
-                    {
-                        public void eventOccured(StratmasEvent subEvent)
-                        {
+                ((StratmasObject) event.getArgument()).addEventListener(new StratmasEventListener() {
+                        public void eventOccured(StratmasEvent subEvent) {
                             if (subEvent.isObjectAdded()) {
                                 fireAdapterChildAdded((StratmasObject) subEvent.getArgument());
                             } else if (subEvent.isRemoved()) {
@@ -174,8 +164,7 @@ public class ElementAdapter extends MapElementAdapter
      *
      * @param event the event causing the change.
      */
-    protected void childChanged(StratmasEvent event)
-    {
+    protected void childChanged(StratmasEvent event) {
         super.childChanged(event);
         //
         StratmasObject child = (StratmasObject) event.getArgument();
@@ -190,8 +179,7 @@ public class ElementAdapter extends MapElementAdapter
      *
      * @param flag true if always draw.
      */
-    public void setIgnorePresent(boolean flag) 
-    {
+    public void setIgnorePresent(boolean flag) {
         if (flag != getIgnorePresent()) {
             this.ignorePresent = flag;
             displayListUpdated = false;
@@ -202,16 +190,14 @@ public class ElementAdapter extends MapElementAdapter
     /**
      * Returns true if  adapter always draw element, present or not
      */
-    protected boolean getIgnorePresent() 
-    {
+    protected boolean getIgnorePresent() {
         return this.ignorePresent;
     }
     
     /**
      * Returns true if the element adapted is present, else false.
      */
-    protected boolean isPresent() 
-    {
+    protected boolean isPresent() {
         return ((StratmasBoolean) getStratmasObject().getChild("present")).getValue();
     }
 

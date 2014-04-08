@@ -13,8 +13,11 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLUtessellatorCallback;
 import javax.media.opengl.glu.GLUtessellatorCallbackAdapter;
 
+import StratmasClient.BoundingBox;
 import StratmasClient.Debug;
 import StratmasClient.map.Projection;
+import StratmasClient.object.Point;
+import StratmasClient.object.Shape;
 import StratmasClient.object.StratmasObject;
 
 import com.jogamp.common.nio.Buffers;
@@ -26,7 +29,8 @@ import com.jogamp.opengl.util.gl2.GLUT;
  * @version 1, $Date: 2014-04-08 $
  * @author Exuvo
  */
-public class GraphAdapter extends ElementAdapter {
+public class GraphNodeAdapter extends ElementAdapter {
+    
     /**
      * The whether to draw name of element under symbol.
      */
@@ -37,7 +41,7 @@ public class GraphAdapter extends ElementAdapter {
      * 
      * @param element the Element to adapt.
      */
-    protected GraphAdapter(StratmasObject element) {
+    protected GraphNodeAdapter(StratmasObject element) {
         super(element);
     }
 
@@ -47,7 +51,7 @@ public class GraphAdapter extends ElementAdapter {
      * @param element the Element to adapt.
      * @param renderSelectionName the integer to use as the base for names in RENDER_SELECTION
      */
-    protected GraphAdapter(StratmasObject element, int renderSelectionName) {
+    protected GraphNodeAdapter(StratmasObject element, int renderSelectionName) {
         super(element, renderSelectionName);
     }
 
@@ -63,7 +67,15 @@ public class GraphAdapter extends ElementAdapter {
                             (gl.glIsList(displayListsBuf.get(SYMBOL_POS))) ? displayListsBuf
                                     .get(SYMBOL_POS) : gl.glGenLists(1));
 
-        // Draw a square proportional to the city size
+        //circle code from http://slabode.exofire.net/circle_draw.shtml
+        double r = horizontalSymbolSize / 2;
+        int num_segments = (int) (10 * Math.sqrt(r)); //change the 10 to a smaller/bigger number as needed
+        double theta = 2 * Math.PI / num_segments; 
+        double c = Math.tan(theta); //precalculate the sine and cosine
+        double s = Math.cos(theta);
+        double x = r; //we start at angle = 0 
+        double y = 0; 
+
         // Start list
         gl.glNewList(displayListsBuf.get(SYMBOL_POS), GL2.GL_COMPILE);
 
@@ -85,12 +97,18 @@ public class GraphAdapter extends ElementAdapter {
 
 //        gl.glScaled(0.5 * inhabitantsScale, 0.5 * inhabitantsScale, 0.5 * inhabitantsScale);
         gl.glPushName(getRenderSelectionName() + 1 + SYMBOL_POS);
-        gl.glBegin(GL2.GL_QUADS);
+        gl.glBegin(GL2.GL_LINE_LOOP);
         gl.glColor4d(0.0d, 0.0d, 0.0d, getSymbolOpacity());
-        gl.glVertex2d(-horizontalSymbolSize / 2, -verticalSymbolSize / 2);
-        gl.glVertex2d(-horizontalSymbolSize / 2, verticalSymbolSize / 2);
-        gl.glVertex2d(horizontalSymbolSize / 2, verticalSymbolSize / 2);
-        gl.glVertex2d(horizontalSymbolSize / 2, -verticalSymbolSize / 2);
+        
+        for(int ii = 0; ii < num_segments; ii++) { 
+            gl.glVertex2d(x, y);//output vertex 
+            
+            //apply the rotation matrix
+            double t = x;
+            x = c * x - s * y;
+            y = s * t + c * y;
+        } 
+        
         gl.glEnd();
         gl.glPopMatrix();
         if (drawElementName()) {
@@ -166,41 +184,34 @@ public class GraphAdapter extends ElementAdapter {
             fireAdapterUpdated();
         }
     }
-
-    /**
-     * Updates (recreates) the displayList that draws the selection frame if the element this adapter represents is selected. Overridden to
-     * account for differing symbolsize of PopulationAdapter.
-     * 
-     * @param proj the projection that maps lat and long into GL coordinates.
-     * @param gld the gl drawable targeted.
-     */
-    protected void updateSelectionMarkerDisplayList(Projection proj, GLAutoDrawable gld) {
-        GL2 gl = (GL2) gld.getGL();
-        displayListsBuf
-                .put(SELECTION_MARKER_POS,
-                     (gl.glIsList(displayListsBuf.get(SELECTION_MARKER_POS))) ? displayListsBuf
-                             .get(SELECTION_MARKER_POS) : gl.glGenLists(1));
-
-        gl.glNewList(displayListsBuf.get(SELECTION_MARKER_POS), GL2.GL_COMPILE);
-        // Pushes the name for RenderSelection mode.
-        gl.glPushName(getRenderSelectionName() + 1 + SELECTION_MARKER_POS);
-        if (isSelected()) {
-            gl.glMatrixMode(GL2.GL_MODELVIEW);
-            gl.glPushMatrix();
-            gl.glScaled(getSymbolScale(), getSymbolScale(), getSymbolScale());
-//            gl.glScaled(0.5 * inhabitantsScale, 0.5 * inhabitantsScale, 0.5 * inhabitantsScale);
-            gl.glBegin(GL2.GL_LINE_LOOP);
-            gl.glColor4dv(SELECTION_COLOR, 0);
-            gl.glVertex2d(-(horizontalSymbolSize / 2 + 1), -(verticalSymbolSize / 2 + 1));
-            gl.glVertex2d(-(horizontalSymbolSize / 2 + 1), (verticalSymbolSize / 2 + 1));
-            gl.glVertex2d((horizontalSymbolSize / 2 + 1), (verticalSymbolSize / 2 + 1));
-            gl.glVertex2d((horizontalSymbolSize / 2 + 1), -(verticalSymbolSize / 2 + 1));
-            gl.glEnd();
-            gl.glPopMatrix();
+    
+    protected double[] getLonLat() {
+        StratmasObject walker = getObject();
+        while (walker != null && walker.getChild("point") == null) {
+            walker = walker.getParent();
         }
-        gl.glPopName();
-        gl.glEndList();
-        isSelectionMarkerUpdated = true;
+        
+        if (walker != null) {
+            Point p = (Point) walker.getChild("point");
+            return  new double[] {p.getLon(), p.getLat()};
+        } else {
+            Debug.err.println("Should not be here!");
+            return new double[] {0.0d, 0.0d};
+        }
+    }
+    
+    /**
+     * Returns the longitude of the center of the position of the object this adapter adapts.
+     */
+    protected double getLon() {
+        return getLonLat()[0];
+    }
+    
+    /**
+     * Returns the latitiude of the center of the position of the object this adapter adapts.
+     */
+    protected double getLat() {
+        return getLonLat()[1];
     }
 
     /**

@@ -489,6 +489,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
                 displayPointedRegion("");
             }
             // redraw
+            setIsDrawnMapDrawablesListUpdated(false);
             update();
         }
     }

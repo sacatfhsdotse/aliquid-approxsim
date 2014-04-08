@@ -1683,6 +1683,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      * Updates this component, calls super and sets latestUpdateTimer.
      */
     public void update() {
+        //FIXME set the dragged objects as needing refresh instead of global here
     	setIsDrawnMapDrawablesListUpdated(false);
         super.update();
         latestUpdateTime = System.currentTimeMillis();

@@ -17,7 +17,7 @@ public class AboutBox {
       * The version string. Checking out a certian version will
       * replace this string with the version name.
       */
-     static final String version = "$Name: Stratmas_V_7_5 $";
+     static final String version = "$Name: Stratmas_V_7_6 $";
 
      /**
       * Shows the about box.

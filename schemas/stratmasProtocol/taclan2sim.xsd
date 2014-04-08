@@ -154,7 +154,7 @@
           <xsd:element name="factions" type="sp:Faction" minOccurs="0" maxOccurs="unbounded"/>
           <xsd:element name="HDI" type="sp:Double"/>
           <xsd:element name="unemployment" type="sp:Double"/>
-          <xsd:element name="path" type="sp:PathGraph"/>
+          <xsd:element name="path" type="sp:PathGraph" minOccurs="0"/>
           <xsd:element name="graphs" type="sp:EffectGraph" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
       </xsd:extension>

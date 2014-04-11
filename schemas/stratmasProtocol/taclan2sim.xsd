@@ -943,7 +943,7 @@
         <xsd:sequence>
           <xsd:element name="origin" type="sp:NodeReference"/>
           <xsd:element name="target" type="sp:NodeReference"/>
-          <xsd:element name="isConnected" type="xsd:boolean"/>
+          <xsd:element name="isConnected" type="sp:Boolean"/>
         </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>

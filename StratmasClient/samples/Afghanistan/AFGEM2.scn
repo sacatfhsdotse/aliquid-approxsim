@@ -20538,6 +20538,88 @@
       <unemployment xsi:type="sp:Double">
         <value>0.65</value>
       </unemployment>
+      <path xsi:type="sp:PathGraph">
+        <nodes xsi:type="sp:PathNode" identifier="0">
+          <point xsi:type="sp:Point">
+            <lat xsi:type="xsd:double">34.00</lat>
+            <lon xsi:type="xsd:double">65.00</lon>
+          </point>
+        </nodes>
+        <nodes xsi:type="sp:PathNode" identifier="1">
+          <point xsi:type="sp:Point">
+            <lat xsi:type="xsd:double">35.00</lat>
+            <lon xsi:type="xsd:double">65.00</lon>
+          </point>
+        </nodes>
+        <nodes xsi:type="sp:PathNode" identifier="2">
+          <point xsi:type="sp:Point">
+            <lat xsi:type="xsd:double">34.50</lat>
+            <lon xsi:type="xsd:double">69.25</lon>
+          </point>
+        </nodes>
+        <nodes xsi:type="sp:PathNode" identifier="3">
+          <point xsi:type="sp:Point">
+            <lat xsi:type="xsd:double">37.00</lat>
+            <lon xsi:type="xsd:double">70.00</lon>
+          </point>
+        </nodes>
+        <edges xsi:type="sp:PathEdge">
+          <origin xsi:type="sp:NodeReference">
+            <name>0</name>
+          </origin>
+          <target xsi:type="sp:NodeReference">
+            <name>1</name>
+          </target>
+          <isConnected xsi:type="sp:Boolean">
+            <value>1</value>
+          </isConnected>
+          <travelSpeed xsi:type="sp:Double">
+            <value>1</value>
+          </travelSpeed>
+        </edges>
+        <edges xsi:type="sp:PathEdge">
+          <origin xsi:type="sp:NodeReference">
+            <name>1</name>
+          </origin>
+          <target xsi:type="sp:NodeReference">
+            <name>2</name>
+          </target>
+          <isConnected xsi:type="sp:Boolean">
+            <value>1</value>
+          </isConnected>
+          <travelSpeed xsi:type="sp:Double">
+            <value>0.75</value>
+          </travelSpeed>
+        </edges>
+        <edges xsi:type="sp:PathEdge">
+          <origin xsi:type="sp:NodeReference">
+            <name>2</name>
+          </origin>
+          <target xsi:type="sp:NodeReference">
+            <name>0</name>
+          </target>
+          <isConnected xsi:type="sp:Boolean">
+            <value>1</value>
+          </isConnected>
+          <travelSpeed xsi:type="sp:Double">
+            <value>0.25</value>
+          </travelSpeed>
+        </edges>
+        <edges xsi:type="sp:PathEdge">
+          <origin xsi:type="sp:NodeReference">
+            <name>2</name>
+          </origin>
+          <target xsi:type="sp:NodeReference">
+            <name>3</name>
+          </target>
+          <isConnected xsi:type="sp:Boolean">
+            <value>1</value>
+          </isConnected>
+          <travelSpeed xsi:type="sp:Double">
+            <value>0.10</value>
+          </travelSpeed>
+        </edges>
+      </path>
     </scenario>
     <startTime xsi:type="sp:Timestamp">
       <value>2005-09-27T12:56:57Z</value>

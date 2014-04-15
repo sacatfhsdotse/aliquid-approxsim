@@ -24,6 +24,11 @@ import java.awt.BorderLayout;
 public class ServerViewFrame extends JFrame
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8647382839889370552L;
+
+	/**
      * The ServerView to frame 
      */
     ServerView serverView;

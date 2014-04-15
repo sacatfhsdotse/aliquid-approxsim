@@ -18,9 +18,6 @@ class ImageSymbolLoader {
 
         private static final String suffix = ".png";
 
-        // Root directory for Norwegian directory hierarchy ("1x1/", "1x2/", ...) found here. */
-        private String root;
-
         private SymbolID id;                // ID of last loaded symbol.
 
         private BufferedImage        canvas;                // Used to composite the various layers together.
@@ -382,7 +379,6 @@ class ImageSymbolLoader {
 
         public ImageSymbolLoader(String rootDir, int cacheSize) {
                 super();
-                root = rootDir;
                 layer = new LayerLoader[] {
                         new IconLoader(rootDir, cacheSize),
                         new EchelonLoader(rootDir, cacheSize),

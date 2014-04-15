@@ -61,6 +61,10 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
                                                                MouseListener, MouseMotionListener, MouseWheelListener
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7511832126532781325L;
+	/**
      * The reference to the map container.
      */
     protected BasicMap basicMap;

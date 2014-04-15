@@ -422,7 +422,6 @@ public class PopulationAdapter extends ElementAdapter
     {
         final GL2 gl = (GL2) gld.getGL();
         
-        final double[] color = getLocationColor(getTotalInhabitants());
         return new GLUtessellatorCallbackAdapter() 
             {
                 public void vertex(Object data) 

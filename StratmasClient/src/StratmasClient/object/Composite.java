@@ -36,7 +36,7 @@ public class Composite extends Shape
      * @param identifier the identifier of the shape.
      * @param shapes the subshapes of the shape.
      */
-    protected Composite(String identifier, Vector shapes)
+    protected Composite(String identifier, Vector<StratmasObject> shapes)
     {
         super(identifier, TypeFactory.getType("Composite"));
         this.add(shapes);
@@ -69,7 +69,7 @@ public class Composite extends Shape
      *
      *@param res vector to add result to.
      */
-    public Vector constructSimpleShapes(Vector res)
+    public Vector<SimpleShape> constructSimpleShapes(Vector<SimpleShape> res)
     {
         for (Enumeration ss = this.getParts(); ss.hasMoreElements();) {
             Shape s = (Shape) ss.nextElement();
@@ -176,9 +176,9 @@ public class Composite extends Shape
      * @return A clone of this object.
      */
      protected Object clone() {
-          Vector elements = new Vector();
+          Vector<StratmasObject> elements = new Vector<StratmasObject>();
           for (Enumeration en = children(); en.hasMoreElements(); ) {
-               elements.add(((StratmasObject)en.nextElement()).clone());
+               elements.add((StratmasObject) ((StratmasObject) en.nextElement()).clone());
           }
           return new Composite(identifier, elements);
      }
@@ -200,7 +200,7 @@ public class Composite extends Shape
                 throw new AssertionError("Composite without shape StratmasList");
             }
             
-            HashSet newIDs = new HashSet();
+            HashSet<String> newIDs = new HashSet<String>();
             // Go through the child shapes in the new Composite and
             // check them with the existing child shapes. 
             for (Node child = n.getFirstChild(); 
@@ -283,7 +283,7 @@ public class Composite extends Shape
      */
     protected static StratmasObject domCreate(Element n) 
     {
-        Vector shapes = new Vector();
+        Vector<StratmasObject> shapes = new Vector<StratmasObject>();
         for (Node child = n.getFirstChild(); child != null; child = child.getNextSibling()) {
             if (child.getNodeType() == Node.ELEMENT_NODE && child.getNodeName().equals("shapes")) {
                 shapes.add(StratmasObjectFactory.domCreate((Element)child));
@@ -291,7 +291,7 @@ public class Composite extends Shape
         }
         StratmasList list = new StratmasList(new Declaration(TypeFactory.getType("Shape"), "shapes", 
                                                              1, -1, true), shapes);
-        Vector listVec = new Vector();
+        Vector<StratmasObject> listVec = new Vector<StratmasObject>();
         listVec.add(list);          
         return new Composite(Identifier.getIdentifier(n), listVec);
     }

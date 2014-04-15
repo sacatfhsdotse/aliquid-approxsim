@@ -23,11 +23,6 @@ import org.w3c.dom.Element;
 public class Reference
 {
     /**
-     * The choosen Scope-symbol.
-     */
-    private String SCOPESYM = ":";
-
-    /**
      * The identifiers making up this reference.
      */
     String[] identifiers;

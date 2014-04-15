@@ -14,6 +14,11 @@ package StratmasClient.communication;
 public class StratmasMessageEvent extends java.util.EventObject {
 
      /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6947032622503947818L;
+
+	/**
       * Constructor
       *
       * @param source The source of the event, i.e. the

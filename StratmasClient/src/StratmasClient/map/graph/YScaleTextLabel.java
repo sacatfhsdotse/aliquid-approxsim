@@ -15,6 +15,10 @@ import StratmasClient.ProcessVariableDescription;
  */
 public class YScaleTextLabel extends JLabel{
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6614168918984682958L;
+	/**
      * The actual font.
      */
     private Font font;
@@ -66,8 +70,8 @@ public class YScaleTextLabel extends JLabel{
                 // special case - the difference between the bounds is one power of ten
                 if ((int)Math.round(graph.log10(graph.getUpperYBound()) - graph.log10(graph.getLowerYBound())) == 1) {
                     values[0] = getLogFormat(graph.getLowerYBound());
-                    for (int i = 0; i < graph.MIDDLE_LOG_VALUES.length; i++) {
-                        double val = graph.getLowerYBound() * graph.MIDDLE_LOG_VALUES[i];
+                    for (int i = 0; i < ProcessVariableXYGraph.MIDDLE_LOG_VALUES.length; i++) {
+                        double val = graph.getLowerYBound() * ProcessVariableXYGraph.MIDDLE_LOG_VALUES[i];
                         values[i + 1] = (val > 10)? Long.toString(Math.round(val)) : Double.toString(val);
                     }
                     values[values.length - 1] = getLogFormat(graph.getUpperYBound());
@@ -149,8 +153,8 @@ public class YScaleTextLabel extends JLabel{
         // the lower bound is larger then zero
         if (graph.isLogarithmicScale() && graph.getLowerYBound() > 0 &&
             (int)Math.round(graph.log10(graph.getUpperYBound()) - graph.log10(graph.getLowerYBound())) == 1) {
-            for (int i = 0; i < graph.MIDDLE_LOG_VALUES.length; i++) {
-                YBASE = (int) (this.getHeight() - graph.log10(graph.MIDDLE_LOG_VALUES[i]) * this.getHeight() + font.getSize() / 2);
+            for (int i = 0; i < ProcessVariableXYGraph.MIDDLE_LOG_VALUES.length; i++) {
+                YBASE = (int) (this.getHeight() - graph.log10(ProcessVariableXYGraph.MIDDLE_LOG_VALUES[i]) * this.getHeight() + font.getSize() / 2);
                 if (lastPosition - YBASE >= font.getSize() &&  YBASE >= 2.5 * font.getSize()) {
                     g.drawString(stringValues[i + 1], XBASE, YBASE);
                     labelWidth = (fm.stringWidth(stringValues[i + 1]) > labelWidth)? fm.stringWidth(stringValues[i + 1]) : labelWidth;

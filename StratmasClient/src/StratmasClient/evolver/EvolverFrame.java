@@ -25,6 +25,11 @@ import java.awt.BorderLayout;
 public class EvolverFrame extends JFrame
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8279844453764427037L;
+
+	/**
      * The evolverGUI to use.
      */
     EvolverGUI evolverGUI;

@@ -8,6 +8,8 @@ package StratmasClient.TaclanV2;
 import java.util.Vector;
 import java.util.Enumeration;
 import java.util.Hashtable;
+
+import StratmasClient.object.StratmasObject;
 import StratmasClient.object.StratmasObjectFactory;
 import StratmasClient.object.type.TypeInformation;
 import StratmasClient.object.type.Declaration;
@@ -26,12 +28,12 @@ public class ParsedDeclarationList
     /**
      * The declarations in the list.
      */
-    Vector parts = new Vector();
+    Vector<ParsedDeclaration> parts = new Vector<ParsedDeclaration>();
     
     /**
      * A hashtable mapping identifiers to declarations.
      */
-    Hashtable partsTable = new Hashtable();
+    Hashtable<ParsedIdentifier, ParsedDeclaration> partsTable = new Hashtable<ParsedIdentifier, ParsedDeclaration>();
 
     /**
      * Creates a new empty ParsedDeclarationList.
@@ -92,8 +94,8 @@ public class ParsedDeclarationList
     {
         // FIXME dont add to vector unless added to partsTable!!!
         CollectedErrorsException errors = null;
-        for (Enumeration ps = parts.parts.elements(); ps.hasMoreElements();) {
-            ParsedDeclaration decl = (ParsedDeclaration) ps.nextElement();
+        for (Enumeration<ParsedDeclaration> ps = parts.parts.elements(); ps.hasMoreElements();) {
+            ParsedDeclaration decl = ps.nextElement();
             try {
                 push(decl);
             }
@@ -118,8 +120,8 @@ public class ParsedDeclarationList
     {
         // FIXME dont add to vector unless added to partsTable!!!
         CollectedErrorsException errors = null;
-        for (Enumeration ps = parts.parts.elements(); ps.hasMoreElements();) {
-            ParsedDeclaration decl = (ParsedDeclaration) ps.nextElement();
+        for (Enumeration<ParsedDeclaration> ps = parts.parts.elements(); ps.hasMoreElements();) {
+            ParsedDeclaration decl = ps.nextElement();
             try {
                 add(decl);
             }
@@ -138,7 +140,7 @@ public class ParsedDeclarationList
     /**
      * Returns the parts this DeclarationList consist of.
      */    
-    protected Vector getParts()
+    protected Vector<ParsedDeclaration> getParts()
     {
         return parts;
     }
@@ -169,7 +171,7 @@ public class ParsedDeclarationList
      */
     public ParsedDeclaration getDeclaration(ParsedIdentifier identifier)
     {
-        return (ParsedDeclaration) partsTable.get(identifier);
+        return partsTable.get(identifier);
     }
 
     /**
@@ -180,7 +182,7 @@ public class ParsedDeclarationList
      */
     public ParsedDeclaration getDeclaration(String identifier)
     {
-        return (ParsedDeclaration) partsTable.get(identifier);
+        return partsTable.get(identifier);
     }
 
     /**
@@ -200,8 +202,8 @@ public class ParsedDeclarationList
      */
     public void typeCheckImmidiates(Type type, TypeInformation typeInformation) throws SemanticException
     {
-        Vector errors = new Vector();
-        Vector reorderedParts = new Vector();
+        Vector<SemanticException> errors = new Vector<SemanticException>();
+        Vector<ParsedDeclaration> reorderedParts = new Vector<ParsedDeclaration>();
         // For all declarations in type...
          for (Enumeration ps = type.getSubElements().elements(); 
              ps.hasMoreElements();) {
@@ -262,13 +264,13 @@ public class ParsedDeclarationList
      * Binds any reference to its intended target. Returns an array
      * with any outstanding references in this scope.
      */
-    public Vector bindReferences() throws SemanticException
+    public Vector<ParsedReference> bindReferences() throws SemanticException
     {
-        Vector outstanding = new Vector();
-        Vector errors = new Vector();
-        for (Enumeration ps = this.getParts().elements(); 
+        Vector<ParsedReference> outstanding = new Vector<ParsedReference>();
+        Vector<UnresolvedReferenceException> errors = new Vector<UnresolvedReferenceException>();
+        for (Enumeration<ParsedDeclaration> ps = this.getParts().elements(); 
              ps.hasMoreElements();) {
-            ParsedDeclaration parsedDeclaration = (ParsedDeclaration) ps.nextElement();
+            ParsedDeclaration parsedDeclaration = ps.nextElement();
             Vector unresolvedCandidates = parsedDeclaration.bindReferences();
             for (Enumeration us = unresolvedCandidates.elements();
                  us.hasMoreElements();) {
@@ -316,9 +318,9 @@ public class ParsedDeclarationList
     {
         if (getSize() > 0) {
             StringBuffer buf = new StringBuffer();
-            for (Enumeration ps = this.getParts().elements(); 
+            for (Enumeration<ParsedDeclaration> ps = this.getParts().elements(); 
                  ps.hasMoreElements();) {
-                ParsedDeclaration decl = (ParsedDeclaration) ps.nextElement();
+                ParsedDeclaration decl = ps.nextElement();
                 buf.append("\n" + decl.toString());
             }
             return buf.toString();
@@ -335,9 +337,9 @@ public class ParsedDeclarationList
      *
      * @param type the type of the objects in this list.
      */
-    public Vector getStratmasObjects(Type type) throws SemanticException
+    public Vector<StratmasObject> getStratmasObjects(Type type) throws SemanticException
     {
-        Vector result = new Vector();
+        Vector<StratmasObject> result = new Vector<StratmasObject>();
         for (Enumeration ds = type.getSubElements().elements(); 
              ds.hasMoreElements();) {
             Declaration d = (Declaration) ds.nextElement();

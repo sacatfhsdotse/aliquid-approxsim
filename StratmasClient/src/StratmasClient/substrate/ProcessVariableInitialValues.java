@@ -24,15 +24,13 @@ class ProcessVariableInitialValues {
     /**
      * The ordered list of ShapeValuePair objects.
      */
-    private Vector shapeList = new Vector();
+    private Vector<ShapeValuePair> shapeList = new Vector<ShapeValuePair>();
     /**
      * Used to compare ShapeValuePair objects wrt the time of creation.
      */
-    private Comparator creationTimeComparator = new Comparator() {
-            public int compare(Object o1, Object o2) {
-                ShapeValuePair svp1 = (ShapeValuePair)o1;
-                ShapeValuePair svp2 = (ShapeValuePair)o2;
-                long cTime1 = svp1.getCreationTime();   //System.out.println(shapes);
+    private Comparator<ShapeValuePair> creationTimeComparator = new Comparator<ShapeValuePair>() {
+            public int compare(ShapeValuePair svp1, ShapeValuePair svp2) {
+                long cTime1 = svp1.getCreationTime();
 
                 long cTime2 = svp2.getCreationTime();
                 return (cTime1 > cTime2)? 1 : -1;
@@ -50,8 +48,8 @@ class ProcessVariableInitialValues {
         this.processVariable = processVariable;
         this.faction = faction;
         // put all shapes and values in the list
-        for (Enumeration e = shapeValues.elements();e.hasMoreElements();) {
-            Vector shValues = (Vector)e.nextElement();
+        for (Enumeration<Vector<ShapeValuePair>> e = shapeValues.elements(); e.hasMoreElements();) {
+            Vector<ShapeValuePair> shValues = e.nextElement();
             for (int i = 0; i < shValues.size(); i++) { 
                 if (!shapeList.contains(shValues.get(i))) {
                     shapeList.add(shValues.get(i));
@@ -69,7 +67,7 @@ class ProcessVariableInitialValues {
      * @param faction a faction.
      * @param shapeList a sorted list of ShapeValuePair objects.
      */
-    public ProcessVariableInitialValues(ProcessVariableDescription processVariable, StratmasObject faction, Vector shapeList) {
+    public ProcessVariableInitialValues(ProcessVariableDescription processVariable, StratmasObject faction, Vector<ShapeValuePair> shapeList) {
         this.processVariable = processVariable;
         this.faction = faction;
         this.shapeList = shapeList;
@@ -97,7 +95,7 @@ class ProcessVariableInitialValues {
     /**
      * Returns the sorted list of ShapeValuePair objects.
      */
-    public Vector getOrderedListOfShapes() {
+    public Vector<ShapeValuePair> getOrderedListOfShapes() {
         return shapeList;
     }
     
@@ -112,7 +110,7 @@ class ProcessVariableInitialValues {
         String facStr = (faction == null)? new String("") : new String("faction : " + faction.getReference().toString() + "\n");
         String shapes = new String("List of shape - value pairs : \n");
         for (int i = 0; i < shapeList.size(); i++) {
-            shapes = shapes.concat(((ShapeValuePair)shapeList.get(i)).toString() + "\n");
+            shapes = shapes.concat(shapeList.get(i).toString() + "\n");
         }
         return pv + facStr + shapes;
     }

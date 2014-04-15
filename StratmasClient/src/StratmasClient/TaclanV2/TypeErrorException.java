@@ -8,6 +8,11 @@ package StratmasClient.TaclanV2;
 public class TypeErrorException extends SemanticException
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6866374180707120301L;
+
+	/**
      * The declaration causing the error.
      */
     ParsedDeclaration declaration;

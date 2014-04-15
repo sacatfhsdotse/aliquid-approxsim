@@ -20,7 +20,7 @@ public class DoubleParameter extends Parameter
     /**
      * The comparator of this type.
      */
-    final static Comparator comparator = new Comparator()
+    final static Comparator<ParameterInstance> comparator = new Comparator<ParameterInstance>()
         {
             /**
              * Compares its two arguments for order.
@@ -28,12 +28,12 @@ public class DoubleParameter extends Parameter
              * @param o1 first object.
              * @param o2 second object.
              */
-            public int compare(Object o1, Object o2)
+            public int compare(ParameterInstance o1, ParameterInstance o2)
             {
                 double o1d = 
-                    ((DoubleParameter) ((ParameterInstance) o1).getParameter()).getDouble((ParameterInstance) o1);
+                    ((DoubleParameter) o1.getParameter()).getDouble(o1);
                 double o2d = 
-                    ((DoubleParameter) ((ParameterInstance) o2).getParameter()).getDouble((ParameterInstance) o2);
+                    ((DoubleParameter) o2.getParameter()).getDouble(o2);
 
                 return Double.compare(o1d, o2d);
             }
@@ -74,7 +74,7 @@ public class DoubleParameter extends Parameter
      * this parameter type. Returning null means that this parameter
      * is not an ordinal.
      */
-    public Comparator getComparator()
+    public Comparator<ParameterInstance> getComparator()
     {
         return comparator;
     }

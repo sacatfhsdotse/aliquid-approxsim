@@ -78,9 +78,9 @@ public class MilitaryUnitAdapter extends ElementAdapter
         final GL2 gl = (GL2) gld.getGL();
         
         SymbolIDCode idCode = (SymbolIDCode) getStratmasObject().getChild("symbolIDCode");
-        long personnel = ((StratmasInteger) getStratmasObject().getChild("personnel")).getValue();
+        ((StratmasInteger) getStratmasObject().getChild("personnel")).getValue();
         
-        final double[] color = getLocationColor(idCode);
+        getLocationColor(idCode);
         return new GLUtessellatorCallbackAdapter() 
             {
                 public void vertex(Object data) 

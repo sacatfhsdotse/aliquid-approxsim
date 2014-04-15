@@ -81,7 +81,7 @@ public class JoglLibExtractor
 
         if (extractToDir(tempdir, false)) {
             String[] libNames = joglOsLibNames();
-            File library = new File(tempdir, libNames[0]);
+            new File(tempdir, libNames[0]);
 
 
             String[] envp = new String[] {joglOsLDName(tempdir)};
@@ -352,7 +352,9 @@ public class JoglLibExtractor
                                     try {
                                         System.loadLibrary("jawt");
                                     } catch (UnsatisfiedLinkError e2) {
-                                        throw e2;
+                                    	if (e.getMessage().indexOf("already loaded") == -1) {
+                                    		throw e2;
+                                    	}
                                     }
                                 } else {
                                     throw e;

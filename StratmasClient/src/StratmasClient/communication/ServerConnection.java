@@ -18,11 +18,6 @@ import java.util.TimerTask;
  * @author  Per Alexius
  */
 public class ServerConnection implements Runnable {
-     // For time step slider
-//     private TimeSliderDebugFrame tsdf;
-     /** The time when the last time step message was sent. **/
-     private long timeForLastSentTimestep = System.currentTimeMillis();
-
      private static final int    sDefaultPrio      = 20;
      private static final int    sStepPrio         = 25;
      private static final int    sSubscriptionPrio = 50;

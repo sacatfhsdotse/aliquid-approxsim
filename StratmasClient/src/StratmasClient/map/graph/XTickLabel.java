@@ -10,6 +10,10 @@ import javax.swing.JLabel;
  */
 public class XTickLabel extends JLabel{
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5143756285691641827L;
+	/**
      * The actual color.
      */
     public static final Color COLOR = Color.BLACK;

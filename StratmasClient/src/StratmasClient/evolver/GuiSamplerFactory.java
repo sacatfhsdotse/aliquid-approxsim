@@ -24,6 +24,10 @@ import java.awt.event.ActionEvent;
 public class GuiSamplerFactory extends JPanel implements SamplerFactory 
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3133753260821134209L;
+	/**
      * Indicates whether the samplers created by this factory should
      * be minimizing or not. Default is true.
      */
@@ -41,14 +45,24 @@ public class GuiSamplerFactory extends JPanel implements SamplerFactory
 
         JRadioButton min = new JRadioButton(new AbstractAction("Minimize")
             {
-                public void actionPerformed(ActionEvent event)
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = 7592968722343883850L;
+
+				public void actionPerformed(ActionEvent event)
                 {
                     setMinimizing(true);
                 }
             });
         JRadioButton max = new JRadioButton(new AbstractAction("Maximize")
             {
-                public void actionPerformed(ActionEvent event)
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = -4411530815821390978L;
+
+				public void actionPerformed(ActionEvent event)
                 {
                     setMinimizing(false);
                 }

@@ -36,17 +36,9 @@ import StratmasClient.map.adapter.MapShapeAdapter;
  */
 public class SubstrateEditor {
     /**
-     * Path to the images.
-     */
-    private static String path = "images/";
-    /**
      * Reference to the client.
      */
     private Client client;
-    /**
-     * Reference to the shape.
-     */
-    private Shape shape;
     /**
      * Reference to the substrate drawer.
      */
@@ -100,8 +92,6 @@ public class SubstrateEditor {
      */
     public SubstrateEditor(Client client, Shape shape) {
         this.client = client;
-        this.shape = shape;
-        
         // create the basic map 
         BasicMap basicMap = new BasicMap(client, shape);
         
@@ -143,8 +133,6 @@ public class SubstrateEditor {
                     if (JOptionPane.showConfirmDialog(frame, "Do you want to exit?", "Exiting ...", 
                                                       JOptionPane.YES_NO_OPTION) == 0) {
                         drawer.doDispose();
-                        // finally
-                        System.exit(0);
                     }
                 }
             });
@@ -556,13 +544,6 @@ public class SubstrateEditor {
     }
     
     /**
-     * Disables the menu items used to import process variables.
-     */
-    private void disableImportItems() {
-        displayControl.enableImportPVItem(false);
-    }
-    
-    /**
      * Removes all shape values for this faction. If the faction is currently selected nothing is done. 
      *
      * @param faction the faction.
@@ -627,7 +608,7 @@ public class SubstrateEditor {
      * Saves values from the editor to a user defined file.
      */
     protected void saveValuesToNewFile() {
-        String filename = Client.getFileNameFromDialog(".ini", JFileChooser.SAVE_DIALOG, new JFrame());
+        String filename = Client.getFileNameFromDialog(".prv", JFileChooser.SAVE_DIALOG, new JFrame());
         saveToFile(filename);
     }
     
@@ -635,7 +616,7 @@ public class SubstrateEditor {
      * Saves values from the editor to an existing  file.
      */
     protected void saveValuesToExistingFile() {
-        outFile = (outFile != null)? outFile : Client.getFileNameFromDialog(".ini", JFileChooser.SAVE_DIALOG, new JFrame());
+        outFile = (outFile != null)? outFile : Client.getFileNameFromDialog(".prv", JFileChooser.SAVE_DIALOG, new JFrame());
         saveToFile(outFile);
     }
     

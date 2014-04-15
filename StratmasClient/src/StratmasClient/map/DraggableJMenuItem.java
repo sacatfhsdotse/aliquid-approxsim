@@ -4,7 +4,6 @@ import javax.swing.JMenuItem;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragSource;
 import java.awt.dnd.DragSourceAdapter;
-import java.awt.dnd.DragGestureRecognizer;
 import java.awt.dnd.DragGestureListener;
 import java.awt.dnd.DragGestureEvent;
 
@@ -20,13 +19,13 @@ import StratmasClient.Icon;
  */
 public class DraggableJMenuItem extends JMenuItem implements DragGestureListener {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2087717193285582922L;
+	/**
      * The object associated with the item.
      */
     private StratmasObject object;
-    /**
-     * Used to recognize the drag action.
-     */
-    private DragGestureRecognizer recognizer;
     /**
      * Used for the drag action.
      */
@@ -45,7 +44,7 @@ public class DraggableJMenuItem extends JMenuItem implements DragGestureListener
         super( object.getReference().getIdentifier().trim());
         this.object = object;
         source = new DragSource();
-        recognizer = source.createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_REFERENCE, this);
+        source.createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_REFERENCE, this);
         //
         Toolkit tk = Toolkit.getDefaultToolkit();
         Image image = ((Icon)object.getIcon()).getImage();

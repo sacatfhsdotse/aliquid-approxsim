@@ -405,7 +405,7 @@ public class MapElementAdapter extends MapDrawableAdapter{
                         if (tess == null) {
                             tess = getLocationTessellator(gld);
                         }
-                        glu.gluBeginPolygon(tess);
+                        GLU.gluBeginPolygon(tess);
                         for (Enumeration le = simpleShape.getPolygon(100.0).getCurves();
                              le.hasMoreElements();) {
                             Line line = (Line) le.nextElement();
@@ -414,11 +414,11 @@ public class MapElementAdapter extends MapDrawableAdapter{
                             double[] p2 = proj.projToXY(line.getEndPoint());
                             double[] v1 = {p1[0], p1[1], 0};
                             double[] v2 = {p2[0], p2[1], 0};
-                            glu.gluTessVertex(tess, v1, 0, v1);
-                            glu.gluTessVertex(tess, v2, 0, v2);
+                            GLU.gluTessVertex(tess, v1, 0, v1);
+                            GLU.gluTessVertex(tess, v2, 0, v2);
                         }
-                        glu.gluNextContour(tess, GLU.GLU_UNKNOWN);
-                        glu.gluEndPolygon(tess);
+                        GLU.gluNextContour(tess, GLU.GLU_UNKNOWN);
+                        GLU.gluEndPolygon(tess);
                     }
                 }
 
@@ -488,7 +488,7 @@ public class MapElementAdapter extends MapDrawableAdapter{
             glu.gluDeleteQuadric(quadric);
         }
         if (tess != null) {
-            glu.gluDeleteTess(tess);
+            GLU.gluDeleteTess(tess);
         }
 
         //gl.glPopName();
@@ -514,7 +514,7 @@ public class MapElementAdapter extends MapDrawableAdapter{
     {
         GL2 gl = (GL2) gl2;
         double[] color = getLocationColor();
-        double projectedPosition[] = proj.projToXY(getLonLat());
+        proj.projToXY(getLonLat());
 
         StratmasObject distribution = getObject().getChild("deployment");
         if (distribution == null) {
@@ -651,11 +651,6 @@ public class MapElementAdapter extends MapDrawableAdapter{
     }
 
     /**
-     * Precalculated Math.sqrt(2*Math.PI).
-     */
-    final private static double sqrt2pi = Math.sqrt(2.0*Math.PI);
-
-    /**
      * The exponential
      * 
      * @param sigma the sigma.
@@ -720,16 +715,14 @@ public class MapElementAdapter extends MapDrawableAdapter{
      */
     protected GLUtessellator getLocationTessellator(GLAutoDrawable gld)
     {
-        GLU glu = new GLU();
-        
-        GLUtessellator tess = glu.gluNewTess();
+        GLUtessellator tess = GLU.gluNewTess();
         GLUtessellatorCallback adapter = getLocationTessellatorCallback(gld);
-        glu.gluTessProperty(tess, GLU.GLU_TESS_BOUNDARY_ONLY, GLU.GLU_FALSE);
-        glu.gluTessProperty(tess, GLU.GLU_TESS_WINDING_RULE, GLU.GLU_TESS_WINDING_ODD);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_BEGIN, adapter);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_VERTEX, adapter);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_END, adapter);
-        glu.gluTessCallback(tess, GLU.GLU_TESS_ERROR, adapter);
+        GLU.gluTessProperty(tess, GLU.GLU_TESS_BOUNDARY_ONLY, GLU.GLU_FALSE);
+        GLU.gluTessProperty(tess, GLU.GLU_TESS_WINDING_RULE, GLU.GLU_TESS_WINDING_ODD);
+        GLU.gluTessCallback(tess, GLU.GLU_TESS_BEGIN, adapter);
+        GLU.gluTessCallback(tess, GLU.GLU_TESS_VERTEX, adapter);
+        GLU.gluTessCallback(tess, GLU.GLU_TESS_END, adapter);
+        GLU.gluTessCallback(tess, GLU.GLU_TESS_ERROR, adapter);
         
         return tess;
     }

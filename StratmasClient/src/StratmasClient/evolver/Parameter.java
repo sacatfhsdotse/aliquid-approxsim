@@ -75,7 +75,7 @@ public abstract class Parameter implements ParameterInstanceFactory
      * this parameter type. Returning null means that this parameter
      * is not an ordinal.
      */
-    public Comparator getComparator()
+    public Comparator<ParameterInstance> getComparator()
     {
         return null;
     }

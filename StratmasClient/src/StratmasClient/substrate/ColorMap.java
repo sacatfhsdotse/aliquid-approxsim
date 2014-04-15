@@ -296,8 +296,7 @@ public class ColorMap {
         }
         // logarithmic scale
         else {
-            // get the max value 
-            double maxVal = Math.pow(10, Math.ceil(Math.log(getMaxValue()) / Math.log(10)));
+            Math.pow(10, Math.ceil(Math.log(getMaxValue()) / Math.log(10)));
             // get the min value
             double minVal = Math.pow(10, Math.ceil(Math.log(getMaxValue()) / Math.log(10)) - getNrOfDisplayedValues() + 1);
             // all the values 
@@ -396,7 +395,6 @@ public class ColorMap {
             double minVal = Math.log(displayedValues[0]) / Math.log(10);
             double maxVal = Math.log(displayedValues[displayedValues.length - 1]) / Math.log(10);
             double val    = (value <= 0)? Math.log(displayedValues[0]) / Math.log(10) : Math.log(value) / Math.log(10);
-            double res    = (val - minVal) / (maxVal - minVal);
             return COLOR_TABLE[(int) Math.round((val - minVal) / (maxVal - minVal) * (COLOR_SHADES - 1))];   
         }
     }

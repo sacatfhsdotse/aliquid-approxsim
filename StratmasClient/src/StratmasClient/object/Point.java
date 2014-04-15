@@ -288,7 +288,11 @@ public class Point extends StratmasObjectImpl
 */
 class PointGUIConstructor extends StratmasGUIConstructor
 {
-    JTextField latField;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2391026076158888376L;
+	JTextField latField;
     JTextField lonField;
 
     /**

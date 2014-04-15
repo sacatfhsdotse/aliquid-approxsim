@@ -2,12 +2,10 @@ package StratmasClient;
 
 import java.io.*;
 import java.util.Hashtable;
-import java.util.Vector;
 import StratmasClient.communication.*;
 
 import StratmasClient.object.StratmasEvent;
 import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.StratmasObject;
 import StratmasClient.object.StratmasObject;
 import StratmasClient.object.StratmasObjectFactory;
 import StratmasClient.object.type.TypeFactory;
@@ -20,7 +18,7 @@ public class CommTest {
      final private static String path = "/afs/pdc.kth.se/projects/stratmas/alexius/xml/CommTest_files/";
      final private static String mLoadQueryFileName = path + "loadQuery.xml";
 
-     private static Hashtable mPropHash = new Hashtable();
+     private static Hashtable<String, String> mPropHash = new Hashtable<String, String>();
 
      public static String getMsgFromFile(String filename) {
           String ret = null;
@@ -28,7 +26,7 @@ public class CommTest {
                FileInputStream fi   = new FileInputStream(filename);
                int size             = (int)fi.getChannel().size();
                byte [] buf          = new byte[size];
-               int read             = fi.read(buf);
+               fi.read(buf);
                ret                  = new String(buf);
           } catch (IOException e) {
                e.printStackTrace();
@@ -66,11 +64,8 @@ public class CommTest {
 
           boolean conn = false;
           boolean fromFile = false;
-          long id = -1;
           String line = null;
           String old = null;
-          String ret;
-
           StratmasObject root = null;
           MyClient fooClient = new MyClient("");
           MyXMLHandler xh = new MyXMLHandler(fooClient, "stratmasProtocol.xsd");
@@ -152,13 +147,12 @@ public class CommTest {
                          System.out.println("Property <return> value <return> ");
                          String prop = stdIn.readLine();
                          if (mPropHash.containsKey(prop)) {
-                              prop = (String)mPropHash.get(prop);
+                              prop = mPropHash.get(prop);
                          }
                          sc.send(new SetPropertyMessage(prop, stdIn.readLine()));
                     }
                     else if (line.equalsIgnoreCase("d") && conn == true) {
-                         // Disconnect
-                         id = sock.id();
+                         sock.id();
                          sc.disconnect();
                          sock = null;
                          conn = false;

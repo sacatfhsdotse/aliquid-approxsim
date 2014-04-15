@@ -9,6 +9,11 @@ import StratmasClient.object.type.Declaration;
 public class MissingDeclarationException extends SemanticException
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5968971443496639200L;
+
+	/**
      * The scope where the error was detected or null if topmost scope.
      */
     ParsedDeclaration scope;

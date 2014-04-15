@@ -54,7 +54,6 @@ import java.awt.Dimension;
 import java.awt.dnd.DragSource;
 import java.awt.dnd.DragSourceDropEvent;
 import java.awt.dnd.DragSourceAdapter;
-import java.awt.dnd.DragGestureRecognizer;
 import java.awt.dnd.DragGestureListener;
 import java.awt.dnd.DragGestureEvent;
 import java.awt.dnd.DropTarget;
@@ -72,6 +71,11 @@ import java.awt.dnd.DropTargetDropEvent;
 public class TreeView extends JTree implements DragGestureListener, WindowListener, StratmasEventListener
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6703749292998360374L;
+
+	/**
      * The prefered size of icons used in the TreeCellRenderers.
      */
     Dimension preferedIconSize = new Dimension(16, 16);
@@ -246,15 +250,15 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
                                 // Add to vector first to not
                                 // disturb the enumeration we are
                                 // using by removing objects from its collection.
-                                Vector v = new Vector();
+                                Vector<StratmasObject> v = new Vector<StratmasObject>();
                                 for (Enumeration e = stratmasList.children(); e.hasMoreElements();) {
                                     StratmasObject sObj = (StratmasObject) e.nextElement();
                                     if (sObj.getType().canSubstitute(targetList.getType())) {
                                         v.add(sObj);
                                     }
                                 }
-                                for (Enumeration e = v.elements(); e.hasMoreElements();) {
-                                    StratmasObject sObj = (StratmasObject) e.nextElement();
+                                for (Enumeration<StratmasObject> e = v.elements(); e.hasMoreElements();) {
+                                    StratmasObject sObj = e.nextElement();
                                     sObj.remove();
                                     targetList.add(sObj);
                                 }
@@ -303,7 +307,12 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
                            new AbstractAction("Zoom In", 
                                               new ImageIcon(TreeView.class.getResource("images/zoom_in.png"))) 
                            { 
-                               public void actionPerformed(ActionEvent e) 
+                               /**
+							 * 
+							 */
+							private static final long serialVersionUID = -3884381676516049432L;
+
+							public void actionPerformed(ActionEvent e) 
                                {
                                    self.scalePreferedIconSize(1.1);
                                }
@@ -314,7 +323,12 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
                                               new ImageIcon(TreeView.class.getResource("images/zoom_out.png"))) 
                            { 
                                
-                               public void actionPerformed(ActionEvent e) 
+                               /**
+							 * 
+							 */
+							private static final long serialVersionUID = 9118724480437588086L;
+
+							public void actionPerformed(ActionEvent e) 
                                {
                                  self.scalePreferedIconSize(0.9);
                                }
@@ -328,10 +342,9 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
     protected void initDnd()
     {
         dndSource = new DragSource();
-        DragGestureRecognizer recognizer = 
-            dndSource.createDefaultDragGestureRecognizer(this, 
-                                                         DnDConstants.ACTION_REFERENCE, 
-                                                         this);
+        dndSource.createDefaultDragGestureRecognizer(this, 
+		                                             DnDConstants.ACTION_REFERENCE, 
+		                                             this);
         dndSourceAdapter = new DragSourceAdapter() {
                   public void dragDropEnd(DragSourceDropEvent dsde) {
                        if (dsde.getDropSuccess() && 
@@ -420,9 +433,9 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
      *
      * @param transferable transferable to extract.
     */
-    public Vector transferableToObjects(Transferable transferable)
+    public Vector<StratmasObject> transferableToObjects(Transferable transferable)
     {
-        Vector res = new Vector();
+        Vector<StratmasObject> res = new Vector<StratmasObject>();
         DataFlavor[] flavors = transferable.getTransferDataFlavors();        
         try {
             for (int i = 0; i < flavors.length; i++) {
@@ -460,7 +473,12 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
 
         popup.add(new AbstractAction("View branch in separate tree")
             {
-                public void actionPerformed(ActionEvent e)
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = 3283889135596655736L;
+
+				public void actionPerformed(ActionEvent e)
                 {
                     final TreeViewFrame frame = 
                         TreeView.getDefaultFrame(sObj);
@@ -480,7 +498,11 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
             });
         popup.add(new AbstractAction("View only " + sObj.getType().getName() + "(s)")
             {
-                final TypeFilter filter = new TypeFilter(sObj.getType());
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = -8506687345435322101L;
+				final TypeFilter filter = new TypeFilter(sObj.getType());
                 public void actionPerformed(ActionEvent e)
                 {
                     final TreeViewFrame frame = 
@@ -898,6 +920,10 @@ public class TreeView extends JTree implements DragGestureListener, WindowListen
 class TreeViewCellRenderer extends DefaultTreeCellRenderer
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6437329528204104986L;
+	/**
      * The treeView this renderer renders for.
      */
     TreeView treeView;

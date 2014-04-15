@@ -59,6 +59,10 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
             return new ElementAdapter(mapDrawable);
         } else if (mapDrawable.getType().canSubstitute("Activity")) {
             return new MapActivityAdapter(mapDrawable); 
+        } else if (mapDrawable.getType().canSubstitute("Node")) {
+            return new GraphNodeAdapter(mapDrawable);
+        } else if (mapDrawable.getType().canSubstitute("Edge")) {
+            return new GraphEdgeAdapter(mapDrawable);
         } else if (mapDrawable instanceof Shape) {
             return new MapShapeAdapter((Shape)mapDrawable); 
         } else if (mapDrawable instanceof Line) {
@@ -150,16 +154,6 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
         displayListUpdated = false;
         fireAdapterUpdated();
     }
-
-    /**
-     * Invalidates the display list.
-     */
-    public void invalidateDisplayList()
-    {
-        this.displayListUpdated = false;
-        fireAdapterUpdated();
-    }
-
     
     /**
      * Returns the StratmasObject this adapter adapts.

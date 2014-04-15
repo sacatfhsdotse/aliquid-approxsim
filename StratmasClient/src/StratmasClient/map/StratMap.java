@@ -51,11 +51,11 @@ public class StratMap extends BasicMap {
     /**
      * The frame width.
      */
-    private int frame_width = 420;
+    private int frame_width = 460;
     /**
      * The frame height.
      */
-    private int frame_height = 530;
+    private int frame_height = 580;
     /**
      * The grid of cells for actual shape.
      */
@@ -111,10 +111,11 @@ public class StratMap extends BasicMap {
         tabbed_pane.add("Map Control", control_panel);
         tabbed_pane.add("Simulation", display.getSimulationPanel());
         tabbed_pane.add("Topography", display.getTopographyPanel());
-          tabbed_pane.add("Preferences", display.getPreferenceDisplayPanel());
+        tabbed_pane.add("Tools", display.getToolsPanel());
+        tabbed_pane.add("Preferences", display.getPreferenceDisplayPanel());
         main_panel.add(tabbed_pane, BorderLayout.CENTER);
         
-        // show 
+        // show
         show();
         drawer.createAndShowGUI(map_title);
     }
@@ -162,7 +163,7 @@ public class StratMap extends BasicMap {
 
         // put all components into a final panel
         control_panel = new JPanel();
-         control_panel.setLayout(new BorderLayout(0,10));
+        control_panel.setLayout(new BorderLayout(0,10));
         control_panel.add(up_panel, BorderLayout.CENTER);
         control_panel.add(down_panel, BorderLayout.SOUTH);
         control_panel.setBorder(BorderFactory.createEmptyBorder(3,3,3,3));

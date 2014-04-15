@@ -20,7 +20,7 @@ import StratmasClient.object.primitive.Timestamp;
  */
 public class RegionData {
      /** Vector of StratmasEventListeners listening to this object. */
-     private Vector      mListeners   = new Vector();
+     private Vector<StratmasEventListener>      mListeners   = new Vector<StratmasEventListener>();
 
      /** The region this data refers to. */
      private Shape mRegion;
@@ -35,7 +35,7 @@ public class RegionData {
       * Hashtable mapping pv name to Hashtable mapping faction name
       * (excluding the all faction) to pv value.
       */
-     private Hashtable   mPV          = new Hashtable();
+     private Hashtable<String, Hashtable<String, Double>>   mPV          = new Hashtable<String, Hashtable<String, Double>>();
 
      /** Simulation time for last update of this object. */
      private Timestamp   mTimestamp;
@@ -129,11 +129,11 @@ public class RegionData {
       * @return A copy of the Hashtable containing all pv values for
       *  all factions.
       */
-     public synchronized Hashtable getPV() {
-          Hashtable copy = new Hashtable();
-          for (java.util.Enumeration en = mPV.keys(); en.hasMoreElements(); ) {
-               Object key = en.nextElement();
-               copy.put(key, getPV((String)key));
+     public synchronized Hashtable<String, Hashtable<String, Double>> getPV() {
+          Hashtable<String, Hashtable<String, Double>> copy = new Hashtable<String, Hashtable<String, Double>>();
+          for (java.util.Enumeration<String> en = mPV.keys(); en.hasMoreElements(); ) {
+               String key = en.nextElement();
+               copy.put(key, getPV(key));
           }
           return copy;
      }
@@ -146,12 +146,12 @@ public class RegionData {
       * @return A copy of the Hashtable containing the pv values for
       * all factions for the specified pv.
       */
-     public synchronized Hashtable getPV(String pvName) {
-          Hashtable toBeCopied = (Hashtable)mPV.get(pvName);
+     public synchronized Hashtable<String, Double> getPV(String pvName) {
+          Hashtable<String, Double> toBeCopied = mPV.get(pvName);
           if (toBeCopied != null) {
-              Hashtable copy       = new Hashtable();
-              for (java.util.Enumeration en = toBeCopied.keys(); en.hasMoreElements(); ) {
-                  Object key = en.nextElement();
+              Hashtable<String, Double> copy       = new Hashtable<String, Double>();
+              for (java.util.Enumeration<String> en = toBeCopied.keys(); en.hasMoreElements(); ) {
+                  String key = en.nextElement();
                   copy.put(key, toBeCopied.get(key));
               }
               return copy;
@@ -169,9 +169,9 @@ public class RegionData {
       * @return A copy of the specified pv for the specified faction.
       */
      public synchronized Double getPV(String pvName, String factionName) {
-          Hashtable table = (Hashtable) mPV.get(pvName);
+    	 Hashtable<String, Double> table = mPV.get(pvName);
          if (table != null) {
-             Double d = (Double) table.get(factionName);
+             Double d = table.get(factionName);
              if (d != null) {
                  return new Double(d.doubleValue());
              } else {
@@ -195,10 +195,10 @@ public class RegionData {
                if (child.getNodeType() == Node.ELEMENT_NODE && child.getNodeName().equals("pv")) {
                     Element elem          = (Element)child;
                     String name           = XMLHandler.getString(elem, "name");
-                    Hashtable factionHash = (Hashtable)mPV.get(name);
+                    Hashtable<String, Double> factionHash = mPV.get(name);
 
                     if (factionHash == null) {
-                         factionHash = new Hashtable();
+                         factionHash = new Hashtable<String, Double>();
                          mPV.put(name, factionHash);
                     }
 
@@ -216,8 +216,8 @@ public class RegionData {
           }
  
           StratmasEvent event = StratmasEvent.getGeneric(this);
-          for(Iterator it = mListeners.iterator(); it.hasNext(); ) {
-               ((StratmasEventListener)it.next()).eventOccured(event);
+          for(Iterator<StratmasEventListener> it = mListeners.iterator(); it.hasNext(); ) {
+               it.next().eventOccured(event);
           }
      }
 }

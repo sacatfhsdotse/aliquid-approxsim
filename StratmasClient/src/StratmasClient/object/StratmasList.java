@@ -232,7 +232,7 @@ public class StratmasList extends DefaultComplex
       */
      public void childIdentifierChange(String oldIdentifier, String newIdentifier) {
           // Should be synchronized in some way!!!
-          Object o = partsHash.remove(oldIdentifier);
+          StratmasObject o = partsHash.remove(oldIdentifier);
           if (o != null) {
                partsHash.put(newIdentifier, o);
           }

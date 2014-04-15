@@ -1,6 +1,5 @@
 package StratmasClient.map.graph;
 
-import java.text.DecimalFormat;
 import java.util.Vector;
 import java.util.Hashtable;
 import java.awt.Font;
@@ -50,6 +49,10 @@ import StratmasClient.map.Visualizer;
  */
 public class ProcessVariableXYGraph extends JPanel implements StratmasEventListener{
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -9064648404973981536L;
+	/**
      * The actual frame.
      */
     final JFrame frame = new JFrame("Stratmas Graph");
@@ -154,10 +157,6 @@ public class ProcessVariableXYGraph extends JPanel implements StratmasEventListe
      */
     private JLabel yStringLabel;
     /**
-     * The format used for the values displayed on the y-axis.
-     */
-    private DecimalFormat yScaleFormat;
-     /**
      * The number of displayed values on the time axis.
      */
     public static final int NR_OF_DISPLAYED_TIME_VALUES = 5;

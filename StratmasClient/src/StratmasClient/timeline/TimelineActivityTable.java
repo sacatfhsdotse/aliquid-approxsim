@@ -27,11 +27,11 @@ import StratmasClient.treeview.TreeViewFrame;
  */
 public class TimelineActivityTable extends JTable implements MouseListener{
     /**
-     * Reference to the timeline.
-     */
-    private Timeline timeline;
- 
-    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8131331525287514752L;
+
+	/**
      * Creates new activity table.
      *
      * @param timeline reference to the timeline.
@@ -39,9 +39,6 @@ public class TimelineActivityTable extends JTable implements MouseListener{
     public TimelineActivityTable(Timeline timeline) {
         super(new TimelineActivityTableModel(timeline));
         ((TimelineActivityTableModel)getModel()).setTableHeader(getTableHeader());
-        
-        // set reference to the timeline
-        this.timeline = timeline;
         
         // add mouse listener
         addMouseListener(this);
@@ -168,7 +165,6 @@ public class TimelineActivityTable extends JTable implements MouseListener{
      * Removes the table.
      */
     public void remove() {
-        timeline = null;
         removeAllActivities();
     }
     
@@ -244,7 +240,12 @@ public class TimelineActivityTable extends JTable implements MouseListener{
         final StratmasObject fso = so;
         JMenuItem item = new JMenuItem("More information about "+so.getIdentifier().trim());
         item.addActionListener(new AbstractAction() {
-                public void actionPerformed(ActionEvent event) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 4350100275271591901L;
+
+				public void actionPerformed(ActionEvent event) {
                     final TreeViewFrame frame = TreeView.getDefaultFrame(fso);
                     frame.setEditable(true);
                     javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -264,7 +265,12 @@ public class TimelineActivityTable extends JTable implements MouseListener{
         final StratmasObject fso = so;
         JMenuItem removeActivityItem = new JMenuItem("Remove "+so.getIdentifier().trim());
         removeActivityItem .addActionListener(new AbstractAction() {
-                public void actionPerformed(ActionEvent event) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = -496656623867859871L;
+
+				public void actionPerformed(ActionEvent event) {
                     fso.remove();
                 }
             });

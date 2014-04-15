@@ -38,7 +38,6 @@ public class TypeDefinition extends Type
     protected void processSubelements() 
     {
         if (this.type.getTypeCategory() == XSTypeDefinition.SIMPLE_TYPE) {
-            XSSimpleTypeDefinition def = (XSSimpleTypeDefinition) this.type;
         }
         else {
             XSComplexTypeDefinition def = (XSComplexTypeDefinition) this.type;
@@ -101,7 +100,6 @@ public class TypeDefinition extends Type
         switch(subterm.getType()) {
         case XSConstants.ELEMENT_DECLARATION:
             XSElementDeclaration  declaration = (XSElementDeclaration) subterm;
-            TypeDefinition subtype = null;
             // This conditional handles base case for recursive
             // definitions.
             if (declaration.getTypeDefinition().getName().equals(this.type.getName()) &&
@@ -109,7 +107,7 @@ public class TypeDefinition extends Type
                 appendSubElement(new Declaration(particle, this));
             }
             else {
-                subtype = (TypeDefinition) this.typeInformation.getType(declaration.getTypeDefinition().getName(), 
+            	this.typeInformation.getType(declaration.getTypeDefinition().getName(), 
                                                   declaration.getTypeDefinition().getNamespace());
                 appendSubElement(new Declaration(particle, getTypeInformation()));
             }

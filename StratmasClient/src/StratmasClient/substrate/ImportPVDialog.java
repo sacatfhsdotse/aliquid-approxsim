@@ -29,6 +29,10 @@ import StratmasClient.StratmasDialog;
  */
 class ImportPVDialog extends JDialog {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4376449241852035073L;
+	/**
      * Reference to the client.
      */
     private Client client;
@@ -81,13 +85,17 @@ class ImportPVDialog extends JDialog {
      * either a file or a server. 
      */
     private JPanel createProcessVariableImportPanel() {
-        final Client fclient = client;
         final JButton choiceButton = new JButton("...");
         // select server as source for process variables
         final JRadioButton serverButton = new JRadioButton("Server");
         serverButton.setFont(serverButton.getFont().deriveFont(Font.PLAIN));
         serverButton.addActionListener(new AbstractAction() {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = -2504123397294942884L;
+
+				public void actionPerformed(ActionEvent e) {
                     serverNameTextField.setEnabled(true);
                     pvFileTextField.setEnabled(false);
                     choiceButton.setEnabled(false);
@@ -100,7 +108,12 @@ class ImportPVDialog extends JDialog {
         final JRadioButton fileButton = new JRadioButton("File");
         fileButton.setFont(fileButton.getFont().deriveFont(Font.PLAIN));
         fileButton.addActionListener(new AbstractAction() {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = -618242913512535543L;
+
+				public void actionPerformed(ActionEvent e) {
                     serverNameTextField.setEnabled(false);
                     pvFileTextField.setEnabled(true);
                     choiceButton.setEnabled(true);
@@ -111,8 +124,13 @@ class ImportPVDialog extends JDialog {
         //pvFileTextField.setText("/afs/nada.kth.se/home/ass/amfi/PDC_part/STRATMAS/client/development/StratmasClient/samples/processVariables.prv");
         // choose the file
         choiceButton.addActionListener(new AbstractAction() {
-                public void actionPerformed(ActionEvent e) {
-                    String filename = fclient.getFileNameFromDialog(".prv", JFileChooser.OPEN_DIALOG);
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 8293902011842438051L;
+
+				public void actionPerformed(ActionEvent e) {
+                    String filename = Client.getFileNameFromDialog(".prv", JFileChooser.OPEN_DIALOG);
                     if (filename != null) {
                         pvFileTextField.setText(filename); 
                     }

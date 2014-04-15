@@ -23,6 +23,10 @@ import StratmasClient.Client;
  */
 public class SelectShapeDialog extends JDialog {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4661753216781528585L;
+	/**
      * The client.
      */
     private Client client;
@@ -66,12 +70,16 @@ public class SelectShapeDialog extends JDialog {
      * Creates the panel used to select the input file. 
      */
     private JPanel createImportPanel() {
-        final Client fclient = client;
         // choose the file
         final JButton choiceButton = new JButton("...");
         choiceButton.addActionListener(new AbstractAction() {
-                public void actionPerformed(ActionEvent e) {
-                    String filename = fclient.getFileNameFromOpenDialog(new String[]{"scn", "shp"}, ".scn, .shp");
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 882112019761158889L;
+
+				public void actionPerformed(ActionEvent e) {
+                    String filename = Client.getFileNameFromOpenDialog(new String[]{"scn", "shp"}, ".scn, .shp");
                     if (filename != null) {
                         pvFileTextField.setText(filename); 
                     }

@@ -160,7 +160,11 @@ public class StratmasBoolean extends StratmasSimple
 */
 class StratmasBooleanGUIConstructor extends StratmasGUIConstructor
 {
-    javax.swing.JComboBox field;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7632844240093970800L;
+	javax.swing.JComboBox field;
 
     /**
      * Creates a new StratmasBooleanGUIConstructor using the supplied

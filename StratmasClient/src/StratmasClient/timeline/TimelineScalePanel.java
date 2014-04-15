@@ -18,6 +18,10 @@ import javax.media.opengl.GLAutoDrawable;
  */
 class TimelineScalePanel extends TimelineCanvasPanel {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 137109118466141439L;
+	/**
      * The start time of the currently selecting interval.
      */
     private long selectionStartTime;
@@ -129,14 +133,14 @@ class TimelineScalePanel extends TimelineCanvasPanel {
      * @param e the mouse event.
      */
     public void mousePressed(MouseEvent e) {
-        Object src = e.getSource();
+        e.getSource();
         // is the client passive?
         boolean passive = timeline.getClient().isConnected() && !timeline.getClient().isActive();
         // active clinet only        
         if (!passive) {
             // get x window coordinate
             int x = (int)e.getX();
-            int y = (int)e.getY();
+            e.getY();
             // get the bounds of the displayed time interval
             long tstart = timelinePanel.getDisplayedStartTime();
             long tend = timelinePanel.getDisplayedEndTime();
@@ -169,7 +173,7 @@ class TimelineScalePanel extends TimelineCanvasPanel {
     public void mouseReleased(MouseEvent e) {
         // get x window coordinate
         int x = (int)e.getX();
-        int y = (int)e.getY();
+        e.getY();
         if (selectionMode) {
             selectionMode = false;
             long selectionEndTime = timelinePanel.timeToMilliseconds(Math.round(convertWindowXToCurrentTime(x)));

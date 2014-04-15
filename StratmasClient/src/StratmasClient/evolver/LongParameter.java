@@ -20,7 +20,7 @@ public class LongParameter extends Parameter
     /**
      * The comparator of this type.
      */
-    final static Comparator comparator = new Comparator()
+    final static Comparator<ParameterInstance> comparator = new Comparator<ParameterInstance>()
         {
             /**
              * Compares its two arguments for order.
@@ -28,12 +28,12 @@ public class LongParameter extends Parameter
              * @param o1 first object.
              * @param o2 second object.
              */
-            public int compare(Object o1, Object o2)
+            public int compare(ParameterInstance o1, ParameterInstance o2)
             {
                 long o1d = 
-                    ((LongParameter) ((ParameterInstance) o1).getParameter()).getLong((ParameterInstance) o1);
+                    ((LongParameter) o1.getParameter()).getLong((ParameterInstance) o1);
                 long o2d = 
-                    ((LongParameter) ((ParameterInstance) o2).getParameter()).getLong((ParameterInstance) o2);
+                    ((LongParameter) o2.getParameter()).getLong((ParameterInstance) o2);
 
                 return (int) (o1d - o2d);
             }
@@ -74,7 +74,7 @@ public class LongParameter extends Parameter
      * this parameter type. Returning null means that this parameter
      * is not an ordinal.
      */
-    public Comparator getComparator()
+    public Comparator<ParameterInstance> getComparator()
     {
         return comparator;
     }

@@ -460,7 +460,6 @@ public class MGRSConversion {
         double grid_easting;                    /* Easting used to derive 2nd letter of MGRS   */
         double grid_northing;                   /* Northing used to derive 3rd letter of MGRS  */
         long ltr2_low_value;                    /* 2nd letter range - low number               */
-        long ltr2_high_value;                   /* 2nd letter range - high number              */
         int[] letters = new int[MGRS_LETTERS];  /* Number location of 3 letters in alphabet    */
         double divisor;
         //        
@@ -475,7 +474,7 @@ public class MGRSConversion {
         
         ReducedUPSConstant rups = getGridValues(zone);
         ltr2_low_value = rups.getLtr2LowValue();
-        ltr2_high_value = rups.getLtr2HighValue();
+        rups.getLtr2HighValue();
         false_northing = rups.getFalseNorthing();
         
         letters[0] = getLatitudeLetter(latitude);
@@ -556,11 +555,6 @@ public class MGRSConversion {
      *  
      */
     public static String convertGeodeticToMGRS (double longitude, double latitude, long precision) {
-        long zone;
-        char hemisphere;
-        double easting;
-        double northing;
-
         // Latitude out of range
         if (latitude < -PI_OVER_2 || latitude > PI_OVER_2) {
             ProjectionErrorHandler.handleError(ProjectionErrorHandler.LAT_ERROR);
@@ -602,12 +596,6 @@ public class MGRSConversion {
      * @return [longitude in radians, latitude in radians].
      */
     public static double[] convertMGRSToGeodetic (String mgrs) { 
-        double longitude, latitude;
-        long zone;
-        char hemisphere;
-        double easting;
-        double northing;
-        
         boolean zone_exists = checkZone(mgrs);
         if (zone_exists) {
             UTMCoordinate utmc = convertMGRSToUTM (mgrs);
@@ -769,13 +757,9 @@ public class MGRSConversion {
                         return null;
                     }
                     UTMCoordinate utmcoord = new UTMCoordinate(zone, hemisphere, easting, northing);
-                    if (utmcoord == null) {
-                        return null;
-                    }
                     double[] lon_lat = UTMConversion.convertUTMToGeodetic(utmcoord);
                     
                     if (lon_lat != null) {
-                        double longitude = lon_lat[0];
                         double latitude = lon_lat[1];   
                         double divisor = Math.pow(10.0, in_precision);
                         double[] range = getLatitudeRange(letters[0]);
@@ -911,7 +895,7 @@ public class MGRSConversion {
         int[] letters = mgrsc.getLetters();
         double easting = mgrsc.getEasting();
         double northing = mgrsc.getNorthing();
-        long in_precision = (long)mgrsc.getPrecision();
+        mgrsc.getPrecision();
         
         if (zone != 0) {
             ProjectionErrorHandler.handleError(ProjectionErrorHandler.MGRS_STR_ERROR);

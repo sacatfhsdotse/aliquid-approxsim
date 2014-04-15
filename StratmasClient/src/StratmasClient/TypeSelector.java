@@ -19,6 +19,10 @@ import java.util.Enumeration;
 public class TypeSelector extends JComboBox
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3268083996350073331L;
+	/**
      * The types this selector can choose from.
      */
     Vector types = new Vector();

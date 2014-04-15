@@ -121,7 +121,12 @@ public class DisplayControl {
         JPanel panPanel = new JPanel();
         panButton.setMargin(new Insets(1, 1, 1, 1));
         panButton.addActionListener(new AbstractAction() {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = -7483718665640142430L;
+
+				public void actionPerformed(ActionEvent e) {
                     drawer.setPanningMode((((JToggleButton)e.getSource()).isSelected())? true : false);
                 }
             });
@@ -423,7 +428,12 @@ public class DisplayControl {
         
         // the "File" menu
         importPVItem.addActionListener(new AbstractAction() {
-                public void actionPerformed(ActionEvent event) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1011763057490492754L;
+
+				public void actionPerformed(ActionEvent event) {
                     SwingUtilities.invokeLater(new Runnable() {
                             public void run() {
                                 ImportPVDialog.showDialog(sEditor);
@@ -433,7 +443,12 @@ public class DisplayControl {
             });
         JMenuItem loadItem = new JMenuItem("Load ...");
         loadItem.addActionListener(new AbstractAction() {
-                public void actionPerformed(ActionEvent event) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = -5758677117890723007L;
+
+				public void actionPerformed(ActionEvent event) {
                     Thread worker = new Thread() {
                             public void run() {
                                 sEditor.readValuesFromFile();
@@ -443,7 +458,12 @@ public class DisplayControl {
                 }
             });
         saveItem.addActionListener(new AbstractAction() {
-                public void actionPerformed(ActionEvent event) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1033589010652834449L;
+
+				public void actionPerformed(ActionEvent event) {
                     Thread worker = new Thread() {
                             public void run() {
                                 sEditor.saveValuesToExistingFile();
@@ -454,7 +474,12 @@ public class DisplayControl {
             });
         saveItem.setEnabled(false);
         saveAsItem.addActionListener(new AbstractAction() {
-                public void actionPerformed(ActionEvent event) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = -545854599846513657L;
+
+				public void actionPerformed(ActionEvent event) {
                     Thread worker = new Thread() {
                             public void run() {
                                 sEditor.saveValuesToNewFile();
@@ -466,7 +491,12 @@ public class DisplayControl {
         saveAsItem.setEnabled(false);
         simulationItem.setForeground(Color.BLUE);
         simulationItem.addActionListener(new AbstractAction() {
-                public void actionPerformed(ActionEvent event) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 6055530061383099689L;
+
+				public void actionPerformed(ActionEvent event) {
                     StratmasDialog.showProgressBarDialog(null, "Proceeding to simulation ...");
                     Thread thread = new Thread() {
                             public void run() {
@@ -497,12 +527,15 @@ public class DisplayControl {
             });
         JMenuItem exitItem = new JMenuItem("Exit");
         exitItem.addActionListener(new AbstractAction() {
-                public void actionPerformed(ActionEvent event) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1731480994346106811L;
+
+				public void actionPerformed(ActionEvent event) {
                     if (JOptionPane.showConfirmDialog(null, "Do you want to exit?", "Exiting ...", 
                                                       JOptionPane.YES_NO_OPTION) == 0) {
                         sEditor.getSubstrateDrawer().doDispose();
-                        // finally
-                        System.exit(0);
                     }
                 }
             });
@@ -515,17 +548,27 @@ public class DisplayControl {
         fileMenu.add(simulationItem);
         fileMenu.addSeparator();
         fileMenu.add(exitItem);// the button used to create region shapes
-        final JToggleButton regionButton = new JToggleButton(new ImageIcon(SubstrateMapDrawer.class.getResource(path+"shape.png")));
+        new JToggleButton(new ImageIcon(SubstrateMapDrawer.class.getResource(path+"shape.png")));
         
         // the "Options" menu
         createFactionItem.setEnabled(false);
         createFactionItem.addActionListener(new AbstractAction() {
-                public void actionPerformed(ActionEvent event) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 7771418304579041489L;
+
+				public void actionPerformed(ActionEvent event) {
                     CreateFactionDialog.showDialog(sEditor.getSubstrateDrawer().getFrame(), sEditor.getFactionHandler());
                 }
             });
         colorMapOptionsItem.addActionListener(new AbstractAction() {
-                public void actionPerformed(ActionEvent event) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = -7967227463020562011L;
+
+				public void actionPerformed(ActionEvent event) {
                     ColorMapDialog.showDialog(sEditor.getProcessVariable(), sEditor.getSubstrateDrawer().getFrame(),
                                               sEditor.getColorChooser());
                 }

@@ -15,11 +15,6 @@ import StratmasClient.communication.Subscription;
 abstract class DefaultSimulationEvaluatorTarget implements SimulationEvaluatorTarget
 {
     /**
-     * Monitor used to implement waitForUpdate
-     */
-    final private Object updateMonitor = new Object();
-
-    /**
      * The subscription of the target.
      */
     Subscription subscription;

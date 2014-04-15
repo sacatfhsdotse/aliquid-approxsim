@@ -34,27 +34,27 @@ public class Visualizer {
     /**
      * List of all the maps.
      */
-    private static Hashtable stratmaps = new Hashtable();    
+    private static Hashtable<String, StratMap> stratmaps = new Hashtable<String, StratMap>();    
     /**
      * List of all opened process variable graphs.
      */
-    private static Vector pvGraphs = new Vector();
+    private static Vector<ProcessVariableXYGraph> pvGraphs = new Vector<ProcessVariableXYGraph>();
     /**
      * List of all opened process variable tables.
      */
-    private static Vector pvTables = new Vector();
+    private static Vector<ProcessVariableTablePanel> pvTables = new Vector<ProcessVariableTablePanel>();
     /**
      * The list of parameters needed to re-open closed tables.
      */
-    private static Vector savedTableParameters = new Vector();
+    private static Vector<Hashtable> savedTableParameters = new Vector<Hashtable>();
     /**
      * The list of parameters needed to re-open closed graphs.
      */
-    private static Vector savedGraphParameters = new Vector();
+    private static Vector<Hashtable> savedGraphParameters = new Vector<Hashtable>();
     /**
      * The list of all the regions the maps, graphs and tables are subscribed to.
      */
-    private static Hashtable subscribedRegions = new Hashtable();
+    private static Hashtable<Shape, RegionData> subscribedRegions = new Hashtable<Shape, RegionData>();
     /**
      * The grid used to indicate the initial locations of the opened graphs.
      */
@@ -66,7 +66,7 @@ public class Visualizer {
      * @param client the client.
      */
     public Visualizer(Client client) {
-        this.client = client;
+        Visualizer.client = client;
     }
     
     /**
@@ -116,11 +116,11 @@ public class Visualizer {
      * @param gridData information needed to create the grid.
      */
     public void createGrid(GridData gridData) {
-        this.gridData = gridData;
+        Visualizer.gridData = gridData;
         // update the maps with the cells
-        for (Enumeration e = stratmaps.keys(); e.hasMoreElements(); ) {
+        for (Enumeration<String> e = stratmaps.keys(); e.hasMoreElements(); ) {
             Object key = e.nextElement();
-            ((StratMap)stratmaps.get(key)).createGridLayer(gridData);
+            stratmaps.get(key).createGridLayer(gridData);
         }
     }
     
@@ -141,8 +141,8 @@ public class Visualizer {
      * @param pvd a process variable.
      */
     public void importProcessVariable(ProcessVariableDescription pvd) {
-        for (Enumeration e = stratmaps.keys(); e.hasMoreElements(); ) {
-            ((StratMap)stratmaps.get(e.nextElement())).getPVPanel().addPV(pvd);
+        for (Enumeration<String> e = stratmaps.keys(); e.hasMoreElements(); ) {
+            stratmaps.get(e.nextElement()).getPVPanel().addPV(pvd);
         }
     }
     
@@ -152,8 +152,8 @@ public class Visualizer {
      * @param faction a faction.
      */
     public void importFaction(StratmasObject faction) {
-        for (Enumeration e = stratmaps.keys(); e.hasMoreElements(); ) {
-            ((StratMap)stratmaps.get(e.nextElement())).getPVPanel().addFaction(faction);
+        for (Enumeration<String> e = stratmaps.keys(); e.hasMoreElements(); ) {
+            stratmaps.get(e.nextElement()).getPVPanel().addFaction(faction);
         }
     }
     
@@ -161,8 +161,8 @@ public class Visualizer {
      * Removes all process variables and factions.
      */
     public void removeProcessVariablesAndFactions() {
-        for (Enumeration e = stratmaps.keys(); e.hasMoreElements(); ) {
-            ((StratMap)stratmaps.get(e.nextElement())).getPVPanel().clear();
+        for (Enumeration<String> e = stratmaps.keys(); e.hasMoreElements(); ) {
+            stratmaps.get(e.nextElement()).getPVPanel().clear();
         }
     }
     
@@ -209,7 +209,7 @@ public class Visualizer {
      */
     public static void saveOpenedGraphsParameters() {
         for (int i = 0; i < pvGraphs.size(); i++) {
-            savedGraphParameters.add(((ProcessVariableXYGraph)pvGraphs.get(i)).getParameters());
+            savedGraphParameters.add(pvGraphs.get(i).getParameters());
         }
     }
     
@@ -218,11 +218,11 @@ public class Visualizer {
      */
     public static void reOpenGraphs() {
         while (!savedGraphParameters.isEmpty()) {
-            Hashtable param = (Hashtable)savedGraphParameters.remove(0);
+            Hashtable param = savedGraphParameters.remove(0);
             ProcessVariableDescription pv = client.getProcessVariable((String)param.get("processVariable"));
             if (pv != null) {
                 Shape regShape = (Shape)param.get("shape");
-                RegionData regionData = (RegionData)subscribedRegions.get(regShape);
+                RegionData regionData = subscribedRegions.get(regShape);
                 
                 //  create new subscription
                 if (regionData == null) {
@@ -250,7 +250,7 @@ public class Visualizer {
      */
     public static void removeAllGraphs() {
         while (!pvGraphs.isEmpty()) {
-            ProcessVariableXYGraph graph = (ProcessVariableXYGraph)pvGraphs.remove(0);
+            ProcessVariableXYGraph graph = pvGraphs.remove(0);
             graph.remove();
         }
     }
@@ -261,7 +261,7 @@ public class Visualizer {
      */
     public static void saveOpenedTablesParameters() {
         for (int i = 0; i < pvTables.size(); i++) {
-            savedTableParameters.add(((ProcessVariableTablePanel)pvTables.get(i)).getParameters());
+            savedTableParameters.add(pvTables.get(i).getParameters());
         }
     }
 
@@ -270,7 +270,7 @@ public class Visualizer {
      */
     public static void reOpenTables() {
         while (!savedTableParameters.isEmpty()) {
-            Hashtable param = (Hashtable)savedTableParameters.remove(0);
+            Hashtable param = savedTableParameters.remove(0);
             ProcessVariableTablePanel tablePanel = new ProcessVariableTablePanel(client, (Shape)param.get("shape"));
             tablePanel.setTableLocation((java.awt.Point)param.get("location"));
             tablePanel.setTableSize((Dimension)param.get("size"));
@@ -283,7 +283,7 @@ public class Visualizer {
      */
     public static void removeAllTables() {
         while (!pvTables.isEmpty()) {
-            ProcessVariableTablePanel table = (ProcessVariableTablePanel)pvTables.remove(0);
+            ProcessVariableTablePanel table = pvTables.remove(0);
             table.remove();
         }
     }
@@ -307,7 +307,7 @@ public class Visualizer {
      * Returns the client this visualizer is connected to.
      */
     public Client getClient() {
-        return this.client;
+        return Visualizer.client;
     }
     
     /**
@@ -315,12 +315,12 @@ public class Visualizer {
      */
     public void reset() {
         // reset the maps
-        for (Enumeration e = stratmaps.keys(); e.hasMoreElements(); ) {
-            ((StratMap)stratmaps.get(e.nextElement())).reset();
+        for (Enumeration<String> e = stratmaps.keys(); e.hasMoreElements(); ) {
+            stratmaps.get(e.nextElement()).reset();
         }
         // reset the tables
-        for (Enumeration e = pvTables.elements(); e.hasMoreElements(); ) {
-            ((ProcessVariableTablePanel)e.nextElement()).reset();
+        for (Enumeration<ProcessVariableTablePanel> e = pvTables.elements(); e.hasMoreElements(); ) {
+            e.nextElement().reset();
         }
     }
     
@@ -340,8 +340,8 @@ public class Visualizer {
      */
     public static void setInitialView() {
         // set initial process variable and faction
-        for (Enumeration e = stratmaps.keys(); e.hasMoreElements(); ) {
-            ((StratMap)stratmaps.get(e.nextElement())).getPVPanel().setInitialView();
+        for (Enumeration<String> e = stratmaps.keys(); e.hasMoreElements(); ) {
+            stratmaps.get(e.nextElement()).getPVPanel().setInitialView();
         }
         // re-open the tables
         reOpenTables();
@@ -352,14 +352,14 @@ public class Visualizer {
     /**
      * Returns all the maps.
      */
-    public static Hashtable getMaps() {
+    public static Hashtable<String, StratMap> getMaps() {
         return stratmaps;
     }
     
     /**
      * Returns all the graphs.
      */
-    public static Vector getGraphs() {
+    public static Vector<ProcessVariableXYGraph> getGraphs() {
         return pvGraphs;
     }
     
@@ -368,7 +368,7 @@ public class Visualizer {
      */
     public static void sortTables() {
         for (int i = 0; i < pvTables.size(); i++) {
-            ProcessVariableTablePanel pvtPanel = (ProcessVariableTablePanel)pvTables.get(i);
+            ProcessVariableTablePanel pvtPanel = pvTables.get(i);
             ((ProcessVariableTableModel)pvtPanel.getTable().getModel()).sort();
         }
     }
@@ -389,7 +389,7 @@ public class Visualizer {
      */
     public static RegionData addListenerToRegionData(Shape region, StratmasEventListener listener) {
         // check if the region subscription exists
-        RegionData regionData = (RegionData)subscribedRegions.get(region);
+        RegionData regionData = subscribedRegions.get(region);
         
         //  create new subscription
         if (regionData == null) {
@@ -422,8 +422,8 @@ public class Visualizer {
      */
     public static void remove() {
         // remove the maps 
-        for (Enumeration e = stratmaps.elements(); e.hasMoreElements(); ) {
-            ((StratMap)e.nextElement()).doExit();
+        for (Enumeration<StratMap> e = stratmaps.elements(); e.hasMoreElements(); ) {
+            e.nextElement().doExit();
         }
         // remove the graphs
         removeAllGraphs();

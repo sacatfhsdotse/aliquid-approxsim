@@ -46,10 +46,6 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
      */
     private int activityDisplayList;
     /**
-     * Whether the display list is updated since last redraw.
-     */
-    private boolean displayListUpdated = false;
-    /**
      * All display lists used by this adapter except the total display list.
      */
     private int displayLists[] = new int[3];
@@ -57,10 +53,6 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
      * The position of the activity symbol in the display lists array.
      */
     private static final int ACTIVITY_POS = 0;
-    /**
-     * The position of the left arrow symbol in the display lists array.
-     */
-    private static final int LEFT_ARROW_POS = 1;
     /**
      * The position of the right arrow symbol in the display lists array.
      */
@@ -94,10 +86,6 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
      */
     private boolean isSelected = false;
     /**
-     * Whether location is updated since last redraw.
-     */
-    private boolean locationUpdated = false;
-    /**
      * The StratmasObject this adapter adapts.
      */
     private StratmasObject activity;
@@ -112,11 +100,11 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
     /**
      * The list of images for the left arrow.
      */
-    public static Hashtable leftArrowSymbols = new Hashtable();
+    public static Hashtable<String, WeakReference<Icon>> leftArrowSymbols = new Hashtable<String, WeakReference<Icon>>();
     /**
      * The list of images for the right arrow.
      */
-    public static Hashtable rightArrowSymbols = new Hashtable();
+    public static Hashtable<String, WeakReference<Icon>> rightArrowSymbols = new Hashtable<String, WeakReference<Icon>>();
     /**
      * The listeners of this adapter.
      */
@@ -254,7 +242,6 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
             drawBoundaryBox(gl, x1, x2, y);
         }
         gl.glEndList();
-        displayListUpdated = true;
     }
     
     /**
@@ -449,9 +436,9 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
      * @param src the dafault image of activity.
      * @param imageList the list of arrow images.
      */
-    public Icon getArrowIcon(SymbolIDCode code, Image src, Hashtable imageList) {
+    public Icon getArrowIcon(SymbolIDCode code, Image src, Hashtable<String, WeakReference<Icon>> imageList) {
         String key = (code == null || code.valueToString().length() < 2) ? "-" : code.valueToString().substring(1, 2);
-        WeakReference reference = (WeakReference) imageList.get(key);        
+        WeakReference reference = imageList.get(key);        
         Icon icon = null;
         if (reference != null) {
             icon = (Icon) reference.get();
@@ -465,7 +452,7 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
             // set the color to the order
             ImageFilter colorFilter = OrderColorFilter.getFilter(muColor);
             Icon newIcon = new Icon(Toolkit.getDefaultToolkit().createImage(new FilteredImageSource(src.getSource(),colorFilter)));
-            imageList.put(key, new WeakReference(newIcon));
+            imageList.put(key, new WeakReference<Icon>(newIcon));
             return newIcon;
         }
     }
@@ -680,12 +667,10 @@ public class ActivityAdapter implements StratmasObjectAdapter, StratmasEventList
             if (getActivity().getChild("end") == null) {
                 setRightArrowPointedTime(getStartTime());
             }
-            displayListUpdated = false;
             fireActivityAdapterUpdated();
         }
         else if (child.getIdentifier().equals("end")) {
             setRightArrowPointedTime(getEndTime());
-            displayListUpdated = false;
             fireActivityAdapterUpdated();
         }
     }

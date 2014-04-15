@@ -339,8 +339,7 @@ class TransverseMercatorProjection {
         // Radius of Curvature in the meridian 
         double sn = SPHSN(ftphi);
             
-        // Sine Cosine terms 
-        double s = Math.sin(ftphi);
+        Math.sin(ftphi);
         double c = Math.cos(ftphi);
 
         // Tangent Value

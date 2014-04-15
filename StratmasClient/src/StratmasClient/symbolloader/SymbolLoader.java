@@ -14,13 +14,9 @@ public class SymbolLoader implements MRUCache.Getter
 {
     static public FunctionIDTree ftree = null;
     
-    private MRUCache cache;                        // Cache complete SymbolID -> Image mappings.
-
     private Hashtable fooCache = new Hashtable();
 
     private ImageSymbolLoader loader;
-    
-    private static String VERSION = "0.1";
     
     static public void loadFunctionTree(String std) 
     {
@@ -40,7 +36,7 @@ public class SymbolLoader implements MRUCache.Getter
     public SymbolLoader(String standard, String symroot, int cacheSize)
     {
         loadFunctionTree(standard);
-        cache = new MRUCache(cacheSize, this);
+        new MRUCache(cacheSize, this);
         loader = new ImageSymbolLoader(symroot, cacheSize);
     }
 
@@ -91,7 +87,11 @@ public class SymbolLoader implements MRUCache.Getter
     {
         
         class TestWindow extends JFrame {
-            public JComponent body;
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 7222675972409869685L;
+			public JComponent body;
             public TestWindow() {
                 body = new JPanel();
                 getContentPane().add(body);

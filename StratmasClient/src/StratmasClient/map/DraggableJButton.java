@@ -9,7 +9,6 @@ import java.awt.Cursor;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragSource;
 import java.awt.dnd.DragSourceAdapter;
-import java.awt.dnd.DragGestureRecognizer;
 import java.awt.dnd.DragGestureListener;
 import java.awt.dnd.DragGestureEvent;
 import java.awt.datatransfer.StringSelection;
@@ -19,10 +18,10 @@ import java.awt.datatransfer.StringSelection;
  */
 public class DraggableJButton extends JButton implements DragGestureListener {
     /**
-     * Used to recognize the drag action.
-     */
-    private DragGestureRecognizer recognizer;
-    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5310281336989140806L;
+	/**
      * Used for the drag action.
      */
     private DragSource source;
@@ -45,7 +44,7 @@ public class DraggableJButton extends JButton implements DragGestureListener {
         super(image);
         this.name = name;
         source = new DragSource();
-        recognizer = source.createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_REFERENCE, this);
+        source.createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_REFERENCE, this);
         //
         Toolkit tk = Toolkit.getDefaultToolkit();
         Dimension bestsize = tk.getBestCursorSize(16,16);

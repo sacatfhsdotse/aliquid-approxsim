@@ -20,6 +20,10 @@ import java.text.DecimalFormat;
  */
 public class TimeSliderDebugFrame extends JFrame {
      /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6138099207002858528L;
+	/**
       * The time to wait between two consecutive time step messages.
       */
      private int mWaitTime = 0;
@@ -60,7 +64,6 @@ public class TimeSliderDebugFrame extends JFrame {
 
           setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-          final TimeSliderDebugFrame self = this;
           JSlider timeSlider = new JSlider(0, 10000, 0);
           mLabel = new JLabel(mFormat.format(mMeanStepTime));
           timeSlider.addChangeListener(new ChangeListener() {

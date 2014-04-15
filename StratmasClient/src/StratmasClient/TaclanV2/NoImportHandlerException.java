@@ -18,6 +18,11 @@ import java.util.Enumeration;
 public class NoImportHandlerException extends Exception
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2992857371086675738L;
+
+	/**
      * The location of the import.
      */
     String location;

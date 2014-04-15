@@ -9,6 +9,10 @@ import javax.swing.JLabel;
  */
 public class TickLabel extends JLabel{
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3583571918418415061L;
+	/**
      * Indicator for the horizontal line.
      */
     public static final int EAST = 0;

@@ -5,7 +5,6 @@
 
 package StratmasClient.TaclanV2;
 
-import StratmasClient.object.primitive.Reference;
 import java.util.Vector;
 
 /**
@@ -148,26 +147,5 @@ public class ParsedReference extends ParsedPrimitive
         else {
             return getHead().getName();
         }
-    }
-
-    /**
-     * Returns this ParsedReference as an StratmasClient.Reference.
-     */
-    private Reference toReference()
-    {
-        Vector vector = new Vector();
-
-        for (ParsedReference walker = this; walker != null; 
-             walker = walker.getTail()) {
-            vector.add(walker.getHead().getIdentifier());
-        }
-        
-        String[] ids = new String[vector.size()];
-        
-        for (int i = 0; i < vector.size(); i++) {
-            ids[i] = (String) vector.get(i);
-        }
-
-        return new Reference(ids);
     }
 }

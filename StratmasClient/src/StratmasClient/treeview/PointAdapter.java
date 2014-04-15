@@ -289,7 +289,7 @@ class PointCoordinateAdapter extends StratmasObjectAdapter
             if (o instanceof String) {
                 try {
                     double val = Double.parseDouble((String) o);
-                    Point p = (Point) getStratmasObject();
+                    getStratmasObject();
                     if (tag == "lat") {
                         ((Point) getStratmasObject()).setLat(val, this);
                     } else { // (tag == "lon")

@@ -53,7 +53,7 @@ class TimelineDropTarget extends DropTargetAdapter {
         TimelineActivityPanel activityPanel = timeline.getTimelinePanel().getTimelineActivityPanel();
         boolean dropAccepted = false;
         java.awt.Point pt = dtde.getLocation();
-        int y = (int)pt.getY();
+        pt.getY();
         int x = (int)pt.getX();
         try {
             if (dtde.isDataFlavorSupported(DataFlavor.stringFlavor)||

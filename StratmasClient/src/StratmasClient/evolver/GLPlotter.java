@@ -33,6 +33,11 @@ import java.awt.BorderLayout;
 public class GLPlotter extends JPanel implements GLEventListener, MatrixEventListener
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2403926532839027050L;
+
+	/**
      * Whether axes should be drawn.
      */
     boolean drawAxes = true;
@@ -1217,7 +1222,6 @@ public class GLPlotter extends JPanel implements GLEventListener, MatrixEventLis
                 double x = data[i][xIndex];
                 double y = data[i][yIndex];
                 double z = data[i][zIndex];
-                double c = data[i][cIndex];
                 double sz = .1;
 
                 gl.glBegin(GL2.GL_QUADS);
@@ -1416,18 +1420,6 @@ public class GLPlotter extends JPanel implements GLEventListener, MatrixEventLis
             double[] matrix = new double[16];
             gl.glGetDoublev(GL2.GL_MODELVIEW_MATRIX, matrix, 0);
 
-            double[] right = new double[] {
-                matrix[0],
-                matrix[4],
-                matrix[8],
-            };
-
-            double[] up = new double[] {
-                matrix[1],
-                matrix[5],
-                matrix[9],
-            };
-
             gl.glTranslated(start[0], start[1], start[2]);
             gl.glScaled(textScale, textScale , textScale);
             glut.glutStrokeString(GLUT.STROKE_MONO_ROMAN, washed);
@@ -1608,33 +1600,6 @@ public class GLPlotter extends JPanel implements GLEventListener, MatrixEventLis
         setIsInterpolationListUpdated(true);
     }
             
-    /**
-     * Prints grid to string
-     */
-    private String gridToString()
-    {
-        StringBuffer buf = new StringBuffer();
-        double[] grid = getGrid();
-        for (int i = 0; i < xTiles; i++) {
-            for (int j = 0; j < yTiles + 1; j++) {
-                int p1Index = 4 * (i * (yTiles + 1) + j);
-                int p2Index = 4 * ((i + 1) * (yTiles + 1) + j);
-                buf.append("p1 = (" + 
-                           grid[p1Index + 0] + ", " +  
-                           grid[p1Index + 1] + ", " + 
-                           grid[p1Index + 2] + ", " +  
-                           grid[p1Index + 3] + ")\n");
-                buf.append("p2 = (" + 
-                           grid[p1Index + 0] + ", " +  
-                           grid[p1Index + 1] + ", " + 
-                           grid[p1Index + 2] + ", " +  
-                           grid[p1Index + 3] + ")\n");
-            }
-        }
-
-        return buf.toString();        
-    }
-
     /**
      * Called when the plot needs to be redrawn.
      */

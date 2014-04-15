@@ -34,7 +34,6 @@ public class UPSConversion {
      * @return UPS coordinate.
      */
     public static UPSCoordinate convertGeodeticToUPS (double longitude, double latitude) {
-        double tempEasting, tempNorthing;
         char hemisphere;
 
         if (latitude < -MAX_LAT || latitude > MAX_LAT) {
@@ -114,7 +113,6 @@ public class UPSConversion {
         double[] lon_lat = PolarStereographicProjection.convertPolarStereographicToGeodetic(easting, northing);
 
         if (succ && lon_lat != null) {
-            double longitude = lon_lat[0];
             double latitude =  lon_lat[1];
             if (latitude < 0 && latitude > MIN_SOUTH_LAT) {
                 ProjectionErrorHandler.handleError(ProjectionErrorHandler.LAT_ERROR);

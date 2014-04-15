@@ -79,7 +79,7 @@ public class GradientSampler implements Sampler
      */
     ParameterInstanceSet createGradientNeighbour(Vector evaluations)
     {
-        Hashtable gradients = 
+        Hashtable<Parameter, Double> gradients = 
             getBackwardDifference((Evaluation) evaluations.elementAt(evaluations.size() - 2), 
                                   (Evaluation) evaluations.elementAt(evaluations.size() - 1));
 
@@ -90,9 +90,9 @@ public class GradientSampler implements Sampler
         // replace those parameterinstances that has a gradient).
         result.addAll(latest);
         // Create new samples based on gradients.
-        for (Enumeration e = gradients.keys(); e.hasMoreElements();) {
-            Parameter parameter = (Parameter) e.nextElement();
-            Double gradient = (Double) gradients.get(parameter);
+        for (Enumeration<Parameter> e = gradients.keys(); e.hasMoreElements();) {
+            Parameter parameter = e.nextElement();
+            Double gradient = gradients.get(parameter);
             if (gradient.isNaN() || gradient.isInfinite()) { 
 //                 Debug.err.println("Bad gradient for " + parameter.getName() + ": " + gradient);
             } else {
@@ -109,9 +109,9 @@ public class GradientSampler implements Sampler
      * @param backward the backward point.
      * @param center the point for which the derivative is approximated.
      */
-    Hashtable getBackwardDifference(Evaluation backward, Evaluation center) 
+    Hashtable<Parameter, Double> getBackwardDifference(Evaluation backward, Evaluation center) 
     {
-        Hashtable res = new Hashtable();
+        Hashtable<Parameter, Double> res = new Hashtable<Parameter, Double>();
 
         // Calculate the difference of the evaluation.
         double eDiff = backward.getEvaluation().getParameter().getMetric().d(backward.getEvaluation(),

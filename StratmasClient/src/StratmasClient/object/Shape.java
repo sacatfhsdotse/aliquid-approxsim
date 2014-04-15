@@ -208,7 +208,12 @@ public abstract class Shape extends DefaultComplex
         for (StratmasObject walker = this; walker != null; walker = walker.getParent()) {
             if (walker.getIdentifier().equals("map")) {
                 ActionGroup showMapAction =  new ActionGroup("Show in new Map", false, false) {
-                        public void actionPerformed(ActionEvent e) {
+                        /**
+					 * 
+					 */
+					private static final long serialVersionUID = 5687017703396326288L;
+
+						public void actionPerformed(ActionEvent e) {
                             Visualizer.createNewStratMap(self);
                         }
                     };

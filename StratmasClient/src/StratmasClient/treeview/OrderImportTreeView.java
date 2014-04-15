@@ -25,14 +25,18 @@ import java.awt.dnd.DropTargetDropEvent;
 public class OrderImportTreeView extends TreeView {
 
      /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4013479827585585162L;
+
+
+	/**
       * Creates a new Tree panel using the the specified object as root.
       *
       * @param root the object to use as root for this tree.
       */
      public OrderImportTreeView(StratmasObjectAdapter root) {
           super(root);
-          final TreeView self = this;
-          
           this.setDropTarget(new DropTarget(this, new DropTargetAdapter() {
                     public void dragEnter(DropTargetDragEvent dtde) {
                          dtde.acceptDrag(dtde.getDropAction());

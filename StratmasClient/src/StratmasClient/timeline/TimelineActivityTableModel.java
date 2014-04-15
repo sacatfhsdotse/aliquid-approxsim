@@ -45,10 +45,10 @@ import StratmasClient.object.type.Declaration;
  */
 public class TimelineActivityTableModel extends AbstractTableModel implements StratmasEventListener {
     /**
-     * Reference to the timeline.
-     */
-    private Timeline timeline;
-    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7305358507421557020L;
+	/**
      * The table header.
      */
     private JTableHeader tableHeader;
@@ -59,7 +59,7 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
     /**
      * The list of activities.
      */
-    private Vector activityList = new Vector();
+    private Vector<StratmasObject> activityList = new Vector<StratmasObject>();
     /**
      * Indicator for the order of activities in the table.
      */
@@ -91,10 +91,10 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
     /**
      * Used to compare start times of the activities.
      */
-    public static final Comparator START_TIME_COMPARATOR = new Comparator() {
-            public int compare(Object o1, Object o2) {
-                StratmasTimestamp st1 = (StratmasTimestamp) ((StratmasObject)o1).getChild("start");
-                StratmasTimestamp st2 = (StratmasTimestamp) ((StratmasObject)o2).getChild("start");
+    public static final Comparator<StratmasObject> START_TIME_COMPARATOR = new Comparator<StratmasObject>() {
+            public int compare(StratmasObject o1, StratmasObject o2) {
+                StratmasTimestamp st1 = (StratmasTimestamp) o1.getChild("start");
+                StratmasTimestamp st2 = (StratmasTimestamp) o2.getChild("start");
                 if (st1 == null) {
                     return -1; 
                 }
@@ -110,10 +110,10 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
     /**
      * Used to compare end times of the activities.
      */
-    public static final Comparator END_TIME_COMPARATOR = new Comparator() {
-            public int compare(Object o1, Object o2) {
-                StratmasTimestamp st1 = (StratmasTimestamp) ((StratmasObject)o1).getChild("end");
-                StratmasTimestamp st2 = (StratmasTimestamp) ((StratmasObject)o2).getChild("end");
+    public static final Comparator<StratmasObject> END_TIME_COMPARATOR = new Comparator<StratmasObject>() {
+            public int compare(StratmasObject o1, StratmasObject o2) {
+                StratmasTimestamp st1 = (StratmasTimestamp) o1.getChild("end");
+                StratmasTimestamp st2 = (StratmasTimestamp) o2.getChild("end");
                 if (st1 == null) {
                     return -1; 
                 }
@@ -129,21 +129,21 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
     /**
      * Used to compare the activity names.
      */
-    public static final Comparator ACTIVITY_NAME_COMPARATOR = new Comparator() {
-            public int compare(Object o1, Object o2) {
-                String s1 = ((StratmasObject)o1).getIdentifier();
-                String s2 = ((StratmasObject)o2).getIdentifier();
+    public static final Comparator<StratmasObject> ACTIVITY_NAME_COMPARATOR = new Comparator<StratmasObject>() {
+            public int compare(StratmasObject o1, StratmasObject o2) {
+                String s1 = o1.getIdentifier();
+                String s2 = o2.getIdentifier();
                 return s1.compareTo(s2);
             }
         };
     /**
      * Used to compare names of the resources.
      */
-    public static final Comparator MU_NAME_COMPARATOR = new Comparator() {
-            public int compare(Object o1, Object o2) {
+    public static final Comparator<StratmasObject> MU_NAME_COMPARATOR = new Comparator<StratmasObject>() {
+            public int compare(StratmasObject o1, StratmasObject o2) {
                 try {
-                    StratmasObject mu1 = ((StratmasObject)o1).getParent().getParent();
-                    StratmasObject mu2 = ((StratmasObject)o2).getParent().getParent();
+                    StratmasObject mu1 = o1.getParent().getParent();
+                    StratmasObject mu2 = o2.getParent().getParent();
                     if (!mu1.getType().canSubstitute("MilitaryUnit")) {
                         return -1; 
                     }
@@ -162,11 +162,11 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
     /**
      * Used to compare names of the affiliations of the resources.
      */
-    public static final Comparator AFF_NAME_COMPARATOR = new Comparator() {
-            public int compare(Object o1, Object o2) {
+    public static final Comparator<StratmasObject> AFF_NAME_COMPARATOR = new Comparator<StratmasObject>() {
+            public int compare(StratmasObject o1, StratmasObject o2) {
                 try {
-                    StratmasObject mu1 = ((StratmasObject)o1).getParent().getParent();
-                    StratmasObject mu2 = ((StratmasObject)o2).getParent().getParent();
+                    StratmasObject mu1 = o1.getParent().getParent();
+                    StratmasObject mu2 = o2.getParent().getParent();
                     if (!mu1.getType().canSubstitute("MilitaryUnit")) {
                         return -1; 
                     }
@@ -183,16 +183,16 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
             }
         };
     /**
-     * The list of comparators.
+     * The list of comparators. Rawtype becouse Java does not support generics at runtime, static does not help.
      */
-    private Comparator[] comparators = {ACTIVITY_NAME_COMPARATOR, START_TIME_COMPARATOR, END_TIME_COMPARATOR,
+    @SuppressWarnings("rawtypes")
+	private Comparator[] comparators = {ACTIVITY_NAME_COMPARATOR, START_TIME_COMPARATOR, END_TIME_COMPARATOR,
                                         MU_NAME_COMPARATOR, AFF_NAME_COMPARATOR};
     
     /**
      * Creates new table model.
      */
     public TimelineActivityTableModel(Timeline timeline) {
-        this.timeline = timeline;
         // update the display of the activity symbols when the table changes
         final Timeline tline = timeline;
         addTableModelListener(new TableModelListener() {
@@ -226,7 +226,7 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
     /**
      * Returns the class of the column.
      */
-    public Class getColumnClass(int col) {
+    public Class<String> getColumnClass(int col) {
         return String.class;
     }
     
@@ -235,7 +235,7 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
      */
     public synchronized Object getValueAt(int row, int col) {
         if (row < activityList.size()) {
-            StratmasObject activity = (StratmasObject)activityList.get(row);
+            StratmasObject activity = activityList.get(row);
             // name of the activity
             if (col == 0) {
                 return activity.getIdentifier();
@@ -293,7 +293,7 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
      * Checks if the cell is editable.
      */
     public boolean isCellEditable(int row, int col) {
-        StratmasObject activity = (StratmasObject)activityList.get(row);
+        StratmasObject activity = activityList.get(row);
         // end time not allowed according to the schema
         if (col == 2) {
             Declaration decl = activity.getType().getSubElement("end");
@@ -327,7 +327,7 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
      * @param col   the column of the modified cell.
      */
     public void setValueAt(Object value, int row, int col) {
-        final StratmasObject activity = (StratmasObject)activityList.get(row);
+        final StratmasObject activity = activityList.get(row);
         // change the identifier of the activity
         if (col == 0) {
             activity.setIdentifier((String)value);
@@ -405,7 +405,12 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
                                 final StratmasObject mUnit = (StratmasObject)e.nextElement();
                                 JMenuItem item = new JMenuItem(getPathOfMilitaryUnits(mUnit));
                                 item.addActionListener(new AbstractAction() {
-                                        public void actionPerformed(ActionEvent event) {
+                                        /**
+									 * 
+									 */
+									private static final long serialVersionUID = 3644128782915075854L;
+
+										public void actionPerformed(ActionEvent event) {
                                             activity.remove();
                                             ((StratmasList)mUnit.getChild("activities")).addWithUniqueIdentifier(activity);
                                         }
@@ -458,7 +463,7 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
             // update the name of the military unit which exectutes the activity
             if (src.getType().canSubstitute("MilitaryUnit")) {
                 for (int i = 0; i < activityList.size(); i++) {
-                    if (((StratmasObject)activityList.get(i)).getParent().getParent().equals(src)) {
+                    if (activityList.get(i).getParent().getParent().equals(src)) {
                         fireTableCellUpdated(i, 3);        
                     }
                 }
@@ -524,7 +529,7 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
             }
             else {
                 try {
-                    Comparator comp = comparators[lastSortedCol];
+                    Comparator<StratmasObject> comp = comparators[lastSortedCol];
                     int i = 0;
                     boolean inserted = false;
                     while ( i < activityList.size() && !inserted) {
@@ -582,7 +587,7 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
      */
     public void removeAll() {
         while (!activityList.isEmpty()) {
-            remove((StratmasObject)activityList.firstElement());
+            remove(activityList.firstElement());
         }
     }
     
@@ -634,7 +639,7 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
     /**
      * Returns the list of activities displayed in the table.
      */
-    public Vector getActivities() {
+    public Vector<StratmasObject> getActivities() {
         return activityList;
     }
     
@@ -684,7 +689,7 @@ public class TimelineActivityTableModel extends AbstractTableModel implements St
      * @param comparator the comaparator used for the sorting.
      * @param col the column where the sorting is initialized.
      */
-    private void sortByOrder(Comparator comparator, int col) {
+    private void sortByOrder(Comparator<StratmasObject> comparator, int col) {
         // if the table is already sorted wrt the column then reverse it
         if (currentOrder == ASCENDING && lastSortedCol == col) {
             Collections.reverse(activityList);

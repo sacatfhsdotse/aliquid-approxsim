@@ -374,7 +374,12 @@ abstract class StratmasObjectImpl extends StratmasObject
         final StratmasObject self = this;
         
         ActionGroup deleteAction = new ActionGroup("Delete", true, false) {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 6162649775446827051L;
+
+				public void actionPerformed(ActionEvent e) {
                     remove();
                 }
             };
@@ -405,7 +410,12 @@ abstract class StratmasObjectImpl extends StratmasObject
         ag.add(deleteAction);
 
         ag.add(new ActionGroup("Save as", false, false) {
-                public void actionPerformed(ActionEvent e) {
+                /**
+			 * 
+			 */
+			private static final long serialVersionUID = 6973529851127489894L;
+
+				public void actionPerformed(ActionEvent e) {
                     Client.exportToFile(self);
                 }
             });
@@ -414,7 +424,12 @@ abstract class StratmasObjectImpl extends StratmasObject
             getType().getAnnotations() != null &&
             getType().getAnnotations().length != 0) {
             ag.add(new ActionGroup("Whats this?", false, false) {
-                    public void actionPerformed(ActionEvent e) {
+                    /**
+				 * 
+				 */
+				private static final long serialVersionUID = 8603066280387680589L;
+
+					public void actionPerformed(ActionEvent e) {
                         StringBuffer buf = new StringBuffer();
                         Type type = self.getType();
                         Type walker = type;

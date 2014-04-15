@@ -215,14 +215,6 @@ class Camera
     }        
 
     /**
-     * Returns camera direction vector [x, y, z].
-     */
-    private double[] getDirection()
-    {
-         return new double[] {getXDirection(), getYDirection(), getZDirection()};
-    }
-
-    /**
      * Sets camera direction vector.
      *
      * @param x x component

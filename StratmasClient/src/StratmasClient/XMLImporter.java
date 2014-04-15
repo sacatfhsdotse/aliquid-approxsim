@@ -63,9 +63,9 @@ public class XMLImporter {
                  System.err.println(e.getMessage());
             } catch (ExceptionCollection e) {
                   System.err.println(e.getMessage());
-                for (Enumeration en = e.getExceptions().elements(); en.hasMoreElements(); ) {
+                for (Enumeration<SAXException> en = e.getExceptions().elements(); en.hasMoreElements(); ) {
                      System.err.println("==============================");
-                     System.err.println(((Exception)en.nextElement()).getMessage());
+                     System.err.println(en.nextElement().getMessage());
                 }
           }
      }
@@ -111,9 +111,9 @@ public class XMLImporter {
 
                ret = handler.getCreatedObject();               
           } catch (SAXException e) {
-               Vector v;
+               Vector<SAXException> v;
                if (handler == null) {
-                    v = new Vector();
+                    v = new Vector<SAXException>();
                }
                else {
                     v = handler.getExceptions();
@@ -153,12 +153,16 @@ public class XMLImporter {
 }
 
 class ExceptionCollection extends Exception {
-     private Vector exceptions;
-     public ExceptionCollection(Vector v) {
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 915907813229174695L;
+	private Vector<SAXException> exceptions;
+     public ExceptionCollection(Vector<SAXException> v) {
           super("Collection of " + v.size() + " exceptions.");
           exceptions = v;
      }
-     public Vector getExceptions() {
+     public Vector<SAXException> getExceptions() {
           return exceptions;
      }
 }
@@ -190,7 +194,7 @@ class SOPlaceHolder {
      /**
       * A Hashtable mapping a child's name to its StratmasObject.
       */
-     private Hashtable objects = new Hashtable();
+     private Hashtable<String, StratmasObject> objects = new Hashtable<String, StratmasObject>();
 
      /**
       * Creates a placeholder for an object of the specified type.
@@ -209,7 +213,7 @@ class SOPlaceHolder {
           for (Enumeration en = type.getSubElements().elements(); en.hasMoreElements(); ) {
                Declaration dec = (Declaration)en.nextElement();
                if (dec.isList()) {
-                    objects.put(dec.getName(), StratmasObjectFactory.vectorCreateList(dec).getStratmasObject(new Vector()));
+                    objects.put(dec.getName(), StratmasObjectFactory.vectorCreateList(dec).getStratmasObject(new Vector<StratmasObject>()));
                }
           }
      }
@@ -272,9 +276,9 @@ class SOPlaceHolder {
       * @return The newly created StratmasObject.
       */
      public StratmasObject createStratmasObject(String tag) throws IncompleteVectorConstructException {
-          Vector parts = new Vector();
+          Vector<StratmasObject> parts = new Vector<StratmasObject>();
           for (Enumeration en = type.getSubElements().elements(); en.hasMoreElements(); ) {
-               StratmasObject o = (StratmasObject)objects.get(((Declaration)en.nextElement()).getName());
+               StratmasObject o = objects.get(((Declaration)en.nextElement()).getName());
                if (o != null) {
                     parts.add(o);
                }
@@ -312,7 +316,7 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
       * Non-fatal exceptions that occurs during parsing are collected
       * in this vector.
       */
-     Vector exceptions = new Vector();
+     Vector<SAXException> exceptions = new Vector<SAXException>();
 
      /**
       * Flag marking whether the current element is imported from an
@@ -347,7 +351,7 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
       * The Vector in which identifiers are stored while parsing a
       * Reference.
       */
-     private Vector refVec = new Vector();
+     private Vector<String> refVec = new Vector<String>();
 
      /**
       * When parsing a Reference refDepth keeps track of the current
@@ -367,7 +371,7 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
       * A stack on which we push the type of the element currently
       * beeing created.
       */
-     private Stack typeStack = new Stack();
+     private Stack<Type> typeStack = new Stack<Type>();
 
      /**
       * The identifer of the StratmasObject currently beeing created.
@@ -406,7 +410,7 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
           return createdObject;
      }
 
-     public Vector getExceptions() {
+     public Vector<SAXException> getExceptions() {
           return exceptions;
      }
 
@@ -563,7 +567,7 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
 
           // If no xsi:type then get type from tag and parent's type.
           if (type == null && currentPlaceHolder != null) {
-               Declaration dec = ((Type)typeStack.peek()).getSubElement(localName);
+               Declaration dec = typeStack.peek().getSubElement(localName);
                if (dec != null) {
                     type = dec.getType();
                }
@@ -594,7 +598,7 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
                          !type.getName().equals("SymbolIDCode"))) {
                     // Points and simple types except for Reference
                     // and SymbolIDCode may be created here.
-                   Declaration decToCreateFrom = ((Type)typeStack.peek()).getSubElement(localName).clone(type);
+                   Declaration decToCreateFrom = typeStack.peek().getSubElement(localName).clone(type);
                    currentObject = StratmasObjectFactory.defaultCreate(decToCreateFrom);
                }
                else if (type.canSubstitute("ComplexType", StratmasConstants.stratmasNamespace) ||
@@ -641,7 +645,7 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
           }
           if (readChars == true) {
                // Here the element we're closing is a anySimpleType descendant.
-               Type type = (Type)typeStack.peek();
+               Type type = typeStack.peek();
                if (type.getName().equals("Point")) {
                     // Have to give Point special treatment.
                     if (localName.equals("lat")) {
@@ -669,7 +673,7 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
                currentLength = 0;
           }
           else {
-               Type type = (Type)typeStack.pop();
+               Type type = typeStack.pop();
                if (type.canSubstitute("Reference", StratmasConstants.stratmasNamespace)) {
                     refDepth--;
                     if (refDepth == 0) {
@@ -677,8 +681,8 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
                          // so we must create a StratmasReference from
                          // the identifiers in the reference Vector.
                          String [] ids = new String[refVec.size()];
-                         ids = (String[])refVec.toArray(ids);
-                         Declaration dec = ((Type)typeStack.peek()).getSubElement(localName);
+                         ids = refVec.toArray(ids);
+                         Declaration dec = typeStack.peek().getSubElement(localName);
                          StratmasReference so = (StratmasReference)StratmasObjectFactory.defaultCreate(dec);
                          so.setValue(new Reference(ids), null);
                          refVec.removeAllElements();
@@ -972,6 +976,11 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
  */
 class IncompleteVectorConstructException extends Exception {
      /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7912081760833458804L;
+
+	/**
       * Creates an exception with the specified message.
       *
       * @param msg The message.

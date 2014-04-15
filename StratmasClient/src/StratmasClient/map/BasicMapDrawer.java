@@ -1019,7 +1019,7 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
                         addMapDrawable(le.nextElement());
                     }
                 } else {
-                    addMapDrawable((StratmasObject) candidate);
+                    addMapDrawable(candidate);
                 }
                 // add listeners to the list of the activities
                 if (mapDrawable.getType().canSubstitute("Element") && candidate.getType().canSubstitute("Activity")) {
@@ -1044,7 +1044,28 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
                 }
             }
         }
-        addMapDrawableAdapter(mapDrawable);
+        
+        if(mapDrawable.getType().canSubstitute("Graph")){
+            for (Enumeration<StratmasObject> ee = mapDrawable.children(); ee.hasMoreElements();) {
+                StratmasObject candidate = ee.nextElement();
+                System.out.println(candidate.toString() + " " + candidate.getChildCount() + " " + candidate.getType());
+                if (candidate instanceof StratmasList) {
+                    System.out.println("list");
+                    for (Enumeration<StratmasObject> le = candidate.children(); le.hasMoreElements();) {
+                        StratmasObject candidate2 = le.nextElement();
+                        if (candidate2.getType().canSubstitute("Node") || candidate2.getType().canSubstitute("Edge")) {
+                            addMapDrawableAdapter(candidate2);
+                        }
+                    }
+                } else {
+                    if (candidate.getType().canSubstitute("Node") || candidate.getType().canSubstitute("Edge")) {
+                        addMapDrawableAdapter(candidate);
+                    }
+                }
+            }
+        }else{
+            addMapDrawableAdapter(mapDrawable);
+        }
     }
 
     /**

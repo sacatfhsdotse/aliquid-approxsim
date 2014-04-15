@@ -1642,16 +1642,16 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
         // from that list and then add a listener that imports any
         // additional elements added to elements
         TypeFilter filter = new TypeFilter(TypeFactory.getType("Scenario"), true);
-        for (Enumeration e = filter.filterTree(basicMap.getClient().getRootObject()); e.hasMoreElements();) {
-            StratmasObject scenario = (StratmasObject) e.nextElement();
+        for (Enumeration<StratmasObject> e = filter.filterTree(basicMap.getClient().getRootObject()); e.hasMoreElements();) {
+            StratmasObject scenario =  e.nextElement();
             // Find lists that may generate new Elements and put a listener on it.
-            for (Enumeration ee = scenario.children(); ee.hasMoreElements();) {
-                StratmasObject candidate = (StratmasObject) ee.nextElement();
-                if (candidate.getType().canSubstitute("Element") || candidate.getType().canSubstitute("Activity")) {
+            for (Enumeration<StratmasObject> ee = scenario.children(); ee.hasMoreElements();) {
+                StratmasObject candidate = ee.nextElement();
+                if (candidate.getType().canSubstitute("Element") || candidate.getType().canSubstitute("Activity") || candidate.getType().canSubstitute("Graph")) {
                     if (candidate instanceof StratmasList) {
                         // Add any current elements and add a listener that imports any consequent ones.
-                        for (Enumeration le = candidate.children(); le.hasMoreElements();) {
-                            addMapDrawable((StratmasObject) le.nextElement());
+                        for (Enumeration<StratmasObject> le = candidate.children(); le.hasMoreElements();) {
+                            addMapDrawable(le.nextElement());
                         }
                         candidate.addEventListener(new StratmasEventListener()
                             {
@@ -1666,13 +1666,13 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
                                     else if (subEvent.isReplaced()) {
                                         // UNTESTED - the replace code is untested 2005-09-22
                                         Debug.err.println("FIXME - Replace behavior untested in MapDrawer");
-                                        ((StratmasObject)subEvent.getSource()).removeEventListener(this);
-                                        ((StratmasObject)subEvent.getArgument()).addEventListener(this);
+                                        ((StratmasObject) subEvent.getSource()).removeEventListener(this);
+                                        ((StratmasObject) subEvent.getArgument()).addEventListener(this);
                                     }                            
                                 }
                             });
                     } else {
-                        addMapDrawable((StratmasObject) candidate);
+                        addMapDrawable(candidate);
                     }
                 }
             }

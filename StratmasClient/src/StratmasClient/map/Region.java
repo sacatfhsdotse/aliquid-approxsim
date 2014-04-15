@@ -175,11 +175,11 @@ public class Region implements StratmasEventListener {
         try {
             // add first shape in the list
             shapes.add(list.get(0));
-            lon_lat_box = ((Shape)list.get(0)).getBoundingBox();
+            lon_lat_box = (list.get(0)).getBoundingBox();
             // add remaining shapes
             for (int i = 1; i < list.size(); i++) {
                 shapes.add(list.get(i));
-                lon_lat_box.combine(((Shape)list.get(i)).getBoundingBox());
+                lon_lat_box.combine((list.get(i)).getBoundingBox());
             }
             // update projection
             basicMap.getProjection().setProjectionCenter(lon_lat_box);
@@ -219,11 +219,11 @@ public class Region implements StratmasEventListener {
         }
         else {
             if (shapes.size() > 0) {
-                lon_lat_box = ((Shape)shapes.get(0)).getBoundingBox();
+                lon_lat_box = (shapes.get(0)).getBoundingBox();
             }
             if (shapes.size() > 1) {
                 for (int i = 1; i < shapes.size(); i++) {
-                    lon_lat_box.combine(((Shape)shapes.get(i)).getBoundingBox());
+                    lon_lat_box.combine((shapes.get(i)).getBoundingBox());
                 }
             }
         }
@@ -238,7 +238,7 @@ public class Region implements StratmasEventListener {
         Vector<Shape> sShapes = new Vector<Shape>();
         // for all shapes
         for (int i = 0; i < shapes.size(); i++) {
-            Shape sh = (Shape)shapes.get(i);
+            Shape sh = shapes.get(i);
             sShapes.addAll(sh.constructSimpleShapes(new Vector<SimpleShape>()));
         }
         return sShapes;
@@ -267,9 +267,9 @@ public class Region implements StratmasEventListener {
         Projection proj = basicMap.getProjection();
         if (!shapes.isEmpty()) {
             Enumeration<Shape> e = getShapes().elements();
-            BoundingBox res = ((Shape)e.nextElement()).getBoundingBox(proj);
+            BoundingBox res = (e.nextElement()).getBoundingBox(proj);
             for (;e.hasMoreElements();) {
-                res = BoundingBox.combine(res, ((Shape)e.nextElement()).getBoundingBox(proj), proj);
+                res = BoundingBox.combine(res, (e.nextElement()).getBoundingBox(proj), proj);
             }
             return res;
         }

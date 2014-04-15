@@ -6,9 +6,7 @@
 package StratmasClient.map.adapter;
 
 import java.awt.Color;
-import java.io.UnsupportedEncodingException;
 import java.nio.DoubleBuffer;
-import java.util.Enumeration;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
@@ -16,17 +14,13 @@ import javax.media.opengl.glu.GLUtessellatorCallback;
 import javax.media.opengl.glu.GLUtessellatorCallbackAdapter;
 
 import StratmasClient.Debug;
-import StratmasClient.filter.StratmasObjectFilter;
 import StratmasClient.map.Projection;
-import StratmasClient.object.Line;
 import StratmasClient.object.Point;
-import StratmasClient.object.StratmasDecimal;
 import StratmasClient.object.StratmasEvent;
 import StratmasClient.object.StratmasObject;
-import StratmasClient.object.primitive.Reference;
+import StratmasClient.object.StratmasReference;
 
 import com.jogamp.common.nio.Buffers;
-import com.jogamp.opengl.util.gl2.GLUT;
 
 /**
  * GraphAdapter adapts StratmasObjects descendants of Graph for viewing on a map window.
@@ -34,7 +28,7 @@ import com.jogamp.opengl.util.gl2.GLUT;
  * @version 1, $Date: 2014-04-08 $
  * @author Exuvo
  */
-public class GraphEdgeAdapter extends ElementAdapter {
+public class GraphEdgeAdapter extends MapElementAdapter {
     
     /**
      * The default color of the lines.
@@ -61,8 +55,9 @@ public class GraphEdgeAdapter extends ElementAdapter {
     protected GraphEdgeAdapter(StratmasObject element) {
         super(element);
         updateSize();
+        System.out.println("GraphEdgeAdapter");
     }
-
+ 
     /**
      * Creates a new ElementAdapter.
      * 
@@ -72,6 +67,7 @@ public class GraphEdgeAdapter extends ElementAdapter {
     protected GraphEdgeAdapter(StratmasObject element, int renderSelectionName) {
         super(element, renderSelectionName);
         updateSize();
+        System.out.println("GraphEdgeAdapter" + renderSelectionName);
     }
 
     /**
@@ -149,7 +145,7 @@ public class GraphEdgeAdapter extends ElementAdapter {
         }
 
         if (walker != null) {
-            Point p = (Point) walker.getChild("origin").getChild("point");
+            Point p = (Point) ((StratmasReference)walker.getChild("origin")).getValue().resolve(walker).getChild("point");
             return new double[] { p.getLon(), p.getLat() };
         } else {
             Debug.err.println("Should not be here!");
@@ -164,7 +160,7 @@ public class GraphEdgeAdapter extends ElementAdapter {
         }
 
         if (walker != null) {
-            Point p = (Point) walker.getChild("target").getChild("point");
+            Point p = (Point) ((StratmasReference)walker.getChild("target")).getValue().resolve(walker).getChild("point");
             return new double[] { p.getLon(), p.getLat() };
         } else {
             Debug.err.println("Should not be here!");

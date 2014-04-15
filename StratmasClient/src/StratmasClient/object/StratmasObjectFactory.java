@@ -164,7 +164,12 @@ public class StratmasObjectFactory
             substitutions.put(StratmasConstants.stratmasNamespace + 
                               ":Double", 
                               StratmasConstants.xsdNamespace + ":double");
-
+            substitutions.put(StratmasConstants.stratmasNamespace + 
+                              ":Node", "DefaultComplex");
+            substitutions.put(StratmasConstants.stratmasNamespace + 
+                              ":Edge", "DefaultComplex");
+            substitutions.put(StratmasConstants.stratmasNamespace + 
+                              ":Graph", "DefaultComplex");
             
             stringMap.put(StratmasConstants.xsdNamespace + ":string", 
                           new StratmasObjectConstructor() {

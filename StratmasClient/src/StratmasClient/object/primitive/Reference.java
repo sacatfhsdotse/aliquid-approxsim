@@ -88,11 +88,11 @@ public class Reference
     }
 
     /**
-     * Returns object referenced by this reference. Tries to resolv
+     * Returns object referenced by this reference. Tries to resolve
      * the reference in every scope up to the root.
      *
      * @param scope the scope in which this reference is to be
-     * resolved or null if unable to resolv.
+     * resolved or null if unable to resolve.
      */
     public StratmasObject resolve(StratmasObject scope)
     {

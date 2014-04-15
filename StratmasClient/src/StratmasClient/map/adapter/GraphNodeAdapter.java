@@ -13,11 +13,9 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLUtessellatorCallback;
 import javax.media.opengl.glu.GLUtessellatorCallbackAdapter;
 
-import StratmasClient.BoundingBox;
 import StratmasClient.Debug;
 import StratmasClient.map.Projection;
 import StratmasClient.object.Point;
-import StratmasClient.object.Shape;
 import StratmasClient.object.StratmasObject;
 
 import com.jogamp.common.nio.Buffers;
@@ -29,7 +27,7 @@ import com.jogamp.opengl.util.gl2.GLUT;
  * @version 1, $Date: 2014-04-08 $
  * @author Exuvo
  */
-public class GraphNodeAdapter extends ElementAdapter {
+public class GraphNodeAdapter extends MapElementAdapter {
     
     /**
      * The whether to draw name of element under symbol.
@@ -43,6 +41,7 @@ public class GraphNodeAdapter extends ElementAdapter {
      */
     protected GraphNodeAdapter(StratmasObject element) {
         super(element);
+        System.out.println("GraphNodeAdapter");
     }
 
     /**
@@ -53,6 +52,7 @@ public class GraphNodeAdapter extends ElementAdapter {
      */
     protected GraphNodeAdapter(StratmasObject element, int renderSelectionName) {
         super(element, renderSelectionName);
+        System.out.println("GraphNodeAdapter" + renderSelectionName);
     }
 
     /**
@@ -74,7 +74,8 @@ public class GraphNodeAdapter extends ElementAdapter {
         double c = Math.tan(theta); //precalculate the sine and cosine
         double s = Math.cos(theta);
         double x = r; //we start at angle = 0 
-        double y = 0; 
+        double y = 0;
+        
 
         // Start list
         gl.glNewList(displayListsBuf.get(SYMBOL_POS), GL2.GL_COMPILE);

@@ -33,7 +33,7 @@ public class GraphEdgeAdapter extends MapElementAdapter {
     /**
      * The default color of the lines.
      */
-    public static Color DEFAULT_LINE_COLOR = new Color(0.0f, 1.0f, 0.0f);
+    public static Color DEFAULT_LINE_COLOR = new Color(0.1f, 1.0f, 0.1f);
     /**
      * The default width of the lines.
      */
@@ -105,6 +105,7 @@ public class GraphEdgeAdapter extends MapElementAdapter {
         
         double[] p1 = proj.projToXY(new double[]{ -horizontalSymbolSize/2, -verticalSymbolSize/2});
         double[] p2 = proj.projToXY(new double[]{ horizontalSymbolSize/2, verticalSymbolSize/2});
+//        System.out.println(horizontalSymbolSize + " " + verticalSymbolSize + " " + p1[0] + " " + p1[1] + " " + p2[0] + " " + p2[1]);
         
         float[] cColor = lineColor.getRGBColorComponents(null);
         gl.glColor4d(cColor[0], cColor[1], cColor[2], getSymbolOpacity());

@@ -69,7 +69,7 @@ public class GraphNodeAdapter extends MapElementAdapter {
 
         //circle code from http://slabode.exofire.net/circle_draw.shtml
         double r = horizontalSymbolSize / 2;
-        int num_segments = (int) (10 * Math.sqrt(r)); //change the 10 to a smaller/bigger number as needed
+        int num_segments = (int) (1 * Math.sqrt(r)); //change the 10 to a smaller/bigger number as needed
         double theta = 2 * Math.PI / num_segments; 
         double c = Math.tan(theta); //precalculate the sine and cosine
         double s = Math.cos(theta);

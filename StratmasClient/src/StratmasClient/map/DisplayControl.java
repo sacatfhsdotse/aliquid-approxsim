@@ -69,6 +69,8 @@ public class DisplayControl {
      * Tools reference for disabeling
      */
     private List<JButton> toolsButtons = new ArrayList<JButton>();
+    private StratmasObjectFilter road_filter;
+    private StratmasObjectFilter other_filter;
 
     /**
      * Creates the panel for controling size of the symbols displayed in the map.
@@ -655,6 +657,49 @@ public class DisplayControl {
         
         return agency_panel;
     }
+    
+    private JPanel createGraphSelectionPanel() {
+        final DisplayControl self = this;
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(2,3,2,2));
+        
+        final JCheckBox roads = new JCheckBox("Roads");
+        roads.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                CombinedORFilter filter = new CombinedORFilter();
+                if(roads.isSelected()) {
+                    TypeFilter type_filter = new TypeFilter(TypeFactory.getType("PathEdge"));
+                    ((CombinedORFilter) filter).add(type_filter);
+                    TypeFilter type_filter2 = new TypeFilter(TypeFactory.getType("PathNode"));
+                    ((CombinedORFilter) filter).add(type_filter2);
+                }
+                self.setRoadsFilter(filter);
+            }
+        });
+        roads.doClick();
+        panel.add(roads);
+        
+        final JCheckBox other = new JCheckBox("Other");
+        roads.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                CombinedORFilter filter = new CombinedORFilter();
+                if(roads.isSelected()) {
+                    TypeFilter type_filter = new TypeFilter(TypeFactory.getType("EffectEdge"));
+                    ((CombinedORFilter) filter).add(type_filter);
+                    TypeFilter type_filter2 = new TypeFilter(TypeFactory.getType("EffectNode"));
+                    ((CombinedORFilter) filter).add(type_filter2);
+                }
+                self.setOtherFilter(filter);
+            }
+        });
+        other.doClick();
+        panel.add(other);
+        
+        panel.setBorder(BorderFactory.
+                               createCompoundBorder(BorderFactory.createTitledBorder("Infrastructure"),
+                                                    BorderFactory.createEmptyBorder(2,2,2,2)));
+        return panel;
+    }
 
     /**
      * Creates the panel for selection of displaying borders of the actual region or not.
@@ -912,6 +957,12 @@ public class DisplayControl {
         if (population_filter != null) {
             filter.add(population_filter);
         }
+        if (road_filter != null) {
+            filter.add(road_filter);
+        }
+        if (other_filter != null) {
+            filter.add(other_filter);
+        }
         // update the map
         drawer.setDrawnMapElementsFilter(filter);
     }
@@ -997,6 +1048,16 @@ public class DisplayControl {
      */
     public void setPopulationFilter(StratmasObjectFilter filter) {
         population_filter = filter;
+        updateFilter();
+    }
+    
+    public void setRoadsFilter(StratmasObjectFilter filter) {
+        road_filter = filter;
+        updateFilter();
+    }
+    
+    public void setOtherFilter(StratmasObjectFilter filter) {
+        other_filter = filter;
         updateFilter();
     }
     
@@ -1099,6 +1160,8 @@ public class DisplayControl {
         simulationPanel.add(createActivityTimeDependencePanel());
         // the panel for the agency teams
         simulationPanel.add(createTeamsAndAgenciesSelectionPanel());
+        // the panel for graphs
+        simulationPanel.add(createGraphSelectionPanel());
         // set border
         simulationPanel.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
         //

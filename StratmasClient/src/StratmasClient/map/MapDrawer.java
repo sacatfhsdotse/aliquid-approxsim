@@ -343,6 +343,11 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
             if (submenu != null) {
                 menu.add(submenu);
             }
+            // get the submenu for the graph nodes
+            submenu = menuCreator.getMenuForGraphNodes();
+            if (submenu != null) {
+                menu.add(submenu);
+            }
              // get the submenu for the postion of the pointed elements
             submenu = menuCreator.getMenuForElementsPosition();
             if (submenu != null) {
@@ -959,7 +964,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener, St
      *
      * @return the list of elements.  
      */
-    public Vector<Object> mapDrawableAdaptersUnderCursor(Class specifiedClass) {
+    public Vector<Object> mapDrawableAdaptersUnderCursor(Class<? extends MapDrawableAdapter> specifiedClass) {
         Vector<Object> res = new Vector<Object>();
         for(Enumeration e = latestRenderSelection.getTopSelectionObjects().elements(); e.hasMoreElements();) {
             Object o = e.nextElement();

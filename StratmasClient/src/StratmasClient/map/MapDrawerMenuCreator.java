@@ -37,6 +37,7 @@ import StratmasClient.treeview.TreeView;
 import StratmasClient.treeview.TreeViewFrame;
 import StratmasClient.filter.TypeFilter;
 import StratmasClient.filter.StratmasObjectFilter;
+import StratmasClient.map.adapter.GraphEdgeAdapter;
 import StratmasClient.map.adapter.MapElementAdapter;
 import StratmasClient.map.adapter.MapShapeAdapter;
 import StratmasClient.proj.MGRSConversion;
@@ -206,6 +207,36 @@ class MapDrawerMenuCreator {
                     });
                 submenu.add(item);        
             }        
+        }
+        return submenu;
+    } 
+    
+    /**
+     * Returns the submenu with all the graph nodes at the location pointed by the mouse.
+     *
+     * @return the submenu with the units.
+     */
+    protected JMenu getMenuForGraphNodes() {
+        JMenu submenu = null;
+        // add all military units at the pointed location
+        Vector<StratmasObject> v = (new TypeFilter(TypeFactory.getType("Node"), true)).filter(drawer.mapElementsUnderCursor());
+        if (!v.isEmpty()) {
+            submenu = new JMenu("Edit graph : ");
+            JMenuItem item = new JMenuItem("Connect node");
+            item.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent event) {
+                        //TODO implement
+                    }
+                });
+            submenu.add(item);
+            
+            JMenuItem item2 = new JMenuItem("Add node");
+            item2.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent event) {
+                        //TODO implement
+                    }
+                });
+            submenu.add(item2);
         }
         return submenu;
     } 

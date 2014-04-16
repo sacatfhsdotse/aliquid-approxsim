@@ -33,6 +33,9 @@ public class GraphNodeAdapter extends MapElementAdapter {
      * The whether to draw name of element under symbol.
      */
     boolean drawElementName = true;
+    
+    public static float DEFAULT_LINE_WIDTH = 2.0f;
+    private float lineWidth = DEFAULT_LINE_WIDTH;
 
     /**
      * Creates a new ElementAdapter.
@@ -98,6 +101,7 @@ public class GraphNodeAdapter extends MapElementAdapter {
         gl.glPushName(getRenderSelectionName() + 1 + SYMBOL_POS);
         gl.glColor4d(0.0d, 0.0d, 0.0d, getSymbolOpacity());
         gl.glBegin(GL2.GL_LINE_LOOP);
+        gl.glLineWidth(lineWidth);
         
         for(int ii = 0; ii < num_segments; ii++) {
             gl.glVertex2d(x, y);//output vertex 
@@ -109,6 +113,20 @@ public class GraphNodeAdapter extends MapElementAdapter {
         }
         
         gl.glEnd();
+        
+        //Draw invisible rectangle over circle to fix GL_SELECT used for selection
+        gl.glBegin(GL2.GL_QUADS);
+        gl.glColor4d(1.0d, 0.0d, 0.0d, 0.0d);
+        gl.glTexCoord2f(0, 0);
+        gl.glVertex2d(-horizontalSymbolSize/2, -verticalSymbolSize/2);
+        gl.glTexCoord2f(0, 1);
+        gl.glVertex2d(-horizontalSymbolSize/2, verticalSymbolSize/2);
+        gl.glTexCoord2f(1, 1);
+        gl.glVertex2d(horizontalSymbolSize/2, verticalSymbolSize/2);
+        gl.glTexCoord2f(1, 0);
+        gl.glVertex2d(horizontalSymbolSize/2, -verticalSymbolSize/2);
+        gl.glEnd();
+        
         gl.glPopMatrix();
         if (drawElementName()) {
             GLUT glut = new GLUT();

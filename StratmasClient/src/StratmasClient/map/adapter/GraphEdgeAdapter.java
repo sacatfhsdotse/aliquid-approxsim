@@ -33,7 +33,7 @@ public class GraphEdgeAdapter extends MapElementAdapter {
     /**
      * The default color of the lines.
      */
-    public static Color DEFAULT_LINE_COLOR = new Color(0.1f, 1.0f, 0.1f);
+    public static Color DEFAULT_LINE_COLOR = new Color(0.0f, 0.8f, 0.0f);
     /**
      * The default width of the lines.
      */
@@ -115,6 +115,7 @@ public class GraphEdgeAdapter extends MapElementAdapter {
         
         float[] cColor = lineColor.getRGBColorComponents(null);
         
+        //TODO draw line as rectangle to fix GL_SELECT used for selection
         gl.glBegin(GL2.GL_LINES);
         gl.glLineWidth(lineWidth);
         gl.glColor4d(cColor[0], cColor[1], cColor[2], getSymbolOpacity());

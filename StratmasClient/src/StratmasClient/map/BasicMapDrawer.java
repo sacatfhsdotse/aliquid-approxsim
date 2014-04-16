@@ -1048,9 +1048,7 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener, 
         if(mapDrawable.getType().canSubstitute("Graph")){
             for (Enumeration<StratmasObject> ee = mapDrawable.children(); ee.hasMoreElements();) {
                 StratmasObject candidate = ee.nextElement();
-                System.out.println(candidate.toString() + " " + candidate.getChildCount() + " " + candidate.getType());
                 if (candidate instanceof StratmasList) {
-                    System.out.println("list");
                     for (Enumeration<StratmasObject> le = candidate.children(); le.hasMoreElements();) {
                         StratmasObject candidate2 = le.nextElement();
                         if (candidate2.getType().canSubstitute("Node") || candidate2.getType().canSubstitute("Edge")) {

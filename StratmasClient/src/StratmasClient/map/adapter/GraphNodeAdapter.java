@@ -41,7 +41,6 @@ public class GraphNodeAdapter extends MapElementAdapter {
      */
     protected GraphNodeAdapter(StratmasObject element) {
         super(element);
-        System.out.println("GraphNodeAdapter");
     }
 
     /**
@@ -52,7 +51,6 @@ public class GraphNodeAdapter extends MapElementAdapter {
      */
     protected GraphNodeAdapter(StratmasObject element, int renderSelectionName) {
         super(element, renderSelectionName);
-        System.out.println("GraphNodeAdapter" + renderSelectionName);
     }
 
     /**
@@ -69,7 +67,7 @@ public class GraphNodeAdapter extends MapElementAdapter {
 
         //circle code from http://slabode.exofire.net/circle_draw.shtml
         double r = horizontalSymbolSize / 2;
-        int num_segments = (int) (1 * Math.sqrt(r)); //change the 10 to a smaller/bigger number as needed
+        int num_segments = (int) (1 * Math.sqrt(r)); //change the constant to a smaller/bigger number as needed
         double theta = 2 * Math.PI / num_segments; 
         double c = Math.tan(theta); //precalculate the sine and cosine
         double s = Math.cos(theta);
@@ -98,17 +96,17 @@ public class GraphNodeAdapter extends MapElementAdapter {
 
 //        gl.glScaled(0.5 * inhabitantsScale, 0.5 * inhabitantsScale, 0.5 * inhabitantsScale);
         gl.glPushName(getRenderSelectionName() + 1 + SYMBOL_POS);
-        gl.glBegin(GL2.GL_LINE_LOOP);
         gl.glColor4d(0.0d, 0.0d, 0.0d, getSymbolOpacity());
+        gl.glBegin(GL2.GL_LINE_LOOP);
         
-        for(int ii = 0; ii < num_segments; ii++) { 
+        for(int ii = 0; ii < num_segments; ii++) {
             gl.glVertex2d(x, y);//output vertex 
             
             //apply the rotation matrix
             double t = x;
             x = c * x - s * y;
             y = s * t + c * y;
-        } 
+        }
         
         gl.glEnd();
         gl.glPopMatrix();

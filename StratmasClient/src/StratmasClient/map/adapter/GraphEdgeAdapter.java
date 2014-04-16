@@ -54,8 +54,6 @@ public class GraphEdgeAdapter extends MapElementAdapter {
      */
     protected GraphEdgeAdapter(StratmasObject element) {
         super(element);
-        updateSize();
-        System.out.println("GraphEdgeAdapter");
     }
  
     /**
@@ -66,8 +64,6 @@ public class GraphEdgeAdapter extends MapElementAdapter {
      */
     protected GraphEdgeAdapter(StratmasObject element, int renderSelectionName) {
         super(element, renderSelectionName);
-        updateSize();
-        System.out.println("GraphEdgeAdapter" + renderSelectionName);
     }
 
     /**
@@ -103,20 +99,41 @@ public class GraphEdgeAdapter extends MapElementAdapter {
 
         gl.glPushName(getRenderSelectionName() + 1 + SYMBOL_POS);
         
-        double[] p1 = proj.projToXY(new double[]{ -horizontalSymbolSize/2, -verticalSymbolSize/2});
-        double[] p2 = proj.projToXY(new double[]{ horizontalSymbolSize/2, verticalSymbolSize/2});
-//        System.out.println(horizontalSymbolSize + " " + verticalSymbolSize + " " + p1[0] + " " + p1[1] + " " + p2[0] + " " + p2[1]);
+        double[] pd = getLonLatDiff();
+//        double[] p1 = new double[]{pd[0], pd[1]};
+        double[] p1 = getOriginLonLat();
+//        p1[0] = p1[0] - pd[0];
+//        p1[1] = p1[1] - pd[1];
+//        double[] p2 = new double[]{-pd[0], -pd[1]};
+        double[] p2 = getTargetLonLat();
+//        p2[0] = p2[0] - pd[0];
+//        p2[1] = p2[1] - pd[1];
+
+        p1 = proj.projToXY(p1);
+        p2 = proj.projToXY(p2);
+//      System.out.println(horizontalSymbolSize + " " + verticalSymbolSize + " " + p1[0] + " " + p1[1] + " " + p2[0] + " " + p2[1]);                      
         
         float[] cColor = lineColor.getRGBColorComponents(null);
-        gl.glColor4d(cColor[0], cColor[1], cColor[2], getSymbolOpacity());
         
-        gl.glLineWidth(lineWidth);
         gl.glBegin(GL2.GL_LINES);
-        
+        gl.glLineWidth(lineWidth);
+        gl.glColor4d(cColor[0], cColor[1], cColor[2], getSymbolOpacity());
         gl.glVertex2dv(p1, 0);
         gl.glVertex2dv(p2, 0);
-
         gl.glEnd();
+        
+        gl.glBegin(GL2.GL_QUADS);
+        gl.glColor4d(0.0d, 1.0d, 0.0d, 1.0d);
+        gl.glTexCoord2f(0, 0);
+        gl.glVertex2d(-horizontalSymbolSize/2, -verticalSymbolSize/2);
+        gl.glTexCoord2f(0, 1);
+        gl.glVertex2d(-horizontalSymbolSize/2, verticalSymbolSize/2);
+        gl.glTexCoord2f(1, 1);
+        gl.glVertex2d(horizontalSymbolSize/2, verticalSymbolSize/2);
+        gl.glTexCoord2f(1, 0);
+        gl.glVertex2d(horizontalSymbolSize/2, -verticalSymbolSize/2);
+        gl.glEnd();
+        
         gl.glPopMatrix();
         gl.glPopName();
         gl.glPopMatrix();
@@ -173,7 +190,8 @@ public class GraphEdgeAdapter extends MapElementAdapter {
     protected double[] getLonLat() {
         double[] o = getOriginLonLat();
         double[] t = getTargetLonLat();
-        return new double[] { (o[0] + t[0] ) / 2, (o[1] - t[1]) / 2 };
+        double[] a = new double[] { (o[0] + t[0] ) / 2, (o[1] + t[1]) / 2 };
+        return a;
     }
     
     protected double[] getLonLatDiff() {
@@ -221,20 +239,12 @@ public class GraphEdgeAdapter extends MapElementAdapter {
         };
     }
     
-    protected void updateSize(){
-        double[] d = getLonLatDiff();
-        horizontalSymbolSize = Math.abs(d[0]);
-        verticalSymbolSize = Math.abs(d[1]);
-    }
-    
     public void eventOccured(StratmasEvent event) {
         super.eventOccured(event);
-        updateSize();
     }
     
     protected void childChanged(StratmasEvent event) {
         super.childChanged(event);
-        updateSize();   
     }
     
     /**

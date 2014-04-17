@@ -37,12 +37,12 @@ public class TimelineConstants {
     /**
      * Used for removing an object.
      */
-    public static int REMOVE = 8;   
+    public static int REMOVE = 8;
     /**
      * Indicator for updating an object.
      */
     public static int UPDATE = 9;
-     /**
+    /**
      * Indicator for time selection.
      */
     public static int SELECT = 10;

@@ -1,4 +1,4 @@
-//         $Id: ImportHandlerException.java,v 1.3 2005/07/14 10:01:14 dah Exp $
+// $Id: ImportHandlerException.java,v 1.3 2005/07/14 10:01:14 dah Exp $
 /*
  * @(#)ImportHandlerException.java
  */
@@ -6,25 +6,23 @@
 package StratmasClient.TaclanV2;
 
 /**
- * An object representing and error in a handler when importing
- * something into Taclan
- *
+ * An object representing and error in a handler when importing something into Taclan
+ * 
  * @version 1, $Date: 2005/07/14 10:01:14 $
- * @author  Daniel Ahlin
-*/
+ * @author Daniel Ahlin
+ */
 
-public class ImportHandlerException extends Exception
-{
+public class ImportHandlerException extends Exception {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 3889327838985522138L;
+    private static final long serialVersionUID = 3889327838985522138L;
 
-	/**
+    /**
      * The handler causing the exception.
      */
     ImportHandler handler;
-    
+
     /**
      * Additional error information.
      */
@@ -32,12 +30,11 @@ public class ImportHandlerException extends Exception
 
     /**
      * Creates a new ImportHandlerException.
+     * 
      * @param handler the handler causing the exception.
-     * @param info a vector containing the error messages from the
-     * different handlers.
+     * @param info a vector containing the error messages from the different handlers.
      */
-    public ImportHandlerException(ImportHandler handler, String info)
-    {
+    public ImportHandlerException(ImportHandler handler, String info) {
         this.handler = handler;
         this.info = info;
     }
@@ -45,17 +42,14 @@ public class ImportHandlerException extends Exception
     /**
      * Returns a detailed error message.
      */
-    public String getMessage()
-    {
+    public String getMessage() {
         return handler.getClass().getName() + ": " + info;
     }
-
 
     /**
      * Returns a string representation of this object.
      */
-    public String toString()
-    {
+    public String toString() {
         return getMessage();
     }
 

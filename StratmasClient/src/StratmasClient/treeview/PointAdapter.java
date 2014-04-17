@@ -17,62 +17,58 @@ import StratmasClient.proj.MGRSConversion;
 
 /**
  * PointAdapter adapts Points for viewing in the tree.
- *
  */
 public class PointAdapter extends StratmasObjectAdapter {
-   
+
     /**
      * Creates a new PontAdapter.
      */
-    protected PointAdapter() 
-    {
+    protected PointAdapter() {
         super();
     }
-   
+
     /**
      * Creates a new PointAdapter.
-     *
+     * 
      * @param stratmasObject the object to adapt.
      */
-    public PointAdapter(StratmasObject stratmasObject) 
-    {
+    public PointAdapter(StratmasObject stratmasObject) {
         this.setUserObject(stratmasObject);
         Configuration.addStratmasListener(this);
     }
-    
+
     /**
      * Creates a new PointAdapter.
-     *
+     * 
      * @param stratmasObject the object to adapt.
      */
-    public PointAdapter(StratmasObject stratmasObject, StratmasObjectFilter filter) 
-    {
+    public PointAdapter(StratmasObject stratmasObject,
+            StratmasObjectFilter filter) {
         this.setUserObject(stratmasObject);
         this.filter = filter;
-        Configuration.addStratmasListener(this);        
+        Configuration.addStratmasListener(this);
     }
 
     /**
      * Initializes the children of this object.
      */
-    protected void createChildren()
-    {
+    protected void createChildren() {
         this.children = new Vector();
 
         if (Configuration.getCoordinateSystem() == Configuration.GEODETIC) {
-            silentAdd(new PointCoordinateAdapter(getStratmasObject(), "lat"), 
+            silentAdd(new PointCoordinateAdapter(getStratmasObject(), "lat"),
                       children.size());
-            silentAdd(new PointCoordinateAdapter(getStratmasObject(), "lon"), 
+            silentAdd(new PointCoordinateAdapter(getStratmasObject(), "lon"),
                       children.size());
         }
     }
-        
+
     /**
      * Called when the StratmasObject this adapter adapts changes.
-     *
+     * 
      * @param event the event causing the call.
      */
-    public void eventOccured(StratmasEvent event){
+    public void eventOccured(StratmasEvent event) {
         if (event.isValueChanged()) {
             sendTreeNodesChangedEvent();
         } else if (event.isRemoved()) {
@@ -92,91 +88,87 @@ public class PointAdapter extends StratmasObjectAdapter {
             sendTreeNodesChangedEvent();
         } else if (event.isReplaced()) {
             getUserObject().removeEventListener(this);
-            StratmasObjectAdapter parent = (StratmasObjectAdapter)getParent();
+            StratmasObjectAdapter parent = (StratmasObjectAdapter) getParent();
             if (parent != null) {
                 sendTreeNodeRemovedEvent();
-                 parent.remove(this);
-                 parent.add((StratmasObject)event.getArgument());
+                parent.remove(this);
+                parent.add((StratmasObject) event.getArgument());
+            } else {
+                StratmasObject o = (StratmasObject) event.getArgument();
+                setUserObject(o);
+                for (Enumeration en = o.children(); en.hasMoreElements();) {
+                    add((StratmasObject) en.nextElement());
+                }
+                sendTreeNodesChangedEvent();
             }
-            else {
-                StratmasObject o = (StratmasObject)event.getArgument();
-                 setUserObject(o);
-                 for (Enumeration en = o.children(); en.hasMoreElements(); ) {
-                     add((StratmasObject)en.nextElement());
-                 }
-                 sendTreeNodesChangedEvent();
-            }
-        }
-        else if (event.isCoordSystemChanged()) {
+        } else if (event.isCoordSystemChanged()) {
             // MGRS coordinates
             if (Configuration.getCoordinateSystem() == Configuration.MGRS) {
                 while (!getChildren().isEmpty()) {
-                    StratmasObjectAdapter soa = (StratmasObjectAdapter) getChildren().get(0);
-                    //FIXME THIS SHOULD NOT BE A REMOVE EVENT!!!
+                    StratmasObjectAdapter soa = (StratmasObjectAdapter) getChildren()
+                            .get(0);
+                    // FIXME THIS SHOULD NOT BE A REMOVE EVENT!!!
                     soa.eventOccured(StratmasEvent.getRemoved(soa, null));
                 }
                 sendTreeNodesChangedEvent();
             }
             // geodetic (lat, lon) coordinates
             else if (Configuration.getCoordinateSystem() == Configuration.GEODETIC) {
-                silentAdd(new PointCoordinateAdapter(getStratmasObject(), "lat"), 
+                silentAdd(new PointCoordinateAdapter(getStratmasObject(), "lat"),
                           children.size());
-                silentAdd(new PointCoordinateAdapter(getStratmasObject(), "lon"), 
+                silentAdd(new PointCoordinateAdapter(getStratmasObject(), "lon"),
                           children.size());
                 sort();
-                for (Enumeration e = getChildren().elements(); e.hasMoreElements();) {
-                    sendTreeNodeAddedEvent((StratmasObjectAdapter)e.nextElement());
+                for (Enumeration e = getChildren().elements(); e
+                        .hasMoreElements();) {
+                    sendTreeNodeAddedEvent((StratmasObjectAdapter) e
+                            .nextElement());
                 }
                 sendTreeNodesChangedEvent();
             }
         }
     }
-    
+
     /**
-     * Tries to update the target of this adapter with the provided
-     * object.
-     */   
-    public void update(Object o)
-    {
+     * Tries to update the target of this adapter with the provided object.
+     */
+    public void update(Object o) {
         if (o instanceof String) {
             if (Configuration.getCoordinateSystem() == Configuration.MGRS) {
-                double[] lon_lat = MGRSConversion.convertMGRSToGeodetic(o.toString());
+                double[] lon_lat = MGRSConversion.convertMGRSToGeodetic(o
+                        .toString());
                 if (lon_lat != null) {
-                    ((Point)getUserObject()).setLon(Math.toDegrees(lon_lat[0]), this);
-                    ((Point)getUserObject()).setLat(Math.toDegrees(lon_lat[1]), this);   
+                    ((Point) getUserObject())
+                            .setLon(Math.toDegrees(lon_lat[0]), this);
+                    ((Point) getUserObject())
+                            .setLat(Math.toDegrees(lon_lat[1]), this);
                 }
 
             }
         }
     }
-    
-    
+
     /**
-     * Returns the string the invokation of the editor should hold for
-     * this value.
-     */    
-    public String getTextTag()
-    {        
+     * Returns the string the invokation of the editor should hold for this value.
+     */
+    public String getTextTag() {
         if (stratmasObject == null) {
             return null;
         } else {
             String text = getStratmasObject().getIdentifier();
             if (Configuration.getCoordinateSystem() == Configuration.MGRS) {
-                String value = ((Point)getStratmasObject()).getMGRSValue();
-                return text+" : "+value;
-            }
-            else {
+                String value = ((Point) getStratmasObject()).getMGRSValue();
+                return text + " : " + value;
+            } else {
                 return text;
             }
         }
     }
-    
+
     /**
-     * Returns the Icon the invokation of the editor should hold for
-     * this value.
-     */    
-    public Icon getIcon()
-    {        
+     * Returns the Icon the invokation of the editor should hold for this value.
+     */
+    public Icon getIcon() {
         if (getStratmasObject() == null) {
             return null;
         } else if (Configuration.getCoordinateSystem() == Configuration.GEODETIC) {
@@ -185,47 +177,41 @@ public class PointAdapter extends StratmasObjectAdapter {
             return IconFactory.getLeafIcon();
         }
     }
-    
+
     /**
-     * Returns the string the invokation of the editor should hold for
-     * this value.
-     */    
-    public String toEditableString()
-    {
+     * Returns the string the invokation of the editor should hold for this value.
+     */
+    public String toEditableString() {
         if (stratmasObject != null) {
             return "";
         }
 
         if (Configuration.getCoordinateSystem() == Configuration.GEODETIC) {
-            return getStratmasObject().getIdentifier();  
-        }
-        else {
-            return ((Point)getStratmasObject()).getMGRSValue();
+            return getStratmasObject().getIdentifier();
+        } else {
+            return ((Point) getStratmasObject()).getMGRSValue();
         }
     }
 
     /**
      * Returns true if this object can act as a container, else false.
      */
-    public boolean getAllowsChildren()
-    {
+    public boolean getAllowsChildren() {
         return Configuration.getCoordinateSystem() == Configuration.GEODETIC;
     }
-    
+
     /**
      * Returns true if this object has no children.
      */
-    public boolean isLeaf()
-    {
+    public boolean isLeaf() {
         return Configuration.getCoordinateSystem() != Configuration.GEODETIC;
-    }    
+    }
 }
 
 /**
  * Placeholder for synthetic children of point.
  */
-class PointCoordinateAdapter extends StratmasObjectAdapter
-{
+class PointCoordinateAdapter extends StratmasObjectAdapter {
     /**
      * A vector containing child StratmasObjectAdapters Always empy for this class.
      */
@@ -238,17 +224,15 @@ class PointCoordinateAdapter extends StratmasObjectAdapter
 
     /**
      * Creates a new StratmasObjectAdapter.
-     *
+     * 
      * @param stratmasObject the object to adapt.
      * @param tag whether this is lat or lon.
      */
-    PointCoordinateAdapter(StratmasObject stratmasObject, 
-                           String tag)
-    {
+    PointCoordinateAdapter(StratmasObject stratmasObject, String tag) {
         super(stratmasObject);
         if (tag != "lat" && tag != "lon") {
-            throw new AssertionError(getClass().getName() + 
-                                     " can only have tag \"lat\"  or \"lon\"");
+            throw new AssertionError(getClass().getName()
+                    + " can only have tag \"lat\"  or \"lon\"");
         }
         this.tag = tag;
     }
@@ -256,33 +240,28 @@ class PointCoordinateAdapter extends StratmasObjectAdapter
     /**
      * Initializes the children of this object.
      */
-    protected void createChildren()
-    {
+    protected void createChildren() {
         this.children = noChildren;
     }
 
     /**
      * Returns true if this object can act as a container, else false.
      */
-    public boolean getAllowsChildren()
-    {
+    public boolean getAllowsChildren() {
         return false;
     }
-    
+
     /**
      * Returns true if this object has no children.
      */
-    public boolean isLeaf()
-    {
+    public boolean isLeaf() {
         return true;
     }
 
     /**
-     * Tries to update the target of this adapter with the provided
-     * object.
-     */   
-    public void update(Object o)
-    {
+     * Tries to update the target of this adapter with the provided object.
+     */
+    public void update(Object o) {
         if (stratmasObject == null) {
             return;
         } else {
@@ -296,22 +275,24 @@ class PointCoordinateAdapter extends StratmasObjectAdapter
                         ((Point) getStratmasObject()).setLon(val, this);
                     }
                 } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog((JFrame) null, "Parse error:\nUnable to assign \"" + 
-                                                  o + "\" to " + tag + " of Point.",
-                                                  "Parse Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog((JFrame) null,
+                                                  "Parse error:\nUnable to assign \""
+                                                          + o + "\" to " + tag
+                                                          + " of Point.",
+                                                  "Parse Error",
+                                                  JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-                System.err.println("Don't know how to update using a " + o.getClass().toString());
+                System.err.println("Don't know how to update using a "
+                        + o.getClass().toString());
             }
         }
     }
 
     /**
-     * Returns the string the invokation of the editor should hold for
-     * this value.
-     */    
-    public String toEditableString()
-    {
+     * Returns the string the invokation of the editor should hold for this value.
+     */
+    public String toEditableString() {
         if (getStratmasObject() == null) {
             return "";
         } else if (tag == "lat") {
@@ -324,26 +305,29 @@ class PointCoordinateAdapter extends StratmasObjectAdapter
     /**
      * Returns true if two Adapters represents the same part of the same point
      */
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         if (o instanceof PointCoordinateAdapter) {
-            return stratmasObject == ((StratmasObjectAdapter) o).stratmasObject &&
-                this.tag == ((PointCoordinateAdapter) o).tag;
+            return stratmasObject == ((StratmasObjectAdapter) o).stratmasObject
+                    && this.tag == ((PointCoordinateAdapter) o).tag;
         }
         return false;
     }
 
     /**
-     * Returns the string the invokation of the editor should hold for
-     * this value.
-     */    
-    public String getTextTag()
-    {        
+     * Returns the string the invokation of the editor should hold for this value.
+     */
+    public String getTextTag() {
         if (getStratmasObject() != null) {
             if (tag == "lat") {
-                return tag + " " + Double.toString(((Point) getStratmasObject()).getLat());
-            } else { //(tag == "lon")
-                return tag + " " + Double.toString(((Point) getStratmasObject()).getLon());
+                return tag
+                        + " "
+                        + Double.toString(((Point) getStratmasObject())
+                                .getLat());
+            } else { // (tag == "lon")
+                return tag
+                        + " "
+                        + Double.toString(((Point) getStratmasObject())
+                                .getLon());
             }
         } else {
             return null;
@@ -351,11 +335,9 @@ class PointCoordinateAdapter extends StratmasObjectAdapter
     }
 
     /**
-     * Returns the Icon the invokation of the editor should hold for
-     * this value.
-     */    
-    public Icon getIcon()
-    {        
+     * Returns the Icon the invokation of the editor should hold for this value.
+     */
+    public Icon getIcon() {
         return IconFactory.getLeafIcon();
     }
 }

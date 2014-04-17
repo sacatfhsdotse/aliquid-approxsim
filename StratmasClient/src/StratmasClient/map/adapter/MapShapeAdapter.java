@@ -26,7 +26,7 @@ import javax.media.opengl.glu.GLUtessellatorCallback;
 
 /**
  * This adapter adapts Shape for use on the map.
- *
+ * 
  * @author Amir Filipovic
  */
 public class MapShapeAdapter extends MapDrawableAdapter {
@@ -70,10 +70,10 @@ public class MapShapeAdapter extends MapDrawableAdapter {
      * The list of ShapeColorPair objects. Each object contains an intersecting shape with its color value.
      */
     private Vector<ShapeColorPair> intersectingShapes = new Vector<ShapeColorPair>();
-    
+
     /**
      * Creates new adapter.
-     *
+     * 
      * @param shape the object to adapt.
      */
     protected MapShapeAdapter(Shape shape) {
@@ -82,7 +82,7 @@ public class MapShapeAdapter extends MapDrawableAdapter {
 
     /**
      * Creates new adapter.
-     *
+     * 
      * @param shape the object to adapt.
      * @param renderSelectionName the integer to use as the base for names in RENDER_SELECTION.
      */
@@ -90,22 +90,23 @@ public class MapShapeAdapter extends MapDrawableAdapter {
         super(shape);
         setRenderSelectionName(renderSelectionName);
     }
-    
+
     /**
      * Updates (recreates) the display list that draws the entire object.
-     *
+     * 
      * @param proj the actual projection.
      * @param gld the gl drawable targeted.
      */
     protected void updateDisplayList(Projection proj, GLAutoDrawable gld) {
         GL2 gl = (GL2) gld.getGL();
         // update the display list
-         displayList = (gl.glIsList(displayList)) ? displayList : gl.glGenLists(1);
+        displayList = (gl.glIsList(displayList)) ? displayList : gl
+                .glGenLists(1);
         gl.glNewList(displayList, GL2.GL_COMPILE);
         // shape display list
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
-        // pushes the name for RenderSelection mode        
+        // pushes the name for RenderSelection mode
         gl.glPushName(getRenderSelectionName());
         // draw polygon
         fillShape(gld, proj);
@@ -118,99 +119,104 @@ public class MapShapeAdapter extends MapDrawableAdapter {
         gl.glEndList();
         displayListUpdated = true;
     }
-    
+
     /**
      * Updates (recreates) the display list that draws the shape lines.
-     *
+     * 
      * @param proj the actual projection.
      * @param gld the gl drawable targeted.
      */
-    protected void updateShapeLinesDisplayList(Projection proj, GLAutoDrawable gld) {
+    protected void updateShapeLinesDisplayList(Projection proj,
+            GLAutoDrawable gld) {
         GL2 gl = (GL2) gld.getGL();
         // update the display list
-         shapeLinesDisplayList = (gl.glIsList(shapeLinesDisplayList)) ? shapeLinesDisplayList : gl.glGenLists(1);
+        shapeLinesDisplayList = (gl.glIsList(shapeLinesDisplayList)) ? shapeLinesDisplayList
+                : gl.glGenLists(1);
         gl.glNewList(shapeLinesDisplayList, GL2.GL_COMPILE);
         // shape display list
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
         // draw shape lines
         drawShapeLines(gld, proj);
-            gl.glMatrixMode(GL2.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPopMatrix();
         gl.glEndList();
     }
-    
+
     /**
      * Updates (recreates) the display list that draws the shape area.
-     *
+     * 
      * @param proj the actual projection.
      * @param gld the gl drawable targeted.
      */
-    protected void updateShapeAreaDisplayList(Projection proj, GLAutoDrawable gld) {
+    protected void updateShapeAreaDisplayList(Projection proj,
+            GLAutoDrawable gld) {
         GL2 gl = (GL2) gld.getGL();
         // update the display list
-         shapeAreaDisplayList = (gl.glIsList(shapeAreaDisplayList)) ? shapeAreaDisplayList : gl.glGenLists(1);
+        shapeAreaDisplayList = (gl.glIsList(shapeAreaDisplayList)) ? shapeAreaDisplayList
+                : gl.glGenLists(1);
         gl.glNewList(shapeAreaDisplayList, GL2.GL_COMPILE);
         // shape display list
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
-        // fill the shape with color 
+        // fill the shape with color
         fillShape(gld, proj);
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPopMatrix();
         gl.glEndList();
     }
-    
+
     /**
-     * Draws the lines of the shape. 
-     *
-     * @param gld     interface to the OpenGL routines.
-     * @param proj    the actual projection.
+     * Draws the lines of the shape.
+     * 
+     * @param gld interface to the OpenGL routines.
+     * @param proj the actual projection.
      */
     protected void drawShapeLines(GLAutoDrawable gld, Projection proj) {
         // draw polygon lines
         if (stComp instanceof Polygon) {
-            drawPolygonLines(gld, proj, (Polygon)stComp);
+            drawPolygonLines(gld, proj, (Polygon) stComp);
         }
         // draw circle lines
         else if (stComp instanceof Circle) {
-            drawCircleLines(gld, proj, (Circle)stComp);
+            drawCircleLines(gld, proj, (Circle) stComp);
         }
         // draw composite shape lines
         else if (stComp instanceof Composite) {
-            drawCompositeLines(gld, proj, (Composite)stComp);
-        }
-    }
-    
-    /**
-     * Fills the shape with color. 
-     *
-     * @param gld     interface to the OpenGL routines.
-     * @param proj    the actual projection.
-     */
-    protected void fillShape(GLAutoDrawable gld, Projection proj) {
-        // fill the polygon with color 
-        if (stComp instanceof Polygon) {
-            fillPolygon(gld, proj, (Polygon)stComp);
-        }
-        // fill the circle with color
-        else if (stComp instanceof Circle) {
-            fillCircle(gld, proj, (Circle)stComp);
-        }
-        // fill the composite shape with color
-        else if (stComp instanceof Composite) {
-            fillComposite(gld, proj, (Composite)stComp);
+            drawCompositeLines(gld, proj, (Composite) stComp);
         }
     }
 
     /**
-     * Draws the lines of the polygon. 
-     *
-     * @param gld     interface to the OpenGL routines.
-     * @param proj    the actual projection.
+     * Fills the shape with color.
+     * 
+     * @param gld interface to the OpenGL routines.
+     * @param proj the actual projection.
+     */
+    protected void fillShape(GLAutoDrawable gld, Projection proj) {
+        // fill the polygon with color
+        if (stComp instanceof Polygon) {
+            fillPolygon(gld, proj, (Polygon) stComp);
+        }
+        // fill the circle with color
+        else if (stComp instanceof Circle) {
+            fillCircle(gld, proj, (Circle) stComp);
+        }
+        // fill the composite shape with color
+        else if (stComp instanceof Composite) {
+            fillComposite(gld, proj, (Composite) stComp);
+        }
+    }
+
+    /**
+     * Draws the lines of the polygon.
+     * 
+     * @param gld interface to the OpenGL routines.
+     * @param proj the actual projection.
      * @param polygon the polygon to draw.
      */
-    protected void drawPolygonLines(GLAutoDrawable gld, Projection proj, Polygon polygon) {
+    protected void drawPolygonLines(GLAutoDrawable gld, Projection proj,
+            Polygon polygon) {
         GL2 gl = (GL2) gld.getGL();
 
         // draw lines of the polygon
@@ -223,7 +229,7 @@ public class MapShapeAdapter extends MapDrawableAdapter {
         gl.glLineWidth(lineWidth);
         gl.glBegin(GL2.GL_LINES);
         for (Enumeration e = polygon.getCurves(); e.hasMoreElements();) {
-            Line line = (Line)e.nextElement();
+            Line line = (Line) e.nextElement();
             gl.glVertex2dv(proj.projToXY(line.getStartPoint()), 0);
             gl.glVertex2dv(proj.projToXY(line.getEndPoint()), 0);
         }
@@ -231,15 +237,16 @@ public class MapShapeAdapter extends MapDrawableAdapter {
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPopMatrix();
     }
-    
+
     /**
-     * Fills the polygon with color. 
-     *
-     * @param gld     interface to the OpenGL routines.
-     * @param proj    the actual projection.
+     * Fills the polygon with color.
+     * 
+     * @param gld interface to the OpenGL routines.
+     * @param proj the actual projection.
      * @param polygon the polygon to draw.
      */
-    protected void fillPolygon(GLAutoDrawable gld, Projection proj, Polygon polygon) {
+    protected void fillPolygon(GLAutoDrawable gld, Projection proj,
+            Polygon polygon) {
         GL2 gl = (GL2) gld.getGL();
         new GLU();
 
@@ -251,42 +258,47 @@ public class MapShapeAdapter extends MapDrawableAdapter {
         // start tesselation for the polygon
         GLU.gluBeginPolygon(tess);
         for (Enumeration e = polygon.getCurves(); e.hasMoreElements();) {
-            Line line = (Line)e.nextElement();
+            Line line = (Line) e.nextElement();
             double[] xy = proj.projToXY(line.getStartPoint());
             float[] rgba = fillColor.getRGBComponents(null);
-            double[] xyrgba = {xy[0], xy[1], 0, rgba[0], rgba[1], rgba[2], rgba[3]}; 
+            double[] xyrgba = { xy[0], xy[1], 0, rgba[0], rgba[1], rgba[2],
+                    rgba[3] };
             GLU.gluTessVertex(tess, xyrgba, 0, xyrgba);
-        }        
-        GLU.gluNextContour(tess,GLU.GLU_UNKNOWN);
+        }
+        GLU.gluNextContour(tess, GLU.GLU_UNKNOWN);
         GLU.gluEndPolygon(tess);
 
-        // find intersections with the intersecting shapes 
+        // find intersections with the intersecting shapes
         fillPolygonIntersections(gld, proj, polygon);
 
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPopMatrix();
     }
-    
+
     /**
-     * Finds intersections between the shape this adapter adapts and the given shapes. These intersection
-     * areas are then colored with the given colors. 
-     *
-     * @param gld     interface to the OpenGL routines.
-     * @param proj    the actual projection.
+     * Finds intersections between the shape this adapter adapts and the given shapes. These intersection areas are then colored with the
+     * given colors.
+     * 
+     * @param gld interface to the OpenGL routines.
+     * @param proj the actual projection.
      * @param polygon the polygon to draw.
      */
-    protected void fillPolygonIntersections(GLAutoDrawable gld, Projection proj, Polygon polygon) {
+    protected void fillPolygonIntersections(GLAutoDrawable gld,
+            Projection proj, Polygon polygon) {
         gld.getGL();
         GLU glu = new GLU();
         // find intersections
         for (int i = 0; i < intersectingShapes.size(); i++) {
-            Shape sh  = intersectingShapes.get(i).getShape();
+            Shape sh = intersectingShapes.get(i).getShape();
             Color color = intersectingShapes.get(i).getColor();
-            Polygon pol = (sh instanceof Circle)? ((Circle)sh).getPolygon(1) : ((sh instanceof Polygon)? (Polygon)sh : null);
+            Polygon pol = (sh instanceof Circle) ? ((Circle) sh).getPolygon(1)
+                    : ((sh instanceof Polygon) ? (Polygon) sh : null);
             if (pol != null) {
-                GLUtessellatorCallback adapter = getLocationTessellatorCallback(gld, color);
+                GLUtessellatorCallback adapter = getLocationTessellatorCallback(gld,
+                                                                                color);
                 // tesselate the shape intersection
-                GLUtessellator tess =  getShapeIntersectionTessellator(gld, adapter);
+                GLUtessellator tess = getShapeIntersectionTessellator(gld,
+                                                                      adapter);
                 GLU.gluTessBeginPolygon(tess, null);
                 // the actual shape
                 tesselateContour(proj, glu, tess, polygon, color);
@@ -296,209 +308,219 @@ public class MapShapeAdapter extends MapDrawableAdapter {
             }
         }
     }
-    
+
     /**
      * This method is used for contour tesselation from a set of points.
      */
-    private void tesselateContour(Projection proj, GLU glu, GLUtessellator tess, Polygon polygon, Color color) {
+    private void tesselateContour(Projection proj, GLU glu,
+            GLUtessellator tess, Polygon polygon, Color color) {
         GLU.gluTessBeginContour(tess);
         // the set of points
         Vector polygonPoints = polygon.getOrderedSetOfPoints();
         // check winding
         boolean ccw = getWinding(polygonPoints, proj);
-        int startValue = (ccw)? 0 : polygonPoints.size() - 1;
-        int endValue = (ccw)? polygonPoints.size() : -1;
-        int ind = (ccw)? 1 : -1;
+        int startValue = (ccw) ? 0 : polygonPoints.size() - 1;
+        int endValue = (ccw) ? polygonPoints.size() : -1;
+        int ind = (ccw) ? 1 : -1;
         for (int i = startValue; i != endValue; i = i + ind) {
-            double[] xy = proj.projToXY((Point)polygonPoints.get(i));
+            double[] xy = proj.projToXY((Point) polygonPoints.get(i));
             float[] rgba = color.getRGBComponents(null);
-            double[] xyrgba = {xy[0], xy[1], 0, rgba[0], rgba[1], rgba[2], rgba[3]}; 
+            double[] xyrgba = { xy[0], xy[1], 0, rgba[0], rgba[1], rgba[2],
+                    rgba[3] };
             GLU.gluTessVertex(tess, xyrgba, 0, xyrgba);
         }
         GLU.gluTessEndContour(tess);
     }
-    
+
     /**
      * This method determines the winding of the polygon.
      * 
      * @param polyPoints the list of points in the polygon.
-     *          
      * @return true if the windind is counter clockwise (CCW) false otherwise (CW).
      */
     public static boolean getWinding(Vector polyPoints, Projection proj) {
         int n = polyPoints.size();
         double area = 0;
-        
+
         for (int i = 0; i < n; i++) {
             int j = (i + 1) % n;
-            double[] xyi = proj.projToXY((Point)polyPoints.get(i));
-            double[] xyj = proj.projToXY((Point)polyPoints.get(j));
+            double[] xyi = proj.projToXY((Point) polyPoints.get(i));
+            double[] xyj = proj.projToXY((Point) polyPoints.get(j));
             area += xyi[0] * xyj[1];
             area -= xyj[0] * xyi[1];
         }
         area /= 2.0;
-        
-        return (area > 0)? true : false;
+
+        return (area > 0) ? true : false;
     }
-    
+
     /**
      * Converts a circle to a polygonial and draws its lines.
-     *
-     * @param gld    interface to the OpenGL routines.
-     * @param proj   the actual projection.
+     * 
+     * @param gld interface to the OpenGL routines.
+     * @param proj the actual projection.
      * @param circle the circle to draw.
      */
-    protected void drawCircleLines(GLAutoDrawable gld, Projection proj, Circle circle) {
+    protected void drawCircleLines(GLAutoDrawable gld, Projection proj,
+            Circle circle) {
         drawPolygonLines(gld, proj, circle.getPolygon(1));
     }
-    
+
     /**
      * Converts the circle to a polygonial and fill it with color.
-     *
-     * @param gld    interface to the OpenGL routines.
-     * @param proj   the actual projection.
+     * 
+     * @param gld interface to the OpenGL routines.
+     * @param proj the actual projection.
      * @param circle the circle to draw.
      */
     protected void fillCircle(GLAutoDrawable gld, Projection proj, Circle circle) {
         fillPolygon(gld, proj, circle.getPolygon(1));
     }
-    
+
     /**
      * Converts the composite into simple shapes and draws lines of those shapes.
      * 
-     * @param gld  interface to the OpenGL routines.
+     * @param gld interface to the OpenGL routines.
      * @param proj the actual projection.
      * @param comp the composite to draw.
      */
-    protected void drawCompositeLines(GLAutoDrawable gld, Projection proj, Composite comp) {
-        Vector simpleShapes = comp.constructSimpleShapes(new Vector<SimpleShape>());
-        for (Enumeration e = simpleShapes.elements(); e.hasMoreElements(); ) {
-            SimpleShape sShape = (SimpleShape)e.nextElement();
+    protected void drawCompositeLines(GLAutoDrawable gld, Projection proj,
+            Composite comp) {
+        Vector simpleShapes = comp
+                .constructSimpleShapes(new Vector<SimpleShape>());
+        for (Enumeration e = simpleShapes.elements(); e.hasMoreElements();) {
+            SimpleShape sShape = (SimpleShape) e.nextElement();
             if (sShape instanceof Polygon) {
-                drawPolygonLines(gld, proj, (Polygon)sShape);
-            }
-            else if (sShape instanceof Circle) {
-                drawCircleLines(gld, proj, (Circle)sShape);
+                drawPolygonLines(gld, proj, (Polygon) sShape);
+            } else if (sShape instanceof Circle) {
+                drawCircleLines(gld, proj, (Circle) sShape);
             }
         }
     }
-    
+
     /**
      * Converts the composite into simple shapes and fills those shapes with color.
      * 
-     * @param gld  interface to the OpenGL routines.
+     * @param gld interface to the OpenGL routines.
      * @param proj the actual projection.
      * @param comp the composite to draw.
      */
-    protected void fillComposite(GLAutoDrawable gld, Projection proj, Composite comp) {
-        Vector simpleShapes = comp.constructSimpleShapes(new Vector<SimpleShape>());
-        for (Enumeration e = simpleShapes.elements(); e.hasMoreElements(); ) {
-            SimpleShape sShape = (SimpleShape)e.nextElement();
+    protected void fillComposite(GLAutoDrawable gld, Projection proj,
+            Composite comp) {
+        Vector simpleShapes = comp
+                .constructSimpleShapes(new Vector<SimpleShape>());
+        for (Enumeration e = simpleShapes.elements(); e.hasMoreElements();) {
+            SimpleShape sShape = (SimpleShape) e.nextElement();
             if (sShape instanceof Polygon) {
-                fillPolygon(gld, proj, (Polygon)sShape);
-            }
-            else if (sShape instanceof Circle) {
-                fillCircle(gld, proj, (Circle)sShape);
+                fillPolygon(gld, proj, (Polygon) sShape);
+            } else if (sShape instanceof Circle) {
+                fillCircle(gld, proj, (Circle) sShape);
             }
         }
     }
-    
+
     /**
-     * Returns the tessellator to use for drawing the shape. 
-     *
+     * Returns the tessellator to use for drawing the shape.
+     * 
      * @param gld the glDrawable context to use.
      */
     protected GLUtessellator getShapeTessellator(GLAutoDrawable gld, Color color) {
         new GLU();
-        
+
         GLUtessellator tess = GLU.gluNewTess();
-        GLUtessellatorCallback adapter = getLocationTessellatorCallback(gld, color);
+        GLUtessellatorCallback adapter = getLocationTessellatorCallback(gld,
+                                                                        color);
         GLU.gluTessCallback(tess, GLU.GLU_TESS_BEGIN, adapter);
         GLU.gluTessCallback(tess, GLU.GLU_TESS_VERTEX, adapter);
         GLU.gluTessCallback(tess, GLU.GLU_TESS_END, adapter);
         GLU.gluTessCallback(tess, GLU.GLU_TESS_ERROR, adapter);
         GLU.gluTessProperty(tess, GLU.GLU_TESS_BOUNDARY_ONLY, GLU.GLU_FALSE);
-        GLU.gluTessProperty(tess, GLU.GLU_TESS_WINDING_RULE, GLU.GLU_TESS_WINDING_ODD);
-                
+        GLU.gluTessProperty(tess, GLU.GLU_TESS_WINDING_RULE,
+                            GLU.GLU_TESS_WINDING_ODD);
+
         return tess;
     }
-    
+
     /**
      * Returns the tessellator to use for drawing the shape intersection.
-     *
+     * 
      * @param gld the glDrawable context to use.
      */
-    protected GLUtessellator getShapeIntersectionTessellator(GLAutoDrawable gld, GLUtessellatorCallback adapter) {
+    protected GLUtessellator getShapeIntersectionTessellator(
+            GLAutoDrawable gld, GLUtessellatorCallback adapter) {
         new GLU();
-        
+
         GLUtessellator tess = GLU.gluNewTess();
-        GLU.gluTessProperty(tess, GLU.GLU_TESS_WINDING_RULE, GLU.GLU_TESS_WINDING_ABS_GEQ_TWO);
+        GLU.gluTessProperty(tess, GLU.GLU_TESS_WINDING_RULE,
+                            GLU.GLU_TESS_WINDING_ABS_GEQ_TWO);
         GLU.gluTessCallback(tess, GLU.GLU_TESS_BEGIN, adapter);
         GLU.gluTessCallback(tess, GLU.GLU_TESS_VERTEX, adapter);
         GLU.gluTessCallback(tess, GLU.GLU_TESS_END, adapter);
         GLU.gluTessCallback(tess, GLU.GLU_TESS_ERROR, adapter);
         GLU.gluTessCallback(tess, GLU.GLU_TESS_COMBINE, adapter);
-        
+
         return tess;
     }
-    
+
     /**
      * Returns the tessellator callback to use for this MapShapeAdapter.
-     *
+     * 
      * @param gld the glDrawable context to use.
      */
-    protected GLUtessellatorCallback getLocationTessellatorCallback(GLAutoDrawable gld,  final Color color) {
+    protected GLUtessellatorCallback getLocationTessellatorCallback(
+            GLAutoDrawable gld, final Color color) {
         final GL2 gl = (GL2) gld.getGL();
-        
-        return new GLUtessellatorCallbackAdapter() {
-                public void vertex(Object data) {
-                    double[] d = (double[])data;
-                    gl.glColor4d(d[3], d[4], d[5], d[6]);
-                    gl.glVertex2d(d[0], d[1]);
-                }
-                
-                public void combine(double[] coords, Object[] data, float[] weight, Object[] outData) {
-                    float[] col = color.getRGBComponents(null);
-                    double[] vertex = new double[7];
-                    
-                    vertex[0] = coords[0];
-                    vertex[1] = coords[1];
-                    vertex[2] = 0;
-                    vertex[3] = col[0];
-                    vertex[4] = col[1];
-                    vertex[5] = col[2];
-                    vertex[6] = col[3];
 
-                    outData[0] = vertex;
-                }
-                
-                public void begin(int type){
-                    gl.glBegin(type);
-                }
-                
-                public void end() {
-                    gl.glEnd();
-                }
-            };
+        return new GLUtessellatorCallbackAdapter() {
+            public void vertex(Object data) {
+                double[] d = (double[]) data;
+                gl.glColor4d(d[3], d[4], d[5], d[6]);
+                gl.glVertex2d(d[0], d[1]);
+            }
+
+            public void combine(double[] coords, Object[] data, float[] weight,
+                    Object[] outData) {
+                float[] col = color.getRGBComponents(null);
+                double[] vertex = new double[7];
+
+                vertex[0] = coords[0];
+                vertex[1] = coords[1];
+                vertex[2] = 0;
+                vertex[3] = col[0];
+                vertex[4] = col[1];
+                vertex[5] = col[2];
+                vertex[6] = col[3];
+
+                outData[0] = vertex;
+            }
+
+            public void begin(int type) {
+                gl.glBegin(type);
+            }
+
+            public void end() {
+                gl.glEnd();
+            }
+        };
     }
-    
+
     /**
      * Returns the number of renderSelectionNames needed for this adapter.
      */
     public int getNrOfRenderSelectionNames() {
         return NR_RENDER_SELECTION_NAMES;
     }
-    
+
     /**
      * Returns the display list for the shape lines of this adapter.
-     */   
+     */
     public int getShapeLinesDisplayList() {
         return shapeLinesDisplayList;
     }
-    
+
     /**
      * Returns the display list for the shape area of this adapter.
-     */   
+     */
     public int getShapeAreaDisplayList() {
         return shapeAreaDisplayList;
     }
@@ -508,15 +530,15 @@ public class MapShapeAdapter extends MapDrawableAdapter {
      */
     public void reCompile(Projection proj, GLAutoDrawable gld) {
         if (!displayListUpdated) {
-            updateDisplayList(proj, gld);        
+            updateDisplayList(proj, gld);
             updateShapeAreaDisplayList(proj, gld);
             updateShapeLinesDisplayList(proj, gld);
         }
     }
-    
+
     /**
      * Sets the shape visible or not.
-     *
+     * 
      * @param visible if true the shape is visible, if false it's not.
      */
     public void setShapeVisible(boolean visible) {
@@ -527,7 +549,7 @@ public class MapShapeAdapter extends MapDrawableAdapter {
 
     /**
      * Sets the color of the shape area.
-     *
+     * 
      * @param areaColor the color of the shape area.
      */
     public void setShapeAreaColor(Color areaColor) {
@@ -536,7 +558,7 @@ public class MapShapeAdapter extends MapDrawableAdapter {
         intersectingShapes.removeAllElements();
         fireAdapterUpdated();
     }
-    
+
     /**
      * Returns the color of the shape area.
      */
@@ -546,7 +568,7 @@ public class MapShapeAdapter extends MapDrawableAdapter {
 
     /**
      * Sets the color of the shape area without removing the intersecting shapes.
-     *
+     * 
      * @param areaColor the color of the shape area.
      */
     public void setShapeAreaBackground(Color areaColor) {
@@ -554,7 +576,7 @@ public class MapShapeAdapter extends MapDrawableAdapter {
         displayListUpdated = false;
         fireAdapterUpdated();
     }
-    
+
     /**
      * Sets the color of the shape area transparent.
      */
@@ -564,10 +586,10 @@ public class MapShapeAdapter extends MapDrawableAdapter {
         intersectingShapes.removeAllElements();
         fireAdapterUpdated();
     }
-    
+
     /**
      * Sets the color of the shape lines.
-     *
+     * 
      * @param lineColor the color of the shape lines.
      */
     public void setShapeLineColor(Color lineColor) {
@@ -575,10 +597,10 @@ public class MapShapeAdapter extends MapDrawableAdapter {
         displayListUpdated = false;
         fireAdapterUpdated();
     }
-    
+
     /**
      * Sets the width of the shape lines.
-     *
+     * 
      * @param lineWidth the width of the shape lines.
      */
     public void setShapeLineWidth(float lineWidth) {
@@ -586,17 +608,17 @@ public class MapShapeAdapter extends MapDrawableAdapter {
         displayListUpdated = false;
         fireAdapterUpdated();
     }
-    
+
     /**
      * Returns true if the lines of the shape are not colored with he default color.
      */
     public boolean isHighlighted() {
         return !lineColor.equals(DEFAULT_LINE_COLOR);
     }
-    
+
     /**
      * Adds a shape which intersects the shape this adapter adapts in the list of shapes.
-     *
+     * 
      * @param shape the intersecting shape.
      * @param color the color of the intersecting shape area.
      */
@@ -606,7 +628,7 @@ public class MapShapeAdapter extends MapDrawableAdapter {
         displayListUpdated = false;
         fireAdapterUpdated();
     }
-    
+
     /**
      * Removes an intersecting shape from the list of shapes.
      */
@@ -625,22 +647,24 @@ public class MapShapeAdapter extends MapDrawableAdapter {
 
     /**
      * Updates the intersecting shapes with the actual color map.
-     *
+     * 
      * @param createdShapeAreas the list of all created shapes and their values.
-     * @param substrateEditor reference to the substrate editor. 
+     * @param substrateEditor reference to the substrate editor.
      */
-    public void updateIntersectingShapes(Hashtable createdShapeAreas, SubstrateEditor substrateEditor) {
+    public void updateIntersectingShapes(Hashtable createdShapeAreas,
+            SubstrateEditor substrateEditor) {
         for (int i = 0; i < intersectingShapes.size(); i++) {
             ShapeColorPair shp = intersectingShapes.get(i);
-            if (createdShapeAreas.get(shp.getShape()) != null) { 
-                double value = ((ShapeValuePair)createdShapeAreas.get(shp.getShape())).getValue();
+            if (createdShapeAreas.get(shp.getShape()) != null) {
+                double value = ((ShapeValuePair) createdShapeAreas.get(shp
+                        .getShape())).getValue();
                 shp.setColor(substrateEditor.getMappingColor(value));
             }
         }
         displayListUpdated = false;
         fireAdapterUpdated();
     }
-    
+
     /**
      * Returns the list of intersecting shapes.
      */
@@ -651,10 +675,10 @@ public class MapShapeAdapter extends MapDrawableAdapter {
         }
         return inShapes;
     }
-    
+
     /**
      * Called when the object this adapter adapts changes.
-     *
+     * 
      * @param event the event causing the call.
      */
     public void eventOccured(StratmasEvent event) {
@@ -663,22 +687,21 @@ public class MapShapeAdapter extends MapDrawableAdapter {
         } else if (event.isValueChanged()) {
             valueChanged(event);
         } else if (event.isRemoved()) {
-            StratmasObject source = (StratmasObject)event.getSource();
+            StratmasObject source = (StratmasObject) event.getSource();
             if (source.equals(getObject())) {
                 getObject().removeEventListener(this);
                 fireAdapterRemoved();
+            } else if (source instanceof Shape) {
+                removeIntersectingShape((Shape) source);
             }
-            else if (source instanceof Shape){
-                removeIntersectingShape((Shape)source);
-            }
-            
+
         } else if (event.isReplaced()) {
             throw new AssertionError("Replace behavior not implemented");
-         } 
+        }
     }
-    
+
     /**
-     * This class is used to represent the intersecting shapes with their color values. 
+     * This class is used to represent the intersecting shapes with their color values.
      */
     class ShapeColorPair {
         /**
@@ -689,29 +712,29 @@ public class MapShapeAdapter extends MapDrawableAdapter {
          * The actual color of the shape area.
          */
         private Color color;
-        
+
         /**
          * Creates new pair.
-         */ 
+         */
         public ShapeColorPair(Shape shape, Color color) {
             this.shape = shape;
             this.color = color;
         }
-        
+
         /**
          * Sets the color.
          */
         public void setColor(Color color) {
             this.color = color;
         }
-        
+
         /**
          * Returns the color.
          */
         public Color getColor() {
             return color;
         }
-        
+
         /**
          * Returns the shape.
          */
@@ -719,5 +742,5 @@ public class MapShapeAdapter extends MapDrawableAdapter {
             return shape;
         }
     }
-    
+
 }

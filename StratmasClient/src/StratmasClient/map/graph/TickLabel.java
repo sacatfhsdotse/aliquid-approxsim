@@ -7,12 +7,12 @@ import javax.swing.JLabel;
 /**
  * This class is used to paint ticks in the graph.
  */
-public class TickLabel extends JLabel{
+public class TickLabel extends JLabel {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = -3583571918418415061L;
-	/**
+    private static final long serialVersionUID = -3583571918418415061L;
+    /**
      * Indicator for the horizontal line.
      */
     public static final int EAST = 0;
@@ -32,7 +32,7 @@ public class TickLabel extends JLabel{
      * The length of the interval curretly displayed in the timeline.
      */
     private int intervalLength = 100;
-    
+
     /**
      * The constructor.
      */
@@ -45,8 +45,8 @@ public class TickLabel extends JLabel{
      * Draws the paint ticks.
      */
     protected void paintComponent(Graphics g) {
-        // let UI delegate paint first 
-        super.paintComponent(g); 
+        // let UI delegate paint first
+        super.paintComponent(g);
         // paint my contents next....
         int yLine = (lineIndicator == NORTH) ? 0 : this.getHeight() - 1;
         g.setColor(color);
@@ -61,21 +61,21 @@ public class TickLabel extends JLabel{
         while (i < tickNr) {
             int x = (int) (i * tickWidth);
             int y = 0;
-            if (lineIndicator == NORTH) { 
+            if (lineIndicator == NORTH) {
                 y = (i % 10 == 0) ? this.getHeight() : this.getHeight() / 3;
-            }
-            else {
+            } else {
                 y = (i % 10 == 0) ? 0 : 2 * this.getHeight() / 3;
             }
             g.drawLine(x, yLine, x, y);
             i++;
         }
-        g.drawLine(this.getWidth() - 1, 0, this.getWidth() - 1, this.getHeight());
+        g.drawLine(this.getWidth() - 1, 0, this.getWidth() - 1,
+                   this.getHeight());
     }
-    
-     /**
+
+    /**
      * Updates the label.
-     */ 
+     */
     public void update(int intervalLength) {
         this.intervalLength = intervalLength;
         this.repaint();
@@ -85,6 +85,6 @@ public class TickLabel extends JLabel{
      * Returns the number of paint ticks.
      */
     protected int getPaintTickNumber() {
-        return (intervalLength <= 10)? 10 : 100;
+        return (intervalLength <= 10) ? 10 : 100;
     }
 }

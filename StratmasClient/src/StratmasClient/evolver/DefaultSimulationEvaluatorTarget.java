@@ -8,12 +8,11 @@ package StratmasClient.evolver;
 import StratmasClient.communication.Subscription;
 
 /**
- * A default implementation for a SimulationEvaluatorTarget. Before
- * extending this class, make sure to read the documentation of
+ * A default implementation for a SimulationEvaluatorTarget. Before extending this class, make sure to read the documentation of
  * setSubscription() and that the constructor calls this function.
  */
-abstract class DefaultSimulationEvaluatorTarget implements SimulationEvaluatorTarget
-{
+abstract class DefaultSimulationEvaluatorTarget implements
+        SimulationEvaluatorTarget {
     /**
      * The subscription of the target.
      */
@@ -22,18 +21,16 @@ abstract class DefaultSimulationEvaluatorTarget implements SimulationEvaluatorTa
     /**
      * The stopper of this target. Default stops after ten updates.
      */
-    Stopper stopper = new Stopper()
-        {
-            /**
-             * Returns true if enough work is done.
-             *
-             * @param o the object that wonders if it is finished.
-             */
-            public boolean isFinished (Object o)
-            {
-                return getUpdateCount() > 9;
-            }
-        };
+    Stopper stopper = new Stopper() {
+        /**
+         * Returns true if enough work is done.
+         * 
+         * @param o the object that wonders if it is finished.
+         */
+        public boolean isFinished(Object o) {
+            return getUpdateCount() > 9;
+        }
+    };
 
     /**
      * The number of updates made on the subscription target.
@@ -41,79 +38,68 @@ abstract class DefaultSimulationEvaluatorTarget implements SimulationEvaluatorTa
     int updateCount = 0;
 
     /**
-     * Constructs a skeleton for a SimulationEvaluatorTarget targeted
-     * at the provided Parameter.
+     * Constructs a skeleton for a SimulationEvaluatorTarget targeted at the provided Parameter.
      */
-    DefaultSimulationEvaluatorTarget()
-    {
+    DefaultSimulationEvaluatorTarget() {
         setSubscription(createSubscription());
     }
 
     /**
      * Returns the subscription of this target.
      */
-    public Subscription getSubscription()
-    {
+    public Subscription getSubscription() {
         return subscription;
     }
 
     /**
      * Sets the subscription of this target.
-     *
+     * 
      * @param subscription the subscription to use.
      */
-    private void setSubscription(Subscription subscription)
-    {
+    private void setSubscription(Subscription subscription) {
         this.subscription = subscription;
     }
 
     /**
      * Returns the number of times the target has been updated
      */
-    public int getUpdateCount()
-    {
+    public int getUpdateCount() {
         return this.updateCount;
     }
 
     /**
      * Increases the update count
      */
-    public void increaseUpdateCount()
-    {
+    public void increaseUpdateCount() {
         this.updateCount++;
     }
 
     /**
-     * Creates the subscription of this target. This subscription is
-     * required to, in some way, make sure update() is called whenever
-     * the subscription is updated.
+     * Creates the subscription of this target. This subscription is required to, in some way, make sure update() is called whenever the
+     * subscription is updated.
      */
     abstract Subscription createSubscription();
 
     /**
-     * Creates the ParameterInstance acting as evaluation in the
-     * Evaluations created by the SimulationEvaluator.
-     *
+     * Creates the ParameterInstance acting as evaluation in the Evaluations created by the SimulationEvaluator.
+     * 
      * @param subscription
      */
     abstract public ParameterInstance createEvaluation();
 
     /**
      * Sets the stopper of this target
-     *
+     * 
      * @param stopper the stopper
      */
-    public void setStopper(Stopper stopper)
-    {
+    public void setStopper(Stopper stopper) {
         this.stopper = stopper;
     }
 
     /**
      * Returns the stopper of this target
      */
-    public Stopper getStopper()
-    {
+    public Stopper getStopper() {
         return this.stopper;
     }
 }
-

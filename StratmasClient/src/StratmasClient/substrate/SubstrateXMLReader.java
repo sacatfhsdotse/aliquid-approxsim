@@ -46,53 +46,67 @@ public class SubstrateXMLReader {
      * Reference to the editor.
      */
     private SubstrateEditor substrateEditor;
-    
+
     /**
      * Creates an XML reader.
      */
     public SubstrateXMLReader(SubstrateEditor substrateEditor) {
         this.substrateEditor = substrateEditor;
     }
-    
+
     /**
      * Creates a parser for SubstrateEditor.
      */
-    public static LSParser createParser(){
-        LSParser parser = domImplementationLS.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, "http://www.w3.org/2001/XMLSchema");
-        parser.getDomConfig().setParameter("error-handler", new DOMErrorHandler() {
-                /** This method is called on the error handler when an error occurs. */
-                public boolean handleError(DOMError error) {
-                    throw new LSException(LSException.PARSE_ERR, error.getMessage());
-                }
-            });
-        parser.getDomConfig().setParameter("schema-location", SUBSTRATE_PROTOCOL);
+    public static LSParser createParser() {
+        LSParser parser = domImplementationLS
+                .createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS,
+                                "http://www.w3.org/2001/XMLSchema");
+        parser.getDomConfig().setParameter("error-handler",
+                                           new DOMErrorHandler() {
+                                               /** This method is called on the error handler when an error occurs. */
+                                               public boolean handleError(
+                                                       DOMError error) {
+                                                   throw new LSException(
+                                                           LSException.PARSE_ERR,
+                                                           error.getMessage());
+                                               }
+                                           });
+        parser.getDomConfig().setParameter("schema-location",
+                                           SUBSTRATE_PROTOCOL);
         parser.getDomConfig().setParameter("validate", Boolean.TRUE);
         parser.getDomConfig().setParameter("namespaces", Boolean.TRUE);
-        
-        LSResourceResolver prevResolver = (LSResourceResolver) parser.getDomConfig().getParameter("resource-resolver");
-        parser.getDomConfig().setParameter("resource-resolver", new LSJarXSDResolver(prevResolver));
-        
+
+        LSResourceResolver prevResolver = (LSResourceResolver) parser
+                .getDomConfig().getParameter("resource-resolver");
+        parser.getDomConfig().setParameter("resource-resolver",
+                                           new LSJarXSDResolver(prevResolver));
+
         return parser;
     }
-    
+
     /**
      * Creates a document from an xml-file.
-     *
+     * 
      * @param filename name of an xml-file.
      */
     public static Document createDocument(String filename) {
         try {
             LSInput parserInput = domImplementationLS.createLSInput();
-            parserInput.setByteStream(new BufferedInputStream(new FileInputStream(filename)));
+            parserInput.setByteStream(new BufferedInputStream(
+                    new FileInputStream(filename)));
             return createParser().parse(parserInput);
         } catch (FileNotFoundException e) {
-            StratmasDialog.showErrorMessageDialog(null, "File '" + filename + "' not found.", "File Not Found"); 
+            StratmasDialog.showErrorMessageDialog(null, "File '" + filename
+                    + "' not found.", "File Not Found");
         }
-        //catch (IOException e) {
-        //    StratmasDialog.showErrorMessageDialog(null, "Error while reading the input file", "IO Error"); 
-        //} 
+        // catch (IOException e) {
+        // StratmasDialog.showErrorMessageDialog(null, "Error while reading the input file", "IO Error");
+        // }
         catch (LSException e) {
-            StratmasDialog.showErrorMessageDialog(null, "Error while parsing the input file", "Parsing Error");    
+            StratmasDialog
+                    .showErrorMessageDialog(null,
+                                            "Error while parsing the input file",
+                                            "Parsing Error");
         }
         return null;
     }
@@ -103,28 +117,33 @@ public class SubstrateXMLReader {
     private static DOMImplementationLS createDomImplementationLS() {
         if (domImplementationLS != null) {
             return domImplementationLS;
-        } 
-        else {
+        } else {
             try {
-                System.setProperty(DOMImplementationRegistry.PROPERTY, "org.apache.xerces.dom.DOMImplementationSourceImpl");
-                DOMImplementationRegistry registry = DOMImplementationRegistry.newInstance();
-                return (DOMImplementationLS)registry.getDOMImplementation("LS");
+                System.setProperty(DOMImplementationRegistry.PROPERTY,
+                                   "org.apache.xerces.dom.DOMImplementationSourceImpl");
+                DOMImplementationRegistry registry = DOMImplementationRegistry
+                        .newInstance();
+                return (DOMImplementationLS) registry
+                        .getDOMImplementation("LS");
             } catch (ClassNotFoundException e) {
-                System.err.println("Unable to find DOM Parser: " + e.getMessage());
+                System.err.println("Unable to find DOM Parser: "
+                        + e.getMessage());
                 System.exit(1);
                 return null;
             } catch (InstantiationException e) {
-                System.err.println("Unable to find DOM Parser: " + e.getMessage());
+                System.err.println("Unable to find DOM Parser: "
+                        + e.getMessage());
                 System.exit(1);
                 return null;
             } catch (IllegalAccessException e) {
-                System.err.println("Unable to find DOM Parser: " + e.getMessage());
+                System.err.println("Unable to find DOM Parser: "
+                        + e.getMessage());
                 System.exit(1);
                 return null;
             }
         }
     }
-    
+
     /**
      * Reads a file with process variables.
      */
@@ -136,106 +155,113 @@ public class SubstrateXMLReader {
             for (int i = 0; i < list.getLength(); i++) {
                 Node node = list.item(i);
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    pvs.add(getProcessVariable((Element)node));
+                    pvs.add(getProcessVariable((Element) node));
                 }
             }
+        } catch (RuntimeException e) {
+            System.err.println("Unable to read process variables! ");
         }
-        catch (RuntimeException e) {
-            System.err.println("Unable to read process variables! "); 
-        } 
         return pvs;
     }
-    
+
     /**
-     * Reads a file with process variables, factions and the assigned shape values.                    
+     * Reads a file with process variables, factions and the assigned shape values.
      */
     public Vector getShapeValuesForProcessVariables(String filename) {
         Vector pvs = new Vector();
         try {
             Document doc = createDocument(filename);
-            NodeList list = doc.getDocumentElement().getElementsByTagName("pviv");
+            NodeList list = doc.getDocumentElement()
+                    .getElementsByTagName("pviv");
             for (int i = 0; i < list.getLength(); i++) {
                 Node node = list.item(i);
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    pvs.add(getProcessVariableInitialValues((Element)node));
+                    pvs.add(getProcessVariableInitialValues((Element) node));
                 }
             }
-        }
-        catch (NullPointerException e) {
-            System.err.println("Unable to read shape values! "); 
+        } catch (NullPointerException e) {
+            System.err.println("Unable to read shape values! ");
         }
         return pvs;
     }
-    
+
     /**
      * Returns a process variable, a faction and an ordered list of shape values from an Element.
      */
-    public ProcessVariableInitialValues getProcessVariableInitialValues(Element element) {
+    public ProcessVariableInitialValues getProcessVariableInitialValues(
+            Element element) {
         // get process variable
         ProcessVariableDescription processVariable = getPV(element);
-        if (processVariable == null) { 
-            processVariable = getProcessVariable(XMLHandler.getFirstChildByTag(element, "pv"));
-            substrateEditor.getProcessVariableHandler().importProcessVariable(processVariable);
+        if (processVariable == null) {
+            processVariable = getProcessVariable(XMLHandler
+                    .getFirstChildByTag(element, "pv"));
+            substrateEditor.getProcessVariableHandler()
+                    .importProcessVariable(processVariable);
         }
         // get faction
         Element elem = XMLHandler.getFirstChildByTag(element, "faction");
-        StratmasObject faction = (elem == null)? null : getFaction(elem);
-        // get shapes 
-        Vector orderedShapeList = getOrderedShapeList(XMLHandler.getChildElementsByTag(element, "regions"));
+        StratmasObject faction = (elem == null) ? null : getFaction(elem);
+        // get shapes
+        Vector orderedShapeList = getOrderedShapeList(XMLHandler
+                .getChildElementsByTag(element, "regions"));
 
-        return new ProcessVariableInitialValues(processVariable, faction, orderedShapeList);
+        return new ProcessVariableInitialValues(processVariable, faction,
+                orderedShapeList);
     }
-    
+
     /**
-     * Returns a process variable from an Element. 
+     * Returns a process variable from an Element.
      */
     public static ProcessVariableDescription getProcessVariable(Element element) {
         Element range = XMLHandler.getFirstChildByTag(element, "range");
-        return new ProcessVariableDescription(XMLHandler.getString(element, "name"),
-                                              XMLHandler.getString(element, "category"),
-                                              XMLHandler.getBoolean(element, "factions"),
-                                              XMLHandler.getDouble(range, "min"),
-                                              XMLHandler.getDouble(range, "max"));
+        return new ProcessVariableDescription(XMLHandler.getString(element,
+                                                                   "name"),
+                XMLHandler.getString(element, "category"),
+                XMLHandler.getBoolean(element, "factions"),
+                XMLHandler.getDouble(range, "min"), XMLHandler.getDouble(range,
+                                                                         "max"));
     }
-    
+
     /**
      * Returns a process variable from the substrate editor.
      */
     private ProcessVariableDescription getPV(Element element) {
         Element ele = XMLHandler.getFirstChildByTag(element, "pv");
         String pvName = XMLHandler.getString(ele, "name");
-        ProcessVariableDescription pvd = substrateEditor.getProcessVariableHandler().get(pvName);
+        ProcessVariableDescription pvd = substrateEditor
+                .getProcessVariableHandler().get(pvName);
         return pvd;
     }
-    
+
     /**
-     * Returns a faction from an Element. 
+     * Returns a faction from an Element.
      */
     public StratmasObject getFaction(Element element) {
         String identifier = element.getAttribute("identifier");
-        StratmasObject faction = substrateEditor.getFactionHandler().getFaction(identifier);
+        StratmasObject faction = substrateEditor.getFactionHandler()
+                .getFaction(identifier);
         if (faction != null) {
             return faction;
-        } 
-        else {
-            StratmasObject newFaction = StratmasObjectFactory.create(TypeFactory.getType(element));
+        } else {
+            StratmasObject newFaction = StratmasObjectFactory
+                    .create(TypeFactory.getType(element));
             newFaction.setIdentifier(identifier);
             return newFaction;
         }
     }
-    
+
     /**
-     * Returns an ordered list of ShapeValuePair objects. 
+     * Returns an ordered list of ShapeValuePair objects.
      */
     public Vector getOrderedShapeList(Vector elements) {
         Vector shapeList = new Vector();
         for (int i = 0; i < elements.size(); i++) {
-            shapeList.add(getShapeValuePair((Element)elements.get(i)));
+            shapeList.add(getShapeValuePair((Element) elements.get(i)));
         }
         return shapeList;
     }
-    
-    /** 
+
+    /**
      * Returns a shape and the assigned value.
      */
     public ShapeValuePair getShapeValuePair(Element element) {
@@ -260,7 +286,7 @@ public class SubstrateXMLReader {
         }
         return null;
     }
-    
+
     /**
      * Returns a shape.
      */
@@ -268,19 +294,18 @@ public class SubstrateXMLReader {
         Element elem = XMLHandler.getFirstChildByTag(element, "shape");
         String type = getType(elem);
         if (type.equals("Circle")) {
-            return (Circle)StratmasObjectFactory.domCreate(elem);
-        }
-        else if (type.equals("Polygon")) {
-            return (Polygon)StratmasObjectFactory.domCreate(elem);
+            return (Circle) StratmasObjectFactory.domCreate(elem);
+        } else if (type.equals("Polygon")) {
+            return (Polygon) StratmasObjectFactory.domCreate(elem);
         }
         return null;
     }
-    
+
     /**
      * Returns the type of the element.
      */
     private String getType(Element element) {
         return element.getAttribute("xsi:type").split(":")[1];
     }
-   
+
 }

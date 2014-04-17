@@ -28,12 +28,12 @@ import com.jogamp.opengl.util.gl2.GLUT;
  * @author Exuvo
  */
 public class GraphNodeAdapter extends MapElementAdapter {
-    
+
     /**
      * The whether to draw name of element under symbol.
      */
     boolean drawElementName = true;
-    
+
     public static float DEFAULT_LINE_WIDTH = 2.0f;
     private float lineWidth = DEFAULT_LINE_WIDTH;
 
@@ -64,19 +64,20 @@ public class GraphNodeAdapter extends MapElementAdapter {
      */
     protected void updateSymbolDisplayList(Projection proj, GLAutoDrawable gld) {
         GL2 gl = (GL2) gld.getGL();
-        displayListsBuf.put(SYMBOL_POS,
-                            (gl.glIsList(displayListsBuf.get(SYMBOL_POS))) ? displayListsBuf
-                                    .get(SYMBOL_POS) : gl.glGenLists(1));
+        displayListsBuf
+                .put(SYMBOL_POS,
+                     (gl.glIsList(displayListsBuf.get(SYMBOL_POS))) ? displayListsBuf
+                             .get(SYMBOL_POS) : gl.glGenLists(1));
 
-        //circle code from http://slabode.exofire.net/circle_draw.shtml
+        // circle code from http://slabode.exofire.net/circle_draw.shtml
         double r = horizontalSymbolSize / 2;
-        int num_segments = (int) (1 * Math.sqrt(r)); //change the constant to a smaller/bigger number as needed
-        double theta = 2 * Math.PI / num_segments; 
-        double c = Math.tan(theta); //precalculate the sine and cosine
+        int k = 1; // change to a smaller/bigger number as needed
+        int num_segments = (int) (k * Math.sqrt(r));
+        double theta = 2 * Math.PI / num_segments;
+        double c = Math.tan(theta); // precalculate the sine and cosine
         double s = Math.cos(theta);
-        double x = r; //we start at angle = 0 
+        double x = r; // we start at angle = 0
         double y = 0;
-        
 
         // Start list
         gl.glNewList(displayListsBuf.get(SYMBOL_POS), GL2.GL_COMPILE);
@@ -102,31 +103,31 @@ public class GraphNodeAdapter extends MapElementAdapter {
         gl.glColor4d(0.0d, 0.0d, 0.0d, getSymbolOpacity());
         gl.glBegin(GL2.GL_LINE_LOOP);
         gl.glLineWidth(lineWidth);
-        
-        for(int ii = 0; ii < num_segments; ii++) {
-            gl.glVertex2d(x, y);//output vertex 
-            
-            //apply the rotation matrix
+
+        for (int ii = 0; ii < num_segments; ii++) {
+            gl.glVertex2d(x, y);// output vertex
+
+            // apply the rotation matrix
             double t = x;
             x = c * x - s * y;
             y = s * t + c * y;
         }
-        
+
         gl.glEnd();
-        
-        //Draw invisible rectangle over circle to fix GL_SELECT used for selection
+
+        // Draw invisible rectangle over circle to fix GL_SELECT used for selection
         gl.glBegin(GL2.GL_QUADS);
         gl.glColor4d(1.0d, 0.0d, 0.0d, 0.0d);
         gl.glTexCoord2f(0, 0);
-        gl.glVertex2d(-horizontalSymbolSize/2, -verticalSymbolSize/2);
+        gl.glVertex2d(-horizontalSymbolSize / 2, -verticalSymbolSize / 2);
         gl.glTexCoord2f(0, 1);
-        gl.glVertex2d(-horizontalSymbolSize/2, verticalSymbolSize/2);
+        gl.glVertex2d(-horizontalSymbolSize / 2, verticalSymbolSize / 2);
         gl.glTexCoord2f(1, 1);
-        gl.glVertex2d(horizontalSymbolSize/2, verticalSymbolSize/2);
+        gl.glVertex2d(horizontalSymbolSize / 2, verticalSymbolSize / 2);
         gl.glTexCoord2f(1, 0);
-        gl.glVertex2d(horizontalSymbolSize/2, -verticalSymbolSize/2);
+        gl.glVertex2d(horizontalSymbolSize / 2, -verticalSymbolSize / 2);
         gl.glEnd();
-        
+
         gl.glPopMatrix();
         if (drawElementName()) {
             GLUT glut = new GLUT();
@@ -147,8 +148,10 @@ public class GraphNodeAdapter extends MapElementAdapter {
             // Draw below marker at a tenth of the vertical size of the
             // symbol.
             double textScale = getVerticalSymbolSize() / (5 * (119.05 + 33.33));
-            gl.glTranslated(-104.76 * textScale * str.length() / 2, -(119.05 * textScale + 2 + 0.5
-                   /* * inhabitantsScale */ * getVerticalSymbolSize() / 2), 0);
+            gl.glTranslated(-104.76 * textScale * str.length() / 2,
+                            -(119.05 * textScale + 2 + 0.5
+                            /* * inhabitantsScale */* getVerticalSymbolSize() / 2),
+                            0);
             gl.glScaled(textScale, textScale, 1.0);
 
             // Draw in black if unselected, else red.
@@ -201,29 +204,29 @@ public class GraphNodeAdapter extends MapElementAdapter {
             fireAdapterUpdated();
         }
     }
-    
+
     protected double[] getLonLat() {
         StratmasObject walker = getObject();
         while (walker != null && walker.getChild("point") == null) {
             walker = walker.getParent();
         }
-        
+
         if (walker != null) {
             Point p = (Point) walker.getChild("point");
-            return  new double[] {p.getLon(), p.getLat()};
+            return new double[] { p.getLon(), p.getLat() };
         } else {
             Debug.err.println("Should not be here!");
-            return new double[] {0.0d, 0.0d};
+            return new double[] { 0.0d, 0.0d };
         }
     }
-    
+
     /**
      * Returns the longitude of the center of the position of the object this adapter adapts.
      */
     protected double getLon() {
         return getLonLat()[0];
     }
-    
+
     /**
      * Returns the latitiude of the center of the position of the object this adapter adapts.
      */
@@ -236,7 +239,8 @@ public class GraphNodeAdapter extends MapElementAdapter {
      * 
      * @param gld the glDrawable context to use.
      */
-    protected GLUtessellatorCallback getLocationTessellatorCallback(GLAutoDrawable gld) {
+    protected GLUtessellatorCallback getLocationTessellatorCallback(
+            GLAutoDrawable gld) {
         final GL2 gl = (GL2) gld.getGL();
 
         return new GLUtessellatorCallbackAdapter() {

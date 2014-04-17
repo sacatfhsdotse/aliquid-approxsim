@@ -25,11 +25,10 @@ import StratmasClient.filter.MilitaryCodeFilter;
 import StratmasClient.filter.StratmasObjectFilter;
 
 /**
- * This class implements variety of panels used to control display of stratmas elements
- * and other objects on the map.
- *
+ * This class implements variety of panels used to control display of stratmas elements and other objects on the map.
+ * 
  * @version 1.0
- * @author Amir Filipovic 
+ * @author Amir Filipovic
  */
 public class DisplayControl {
     /**
@@ -56,7 +55,7 @@ public class DisplayControl {
      * The filter for the elements of type Activity.
      */
     private StratmasObjectFilter activity_filter;
-      
+
     /**
      * Creates the DisplayControl.
      */
@@ -64,7 +63,7 @@ public class DisplayControl {
         this.client = client;
         this.drawer = drawer;
     }
-    
+
     /**
      * Tools reference for disabeling
      */
@@ -77,234 +76,254 @@ public class DisplayControl {
      */
     private JPanel createSymbolScalePanel() {
         final MapDrawer mapDrawer = drawer;
-        final JLabel symbolScaleLabel = new JLabel(Double.toString(mapDrawer.getSymbolScale()));
+        final JLabel symbolScaleLabel = new JLabel(Double.toString(mapDrawer
+                .getSymbolScale()));
         // slider for controling size of the symbols
-        JSlider symbolScaleSlider = new JSlider(0, 100, (int)(100.0 / 5.0 * mapDrawer.getSymbolScale()));
-        symbolScaleLabel.setFont(symbolScaleLabel.getFont().deriveFont(Font.PLAIN));
+        JSlider symbolScaleSlider = new JSlider(0, 100,
+                (int) (100.0 / 5.0 * mapDrawer.getSymbolScale()));
+        symbolScaleLabel.setFont(symbolScaleLabel.getFont()
+                .deriveFont(Font.PLAIN));
         symbolScaleSlider.addChangeListener(new ChangeListener() {
-                public void stateChanged(ChangeEvent e) {
-                    JSlider source = (JSlider) e.getSource();
-                    if (!source.getValueIsAdjusting()) {
-                        int scale = source.getValue();
-                        mapDrawer.setSymbolScale(0.0 + 5.0 * (((double) scale) / 
-                                                              (source.getMaximum() - 
-                                                               source.getMinimum())));
-                        symbolScaleLabel.setText(Double.toString(mapDrawer.symbolScale));
-                    }
+            public void stateChanged(ChangeEvent e) {
+                JSlider source = (JSlider) e.getSource();
+                if (!source.getValueIsAdjusting()) {
+                    int scale = source.getValue();
+                    mapDrawer
+                            .setSymbolScale(0.0 + 5.0 * (((double) scale) / (source
+                                    .getMaximum() - source.getMinimum())));
+                    symbolScaleLabel.setText(Double
+                            .toString(mapDrawer.symbolScale));
                 }
-            });
+            }
+        });
         JPanel symbolScalePanel = new JPanel();
-        symbolScalePanel.setLayout(new BoxLayout(symbolScalePanel, BoxLayout.Y_AXIS));
-        JLabel symbolScaleSliderLabel = new JLabel("Magnify symbols (0.0 - 5.0)");
-        symbolScaleSliderLabel.setFont(symbolScaleSliderLabel.getFont().deriveFont(Font.PLAIN));
+        symbolScalePanel.setLayout(new BoxLayout(symbolScalePanel,
+                BoxLayout.Y_AXIS));
+        JLabel symbolScaleSliderLabel = new JLabel(
+                "Magnify symbols (0.0 - 5.0)");
+        symbolScaleSliderLabel.setFont(symbolScaleSliderLabel.getFont()
+                .deriveFont(Font.PLAIN));
         symbolScalePanel.add(symbolScaleSliderLabel);
         symbolScalePanel.add(symbolScaleSlider);
         symbolScalePanel.add(symbolScaleLabel);
-        
+
         return symbolScalePanel;
     }
-    
+
     /**
      * Creates the panel for controling opacity of the symbols displayed in the map.
      */
     private JPanel createOpacityPanel() {
         final MapDrawer mapDrawer = drawer;
-        final JLabel opacityLabel = new JLabel(Double.toString(mapDrawer.getSymbolOpacity()));
+        final JLabel opacityLabel = new JLabel(Double.toString(mapDrawer
+                .getSymbolOpacity()));
         // slider for controling opacity of the symbols
         JSlider opacitySlider = new JSlider(0, 100, 100);
         opacityLabel.setFont(opacityLabel.getFont().deriveFont(Font.PLAIN));
-        opacitySlider.addChangeListener(new ChangeListener() 
-            {
-                public void stateChanged(ChangeEvent e) 
-                {
-                    JSlider source = (JSlider) e.getSource();
-                    if (!source.getValueIsAdjusting()) {
-                        int scale = source.getValue();
-                        mapDrawer.setSymbolOpacity(((double) scale) / (source.getMaximum() - 
-                                                                       source.getMinimum()));
-                        opacityLabel.setText(Double.toString(mapDrawer.symbolOpacity));
-                    }
+        opacitySlider.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                JSlider source = (JSlider) e.getSource();
+                if (!source.getValueIsAdjusting()) {
+                    int scale = source.getValue();
+                    mapDrawer.setSymbolOpacity(((double) scale)
+                            / (source.getMaximum() - source.getMinimum()));
+                    opacityLabel.setText(Double
+                            .toString(mapDrawer.symbolOpacity));
                 }
-            });
+            }
+        });
         JPanel opacityPanel = new JPanel();
         opacityPanel.setLayout(new BoxLayout(opacityPanel, BoxLayout.Y_AXIS));
         JLabel opacitySliderLabel = new JLabel("Symbol Opacity (0.0 - 1.0)");
-        opacitySliderLabel.setFont(opacitySliderLabel.getFont().deriveFont(Font.PLAIN));
+        opacitySliderLabel.setFont(opacitySliderLabel.getFont()
+                .deriveFont(Font.PLAIN));
         opacityPanel.add(opacitySliderLabel);
         opacityPanel.add(opacitySlider);
         opacityPanel.add(opacityLabel);
-        
+
         return opacityPanel;
     }
-    
+
     /**
-     * Creates the panel for selection of :
-     *   1. Wheather the symbols displayed on the map will be magninfied under the mouse pointer.
-     *   2. Wheather the size of the symbols will be constant (indipendent of the map scale) or not.
+     * Creates the panel for selection of : 1. Wheather the symbols displayed on the map will be magninfied under the mouse pointer. 2.
+     * Wheather the size of the symbols will be constant (indipendent of the map scale) or not.
      */
     private JPanel createSymbolPreferenceCheckBoxPanel() {
         final MapDrawer mapDrawer = drawer;
-        // symbol magnifier 
-        JCheckBox symbolMagnifierCheckBox = 
-            new JCheckBox(new AbstractAction("Magnify symbols under mouse pointer") 
-            {
-                /**
+        // symbol magnifier
+        JCheckBox symbolMagnifierCheckBox = new JCheckBox(new AbstractAction(
+                "Magnify symbols under mouse pointer") {
+            /**
 				 * 
 				 */
-				private static final long serialVersionUID = -481572609108159156L;
+            private static final long serialVersionUID = -481572609108159156L;
 
-				public void actionPerformed(ActionEvent e)
-                {
-                    JCheckBox box = (JCheckBox) e.getSource();
-                    mapDrawer.setIsEnabledSymbolMagnifier(box.isSelected());
-                }
-            });
-        symbolMagnifierCheckBox.setSelected(mapDrawer.isEnabledSymbolMagnifier());
-        symbolMagnifierCheckBox.setFont(symbolMagnifierCheckBox.getFont().deriveFont(Font.PLAIN));
+            public void actionPerformed(ActionEvent e) {
+                JCheckBox box = (JCheckBox) e.getSource();
+                mapDrawer.setIsEnabledSymbolMagnifier(box.isSelected());
+            }
+        });
+        symbolMagnifierCheckBox.setSelected(mapDrawer
+                .isEnabledSymbolMagnifier());
+        symbolMagnifierCheckBox.setFont(symbolMagnifierCheckBox.getFont()
+                .deriveFont(Font.PLAIN));
         // invariant symbol sizes switch
-        JCheckBox invariantSymbolSizeCheckBox = new JCheckBox(new AbstractAction("Constant symbol size") 
-            {
-                /**
+        JCheckBox invariantSymbolSizeCheckBox = new JCheckBox(
+                new AbstractAction("Constant symbol size") {
+                    /**
 				 * 
 				 */
-				private static final long serialVersionUID = -977190264641104247L;
+                    private static final long serialVersionUID = -977190264641104247L;
 
-				public void actionPerformed(ActionEvent e)
-                {
-                    JCheckBox box = (JCheckBox) e.getSource();
-                    mapDrawer.setInvariantSymbolSize(box.isSelected());
-                }
-            });
-        invariantSymbolSizeCheckBox.setSelected(mapDrawer.getInvariantSymbolSize());
-        invariantSymbolSizeCheckBox.setFont(invariantSymbolSizeCheckBox.getFont().deriveFont(Font.PLAIN));
+                    public void actionPerformed(ActionEvent e) {
+                        JCheckBox box = (JCheckBox) e.getSource();
+                        mapDrawer.setInvariantSymbolSize(box.isSelected());
+                    }
+                });
+        invariantSymbolSizeCheckBox.setSelected(mapDrawer
+                .getInvariantSymbolSize());
+        invariantSymbolSizeCheckBox.setFont(invariantSymbolSizeCheckBox
+                .getFont().deriveFont(Font.PLAIN));
         JPanel symbolPrefPanel = new JPanel();
-        symbolPrefPanel.setLayout(new GridLayout(2,1));
+        symbolPrefPanel.setLayout(new GridLayout(2, 1));
         symbolPrefPanel.add(symbolMagnifierCheckBox);
         symbolPrefPanel.add(invariantSymbolSizeCheckBox);
-        
+
         return symbolPrefPanel;
     }
-    
+
     /**
-     * Creates the panel for selection of :
-     *   1. Wheather only the present elements or all the elements will be displayed
-     *      on the map.
+     * Creates the panel for selection of : 1. Wheather only the present elements or all the elements will be displayed on the map.
      */
     private JPanel createElementPresencePanel() {
         final MapDrawer mapDrawer = drawer;
         JPanel presencePanel = new JPanel();
-        presencePanel.setLayout(new GridLayout(1,2,2,2));
-        // button for selection of all the elements 
-        JRadioButton all_elements = new JRadioButton(new AbstractAction("All Units & Teams") {
-                /**
+        presencePanel.setLayout(new GridLayout(1, 2, 2, 2));
+        // button for selection of all the elements
+        JRadioButton all_elements = new JRadioButton(new AbstractAction(
+                "All Units & Teams") {
+            /**
 			 * 
 			 */
-			private static final long serialVersionUID = 903883054654956809L;
+            private static final long serialVersionUID = 903883054654956809L;
 
-				public void actionPerformed(ActionEvent e) {
-                    mapDrawer.setIgnorePresent(true);
-                }
-            });
+            public void actionPerformed(ActionEvent e) {
+                mapDrawer.setIgnorePresent(true);
+            }
+        });
         all_elements.setSelected(true);
         all_elements.setFont(all_elements.getFont().deriveFont(Font.PLAIN));
-        // button for selection of the present elements only 
-        JRadioButton present_elements = new JRadioButton(new AbstractAction("Present Units & Teams") {
-                /**
+        // button for selection of the present elements only
+        JRadioButton present_elements = new JRadioButton(new AbstractAction(
+                "Present Units & Teams") {
+            /**
 			 * 
 			 */
-			private static final long serialVersionUID = 2066617015277340404L;
+            private static final long serialVersionUID = 2066617015277340404L;
 
-				public void actionPerformed(ActionEvent e) {
-                    mapDrawer.setIgnorePresent(false);
-                }
-            });
-        present_elements.setFont(present_elements.getFont().deriveFont(Font.PLAIN));
+            public void actionPerformed(ActionEvent e) {
+                mapDrawer.setIgnorePresent(false);
+            }
+        });
+        present_elements.setFont(present_elements.getFont()
+                .deriveFont(Font.PLAIN));
         presencePanel.add(all_elements);
         presencePanel.add(present_elements);
-        Border loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-        presencePanel.setBorder(BorderFactory.
-                                createCompoundBorder(BorderFactory.createTitledBorder(loweredetched, "Presence"),
-                                                     BorderFactory.createEmptyBorder(2,2,2,2)));
-        
+        Border loweredetched = BorderFactory
+                .createEtchedBorder(EtchedBorder.LOWERED);
+        presencePanel
+                .setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                                                                      .createTitledBorder(loweredetched,
+                                                                                          "Presence"),
+                                                              BorderFactory
+                                                                      .createEmptyBorder(2,
+                                                                                         2,
+                                                                                         2,
+                                                                                         2)));
+
         ButtonGroup element_buttons = new ButtonGroup();
         element_buttons.add(all_elements);
-        element_buttons.add(present_elements);        
-        
-        return presencePanel; 
+        element_buttons.add(present_elements);
+
+        return presencePanel;
     }
-    
+
     /**
      * Creates the panel for selection of the graticule density on the map.
      */
     private JPanel createGraticuleSelectionPanel() {
         final MapDrawer mapDrawer = drawer;
         JPanel graticules = new JPanel();
-        graticules.setLayout(new GridLayout(2,2,2,2));
+        graticules.setLayout(new GridLayout(2, 2, 2, 2));
         // button for selection of no graticules
-        JRadioButton graticules_off = new JRadioButton(new AbstractAction("None") {
-                /**
+        JRadioButton graticules_off = new JRadioButton(new AbstractAction(
+                "None") {
+            /**
 			 * 
 			 */
-			private static final long serialVersionUID = -5272754506300499338L;
+            private static final long serialVersionUID = -5272754506300499338L;
 
-				public void actionPerformed(ActionEvent e) {
-                    mapDrawer.setGraticulesVisible(false);
-                }
-            });
+            public void actionPerformed(ActionEvent e) {
+                mapDrawer.setGraticulesVisible(false);
+            }
+        });
         graticules_off.setFont(graticules_off.getFont().deriveFont(Font.PLAIN));
         graticules.add(graticules_off);
         // button for selection of graticules with one degree density
-        JRadioButton graticule_01 = new JRadioButton(new AbstractAction("1 degree") {
-                /**
+        JRadioButton graticule_01 = new JRadioButton(new AbstractAction(
+                "1 degree") {
+            /**
 			 * 
 			 */
-			private static final long serialVersionUID = 5891387780840774911L;
+            private static final long serialVersionUID = 5891387780840774911L;
 
-				public void actionPerformed(ActionEvent e) {
-                    mapDrawer.setGraticuleSpacing(GraticuleLayer.ONE_DEGREE);
-                    mapDrawer.setGraticulesVisible(true);
-                }
-            });
+            public void actionPerformed(ActionEvent e) {
+                mapDrawer.setGraticuleSpacing(GraticuleLayer.ONE_DEGREE);
+                mapDrawer.setGraticulesVisible(true);
+            }
+        });
         graticule_01.setFont(graticule_01.getFont().deriveFont(Font.PLAIN));
         graticules.add(graticule_01);
         // button for selection of graticules with five degrees density
-        JRadioButton graticule_05 = new JRadioButton(new AbstractAction("5 degrees") {
-                /**
+        JRadioButton graticule_05 = new JRadioButton(new AbstractAction(
+                "5 degrees") {
+            /**
 			 * 
 			 */
-			private static final long serialVersionUID = -5518823757796781171L;
+            private static final long serialVersionUID = -5518823757796781171L;
 
-				public void actionPerformed(ActionEvent e) {
-                    mapDrawer.setGraticuleSpacing(GraticuleLayer.FIVE_DEGREES);
-                    mapDrawer.setGraticulesVisible(true);
-                }
-            });
+            public void actionPerformed(ActionEvent e) {
+                mapDrawer.setGraticuleSpacing(GraticuleLayer.FIVE_DEGREES);
+                mapDrawer.setGraticulesVisible(true);
+            }
+        });
         graticule_05.setFont(graticule_05.getFont().deriveFont(Font.PLAIN));
         graticules.add(graticule_05);
         // button for selection of graticules with ten degrees density
-        JRadioButton graticule_10 = new JRadioButton(new AbstractAction("10 degrees") {
-                /**
+        JRadioButton graticule_10 = new JRadioButton(new AbstractAction(
+                "10 degrees") {
+            /**
 			 * 
 			 */
-			private static final long serialVersionUID = 6590218413603073521L;
+            private static final long serialVersionUID = 6590218413603073521L;
 
-				public void actionPerformed(ActionEvent e) {
-                    mapDrawer.setGraticuleSpacing(GraticuleLayer.TEN_DEGREES);
-                    mapDrawer.setGraticulesVisible(true);
-                }
-            });
+            public void actionPerformed(ActionEvent e) {
+                mapDrawer.setGraticuleSpacing(GraticuleLayer.TEN_DEGREES);
+                mapDrawer.setGraticulesVisible(true);
+            }
+        });
         graticule_10.setFont(graticule_10.getFont().deriveFont(Font.PLAIN));
         graticule_10.doClick();
         graticules.add(graticule_10);
-        graticules.setBorder(BorderFactory.
-                             createCompoundBorder(BorderFactory.createTitledBorder("Graticule spacing"),
-                                                  BorderFactory.createEmptyBorder(2,2,2,2)));
+        graticules.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                .createTitledBorder("Graticule spacing"), BorderFactory
+                .createEmptyBorder(2, 2, 2, 2)));
         ButtonGroup graticule_buttons = new ButtonGroup();
         graticule_buttons.add(graticules_off);
         graticule_buttons.add(graticule_01);
         graticule_buttons.add(graticule_05);
         graticule_buttons.add(graticule_10);
-        
+
         return graticules;
     }
 
@@ -314,118 +333,125 @@ public class DisplayControl {
     private JPanel createPopulationNameSelectionPanel() {
         final MapDrawer mapDrawer = drawer;
         JPanel pos_panel = new JPanel();
-        pos_panel.setLayout(new GridLayout(1,2,2,2));
+        pos_panel.setLayout(new GridLayout(1, 2, 2, 2));
         // button for selection of names of the cities
         JRadioButton pos_show = new JRadioButton(new AbstractAction("Show") {
-                /**
+            /**
 			 * 
 			 */
-			private static final long serialVersionUID = -2744191142537284881L;
+            private static final long serialVersionUID = -2744191142537284881L;
 
-				public void actionPerformed(ActionEvent e) {
-                    mapDrawer.setShowPopulationNames(true);
-                }
-            });
+            public void actionPerformed(ActionEvent e) {
+                mapDrawer.setShowPopulationNames(true);
+            }
+        });
         pos_show.setFont(pos_show.getFont().deriveFont(Font.PLAIN));
         pos_panel.add(pos_show);
         // button for deselection of names of the cities
         JRadioButton pos_hide = new JRadioButton(new AbstractAction("Hide") {
-                /**
+            /**
 			 * 
 			 */
-			private static final long serialVersionUID = 8593298642944973785L;
+            private static final long serialVersionUID = 8593298642944973785L;
 
-				public void actionPerformed(ActionEvent e) {
-                    mapDrawer.setShowPopulationNames(false);
-                }
-            });
+            public void actionPerformed(ActionEvent e) {
+                mapDrawer.setShowPopulationNames(false);
+            }
+        });
         pos_hide.setFont(pos_hide.getFont().deriveFont(Font.PLAIN));
         pos_panel.add(pos_hide);
-        pos_panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Name"),
-                                                               BorderFactory.createEmptyBorder(2,2,2,2)));
+        pos_panel
+                .setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                        .createTitledBorder("Name"), BorderFactory
+                        .createEmptyBorder(2, 2, 2, 2)));
         ButtonGroup pos_buttons = new ButtonGroup();
         pos_buttons.add(pos_show);
         pos_buttons.add(pos_hide);
         pos_hide.doClick();
-        
+
         return pos_panel;
     }
-    
+
     /**
      * Creates the panel for selection of displaying cities depending of the population size.
      */
     private JPanel createPopulationLocationSelectionPanel() {
         final DisplayControl self = this;
         JPanel pop_panel = new JPanel();
-        pop_panel.setLayout(new GridLayout(2,3,2,2));
+        pop_panel.setLayout(new GridLayout(2, 3, 2, 2));
         // button for deselection of locations of the cities
         JRadioButton p_none = new JRadioButton(new AbstractAction("None") {
-                /**
+            /**
 			 * 
 			 */
-			private static final long serialVersionUID = 2174062811143043544L;
+            private static final long serialVersionUID = 2174062811143043544L;
 
-				public void actionPerformed(ActionEvent e) {
-                    self.setPopulationFilter(null);
-                }
-            });
+            public void actionPerformed(ActionEvent e) {
+                self.setPopulationFilter(null);
+            }
+        });
         p_none.setFont(p_none.getFont().deriveFont(Font.PLAIN));
         pop_panel.add(p_none);
         // button for selection of locations of all the cities
         JRadioButton p_all = new JRadioButton(new AbstractAction("All") {
-                /**
+            /**
 			 * 
 			 */
-			private static final long serialVersionUID = -5210902590689479872L;
+            private static final long serialVersionUID = -5210902590689479872L;
 
-				public void actionPerformed(ActionEvent e) {
-                    self.setPopulationFilter(new TypeFilter(TypeFactory.getType("Population")));
-                }
-            });
+            public void actionPerformed(ActionEvent e) {
+                self.setPopulationFilter(new TypeFilter(TypeFactory
+                        .getType("Population")));
+            }
+        });
         p_all.setSelected(true);
         p_all.setFont(p_all.getFont().deriveFont(Font.PLAIN));
         pop_panel.add(p_all);
         // button for selection of locations of the cities with more then 100000 inhabitants
-        JRadioButton p_100000 = new JRadioButton(new AbstractAction("> 100 000") {
-                /**
+        JRadioButton p_100000 = new JRadioButton(
+                new AbstractAction("> 100 000") {
+                    /**
 			 * 
 			 */
-			private static final long serialVersionUID = -3454182932747058616L;
+                    private static final long serialVersionUID = -3454182932747058616L;
 
-				public void actionPerformed(ActionEvent e) {
-                    self.setPopulationFilter(new PopulationFilter(100000));
-                }
-            });
+                    public void actionPerformed(ActionEvent e) {
+                        self.setPopulationFilter(new PopulationFilter(100000));
+                    }
+                });
         p_100000.setFont(p_100000.getFont().deriveFont(Font.PLAIN));
         pop_panel.add(p_100000);
         // button for selection of locations of the cities with more then 500000 inhabitants
-        JRadioButton p_500000 = new JRadioButton(new AbstractAction("> 500 000") {
-                /**
+        JRadioButton p_500000 = new JRadioButton(
+                new AbstractAction("> 500 000") {
+                    /**
 			 * 
 			 */
-			private static final long serialVersionUID = 132237975167177916L;
+                    private static final long serialVersionUID = 132237975167177916L;
 
-				public void actionPerformed(ActionEvent e) {
-                    self.setPopulationFilter(new PopulationFilter(500000));
-                }
-            });
+                    public void actionPerformed(ActionEvent e) {
+                        self.setPopulationFilter(new PopulationFilter(500000));
+                    }
+                });
         p_500000.setFont(p_500000.getFont().deriveFont(Font.PLAIN));
         pop_panel.add(p_500000);
-        // button for selection of locations of the cities with more then 1000000 inhabitants        
-        JRadioButton p_1000000 = new JRadioButton(new AbstractAction("> 1 000 000") {
-                /**
+        // button for selection of locations of the cities with more then 1000000 inhabitants
+        JRadioButton p_1000000 = new JRadioButton(new AbstractAction(
+                "> 1 000 000") {
+            /**
 			 * 
 			 */
-			private static final long serialVersionUID = -364185548771163402L;
+            private static final long serialVersionUID = -364185548771163402L;
 
-				public void actionPerformed(ActionEvent e) {
-                    self.setPopulationFilter(new PopulationFilter(1000000));
-                }
-            });
+            public void actionPerformed(ActionEvent e) {
+                self.setPopulationFilter(new PopulationFilter(1000000));
+            }
+        });
         p_1000000.setFont(p_1000000.getFont().deriveFont(Font.PLAIN));
         pop_panel.add(p_1000000);
-        pop_panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Location"),
-                                                               BorderFactory.createEmptyBorder(2,2,2,2)));
+        pop_panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                .createTitledBorder("Location"), BorderFactory
+                .createEmptyBorder(2, 2, 2, 2)));
         ButtonGroup pop_buttons = new ButtonGroup();
         pop_buttons.add(p_none);
         pop_buttons.add(p_all);
@@ -434,7 +460,7 @@ public class DisplayControl {
         pop_buttons.add(p_1000000);
 
         p_all.doClick();
-        
+
         return pop_panel;
     }
 
@@ -443,60 +469,68 @@ public class DisplayControl {
      */
     private JPanel createActivityTimeDependencePanel() {
         JPanel activity_panel = new JPanel();
-        activity_panel.setLayout(new GridLayout(1,3,2,2));
+        activity_panel.setLayout(new GridLayout(1, 3, 2, 2));
         // button for selection of the past activities
         final JCheckBox pastActivities = new JCheckBox("Past");
         pastActivities.setFont(pastActivities.getFont().deriveFont(Font.PLAIN));
         pastActivities.setSelected(true);
         // button for selection of the present activities
         final JCheckBox presentActivities = new JCheckBox("Present");
-        presentActivities.setFont(presentActivities.getFont().deriveFont(Font.PLAIN));
+        presentActivities.setFont(presentActivities.getFont()
+                .deriveFont(Font.PLAIN));
         presentActivities.setSelected(true);
-        //  button for selection of the future activities
+        // button for selection of the future activities
         final JCheckBox futureActivities = new JCheckBox("Future");
-        futureActivities.setFont(futureActivities.getFont().deriveFont(Font.PLAIN));
+        futureActivities.setFont(futureActivities.getFont()
+                .deriveFont(Font.PLAIN));
         futureActivities.setSelected(true);
         final DisplayControl self = this;
         final Client fclient = client;
         pastActivities.addItemListener(new ItemListener() {
-                public void itemStateChanged(ItemEvent e) {
-                    Debug.err.println("past selected");
-                    self.updateActivityFilter(fclient, e.getStateChange() == ItemEvent.SELECTED, 
-                                              presentActivities.isSelected(), futureActivities.isSelected());
-                }
-            });
+            public void itemStateChanged(ItemEvent e) {
+                Debug.err.println("past selected");
+                self.updateActivityFilter(fclient,
+                                          e.getStateChange() == ItemEvent.SELECTED,
+                                          presentActivities.isSelected(),
+                                          futureActivities.isSelected());
+            }
+        });
         presentActivities.addItemListener(new ItemListener() {
-                public void itemStateChanged(ItemEvent e) {
-                    self.updateActivityFilter(fclient, pastActivities.isSelected(), 
-                                              e.getStateChange() == ItemEvent.SELECTED, futureActivities.isSelected());
-                }
-            });
+            public void itemStateChanged(ItemEvent e) {
+                self.updateActivityFilter(fclient,
+                                          pastActivities.isSelected(),
+                                          e.getStateChange() == ItemEvent.SELECTED,
+                                          futureActivities.isSelected());
+            }
+        });
         futureActivities.addItemListener(new ItemListener() {
-                public void itemStateChanged(ItemEvent e) {
-                    self.updateActivityFilter(fclient, pastActivities.isSelected(), 
-                                              presentActivities.isSelected(), e.getStateChange() == ItemEvent.SELECTED);
-                }
-            });
+            public void itemStateChanged(ItemEvent e) {
+                self.updateActivityFilter(fclient,
+                                          pastActivities.isSelected(),
+                                          presentActivities.isSelected(),
+                                          e.getStateChange() == ItemEvent.SELECTED);
+            }
+        });
         activity_panel.add(pastActivities);
         activity_panel.add(presentActivities);
         activity_panel.add(futureActivities);
-        activity_panel.setBorder(BorderFactory.
-                                 createCompoundBorder(BorderFactory.createTitledBorder("Activities"),
-                                                      BorderFactory.createEmptyBorder(2, 2, 2, 2)));
-        
+        activity_panel.setBorder(BorderFactory
+                .createCompoundBorder(BorderFactory
+                        .createTitledBorder("Activities"), BorderFactory
+                        .createEmptyBorder(2, 2, 2, 2)));
+
         // initialize the filter for activities
         activity_filter = new ActivityFilter(client, ActivityFilter.ALL);
         updateFilter();
-        
+
         return activity_panel;
     }
 
     /**
-     * Creates the panel for selection of military units depending of the force size and 
-     * the mobility possibilities.  
+     * Creates the panel for selection of military units depending of the force size and the mobility possibilities.
      */
     private JPanel createMilitaryUnitSelectionPanel() {
-        final DisplayControl self = this; 
+        final DisplayControl self = this;
         final JCheckBoxMenuItem[] force_items = new JCheckBoxMenuItem[MapConstants.forceUnits.length];
         final JCheckBoxMenuItem[] mobile_items = new JCheckBoxMenuItem[MapConstants.mobileUnits.length];
         final JCheckBox highestRankUnitsCheckBox = new JCheckBox("Top Units");
@@ -507,104 +541,114 @@ public class DisplayControl {
         menu.setFont(menu.getFont().deriveFont(Font.PLAIN));
         for (int i = 0; i < MapConstants.forceUnits.length; i++) {
             final char rankSymbol = MapConstants.forceSymbols[i];
-            force_items[i] = new JCheckBoxMenuItem(new AbstractAction(MapConstants.forceUnits[i]) {
-                    /**
+            force_items[i] = new JCheckBoxMenuItem(new AbstractAction(
+                    MapConstants.forceUnits[i]) {
+                /**
 				 * 
 				 */
-				private static final long serialVersionUID = 5545955183982926793L;
+                private static final long serialVersionUID = 5545955183982926793L;
 
-					public void actionPerformed(ActionEvent e) {
-                        self.updateMilitaryUnitFilter(force_items, mobile_items);
-                        // uncheck the item for top rank military units
-                        JCheckBoxMenuItem thisItem = (JCheckBoxMenuItem)e.getSource();
-                        if (rankSymbol == self.getHighestRankUnit() && !thisItem.isSelected()) {
-                            highestRankUnitsCheckBox.setSelected(false);
-                        }
-                        
+                public void actionPerformed(ActionEvent e) {
+                    self.updateMilitaryUnitFilter(force_items, mobile_items);
+                    // uncheck the item for top rank military units
+                    JCheckBoxMenuItem thisItem = (JCheckBoxMenuItem) e
+                            .getSource();
+                    if (rankSymbol == self.getHighestRankUnit()
+                            && !thisItem.isSelected()) {
+                        highestRankUnitsCheckBox.setSelected(false);
                     }
-                });
-            force_items[i].setFont(force_items[i].getFont().deriveFont(Font.PLAIN));
+
+                }
+            });
+            force_items[i].setFont(force_items[i].getFont()
+                    .deriveFont(Font.PLAIN));
             menu.add(force_items[i]);
         }
         menu_bar.add(menu);
         forces_panel.add(menu_bar, BorderLayout.SOUTH);
-        forces_panel.setBorder(BorderFactory.
-                               createCompoundBorder(BorderFactory.createTitledBorder("Show Forces"),
-                                                    BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+        forces_panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                .createTitledBorder("Show Forces"), BorderFactory
+                .createEmptyBorder(2, 2, 2, 2)));
         // panel for selection of the military units listed by it's mobility
         JPanel mobile_panel = new JPanel(new BorderLayout());
         JMenuBar menu_bar2 = new JMenuBar();
         final JMenu menu2 = new JMenu(" Select");
         menu2.setFont(menu2.getFont().deriveFont(Font.PLAIN));
         for (int i = 0; i < MapConstants.mobileUnits.length; i++) {
-            mobile_items[i] = new JCheckBoxMenuItem(new AbstractAction(MapConstants.mobileUnits[i]) {
-                    /**
+            mobile_items[i] = new JCheckBoxMenuItem(new AbstractAction(
+                    MapConstants.mobileUnits[i]) {
+                /**
 				 * 
 				 */
-				private static final long serialVersionUID = 2195017416207928926L;
+                private static final long serialVersionUID = 2195017416207928926L;
 
-					public void actionPerformed(ActionEvent e) {
-                        self.updateMilitaryUnitFilter(force_items, mobile_items);        
-                    }
-                });
+                public void actionPerformed(ActionEvent e) {
+                    self.updateMilitaryUnitFilter(force_items, mobile_items);
+                }
+            });
 
-            mobile_items[i].setFont(mobile_items[i].getFont().deriveFont(Font.PLAIN));
+            mobile_items[i].setFont(mobile_items[i].getFont()
+                    .deriveFont(Font.PLAIN));
             menu2.add(mobile_items[i]);
         }
         menu_bar2.add(menu2);
         mobile_panel.add(menu_bar2, BorderLayout.SOUTH);
-        mobile_panel.setBorder(BorderFactory.
-                               createCompoundBorder(BorderFactory.createTitledBorder("Show Mobile"),
-                                                    BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+        mobile_panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                .createTitledBorder("Show Mobile"), BorderFactory
+                .createEmptyBorder(2, 2, 2, 2)));
         // check box for selection of the military units with higest rank
         highestRankUnitsCheckBox.addItemListener(new ItemListener() {
-                public void itemStateChanged(ItemEvent e) {
-                    // display the military units with highest rang
-                    char rankSymbol = self.getHighestRankUnit();
-                    // highest rank unit found
-                    if (rankSymbol != '0') {
-                        JCheckBox thisBox = (JCheckBox)e.getSource();
-                        int index  = 0;
-                        while (rankSymbol != MapConstants.forceSymbols[index]) {
-                            index++;
-                        }
-                        if ((thisBox.isSelected() && !force_items[index].isSelected()) ||
-                            (!thisBox.isSelected() && force_items[index].isSelected())) {
-                            force_items[index].doClick();
-                        }
+            public void itemStateChanged(ItemEvent e) {
+                // display the military units with highest rang
+                char rankSymbol = self.getHighestRankUnit();
+                // highest rank unit found
+                if (rankSymbol != '0') {
+                    JCheckBox thisBox = (JCheckBox) e.getSource();
+                    int index = 0;
+                    while (rankSymbol != MapConstants.forceSymbols[index]) {
+                        index++;
+                    }
+                    if ((thisBox.isSelected() && !force_items[index]
+                            .isSelected())
+                            || (!thisBox.isSelected() && force_items[index]
+                                    .isSelected())) {
+                        force_items[index].doClick();
                     }
                 }
-            });
-        highestRankUnitsCheckBox.setFont(highestRankUnitsCheckBox.getFont().deriveFont(Font.PLAIN));
+            }
+        });
+        highestRankUnitsCheckBox.setFont(highestRankUnitsCheckBox.getFont()
+                .deriveFont(Font.PLAIN));
         highestRankUnitsCheckBox.setEnabled(false);
-        // check box for selection of all military units  
+        // check box for selection of all military units
         JCheckBox allUnitsCheckBox = new JCheckBox("All Units");
         allUnitsCheckBox.addItemListener(new ItemListener() {
-                public void itemStateChanged(ItemEvent e) {
-                    if (e.getStateChange() == ItemEvent.SELECTED) {
-                        for (int i = 0; i < force_items.length; i++) {
-                            force_items[i].setSelected(false);
-                        }
-                        for (int i = 0; i < mobile_items.length; i++) {
-                            mobile_items[i].setSelected(false);
-                        }
-                        menu.setEnabled(false);
-                        menu2.setEnabled(false);
-                        highestRankUnitsCheckBox.setSelected(false);
-                        highestRankUnitsCheckBox.setEnabled(false);
-                        // show all military units
-                        self.setMilitaryUnitFilter(new TypeFilter(TypeFactory.getType("MilitaryUnit")));
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    for (int i = 0; i < force_items.length; i++) {
+                        force_items[i].setSelected(false);
                     }
-                    else {
-                        menu.setEnabled(true);
-                        menu2.setEnabled(true);
-                        highestRankUnitsCheckBox.setEnabled(true);
-                        // show only selected military units
-                        self.setMilitaryUnitFilter(null);
+                    for (int i = 0; i < mobile_items.length; i++) {
+                        mobile_items[i].setSelected(false);
                     }
+                    menu.setEnabled(false);
+                    menu2.setEnabled(false);
+                    highestRankUnitsCheckBox.setSelected(false);
+                    highestRankUnitsCheckBox.setEnabled(false);
+                    // show all military units
+                    self.setMilitaryUnitFilter(new TypeFilter(TypeFactory
+                            .getType("MilitaryUnit")));
+                } else {
+                    menu.setEnabled(true);
+                    menu2.setEnabled(true);
+                    highestRankUnitsCheckBox.setEnabled(true);
+                    // show only selected military units
+                    self.setMilitaryUnitFilter(null);
                 }
-            });
-        allUnitsCheckBox.setFont(allUnitsCheckBox.getFont().deriveFont(Font.PLAIN));
+            }
+        });
+        allUnitsCheckBox.setFont(allUnitsCheckBox.getFont()
+                .deriveFont(Font.PLAIN));
         allUnitsCheckBox.doClick();
 
         // panel consisting of the previously defined panels
@@ -615,62 +659,66 @@ public class DisplayControl {
         muPanel.add(muLeftPanel);
         muPanel.add(forces_panel);
         muPanel.add(mobile_panel);
-        muPanel.setBorder(BorderFactory.
-                          createCompoundBorder(BorderFactory.createTitledBorder("Military Units"),
-                                               BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+        muPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                .createTitledBorder("Military Units"), BorderFactory
+                .createEmptyBorder(2, 2, 2, 2)));
         return muPanel;
     }
-    
+
     /**
      * Creates the panel for selection of teams and agencies .
      */
     private JPanel createTeamsAndAgenciesSelectionPanel() {
         final DisplayControl self = this;
         JPanel agency_panel = new JPanel();
-        agency_panel.setLayout(new GridLayout(2,3,2,2));
+        agency_panel.setLayout(new GridLayout(2, 3, 2, 2));
         // check box array for selection of the different agencies
         final JCheckBox[] agency_boxes = new JCheckBox[MapConstants.agencies.length];
         for (int i = 0; i < MapConstants.agencies.length; i++) {
             agency_boxes[i] = new JCheckBox(MapConstants.agencies[i]);
             agency_boxes[i].addItemListener(new ItemListener() {
-                    public void itemStateChanged(ItemEvent e) {
-                        // create agency filter
-                        CombinedORFilter agency_filter = new CombinedORFilter();
-                        for (int i = 0; i < MapConstants.agencyTypes.length; i++) {
-                            // show agencies
-                            if (agency_boxes[i] != null && agency_boxes[i].isSelected()) {
-                                TypeFilter type_filter = 
-                                    new TypeFilter(TypeFactory.getType(MapConstants.agencyTypes[i]));
-                                ((CombinedORFilter)agency_filter).add(type_filter);
-                            }
+                public void itemStateChanged(ItemEvent e) {
+                    // create agency filter
+                    CombinedORFilter agency_filter = new CombinedORFilter();
+                    for (int i = 0; i < MapConstants.agencyTypes.length; i++) {
+                        // show agencies
+                        if (agency_boxes[i] != null
+                                && agency_boxes[i].isSelected()) {
+                            TypeFilter type_filter = new TypeFilter(TypeFactory
+                                    .getType(MapConstants.agencyTypes[i]));
+                            ((CombinedORFilter) agency_filter).add(type_filter);
                         }
-                        self.setAgencyFilter(agency_filter);
                     }
-                });
-            agency_boxes[i].setFont(agency_boxes[i].getFont().deriveFont(Font.PLAIN));
+                    self.setAgencyFilter(agency_filter);
+                }
+            });
+            agency_boxes[i].setFont(agency_boxes[i].getFont()
+                    .deriveFont(Font.PLAIN));
             agency_boxes[i].doClick();
             agency_panel.add(agency_boxes[i]);
         }
-        agency_panel.setBorder(BorderFactory.
-                               createCompoundBorder(BorderFactory.createTitledBorder("Agency Teams"),
-                                                    BorderFactory.createEmptyBorder(2,2,2,2)));
-        
+        agency_panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                .createTitledBorder("Agency Teams"), BorderFactory
+                .createEmptyBorder(2, 2, 2, 2)));
+
         return agency_panel;
     }
-    
+
     private JPanel createGraphSelectionPanel() {
         final DisplayControl self = this;
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(2,3,2,2));
-        
+        panel.setLayout(new GridLayout(2, 3, 2, 2));
+
         final JCheckBox roads = new JCheckBox("Roads");
         roads.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
                 CombinedORFilter filter = new CombinedORFilter();
-                if(roads.isSelected()) {
-                    TypeFilter type_filter = new TypeFilter(TypeFactory.getType("PathEdge"));
+                if (roads.isSelected()) {
+                    TypeFilter type_filter = new TypeFilter(TypeFactory
+                            .getType("PathEdge"));
                     ((CombinedORFilter) filter).add(type_filter);
-                    TypeFilter type_filter2 = new TypeFilter(TypeFactory.getType("PathNode"));
+                    TypeFilter type_filter2 = new TypeFilter(TypeFactory
+                            .getType("PathNode"));
                     ((CombinedORFilter) filter).add(type_filter2);
                 }
                 self.setRoadsFilter(filter);
@@ -678,15 +726,17 @@ public class DisplayControl {
         });
         roads.doClick();
         panel.add(roads);
-        
+
         final JCheckBox other = new JCheckBox("Other");
         roads.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
                 CombinedORFilter filter = new CombinedORFilter();
-                if(roads.isSelected()) {
-                    TypeFilter type_filter = new TypeFilter(TypeFactory.getType("EffectEdge"));
+                if (roads.isSelected()) {
+                    TypeFilter type_filter = new TypeFilter(TypeFactory
+                            .getType("EffectEdge"));
                     ((CombinedORFilter) filter).add(type_filter);
-                    TypeFilter type_filter2 = new TypeFilter(TypeFactory.getType("EffectNode"));
+                    TypeFilter type_filter2 = new TypeFilter(TypeFactory
+                            .getType("EffectNode"));
                     ((CombinedORFilter) filter).add(type_filter2);
                 }
                 self.setOtherFilter(filter);
@@ -694,10 +744,10 @@ public class DisplayControl {
         });
         other.doClick();
         panel.add(other);
-        
-        panel.setBorder(BorderFactory.
-                               createCompoundBorder(BorderFactory.createTitledBorder("Infrastructure"),
-                                                    BorderFactory.createEmptyBorder(2,2,2,2)));
+
+        panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                .createTitledBorder("Infrastructure"), BorderFactory
+                .createEmptyBorder(2, 2, 2, 2)));
         return panel;
     }
 
@@ -707,73 +757,78 @@ public class DisplayControl {
     private JPanel createRegionBordersSelectionPanel() {
         final MapDrawer mapDrawer = drawer;
         JPanel region = new JPanel();
-        region.setLayout(new GridLayout(1,1,2,2));
+        region.setLayout(new GridLayout(1, 1, 2, 2));
         // check box for selection of the borders of the region
         JCheckBox region_box = new JCheckBox("Show region borders");
         region_box.setFont(region_box.getFont().deriveFont(Font.PLAIN));
         region_box.setSelected(true);
         region_box.addItemListener(new ItemListener() {
-                public void itemStateChanged(ItemEvent e) {
-                    mapDrawer.setDrawRegionShapes(e.getStateChange() == ItemEvent.SELECTED);
-                }
-            });
+            public void itemStateChanged(ItemEvent e) {
+                mapDrawer.setDrawRegionShapes(e.getStateChange() == ItemEvent.SELECTED);
+            }
+        });
         region.add(region_box);
-        region.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Region"),
-                                                            BorderFactory.createEmptyBorder(2,2,2,2)));        
-        
+        region.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                .createTitledBorder("Region"), BorderFactory
+                .createEmptyBorder(2, 2, 2, 2)));
+
         return region;
     }
-    
+
     /**
      * Creates the panel for selection of representation for the process variables and factions.
      */
     private JPanel createPVRepresentationPanel() {
         final MapDrawer mapDrawer = drawer;
         JPanel button_panel = new JPanel();
-        button_panel.setLayout(new GridLayout(2,1,2,2));
+        button_panel.setLayout(new GridLayout(2, 1, 2, 2));
         // button for selection of grid representation for the process variables & factions
-        JRadioButton grid_button = new JRadioButton(new AbstractAction("Grid Based Representation") {
-                /**
+        JRadioButton grid_button = new JRadioButton(new AbstractAction(
+                "Grid Based Representation") {
+            /**
 			 * 
 			 */
-			private static final long serialVersionUID = -3351700659400941864L;
+            private static final long serialVersionUID = -3351700659400941864L;
 
-				public void actionPerformed(ActionEvent e) {
-                    mapDrawer.setPVGrid(true); 
-                }
-            });
+            public void actionPerformed(ActionEvent e) {
+                mapDrawer.setPVGrid(true);
+            }
+        });
         grid_button.setSelected(true);
         grid_button.setFont(grid_button.getFont().deriveFont(Font.PLAIN));
         button_panel.add(grid_button);
         // button for selection of region based representation for the process variables & factions
-        JRadioButton reg_button = new JRadioButton(new AbstractAction("Region Based Representation") {
-                /**
+        JRadioButton reg_button = new JRadioButton(new AbstractAction(
+                "Region Based Representation") {
+            /**
 			 * 
 			 */
-			private static final long serialVersionUID = -696736514796263674L;
+            private static final long serialVersionUID = -696736514796263674L;
 
-				public void actionPerformed(ActionEvent e) {
-                    mapDrawer.setPVGrid(false);
-                }
-            });
+            public void actionPerformed(ActionEvent e) {
+                mapDrawer.setPVGrid(false);
+            }
+        });
         reg_button.setFont(reg_button.getFont().deriveFont(Font.PLAIN));
         button_panel.add(reg_button);
-        button_panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.
-                                                                  createTitledBorder("Process Variables & Factions"),
-                                                                  BorderFactory.createEmptyBorder(2,2,2,2)));
+        button_panel
+                .setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                                                                      .createTitledBorder("Process Variables & Factions"),
+                                                              BorderFactory
+                                                                      .createEmptyBorder(2,
+                                                                                         2,
+                                                                                         2,
+                                                                                         2)));
         ButtonGroup pv_buttons = new ButtonGroup();
         pv_buttons.add(grid_button);
         pv_buttons.add(reg_button);
-        
+
         return button_panel;
     }
 
-
     /**
-     * Creates the panel which contains the following subpanels:
-     *   1. The panel for the symbol scale selection.
-     *   2. The panel for the symbol opacity selection.
-     *   3. The panel for the symbol preference selection.
+     * Creates the panel which contains the following subpanels: 1. The panel for the symbol scale selection. 2. The panel for the symbol
+     * opacity selection. 3. The panel for the symbol preference selection.
      */
     private JPanel createSymbolSizeAndOpacityPanel() {
         JPanel symbolDrawPanel = new JPanel();
@@ -781,17 +836,21 @@ public class DisplayControl {
         symbolDrawPanel.add(createSymbolScalePanel());
         symbolDrawPanel.add(createOpacityPanel());
         symbolDrawPanel.add(createSymbolPreferenceCheckBoxPanel());
-        symbolDrawPanel.setBorder(BorderFactory.
-                                  createCompoundBorder(BorderFactory.createTitledBorder("Symbol preferences"),
-                                                       BorderFactory.createEmptyBorder(2, 2, 2, 2)));
-        
+        symbolDrawPanel
+                .setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                                                                      .createTitledBorder("Symbol preferences"),
+                                                              BorderFactory
+                                                                      .createEmptyBorder(2,
+                                                                                         2,
+                                                                                         2,
+                                                                                         2)));
+
         return symbolDrawPanel;
     }
 
     /**
-     *  Creates the panel which contains the following subpanels:
-     *   1. The panel for the element location opacity selection.
-     *   2. The panel for display selection of location and outline of the elements. 
+     * Creates the panel which contains the following subpanels: 1. The panel for the element location opacity selection. 2. The panel for
+     * display selection of location and outline of the elements.
      */
     private JPanel createElementLocationPanel() {
         final MapDrawer mapDrawer = drawer;
@@ -799,147 +858,180 @@ public class DisplayControl {
         locationDrawPanel.setLayout(new GridLayout(4, 1, 2, 2));
         // population centers
         JPanel populationPanel = new JPanel(new GridLayout(1, 2, 2, 2));
-        JCheckBox populationLocationCheckBox = 
-            new JCheckBox(new AbstractAction("Show Location") {
+        JCheckBox populationLocationCheckBox = new JCheckBox(
+                new AbstractAction("Show Location") {
                     /**
 				 * 
 				 */
-				private static final long serialVersionUID = -2929965831575446010L;
+                    private static final long serialVersionUID = -2929965831575446010L;
 
-					public void actionPerformed(ActionEvent e){
+                    public void actionPerformed(ActionEvent e) {
                         JCheckBox box = (JCheckBox) e.getSource();
-                        mapDrawer.setIsEnabledOutline(box.isSelected(), TypeFactory.getType("Population"));
+                        mapDrawer.setIsEnabledOutline(box.isSelected(),
+                                                      TypeFactory
+                                                              .getType("Population"));
                     }
                 });
-        populationLocationCheckBox.setFont(populationLocationCheckBox.getFont().deriveFont(Font.PLAIN));
+        populationLocationCheckBox.setFont(populationLocationCheckBox.getFont()
+                .deriveFont(Font.PLAIN));
         populationPanel.add(populationLocationCheckBox);
-        JCheckBox populationDeploymentCheckBox = 
-            new JCheckBox(new AbstractAction("Show Deployment") {
+        JCheckBox populationDeploymentCheckBox = new JCheckBox(
+                new AbstractAction("Show Deployment") {
                     /**
 				 * 
 				 */
-				private static final long serialVersionUID = 5646499091972004407L;
+                    private static final long serialVersionUID = 5646499091972004407L;
 
-					public void actionPerformed(ActionEvent e){
+                    public void actionPerformed(ActionEvent e) {
                         JCheckBox box = (JCheckBox) e.getSource();
-                        mapDrawer.setIsEnabledLocation(box.isSelected(), TypeFactory.getType("Population"));
+                        mapDrawer.setIsEnabledLocation(box.isSelected(),
+                                                       TypeFactory
+                                                               .getType("Population"));
                     }
                 });
-        populationDeploymentCheckBox.setFont(populationLocationCheckBox.getFont().deriveFont(Font.PLAIN));
+        populationDeploymentCheckBox.setFont(populationLocationCheckBox
+                .getFont().deriveFont(Font.PLAIN));
         populationPanel.add(populationDeploymentCheckBox);
-        populationPanel.setBorder(BorderFactory.
-                                  createCompoundBorder(BorderFactory.createTitledBorder("Population Centers"),
-                                                       BorderFactory.createEmptyBorder(1, 1, 1, 1)));
+        populationPanel
+                .setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                                                                      .createTitledBorder("Population Centers"),
+                                                              BorderFactory
+                                                                      .createEmptyBorder(1,
+                                                                                         1,
+                                                                                         1,
+                                                                                         1)));
         locationDrawPanel.add(populationPanel);
         // military units
         JPanel militaryUnitsPanel = new JPanel(new GridLayout(1, 2, 2, 2));
-        JCheckBox militaryUnitLocationCheckBox = 
-            new JCheckBox(new AbstractAction("Show Location") {
+        JCheckBox militaryUnitLocationCheckBox = new JCheckBox(
+                new AbstractAction("Show Location") {
                     /**
 				 * 
 				 */
-				private static final long serialVersionUID = -953469475624748271L;
+                    private static final long serialVersionUID = -953469475624748271L;
 
-					public void actionPerformed(ActionEvent e){
+                    public void actionPerformed(ActionEvent e) {
                         JCheckBox box = (JCheckBox) e.getSource();
-                        mapDrawer.setIsEnabledOutline(box.isSelected(), TypeFactory.getType("MilitaryUnit"));
+                        mapDrawer.setIsEnabledOutline(box.isSelected(),
+                                                      TypeFactory
+                                                              .getType("MilitaryUnit"));
                     }
                 });
-        militaryUnitLocationCheckBox.setFont(militaryUnitLocationCheckBox.getFont().deriveFont(Font.PLAIN));
+        militaryUnitLocationCheckBox.setFont(militaryUnitLocationCheckBox
+                .getFont().deriveFont(Font.PLAIN));
         militaryUnitsPanel.add(militaryUnitLocationCheckBox);
-        JCheckBox militaryUnitDeploymentCheckBox = 
-            new JCheckBox(new AbstractAction("Show Deployment") {
+        JCheckBox militaryUnitDeploymentCheckBox = new JCheckBox(
+                new AbstractAction("Show Deployment") {
                     /**
 				 * 
 				 */
-				private static final long serialVersionUID = 273754542727809467L;
+                    private static final long serialVersionUID = 273754542727809467L;
 
-					public void actionPerformed(ActionEvent e){
+                    public void actionPerformed(ActionEvent e) {
                         JCheckBox box = (JCheckBox) e.getSource();
-                        mapDrawer.setIsEnabledLocation(box.isSelected(), TypeFactory.getType("MilitaryUnit"));
+                        mapDrawer.setIsEnabledLocation(box.isSelected(),
+                                                       TypeFactory
+                                                               .getType("MilitaryUnit"));
                     }
                 });
-        militaryUnitDeploymentCheckBox.setFont(militaryUnitLocationCheckBox.getFont().deriveFont(Font.PLAIN));
+        militaryUnitDeploymentCheckBox.setFont(militaryUnitLocationCheckBox
+                .getFont().deriveFont(Font.PLAIN));
         militaryUnitsPanel.add(militaryUnitDeploymentCheckBox);
-        militaryUnitsPanel.setBorder(BorderFactory.
-                                     createCompoundBorder(BorderFactory.createTitledBorder("Military Units"),
-                                                          BorderFactory.createEmptyBorder(1, 1, 1, 1)));
+        militaryUnitsPanel.setBorder(BorderFactory
+                .createCompoundBorder(BorderFactory
+                        .createTitledBorder("Military Units"), BorderFactory
+                        .createEmptyBorder(1, 1, 1, 1)));
         locationDrawPanel.add(militaryUnitsPanel);
         // agency teams
         JPanel agencyTeamsPanel = new JPanel(new GridLayout(1, 2, 2, 2));
-        JCheckBox agencyTeamLocationCheckBox = 
-            new JCheckBox(new AbstractAction("Show Location") {
+        JCheckBox agencyTeamLocationCheckBox = new JCheckBox(
+                new AbstractAction("Show Location") {
                     /**
 				 * 
 				 */
-				private static final long serialVersionUID = -4198976078454643694L;
+                    private static final long serialVersionUID = -4198976078454643694L;
 
-					public void actionPerformed(ActionEvent e){
+                    public void actionPerformed(ActionEvent e) {
                         JCheckBox box = (JCheckBox) e.getSource();
-                        mapDrawer.setIsEnabledOutline(box.isSelected(), TypeFactory.getType("AgencyTeam"));
+                        mapDrawer.setIsEnabledOutline(box.isSelected(),
+                                                      TypeFactory
+                                                              .getType("AgencyTeam"));
                     }
                 });
-        agencyTeamLocationCheckBox.setFont(agencyTeamLocationCheckBox.getFont().deriveFont(Font.PLAIN));
+        agencyTeamLocationCheckBox.setFont(agencyTeamLocationCheckBox.getFont()
+                .deriveFont(Font.PLAIN));
         agencyTeamsPanel.add(agencyTeamLocationCheckBox);
-        JCheckBox agencyTeamDeploymentCheckBox = 
-            new JCheckBox(new AbstractAction("Show Deployment") {
+        JCheckBox agencyTeamDeploymentCheckBox = new JCheckBox(
+                new AbstractAction("Show Deployment") {
                     /**
 				 * 
 				 */
-				private static final long serialVersionUID = -273797585921848337L;
+                    private static final long serialVersionUID = -273797585921848337L;
 
-					public void actionPerformed(ActionEvent e){
+                    public void actionPerformed(ActionEvent e) {
                         JCheckBox box = (JCheckBox) e.getSource();
-                        mapDrawer.setIsEnabledLocation(box.isSelected(), TypeFactory.getType("AgencyTeam"));
+                        mapDrawer.setIsEnabledLocation(box.isSelected(),
+                                                       TypeFactory
+                                                               .getType("AgencyTeam"));
                     }
                 });
-        agencyTeamDeploymentCheckBox.setFont(agencyTeamLocationCheckBox.getFont().deriveFont(Font.PLAIN));
+        agencyTeamDeploymentCheckBox.setFont(agencyTeamLocationCheckBox
+                .getFont().deriveFont(Font.PLAIN));
         agencyTeamsPanel.add(agencyTeamDeploymentCheckBox);
-        agencyTeamsPanel.setBorder(BorderFactory.
-                                   createCompoundBorder(BorderFactory.createTitledBorder("Agency Teams"),
-                                                        BorderFactory.createEmptyBorder(1, 1, 1, 1)));
+        agencyTeamsPanel.setBorder(BorderFactory
+                .createCompoundBorder(BorderFactory
+                        .createTitledBorder("Agency Teams"), BorderFactory
+                        .createEmptyBorder(1, 1, 1, 1)));
         locationDrawPanel.add(agencyTeamsPanel);
         // activities
         JPanel activityPanel = new JPanel(new GridLayout(1, 1, 2, 2));
-        JCheckBox activityLocationCheckBox = 
-            new JCheckBox(new AbstractAction("Show Location") {
-				private static final long serialVersionUID = 650911501488149982L;
+        JCheckBox activityLocationCheckBox = new JCheckBox(new AbstractAction(
+                "Show Location") {
+            private static final long serialVersionUID = 650911501488149982L;
 
-					public void actionPerformed(ActionEvent e){
-                        JCheckBox box = (JCheckBox) e.getSource();
-                        mapDrawer.setIsEnabledOutline(box.isSelected(), TypeFactory.getType("Activity"));
-                    }
-                });
-        activityLocationCheckBox.setFont(activityLocationCheckBox.getFont().deriveFont(Font.PLAIN));
+            public void actionPerformed(ActionEvent e) {
+                JCheckBox box = (JCheckBox) e.getSource();
+                mapDrawer.setIsEnabledOutline(box.isSelected(),
+                                              TypeFactory.getType("Activity"));
+            }
+        });
+        activityLocationCheckBox.setFont(activityLocationCheckBox.getFont()
+                .deriveFont(Font.PLAIN));
         activityPanel.add(activityLocationCheckBox);
-        activityPanel.setBorder(BorderFactory.
-                                createCompoundBorder(BorderFactory.createTitledBorder("Activities"),
-                                                     BorderFactory.createEmptyBorder(1, 1, 1, 1)));
+        activityPanel.setBorder(BorderFactory
+                .createCompoundBorder(BorderFactory
+                        .createTitledBorder("Activities"), BorderFactory
+                        .createEmptyBorder(1, 1, 1, 1)));
         locationDrawPanel.add(activityPanel);
         //
-        locationDrawPanel.setBorder(BorderFactory.
-                                    createCompoundBorder(BorderFactory.createTitledBorder("Location Preferences"),
-                                                         BorderFactory.createEmptyBorder(2, 2, 2, 2)));
-        
+        locationDrawPanel
+                .setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                                                                      .createTitledBorder("Location Preferences"),
+                                                              BorderFactory
+                                                                      .createEmptyBorder(2,
+                                                                                         2,
+                                                                                         2,
+                                                                                         2)));
+
         return locationDrawPanel;
     }
 
     /**
-     *  Creates the panel which contains the following subpanels:
-     *   1. The panel for display selection of the names of the cities.
-     *   2. The panel for selection of the cities depending of it's size.
+     * Creates the panel which contains the following subpanels: 1. The panel for display selection of the names of the cities. 2. The panel
+     * for selection of the cities depending of it's size.
      */
     private JPanel createPopulationSelectionPanel() {
         JPanel cities_panel = new JPanel();
         cities_panel.setLayout(new BoxLayout(cities_panel, BoxLayout.Y_AXIS));
         cities_panel.add(createPopulationNameSelectionPanel());
         cities_panel.add(createPopulationLocationSelectionPanel());
-        cities_panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Population Centers"),
-                                                                  BorderFactory.createEmptyBorder(2, 2, 2, 2)));
-        
+        cities_panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                .createTitledBorder("Population Centers"), BorderFactory
+                .createEmptyBorder(2, 2, 2, 2)));
+
         return cities_panel;
     }
-    
+
     /**
      * Create new combined filter and update the map with it.
      */
@@ -966,74 +1058,81 @@ public class DisplayControl {
         // update the map
         drawer.setDrawnMapElementsFilter(filter);
     }
-    
+
     /**
      * Updates the filter for elements of type Activity.
-     *
-     * @param client  reference to the client.
-     * @param past    if true the past activities will pass the filter.
+     * 
+     * @param client reference to the client.
+     * @param past if true the past activities will pass the filter.
      * @param present if true the present activities will pass the filter.
-     * @param future  if true the future activities will pass the filter.
+     * @param future if true the future activities will pass the filter.
      */
-     public void updateActivityFilter(Client client, boolean past, boolean present, boolean future) {
-         // create activity filter
-         activity_filter = new CombinedORFilter();
-         // past activities
-         if (past) {
-             ActivityFilter afilter = new ActivityFilter(client, ActivityFilter.PAST);
-             ((CombinedORFilter)activity_filter).add(afilter);
-         }
-         // present activities
-         if (present) {
-             ActivityFilter afilter = new ActivityFilter(client, ActivityFilter.PRESENT);
-             ((CombinedORFilter)activity_filter).add(afilter);
-         }
-         // future activities
-         if (future) {
-             ActivityFilter afilter = new ActivityFilter(client, ActivityFilter.FUTURE);
-             ((CombinedORFilter)activity_filter).add(afilter);
-         }
-         updateFilter();
+    public void updateActivityFilter(Client client, boolean past,
+            boolean present, boolean future) {
+        // create activity filter
+        activity_filter = new CombinedORFilter();
+        // past activities
+        if (past) {
+            ActivityFilter afilter = new ActivityFilter(client,
+                    ActivityFilter.PAST);
+            ((CombinedORFilter) activity_filter).add(afilter);
+        }
+        // present activities
+        if (present) {
+            ActivityFilter afilter = new ActivityFilter(client,
+                    ActivityFilter.PRESENT);
+            ((CombinedORFilter) activity_filter).add(afilter);
+        }
+        // future activities
+        if (future) {
+            ActivityFilter afilter = new ActivityFilter(client,
+                    ActivityFilter.FUTURE);
+            ((CombinedORFilter) activity_filter).add(afilter);
+        }
+        updateFilter();
     }
 
     /**
      * Updates the filter for elements of type MilitaryUnit.
-     *
-     * @param force_items  list of JCheckBox items where the items represent military force units.
+     * 
+     * @param force_items list of JCheckBox items where the items represent military force units.
      * @param mobile_items list of JCheckBox items where the items represent military mobile units.
      */
-    public void updateMilitaryUnitFilter(JCheckBoxMenuItem[] force_items, JCheckBoxMenuItem[] mobile_items) {
+    public void updateMilitaryUnitFilter(JCheckBoxMenuItem[] force_items,
+            JCheckBoxMenuItem[] mobile_items) {
         military_filter = new CombinedORFilter();
-        // check military units listed by their force power 
+        // check military units listed by their force power
         for (int i = 0; i < force_items.length; i++) {
             if (force_items[i].isSelected()) {
-                MilitaryCodeFilter code_filter = new MilitaryCodeFilter(MapConstants.forceSymbols[i], 11);
-                ((CombinedORFilter)military_filter).add(code_filter);
+                MilitaryCodeFilter code_filter = new MilitaryCodeFilter(
+                        MapConstants.forceSymbols[i], 11);
+                ((CombinedORFilter) military_filter).add(code_filter);
             }
         }
         // check military units listed by their mobile power
         for (int i = 0; i < mobile_items.length; i++) {
             if (mobile_items[i].isSelected()) {
-                MilitaryCodeFilter code_filter = new MilitaryCodeFilter(MapConstants.mobileSymbols[i], 10);
-                ((CombinedORFilter)military_filter).add(code_filter);
+                MilitaryCodeFilter code_filter = new MilitaryCodeFilter(
+                        MapConstants.mobileSymbols[i], 10);
+                ((CombinedORFilter) military_filter).add(code_filter);
             }
         }
-        updateFilter();         
+        updateFilter();
     }
-    
+
     /**
      * Updates the filter for elements of type MilitaryUnit.
-     *
+     * 
      * @param filter the miltary units filter update.
      */
     public void setMilitaryUnitFilter(StratmasObjectFilter filter) {
         military_filter = filter;
         updateFilter();
     }
-    
+
     /**
      * Updates the filter for elements of type Agency.
-     *
+     * 
      * @param filter the agency filter update.
      */
     public void setAgencyFilter(StratmasObjectFilter filter) {
@@ -1043,115 +1142,131 @@ public class DisplayControl {
 
     /**
      * Updates the filter for elements of type Population.
-     *
+     * 
      * @param filter the population filter update.
      */
     public void setPopulationFilter(StratmasObjectFilter filter) {
         population_filter = filter;
         updateFilter();
     }
-    
+
     public void setRoadsFilter(StratmasObjectFilter filter) {
         road_filter = filter;
         updateFilter();
     }
-    
+
     public void setOtherFilter(StratmasObjectFilter filter) {
         other_filter = filter;
         updateFilter();
     }
-    
+
     /**
      * Returns the panel which controls display of the cities, borders and graticules.
      */
     public JPanel getTopographyPanel() {
         JPanel topographyPanel = new JPanel();
-        topographyPanel.setLayout(new BoxLayout(topographyPanel, BoxLayout.PAGE_AXIS));
-        // the panel for choosing the population 
+        topographyPanel.setLayout(new BoxLayout(topographyPanel,
+                BoxLayout.PAGE_AXIS));
+        // the panel for choosing the population
         topographyPanel.add(createPopulationSelectionPanel());
-        // the panel for selecting to display the region borders 
+        // the panel for selecting to display the region borders
         topographyPanel.add(createRegionBordersSelectionPanel());
         // the panel for setting the graticules
         topographyPanel.add(createGraticuleSelectionPanel());
         //
         return topographyPanel;
-        
+
     }
-    
+
     /**
      * Returns the panel which chooses what tool to use.
      */
-	public JPanel getToolsPanel() {
-		JPanel toolsPanel = new JPanel();
-		toolsPanel.setLayout(new BoxLayout(toolsPanel, BoxLayout.PAGE_AXIS));
-		toolsPanel.add(createViewToolsPanel());
-		toolsPanel.add(createInfrastructureToolsPanel());
-		//toolsPanel.add(createProcessvariablesToolsPanel());
-		//toolsPanel.add(createAgentToolsPanel());
-		return toolsPanel;
-	}
-	
-	private JPanel createViewToolsPanel() {
+    public JPanel getToolsPanel() {
+        JPanel toolsPanel = new JPanel();
+        toolsPanel.setLayout(new BoxLayout(toolsPanel, BoxLayout.PAGE_AXIS));
+        toolsPanel.add(createViewToolsPanel());
+        toolsPanel.add(createInfrastructureToolsPanel());
+        // toolsPanel.add(createProcessvariablesToolsPanel());
+        // toolsPanel.add(createAgentToolsPanel());
+        return toolsPanel;
+    }
+
+    private JPanel createViewToolsPanel() {
         JPanel viewtoolsPanel = new JPanel();
-        viewtoolsPanel.setBorder(BorderFactory.
-                                  createCompoundBorder(BorderFactory.createTitledBorder("View"),
-                                                       BorderFactory.createEmptyBorder(2, 2, 2, 2)));
-        JButton hand = buttonInToolPanel("Hand", "Move and zoom the map", ToolMode.HAND);
+        viewtoolsPanel.setBorder(BorderFactory
+                .createCompoundBorder(BorderFactory.createTitledBorder("View"),
+                                      BorderFactory.createEmptyBorder(2, 2, 2,
+                                                                      2)));
+        JButton hand = buttonInToolPanel("Hand", "Move and zoom the map",
+                                         ToolMode.HAND);
         hand.setEnabled(false);		// Already selected
         viewtoolsPanel.add(hand);
         return viewtoolsPanel;
-	}
-    
-	private JPanel createInfrastructureToolsPanel() {
+    }
+
+    private JPanel createInfrastructureToolsPanel() {
         JPanel infrastructureToolsPanel = new JPanel();
-        infrastructureToolsPanel.setBorder(BorderFactory.
-                                  createCompoundBorder(BorderFactory.createTitledBorder("Infrastructure"),
-                                                       BorderFactory.createEmptyBorder(2, 2, 2, 2)));
-        infrastructureToolsPanel.add(buttonInToolPanel("Graph", "Left click to create node, drag to create edges.", ToolMode.GRAPH));
+        infrastructureToolsPanel.setBorder(BorderFactory
+                .createCompoundBorder(BorderFactory
+                        .createTitledBorder("Infrastructure"), BorderFactory
+                        .createEmptyBorder(2, 2, 2, 2)));
+        infrastructureToolsPanel
+                .add(buttonInToolPanel("Graph",
+                                       "Left click to create node, drag to create edges.",
+                                       ToolMode.GRAPH));
         return infrastructureToolsPanel;
-	}
+    }
 
     private JPanel createAgentToolsPanel() {
         JPanel agentvariablesToolsPanel = new JPanel();
-        agentvariablesToolsPanel.setBorder(BorderFactory.
-                                  createCompoundBorder(BorderFactory.createTitledBorder("Agents"),
-                                                       BorderFactory.createEmptyBorder(2, 2, 2, 2)));
-        agentvariablesToolsPanel.add(buttonInToolPanel("Agent", "NOT IMPLEMENTED Create or move agents, remove on right click", ToolMode.AGENT));
+        agentvariablesToolsPanel.setBorder(BorderFactory
+                .createCompoundBorder(BorderFactory
+                        .createTitledBorder("Agents"), BorderFactory
+                        .createEmptyBorder(2, 2, 2, 2)));
+        agentvariablesToolsPanel
+                .add(buttonInToolPanel("Agent",
+                                       "NOT IMPLEMENTED Create or move agents, remove on right click",
+                                       ToolMode.AGENT));
         return agentvariablesToolsPanel;
-	}
+    }
 
-	private JPanel createProcessvariablesToolsPanel() {
+    private JPanel createProcessvariablesToolsPanel() {
         JPanel processvariablesToolsPanel = new JPanel();
-        processvariablesToolsPanel.setBorder(BorderFactory.
-                                  createCompoundBorder(BorderFactory.createTitledBorder("Process variables"),
-                                                       BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+        processvariablesToolsPanel.setBorder(BorderFactory
+                .createCompoundBorder(BorderFactory
+                        .createTitledBorder("Process variables"), BorderFactory
+                        .createEmptyBorder(2, 2, 2, 2)));
         String tooltip = "NOT IMPLEMENTED Change process variables, negative on right click";
-        processvariablesToolsPanel.add(buttonInToolPanel("Circle", tooltip, ToolMode.CIRCLE));
-        processvariablesToolsPanel.add(buttonInToolPanel("Polygon", tooltip, ToolMode.POLYGON));
-        processvariablesToolsPanel.add(buttonInToolPanel("Rectangle", tooltip, ToolMode.RECTANGLE));
+        processvariablesToolsPanel.add(buttonInToolPanel("Circle", tooltip,
+                                                         ToolMode.CIRCLE));
+        processvariablesToolsPanel.add(buttonInToolPanel("Polygon", tooltip,
+                                                         ToolMode.POLYGON));
+        processvariablesToolsPanel.add(buttonInToolPanel("Rectangle", tooltip,
+                                                         ToolMode.RECTANGLE));
         return processvariablesToolsPanel;
-	}
-	
-	private JButton buttonInToolPanel(String name, String tooltip, ToolMode mode) {
+    }
+
+    private JButton buttonInToolPanel(String name, String tooltip, ToolMode mode) {
         JButton btn = new JButton(name);
         btn.setVerticalTextPosition(AbstractButton.CENTER);
         btn.setToolTipText(tooltip);
         btn.setEnabled(true);
         this.toolsButtons.add(btn);
-        btn.addActionListener(new ToolActionListener(this.toolsButtons, this.toolsButtons.size()-1, this.drawer, mode));
+        btn.addActionListener(new ToolActionListener(this.toolsButtons,
+                this.toolsButtons.size() - 1, this.drawer, mode));
         return btn;
-	}
+    }
 
-	/**
-     * Returns the panel which controls display of the military units, activities, agencies
-     * and process variables.
+    /**
+     * Returns the panel which controls display of the military units, activities, agencies and process variables.
      */
     public JPanel getSimulationPanel() {
         JPanel simulationPanel = new JPanel();
-        simulationPanel.setLayout(new BoxLayout(simulationPanel, BoxLayout.PAGE_AXIS));
+        simulationPanel.setLayout(new BoxLayout(simulationPanel,
+                BoxLayout.PAGE_AXIS));
         // the panel for chosing between grid or region based representation for process variables
         simulationPanel.add(createPVRepresentationPanel());
-        simulationPanel.add(Box.createRigidArea(new Dimension(0,20)));
+        simulationPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         // the panel for chosing between present and all units & teams
         simulationPanel.add(createElementPresencePanel());
         // the panel for choosing miltary units
@@ -1163,18 +1278,19 @@ public class DisplayControl {
         // the panel for graphs
         simulationPanel.add(createGraphSelectionPanel());
         // set border
-        simulationPanel.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
+        simulationPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
         //
         return simulationPanel;
-        
+
     }
-    
+
     /**
      * Returns the panel which controls display of the general features on the map.
      */
     public JPanel getGeneralDisplayPanel() {
         JPanel general_panel = new JPanel();
-        general_panel.setLayout(new BoxLayout(general_panel, BoxLayout.PAGE_AXIS));
+        general_panel.setLayout(new BoxLayout(general_panel,
+                BoxLayout.PAGE_AXIS));
         // the panel for chosing between grid or region based representation for process variables
         general_panel.add(createPVRepresentationPanel());
         // the panel for chosing between present and all units & teams
@@ -1183,10 +1299,10 @@ public class DisplayControl {
         general_panel.add(createGraticuleSelectionPanel());
         // the panel for choosing activities
         general_panel.add(createActivityTimeDependencePanel());
-        // the panel for selecting to display the region borders 
+        // the panel for selecting to display the region borders
         general_panel.add(createRegionBordersSelectionPanel());
         // set border
-        general_panel.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
+        general_panel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
         //
         return general_panel;
     }
@@ -1196,19 +1312,20 @@ public class DisplayControl {
      */
     public JPanel getElementsDisplayPanel() {
         JPanel elements_panel = new JPanel();
-        elements_panel.setLayout(new BoxLayout(elements_panel, BoxLayout.PAGE_AXIS));
-        // the panel for choosing the population 
+        elements_panel.setLayout(new BoxLayout(elements_panel,
+                BoxLayout.PAGE_AXIS));
+        // the panel for choosing the population
         elements_panel.add(createPopulationSelectionPanel());
         // the panel for choosing miltary units
         elements_panel.add(createMilitaryUnitSelectionPanel());
         // the panel for the agency teams
         elements_panel.add(createTeamsAndAgenciesSelectionPanel());
         // set border
-        elements_panel.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
+        elements_panel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
         //
         return elements_panel;
     }
-    
+
     /**
      * Returns the panel which controls preferences of the elements on the map.
      */
@@ -1217,14 +1334,14 @@ public class DisplayControl {
         pref_panel.setLayout(new BoxLayout(pref_panel, BoxLayout.PAGE_AXIS));
         // symbol size and opacity
         pref_panel.add(createSymbolSizeAndOpacityPanel());
-        // location switch and opacity 
+        // location switch and opacity
         pref_panel.add(createElementLocationPanel());
         // set border
-        pref_panel.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
+        pref_panel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
         //
         return pref_panel;
-     }
-    
+    }
+
     /**
      * Returns the symbol of the military unit with highest rank in the map.
      */
@@ -1232,8 +1349,9 @@ public class DisplayControl {
         // find the military units with highest rang
         int counter = 0;
         while (counter < MapConstants.forceSymbols.length) {
-            Enumeration e = (new MilitaryCodeFilter(MapConstants.forceSymbols[counter], 11)).
-                filterTree(client.getRootObject());
+            Enumeration e = (new MilitaryCodeFilter(
+                    MapConstants.forceSymbols[counter], 11)).filterTree(client
+                    .getRootObject());
             if (e.hasMoreElements()) {
                 return MapConstants.forceSymbols[counter];
             }
@@ -1242,5 +1360,5 @@ public class DisplayControl {
         // not found
         return '0';
     }
-    
+
 }

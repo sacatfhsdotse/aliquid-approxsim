@@ -17,12 +17,13 @@ import StratmasClient.Icon;
 /**
  * This class enables drag action in DnD.
  */
-public class DraggableJMenuItem extends JMenuItem implements DragGestureListener {
+public class DraggableJMenuItem extends JMenuItem implements
+        DragGestureListener {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 2087717193285582922L;
-	/**
+    private static final long serialVersionUID = 2087717193285582922L;
+    /**
      * The object associated with the item.
      */
     private StratmasObject object;
@@ -32,39 +33,41 @@ public class DraggableJMenuItem extends JMenuItem implements DragGestureListener
     private DragSource source;
     /**
      * The mouse pointer cursor.
-     */ 
+     */
     private Cursor c;
-    
+
     /**
-     * Creates menu item which supports drag action in DnD. 
-     *
+     * Creates menu item which supports drag action in DnD.
+     * 
      * @param object the object associated with the dragging action.
      */
     public DraggableJMenuItem(StratmasObject object) {
-        super( object.getReference().getIdentifier().trim());
+        super(object.getReference().getIdentifier().trim());
         this.object = object;
         source = new DragSource();
-        source.createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_REFERENCE, this);
+        source.createDefaultDragGestureRecognizer(this,
+                                                  DnDConstants.ACTION_REFERENCE,
+                                                  this);
         //
         Toolkit tk = Toolkit.getDefaultToolkit();
-        Image image = ((Icon)object.getIcon()).getImage();
-        Dimension bestsize = tk.getBestCursorSize(image.getWidth(null),image.getHeight(null));
+        Image image = ((Icon) object.getIcon()).getImage();
+        Dimension bestsize = tk.getBestCursorSize(image.getWidth(null),
+                                                  image.getHeight(null));
         if (bestsize.width != 0)
-            c = tk.createCustomCursor(image, new java.awt.Point(bestsize.width/2, bestsize.height/2), object.toString());
-        else
-            c = Cursor.getDefaultCursor();
+            c = tk.createCustomCursor(image, new java.awt.Point(
+                    bestsize.width / 2, bestsize.height / 2), object.toString());
+        else c = Cursor.getDefaultCursor();
     }
-    
+
     /*
      * Drag gesture handler.
-     *
      * @param dge the event.
      */
     public void dragGestureRecognized(DragGestureEvent dge) {
         // set the dragged element
         DraggedElement.setElement(object);
         // start the drag
-        source.startDrag(dge, c, object, new DragSourceAdapter(){});
+        source.startDrag(dge, c, object, new DragSourceAdapter() {});
     }
-    
+
 }

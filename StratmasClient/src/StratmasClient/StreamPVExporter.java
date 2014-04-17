@@ -1,4 +1,4 @@
-//         $Id: StreamPVExporter.java,v 1.5 2006/03/22 14:30:42 dah Exp $
+// $Id: StreamPVExporter.java,v 1.5 2006/03/22 14:30:42 dah Exp $
 /*
  * @(#)StreamPVExporter.java
  */
@@ -16,21 +16,18 @@ import StratmasClient.object.StratmasEvent;
 import StratmasClient.object.StratmasEventListener;
 import StratmasClient.object.primitive.Timestamp;
 
-
 import StratmasClient.communication.RegionData;
 import StratmasClient.communication.Subscription;
 import StratmasClient.communication.SubscriptionHandler;
 
 /**
- * Subscribes to the aggreagate of all process variables in a region
- * and prints them to a stream.
- *
+ * Subscribes to the aggreagate of all process variables in a region and prints them to a stream.
+ * 
  * @version 1, $Date: 2006/03/22 14:30:42 $
- * @author  Daniel Ahlin
-*/
+ * @author Daniel Ahlin
+ */
 
-public class StreamPVExporter implements StratmasEventListener
-{
+public class StreamPVExporter implements StratmasEventListener {
     /**
      * The field delimiter.
      */
@@ -46,18 +43,16 @@ public class StreamPVExporter implements StratmasEventListener
      */
     OutputStreamWriter stream;
 
-     Subscription mSubscription;
-     SubscriptionHandler mSH;
+    Subscription mSubscription;
+    SubscriptionHandler mSH;
 
     /**
      * Creates a new StreamPVExporter for the specified shape.
-     *
+     * 
      * @param shape the shape to get the aggregate for.
      */
-    public StreamPVExporter (OutputStreamWriter stream, 
-                             SubscriptionHandler handler, 
-                             Shape shape)
-    {
+    public StreamPVExporter(OutputStreamWriter stream,
+            SubscriptionHandler handler, Shape shape) {
         this.stream = stream;
         this.shapeReference = shape.getReference();
         this.mSH = handler;
@@ -70,35 +65,33 @@ public class StreamPVExporter implements StratmasEventListener
     /**
      * Unsubscribes to the subscription held by this object.
      */
-     public void kill() {
-          mSH.regSubscription(new StratmasClient.communication.Unsubscription(mSubscription));
-     }
-
+    public void kill() {
+        mSH.regSubscription(new StratmasClient.communication.Unsubscription(
+                mSubscription));
+    }
 
     /**
      * Method called when new data is availiable
-     *
+     * 
      * @param event the event.
      */
-    public synchronized void eventOccured(StratmasEvent event)
-    {
+    public synchronized void eventOccured(StratmasEvent event) {
         if (event.getSource() instanceof RegionData) {
-            writeValues(((RegionData) event.getSource()).getTimestamp(), 
+            writeValues(((RegionData) event.getSource()).getTimestamp(),
                         ((RegionData) event.getSource()).getPV());
         }
     }
 
     /**
      * Method writing the recieved values to the stream.
-     *
+     * 
      * @param timestamp the time to prefix with.
      * @param factions the hashtable holding the data, per faction.
      */
-    public void writeValues(Timestamp timestamp, Hashtable factions)
-    {
-        String prefix = timestamp.toString() + delimiter + 
-            shapeReference.toTaclanV2();
-        
+    public void writeValues(Timestamp timestamp, Hashtable factions) {
+        String prefix = timestamp.toString() + delimiter
+                + shapeReference.toTaclanV2();
+
         for (Enumeration fs = factions.keys(); fs.hasMoreElements();) {
             Object faction = fs.nextElement();
             Hashtable pVariables = (Hashtable) factions.get(faction);
@@ -106,10 +99,11 @@ public class StreamPVExporter implements StratmasEventListener
                 Object pVariable = pVs.nextElement();
                 Double value = (Double) pVariables.get(pVariable);
                 try {
-                    this.stream.write(prefix + delimiter + faction + delimiter + pVariable + delimiter + value + "\n");
-                 } catch (IOException e) {
-                     System.err.println(e.getMessage());
-                 }
+                    this.stream.write(prefix + delimiter + faction + delimiter
+                            + pVariable + delimiter + value + "\n");
+                } catch (IOException e) {
+                    System.err.println(e.getMessage());
+                }
             }
         }
     }

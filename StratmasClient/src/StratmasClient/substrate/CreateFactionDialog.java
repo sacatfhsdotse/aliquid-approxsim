@@ -35,12 +35,13 @@ import StratmasClient.object.type.TypeFactory;
 /**
  * This dialog is used to create factions.
  */
-public class CreateFactionDialog extends JDialog implements ActionListener, FactoryListener, StratmasEventListener {
+public class CreateFactionDialog extends JDialog implements ActionListener,
+        FactoryListener, StratmasEventListener {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 2649404440836166070L;
-	/**
+    private static final long serialVersionUID = 2649404440836166070L;
+    /**
      * Instance of the actual dialog.
      */
     private static CreateFactionDialog dialog;
@@ -72,20 +73,22 @@ public class CreateFactionDialog extends JDialog implements ActionListener, Fact
      * The remove faction button.
      */
     private JButton removeFactionButton;
+
     /**
      * Sets up and shows the dialog.
-     *
+     * 
      * @param frameComp actual frame for the dialog.
      */
-    public static void showDialog(Component frameComp, FactionHandler factionHandler) {
+    public static void showDialog(Component frameComp,
+            FactionHandler factionHandler) {
         Frame frame = JOptionPane.getFrameForComponent(frameComp);
         dialog = new CreateFactionDialog(frame, factionHandler);
         dialog.setVisible(true);
     }
-    
+
     /**
      * Creates new dialog.
-     *
+     * 
      * @param frameComp actual frame for the dialog.
      */
     private CreateFactionDialog(Frame frame, FactionHandler factionHandler) {
@@ -98,7 +101,7 @@ public class CreateFactionDialog extends JDialog implements ActionListener, Fact
         for (int i = 0; i < factions.size(); i++) {
             listModel.addElement(factions.get(i));
         }
-        
+
         // create and initialize the close button
         closeButton = new JButton("Close");
         closeButton.setFont(closeButton.getFont().deriveFont(Font.PLAIN));
@@ -107,13 +110,13 @@ public class CreateFactionDialog extends JDialog implements ActionListener, Fact
         JPanel buttonPanel = new JPanel(new BorderLayout());
         buttonPanel.add(new JLabel(), BorderLayout.CENTER);
         buttonPanel.add(closeButton, BorderLayout.EAST);
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));        
-        
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
         // put everything together
         JPanel factionPanel = new JPanel(new BorderLayout());
         factionPanel.add(createAddFactionsPanel(), BorderLayout.NORTH);
         factionPanel.add(crateRemoveFactionsPanel(), BorderLayout.CENTER);
-        
+
         Container contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
         contentPane.add(factionPanel, BorderLayout.CENTER);
@@ -123,7 +126,7 @@ public class CreateFactionDialog extends JDialog implements ActionListener, Fact
         pack();
         setLocationRelativeTo(null);
     }
-    
+
     /**
      * Creates a panel used to add new factions.
      */
@@ -132,31 +135,36 @@ public class CreateFactionDialog extends JDialog implements ActionListener, Fact
         JPanel factionNamePanel = new JPanel();
         factionNamePanel.setLayout(new BorderLayout(5, 0));
         JLabel factionNameLabel = new JLabel("Name : ");
-        factionNameLabel.setFont(factionNameLabel.getFont().deriveFont(Font.PLAIN));
-        //        factionNamePanel.add(factionNameLabel, BorderLayout.WEST);
+        factionNameLabel.setFont(factionNameLabel.getFont()
+                .deriveFont(Font.PLAIN));
+        // factionNamePanel.add(factionNameLabel, BorderLayout.WEST);
         factionNameTextField = new JTextField(10);
         factionNamePanel.add(factionNameTextField, BorderLayout.CENTER);
-        factionNamePanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Faction Name"),
-                                                                      BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-        
+        factionNamePanel.setBorder(BorderFactory
+                .createCompoundBorder(BorderFactory
+                        .createTitledBorder("Faction Name"), BorderFactory
+                        .createEmptyBorder(5, 5, 5, 5)));
+
         // create and initialize the button
         addFactionButton = new JButton("Add Faction");
-        addFactionButton.setFont(addFactionButton.getFont().deriveFont(Font.PLAIN));
+        addFactionButton.setFont(addFactionButton.getFont()
+                .deriveFont(Font.PLAIN));
         addFactionButton.setMargin(new Insets(1, 5, 1, 5));
         addFactionButton.addActionListener(this);
         JPanel buttonPanel = new JPanel(new BorderLayout());
         buttonPanel.add(new JLabel(), BorderLayout.CENTER);
         buttonPanel.add(addFactionButton, BorderLayout.SOUTH);
-  
+
         // the final panel
-        JPanel finalPanel = new JPanel(new BorderLayout(5, 5)); 
+        JPanel finalPanel = new JPanel(new BorderLayout(5, 5));
         finalPanel.add(factionNamePanel, BorderLayout.CENTER);
         finalPanel.add(buttonPanel, BorderLayout.EAST);
-        finalPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Add Factions"),
-                                                                BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+        finalPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                .createTitledBorder("Add Factions"), BorderFactory
+                .createEmptyBorder(5, 5, 5, 5)));
         return finalPanel;
     }
-    
+
     /**
      * Creates a panel used to remove factions.
      */
@@ -164,40 +172,46 @@ public class CreateFactionDialog extends JDialog implements ActionListener, Fact
         // create the list of factions
         factionList = new JList(listModel);
         factionList.setFont(factionList.getFont().deriveFont(Font.PLAIN));
-        factionList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        factionList.setLayoutOrientation(JList.VERTICAL); 
+        factionList
+                .setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        factionList.setLayoutOrientation(JList.VERTICAL);
 
         JScrollPane listScroller = new JScrollPane(factionList);
         listScroller.setPreferredSize(new Dimension(100, 100));
         listScroller.setAlignmentX(Component.LEFT_ALIGNMENT);
-        CompoundBorder cBorder = BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5),
-                                                                    BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-        listScroller.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("List of Factions"), cBorder));
-        
+        CompoundBorder cBorder = BorderFactory
+                .createCompoundBorder(BorderFactory.createEmptyBorder(5, 5, 5,
+                                                                      5),
+                                      BorderFactory
+                                              .createEtchedBorder(EtchedBorder.LOWERED));
+        listScroller.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                .createTitledBorder("List of Factions"), cBorder));
+
         // create and initialize the button
         removeFactionButton = new JButton("Remove Faction");
-        removeFactionButton.setFont(removeFactionButton.getFont().deriveFont(Font.PLAIN));
+        removeFactionButton.setFont(removeFactionButton.getFont()
+                .deriveFont(Font.PLAIN));
         removeFactionButton.setMargin(new Insets(1, 5, 1, 5));
         removeFactionButton.addActionListener(this);
         JPanel buttonPanel = new JPanel(new BorderLayout());
         buttonPanel.add(new JLabel(), BorderLayout.CENTER);
         buttonPanel.add(removeFactionButton, BorderLayout.SOUTH);
-        
+
         // the final panel
-        JPanel finalPanel = new JPanel(new BorderLayout(5, 5)); 
+        JPanel finalPanel = new JPanel(new BorderLayout(5, 5));
         finalPanel.add(listScroller, BorderLayout.CENTER);
         finalPanel.add(buttonPanel, BorderLayout.EAST);
-        finalPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Remove Factions"),
-                                                                BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+        finalPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                .createTitledBorder("Remove Factions"), BorderFactory
+                .createEmptyBorder(5, 5, 5, 5)));
         return finalPanel;
     }
-    
+
     /**
      * Part of FactoryListener interface.
      */
-    public void stratmasObjectCreated(StratmasObject object) {
-    }
-    
+    public void stratmasObjectCreated(StratmasObject object) {}
+
     /**
      * Adds newly attached faction to the list of factions. Part of FactoryListener interface.
      */
@@ -207,22 +221,20 @@ public class CreateFactionDialog extends JDialog implements ActionListener, Fact
             listModel.addElement(object);
         }
     }
-    
+
     /**
      * Responds to the events in the factions contained in the list. Part of StratmasEventListener interface.
      */
     public void eventOccured(StratmasEvent event) {
         // remove faction from the list
-        if (event.isRemoved()) {
-        }
+        if (event.isRemoved()) {}
         // update the list of factions
-        else if (event.isIdentifierChanged()) {
-        }
+        else if (event.isIdentifierChanged()) {}
     }
-    
+
     /**
      * Fires an action when a dialog button is pressed.
-     *
+     * 
      * @param e action event generated by the dialog.
      */
     public void actionPerformed(ActionEvent e) {
@@ -235,19 +247,22 @@ public class CreateFactionDialog extends JDialog implements ActionListener, Fact
         else if (addFactionButton.equals(obj)) {
             String facName = factionNameTextField.getText();
             if (facName.length() > 0) {
-                StratmasObject so = StratmasObjectFactory.create(TypeFactory.getType("EthnicFaction"));
+                StratmasObject so = StratmasObjectFactory.create(TypeFactory
+                        .getType("EthnicFaction"));
                 // set unique id to the faction
                 String id = facName;
                 int extension = 2;
-                while(factionHandler.containsFaction(id)) {
+                while (factionHandler.containsFaction(id)) {
                     id = facName.concat(String.valueOf(extension++));
                 }
                 so.setIdentifier(id);
                 // clear the field
                 factionNameTextField.setText("");
-            }
-            else {
-                StratmasDialog.showErrorMessageDialog(null, "Enter name of the faction!", "Error message");
+            } else {
+                StratmasDialog
+                        .showErrorMessageDialog(null,
+                                                "Enter name of the faction!",
+                                                "Error message");
             }
         }
         // handle "Remove Faction" button
@@ -255,13 +270,15 @@ public class CreateFactionDialog extends JDialog implements ActionListener, Fact
             for (Object val : factionList.getSelectedValues()) {
                 if (!factionHandler.getSelectedFaction().equals(val)) {
                     listModel.removeElement(val);
-                    ((StratmasObject)val).remove();
-                }
-                else {
-                    StratmasDialog.showErrorMessageDialog(null, "Selected faction can't be removed!", "Error message");
+                    ((StratmasObject) val).remove();
+                } else {
+                    StratmasDialog
+                            .showErrorMessageDialog(null,
+                                                    "Selected faction can't be removed!",
+                                                    "Error message");
                 }
             }
         }
     }
-    
-} 
+
+}

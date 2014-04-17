@@ -17,11 +17,12 @@ import java.io.UnsupportedEncodingException;
 import javax.media.opengl.GLAutoDrawable;
 
 /**
- * The adapter which adapts all StratmasObjects that can be drawn on the map. 
- *
+ * The adapter which adapts all StratmasObjects that can be drawn on the map.
+ * 
  * @author Daniel Ahlin, Amir Filipovic
  */
-public abstract class MapDrawableAdapter implements StratmasEventListener, StratmasObjectAdapter {
+public abstract class MapDrawableAdapter implements StratmasEventListener,
+        StratmasObjectAdapter {
     /**
      * Display list for the object this adapter adapts.
      */
@@ -42,15 +43,14 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
      * The listeners of this adapter.
      */
     protected EventListenerList eventListenerList = new EventListenerList();
-    
+
     /**
-     * Creates MapDrawableAdapters suitable for the given object. This is the approved method of getting
-     * MapDrawableAdapters...
+     * Creates MapDrawableAdapters suitable for the given object. This is the approved method of getting MapDrawableAdapters...
      * 
      * @param mapDrawable the mapDrawable to adapt.
      */
-    public static MapDrawableAdapter getMapDrawableAdapter(StratmasObject mapDrawable)
-    {
+    public static MapDrawableAdapter getMapDrawableAdapter(
+            StratmasObject mapDrawable) {
         if (mapDrawable.getType().canSubstitute("MilitaryUnit")) {
             return new MilitaryUnitAdapter(mapDrawable);
         } else if (mapDrawable.getType().canSubstitute("Population")) {
@@ -58,48 +58,49 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
         } else if (mapDrawable.getType().canSubstitute("Element")) {
             return new ElementAdapter(mapDrawable);
         } else if (mapDrawable.getType().canSubstitute("Activity")) {
-            return new MapActivityAdapter(mapDrawable); 
+            return new MapActivityAdapter(mapDrawable);
         } else if (mapDrawable.getType().canSubstitute("Node")) {
             return new GraphNodeAdapter(mapDrawable);
         } else if (mapDrawable.getType().canSubstitute("Edge")) {
             return new GraphEdgeAdapter(mapDrawable);
         } else if (mapDrawable instanceof Shape) {
-            return new MapShapeAdapter((Shape)mapDrawable); 
+            return new MapShapeAdapter((Shape) mapDrawable);
         } else if (mapDrawable instanceof Line) {
-            return new MapLineAdapter((Line)mapDrawable); 
+            return new MapLineAdapter((Line) mapDrawable);
         } else if (mapDrawable instanceof Point) {
-            return new MapPointAdapter((Point)mapDrawable); 
+            return new MapPointAdapter((Point) mapDrawable);
         } else {
-            throw new AssertionError(MapDrawableAdapter.class.getName() + " can not be used for "+mapDrawable.getType().getName());
+            throw new AssertionError(MapDrawableAdapter.class.getName()
+                    + " can not be used for " + mapDrawable.getType().getName());
         }
     }
-    
+
     /**
      * Creates a new adapter.
-     *
+     * 
      * @param stComp the object to adapt.
      */
     public MapDrawableAdapter(StratmasObject stComp) {
         this.setObject(stComp);
     }
-    
+
     /**
      * Updates (recreates) the displayList that draws the entire drawable.
-     *
+     * 
      * @param proj the projection that maps lat and long into GL coordinates.
      * @param gld the gl drawable targeted.
      */
-    protected abstract void updateDisplayList(Projection proj, GLAutoDrawable gld);
-    
+    protected abstract void updateDisplayList(Projection proj,
+            GLAutoDrawable gld);
 
     /**
      * Sets the target of this adapter.
-     */   
+     */
     protected void setObject(StratmasObject stComp) {
         this.stComp = stComp;
         getObject().addEventListener(this);
     }
-    
+
     /**
      * Sets the renderSelectionName of this adapter
      * 
@@ -108,7 +109,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
     public void setRenderSelectionName(int renderSelectionName) {
         this.renderSelectionName = renderSelectionName;
     }
-    
+
     /**
      * Returns the renderSelectionName of this adapter.
      */
@@ -120,7 +121,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
      * Returns the number of renderSelectionNames needed for this adapter.
      */
     public abstract int getNrOfRenderSelectionNames();
-    
+
     /**
      * Returns true if the given name is the render selection name of this adapter.
      */
@@ -130,23 +131,23 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
 
     /**
      * Returns the display list of this adapter.
-     */   
+     */
     public int getDisplayList() {
         return displayList;
     }
-    
+
     /**
      * Returns the object this adapter adapts.
      */
     public StratmasObject getObject() {
         return stComp;
     }
-    
+
     /**
      * Updates the display lists
      */
     public abstract void reCompile(Projection proj, GLAutoDrawable gld);
-    
+
     /**
      * Invalidates the display lists.
      */
@@ -154,27 +155,27 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
         displayListUpdated = false;
         fireAdapterUpdated();
     }
-    
+
     /**
      * Returns the StratmasObject this adapter adapts.
      */
     public StratmasObject getStratmasObject() {
         return getObject();
     }
-    
+
     /**
      * Returns true if two adapters represents the same object.
      */
     public boolean equals(Object o) {
-         if (o instanceof MapDrawableAdapter) {
-             return getObject() == ((MapDrawableAdapter) o).getObject();
-         }
-         return false;
+        if (o instanceof MapDrawableAdapter) {
+            return getObject() == ((MapDrawableAdapter) o).getObject();
+        }
+        return false;
     }
-    
+
     /**
      * Called when the object this adapter adapts changes.
-     *
+     * 
      * @param event the event causing the call.
      */
     public void eventOccured(StratmasEvent event) {
@@ -187,29 +188,27 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
             fireAdapterRemoved();
         } else if (event.isReplaced()) {
             throw new AssertionError("Replace behavior not implemented");
-         } 
+        }
     }
-    
+
     /**
      * Updates this adapter when one of the adapted objects children changes.
-     *
+     * 
      * @param event the event causing the change.
      */
     protected void childChanged(StratmasEvent event) {
         displayListUpdated = false;
         fireAdapterUpdated();
-    } 
+    }
 
     /**
-     * Updates this adapter when the adapted object
-     * changes. Ordinarily this means nothing, so override this
-     * function if an implementing subclass cares.
-     *
+     * Updates this adapter when the adapted object changes. Ordinarily this means nothing, so override this function if an implementing
+     * subclass cares.
+     * 
      * @param event the event causing the change.
      */
-    protected void valueChanged(StratmasEvent event) {
-    }
-    
+    protected void valueChanged(StratmasEvent event) {}
+
     /**
      * Returns a list of the listeners of this object.
      */
@@ -219,7 +218,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
 
     /**
      * Adds an event listener for to the eventlistenerlist.
-     *
+     * 
      * @param listener the listener to add.
      */
     private void addEventListener(EventListener listener) {
@@ -228,7 +227,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
 
     /**
      * Removes an event listener for from the eventlistenerlist.
-     *
+     * 
      * @param listener the listener to add.
      */
     private void removeEventListener(EventListener listener) {
@@ -237,44 +236,46 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
 
     /**
      * Adds a listener to the StratmasElementAdapter.
-     *
+     * 
      * @param listener the listener to add.
      */
-    public void addMapDrawableAdapterListener(MapDrawableAdapterListener listener) {
+    public void addMapDrawableAdapterListener(
+            MapDrawableAdapterListener listener) {
         this.addEventListener(listener);
     }
 
     /**
      * Removes a listener from the StratmasElementAdapter.
-     *
+     * 
      * @param listener the listener to add.
      */
-    public void removeMapDrawableAdapterListener(MapDrawableAdapterListener listener) {
+    public void removeMapDrawableAdapterListener(
+            MapDrawableAdapterListener listener) {
         this.removeEventListener(listener);
     }
-    
+
     /**
      * Called when an MapDrawableAdapters object is removed.
      */
-    protected void fireAdapterRemoved()
-    {
+    protected void fireAdapterRemoved() {
         Object[] listeners = getEventListenerList().getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
             if (listeners[i] == MapDrawableAdapterListener.class) {
-                ((MapDrawableAdapterListener) listeners[i + 1]).mapDrawableAdapterRemoved(this);
+                ((MapDrawableAdapterListener) listeners[i + 1])
+                        .mapDrawableAdapterRemoved(this);
             }
         }
     }
-    
+
     /**
      * Called when an MapDrawableAdapters object is updated.
      */
-    protected void fireAdapterUpdated()
-    {
+    protected void fireAdapterUpdated() {
         Object[] listeners = getEventListenerList().getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
             if (listeners[i] == MapDrawableAdapterListener.class) {
-                ((MapDrawableAdapterListener) listeners[i + 1]).mapDrawableAdapterUpdated(this);
+                ((MapDrawableAdapterListener) listeners[i + 1])
+                        .mapDrawableAdapterUpdated(this);
             }
         }
     }
@@ -284,25 +285,22 @@ public abstract class MapDrawableAdapter implements StratmasEventListener, Strat
      * 
      * @param obj the object added.
      */
-    protected void fireAdapterChildAdded(StratmasObject obj)
-    {
+    protected void fireAdapterChildAdded(StratmasObject obj) {
         Object[] listeners = getEventListenerList().getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
             if (listeners[i] == MapDrawableAdapterListener.class) {
-                ((MapDrawableAdapterListener) listeners[i + 1]).mapDrawableAdapterChildAdded(obj);
+                ((MapDrawableAdapterListener) listeners[i + 1])
+                        .mapDrawableAdapterChildAdded(obj);
             }
         }
     }
 
     /**
-     * Utility function to get a glut compatible ID string for use in
-     * GLUT text functions.
+     * Utility function to get a glut compatible ID string for use in GLUT text functions.
      */
-    public String getGLUTIDString() throws UnsupportedEncodingException
-    {
-        byte[] buf = 
-            getStratmasObject().getIdentifier().getBytes("ISO-8859-1");
-        byte[] newBuf = new byte[2*buf.length];
+    public String getGLUTIDString() throws UnsupportedEncodingException {
+        byte[] buf = getStratmasObject().getIdentifier().getBytes("ISO-8859-1");
+        byte[] newBuf = new byte[2 * buf.length];
 
         int writei = 0;
         boolean allCaps = true;

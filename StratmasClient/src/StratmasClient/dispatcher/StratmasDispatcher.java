@@ -1,4 +1,4 @@
-//         $Id: StratmasDispatcher.java,v 1.5 2006/03/27 13:36:48 dah Exp $
+// $Id: StratmasDispatcher.java,v 1.5 2006/03/27 13:36:48 dah Exp $
 
 /*
  * @(#).StratmasDispatcher.java
@@ -24,28 +24,27 @@ import java.nio.ByteBuffer;
 
 import java.net.InetSocketAddress;
 
-import  javax.xml.parsers.DocumentBuilderFactory;
-import  org.w3c.dom.bootstrap.DOMImplementationRegistry;
-import  org.w3c.dom.Document;
-import  org.w3c.dom.Element;
-import  org.w3c.dom.NodeList;
-import  org.w3c.dom.ls.DOMImplementationLS;
-import  org.w3c.dom.DOMError;
-import  org.w3c.dom.DOMErrorHandler;
-import  org.w3c.dom.ls.LSInput;
-import  org.w3c.dom.ls.LSOutput;
-import  org.w3c.dom.ls.LSParser;
-import  org.w3c.dom.ls.LSException;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.bootstrap.DOMImplementationRegistry;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.ls.DOMImplementationLS;
+import org.w3c.dom.DOMError;
+import org.w3c.dom.DOMErrorHandler;
+import org.w3c.dom.ls.LSInput;
+import org.w3c.dom.ls.LSOutput;
+import org.w3c.dom.ls.LSParser;
+import org.w3c.dom.ls.LSException;
 import org.w3c.dom.ls.LSResourceResolver;
 
 /**
  * StratmasDispatcher represents information about a dispatcher server
- *
+ * 
  * @version 1, $Date: 2006/03/27 13:36:48 $
- * @author  Daniel Ahlin
-*/
-public class StratmasDispatcher
-{
+ * @author Daniel Ahlin
+ */
+public class StratmasDispatcher {
     /**
      * The hostname of the dispatcher.
      */
@@ -72,19 +71,17 @@ public class StratmasDispatcher
     private static DOMImplementationLS domImplementationLS = createDomImplementationLS();
 
     /**
-     * The buffer containing a ready made bytebuffer of the
-     * request. (Initialized by createLoadQueryMessage())
+     * The buffer containing a ready made bytebuffer of the request. (Initialized by createLoadQueryMessage())
      */
     private static byte[] listServersMessageBuffer;
 
     /**
      * Creates a new server record using the specified hostname and port.
-     *
+     * 
      * @param hostname the hostname of the server.
      * @param port the port on which the server is listening.
-     */    
-    public StratmasDispatcher(String hostname, int port)
-    {
+     */
+    public StratmasDispatcher(String hostname, int port) {
         this.hostname = hostname;
         this.port = port;
     }
@@ -92,25 +89,22 @@ public class StratmasDispatcher
     /**
      * Returns the port of this server
      */
-    public int getPort()
-    {
+    public int getPort() {
         return this.port;
     }
 
     /**
      * Returns the hostname of this server
      */
-    public String getHostname()
-    {
+    public String getHostname() {
         return this.hostname;
     }
 
     /**
      * Returns an instance of a default dispatcher
      */
-    public static StratmasDispatcher getDefaultDispatcher() 
-    {
-            String dispatcherString = System.getProperty("DISPATCHER");
+    public static StratmasDispatcher getDefaultDispatcher() {
+        String dispatcherString = System.getProperty("DISPATCHER");
         if (dispatcherString != null && dispatcherString != "") {
             String[] parts = dispatcherString.split(":");
             int port = 4181;
@@ -119,16 +113,16 @@ public class StratmasDispatcher
             }
             return new StratmasDispatcher(parts[0], port);
         }
-        
+
         return null;
     }
+
     /**
      * Tries to allocate a server from the pool of servers known to the dispatcher.
-     *
+     * 
      * @param retries max number of times to trie to allocate.
      */
-    public StratmasSocket allocateServer(int retries)
-    {
+    public StratmasSocket allocateServer(int retries) {
         Random random = new Random();
         LSInput parserInput = domImplementationLS.createLSInput();
 
@@ -140,7 +134,7 @@ public class StratmasDispatcher
                     prospects.add(server);
                 }
             }
-            
+
             if (prospects.size() != 0) {
                 // Randomly pick one:
                 int index = random.nextInt(prospects.size());
@@ -155,15 +149,19 @@ public class StratmasDispatcher
                     socket.sendMessage(message.toXML());
                     parserInput.setStringData(socket.recvMessage());
                     Document reply = createStratmasParser().parse(parserInput);
-                    NodeList list = reply.getDocumentElement().getElementsByTagName("active");
+                    NodeList list = reply.getDocumentElement()
+                            .getElementsByTagName("active");
                     if (list.getLength() != 1) {
-                        Debug.err.println("Unexpected form of ConnectResponseMessage");
-                    } else if (Boolean.valueOf(list.item(0).getFirstChild().getNodeValue()).booleanValue()) {
+                        Debug.err
+                                .println("Unexpected form of ConnectResponseMessage");
+                    } else if (Boolean.valueOf(list.item(0).getFirstChild()
+                                                       .getNodeValue())
+                            .booleanValue()) {
                         // Hurray, we are active.
                         Debug.err.println("Returning " + prospect.toString());
                         return socket;
                     }
-                    
+
                     socket.close();
                 } catch (IOException e) {
                     Debug.err.println(e.getMessage());
@@ -186,34 +184,35 @@ public class StratmasDispatcher
     /**
      * Creates a parser for communication with a StratmasServer.
      */
-    public LSParser createStratmasParser()
-    {
-        LSParser parser = 
-            domImplementationLS.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, 
-                                               "http://www.w3.org/2001/XMLSchema");
-        parser.getDomConfig().setParameter("error-handler", new DOMErrorHandler() 
-            {
-                /**
-                 * This method is called on the error handler when an error occurs.
-                 *
-                 * @param error the error;
-                 */
-                public boolean handleError(DOMError error)
-                {
-                    throw new LSException(LSException.PARSE_ERR, 
-                                          error.getMessage());
+    public LSParser createStratmasParser() {
+        LSParser parser = domImplementationLS
+                .createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS,
+                                "http://www.w3.org/2001/XMLSchema");
+        parser.getDomConfig().setParameter("error-handler",
+                                           new DOMErrorHandler() {
+                                               /**
+                                                * This method is called on the error handler when an error occurs.
+                                                * 
+                                                * @param error the error;
+                                                */
+                                               public boolean handleError(
+                                                       DOMError error) {
+                                                   throw new LSException(
+                                                           LSException.PARSE_ERR,
+                                                           error.getMessage());
 
-                }
-            });
+                                               }
+                                           });
 
-        parser.getDomConfig().setParameter("schema-location", 
-                                           StratmasConstants.STRATMAS_PROTOCOL_SCHEMA);
+        parser.getDomConfig()
+                .setParameter("schema-location",
+                              StratmasConstants.STRATMAS_PROTOCOL_SCHEMA);
         parser.getDomConfig().setParameter("validate", Boolean.TRUE);
         parser.getDomConfig().setParameter("namespaces", Boolean.TRUE);
 
-        LSResourceResolver prevResolver = 
-            (LSResourceResolver) parser.getDomConfig().getParameter("resource-resolver");
-        parser.getDomConfig().setParameter("resource-resolver", 
+        LSResourceResolver prevResolver = (LSResourceResolver) parser
+                .getDomConfig().getParameter("resource-resolver");
+        parser.getDomConfig().setParameter("resource-resolver",
                                            new LSJarXSDResolver(prevResolver));
 
         return parser;
@@ -222,33 +221,34 @@ public class StratmasDispatcher
     /**
      * Creates a parser for communication with a Dispatcher replier..
      */
-    public LSParser createDispatcherParser()
-    {
-        LSParser parser = 
-            domImplementationLS.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, 
-                                               "http://www.w3.org/2001/XMLSchema");
-        parser.getDomConfig().setParameter("error-handler", new DOMErrorHandler() 
-            {
-                /**
-                 * This method is called on the error handler when an error occurs.
-                 *
-                 * @param error the error;
-                 */
-                public boolean handleError(DOMError error)
-                {
-                    throw new LSException(LSException.PARSE_ERR, 
-                                          error.getMessage());
+    public LSParser createDispatcherParser() {
+        LSParser parser = domImplementationLS
+                .createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS,
+                                "http://www.w3.org/2001/XMLSchema");
+        parser.getDomConfig().setParameter("error-handler",
+                                           new DOMErrorHandler() {
+                                               /**
+                                                * This method is called on the error handler when an error occurs.
+                                                * 
+                                                * @param error the error;
+                                                */
+                                               public boolean handleError(
+                                                       DOMError error) {
+                                                   throw new LSException(
+                                                           LSException.PARSE_ERR,
+                                                           error.getMessage());
 
-                }
-            });
+                                               }
+                                           });
 
-        parser.getDomConfig().setParameter("schema-location", DISPATCHER_PROTOCOL);
+        parser.getDomConfig().setParameter("schema-location",
+                                           DISPATCHER_PROTOCOL);
         parser.getDomConfig().setParameter("validate", Boolean.TRUE);
         parser.getDomConfig().setParameter("namespaces", Boolean.TRUE);
 
-        LSResourceResolver prevResolver = 
-            (LSResourceResolver) parser.getDomConfig().getParameter("resource-resolver");
-        parser.getDomConfig().setParameter("resource-resolver", 
+        LSResourceResolver prevResolver = (LSResourceResolver) parser
+                .getDomConfig().getParameter("resource-resolver");
+        parser.getDomConfig().setParameter("resource-resolver",
                                            new LSJarXSDResolver(prevResolver));
 
         return parser;
@@ -257,57 +257,62 @@ public class StratmasDispatcher
     /**
      * Returns the DomImplementationLS to use.
      */
-    private static DOMImplementationLS createDomImplementationLS()
-    {
+    private static DOMImplementationLS createDomImplementationLS() {
         if (domImplementationLS != null) {
             return domImplementationLS;
         } else {
             try {
                 System.setProperty(DOMImplementationRegistry.PROPERTY,
                                    "org.apache.xerces.dom.DOMImplementationSourceImpl");
-                DOMImplementationRegistry registry = 
-                    DOMImplementationRegistry.newInstance();
-                return (DOMImplementationLS)registry.getDOMImplementation("LS");
+                DOMImplementationRegistry registry = DOMImplementationRegistry
+                        .newInstance();
+                return (DOMImplementationLS) registry
+                        .getDOMImplementation("LS");
             } catch (ClassNotFoundException e) {
-                System.err.println("Unable to find DOM Parser: " + e.getMessage());
+                System.err.println("Unable to find DOM Parser: "
+                        + e.getMessage());
                 System.exit(1);
                 return null;
             } catch (InstantiationException e) {
-                System.err.println("Unable to find DOM Parser: " + e.getMessage());
+                System.err.println("Unable to find DOM Parser: "
+                        + e.getMessage());
                 System.exit(1);
                 return null;
             } catch (IllegalAccessException e) {
-                System.err.println("Unable to find DOM Parser: " + e.getMessage());
+                System.err.println("Unable to find DOM Parser: "
+                        + e.getMessage());
                 System.exit(1);
                 return null;
             }
         }
     }
-    
+
     /**
      * Returns a vector with the servers listed on this dispatcher.
      */
-    public Vector getServers()
-    {
+    public Vector getServers() {
         Vector res = new Vector();
         SocketChannel channel = null;
 
         try {
             channel = SocketChannel.open(new InetSocketAddress(getHostname(),
-                                                               getPort()));
+                    getPort()));
             try {
-                channel.socket().getOutputStream().write(listServersMessageBuffer);
+                channel.socket().getOutputStream()
+                        .write(listServersMessageBuffer);
                 LSInput parserInput = domImplementationLS.createLSInput();
 
                 ByteBuffer header = ByteBuffer.allocate(4);
-                for(int r = 0; r < 4; r += channel.read(header));
+                for (int r = 0; r < 4; r += channel.read(header));
                 header.rewind();
                 header.getInt();
                 parserInput.setByteStream(channel.socket().getInputStream());
                 Document reply = createDispatcherParser().parse(parserInput);
-                NodeList servers = reply.getDocumentElement().getElementsByTagName("stratmasServer");
+                NodeList servers = reply.getDocumentElement()
+                        .getElementsByTagName("stratmasServer");
                 for (int i = 0; i < servers.getLength(); i++) {
-                    res.add(StratmasServer.fromDOMElement((Element) servers.item(i)));
+                    res.add(StratmasServer.fromDOMElement((Element) servers
+                            .item(i)));
                 }
             } catch (org.w3c.dom.ls.LSException e) {
                 System.err.println(e.getMessage());
@@ -323,7 +328,7 @@ public class StratmasDispatcher
                 System.err.println(e.getMessage());
             }
         }
-    
+
         return res;
     }
 

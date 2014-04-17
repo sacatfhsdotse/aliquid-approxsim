@@ -15,7 +15,7 @@ import com.jogamp.common.nio.Buffers;
 
 /**
  * This adapter adapts Point for use on the map.
- *
+ * 
  * @author Amir Filipovic
  */
 public class MapPointAdapter extends MapDrawableAdapter {
@@ -47,10 +47,10 @@ public class MapPointAdapter extends MapDrawableAdapter {
      * The number of Render Selection names needed by this adapter.
      */
     public static int NR_RENDER_SELECTION_NAMES = 2;
- 
+
     /**
      * Creates new adapter.
-     *
+     * 
      * @param point the object to adapt.
      * @param renderSelectionName the integer to use as the base for names in RENDER_SELECTION.
      */
@@ -58,36 +58,36 @@ public class MapPointAdapter extends MapDrawableAdapter {
         super(point);
         setRenderSelectionName(renderSelectionName);
     }
-    
+
     /**
      * Creates new adapter.
-     *
+     * 
      * @param point the object to adapt.
      */
     public MapPointAdapter(Point point) {
         super(point);
     }
-    
+
     /**
-     * Updates (recreates) the display list that draws the entire
-     * object.
-     *
+     * Updates (recreates) the display list that draws the entire object.
+     * 
      * @param proj the actual projection.
      * @param gld the gl drawable targeted.
      */
     protected void updateDisplayList(Projection proj, GLAutoDrawable gld) {
         GL2 gl = (GL2) gld.getGL();
-         displayList = (gl.glIsList(displayList)) ? displayList : gl.glGenLists(1);
+        displayList = (gl.glIsList(displayList)) ? displayList : gl
+                .glGenLists(1);
         //
         gl.glNewList(displayList, GL2.GL_COMPILE);
         // point display list
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
-        // Pushes the name for RenderSelection mode.        
+        // Pushes the name for RenderSelection mode.
         gl.glPushName(getRenderSelectionName());
-        // get x-coordinate of the render position 
+        // get x-coordinate of the render position
         // get y-coordinate of the render position
-        double[] xy = proj.projToXY((Point)stComp);
+        double[] xy = proj.projToXY((Point) stComp);
         gl.glTranslated(xy[0], xy[1], 0);
         gl.glCallList(symbolDisplayList);
         gl.glPopName();
@@ -96,44 +96,46 @@ public class MapPointAdapter extends MapDrawableAdapter {
         gl.glEndList();
         displayListUpdated = true;
     }
-    
+
     /**
-     * Updates (recreates) the display lists that draws the symbol of the object
-     * this adapter represents.
-     *
+     * Updates (recreates) the display lists that draws the symbol of the object this adapter represents.
+     * 
      * @param gld the gl drawable targeted.
      */
-    protected void updateSymbolDisplayLists(GLAutoDrawable gld)
-    {
+    protected void updateSymbolDisplayLists(GLAutoDrawable gld) {
         GL2 gl = (GL2) gld.getGL();
-        symbolDisplayList = (gl.glIsList(symbolDisplayList))? symbolDisplayList : gl.glGenLists(1);
-        
+        symbolDisplayList = (gl.glIsList(symbolDisplayList)) ? symbolDisplayList
+                : gl.glGenLists(1);
+
         // get texture from texture mapper
-        int texture = SymbolToTextureMapper.getTexture(new Icon(IconFactory.class.getResource("icons/leaf.png")), gld);
-        
+        int texture = SymbolToTextureMapper.getTexture(new Icon(
+                IconFactory.class.getResource("icons/leaf.png")), gld);
+
         // Start list
         gl.glNewList(symbolDisplayList, GL2.GL_COMPILE);
-        // Enable textures.        
+        // Enable textures.
         gl.glEnable(GL2.GL_TEXTURE_2D);
         gl.glBindTexture(GL2.GL_TEXTURE_2D, texture);
-        gl.glTexParameterf(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_S, GL2.GL_CLAMP);
-        gl.glTexParameterf(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_T, GL2.GL_CLAMP);
-        gl.glTexParameterf(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER, 
+        gl.glTexParameterf(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_S,
+                           GL2.GL_CLAMP);
+        gl.glTexParameterf(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_T,
+                           GL2.GL_CLAMP);
+        gl.glTexParameterf(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER,
                            SymbolToTextureMapper.textureMagFilter);
-        gl.glTexParameterf(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER, 
+        gl.glTexParameterf(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER,
                            SymbolToTextureMapper.textureMinFilter);
-        gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, 
+        gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE,
                      SymbolToTextureMapper.textureMode);
-        
+
         // Pushes the name for RenderSelection mode.
         gl.glPushName(getRenderSelectionName() + 1);
-        
+
         double scale = getSymbolScale();
         if (getInvariantSymbolSize()) {
             gl.glMatrixMode(GL2.GL_PROJECTION);
             DoubleBuffer buf = Buffers.newDirectDoubleBuffer(16);
             gl.glGetDoublev(GL2.GL_PROJECTION_MATRIX, buf);
-            scale = getSymbolScale()*0.000004d/buf.get(0);
+            scale = getSymbolScale() * 0.000004d / buf.get(0);
         }
 
         gl.glMatrixMode(GL2.GL_MODELVIEW);
@@ -142,13 +144,13 @@ public class MapPointAdapter extends MapDrawableAdapter {
         gl.glBegin(GL2.GL_QUADS);
         gl.glColor4d(1.0d, 1.0d, 1.0d, 1.0d);
         gl.glTexCoord2f(0, 0);
-        gl.glVertex2d(-horizontalSymbolSize/2, -verticalSymbolSize/2);
+        gl.glVertex2d(-horizontalSymbolSize / 2, -verticalSymbolSize / 2);
         gl.glTexCoord2f(0, 1);
-        gl.glVertex2d(-horizontalSymbolSize/2, verticalSymbolSize/2);
+        gl.glVertex2d(-horizontalSymbolSize / 2, verticalSymbolSize / 2);
         gl.glTexCoord2f(1, 1);
-        gl.glVertex2d(horizontalSymbolSize/2, verticalSymbolSize/2);
+        gl.glVertex2d(horizontalSymbolSize / 2, verticalSymbolSize / 2);
         gl.glTexCoord2f(1, 0);
-        gl.glVertex2d(horizontalSymbolSize/2, -verticalSymbolSize/2);
+        gl.glVertex2d(horizontalSymbolSize / 2, -verticalSymbolSize / 2);
         gl.glEnd();
         gl.glPopName();
         gl.glPopMatrix();
@@ -172,10 +174,10 @@ public class MapPointAdapter extends MapDrawableAdapter {
             updateSymbolDisplayLists(gld);
         }
         if (!displayListUpdated) {
-            updateDisplayList(proj, gld);        
+            updateDisplayList(proj, gld);
         }
     }
-    
+
     /**
      * Invalidates the display lists.
      */
@@ -186,7 +188,7 @@ public class MapPointAdapter extends MapDrawableAdapter {
     }
 
     /**
-     * Invalidates the display list for the symbol. 
+     * Invalidates the display list for the symbol.
      */
     public void invalidateSymbolList() {
         this.symbolUpdated = false;
@@ -194,9 +196,8 @@ public class MapPointAdapter extends MapDrawableAdapter {
     }
 
     /**
-     * Sets whether symbol-size should be invariant with regard to map
-     * scale.
-     *
+     * Sets whether symbol-size should be invariant with regard to map scale.
+     * 
      * @param flag true if symbol size should be invariant
      */
     public void setInvariantSymbolSize(boolean flag) {
@@ -205,18 +206,17 @@ public class MapPointAdapter extends MapDrawableAdapter {
             invalidateSymbolList();
         }
     }
-    
+
     /**
-     * Returns true if the symbol size is constant. 
+     * Returns true if the symbol size is constant.
      */
     public boolean getInvariantSymbolSize() {
         return this.invariantSymbolSize;
     }
-    
+
     /**
-     * Sets the symbol scale of this adapter to the specified value
-     * (between 0.0 and 1.0 inclusive);
-     *
+     * Sets the symbol scale of this adapter to the specified value (between 0.0 and 1.0 inclusive);
+     * 
      * @param symbolScale the new opacity.
      */
     public void setSymbolScale(double symbolScale) {
@@ -226,14 +226,14 @@ public class MapPointAdapter extends MapDrawableAdapter {
             fireAdapterUpdated();
         }
     }
-    
+
     /**
      * Returns the symbol scale of this adapter.
      */
     public double getSymbolScale() {
         return symbolScale;
     }
-    
+
     /**
      * Returns the symbol horizontal size of the images.
      */
@@ -250,7 +250,7 @@ public class MapPointAdapter extends MapDrawableAdapter {
 
     /**
      * Updates this adapter when the adapted object changes.
-     *
+     * 
      * @param event the event causing the change.
      */
     protected void valueChanged(StratmasEvent event) {

@@ -7,22 +7,20 @@ package StratmasClient.evolver;
 import StratmasClient.communication.Subscription;
 
 /**
- * Interface used to abstract away subscription- and Evaluation-
- * details from SimulationEvaluator.
+ * Interface used to abstract away subscription- and Evaluation- details from SimulationEvaluator.
  */
-interface SimulationEvaluatorTarget
-{
+interface SimulationEvaluatorTarget {
     /**
      * Returns a subscription for this target
      */
     public Subscription getSubscription();
 
     /**
-     * Creates the ParameterInstance acting as evaluation in the
-     * Evaluations created by the SimulationEvaluator.
+     * Creates the ParameterInstance acting as evaluation in the Evaluations created by the SimulationEvaluator.
+     * 
      * @param subscription
      */
-    public ParameterInstance createEvaluation(); 
+    public ParameterInstance createEvaluation();
 
     /**
      * Increases the update count
@@ -36,7 +34,7 @@ interface SimulationEvaluatorTarget
 
     /**
      * Sets the stopper of this target
-     *
+     * 
      * @param stopper the stopper
      */
     public void setStopper(Stopper stopper);
@@ -46,4 +44,3 @@ interface SimulationEvaluatorTarget
      */
     public Stopper getStopper();
 }
-

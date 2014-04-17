@@ -1,4 +1,4 @@
-//         $Id: StratmasComplexGUIConstructor.java,v 1.1 2006/03/22 14:30:51 dah Exp $
+// $Id: StratmasComplexGUIConstructor.java,v 1.1 2006/03/22 14:30:51 dah Exp $
 /*
  * @(#)StratmasObject.java
  */
@@ -14,88 +14,78 @@ import javax.swing.BoxLayout;
 import javax.swing.JOptionPane;
 
 /**
- * StratmasComplexGUIConstructor creates GUIs for creating
- * StratmasComplex objects.
- *
+ * StratmasComplexGUIConstructor creates GUIs for creating StratmasComplex objects.
+ * 
  * @version 1, $Date: 2006/03/22 14:30:51 $
- * @author  Daniel Ahlin
-*/
-public class StratmasComplexGUIConstructor extends StratmasGUIConstructor
-{
+ * @author Daniel Ahlin
+ */
+public class StratmasComplexGUIConstructor extends StratmasGUIConstructor {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = -8177601284453709935L;
-	/**
+    private static final long serialVersionUID = -8177601284453709935L;
+    /**
      * The StratmasGUIConstructor's for each subpart of this constructor.
      */
     Vector<StratmasGUIConstructor> subDeclarations;
 
     /**
-     * Creates a new StratmasComplexGUIConstructor using
-     * specifications in the supplied declaration.
-     *
+     * Creates a new StratmasComplexGUIConstructor using specifications in the supplied declaration.
+     * 
      * @param declaration the declaration to use.
-     * @param useChooser lets the user choose different the subtypes
-     * of the provided declaration.
+     * @param useChooser lets the user choose different the subtypes of the provided declaration.
      */
-    public StratmasComplexGUIConstructor(Declaration declaration, boolean useChooser)
-    {
+    public StratmasComplexGUIConstructor(Declaration declaration,
+            boolean useChooser) {
         super(declaration, useChooser);
     }
 
     /**
-     * Creates a new StratmasComplexGUIConstructor using
-     * specifications in the supplied declaration. If the type in the
-     * declaration is abstract
-     * StratmasComplexGUIConstructor(declaration, true) is run.
-     *
+     * Creates a new StratmasComplexGUIConstructor using specifications in the supplied declaration. If the type in the declaration is
+     * abstract StratmasComplexGUIConstructor(declaration, true) is run.
+     * 
      * @param declaration the declaration to use.
      */
-    public StratmasComplexGUIConstructor(Declaration declaration)
-    {
+    public StratmasComplexGUIConstructor(Declaration declaration) {
         super(declaration);
     }
-   
+
     /**
      * Builds the panels used by this constructor
-     */    
-    protected void buildPanel() 
-    {
+     */
+    protected void buildPanel() {
         if (subDeclarations == null) {
             subDeclarations = new Vector<StratmasGUIConstructor>();
         }
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        for (Enumeration ss = getType().getSubElements().elements(); 
-             ss.hasMoreElements();) {
+        for (Enumeration ss = getType().getSubElements().elements(); ss
+                .hasMoreElements();) {
             processSubDeclaration((Declaration) ss.nextElement());
         }
     }
 
     /**
      * Handle a subdeclaration
-     *
+     * 
      * @param subDeclaration the declaration to use.
      */
-    protected void processSubDeclaration(Declaration subDeclaration)
-    {
-        StratmasGUIConstructor c = StratmasObjectFactory.guiCreate(subDeclaration);
+    protected void processSubDeclaration(Declaration subDeclaration) {
+        StratmasGUIConstructor c = StratmasObjectFactory
+                .guiCreate(subDeclaration);
         subDeclarations.add(c);
         add(c);
     }
-    
+
     /**
      * Tries to create the StratmasObject from the values in the GUI.
      */
-    protected void createStratmasObject()
-    {
+    protected void createStratmasObject() {
         Vector<StratmasObject> contents = new Vector<StratmasObject>();
         Vector<String> unFinished = new Vector<String>();
 
-        for (Enumeration<StratmasGUIConstructor> ss = this.subDeclarations.elements(); 
-             ss.hasMoreElements();) {
-            StratmasGUIConstructor s = 
-                ss.nextElement();
+        for (Enumeration<StratmasGUIConstructor> ss = this.subDeclarations
+                .elements(); ss.hasMoreElements();) {
+            StratmasGUIConstructor s = ss.nextElement();
             StratmasObject sObj = s.getStratmasObject();
             if (sObj == null && s.getDeclaration().getMinOccurs() != 0) {
                 unFinished.add(s.getDeclaration().getName());
@@ -103,23 +93,24 @@ public class StratmasComplexGUIConstructor extends StratmasGUIConstructor
                 contents.add(sObj);
             }
         }
-        
+
         if (unFinished.isEmpty()) {
             Declaration decl = getDeclaration().clone(getType());
-            StratmasVectorConstructor vectorConstructor = 
-                StratmasObjectFactory.vectorCreate(decl);
-            this.result = vectorConstructor.getStratmasObject(getIdentifier(), contents);
+            StratmasVectorConstructor vectorConstructor = StratmasObjectFactory
+                    .vectorCreate(decl);
+            this.result = vectorConstructor.getStratmasObject(getIdentifier(),
+                                                              contents);
         } else {
             String errmsg = "The following required items are missing:";
-            for (Enumeration<String> ss = unFinished.elements(); ss.hasMoreElements();) {
-                errmsg = errmsg + "\n" + ss.nextElement().toString();            
+            for (Enumeration<String> ss = unFinished.elements(); ss
+                    .hasMoreElements();) {
+                errmsg = errmsg + "\n" + ss.nextElement().toString();
             }
-            JOptionPane.showMessageDialog(null, errmsg, 
-                                          this.getType().getName() + 
-                                          " is not complete", 
-                                          JOptionPane.WARNING_MESSAGE);                        
+            JOptionPane.showMessageDialog(null, errmsg, this.getType()
+                                                  .getName()
+                                                  + " is not complete",
+                                          JOptionPane.WARNING_MESSAGE);
             this.result = null;
         }
     }
 }
-

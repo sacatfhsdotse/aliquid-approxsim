@@ -1,4 +1,4 @@
-//         $Id: Type.java,v 1.1 2006/03/22 14:30:52 dah Exp $
+// $Id: Type.java,v 1.1 2006/03/22 14:30:52 dah Exp $
 /*
  * @(#)Type.java
  */
@@ -11,18 +11,15 @@ import java.util.Enumeration;
 import org.apache.xerces.xs.*;
 
 /**
- * An object representing a Type in the Taclan
- * language.
- *
+ * An object representing a Type in the Taclan language.
+ * 
  * @version 1, $Date: 2006/03/22 14:30:52 $
- * @author  Daniel Ahlin
-*/
+ * @author Daniel Ahlin
+ */
 
-public abstract class Type
-{
+public abstract class Type {
     /**
-     * The TypeInformation this type was fetched from (used for
-     * additional lookups).
+     * The TypeInformation this type was fetched from (used for additional lookups).
      */
     TypeInformation typeInformation = null;
 
@@ -58,12 +55,10 @@ public abstract class Type
 
     /**
      * Creates a new type.
-     *
-     * @param typeInformation the type information environment in
-     * which this type is defined.
-    */
-    public Type(TypeInformation typeInformation)
-    {
+     * 
+     * @param typeInformation the type information environment in which this type is defined.
+     */
+    public Type(TypeInformation typeInformation) {
         this.typeInformation = typeInformation;
     }
 
@@ -74,36 +69,34 @@ public abstract class Type
 
     /**
      * Appends a subelement to this type.
-     *
+     * 
      * @param declaration the declaration of the subelement
-     */    
-    protected void appendSubElement(Declaration declaration)
-    {
+     */
+    protected void appendSubElement(Declaration declaration) {
         subElements.add(declaration);
         subElementHash.put(declaration.getName(), declaration);
     }
 
     /**
      * Appends an attribute to this type.
-     *
+     * 
      * @param attribute the attribute to add.
-     */ 
-    protected void appendAttribute(TypeAttribute attribute)
-    {
+     */
+    protected void appendAttribute(TypeAttribute attribute) {
         attributes.add(attribute);
         attributesHash.put(attribute.getName(), attribute);
     }
 
     /**
      * Processes a XSAttributeUse
-     *
+     * 
      * @param attributeUse the XSAttributeUse to process.
      */
-    protected void processAttributeUse(XSAttributeUse attributeUse)
-    {
+    protected void processAttributeUse(XSAttributeUse attributeUse) {
         XSAttributeDeclaration declaration = attributeUse.getAttrDeclaration();
-        Type subtype = this.typeInformation.getType(declaration.getTypeDefinition().getName(), 
-                                                    declaration.getTypeDefinition().getNamespace());
+        Type subtype = this.typeInformation.getType(declaration
+                .getTypeDefinition().getName(), declaration.getTypeDefinition()
+                .getNamespace());
 
         appendAttribute(new TypeAttribute(subtype, declaration.getName()));
     }
@@ -111,81 +104,72 @@ public abstract class Type
     /**
      * Returns a string representation of this class.
      */
-    public String toString()
-    {
+    public String toString() {
         StringBuffer buf = new StringBuffer();
-        for (Enumeration ss = subElements.elements(); ss.hasMoreElements(); ) {
+        for (Enumeration ss = subElements.elements(); ss.hasMoreElements();) {
             buf.append("\n");
             Declaration subElement = (Declaration) ss.nextElement();
-            buf.append(subElement.toString());            
+            buf.append(subElement.toString());
         }
-        for (Enumeration ss = attributes.elements(); ss.hasMoreElements(); ) {
+        for (Enumeration ss = attributes.elements(); ss.hasMoreElements();) {
             buf.append("\n");
             TypeAttribute subElement = (TypeAttribute) ss.nextElement();
-            buf.append(subElement.toString());            
+            buf.append(subElement.toString());
         }
         String subelementstr = buf.toString().replaceAll("\n", "\n  ");
-        
-        return         getName() + " {" + subelementstr + "\n}";
+
+        return getName() + " {" + subelementstr + "\n}";
     }
 
     /**
      * Returns false if this type is instansiable.
      */
-    public boolean isAbstract() 
-    {
+    public boolean isAbstract() {
         return isAbstract;
     }
 
     /**
      * Returns the subelements of this type.
      */
-    public Vector getSubElements()
-    {
+    public Vector getSubElements() {
         return subElements;
     }
 
     /**
      * Returns the subelement with the specified tag.
-     *
+     * 
      * @param tag the tag to search for.
      */
-    public Declaration getSubElement(String tag)
-    {
+    public Declaration getSubElement(String tag) {
         return (Declaration) subElementHash.get(tag);
     }
-    
+
     /**
-     * Returns true if this can be a substitute for other (i. e if
-     * this is a subclass of other).
-     * FIXME: should check for substitution groups as well.
-     *
+     * Returns true if this can be a substitute for other (i. e if this is a subclass of other). FIXME: should check for substitution groups
+     * as well.
+     * 
      * @param other the type to check against
      */
     public abstract boolean canSubstitute(Type other);
 
     /**
-     * Returns true if this can be a substitute for other (i. e if
-     * this is a subclass of other).
-     * FIXME: should check for substitution groups as well.
-     *
+     * Returns true if this can be a substitute for other (i. e if this is a subclass of other). FIXME: should check for substitution groups
+     * as well.
+     * 
      * @param other the type to check against
      * @param namespace the namespace of other
      */
-    public boolean canSubstitute(String other, String namespace)
-    {
+    public boolean canSubstitute(String other, String namespace) {
         return canSubstitute(typeInformation.getType(other, namespace));
     }
 
     /**
-     * Returns true if this can be a substitute for other (i. e if
-     * this is a subclass of other).
-     * FIXME: should check for substitution groups as well.
-     *
+     * Returns true if this can be a substitute for other (i. e if this is a subclass of other). FIXME: should check for substitution groups
+     * as well.
+     * 
      * @param other the type to check against
      */
-    public boolean canSubstitute(String other)
-    {
+    public boolean canSubstitute(String other) {
         return canSubstitute(other, this.getNamespace());
     }
 
@@ -196,24 +180,22 @@ public abstract class Type
 
     /**
      * Adds a type as a derived type.
-     *
+     * 
      * @param derived the type to add.
      */
-    protected void addDerived(Type derived)
-    {
+    protected void addDerived(Type derived) {
         derivedTypes.put(derived, derived);
     }
-    
+
     /**
      * Returns the base of this type (or null if none exist).
-     */ 
+     */
     public abstract Type getBaseType();
 
     /**
      * Returns all direct derivations of this type.
      */
-    public Enumeration getDerived()
-    {
+    public Enumeration getDerived() {
         if (this.derivedTypes == null) {
             this.derivedTypes = new Hashtable();
             this.typeInformation.findDerived(this);
@@ -221,15 +203,14 @@ public abstract class Type
 
         return this.derivedTypes.elements();
     }
-    
+
     /**
      * Maps the type and its descendents types to the type of the base.
-     *
+     * 
      * @param base the base which to reduce to.
      * @param map the map into which the mapping is to be put.
      */
-    protected void reduceBranch(Type base, Hashtable map)
-    {
+    protected void reduceBranch(Type base, Hashtable map) {
         /* Map this type */
         map.put(this, base);
 
@@ -241,39 +222,34 @@ public abstract class Type
     }
 
     /**
-     * Returns the type derived from this, corresponding to the name
-     * and namespace of the supplied type (or null if no such can be found).
-     *
+     * Returns the type derived from this, corresponding to the name and namespace of the supplied type (or null if no such can be found).
+     * 
      * @param type the type to try to match
      */
-    protected Type getDerived(Type type)
-    {
+    protected Type getDerived(Type type) {
         return (Type) this.derivedTypes.get(type);
     }
 
     /**
-     * Creates a mapping between this type and another type.
-     *
-     * The mapping is on the form Type -> Type.
-     *
+     * Creates a mapping between this type and another type. The mapping is on the form Type -> Type.
+     * 
      * @param otherType the other type.
      * @param map the map into which the mapping is to be put.
      */
-    public void createMapping (Type otherType, Hashtable map)
-    {
+    public void createMapping(Type otherType, Hashtable map) {
         /* Map this type */
         map.put(this, otherType);
-        
+
         for (Enumeration ds = this.getDerived(); ds.hasMoreElements();) {
             Type derived = (Type) ds.nextElement();
-            Type  otherDerived = (Type) otherType.getDerived(derived);
+            Type otherDerived = (Type) otherType.getDerived(derived);
             if (otherDerived != null) {
-                /* Descend this branch.*/
+                /* Descend this branch. */
                 derived.createMapping(otherDerived, map);
-            }
-            else {
-                /* No otherDerived found, reduce all derivation in
-                 * this branch to otherTypes type. */
+            } else {
+                /*
+                 * No otherDerived found, reduce all derivation in this branch to otherTypes type.
+                 */
                 derived.reduceBranch(otherType, map);
             }
         }
@@ -282,41 +258,36 @@ public abstract class Type
     /**
      * Returns the hashcode of this type.
      */
-    public int hashCode()
-    {
+    public int hashCode() {
         return (this.getNamespace() + ":" + this.getName()).hashCode();
     }
 
     /**
      * Returns true if this type equals the specified object.
-     *
+     * 
      * @param o the object to compare against.
      */
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         if (o instanceof Type) {
-            return ((Type) o).getName().equals(this.getName()) &&
-                ((Type) o).getNamespace().equals(this.getNamespace());
+            return ((Type) o).getName().equals(this.getName())
+                    && ((Type) o).getNamespace().equals(this.getNamespace());
         }
 
         return false;
-        
+
     }
 
     /**
      * Returns the typeinformation object this type is created in.
      */
-    public TypeInformation getTypeInformation()
-    {
+    public TypeInformation getTypeInformation() {
         return this.typeInformation;
     }
 
     /**
-     * Returns a String holding this object in its Taclan V2
-     * representation.
+     * Returns a String holding this object in its Taclan V2 representation.
      */
-    public String toTaclanV2()
-    {
+    public String toTaclanV2() {
         if (getName().matches("[A-Za-z_][A-Za-z_0-9]*")) {
             return getName();
         } else {
@@ -327,27 +298,23 @@ public abstract class Type
     /**
      * Returns the annotations of this type.
      */
-    public String[] getAnnotations()
-    {
+    public String[] getAnnotations() {
         return new String[0];
     }
 
     /**
      * Returns a Vector containing all derived types of this type.
-     */    
-    public Vector getExpandedDerived()
-    {
+     */
+    public Vector getExpandedDerived() {
         return getExpandedDerived(new Vector());
     }
 
     /**
-     * Expands the derived types of the specified type and puts it in
-     * res.
+     * Expands the derived types of the specified type and puts it in res.
      * 
      * @param res the type to process.
-     */    
-    protected Vector getExpandedDerived(Vector res)
-    {
+     */
+    protected Vector getExpandedDerived(Vector res) {
         for (Enumeration ts = getDerived(); ts.hasMoreElements();) {
             Type type = (Type) ts.nextElement();
             res.add(type);
@@ -358,23 +325,20 @@ public abstract class Type
     }
 
     /**
-     * Returns the valid target-types of this type or null if none
-     * allowed.
+     * Returns the valid target-types of this type or null if none allowed.
      */
-    public Type validReferenceType() 
-    {
+    public Type validReferenceType() {
         return null;
     }
 
-    /** 
+    /**
      * Returns true if the provided type can be referenced by this.
-     *
+     * 
      * @param t the type to check
      */
-    public boolean isValidReferenceType(Type t)
-    {
+    public boolean isValidReferenceType(Type t) {
         Type t2 = this.validReferenceType();
-        
+
         if (t2 != null && t != null && t.canSubstitute(t2)) {
             return true;
         } else {
@@ -382,4 +346,3 @@ public abstract class Type
         }
     }
 }
-

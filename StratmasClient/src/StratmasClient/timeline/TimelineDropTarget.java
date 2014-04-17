@@ -20,7 +20,7 @@ class TimelineDropTarget extends DropTargetAdapter {
      * Reference to the timeline.
      */
     private Timeline timeline;
-    
+
     /**
      * Creates new TimelineDropTarget.
      */
@@ -29,90 +29,104 @@ class TimelineDropTarget extends DropTargetAdapter {
     }
 
     /**
-     * Called while a drag operation is ongoing, when the mouse pointer enters the operable part 
-     * of the timeline.
+     * Called while a drag operation is ongoing, when the mouse pointer enters the operable part of the timeline.
      */
     public void dragEnter(DropTargetDragEvent dtde) {
         dtde.acceptDrag(dtde.getDropAction());
     }
-    
+
     /**
-     * Called when a drag operation is ongoing, while the mouse pointer is still over the operable 
-     * part of the timeline.
+     * Called when a drag operation is ongoing, while the mouse pointer is still over the operable part of the timeline.
      */
     public void dragOver(DropTargetDragEvent dtde) {
         dtde.acceptDrag(dtde.getDropAction());
     }
-    
+
     /**
-     * Called when the drag operation has terminated with a drop on the operable part of the 
-     * timeline.
+     * Called when the drag operation has terminated with a drop on the operable part of the timeline.
      */
     public void drop(DropTargetDropEvent dtde) {
         TimelinePanel timelinePanel = timeline.getTimelinePanel();
-        TimelineActivityPanel activityPanel = timeline.getTimelinePanel().getTimelineActivityPanel();
+        TimelineActivityPanel activityPanel = timeline.getTimelinePanel()
+                .getTimelineActivityPanel();
         boolean dropAccepted = false;
         java.awt.Point pt = dtde.getLocation();
         pt.getY();
-        int x = (int)pt.getX();
+        int x = (int) pt.getX();
         try {
-            if (dtde.isDataFlavorSupported(DataFlavor.stringFlavor)||
-                dtde.isDataFlavorSupported(StratmasObject.STRATMAS_OBJECT_FLAVOR)) {
+            if (dtde.isDataFlavorSupported(DataFlavor.stringFlavor)
+                    || dtde.isDataFlavorSupported(StratmasObject.STRATMAS_OBJECT_FLAVOR)) {
                 dtde.acceptDrop(DnDConstants.ACTION_LINK);
                 dropAccepted = true;
                 Object obj;
-                if (dtde.getTransferable().isDataFlavorSupported(StratmasObject.STRATMAS_OBJECT_FLAVOR)) {
+                if (dtde.getTransferable()
+                        .isDataFlavorSupported(StratmasObject.STRATMAS_OBJECT_FLAVOR)) {
                     // accept StratmasObject
-                    obj = dtde.getTransferable().getTransferData(StratmasObject.STRATMAS_OBJECT_FLAVOR);
-                }
-                else {
+                    obj = dtde
+                            .getTransferable()
+                            .getTransferData(StratmasObject.STRATMAS_OBJECT_FLAVOR);
+                } else {
                     // accept String
-                    obj = dtde.getTransferable().getTransferData(DataFlavor.stringFlavor);
+                    obj = dtde.getTransferable()
+                            .getTransferData(DataFlavor.stringFlavor);
                 }
                 if (obj instanceof StratmasObject) {
-                    StratmasObject so = (StratmasObject)obj;
+                    StratmasObject so = (StratmasObject) obj;
                     if (so.getChild("start") != null) {
-                        if(so.getChild("end") != null) {
-                            long old_start = ((StratmasTimestamp)so.getChild("start")).getValue().getMilliSecs();
-                            long old_end = ((StratmasTimestamp)so.getChild("end")).getValue().getMilliSecs();
+                        if (so.getChild("end") != null) {
+                            long old_start = ((StratmasTimestamp) so
+                                    .getChild("start")).getValue()
+                                    .getMilliSecs();
+                            long old_end = ((StratmasTimestamp) so
+                                    .getChild("end")).getValue().getMilliSecs();
                             long old_center = (old_start + old_end) / 2;
-                            long new_center = timelinePanel.timeToMilliseconds(activityPanel.convertProjectedXToCurrentTime(x)) + 
-                                timeline.getSimStartTime();
-                            long new_start = old_start + (new_center - old_center);
+                            long new_center = timelinePanel
+                                    .timeToMilliseconds(activityPanel
+                                            .convertProjectedXToCurrentTime(x))
+                                    + timeline.getSimStartTime();
+                            long new_start = old_start
+                                    + (new_center - old_center);
                             long new_end = old_end + (new_center - old_center);
                             // update the activity
                             Timestamp sTime = new Timestamp(new_start);
                             Timestamp eTime = new Timestamp(new_end);
-                            if (sTime.getMilliSecs() > timeline.getCurrentTime() && eTime.getMilliSecs() > timeline.getCurrentTime()) {
-                                ((StratmasTimestamp)so.getChild("start")).setValue(sTime, this);
-                                ((StratmasTimestamp)so.getChild("end")).setValue(eTime, this);
+                            if (sTime.getMilliSecs() > timeline
+                                    .getCurrentTime()
+                                    && eTime.getMilliSecs() > timeline
+                                            .getCurrentTime()) {
+                                ((StratmasTimestamp) so.getChild("start"))
+                                        .setValue(sTime, this);
+                                ((StratmasTimestamp) so.getChild("end"))
+                                        .setValue(eTime, this);
                             }
-                        }
-                        else {
-                            long new_center = timelinePanel.timeToMilliseconds(activityPanel.convertProjectedXToCurrentTime(x)) + 
-                                timeline.getSimStartTime();
+                        } else {
+                            long new_center = timelinePanel
+                                    .timeToMilliseconds(activityPanel
+                                            .convertProjectedXToCurrentTime(x))
+                                    + timeline.getSimStartTime();
                             if (new_center > timeline.getCurrentTime()) {
-                                ((StratmasTimestamp)so.getChild("start")).setValue(new Timestamp(new_center), this);
+                                ((StratmasTimestamp) so.getChild("start"))
+                                        .setValue(new Timestamp(new_center),
+                                                  this);
                             }
                         }
                         //
                         dtde.dropComplete(true);
-                    }
-                    else if (so instanceof StratmasTimestamp) {
-                        StratmasTimestamp st = (StratmasTimestamp)so;
-                        long newTime = timelinePanel.timeToMilliseconds(activityPanel.convertProjectedXToCurrentTime(x)) + 
-                            timeline.getSimStartTime();
+                    } else if (so instanceof StratmasTimestamp) {
+                        StratmasTimestamp st = (StratmasTimestamp) so;
+                        long newTime = timelinePanel
+                                .timeToMilliseconds(activityPanel
+                                        .convertProjectedXToCurrentTime(x))
+                                + timeline.getSimStartTime();
                         st.setValue(new Timestamp(newTime), this);
                         dtde.dropComplete(true);
                     }
-                }
-                else {
+                } else {
                     dtde.dropComplete(false);
                 }
                 // update the timeline panel
                 activityPanel.update();
-            }
-            else {
+            } else {
                 dtde.rejectDrop();
             }
         } catch (Exception e) {
@@ -120,8 +134,7 @@ class TimelineDropTarget extends DropTargetAdapter {
             if (dropAccepted) {
                 dtde.dropComplete(false);
                 Debug.err.println("Exception thrown - Drop complete false");
-            }
-            else {
+            } else {
                 dtde.rejectDrop();
                 Debug.err.println("Exception thrown - Drop rejected");
             }

@@ -1,4 +1,4 @@
-//         $Id: Polygon.java,v 1.7 2007/01/24 14:08:55 amfi Exp $
+// $Id: Polygon.java,v 1.7 2007/01/24 14:08:55 amfi Exp $
 /*
  * @(#)Polygon.java
  */
@@ -22,77 +22,68 @@ import java.util.Enumeration;
 import org.w3c.dom.Element;
 
 /**
- * A polygon defines a contigous set of two dimensional points. It is
- * built by enclosing a region with lines.
- *
+ * A polygon defines a contigous set of two dimensional points. It is built by enclosing a region with lines.
+ * 
  * @version 1, $Date: 2007/01/24 14:08:55 $
- * @author  Daniel Ahlin
-*/
+ * @author Daniel Ahlin
+ */
 
-public class Polygon extends Segmented
-{
+public class Polygon extends Segmented {
     /**
      * Creates an identified polygon, defined by the supplied lines.
-     *
+     * 
      * @param identifier the identifier of the shape.
      * @param lines the lines that makes up the polygon the shape.
      */
-    protected Polygon(String identifier, Vector lines)
-    {
+    protected Polygon(String identifier, Vector lines) {
         super(identifier, TypeFactory.getType("Polygon"));
         this.add(lines);
     }
 
     /**
      * Creates a polygon, defined by the supplied lines.
-     *
+     * 
      * @param declaration the declaration of the shape.
      * @param lines the lines that makes up the polygon the shape.
      */
-    protected Polygon(Declaration declaration, Vector lines)
-    {
+    protected Polygon(Declaration declaration, Vector lines) {
         this(declaration.getName(), lines);
     }
 
     /**
      * Constructs an approximated polygon of this shape.
-     *
-     * @param error the maximal distance between the approximation and
-     * the true line.
+     * 
+     * @param error the maximal distance between the approximation and the true line.
      */
-    protected Polygon constructPolygon(double error)
-    {
+    protected Polygon constructPolygon(double error) {
         return this;
     }
 
     /**
-     * Returns a StratmasVectorConstructor suitable for constructing
-     * objects of this type.
-     *
+     * Returns a StratmasVectorConstructor suitable for constructing objects of this type.
+     * 
      * @param declaration the declaration for which the object is created.
      */
-    protected static StratmasVectorConstructor getVectorConstructor(Declaration declaration)
-    {
+    protected static StratmasVectorConstructor getVectorConstructor(
+            Declaration declaration) {
         return new PolygonVectorConstructor(declaration);
     }
 
     /**
      * Creates a Polygon from the specified Declaration.
-     *
-     * <p> author Per Alexius
-     *
+     * <p>
+     * author Per Alexius
+     * 
      * @param declaration The declaration for which the object is created.
      */
-    protected static StratmasObject defaultCreate(Declaration declaration)
-    {
+    protected static StratmasObject defaultCreate(Declaration declaration) {
         throw new AssertionError("No default constructor for Polygon.");
     }
-    
+
     /**
      * Creates this shapes bounding box. This method assumes that the polygon is nonempty.
      */
-    public BoundingBox createBoundingBox()
-    {                
+    public BoundingBox createBoundingBox() {
         double xmin = Double.POSITIVE_INFINITY;
         double ymin = Double.POSITIVE_INFINITY;
         double xmax = Double.NEGATIVE_INFINITY;
@@ -100,17 +91,25 @@ public class Polygon extends Segmented
 
         for (Enumeration ls = this.getCurves(); ls.hasMoreElements();) {
             Line l = (Line) ls.nextElement();
-            xmin = xmin < l.getStartPoint().getLon() ? xmin : l.getStartPoint().getLon();
-            xmin = xmin < l.getEndPoint().getLon() ? xmin : l.getEndPoint().getLon();
+            xmin = xmin < l.getStartPoint().getLon() ? xmin : l.getStartPoint()
+                    .getLon();
+            xmin = xmin < l.getEndPoint().getLon() ? xmin : l.getEndPoint()
+                    .getLon();
 
-            ymin = ymin < l.getStartPoint().getLat() ? ymin : l.getStartPoint().getLat();
-            ymin = ymin < l.getEndPoint().getLat() ? ymin : l.getEndPoint().getLat();
+            ymin = ymin < l.getStartPoint().getLat() ? ymin : l.getStartPoint()
+                    .getLat();
+            ymin = ymin < l.getEndPoint().getLat() ? ymin : l.getEndPoint()
+                    .getLat();
 
-            xmax = xmax > l.getStartPoint().getLon() ? xmax : l.getStartPoint().getLon();
-            xmax = xmax > l.getEndPoint().getLon() ? xmax : l.getEndPoint().getLon();
+            xmax = xmax > l.getStartPoint().getLon() ? xmax : l.getStartPoint()
+                    .getLon();
+            xmax = xmax > l.getEndPoint().getLon() ? xmax : l.getEndPoint()
+                    .getLon();
 
-            ymax = ymax > l.getStartPoint().getLat() ? ymax : l.getStartPoint().getLat();
-            ymax = ymax > l.getEndPoint().getLat() ? ymax : l.getEndPoint().getLat();
+            ymax = ymax > l.getStartPoint().getLat() ? ymax : l.getStartPoint()
+                    .getLat();
+            ymax = ymax > l.getEndPoint().getLat() ? ymax : l.getEndPoint()
+                    .getLat();
         }
 
         return new BoundingBox(xmin, ymin, xmax, ymax);
@@ -119,8 +118,7 @@ public class Polygon extends Segmented
     /**
      * Returns the bounding box with respect to its projected parts.
      */
-    public BoundingBox getBoundingBox(Projection proj)
-    {                
+    public BoundingBox getBoundingBox(Projection proj) {
         double xmin = Double.POSITIVE_INFINITY;
         double ymin = Double.POSITIVE_INFINITY;
         double xmax = Double.NEGATIVE_INFINITY;
@@ -146,175 +144,168 @@ public class Polygon extends Segmented
         return new BoundingBox(xmin, ymin, xmax, ymax, proj);
     }
 
+    /**
+     * Moves this shape relative to its current position.
+     * <p>
+     * author Per Alexius
+     * 
+     * @param dx The distance to move given in degrees longitude.
+     * @param dy The distance to move given in degrees latitude.
+     */
+    public void move(double dx, double dy) {
+        for (Enumeration en = getCurves(); en.hasMoreElements();) {
+            ((Line) en.nextElement()).move(dx, dy);
+        }
+    }
 
-     /**
-      * Moves this shape relative to its current position.
-      *
-      * <p>author  Per Alexius
-      *
-      * @param dx The distance to move given in degrees longitude.
-      * @param dy The distance to move given in degrees latitude.
-      */
-     public void move(double dx, double dy) {
-         for(Enumeration en = getCurves(); en.hasMoreElements(); ) {
-               ((Line)en.nextElement()).move(dx, dy);
-         }
-     }
-
-     /**
-      * Moves this shape to the specified location.
-      *
-      * <p>author  Per Alexius
-      *
-      * @param lng The longitude of the new location.
-      * @param lat The latitude of the new location.
-      */
+    /**
+     * Moves this shape to the specified location.
+     * <p>
+     * author Per Alexius
+     * 
+     * @param lng The longitude of the new location.
+     * @param lat The latitude of the new location.
+     */
     public void moveTo(double lng, double lat) {
         BoundingBox b = createBoundingBox();
         double cenLng = b.getWestLon() + (b.getEastLon() - b.getWestLon()) / 2;
-        double cenLat = b.getSouthLat() + (b.getNorthLat() - b.getSouthLat()) / 2;
+        double cenLat = b.getSouthLat() + (b.getNorthLat() - b.getSouthLat())
+                / 2;
         move(lng - cenLng, lat - cenLat);
     }
 
-
     /**
-     * Clones this object. Notice that the Identifier is NOT
-     * cloned. Both the clone and the original object will thus keep a
-     * reference to the same Identifier object.
-     *
-     * <p> author Per Alexius
-     *
+     * Clones this object. Notice that the Identifier is NOT cloned. Both the clone and the original object will thus keep a reference to
+     * the same Identifier object.
+     * <p>
+     * author Per Alexius
+     * 
      * @return A clone of this object.
      */
-     protected Object clone() {
-          Vector elements = new Vector();
-          for (Enumeration en = children(); en.hasMoreElements(); ) {
-               elements.add(((StratmasObject)en.nextElement()).clone());
-          }
-          return new Polygon(identifier, elements);
-     }
+    protected Object clone() {
+        Vector elements = new Vector();
+        for (Enumeration en = children(); en.hasMoreElements();) {
+            elements.add(((StratmasObject) en.nextElement()).clone());
+        }
+        return new Polygon(identifier, elements);
+    }
 
     /**
      * Updates this object with the data contained in the Element n.
-     *
-     * <p> author Per Alexius
-     *
+     * <p>
+     * author Per Alexius
+     * 
      * @param n The DOM Element from which to fetch the data.
      * @param t The simulation time for which the data is valid.
      */
-    public void update(Element n, Timestamp t) 
-    {
+    public void update(Element n, Timestamp t) {
         if (getType().equals(TypeFactory.getType(n))) {
             // Get the StratmasList containing the child curves.
-            StratmasList curveList = (StratmasList)getChild("curves");
+            StratmasList curveList = (StratmasList) getChild("curves");
             if (curveList == null) {
                 throw new AssertionError("Polygon without curve StratmasList");
             }
-            
+
             // Go through the child curves in the new Polygon and
             // check them with the existing child curves. If any
             // new curves are detected or if any curve has been
             // removed we replace the enture Polygon.
             Vector v = XMLHelper.getChildElementsByTag(n, "curves");
             if (v.size() == curveList.getChildCount()) {
-                for (Enumeration en = v.elements(); en.hasMoreElements(); ) {
+                for (Enumeration en = v.elements(); en.hasMoreElements();) {
                     // Cast the child curve Node to an Element.
                     Element curveElem = (Element) en.nextElement();
-                    
+
                     // Get the Identifier of the child curve.
                     String id = Identifier.getIdentifier(curveElem);
-                    
+
                     // Get the Type of the child curve.
                     Type typeOfNewChild = TypeFactory.getType(curveElem);
-                    
+
                     // Check if we have a child curve with the same
                     // name as the new one.
                     Curve childCurve = (Curve) curveList.getChild(id);
-                    if (childCurve == null || 
-                        !childCurve.getType().equals(typeOfNewChild)) {
+                    if (childCurve == null
+                            || !childCurve.getType().equals(typeOfNewChild)) {
                         // Same number of curves but not same
                         // identifers -> replace.
                         replace(StratmasObjectFactory.domCreate(n), n);
                         return;
-                    }
-                    else {
+                    } else {
                         // Ok, it was just an update of the same
                         // child curve.
                         childCurve.update(curveElem, t);
                     }
                 }
-            }
-            else {
+            } else {
                 // More or less curves than in the old polygon -> replace.
                 replace(StratmasObjectFactory.domCreate(n), n);
                 return;
             }
-        }
-        else {
+        } else {
             // Different type -> replace
             replace(StratmasObjectFactory.domCreate(n), n);
         }
     }
 
     /**
-     * Called when a (direct) child of this has changed. Overriden in
-     * order to spare the cached approximated polygon (which is this).
-     *
+     * Called when a (direct) child of this has changed. Overriden in order to spare the cached approximated polygon (which is this).
+     * 
      * @param child the child that changed
      */
-    public void childChanged(StratmasObject child, Object initiator) 
-    {
+    public void childChanged(StratmasObject child, Object initiator) {
         if (getParent() != null) {
             getParent().childChanged(this, initiator);
         }
-        
+
         fireChildChanged(child, initiator);
     }
 
-     /**
-      * Checks if this polygon is closed, e.g. that there is no line
-      * that has a start point that isn't any other line's endpoint.
-      *
-      * @return True if the polygon is closed, false otherwise.
-      */
-     public boolean isClosed() {
-          // Should be cached and updated!!!
-          Hashtable h = new Hashtable();
-          for (Enumeration en = getCurves(); en.hasMoreElements(); ) {
-               Line l = (Line)en.nextElement();
-               h.put(new java.awt.geom.Point2D.Double(l.getStartPoint().getLon(), l.getStartPoint().getLat()), l);
+    /**
+     * Checks if this polygon is closed, e.g. that there is no line that has a start point that isn't any other line's endpoint.
+     * 
+     * @return True if the polygon is closed, false otherwise.
+     */
+    public boolean isClosed() {
+        // Should be cached and updated!!!
+        Hashtable h = new Hashtable();
+        for (Enumeration en = getCurves(); en.hasMoreElements();) {
+            Line l = (Line) en.nextElement();
+            h.put(new java.awt.geom.Point2D.Double(l.getStartPoint().getLon(),
+                    l.getStartPoint().getLat()), l);
 //               h.put(l.getStartPoint(), l);
-          }
-          for (Enumeration en = h.elements(); en.hasMoreElements(); ) {
-               Line l = (Line)en.nextElement();
-               if (h.get(new java.awt.geom.Point2D.Double(l.getEndPoint().getLon(), l.getEndPoint().getLat())) == null) {
+        }
+        for (Enumeration en = h.elements(); en.hasMoreElements();) {
+            Line l = (Line) en.nextElement();
+            if (h.get(new java.awt.geom.Point2D.Double(
+                    l.getEndPoint().getLon(), l.getEndPoint().getLat())) == null) {
 //               if (h.get(l.getEndPoint()) == null) {
-                    return false;
-               }
-          }
-          return true;
-     }
-    
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * Returns the ordered set of points for this polygonial.
      */
     public Vector getOrderedSetOfPoints() {
         Hashtable h = new Hashtable();
-        for (Enumeration en = getCurves(); en.hasMoreElements(); ) {
-            Line l = (Line)en.nextElement();
-            h.put(new java.awt.geom.Point2D.Double(l.getStartPoint().getLon(), l.getStartPoint().getLat()), 
-                  l.getEndPoint());
+        for (Enumeration en = getCurves(); en.hasMoreElements();) {
+            Line l = (Line) en.nextElement();
+            h.put(new java.awt.geom.Point2D.Double(l.getStartPoint().getLon(),
+                    l.getStartPoint().getLat()), l.getEndPoint());
         }
         Vector points = new Vector();
         // get the first point
-        Point point = (Point)h.elements().nextElement();
+        Point point = (Point) h.elements().nextElement();
         while (point != null && !points.contains(point)) {
             points.add(point);
-            point = (Point)h.get(new java.awt.geom.Point2D.Double(point.getLon(), point.getLat()));
+            point = (Point) h.get(new java.awt.geom.Point2D.Double(point
+                    .getLon(), point.getLat()));
         }
         return points;
     }
-
 
 }
 
@@ -323,31 +314,27 @@ public class Polygon extends Segmented
  */
 
 /**
- * PolygonVectorConstructor constructs a Polygon using
- * a vector.
- *
+ * PolygonVectorConstructor constructs a Polygon using a vector.
+ * 
  * @version 1, $Date: 2007/01/24 14:08:55 $
- * @author  Daniel Ahlin
-*/
-class PolygonVectorConstructor extends StratmasVectorConstructor
-{
+ * @author Daniel Ahlin
+ */
+class PolygonVectorConstructor extends StratmasVectorConstructor {
     /**
      * Creates a new object using specifications in declaration.
-     *
+     * 
      * @param declaration the declaration to use.
      */
-    public PolygonVectorConstructor(Declaration declaration)
-    {
+    public PolygonVectorConstructor(Declaration declaration) {
         super(declaration);
     }
 
     /**
      * Returns the StratmasObject this component was created to provide.
-     *
+     * 
      * @param parts the parts to use in constructing the object.
      */
-    public StratmasObject getStratmasObject(Vector parts)
-    {
+    public StratmasObject getStratmasObject(Vector parts) {
         return new Polygon(this.getDeclaration(), parts);
     }
 }

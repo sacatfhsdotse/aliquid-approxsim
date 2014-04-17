@@ -1,4 +1,4 @@
-//         $Id: EvolverFrame.java,v 1.4 2006/01/11 22:22:18 dah Exp $
+// $Id: EvolverFrame.java,v 1.4 2006/01/11 22:22:18 dah Exp $
 
 /*
  * @(#)EvolverFrame.java
@@ -16,20 +16,18 @@ import javax.swing.JTextField;
 import java.awt.BorderLayout;
 
 /**
- * EvolverFrame is JFrame adapted to use as the main window for the
- * EvolverGUI.
- *
+ * EvolverFrame is JFrame adapted to use as the main window for the EvolverGUI.
+ * 
  * @version 1, $Date: 2006/01/11 22:22:18 $
- * @author  Daniel Ahlin
-*/
-public class EvolverFrame extends JFrame
-{
+ * @author Daniel Ahlin
+ */
+public class EvolverFrame extends JFrame {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = -8279844453764427037L;
+    private static final long serialVersionUID = -8279844453764427037L;
 
-	/**
+    /**
      * The evolverGUI to use.
      */
     EvolverGUI evolverGUI;
@@ -51,16 +49,15 @@ public class EvolverFrame extends JFrame
 
     /**
      * The life in ms of transient log messages
-     */ 
+     */
     static final int LOG_LIFE_MS = 5000;
 
     /**
      * Creates a frame for the specified evolvergui
-     *
+     * 
      * @param evolverGUI the evolverGUI to visualize
      */
-    public EvolverFrame(EvolverGUI evolverGUI)
-    {
+    public EvolverFrame(EvolverGUI evolverGUI) {
         super("StratmasClient Evolver");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.evolverGUI = evolverGUI;
@@ -72,15 +69,14 @@ public class EvolverFrame extends JFrame
         getContentPane().add(panel, BorderLayout.SOUTH);
 
         // Find a suitable image for this application
-        //setIconImage(new ImageIcon(getClass().getResource("icons/evolver.png")).getImage());
+        // setIconImage(new ImageIcon(getClass().getResource("icons/evolver.png")).getImage());
         updateToolBar();
     }
 
     /**
      * Creates an infoField for this frame.
      */
-    JTextField createInfoField()
-    {
+    JTextField createInfoField() {
         JTextField field = new JTextField();
         field.setEditable(false);
         field.setBackground(this.getBackground());
@@ -89,12 +85,11 @@ public class EvolverFrame extends JFrame
 
     /**
      * Logs interesting messages for eventual consumption by the user.
-     *
+     * 
      * @param message the message.
      * @param temporary if the message should be removed after some time.
      */
-    public void log(String message, boolean temporary)
-    {
+    public void log(String message, boolean temporary) {
         synchronized (this.infoFieldTimer) {
             this.infoFieldTimer.cancel();
         }
@@ -103,14 +98,12 @@ public class EvolverFrame extends JFrame
 
         if (temporary) {
             final Timer timer = new Timer();
-            timer.schedule(new TimerTask() 
-                {
-                    public void run()
-                    {
-                        getInfoField().setText("");
-                        timer.cancel();
-                    }
-                }, LOG_LIFE_MS);
+            timer.schedule(new TimerTask() {
+                public void run() {
+                    getInfoField().setText("");
+                    timer.cancel();
+                }
+            }, LOG_LIFE_MS);
 
             synchronized (this.infoFieldTimer) {
                 this.infoFieldTimer = timer;
@@ -121,16 +114,14 @@ public class EvolverFrame extends JFrame
     /**
      * Returns the infofield of this frame
      */
-    public JTextField getInfoField()
-    {
+    public JTextField getInfoField() {
         return this.infoField;
     }
-    
+
     /**
      * Updates the toolBar of this frame.
      */
-    public void updateToolBar()
-    {
+    public void updateToolBar() {
         if (toolBar == null) {
             toolBar = new JToolBar();
             getContentPane().add(toolBar, BorderLayout.PAGE_START);
@@ -145,8 +136,7 @@ public class EvolverFrame extends JFrame
     /**
      * Returns the evolverGUI of this frame
      */
-    EvolverGUI getEvolverGUI()
-    {
+    EvolverGUI getEvolverGUI() {
         return this.evolverGUI;
     }
 }

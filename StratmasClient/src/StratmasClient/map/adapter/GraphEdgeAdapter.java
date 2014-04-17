@@ -29,7 +29,7 @@ import com.jogamp.common.nio.Buffers;
  * @author Exuvo
  */
 public class GraphEdgeAdapter extends MapElementAdapter {
-    
+
     /**
      * The default color of the lines.
      */
@@ -55,7 +55,7 @@ public class GraphEdgeAdapter extends MapElementAdapter {
     protected GraphEdgeAdapter(StratmasObject element) {
         super(element);
     }
- 
+
     /**
      * Creates a new ElementAdapter.
      * 
@@ -74,9 +74,10 @@ public class GraphEdgeAdapter extends MapElementAdapter {
      */
     protected void updateSymbolDisplayList(Projection proj, GLAutoDrawable gld) {
         GL2 gl = (GL2) gld.getGL();
-        displayListsBuf.put(SYMBOL_POS,
-                            (gl.glIsList(displayListsBuf.get(SYMBOL_POS))) ? displayListsBuf
-                                    .get(SYMBOL_POS) : gl.glGenLists(1));
+        displayListsBuf
+                .put(SYMBOL_POS,
+                     (gl.glIsList(displayListsBuf.get(SYMBOL_POS))) ? displayListsBuf
+                             .get(SYMBOL_POS) : gl.glGenLists(1));
 
         // Start list
         gl.glNewList(displayListsBuf.get(SYMBOL_POS), GL2.GL_COMPILE);
@@ -98,8 +99,8 @@ public class GraphEdgeAdapter extends MapElementAdapter {
         gl.glScaled(scale, scale, 1.0d);
 
         gl.glPushName(getRenderSelectionName() + 1 + SYMBOL_POS);
-        
-        double[] pd = getLonLatDiff();
+
+//        double[] pd = getLonLatDiff();
 //        double[] p1 = new double[]{pd[0], pd[1]};
         double[] p1 = getOriginLonLat();
 //        p1[0] = p1[0] - pd[0];
@@ -112,29 +113,29 @@ public class GraphEdgeAdapter extends MapElementAdapter {
         p1 = proj.projToXY(p1);
         p2 = proj.projToXY(p2);
 //      System.out.println(horizontalSymbolSize + " " + verticalSymbolSize + " " + p1[0] + " " + p1[1] + " " + p2[0] + " " + p2[1]);                      
-        
+
         float[] cColor = lineColor.getRGBColorComponents(null);
-        
-        //TODO draw line as rectangle to fix GL_SELECT used for selection
+
+        // TODO draw line as rectangle to fix GL_SELECT used for selection
         gl.glBegin(GL2.GL_LINES);
         gl.glLineWidth(lineWidth);
         gl.glColor4d(cColor[0], cColor[1], cColor[2], getSymbolOpacity());
         gl.glVertex2dv(p1, 0);
         gl.glVertex2dv(p2, 0);
         gl.glEnd();
-        
+
         gl.glBegin(GL2.GL_QUADS);
         gl.glColor4d(0.0d, 1.0d, 0.0d, 1.0d);
         gl.glTexCoord2f(0, 0);
-        gl.glVertex2d(-horizontalSymbolSize/2, -verticalSymbolSize/2);
+        gl.glVertex2d(-horizontalSymbolSize / 2, -verticalSymbolSize / 2);
         gl.glTexCoord2f(0, 1);
-        gl.glVertex2d(-horizontalSymbolSize/2, verticalSymbolSize/2);
+        gl.glVertex2d(-horizontalSymbolSize / 2, verticalSymbolSize / 2);
         gl.glTexCoord2f(1, 1);
-        gl.glVertex2d(horizontalSymbolSize/2, verticalSymbolSize/2);
+        gl.glVertex2d(horizontalSymbolSize / 2, verticalSymbolSize / 2);
         gl.glTexCoord2f(1, 0);
-        gl.glVertex2d(horizontalSymbolSize/2, -verticalSymbolSize/2);
+        gl.glVertex2d(horizontalSymbolSize / 2, -verticalSymbolSize / 2);
         gl.glEnd();
-        
+
         gl.glPopMatrix();
         gl.glPopName();
         gl.glPopMatrix();
@@ -156,7 +157,7 @@ public class GraphEdgeAdapter extends MapElementAdapter {
             fireAdapterUpdated();
         }
     }
-    
+
     protected double[] getOriginLonLat() {
         StratmasObject walker = getObject();
         while (walker != null && walker.getChild("origin") == null) {
@@ -164,7 +165,8 @@ public class GraphEdgeAdapter extends MapElementAdapter {
         }
 
         if (walker != null) {
-            Point p = (Point) ((StratmasReference)walker.getChild("origin")).getValue().resolve(walker).getChild("point");
+            Point p = (Point) ((StratmasReference) walker.getChild("origin"))
+                    .getValue().resolve(walker).getChild("point");
             return new double[] { p.getLon(), p.getLat() };
         } else {
             Debug.err.println("Should not be here!");
@@ -179,22 +181,23 @@ public class GraphEdgeAdapter extends MapElementAdapter {
         }
 
         if (walker != null) {
-            Point p = (Point) ((StratmasReference)walker.getChild("target")).getValue().resolve(walker).getChild("point");
+            Point p = (Point) ((StratmasReference) walker.getChild("target"))
+                    .getValue().resolve(walker).getChild("point");
             return new double[] { p.getLon(), p.getLat() };
         } else {
             Debug.err.println("Should not be here!");
             return new double[] { 0.0d, 0.0d };
         }
     }
-    
-    //Object center
+
+    // Object center
     protected double[] getLonLat() {
         double[] o = getOriginLonLat();
         double[] t = getTargetLonLat();
-        double[] a = new double[] { (o[0] + t[0] ) / 2, (o[1] + t[1]) / 2 };
+        double[] a = new double[] { (o[0] + t[0]) / 2, (o[1] + t[1]) / 2 };
         return a;
     }
-    
+
     protected double[] getLonLatDiff() {
         double[] o = getOriginLonLat();
         double[] t = getTargetLonLat();
@@ -220,7 +223,8 @@ public class GraphEdgeAdapter extends MapElementAdapter {
      * 
      * @param gld the glDrawable context to use.
      */
-    protected GLUtessellatorCallback getLocationTessellatorCallback(GLAutoDrawable gld) {
+    protected GLUtessellatorCallback getLocationTessellatorCallback(
+            GLAutoDrawable gld) {
         final GL2 gl = (GL2) gld.getGL();
 
         return new GLUtessellatorCallbackAdapter() {
@@ -239,18 +243,18 @@ public class GraphEdgeAdapter extends MapElementAdapter {
             }
         };
     }
-    
+
     public void eventOccured(StratmasEvent event) {
         super.eventOccured(event);
     }
-    
+
     protected void childChanged(StratmasEvent event) {
         super.childChanged(event);
     }
-    
+
     /**
      * Sets color of the line.
-     *
+     * 
      * @param lineColor color of the line.
      */
     public void setLineColor(Color lineColor) {
@@ -258,10 +262,10 @@ public class GraphEdgeAdapter extends MapElementAdapter {
         displayListUpdated = false;
         fireAdapterUpdated();
     }
-    
+
     /**
      * Sets width of the line.
-     *
+     * 
      * @param lineWidth width of the line.
      */
     public void setLineWidth(float lineWidth) {

@@ -1,4 +1,4 @@
-//         $Id: TypeFactory.java,v 1.2 2006/03/31 16:55:51 dah Exp $
+// $Id: TypeFactory.java,v 1.2 2006/03/31 16:55:51 dah Exp $
 /*
  * @(#)StratmasObjectFactory.java
  */
@@ -15,13 +15,12 @@ import org.w3c.dom.Element;
 
 /**
  * TypeFactory is globally availiable resource for aquiring types.
- *
+ * 
  * @version 1, $Date: 2006/03/31 16:55:51 $
- * @author  Daniel Ahlin
-*/
+ * @author Daniel Ahlin
+ */
 
-public class TypeFactory
-{
+public class TypeFactory {
     /**
      * The typeInformation object of this class.
      */
@@ -31,7 +30,7 @@ public class TypeFactory
      * Default namespace to look in.
      */
     static String defaultNamespace = StratmasConstants.stratmasNamespace;
-    
+
     /**
      * Uri from which to load the schema.
      */
@@ -39,22 +38,20 @@ public class TypeFactory
 
     /**
      * Creates the typeInformation object to use when constructing types.
-     *
+     * 
      * @param uri the location of the uri.
      */
-    static TypeInformation createTypeInformation(String uri)
-    {
-        return new TypeInformation(uri);        
+    static TypeInformation createTypeInformation(String uri) {
+        return new TypeInformation(uri);
     }
 
     /**
      * Retrieves an instance of Type with specified name and namespace.
-     *
+     * 
      * @param type the name of the type
      * @param namespace the namespace to look in.
      */
-    public static Type getType(String type, String namespace)
-    {
+    public static Type getType(String type, String namespace) {
         if (typeInformation == null) {
             typeInformation = createTypeInformation(defaultUri);
         }
@@ -63,32 +60,27 @@ public class TypeFactory
     }
 
     /**
-     * Retrieves an instance of Type with specified name from default
-     * namespace.
-     *
+     * Retrieves an instance of Type with specified name from default namespace.
+     * 
      * @param type the name of the type
      */
-    public static Type getType(String type)
-    {
+    public static Type getType(String type) {
         return getType(type, defaultNamespace);
     }
 
     /**
-     * Retrieves an instance of Type matching the type of the
-     * specified element, or null if none found.
-     *
+     * Retrieves an instance of Type matching the type of the specified element, or null if none found.
+     * 
      * @param element the element to get type for.
      */
-    public static Type getType(Element element)
-    {
+    public static Type getType(Element element) {
         return XMLHelper.getType(element);
     }
 
     /**
      * Retrieves type typeInformation the TypeFactory uses.
      */
-    public static TypeInformation getTypeInformation()
-    {
+    public static TypeInformation getTypeInformation() {
         return typeInformation;
     }
 }

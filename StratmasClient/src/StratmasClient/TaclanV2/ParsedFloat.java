@@ -1,4 +1,4 @@
-//         $Id: ParsedFloat.java,v 1.4 2006/03/31 16:55:50 dah Exp $
+// $Id: ParsedFloat.java,v 1.4 2006/03/31 16:55:50 dah Exp $
 /*
  * @(#)ParsedFloat.java
  */
@@ -6,26 +6,24 @@
 package StratmasClient.TaclanV2;
 
 /**
- * An object representing the type float of the Taclan language.  As
- * such it contains artefacts of the language. 
- *
+ * An object representing the type float of the Taclan language. As such it contains artefacts of the language.
+ * 
  * @version 1, 09/28/04
- * @author  Daniel Ahlin
-*/
+ * @author Daniel Ahlin
+ */
 
-public class ParsedFloat extends ParsedPrimitive
-{   
+public class ParsedFloat extends ParsedPrimitive {
     /**
      * String containing the declared float.
      */
     String value;
 
     /**
-     *@param pos where the element is declared.
-     *@param value the double this ParsedFloat contains.
+     * @param pos where the element is declared.
+     * @param value the double this ParsedFloat contains.
      */
-    public ParsedFloat(SourcePosition pos, String value) throws SemanticException
-    {
+    public ParsedFloat(SourcePosition pos, String value)
+            throws SemanticException {
         super(pos);
         this.value = value;
     }
@@ -33,8 +31,7 @@ public class ParsedFloat extends ParsedPrimitive
     /**
      * Returns a string representation of the value this object holds.
      */
-    public String valueToString()
-    {
+    public String valueToString() {
         return value;
     }
 }

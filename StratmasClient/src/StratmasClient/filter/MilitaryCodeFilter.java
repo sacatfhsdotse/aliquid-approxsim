@@ -4,43 +4,38 @@ import StratmasClient.object.StratmasObject;
 import StratmasClient.object.SymbolIDCode;
 
 /**
- * Passes all objects of type "MilitaryUnit" which have the right code letter on the
- * specified position in the code string.
+ * Passes all objects of type "MilitaryUnit" which have the right code letter on the specified position in the code string.
  */
 
-public class MilitaryCodeFilter extends StratmasObjectFilter
-{
+public class MilitaryCodeFilter extends StratmasObjectFilter {
     // code letter
     private char letter;
     // position of the letter in the code
     private int position;
-    
+
     /**
-     * Creates a new MilitaryCodeFilter 
+     * Creates a new MilitaryCodeFilter
      */
-    public MilitaryCodeFilter(char letter, int position)
-    {        
+    public MilitaryCodeFilter(char letter, int position) {
         super();
         this.letter = letter;
         this.position = position;
     }
-    
+
     /**
      * Returns true if the provided StratmasObject passes the filter.
-     *
+     * 
      * @param sObj the object to test
      */
-    public boolean pass(StratmasObject sObj)
-    {
+    public boolean pass(StratmasObject sObj) {
         if (sObj.getType().getName().equals("MilitaryUnit")) {
             try {
-                SymbolIDCode code = (SymbolIDCode)sObj.getChild("symbolIDCode");
+                SymbolIDCode code = (SymbolIDCode) sObj
+                        .getChild("symbolIDCode");
                 if (code.valueToString().charAt(position) == letter) {
                     return true;
                 }
-            }
-            catch (RuntimeException e) {
-            }
+            } catch (RuntimeException e) {}
         }
         return false;
     }

@@ -11,11 +11,11 @@ import StratmasClient.map.adapter.MapLineAdapter;
 import StratmasClient.object.Point;
 
 /**
- * This class implements methods used to construct, change and move shapes. 
+ * This class implements methods used to construct, change and move shapes.
  */
 public abstract class ShapeMaker {
     /**
-     * Number of shapes created. 
+     * Number of shapes created.
      */
     public static int createdShapesCounter = 0;
     /**
@@ -28,7 +28,7 @@ public abstract class ShapeMaker {
     protected MapShapeAdapter shapeAdapter;
     /**
      * The list of the overlapping points.
-     */ 
+     */
     protected Hashtable<Point, Point> overlappingPoints = new Hashtable<Point, Point>();
     /**
      * The list of line adapters.
@@ -38,7 +38,7 @@ public abstract class ShapeMaker {
      * The list of point adapters.
      */
     protected Vector<MapDrawableAdapter> pointAdapters = new Vector<MapDrawableAdapter>();
-    
+
     /**
      * Creates new shape constructor.
      */
@@ -49,21 +49,21 @@ public abstract class ShapeMaker {
     /**
      * Creates new MapShapeAdapter.
      */
-    protected abstract void createMapShapeAdapter(Color color); 
-    
+    protected abstract void createMapShapeAdapter(Color color);
+
     /**
      * Returns the shape adapter.
      */
     protected MapShapeAdapter getShapeAdapter() {
         return shapeAdapter;
-    } 
-    
+    }
+
     /**
      * Removes all MapPointAdapter objects.
      */
     protected void removeMapPointAdapters() {
-        while(!pointAdapters.isEmpty()) {
-            MapPointAdapter mpa = (MapPointAdapter)pointAdapters.remove(0);
+        while (!pointAdapters.isEmpty()) {
+            MapPointAdapter mpa = (MapPointAdapter) pointAdapters.remove(0);
             drawer.removeMapPointAdapter(mpa);
         }
     }
@@ -72,8 +72,8 @@ public abstract class ShapeMaker {
      * Removes all MapLineAdapter objects.
      */
     protected void removeMapLineAdapters() {
-        while(!lineAdapters.isEmpty()) {
-            MapLineAdapter mla = (MapLineAdapter)lineAdapters.remove(0);
+        while (!lineAdapters.isEmpty()) {
+            MapLineAdapter mla = (MapLineAdapter) lineAdapters.remove(0);
             drawer.removeMapLineAdapter(mla);
         }
     }
@@ -93,7 +93,6 @@ public abstract class ShapeMaker {
      */
     protected abstract boolean isShapeSimple();
 
-    
     /**
      * Moves the area in the chosen direction.
      */

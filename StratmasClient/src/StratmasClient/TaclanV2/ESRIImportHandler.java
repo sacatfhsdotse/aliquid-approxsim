@@ -1,24 +1,21 @@
-//         $Id: ESRIImportHandler.java,v 1.1 2005/02/03 10:20:58 dah Exp $
+// $Id: ESRIImportHandler.java,v 1.1 2005/02/03 10:20:58 dah Exp $
 /*
  * @(#)ESRIImportHandler.java
  */
 
 package StratmasClient.TaclanV2;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
- * ESRIImportHandler is a class converting a ESRIfileset
- * into ParsedDeclarations.
- *
- * TODO recursion checks.
- *
+ * ESRIImportHandler is a class converting a ESRIfileset into ParsedDeclarations. TODO recursion checks.
+ * 
  * @version 1, $Date: 2005/02/03 10:20:58 $
- * @author  Daniel Ahlin
-*/
+ * @author Daniel Ahlin
+ */
 
-public class ESRIImportHandler extends ImportHandler
-{
+public class ESRIImportHandler extends ImportHandler {
     /**
      * The esri shapefile behind this importation.
      */
@@ -26,25 +23,22 @@ public class ESRIImportHandler extends ImportHandler
 
     /**
      * Creates an instance of the ESRIImportHandler.
-     *
+     * 
      * @param location the string pointing out the import target.
      */
-    public ESRIImportHandler(String location)
-    {
+    public ESRIImportHandler(String location) {
         super(location);
     }
 
     /**
      * Parses location if necessary.
      */
-    protected void parse() throws ImportHandlerException
-    {
+    protected void parse() throws ImportHandlerException {
         if (shapeFile == null) {
             try {
                 this.shapeFile = new ESRIShapefile(this.location);
                 this.shapeFile.parse();
-            }
-            catch (FileNotFoundException e) {
+            } catch (FileNotFoundException e) {
                 throw new ImportHandlerException(this, e.getMessage());
             } catch (IOException e) {
                 throw new ImportHandlerException(this, e.getMessage());
@@ -53,26 +47,25 @@ public class ESRIImportHandler extends ImportHandler
             } catch (MalformedESRIRecordException e) {
                 throw new ImportHandlerException(this, e.getMessage());
             }
-            }
+        }
     }
 
     /**
      * Reports whether the class can handle the location.
      */
-    public boolean canHandle() throws ImportHandlerException
-    {
+    public boolean canHandle() throws ImportHandlerException {
         this.parse();
         // If we get here its OK.
-        return true; 
+        return true;
     }
 
     /**
      * Returns the ParsedDeclaration with the specified reference.
+     * 
      * @param reference the reference targeted declaration.
      */
-    public ParsedDeclaration getParsedDeclaration(ParsedReference reference) 
-        throws ImportHandlerException 
-    {
+    public ParsedDeclaration getParsedDeclaration(ParsedReference reference)
+            throws ImportHandlerException {
         try {
             this.parse();
             return this.shapeFile.getParsedDeclaration(reference);
@@ -86,9 +79,8 @@ public class ESRIImportHandler extends ImportHandler
     /**
      * Returns a ParsedDeclarationList containing all declarations
      */
-    public ParsedDeclarationList getParsedDeclarationList() 
-        throws ImportHandlerException
-    {
+    public ParsedDeclarationList getParsedDeclarationList()
+            throws ImportHandlerException {
         try {
             this.parse();
             return this.shapeFile.getParsedDeclarationList();
@@ -99,5 +91,3 @@ public class ESRIImportHandler extends ImportHandler
         }
     }
 }
-
-

@@ -36,21 +36,19 @@ import StratmasClient.proj.MGRSConversion;
  * Position/navigation window.
  * <p>
  * The following features are implemented in this class: <br>
- * 1. Shapes of the whole actual region are displayed in an interactive display window. A different
- *    colored rectangular area shows a region currently displayed in the main map ie. <code>MapDrawer</code>
- *    window. It is possible  to change the center of the area displayed in the main map by mouse 
- *    clicking in the window. <br>
- * 2. Panning buttons which enable to pan the main map in eight directions: north, south, east, west,
- *    northeast, northwest, southeast and southwest. <br>
+ * 1. Shapes of the whole actual region are displayed in an interactive display window. A different colored rectangular area shows a region
+ * currently displayed in the main map ie. <code>MapDrawer</code> window. It is possible to change the center of the area displayed in the
+ * main map by mouse clicking in the window. <br>
+ * 2. Panning buttons which enable to pan the main map in eight directions: north, south, east, west, northeast, northwest, southeast and
+ * southwest. <br>
  * 3. Minumum and maximum longitude and latitude values of the area displayed in the main map are shown.
- *
+ * 
  * @see <code>MapDrawer</code>
- *
  * @version 1.0
- * @author Amir Filipovic 
+ * @author Amir Filipovic
  */
-public class PositionMap implements GLEventListener, ActionListener, MouseListener, 
-                                                   MouseMotionListener,StratmasEventListener {
+public class PositionMap implements GLEventListener, ActionListener,
+        MouseListener, MouseMotionListener, StratmasEventListener {
     /**
      * Bounding box of the displayed region.
      */
@@ -89,7 +87,7 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
     private StratMap stratmap;
     /*
      * Reference to the main map.
-     */ 
+     */
     private BasicMapDrawer drawer;
     /**
      * Display list for the region.
@@ -178,7 +176,7 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
     /**
      * Indicates if the region has to be updated.
      */
-    private boolean update_region = false; 
+    private boolean update_region = false;
     /**
      * Indicates if the dragging action has started.
      */
@@ -186,7 +184,7 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
 
     /**
      * Creates new position/navigation map.
-     *
+     * 
      * @param stratmap contains all elements of the current map.
      * @param region region shapes to be displayed.
      */
@@ -198,73 +196,71 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
         glcanvas.addMouseListener(this);
         glcanvas.addMouseMotionListener(this);
 
-        // 
+        //
         this.stratmap = stratmap;
-        
+
         // geographical region associated with the map
         this.region = region;
         region.addListener(this);
-        
+
         // projected bounds of the region
         box = region.getProjectedBounds();
-                
-        //adapt the bounding box
-        double dx = Math.abs(box.getXmax()-box.getXmin());
-        double dy = Math.abs(box.getYmax()-box.getYmin());
-        double xmin = box.getXmin()-dx/10;
-        double ymin = box.getYmin()-dy/10;
-        double xmax = box.getXmax()+dx/10;
-        double ymax = box.getYmax()+dy/10;
+
+        // adapt the bounding box
+        double dx = Math.abs(box.getXmax() - box.getXmin());
+        double dy = Math.abs(box.getYmax() - box.getYmin());
+        double xmin = box.getXmin() - dx / 10;
+        double ymin = box.getYmin() - dy / 10;
+        double xmax = box.getXmax() + dx / 10;
+        double ymax = box.getYmax() + dy / 10;
         box = new BoundingBox(xmin, ymin, xmax, ymax, stratmap.getProjection());
-        
+
         // initialize panned boundary box
-        pbox = (BoundingBox)box.clone();
+        pbox = (BoundingBox) box.clone();
 
         // get degree symbol
         degree_symbol = new String((new Character('\u00B0')).toString());
-        
+
         // create the panel
         createPositionMapPanel();
-        
+
         // show GUI
         // createAndShowGUI();
     }
-    
+
     /**
      * Set reference to main map.
-     *
+     * 
      * @param drawer the main map window.
      */
     public void setMap(BasicMapDrawer drawer) {
         this.drawer = drawer;
     }
-    
+
     /**
      * Create the GUI and show it.
      */
     public void createAndShowGUI() {
-        //Create and set up the window.
+        // Create and set up the window.
         final JFrame frame = new JFrame("Position Map");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        //Set up the content pane.
-        positionMapPanel.setOpaque(true); //content panes must be opaque
+
+        // Set up the content pane.
+        positionMapPanel.setOpaque(true); // content panes must be opaque
         frame.setContentPane(positionMapPanel);
-        
-        //Display the window.
+
+        // Display the window.
         frame.setSize(250, 250);
         frame.setResizable(true);
-        
+
         // thread safety recommendation
-        SwingUtilities.invokeLater (
-                                    new Runnable() {
-                                        public void run() {
-                                            frame.setVisible(true);
-                                        }
-                                    }
-                                    );
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                frame.setVisible(true);
+            }
+        });
     }
-    
+
     /**
      * Creates the panel containing the position map.
      */
@@ -273,118 +269,126 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
         Color middle = new Color(223, 223, 223);
         Color aside = new Color(213, 213, 213, 0);
         // create buttons
-        up_button = new JButton(new ImageIcon(PositionMap.class.getResource("images/up16.gif")));
-        down_button = new JButton(new ImageIcon(PositionMap.class.getResource("images/down16.gif")));
-        left_button = new JButton(new ImageIcon(PositionMap.class.getResource("images/back16.gif")));
-        right_button = new JButton(new ImageIcon(PositionMap.class.getResource("images/forward16.gif")));
-        up_left_button = new JButton(new ImageIcon(PositionMap.class.getResource("images/left_up16.gif")));
-        up_right_button = new JButton(new ImageIcon(PositionMap.class.getResource("images/right_up16.gif")));
-        down_left_button = new JButton(new ImageIcon(PositionMap.class.getResource("images/left_down16.gif")));
-        down_right_button = new JButton(new ImageIcon(PositionMap.class.getResource("images/right_down16.gif")));
+        up_button = new JButton(new ImageIcon(
+                PositionMap.class.getResource("images/up16.gif")));
+        down_button = new JButton(new ImageIcon(
+                PositionMap.class.getResource("images/down16.gif")));
+        left_button = new JButton(new ImageIcon(
+                PositionMap.class.getResource("images/back16.gif")));
+        right_button = new JButton(new ImageIcon(
+                PositionMap.class.getResource("images/forward16.gif")));
+        up_left_button = new JButton(new ImageIcon(
+                PositionMap.class.getResource("images/left_up16.gif")));
+        up_right_button = new JButton(new ImageIcon(
+                PositionMap.class.getResource("images/right_up16.gif")));
+        down_left_button = new JButton(new ImageIcon(
+                PositionMap.class.getResource("images/left_down16.gif")));
+        down_right_button = new JButton(new ImageIcon(
+                PositionMap.class.getResource("images/right_down16.gif")));
         // add buttons and position map
         JPanel north_panel = new JPanel();
-        north_panel.setLayout(new GridLayout(1,3,0,0));
+        north_panel.setLayout(new GridLayout(1, 3, 0, 0));
         up_left_button.setBackground(aside);
         up_left_button.setContentAreaFilled(false);
         up_left_button.addActionListener(this);
         up_left_button.setBorderPainted(false);
-        up_left_button.setMargin(new Insets(0,0,0,0));
+        up_left_button.setMargin(new Insets(0, 0, 0, 0));
         up_left_button.setHorizontalAlignment(SwingConstants.LEFT);
         north_panel.add(up_left_button);
         up_button.setBackground(middle);
         up_button.addActionListener(this);
         up_button.setBorderPainted(false);
-        up_button.setMargin(new Insets(0,0,0,0));
+        up_button.setMargin(new Insets(0, 0, 0, 0));
         north_panel.add(up_button);
         up_right_button.setBackground(aside);
         up_right_button.setContentAreaFilled(false);
         up_right_button.addActionListener(this);
         up_right_button.setBorderPainted(false);
-        up_right_button.setMargin(new Insets(0,0,0,0));
+        up_right_button.setMargin(new Insets(0, 0, 0, 0));
         up_right_button.setHorizontalAlignment(SwingConstants.RIGHT);
         north_panel.add(up_right_button);
         JPanel south_panel = new JPanel();
-        south_panel.setLayout(new GridLayout(1,3,0,0));
+        south_panel.setLayout(new GridLayout(1, 3, 0, 0));
         down_left_button.addActionListener(this);
         down_left_button.setBackground(aside);
         down_left_button.setContentAreaFilled(false);
         down_left_button.setBorderPainted(false);
-        down_left_button.setMargin(new Insets(0,0,0,0));
+        down_left_button.setMargin(new Insets(0, 0, 0, 0));
         down_left_button.setHorizontalAlignment(SwingConstants.LEFT);
         south_panel.add(down_left_button);
         down_button.setBackground(middle);
         down_button.addActionListener(this);
         down_button.setBorderPainted(false);
-        down_button.setMargin(new Insets(0,0,0,0));
+        down_button.setMargin(new Insets(0, 0, 0, 0));
         south_panel.add(down_button);
         down_right_button.setBackground(aside);
         down_right_button.setContentAreaFilled(false);
         down_right_button.addActionListener(this);
         down_right_button.setBorderPainted(false);
-        down_right_button.setMargin(new Insets(0,0,0,0));
+        down_right_button.setMargin(new Insets(0, 0, 0, 0));
         down_right_button.setHorizontalAlignment(SwingConstants.RIGHT);
         south_panel.add(down_right_button);
         JPanel left_panel = new JPanel();
-        left_panel.setLayout(new GridLayout(3,1,0,0));
+        left_panel.setLayout(new GridLayout(3, 1, 0, 0));
         left_up_button.setBackground(aside);
         left_up_button.setContentAreaFilled(false);
         left_up_button.addActionListener(this);
         left_up_button.setBorderPainted(false);
-        left_up_button.setPreferredSize(new Dimension(0,0));
+        left_up_button.setPreferredSize(new Dimension(0, 0));
         left_up_button.setModel(up_left_button.getModel());
         left_panel.add(left_up_button);
         left_button.setBackground(middle);
         left_button.addActionListener(this);
         left_button.setBorderPainted(false);
-        left_button.setMargin(new Insets(0,0,0,0));
+        left_button.setMargin(new Insets(0, 0, 0, 0));
         left_panel.add(left_button);
         left_down_button.setBackground(aside);
         left_down_button.setContentAreaFilled(false);
         left_down_button.addActionListener(this);
         left_down_button.setBorderPainted(false);
-        left_down_button.setPreferredSize(new Dimension(0,0));
+        left_down_button.setPreferredSize(new Dimension(0, 0));
         left_down_button.setModel(down_left_button.getModel());
         left_panel.add(left_down_button);
         JPanel right_panel = new JPanel();
-        right_panel.setLayout(new GridLayout(3,1,0,0));
+        right_panel.setLayout(new GridLayout(3, 1, 0, 0));
         right_up_button.setBackground(aside);
         right_up_button.addActionListener(this);
         right_up_button.setContentAreaFilled(false);
         right_up_button.setBorderPainted(false);
-        right_up_button.setMargin(new Insets(0,0,0,0));
-        right_up_button.setPreferredSize(new Dimension(0,0));
+        right_up_button.setMargin(new Insets(0, 0, 0, 0));
+        right_up_button.setPreferredSize(new Dimension(0, 0));
         right_panel.add(right_up_button);
         right_button.setBackground(middle);
         right_button.addActionListener(this);
         right_button.setBorderPainted(false);
-        right_button.setMargin(new Insets(0,0,0,0));
+        right_button.setMargin(new Insets(0, 0, 0, 0));
         right_panel.add(right_button);
         right_down_button.setBackground(aside);
         right_down_button.setContentAreaFilled(false);
         right_down_button.addActionListener(this);
         right_down_button.setBorderPainted(false);
-        right_down_button.setPreferredSize(new Dimension(0,0));
+        right_down_button.setPreferredSize(new Dimension(0, 0));
         right_down_button.setModel(down_right_button.getModel());
         right_panel.add(right_down_button);
         // add canvas to a panel
         JPanel canvas_panel = new JPanel();
         canvas_panel.setLayout(new BorderLayout());
         canvas_panel.add(glcanvas, BorderLayout.CENTER);
-        canvas_panel.setPreferredSize(new Dimension(0,0));
+        canvas_panel.setPreferredSize(new Dimension(0, 0));
         JPanel main_panel = new JPanel();
-        main_panel.setLayout(new BorderLayout(0,0));
+        main_panel.setLayout(new BorderLayout(0, 0));
         main_panel.add(canvas_panel, BorderLayout.CENTER);
         main_panel.add(north_panel, BorderLayout.NORTH);
         main_panel.add(south_panel, BorderLayout.SOUTH);
         main_panel.add(left_panel, BorderLayout.WEST);
         main_panel.add(right_panel, BorderLayout.EAST);
         main_panel.setBorder(BorderFactory.createRaisedBevelBorder());
-        
+
         // add min & max boundary for visible area label
         JPanel label_panel = new JPanel();
         label_panel.setLayout(new BoxLayout(label_panel, BoxLayout.X_AXIS));
         JPanel left_label_panel = new JPanel();
-        left_label_panel.setLayout(new GridLayout(2,1,1,1));
+        left_label_panel.setLayout(new GridLayout(2, 1, 1, 1));
         JLabel max_text = new JLabel("NE :");
         max_text.setFont(max_text.getFont().deriveFont(Font.PLAIN));
         left_label_panel.add(max_text);
@@ -392,7 +396,7 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
         min_text.setFont(min_text.getFont().deriveFont(Font.PLAIN));
         left_label_panel.add(min_text);
         JPanel right_label_panel = new JPanel();
-        right_label_panel.setLayout(new GridLayout(2,1,1,1));
+        right_label_panel.setLayout(new GridLayout(2, 1, 1, 1));
         ne_label.setFont(ne_label.getFont().deriveFont(Font.PLAIN));
         ne_label.setForeground(new Color(1.0f, 0.0f, 0.0f, 0.8f));
         right_label_panel.add(ne_label);
@@ -401,31 +405,32 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
         right_label_panel.add(sw_label);
         label_panel.add(left_label_panel);
         label_panel.add(right_label_panel);
-        label_panel.setBorder(BorderFactory.
-                              createCompoundBorder(BorderFactory.createTitledBorder("Visible Area"),
-                                                   BorderFactory.createEmptyBorder(2,2,2,2)));
+        label_panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                .createTitledBorder("Visible Area"), BorderFactory
+                .createEmptyBorder(2, 2, 2, 2)));
         //
         positionMapPanel = new JPanel(new BorderLayout());
         positionMapPanel.add(main_panel, BorderLayout.CENTER);
         positionMapPanel.add(label_panel, BorderLayout.SOUTH);
-        positionMapPanel.setBorder(BorderFactory.
-                                   createCompoundBorder(BorderFactory.createTitledBorder("Navigation Map"),
-                                                        BorderFactory.createEmptyBorder(2,2,2,2)));
-        
+        positionMapPanel.setBorder(BorderFactory
+                .createCompoundBorder(BorderFactory
+                        .createTitledBorder("Navigation Map"), BorderFactory
+                        .createEmptyBorder(2, 2, 2, 2)));
+
     }
-    
+
     /**
      * Returns the position map panel.
      */
     public JPanel getPanel() {
         return positionMapPanel;
-    } 
-    
+    }
+
     /**
      * Returns the reduced panel only consisting of the panning buttons.
      */
     public JPanel getReducedPanel() {
-        JPanel reducedPanel = new JPanel(new GridLayout(3,3));
+        JPanel reducedPanel = new JPanel(new GridLayout(3, 3));
         reducedPanel.add(up_left_button);
         reducedPanel.add(up_button);
         reducedPanel.add(up_right_button);
@@ -435,26 +440,26 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
         reducedPanel.add(down_left_button);
         reducedPanel.add(down_button);
         reducedPanel.add(down_right_button);
-        reducedPanel.setBorder(BorderFactory.
-                               createCompoundBorder(BorderFactory.createTitledBorder("Panning"),
-                                                    BorderFactory.createEmptyBorder(1,1,1,1)));
+        reducedPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                .createTitledBorder("Panning"), BorderFactory
+                .createEmptyBorder(1, 1, 1, 1)));
         return reducedPanel;
     }
-    
+
     /**
      * Initialization of the display window.
-     *
+     * 
      * @param gld needed when opengl is used.
      */
     public void init(GLAutoDrawable gld) {
         GL2 gl = (GL2) gld.getGL();
-        
+
         // set the background color
         float b_red = 0.1f;
         float b_green = 0.5f;
         float b_blue = 0.9f;
         gl.glClearColor(b_red, b_green, b_blue, 0.5f);
-        
+
         // enable blending
         gl.glEnable(GL2.GL_BLEND);
         gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
@@ -462,136 +467,136 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
         // set actual matrix
         gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
-        
+
         // initialize bounding box
-        glu.gluOrtho2D(pbox.getXmin(), pbox.getXmax(), pbox.getYmin(), pbox.getYmax());
-        
+        glu.gluOrtho2D(pbox.getXmin(), pbox.getXmax(), pbox.getYmin(),
+                       pbox.getYmax());
+
         // initialize callback object for the tesselation
         adapter = new TessellatorAdapter(gl, glu);
-        
+
         // create display lists
         buildLists(gld);
-        
+
         // update display lists for the region
         updateRegionList(gl);
         updateTesselatedList(gl, glu);
     }
-    
+
     /**
      * Draw elements in the window.
-     *
+     * 
      * @param gld needed when opengl is used.
      */
     public void display(GLAutoDrawable gld) {
         GL2 gl = (GL2) gld.getGL();
-        
+
         // update orthographics view bounds
         gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
-        glu.gluOrtho2D(box.getXmin(), box.getXmax(), box.getYmin(), box.getYmax());
-        
+        glu.gluOrtho2D(box.getXmin(), box.getXmax(), box.getYmin(),
+                       box.getYmax());
+
         // update the region
         if (update_region) {
             updateRegionList(gl);
             updateTesselatedList(gl, glu);
             update_region = false;
         }
-        
+
         // draw the map
         drawGraph(gl);
     }
-        
+
     /**
      * Update bounds for the part of region visible in the main map.
-     *
+     * 
      * @param bbox bounding box of the visible region in the main map.
      */
     public void update(BoundingBox bbox) {
-        pbox = (BoundingBox)bbox.clone();
+        pbox = (BoundingBox) bbox.clone();
         // update map
         double[] lon_lat1 = toLonLat(pbox.getXmin(), pbox.getYmin());
         double[] lon_lat2 = toLonLat(pbox.getXmax(), pbox.getYmax());
         // geodetic coordinates
         if (Configuration.getCoordinateSystem() == Configuration.GEODETIC) {
-            sw_label.setText(dec_format.format(lon_lat1[1])+degree_symbol+", "+dec_format.format(lon_lat1[0])+degree_symbol);
-            ne_label.setText(dec_format.format(lon_lat2[1])+degree_symbol+", "+dec_format.format(lon_lat2[0])+degree_symbol);
+            sw_label.setText(dec_format.format(lon_lat1[1]) + degree_symbol
+                    + ", " + dec_format.format(lon_lat1[0]) + degree_symbol);
+            ne_label.setText(dec_format.format(lon_lat2[1]) + degree_symbol
+                    + ", " + dec_format.format(lon_lat2[0]) + degree_symbol);
         }
         // MGRS coordinates
         else if (Configuration.getCoordinateSystem() == Configuration.MGRS) {
-            String mgrs1 = MGRSConversion.convertGeodeticToMGRS(Math.toRadians(lon_lat1[0]), 
-                                                                Math.toRadians(lon_lat1[1]), 5);
-            String mgrs2 = MGRSConversion.convertGeodeticToMGRS(Math.toRadians(lon_lat2[0]), 
-                                                                Math.toRadians(lon_lat2[1]), 5);
+            String mgrs1 = MGRSConversion.convertGeodeticToMGRS(Math
+                    .toRadians(lon_lat1[0]), Math.toRadians(lon_lat1[1]), 5);
+            String mgrs2 = MGRSConversion.convertGeodeticToMGRS(Math
+                    .toRadians(lon_lat2[0]), Math.toRadians(lon_lat2[1]), 5);
             sw_label.setText(mgrs1);
             ne_label.setText(mgrs2);
         }
         update();
     }
-    
+
     /**
-     * Update orthographic view bounds such that the displayed region is 
-     * not disturbed.
-     *
+     * Update orthographic view bounds such that the displayed region is not disturbed.
+     * 
      * @param drawable needed when opengl is used.
      * @param x left screen coordinate of the display window.
      * @param y upper screen coordinate of the display window.
      * @param width width of the display window.
      * @param height height of the display window.
      */
-    public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
+    public void reshape(GLAutoDrawable drawable, int x, int y, int width,
+            int height) {
         // update window size
         view_x = x;
         view_y = y;
         view_width = width;
         view_height = height;
-        
+
         // get new orthographic view bounds such that aspect ratio is
         // equal to display window's
         if (width > 0 && height > 0) {
             box = updateOrthographicBounds(width, height);
         }
     }
-    
+
     /**
      * Not implemented.
      */
-    public void displayChanged(GLAutoDrawable drawable, boolean modeChanged, 
-                               boolean deviceChanged) {
-    }
-    
+    public void displayChanged(GLAutoDrawable drawable, boolean modeChanged,
+            boolean deviceChanged) {}
+
     /**
-     * Updates the otrhographic bounds of the display area. This is needed to avoid the 
-     * distortion of the displayed region.
-     *
+     * Updates the otrhographic bounds of the display area. This is needed to avoid the distortion of the displayed region.
+     * 
      * @param width width of the displayed area.
      * @param height height of the displayed area.
-     *
      * @return the orthographic bounds of the display area.
      */
     private BoundingBox updateOrthographicBounds(int width, int height) {
         BoundingBox regionBox = region.getProjectedBounds();
-        double dx = Math.abs(regionBox.getXmax()-regionBox.getXmin());
-        double dy = Math.abs(regionBox.getYmax()-regionBox.getYmin());
-        double xmin = regionBox.getXmin()-dx/10;
-        double ymin = regionBox.getYmin()-dy/10;
-        double xmax = regionBox.getXmax()+dx/10;
-        double ymax = regionBox.getYmax()+dy/10;
-        double x_ratio = (xmax-xmin)/width;
-        double y_ratio = (ymax-ymin)/height;
+        double dx = Math.abs(regionBox.getXmax() - regionBox.getXmin());
+        double dy = Math.abs(regionBox.getYmax() - regionBox.getYmin());
+        double xmin = regionBox.getXmin() - dx / 10;
+        double ymin = regionBox.getYmin() - dy / 10;
+        double xmax = regionBox.getXmax() + dx / 10;
+        double ymax = regionBox.getYmax() + dy / 10;
+        double x_ratio = (xmax - xmin) / width;
+        double y_ratio = (ymax - ymin) / height;
         if (x_ratio < y_ratio) {
-            dx = (ymax-ymin)*width/height;
-            xmin = (xmin+xmax)/2-dx/2;
-            xmax = (xmin+xmax)/2+dx/2;
+            dx = (ymax - ymin) * width / height;
+            xmin = (xmin + xmax) / 2 - dx / 2;
+            xmax = (xmin + xmax) / 2 + dx / 2;
+        } else {
+            dy = (xmax - xmin) * height / width;
+            ymin = (ymin + ymax) / 2 - dy / 2;
+            ymax = (ymin + ymax) / 2 + dy / 2;
         }
-        else {
-            dy = (xmax-xmin)*height/width;
-            ymin = (ymin+ymax)/2-dy/2;
-            ymax = (ymin+ymax)/2+dy/2;
-            }
         // get the bounding box
         return new BoundingBox(xmin, ymin, xmax, ymax, stratmap.getProjection());
     }
-    
+
     /**
      * Updates the map when the region has been changed.
      */
@@ -600,135 +605,134 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
         if (se.isRegionUpdated()) {
             // projected bounds of the updated region
             box = region.getProjectedBounds();
-            
+
             // adapt the bounding box
-            double dx = Math.abs(box.getXmax()-box.getXmin());
-            double dy = Math.abs(box.getYmax()-box.getYmin());
-            double xmin = box.getXmin()-dx/10;
-            double ymin = box.getYmin()-dy/10;
-            double xmax = box.getXmax()+dx/10;
-            double ymax = box.getYmax()+dy/10;
-            box = new BoundingBox(xmin, ymin, xmax, ymax, stratmap.getProjection());
-            
+            double dx = Math.abs(box.getXmax() - box.getXmin());
+            double dy = Math.abs(box.getYmax() - box.getYmin());
+            double xmin = box.getXmin() - dx / 10;
+            double ymin = box.getYmin() - dy / 10;
+            double xmax = box.getXmax() + dx / 10;
+            double ymax = box.getYmax() + dy / 10;
+            box = new BoundingBox(xmin, ymin, xmax, ymax,
+                    stratmap.getProjection());
+
             // update panned boundary box
-            pbox = (BoundingBox)box.clone();
-            
+            pbox = (BoundingBox) box.clone();
+
             // get new orthographic view bounds such that aspect ratio is
             // equal to display window's
             if (view_width > 0 && view_height > 0) {
-                box = updateOrthographicBounds(view_width, view_height);                
+                box = updateOrthographicBounds(view_width, view_height);
             }
             // update the region
             update_region = true;
             update();
         }
     }
-    
+
     /**
-     * Action is fired when pressing panning button. Both the current window
-     * display area and the main map display area is updated.
-     *
+     * Action is fired when pressing panning button. Both the current window display area and the main map display area is updated.
+     * 
      * @param e action event occured by pressing one of the buttons.
      */
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
         // treat buttons
-        double delx = (pbox.getXmax()-pbox.getXmin())/10;
-        double dely = (pbox.getYmax()-pbox.getYmin())/10;
-        double xc = (pbox.getXmax()+pbox.getXmin())/2;
-        double yc = (pbox.getYmax()+pbox.getYmin())/2;
+        double delx = (pbox.getXmax() - pbox.getXmin()) / 10;
+        double dely = (pbox.getYmax() - pbox.getYmin()) / 10;
+        double xc = (pbox.getXmax() + pbox.getXmin()) / 2;
+        double yc = (pbox.getYmax() + pbox.getYmin()) / 2;
         if (source.equals(up_button)) {
-            yc = (yc+dely > box.getYmax())? box.getYmax() : yc+dely;
-        }
-        else if (source.equals(down_button)) {
-            yc = (yc-dely < box.getYmin())? box.getYmin() : yc-dely;
-        }
-        else if (source.equals(left_button)) {
-            xc = (xc-delx < box.getXmin())? box.getXmin() : xc-delx;
-        }
-        else if (source.equals(right_button)) {
-            xc = (xc+delx > box.getXmax())? box.getXmax() : xc+delx;
-        }
-        else if (source.equals(up_left_button) || source.equals(left_up_button)) {
-            xc = (xc-delx < box.getXmin())? box.getXmin() : xc-delx;
-            yc = (yc+dely > box.getYmax())? box.getYmax() : yc+dely;
-        }
-        else if (source.equals(up_right_button) || source.equals(right_up_button)) {
-            xc = (xc+delx > box.getXmax())? box.getXmax() : xc+delx;
-            yc = (yc+dely > box.getYmax())? box.getYmax() : yc+dely;
-        }
-        else if (source.equals(down_left_button) || source.equals(left_down_button)) {
-            xc = (xc-delx < box.getXmin())? box.getXmin() : xc-delx;
-            yc = (yc-dely < box.getYmin())? box.getYmin() : yc-dely;
-        }
-        else if (source.equals(down_right_button) || source.equals(right_down_button)) {
-            xc = (xc+delx > box.getXmax())? box.getXmax() : xc+delx;
-            yc = (yc-dely < box.getYmin())? box.getYmin() : yc-dely;
+            yc = (yc + dely > box.getYmax()) ? box.getYmax() : yc + dely;
+        } else if (source.equals(down_button)) {
+            yc = (yc - dely < box.getYmin()) ? box.getYmin() : yc - dely;
+        } else if (source.equals(left_button)) {
+            xc = (xc - delx < box.getXmin()) ? box.getXmin() : xc - delx;
+        } else if (source.equals(right_button)) {
+            xc = (xc + delx > box.getXmax()) ? box.getXmax() : xc + delx;
+        } else if (source.equals(up_left_button)
+                || source.equals(left_up_button)) {
+            xc = (xc - delx < box.getXmin()) ? box.getXmin() : xc - delx;
+            yc = (yc + dely > box.getYmax()) ? box.getYmax() : yc + dely;
+        } else if (source.equals(up_right_button)
+                || source.equals(right_up_button)) {
+            xc = (xc + delx > box.getXmax()) ? box.getXmax() : xc + delx;
+            yc = (yc + dely > box.getYmax()) ? box.getYmax() : yc + dely;
+        } else if (source.equals(down_left_button)
+                || source.equals(left_down_button)) {
+            xc = (xc - delx < box.getXmin()) ? box.getXmin() : xc - delx;
+            yc = (yc - dely < box.getYmin()) ? box.getYmin() : yc - dely;
+        } else if (source.equals(down_right_button)
+                || source.equals(right_down_button)) {
+            xc = (xc + delx > box.getXmax()) ? box.getXmax() : xc + delx;
+            yc = (yc - dely < box.getYmin()) ? box.getYmin() : yc - dely;
         }
         drawer.setXYCenter(xc, yc);
     }
 
     /**
      * Convert window coordinates to projected x and y coordinates.
-     *
+     * 
      * @param x x window coordinate.
      * @param y y window coordinate.
-     *
      * @return [x, y] projected coordinates with the actual projection.
      */
     public double[] convertToProjCoords(int x, int y) {
         // initialize the output values
-        double[] xy = {0, 0};
+        double[] xy = { 0, 0 };
         // projected coordinates
-        xy[0] = box.getXmin() + (x-view_x)*(box.getXmax()-box.getXmin())/view_width;
-        xy[1] = box.getYmin() + (view_height-y+view_y)*(box.getYmax()-box.getYmin())/view_height;
+        xy[0] = box.getXmin() + (x - view_x) * (box.getXmax() - box.getXmin())
+                / view_width;
+        xy[1] = box.getYmin() + (view_height - y + view_y)
+                * (box.getYmax() - box.getYmin()) / view_height;
         //
         return xy;
     }
-    
+
     /**
      * Convert projected coordinates to (lon, lat).
-     *
+     * 
      * @param x x projected coordinate.
      * @param y y projected coordinate.
-     *
      * @return [lon, lat] values.
      */
     private double[] toLonLat(double x, double y) {
-        return stratmap.getProjection().projToLonLat(x,y);
+        return stratmap.getProjection().projToLonLat(x, y);
     }
-    
+
     /**
      * Creates empty display lists for the region shapes.
      */
     private void buildLists(GLAutoDrawable drawable) {
         GL2 gl = (GL2) drawable.getGL();
         // building the list
-        reg = gl.glGenLists(1);        
+        reg = gl.glGenLists(1);
         // compiled display list (contains shapes of the regions)
         gl.glNewList(reg, GL2.GL_COMPILE);
         // ends display list
         gl.glEndList();
         // building the list
-        tess_reg = gl.glGenLists(1);        
+        tess_reg = gl.glGenLists(1);
         // compiled display list (contains tesselated regions)
         gl.glNewList(tess_reg, GL2.GL_COMPILE);
         // ends display list
         gl.glEndList();
     }
-        
+
     /**
-     *  Updates display lists for the region shapes.
+     * Updates display lists for the region shapes.
      */
     private void updateRegionList(GL gl2) {
         GL2 gl = (GL2) gl2;
         // get shapes
-        Vector shapes = (Vector)region.getShapes();
+        Vector shapes = (Vector) region.getShapes();
         Vector simple_shapes = new Vector();
         if (!shapes.isEmpty()) {
-            simple_shapes = ((Shape)shapes.get(0)).constructSimpleShapes(new Vector());
+            simple_shapes = ((Shape) shapes.get(0))
+                    .constructSimpleShapes(new Vector());
             for (int i = 1; i < shapes.size(); i++) {
-                simple_shapes = ((Shape)shapes.get(i)).constructSimpleShapes(simple_shapes);
+                simple_shapes = ((Shape) shapes.get(i))
+                        .constructSimpleShapes(simple_shapes);
             }
         }
         // compiled display list (contains shapes of the regions)
@@ -740,9 +744,9 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
         // draw geographical region
         gl.glBegin(GL2.GL_LINES);
         Projection proj = stratmap.getProjection();
-        for (int i = 0; i < simple_shapes.size(); i++) {        
-            SimpleShape ss = (SimpleShape)simple_shapes.get(i);
-            Polygon pol = (Polygon)ss.getPolygon(1.0);
+        for (int i = 0; i < simple_shapes.size(); i++) {
+            SimpleShape ss = (SimpleShape) simple_shapes.get(i);
+            Polygon pol = (Polygon) ss.getPolygon(1.0);
             // for each polygonial
             for (Enumeration e = pol.getCurves(); e.hasMoreElements();) {
                 Line line = (Line) e.nextElement();
@@ -752,12 +756,11 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
         }
         gl.glEnd();
         // ends display list
-        gl.glEndList();        
+        gl.glEndList();
     }
 
     /**
-     * TessellatorAdapter - used to describe the callback methods used for the tesselation 
-     * of the polygons.
+     * TessellatorAdapter - used to describe the callback methods used for the tesselation of the polygons.
      */
     class TessellatorAdapter extends GLUtessellatorCallbackAdapter {
         /**
@@ -768,6 +771,7 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
          * Provides access to the OpenGL utility library routines.
          */
         GLU glu;
+
         /**
          * Creates the adapter.
          */
@@ -775,6 +779,7 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
             this.gl = (GL2) gl;
             this.glu = glu;
         }
+
         /**
          * The vertex callback method is invoked between the begin and end callback methods
          */
@@ -783,26 +788,29 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
             gl.glColor3f(0.1f, 0.8f, 0.1f);
             gl.glVertex2d(p[0], p[1]);
         }
+
         /**
-         * The begin callback method is invoked like glBegin to indicate the start of a 
-         * (triangle) primitive.
+         * The begin callback method is invoked like glBegin to indicate the start of a (triangle) primitive.
          */
         public void begin(int type) {
             gl.glBegin(type);
         }
+
         /**
          * The end callback serves the same purpose as glEnd.
          */
         public void end() {
             gl.glEnd();
         }
+
         /**
          *
          */
-        public void combine(double[] coords, Object[] data, float[] weight, Object[] outData) {
-            float[] col = {0.1f, 0.8f, 0.1f, 1.0f};
+        public void combine(double[] coords, Object[] data, float[] weight,
+                Object[] outData) {
+            float[] col = { 0.1f, 0.8f, 0.1f, 1.0f };
             double[] vertex = new double[7];
-            
+
             vertex[0] = coords[0];
             vertex[1] = coords[1];
             vertex[2] = 0;
@@ -813,8 +821,9 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
 
             outData[0] = vertex;
         }
+
         /**
-         *  The error callback method is called when an error is encountered
+         * The error callback method is called when an error is encountered
          */
         public void error(int errnum) {
             String estring;
@@ -825,29 +834,31 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
     }
 
     /**
-     * Updates the display list consisting of the tesselated shapes the displayed
-     * region contains.
-     *
+     * Updates the display list consisting of the tesselated shapes the displayed region contains.
+     * 
      * @param GL interface to OpenGL2.
      * @param GLU interface to OpenGL utility library routines.
      */
     private void updateTesselatedList(GL gl2, GLU glu) {
         GL2 gl = (GL2) gl2;
         // get shapes
-        Vector shapes = (Vector)region.getShapes();
+        Vector shapes = (Vector) region.getShapes();
         Vector simple_shapes = new Vector();
         if (!shapes.isEmpty()) {
-            simple_shapes = ((Shape)shapes.get(0)).constructSimpleShapes(new Vector());
+            simple_shapes = ((Shape) shapes.get(0))
+                    .constructSimpleShapes(new Vector());
             for (int i = 1; i < shapes.size(); i++) {
-                simple_shapes = ((Shape)shapes.get(i)).constructSimpleShapes(simple_shapes);
+                simple_shapes = ((Shape) shapes.get(i))
+                        .constructSimpleShapes(simple_shapes);
             }
         }
-        
+
         // create new tessellator
         GLUtessellator tess = GLU.gluNewTess();
-        GLU.gluTessProperty(tess,GLU.GLU_TESS_BOUNDARY_ONLY,GLU.GLU_FALSE);
-        GLU.gluTessProperty(tess,GLU.GLU_TESS_WINDING_RULE,GLU.GLU_TESS_WINDING_ODD);
-        
+        GLU.gluTessProperty(tess, GLU.GLU_TESS_BOUNDARY_ONLY, GLU.GLU_FALSE);
+        GLU.gluTessProperty(tess, GLU.GLU_TESS_WINDING_RULE,
+                            GLU.GLU_TESS_WINDING_ODD);
+
         // define callback functions
         GLU.gluTessCallback(tess, GLU.GLU_TESS_VERTEX, adapter);
         GLU.gluTessCallback(tess, GLU.GLU_TESS_BEGIN, adapter);
@@ -859,27 +870,27 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
         gl.glNewList(tess_reg, GL2.GL_COMPILE);
         Projection proj = stratmap.getProjection();
         for (int i = 0; i < simple_shapes.size(); i++) {
-            SimpleShape ssh = (SimpleShape)simple_shapes.get(i);
+            SimpleShape ssh = (SimpleShape) simple_shapes.get(i);
             if (!ssh.isHole()) {
-                Polygon pol = (Polygon)ssh.getPolygon(1.0);
+                Polygon pol = (Polygon) ssh.getPolygon(1.0);
                 // start tesselation
                 GLU.gluBeginPolygon(tess);
                 // for each polygonial
                 for (Enumeration e = pol.getCurves(); e.hasMoreElements();) {
                     Line line = (Line) e.nextElement();
                     double[] xy = proj.projToXY(line.getStartPoint());
-                    double[] vv = {xy[0], xy[1], 0};
+                    double[] vv = { xy[0], xy[1], 0 };
                     GLU.gluTessVertex(tess, vv, 0, vv);
                 }
                 //
-                GLU.gluNextContour(tess,GLU.GLU_UNKNOWN);
+                GLU.gluNextContour(tess, GLU.GLU_UNKNOWN);
                 GLU.gluEndPolygon(tess);
             }
         }
         // ends display list
         gl.glEndList();
     }
-    
+
     /**
      * All elements shown in the display window are drawn here.
      */
@@ -890,7 +901,7 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
 
         // draw tesselated polygons
         gl.glCallList(tess_reg);
-        
+
         // draw region shapes
         gl.glCallList(reg);
 
@@ -906,7 +917,7 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
         gl.glVertex2d(box.getXmax(), box.getYmax());
         gl.glVertex2d(box.getXmin(), box.getYmax());
         gl.glEnd();
-       
+
         // visual area
         gl.glColor4f(0.9f, 0.9f, 0.9f, 0.5f);
         // width of the shape line
@@ -918,7 +929,7 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
         gl.glVertex2d(pbox.getXmax(), pbox.getYmax());
         gl.glVertex2d(pbox.getXmin(), pbox.getYmax());
         gl.glEnd();
-        
+
         // bounding box of the visual area
         gl.glColor4f(1.0f, 0.0f, 0.0f, 0.5f);
         // width of the shape line
@@ -935,21 +946,20 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
     /**
      * Not implemented.
      */
-    public void mouseClicked(MouseEvent e) {
-    }
+    public void mouseClicked(MouseEvent e) {}
 
     /**
-     * Not implemented. 
+     * Not implemented.
      */
     public void mouseEntered(MouseEvent e) {}
-    
+
     /**
-     * Not implemented. 
+     * Not implemented.
      */
     public void mouseExited(MouseEvent e) {}
 
     /**
-     * Starts the dragging action of the rectangular area visible in the main map. 
+     * Starts the dragging action of the rectangular area visible in the main map.
      */
     public void mousePressed(MouseEvent e) {
         e.getX();
@@ -958,9 +968,8 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
         mouseDragged(e); // TODO bad
     }
 
-
     /**
-     * Ends the dragging action. 
+     * Ends the dragging action.
      */
     public void mouseReleased(MouseEvent e) {
         if (drag_started) {
@@ -969,28 +978,28 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
     }
 
     /**
-     * Moves the rectangular area visible in the main map to the location currently
-     * pointed by the mouse.
+     * Moves the rectangular area visible in the main map to the location currently pointed by the mouse.
      */
     public void mouseDragged(MouseEvent e) {
         if (drag_started) {
-            int x = (int)e.getX();
-            int y = (int)e.getY();
+            int x = (int) e.getX();
+            int y = (int) e.getY();
             // convert to projected coordinates
             double[] xy = convertToProjCoords(x, y);
-            double xx = (xy[0] > box.getXmax())? box.getXmax() : ((xy[0] < box.getXmin())? box.getXmin() : xy[0]);
-            double yy = (xy[1] > box.getYmax())? box.getYmax() : ((xy[1] < box.getYmin())? box.getYmin() : xy[1]);
+            double xx = (xy[0] > box.getXmax()) ? box.getXmax() : ((xy[0] < box
+                    .getXmin()) ? box.getXmin() : xy[0]);
+            double yy = (xy[1] > box.getYmax()) ? box.getYmax() : ((xy[1] < box
+                    .getYmin()) ? box.getYmin() : xy[1]);
             // update main map
             drawer.setXYCenter(xx, yy);
         }
     }
-    
+
     /**
-     * Not implemented. 
+     * Not implemented.
      */
-    public void mouseMoved(MouseEvent e) {
-    }
-    
+    public void mouseMoved(MouseEvent e) {}
+
     /**
      * Redraw the map.
      */
@@ -998,8 +1007,8 @@ public class PositionMap implements GLEventListener, ActionListener, MouseListen
         glcanvas.validate();
         glcanvas.repaint();
     }
-    
-    public void dispose(GLAutoDrawable glad){
-      //TODO implement
+
+    public void dispose(GLAutoDrawable glad) {
+        // TODO implement
     }
 }

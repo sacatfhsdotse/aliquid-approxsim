@@ -109,20 +109,6 @@ public class GraphEdgeAdapter extends MapElementAdapter {
         gl.glVertex2dv(p2, 0);
         gl.glEnd();
 
-        // TODO is the square needed?
-//      System.out.println(horizontalSymbolSize + " " + verticalSymbolSize + " " + p1[0] + " " + p1[1] + " " + p2[0] + " " + p2[1]);                      
-        gl.glBegin(GL2.GL_QUADS);
-        gl.glColor4d(0.0d, 1.0d, 0.0d, 1.0d);
-        gl.glTexCoord2f(0, 0);
-        gl.glVertex2d(-horizontalSymbolSize / 2, -verticalSymbolSize / 2);
-        gl.glTexCoord2f(0, 1);
-        gl.glVertex2d(-horizontalSymbolSize / 2, verticalSymbolSize / 2);
-        gl.glTexCoord2f(1, 1);
-        gl.glVertex2d(horizontalSymbolSize / 2, verticalSymbolSize / 2);
-        gl.glTexCoord2f(1, 0);
-        gl.glVertex2d(horizontalSymbolSize / 2, -verticalSymbolSize / 2);
-        gl.glEnd();
-
         gl.glPopName();
         gl.glPopMatrix();
         gl.glEndList();

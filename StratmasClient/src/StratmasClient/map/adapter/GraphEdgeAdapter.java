@@ -85,37 +85,22 @@ public class GraphEdgeAdapter extends MapElementAdapter {
         // Pushes the name for RenderSelection mode.
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
-
-        double scale = getSymbolScale();
-        if (getInvariantSymbolSize()) {
-            gl.glMatrixMode(GL2.GL_PROJECTION);
-            DoubleBuffer buf = Buffers.newDirectDoubleBuffer(16);
-            gl.glGetDoublev(GL2.GL_PROJECTION_MATRIX, buf);
-            scale = getSymbolScale() * 0.000003d / buf.get(0);
-        }
-
-        gl.glMatrixMode(GL2.GL_MODELVIEW);
-        gl.glPushMatrix();
-        gl.glScaled(scale, scale, 1.0d);
-
         gl.glPushName(getRenderSelectionName() + 1 + SYMBOL_POS);
 
-//        double[] pd = getLonLatDiff();
-//        double[] p1 = new double[]{pd[0], pd[1]};
         double[] p1 = getOriginLonLat();
-//        p1[0] = p1[0] - pd[0];
-//        p1[1] = p1[1] - pd[1];
-//        double[] p2 = new double[]{-pd[0], -pd[1]};
         double[] p2 = getTargetLonLat();
-//        p2[0] = p2[0] - pd[0];
-//        p2[1] = p2[1] - pd[1];
-
         p1 = proj.projToXY(p1);
         p2 = proj.projToXY(p2);
-//      System.out.println(horizontalSymbolSize + " " + verticalSymbolSize + " " + p1[0] + " " + p1[1] + " " + p2[0] + " " + p2[1]);                      
-
+        
         float[] cColor = lineColor.getRGBColorComponents(null);
-
+        
+        // because coordinates must be relative to getLonLat().
+        double[] center = proj.projToXY(getLonLat());
+        p1[0] -= center[0];
+        p1[1] -= center[1];
+        p2[0] -= center[0];
+        p2[1] -= center[1];
+        
         // TODO draw line as rectangle to fix GL_SELECT used for selection
         gl.glBegin(GL2.GL_LINES);
         gl.glLineWidth(lineWidth);
@@ -124,6 +109,8 @@ public class GraphEdgeAdapter extends MapElementAdapter {
         gl.glVertex2dv(p2, 0);
         gl.glEnd();
 
+        // TODO is the square needed?
+//      System.out.println(horizontalSymbolSize + " " + verticalSymbolSize + " " + p1[0] + " " + p1[1] + " " + p2[0] + " " + p2[1]);                      
         gl.glBegin(GL2.GL_QUADS);
         gl.glColor4d(0.0d, 1.0d, 0.0d, 1.0d);
         gl.glTexCoord2f(0, 0);
@@ -136,7 +123,6 @@ public class GraphEdgeAdapter extends MapElementAdapter {
         gl.glVertex2d(horizontalSymbolSize / 2, -verticalSymbolSize / 2);
         gl.glEnd();
 
-        gl.glPopMatrix();
         gl.glPopName();
         gl.glPopMatrix();
         gl.glEndList();

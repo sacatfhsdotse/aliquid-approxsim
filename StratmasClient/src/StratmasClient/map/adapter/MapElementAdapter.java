@@ -125,7 +125,7 @@ public class MapElementAdapter extends MapDrawableAdapter {
      */
     boolean drawLocationOutline = false;
     /**
-     * Wheter symbol size should be drawn in constant size.
+     * Whether symbol size should be drawn in constant size.
      */
     boolean invariantSymbolSize = false;
 

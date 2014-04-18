@@ -37,7 +37,7 @@ public class GraphEdgeAdapter extends MapElementAdapter {
     /**
      * The default width of the lines.
      */
-    public static float DEFAULT_LINE_WIDTH = 2.0f;
+    public static float DEFAULT_LINE_WIDTH = 6000.0f; // TODO find better value
     /**
      * The color of the shape lines.
      */
@@ -101,14 +101,21 @@ public class GraphEdgeAdapter extends MapElementAdapter {
         p2[0] -= center[0];
         p2[1] -= center[1];
         
-        // TODO draw line as rectangle to fix GL_SELECT used for selection
-        gl.glBegin(GL2.GL_LINES);
+        // rotate diff 90deg clockwise
+        double[] n = {p2[1] - p1[1], p1[0]-p2[0]};
+        double nLen = Math.sqrt(n[0]*n[0] + n[1]*n[1]);
+        n[0] *= lineWidth/2/nLen; // TODO multiply with some sort of scale?
+        n[1] *= lineWidth/2/nLen;
+        
+        gl.glBegin(GL2.GL_POLYGON);
         gl.glLineWidth(lineWidth);
         gl.glColor4d(cColor[0], cColor[1], cColor[2], getSymbolOpacity());
-        gl.glVertex2dv(p1, 0);
-        gl.glVertex2dv(p2, 0);
+        gl.glVertex2d(p1[0]+n[0], p1[1]+n[1]);
+        gl.glVertex2d(p2[0]+n[0], p2[1]+n[1]);
+        gl.glVertex2d(p2[0]-n[0], p2[1]-n[1]);
+        gl.glVertex2d(p1[0]-n[0], p1[1]-n[1]);
         gl.glEnd();
-
+        
         gl.glPopName();
         gl.glPopMatrix();
         gl.glEndList();

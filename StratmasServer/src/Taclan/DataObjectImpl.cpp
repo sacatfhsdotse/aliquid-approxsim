@@ -13,6 +13,7 @@
 #include "Type.h"
 #include "TypeFactory.h"
 #include "XMLHelper.h"
+#include "Graph.h"
 
 
 using namespace std;
@@ -743,6 +744,7 @@ Shape* StratmasShape::getShape() const
      return mValue->clone();
 }
 
+
 /**
  * \brief Sets the Shape to a clone of the provided Shape.
  *
@@ -926,6 +928,35 @@ void SymbolIDCode::print(ostream& o, const std::string indent) const
 }
 
 
+StratmasGraph::StratmasGraph(const Reference& scope, const DOMElement* n) : DataObject(scope, n)
+{
+     // TODO
+}
+
+StratmasGraph::~StratmasGraph()
+{
+     // TODO delete mValue;
+}
+
+DataObject& StratmasGraph::operator= (const DataObject& d)
+{
+     // TODO this.graph = d.graph
+     DataObject::operator=(d);
+     return *this;
+}
+
+void StratmasGraph::print(ostream& o, const std::string indent) const
+{
+     // TODO
+}
+
+std::ostream& StratmasGraph::bodyXML(std::ostream& o, std::string indent) const
+{
+     // TODO
+}
+
+
+
 
 /**
  * \brief Creates a DataObject from the provided DOMElement.
@@ -959,6 +990,9 @@ DataObject* DataObjectFactory::createDataObject(const Reference& scope, const DO
      }
      else if (type.canSubstitute("Shape")) {
           ret = new StratmasShape(scope, n);
+     }
+     else if (type.canSubstitute("Graph")) {
+          ret = new StratmasGraph(scope, n);
      }
      else if (typeStr == "SymbolIDCode") {
           ret = new SymbolIDCode(scope, n);
@@ -1067,3 +1101,6 @@ void DataObjectFactory::addObjectTo(const Reference& parent, DataObject& objToAd
           throw e;
      }
 }
+
+
+// vim: ts=5 sw=5:

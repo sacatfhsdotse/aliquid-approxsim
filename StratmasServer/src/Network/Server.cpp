@@ -98,12 +98,12 @@ void Server::start()
                         );
                    delete sock;
               } else {
-                  if (mClientValidator != 0 && !mClientValidator->isValidClient(sock)) {
-                      LOG_WARN(networkLog, "Connection from invalid ip address " <<
-                          sock->address() << " rejected" );
-                      delete sock;
-                      continue;
-                  }
+                  // if (mClientValidator != 0 && !mClientValidator->isValidClient(sock)) {
+                  //     LOG_WARN(networkLog, "Connection from invalid ip address " <<
+                  //         sock->address() << " rejected" );
+                  //     delete sock;
+                  //     continue;
+                  // }
 
                   mConQ.enqueue(sock);
               }

@@ -46,7 +46,7 @@ int main(int argc, char **argv)
 {
      // Note that Environment::initEnvironment(argc, argv); is
      // expected to be called first in main.
-    std::cout << "\n\tS T R A T M S\n\t-server\n\n";
+     std::cout << "\n    S T R A T M A S\n    -server \n\n";
      Environment::initEnvironment(argc, argv);
 
      // Initialize logging

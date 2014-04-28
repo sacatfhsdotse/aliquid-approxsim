@@ -951,7 +951,7 @@ DataObject& StratmasGraph::operator= (const DataObject& d)
 
 void StratmasGraph::print(ostream& o, const std::string indent) const
 {
-     o<<":D";
+     mValue->print(o);
 }
 
 std::ostream& StratmasGraph::bodyXML(std::ostream& o, std::string indent) const

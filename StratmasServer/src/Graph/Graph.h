@@ -4,13 +4,15 @@
 
 #include <string>
 #include <LatLng.h>
-
+#include <iostream>
 /**
  * \brief This class represents a Node.
  *
  * \author   Daniil Pintjuk
  * \date     $Date: 2014/04/25 20:14:00 $
  */
+
+ using namespace std;
 class Node
 {
 protected:
@@ -21,6 +23,9 @@ public:
 	}
 	Node(){
 
+	}
+	void print(std::ostream& o){
+		o<<"Node: {" << pos.lat() <<", " << pos.lng() << "}";
 	}
 };
 
@@ -44,6 +49,12 @@ public:
 	}
 	Edge(){
 
+	}
+	void print(std::ostream& o){
+		o<<"Edge: { o: " << origin 
+		 << ", t: " << target  
+		 << ", con:" << conected
+		 << ", sp:" << travalspeed <<"}";
 	}
 };
 
@@ -72,6 +83,24 @@ public:
 		nodes(Nodes),
 		numEdges(NumEdges),
 		edges(Edges){}
+
+	void print(std::ostream& o){
+		o << endl;
+		o << "graph: {" << endl <<  "  nodes: [" <<endl;
+		for(int i= 0; i <numNodes; i++){
+			o << "    ";
+			nodes[i].print(o);
+			o << endl;
+		}
+		o << "  ]," << endl;
+		o << "  edges: ["<<endl;
+		for(int i=0; i <numEdges; i++){
+			o << "    ";
+			edges[i].print(o);
+			o << endl;
+		}
+		o << "  ]"<< endl <<"}";
+	}
 };
 
 

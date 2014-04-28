@@ -770,13 +770,13 @@ Shape *XMLHelper::getShape(const DOMElement &n, const Reference& scope)
      return res;
 }
 
-struct stringEdge{
+struct stringEdge {
      std::string origin;
      std::string target;
      bool isConnected;
      double travelSpeed;
      stringEdge(std::string o, std::string t, bool con, double trav):
-          origin(o), target(t), isConnected(con), travelSpeed(trav){}
+          origin(o), target(t), isConnected(con), travelSpeed(trav) {}
 };
 /**
  * \brief Gets a Graph representation of the provided DOMElement.
@@ -790,39 +790,40 @@ Graph *XMLHelper::getGraph(const DOMElement &n, const Reference& scope)
      vector<DOMElement*> nodes;
      getChildElementsByTag(n, "nodes", nodes);
 
-     auto getLatLng=[](DOMElement* point)-> LatLng {
-          return LatLng(getDouble(*point, "lat"), getDouble(*point, "lon"));
+     auto getLatLng= [](DOMElement* point) -> LatLng {
+          return LatLng(getDouble(*point, "lat"),
+                        getDouble(*point, "lon"));
      };
-     std::map<std::string, LatLng> resnods;
-     for(auto node: nodes){
+     std::map<std::string, LatLng> resnodes;
+     for (auto node : nodes) {
           auto point = getFirstChildByTag(*node, "point");
-          resnods[getStringAttribute(*node, "identifier")]=getLatLng(point);
+          resnodes[getStringAttribute(*node, "identifier")] = getLatLng(point);
      }
 
      vector<DOMElement*> edges;
      getChildElementsByTag(n, "edges", edges);
      std::list<stringEdge> resedges;
-     for(auto edge: edges){
-          std::string o;
-          std::string t;
+     for(auto edge : edges){
+          std::string o, t;
           getString(*getFirstChildByTag(*edge, "origin"), "name", o);
           getString(*getFirstChildByTag(*edge, "target"), "name", t);
-          stringEdge newedge( o, t,
-               getBool( *getFirstChildByTag(*edge, "isConnected"), "value"),
-               getDouble(*edge, "travelSpeed"));
+          bool isConnected =
+              getBool(*getFirstChildByTag(*edge, "isConnected"), "value");
+          double travelSpeed = getDouble(*edge, "travelSpeed");
+          stringEdge newedge(o, t, isConnected, travelSpeed);
           resedges.push_back(newedge);
      }
 
      std::map <std::string, int> indexmap;
      std::list <Edge> finaledges;
      int count = 0;
-     auto mapindex = [&](std::string name)->int{
-          if(!indexmap.count(name)){
+     auto mapindex = [&](std::string name) -> int {
+          if (!indexmap.count(name)) {
                indexmap[name] =count++;
           }
           return indexmap[name];
      };
-     for(stringEdge edge: resedges){
+     for (stringEdge edge : resedges) {
           Edge newedge(
                mapindex(edge.origin),
                mapindex(edge.target),
@@ -833,22 +834,22 @@ Graph *XMLHelper::getGraph(const DOMElement &n, const Reference& scope)
      }
 
      Node* finalnodes = new Node[count];
-     for(auto& kv: resnods){
-          // grow the array if thi node is not acountd for in any edge
-          if(!indexmap.count(kv.first)){
+     for(auto& kv : resnods){
+          // grow the array if the node is not accounted for in any edge
+          if (!indexmap.count(kv.first)) {
                Node* newfinalnodes = new Node[++count];
                memcpy(newfinalnodes, finalnodes, sizeof(Node)*count);
                Node newnode(kv.second);
-               newfinalnodes[count-1]= newnode;
+               newfinalnodes[count-1] = newnode;
                delete finalnodes;
                finalnodes = newfinalnodes;
-          }else{
+          } else {
                Node newnode(kv.second);
-               finalnodes[indexmap[kv.first]]= newnode;
+               finalnodes[indexmap[kv.first]] = newnode;
           }
      }
      Edge* arr = new Edge[finaledges.size()];
-     copy(finaledges.begin(),finaledges.end(),arr);
+     copy(finaledges.begin(), finaledges.end(), arr);
      return new Graph(count, finalnodes, finaledges.size(), arr);
 }
 

@@ -421,7 +421,7 @@ void ContainerDataObject::print(ostream& o, const std::string indent) const
      }
 
      for (auto& v : mObjectMap){
-          o << endl << endl <<v.first;
+          o << endl << endl << v.first;
      }
 }
 
@@ -995,7 +995,7 @@ DataObject* DataObjectFactory::createDataObject(const Reference& scope, const DO
      else if (type.canSubstitute("Shape")) {
           ret = new StratmasShape(scope, n);
      }
-     else if (type.canSubstitute("PathGraph")) {
+     else if (type.canSubstitute("PathGraph")) { // TODO other graphs
           ret = new StratmasGraph(scope, n);
      }
      else if (typeStr == "SymbolIDCode") {

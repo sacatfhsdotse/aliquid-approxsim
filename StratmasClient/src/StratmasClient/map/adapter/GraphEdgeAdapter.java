@@ -54,6 +54,7 @@ public class GraphEdgeAdapter extends MapElementAdapter {
      */
     protected GraphEdgeAdapter(StratmasObject element) {
         super(element);
+        //TODO add listener for node position changes/removal
     }
 
     /**

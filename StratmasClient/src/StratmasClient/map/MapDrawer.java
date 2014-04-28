@@ -38,6 +38,7 @@ import StratmasClient.map.adapter.MapDrawableAdapter;
 import StratmasClient.map.adapter.MapElementAdapter;
 import StratmasClient.map.adapter.MapShapeAdapter;
 import StratmasClient.map.adapter.PopulationAdapter;
+import StratmasClient.map.adapter.GraphNodeAdapter;
 import StratmasClient.object.Shape;
 import StratmasClient.object.SimpleShape;
 import StratmasClient.object.StratmasEvent;
@@ -1019,6 +1020,8 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
                     .hasMoreElements();) {
                 MapDrawableAdapter adapter = e.nextElement();
                 int oldDisplayList = adapter.getDisplayList();
+                //FIXME remove
+                if (adapter instanceof GraphNodeAdapter){System.out.println("graph recompile");}
                 adapter.reCompile(basicMap.getProjection(), glc);
                 if (oldDisplayList != adapter.getDisplayList()) {
                     removeMapDrawableDisplayList(oldDisplayList);
@@ -1313,6 +1316,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
         renderSelectionNames.put(new Integer(renderSelectionName),
                                  drawableAdapter);
         drawableAdapter.addMapDrawableAdapterListener(this);
+        if (drawableAdapter instanceof GraphNodeAdapter){System.out.println("graph listen");}
         synchronized (mapDrawableAdapterRecompilation) {
             mapDrawableAdapterRecompilation.add(drawableAdapter);
         }

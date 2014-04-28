@@ -93,6 +93,7 @@ public class GraphNodeAdapter extends MapElementAdapter {
             gl.glGetDoublev(GL2.GL_PROJECTION_MATRIX, buf);
             scale = getSymbolScale() * 0.000003d / buf.get(0);
         }
+        System.out.println("scale " + scale);
 
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();

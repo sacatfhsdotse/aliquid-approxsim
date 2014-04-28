@@ -263,6 +263,8 @@ public abstract class MapDrawableAdapter implements StratmasEventListener,
             if (listeners[i] == MapDrawableAdapterListener.class) {
                 ((MapDrawableAdapterListener) listeners[i + 1])
                         .mapDrawableAdapterRemoved(this);
+            }else{
+						  System.err.println("shit happened in fireAdapterRemoved");
             }
         }
     }
@@ -276,6 +278,8 @@ public abstract class MapDrawableAdapter implements StratmasEventListener,
             if (listeners[i] == MapDrawableAdapterListener.class) {
                 ((MapDrawableAdapterListener) listeners[i + 1])
                         .mapDrawableAdapterUpdated(this);
+            }else{
+						  System.err.println("shit happened in fireAdapterUpdated " + listeners[i]);
             }
         }
     }
@@ -291,6 +295,8 @@ public abstract class MapDrawableAdapter implements StratmasEventListener,
             if (listeners[i] == MapDrawableAdapterListener.class) {
                 ((MapDrawableAdapterListener) listeners[i + 1])
                         .mapDrawableAdapterChildAdded(obj);
+            }else{
+						  System.err.println("shit happened in fireAdapterChildAdded");
             }
         }
     }

@@ -38,6 +38,7 @@ import StratmasClient.BoundingBox;
 import StratmasClient.Configuration;
 import StratmasClient.Debug;
 import StratmasClient.map.adapter.MapDrawableAdapter;
+import StratmasClient.map.adapter.GraphNodeAdapter;
 import StratmasClient.map.adapter.MapDrawableAdapterListener;
 import StratmasClient.object.Shape;
 import StratmasClient.object.StratmasEvent;
@@ -425,6 +426,8 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener,
      */
     public void mapDrawableAdapterUpdated(MapDrawableAdapter drawableAdapter) {
         synchronized (mapDrawableAdapterRecompilation) {
+            //FIXME remove
+            if (drawableAdapter instanceof GraphNodeAdapter){System.out.println("graph updated");}
             mapDrawableAdapterRecompilation.add(drawableAdapter);
             // update the list
             setIsDrawnMapDrawablesListUpdated(false);

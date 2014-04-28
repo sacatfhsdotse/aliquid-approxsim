@@ -135,7 +135,7 @@ Unit::Unit(const DataObject& d)
  */
 Unit::~Unit()
 {
-     if (mGoal) { delete mGoal; }
+     delete mGoal;
 
      delete mAllocatedOrder;
 
@@ -758,6 +758,7 @@ void Unit::recover()
  */
 void Unit::move()
 {
+     // TODO add graph-pathfinding here. mak mGoal a list?
      double distanceKm;
      double speedKm;
      double portion;
@@ -803,7 +804,7 @@ void Unit::move()
  * proportional to the strength of that unit compared to other
  * ememies.
  *
- * \return True if we're stll in a combat situation, false otherwise.
+ * \return True if we're still in a combat situation, false otherwise.
  */
 bool Unit::combat()
 {
@@ -1253,3 +1254,4 @@ ostream &operator << (ostream& o, const Unit& u)
      return o;
 }
 
+// vim: ts=5 sw=5 expandtab:

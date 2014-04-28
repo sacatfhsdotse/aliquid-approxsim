@@ -54,7 +54,7 @@ static const char *nodeTypeToStringMap[] = {
  */
 string XMLHelper::nodeTypeToString(int i)
 {
-     return (i > 0 && i <=12 ? nodeTypeToStringMap[i] : "Unknown node type");
+     return (i > 0 && i <= 12 ? nodeTypeToStringMap[i] : "Unknown node type");
 }
 
 /**
@@ -728,7 +728,7 @@ Shape *XMLHelper::getShape(const DOMElement &n, const Reference& scope)
           // line at the end of the polygon.
           Line* line = firstLine;
           aList->vertex = new gpc_vertex[aList->num_vertices];
-          for(int i = 0; i < aList->num_vertices; i++) {
+          for (int i = 0; i < aList->num_vertices; i++) {
                identifiers.push_back(line->identifier());
                aList->vertex[i].x = line->p1().x();
                aList->vertex[i].y = line->p1().y();
@@ -803,7 +803,7 @@ Graph *XMLHelper::getGraph(const DOMElement &n, const Reference& scope)
      vector<DOMElement*> edges;
      getChildElementsByTag(n, "edges", edges);
      std::list<stringEdge> resedges;
-     for(auto edge : edges){
+     for (auto edge : edges) {
           std::string o, t;
           getString(*getFirstChildByTag(*edge, "origin"), "name", o);
           getString(*getFirstChildByTag(*edge, "target"), "name", t);
@@ -819,7 +819,7 @@ Graph *XMLHelper::getGraph(const DOMElement &n, const Reference& scope)
      int count = 0;
      auto mapindex = [&](std::string name) -> int {
           if (!indexmap.count(name)) {
-               indexmap[name] =count++;
+               indexmap[name] = count++;
           }
           return indexmap[name];
      };
@@ -834,7 +834,7 @@ Graph *XMLHelper::getGraph(const DOMElement &n, const Reference& scope)
      }
 
      Node* finalnodes = new Node[count];
-     for(auto& kv : resnods){
+     for (auto& kv : resnodes) {
           // grow the array if the node is not accounted for in any edge
           if (!indexmap.count(kv.first)) {
                Node* newfinalnodes = new Node[++count];

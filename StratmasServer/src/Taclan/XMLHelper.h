@@ -12,6 +12,7 @@
 // Own
 #include "Time2.h"
 #include "StrX.h"
+#include "Graph.h"
 
 using namespace std;
 
@@ -66,6 +67,7 @@ public:
      inline static Shape*       getShape(const DOMElement &n, const char *tag, const Reference& scope);
      inline static void         getString(const DOMElement &n, const char *tag, std::string &outStr);
      inline static Time         getTime(const DOMElement &n, const char *tag);
+     inline static Graph*       getGraph(const DOMElement &n, const Reference& scope);
                                
      inline static bool         getElementBoolValue(const DOMElement &n, const char *tag);
      inline static int          getElementIntValue(const DOMElement &n, const char *tag);

@@ -4,6 +4,8 @@
 #include <iostream>
 #include <list>
 #include <ctime>
+#include <algorithm>
+#include <cstring>
 
 // Xerces-c
 #include <xercesc/dom/DOMElement.hpp>
@@ -20,6 +22,9 @@
 #include "StrX.h"
 #include "XMLHelper.h"
 #include "Log4C.h"
+#include "Graph.h"
+#include "Log4C.h"
+#include "LogStream.h"
 
 
 using namespace std;
@@ -763,6 +768,88 @@ Shape *XMLHelper::getShape(const DOMElement &n, const Reference& scope)
           throw e;
      }
      return res;
+}
+
+struct stringEdge{
+     std::string origin;
+     std::string target;
+     bool isConnected;
+     double travelSpeed;
+     stringEdge(std::string o, std::string t, bool con, double trav):
+          origin(o), target(t), isConnected(con), travelSpeed(trav){}
+};
+/**
+ * \brief Gets a Graph representation of the provided DOMElement.
+ *
+ * \param n The parent DOMElement.
+ * \param scope The Reference to the scope this shape should live in.
+ * \return The Shape representation of the element's content.
+ */
+Graph *XMLHelper::getGraph(const DOMElement &n, const Reference& scope)
+{
+     vector<DOMElement*> nodes;
+     getChildElementsByTag(n, "nodes", nodes);
+
+     auto getLatLng=[](DOMElement* point)-> LatLng {
+          return LatLng(getDouble(*point, "lat"), getDouble(*point, "lon"));
+     };
+     std::map<std::string, LatLng> resnods;
+     for(auto node: nodes){
+          auto point = getFirstChildByTag(*node, "point");
+          resnods[getStringAttribute(*node, "identifier")]=getLatLng(point);
+     }
+
+     vector<DOMElement*> edges;
+     getChildElementsByTag(n, "edges", edges);
+     std::list<stringEdge> resedges;
+     for(auto edge: edges){
+          std::string o;
+          std::string t;
+          getString(*getFirstChildByTag(*edge, "origin"), "name", o);
+          getString(*getFirstChildByTag(*edge, "target"), "name", t);
+          stringEdge newedge( o, t,
+               getBool( *getFirstChildByTag(*edge, "isConnected"), "value"),
+               getDouble(*edge, "travelSpeed"));
+          resedges.push_back(newedge);
+     }
+
+     std::map <std::string, int> indexmap;
+     std::list <Edge> finaledges;
+     int count = 0;
+     auto mapindex = [&](std::string name)->int{
+          if(!indexmap.count(name)){
+               indexmap[name] =count++;
+          }
+          return indexmap[name];
+     };
+     for(stringEdge edge: resedges){
+          Edge newedge(
+               mapindex(edge.origin),
+               mapindex(edge.target),
+               edge.isConnected,
+               edge.travelSpeed
+          );
+          finaledges.push_back(newedge);
+     }
+
+     Node* finalnodes = new Node[count];
+     for(auto& kv: resnods){
+          // grow the array if thi node is not acountd for in any edge
+          if(!indexmap.count(kv.first)){
+               Node* newfinalnodes = new Node[++count];
+               memcpy(newfinalnodes, finalnodes, sizeof(Node)*count);
+               Node newnode(kv.second);
+               newfinalnodes[count-1]= newnode;
+               delete finalnodes;
+               finalnodes = newfinalnodes;
+          }else{
+               Node newnode(kv.second);
+               finalnodes[indexmap[kv.first]]= newnode;
+          }
+     }
+     Edge* arr = new Edge[finaledges.size()];
+     copy(finaledges.begin(),finaledges.end(),arr);
+     return new Graph(count, finalnodes, finaledges.size(), arr);
 }
 
 /**

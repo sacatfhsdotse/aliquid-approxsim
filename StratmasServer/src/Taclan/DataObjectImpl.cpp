@@ -18,7 +18,6 @@
 
 using namespace std;
 
-
 /**
  * \brief Constructor that creates a DataObject in the provided scope
  * from the provided DOMElement.
@@ -415,9 +414,14 @@ ostream& ContainerDataObject::bodyXML(ostream& o, string indent) const
 void ContainerDataObject::print(ostream& o, const std::string indent) const
 {
      DataObject::print(o, indent);
-     for (vector<DataObject*>::const_iterator it = mObjects.begin(); it != mObjects.end(); it++) {
+     for (auto& v : mObjects) {
+          //o << endl << indent << kv.first << endl;
           o << endl;
-           (*it)->print(o, indent + INDENT);
+          v->print(o, indent + INDENT);
+     }
+
+     for (auto& v : mObjectMap){
+          o << endl << endl <<v.first;
      }
 }
 
@@ -930,12 +934,12 @@ void SymbolIDCode::print(ostream& o, const std::string indent) const
 
 StratmasGraph::StratmasGraph(const Reference& scope, const DOMElement* n) : DataObject(scope, n)
 {
-     // TODO
+     mValue = XMLHelper::getGraph(*n, scope);
 }
 
 StratmasGraph::~StratmasGraph()
 {
-     // TODO delete mValue;
+     delete mValue;
 }
 
 DataObject& StratmasGraph::operator= (const DataObject& d)
@@ -947,7 +951,7 @@ DataObject& StratmasGraph::operator= (const DataObject& d)
 
 void StratmasGraph::print(ostream& o, const std::string indent) const
 {
-     // TODO
+     o<<":D";
 }
 
 std::ostream& StratmasGraph::bodyXML(std::ostream& o, std::string indent) const
@@ -991,7 +995,7 @@ DataObject* DataObjectFactory::createDataObject(const Reference& scope, const DO
      else if (type.canSubstitute("Shape")) {
           ret = new StratmasShape(scope, n);
      }
-     else if (type.canSubstitute("Graph")) {
+     else if (type.canSubstitute("PathGraph")) {
           ret = new StratmasGraph(scope, n);
      }
      else if (typeStr == "SymbolIDCode") {

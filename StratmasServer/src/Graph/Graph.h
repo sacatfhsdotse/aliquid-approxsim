@@ -3,113 +3,97 @@
 
 
 #include <string>
+#include <list>
 #include <LatLng.h>
 #include <iostream>
 
+using namespace std;
+
 /**
- * \brief This class represents a Node in a graph.
+ * \brief This class represents a Node.
  *
  * \author   Daniil Pintjuk
  * \date     $Date: 2014/04/25 20:14:00 $
  */
- using namespace std;
 class Node
 {
 protected:
-    LatLng pos;
+	LatLng pos;
 public:
-    Node(LatLng p) : pos(p)
-    {
-
-    }
-
-    Node()
-    {
-
-    }
-
-    void print(std::ostream& o){
-        o << "Node: {" << pos.lat() << ", " << pos.lng() << "}";
-    }
+	Node(LatLng p):pos(p){}
+	Node();
+	void print(std::ostream& o);
 };
 
 /**
- * \brief This class represents a Edge in a graph.
+ * \brief This class represents a Edg.
  *
- * \author   Daniil Pintjuk
+ * \author    Daniil Pintjuk
  * \date     $Date: 2014/04/25 20:14:00 $
  */
 class Edge
 {
 protected:
-    int origin;
-    int target;
-    bool conected;
-    double travalspeed;
+	int origin;
+	int target;
+	bool conected;
+	double travalspeed;
 public:
-    Edge(int o, int t, bool con, double tsped):
-        origin(o), target(t), conected(con), travalspeed(tsped)
-    {
+	Edge(int o, int t, bool con, double tsped):
+		origin(o), target(t), conected(con), travalspeed(tsped){
 
-    }
-    Edge()
-    {
-
-    }
-    void print(std::ostream& o)
-    {
-        o << "Edge: { o: " << origin 
-          << ", t: " << target  
-          << ", con:" << conected
-          << ", sp:" << travalspeed
-          << "}";
-    }
+	}
+	Edge();
+	void print(std::ostream& o);
 };
 
+/**
+ * \brief This class represents a Node.
+ *
+ * \author   Daniil Pintjuk
+ * \date     $Date: 
+ */
+struct NavigationPlan{
+	/// no  chour that this should be a list and not an array or vector TODO: decide
+	std::list<Edge*> path;
+	/// point on the map, wher the path starts, tupicaly inbetween two nodes on an edge.
+	LatLng on;
+	/// point on the map, where the path ends, tupicaly inbetween two nodes on an edge.
+	LatLng off;
+
+};
 
 /**
  * \brief This class represents a Graph.
  *
- * \author   Johannes Olegård, Daniil Pintjuk
+ * \author   Johannesd Olegård, Daniil Pintjuk
  * \date     $Date: 2014/04/25 20:14:00 $
  */
 class Graph
 {
 protected:
-    int numNodes;
-    Node* nodes;
-    int numEdges;
-    Edge* edges;
+	int numNodes;
+	Node* nodes;
+	int numEdges;
+	Edge* edges;
 public:
-    Graph(
-        int NumNodes,
-        Node* Nodes,
-        int NumEdges,
-        Edge* Edges):
-        numNodes(NumNodes),
-        nodes(Nodes),
-        numEdges(NumEdges),
-        edges(Edges) {}
+	Graph(
+		int NumNodes,
+		Node* Nodes,
+		int NumEdges,
+		Edge* Edges):
+		numNodes(NumNodes),
+		nodes(Nodes),
+		numEdges(NumEdges),
+		edges(Edges){}
 
-    void print(std::ostream& o)
-    {
-        o << endl;
-        o << "graph: {" << endl <<  "  nodes: [" <<endl;
-        for(int i = 0; i < numNodes; i++){
-            o << "    ";
-            nodes[i].print(o);
-            o << endl;
-        }
-        o << "  ]," << endl
-          << "  edges: [" << endl;
-        for(int i = 0; i < numEdges; i++){
-            o << "    ";
-            edges[i].print(o);
-            o << endl;
-        }
-        o << "  ]" << endl << "}";
-    }
+	void print(std::ostream& o);
+
+	NavigationPlan getPath(LatLng start, LatLng end);
 };
+
+
+
 
 #endif   // STRATMAS_GRAPH_H
 

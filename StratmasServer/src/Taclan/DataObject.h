@@ -16,7 +16,7 @@
 // Forward Declarations
 class ContainerDataObject;
 class Shape;
-class Graph;
+template<class T> class Graph;
 class Type;
 
 namespace XERCES_CPP_NAMESPACE {

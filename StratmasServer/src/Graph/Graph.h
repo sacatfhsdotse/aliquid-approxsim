@@ -9,19 +9,28 @@
 
 using namespace std;
 
+struct PathData {
+	double travelSpeed;
+};
+
+struct EffectData {
+};
+
 /**
  * \brief This class represents a Node in a graph.
  *
  * \author   Daniil Pintjuk
  * \date     $Date: 2014/04/25 20:14:00 $
  */
-class Node
+template<class T>
+struct Node
 {
-protected:
 	LatLng pos;
-public:
-	Node(LatLng p) : pos(p) {}
+	T content;
+
+	Node(LatLng p, T content): pos(p), content(content){}
 	Node();
+
 	void print(std::ostream& o);
 };
 
@@ -31,17 +40,18 @@ public:
  * \author    Daniil Pintjuk
  * \date     $Date: 2014/04/25 20:14:00 $
  */
-class Edge
+template<class T>
+struct Edge
 {
-protected:
-	int origin;
-	int target;
-	bool connected;
-	double travelspeed;
-public:
-	Edge(int o, int t, bool con, double tsped):
-		origin(o), target(t), connected(con), travelspeed(tsped) {}
+	Node<T>* origin;
+	Node<T>* target;
+	bool isConnected;
+	T content;
+
+	Edge(Node<T>* o, Node<T>* t, bool con, T content):
+		origin(o), target(t), isConnected(con), content(content){}
 	Edge();
+
 	void print(std::ostream& o);
 };
 
@@ -53,7 +63,7 @@ public:
  */
 struct NavigationPlan {
 	/// no  chour that this should be a list and not an array or vector TODO: decide
-	std::list<Edge*> path;
+	std::list<Edge<PathData>*> path;
 	/// point on the map, wher the path starts, tupicaly inbetween two nodes on an edge.
 	LatLng on;
 	/// point on the map, where the path ends, tupicaly inbetween two nodes on an edge.
@@ -67,22 +77,24 @@ struct NavigationPlan {
  * \author   Johannesd Olegård, Daniil Pintjuk
  * \date     $Date: 2014/04/25 20:14:00 $
  */
+template<class T>
 class Graph
 {
 protected:
 	int numNodes;
-	Node* nodes;
+	Node<T>* nodes;
 	int numEdges;
-	Edge* edges;
+	Edge<T>* edges;
 public:
-	Graph(int NumNodes, Node* Nodes, int NumEdges, Edge* Edges) :
-		numNodes(NumNodes), nodes(Nodes), numEdges(NumEdges), edges(Edges) {}
-	void print(std::ostream& o);
+	Graph(int numNodes, Node<T>* nodes, int numEdges, Edge<T>* edges):
+		numNodes(numNodes), nodes(nodes), numEdges(numEdges), edges(edges){}
+
+	~Graph() {delete edges; delete nodes;}
+
+	void print(std::ostream& o, std::string indent="");
+
 	NavigationPlan getPath(LatLng start, LatLng end);
 };
-
-
-
 
 #endif   // STRATMAS_GRAPH_H
 

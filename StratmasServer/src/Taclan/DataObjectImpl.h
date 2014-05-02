@@ -471,9 +471,10 @@ public:
  * \author   Johannes Olegård
  * \date     $Date: 2014/04/25 19:54:00$
  */
+template<class T>
 class StratmasGraph : public DataObject {
 private:
-     Graph* mValue;   ///< The value.
+     std::shared_ptr<Graph<T>> mValue;   ///< The value.
 protected:
      /**
       * \brief Copy constructor.
@@ -483,7 +484,6 @@ protected:
      StratmasGraph(const StratmasGraph& c) : DataObject(c), mValue(c.mValue) {}
 public:
      StratmasGraph(const Reference& scope, const DOMElement* n);
-     ~StratmasGraph();
 
      /**
       * \brief Constructor that creates a DataObject of the specified
@@ -500,11 +500,11 @@ public:
       *
       * \return pointer to the actual Graph held by this object.
       */
-     Graph& getGraphRef() const { return *mValue; }
+     Graph<T>& getGraphRef() const { return *mValue; }
 
      DataObject& operator = (const DataObject& d);
 
-     DataObject* clone() const { return new StratmasGraph(*this); }
+     DataObject* clone() const { return new StratmasGraph<T>(*this); }
      std::ostream& bodyXML(std::ostream& o, std::string indent) const;
      void print(std::ostream& o, const std::string indent) const;
 };

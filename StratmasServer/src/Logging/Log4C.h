@@ -63,6 +63,7 @@ public:
 
 void run_n_log (log4cxx::LoggerPtr logger, std::function<void (std::ostream&)> p);
 void run_n_log (log4cxx::LoggerPtr logger, std::function<void (std::ostream&)> p, char level);
+
 extern log4cxx::LoggerPtr agenciesLog, dataManagementLog, debugLog, geoLog, networkLog, 
        pvLog, simulationObjectsLog, taclanLog, stratmasLog;
 

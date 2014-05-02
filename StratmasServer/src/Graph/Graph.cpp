@@ -1,25 +1,27 @@
 #include "Graph.h"
 
-
-void Graph::print(std::ostream& o){
+template<class T>
+void Graph<T>::print(std::ostream& o, std::string indent){
 	o << endl;
-	o << "graph: {" << endl <<  "  nodes: [" <<endl;
+	o << indent << "graph: {" << endl << indent <<  "  nodes: [" <<endl;
 	for(int i= 0; i <numNodes; i++){
-		o << "    ";
+		o << indent << "    ";
 		nodes[i].print(o);
 		o << endl;
 	}
-	o << "  ]," << endl;
-	o << "  edges: ["<<endl;
+	o << indent << "  ]," << endl;
+	o << indent << "  edges: ["<<endl;
 	for(int i=0; i <numEdges; i++){
-		o << "    ";
+		o << indent << "    ";
 		edges[i].print(o);
 		o << endl;
 	}
-	o << "  ]"<< endl <<"}";
+	o << indent << "  ]"<< endl << indent << "}";
 }
+template void Graph<PathData>::print(std::ostream& o, std::string indent);
 
-NavigationPlan Graph::getPath(LatLng start, LatLng end){
+template<>
+NavigationPlan Graph<PathData>::getPath(LatLng start, LatLng end){
 	//TODO: 
 	// Simon titta hit!
 	// vett inte om du föredrar arrays eller std::vector
@@ -28,23 +30,29 @@ NavigationPlan Graph::getPath(LatLng start, LatLng end){
 	return result;
 }
 
-Node::Node() {
+template<class T>
+Node<T>::Node(){
 
 }
+template Node<PathData>::Node();
 
-void Node::print(std::ostream& o){
+template<class T>
+void Node<T>::print(std::ostream& o){
 	o << "Node: {" << pos.lat() << ", " << pos.lng() << "}";
 }
+template void Node<PathData>::print(std::ostream& o);
 
-Edge::Edge() {
+template<class T>
+Edge<T>::Edge() {
 
 }
+template Edge<PathData>::Edge();
 
-void Edge::print(std::ostream& o){
+template<class T>
+void Edge<T>::print(std::ostream& o){
 	o << "Edge: { o: " << origin 
 	  << ", t: " << target  
-	  << ", con:" << conected
-	  << ", sp:" << travelspeed << "}";
+	  << ", con:" << isConnected << "}";
 }
-
+template void Edge<PathData>::print(std::ostream& o);
 // vim: ts=4 sw=4 expandtab:

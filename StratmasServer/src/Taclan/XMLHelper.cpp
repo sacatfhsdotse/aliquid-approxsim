@@ -267,6 +267,8 @@ template<class T> ostream& XMLHelper::base64Print(const T* const toEncode,
      }
      return o;
 }
+template ostream& XMLHelper::base64Print(const double* const, int, bool, ostream& o);
+template ostream& XMLHelper::base64Print(const int* const, int, bool, ostream& o);
 
 
 /**
@@ -778,6 +780,21 @@ struct stringEdge {
      stringEdge(std::string o, std::string t, bool con, double trav):
           origin(o), target(t), isConnected(con), travelSpeed(trav) {}
 };
+
+template<class T> T getContent(const DOMElement* n);
+template<>
+PathData getContent<PathData>(const DOMElement* n)
+{
+     auto travelSpeed = XMLHelper::getFirstChildByTag(*n, "travelSpeed");
+     if (travelSpeed == nullptr)
+          return PathData {0};
+     return PathData {XMLHelper::getDouble(*travelSpeed, "value")};
+}
+template<>
+EffectData getContent<EffectData>(const DOMElement* n)
+{
+     return EffectData{};
+}
 /**
  * \brief Gets a Graph representation of the provided DOMElement.
  *
@@ -785,73 +802,49 @@ struct stringEdge {
  * \param scope The Reference to the scope this shape should live in.
  * \return The Shape representation of the element's content.
  */
-Graph *XMLHelper::getGraph(const DOMElement &n, const Reference& scope)
+template<class T>
+Graph<T> *XMLHelper::getGraph(const DOMElement &n, const Reference& scope)
 {
      vector<DOMElement*> nodes;
      getChildElementsByTag(n, "nodes", nodes);
 
-     auto getLatLng= [](DOMElement* point) -> LatLng {
+     auto getLatLng = [](DOMElement* point) -> LatLng {
           return LatLng(getDouble(*point, "lat"),
                         getDouble(*point, "lon"));
      };
-     std::map<std::string, LatLng> resnodes;
+
+     Node<T>* graphNodes = new Node<T>[nodes.size()];
+     std::map<std::string, Node<T>*> identMap;
+     int i = 0;
      for (auto node : nodes) {
-          auto point = getFirstChildByTag(*node, "point");
-          resnodes[getStringAttribute(*node, "identifier")] = getLatLng(point);
+          graphNodes[i].pos = getLatLng(getFirstChildByTag(*node, "point"));
+          graphNodes[i].content = getContent<T>(node);
+          identMap[getStringAttribute(*node, "identifier")] = &graphNodes[i];
+          i++;
      }
 
      vector<DOMElement*> edges;
      getChildElementsByTag(n, "edges", edges);
-     std::list<stringEdge> resedges;
-     for (auto edge : edges) {
-          std::string o, t;
-          getString(*getFirstChildByTag(*edge, "origin"), "name", o);
-          getString(*getFirstChildByTag(*edge, "target"), "name", t);
-          bool isConnected =
-              getBool(*getFirstChildByTag(*edge, "isConnected"), "value");
-          double travelSpeed = getDouble(*edge, "travelSpeed");
-          stringEdge newedge(o, t, isConnected, travelSpeed);
-          resedges.push_back(newedge);
-     }
 
-     std::map <std::string, int> indexmap;
-     std::list <Edge> finaledges;
-     int count = 0;
-     auto mapindex = [&](std::string name) -> int {
-          if (!indexmap.count(name)) {
-               indexmap[name] = count++;
-          }
-          return indexmap[name];
+     auto findPointer = [&identMap] (const DOMElement* edge, std::string name) -> Node<T>* {
+          std::string tmp;
+          getString(*getFirstChildByTag(*edge, name), "name", tmp);
+          return identMap[tmp];
      };
-     for (stringEdge edge : resedges) {
-          Edge newedge(
-               mapindex(edge.origin),
-               mapindex(edge.target),
-               edge.isConnected,
-               edge.travelSpeed
-          );
-          finaledges.push_back(newedge);
+
+     Edge<T>* graphEdges = new Edge<T>[edges.size()];
+     i = 0;
+     for (auto edge : edges) {
+          graphEdges[i].origin = findPointer(edge, "origin");
+          graphEdges[i].target = findPointer(edge, "target");
+          graphEdges[i].isConnected = getBool(*getFirstChildByTag(*edge, "isConnected"), "value");
+          graphEdges[i].content = getContent<T>(edge);
+          i++;
      }
 
-     Node* finalnodes = new Node[count];
-     for (auto& kv : resnodes) {
-          // grow the array if the node is not accounted for in any edge
-          if (!indexmap.count(kv.first)) {
-               Node* newfinalnodes = new Node[++count];
-               memcpy(newfinalnodes, finalnodes, sizeof(Node)*count);
-               Node newnode(kv.second);
-               newfinalnodes[count-1] = newnode;
-               delete finalnodes;
-               finalnodes = newfinalnodes;
-          } else {
-               Node newnode(kv.second);
-               finalnodes[indexmap[kv.first]] = newnode;
-          }
-     }
-     Edge* arr = new Edge[finaledges.size()];
-     copy(finaledges.begin(), finaledges.end(), arr);
-     return new Graph(count, finalnodes, finaledges.size(), arr);
+     return new Graph<T>(nodes.size(), graphNodes, edges.size(), graphEdges);
 }
+template Graph<PathData> *XMLHelper::getGraph(const DOMElement&, const Reference&);
 
 /**
  * \brief Finds the first subelement of the provided DOMElement that

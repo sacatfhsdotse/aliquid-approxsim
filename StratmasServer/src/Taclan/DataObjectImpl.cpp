@@ -932,29 +932,28 @@ void SymbolIDCode::print(ostream& o, const std::string indent) const
 }
 
 
-StratmasGraph::StratmasGraph(const Reference& scope, const DOMElement* n) : DataObject(scope, n)
+template<class T>
+StratmasGraph<T>::StratmasGraph(const Reference& scope, const DOMElement* n) : DataObject(scope, n)
 {
-     mValue = XMLHelper::getGraph(*n, scope);
+     mValue = std::shared_ptr<Graph<T>> (XMLHelper::getGraph<T>(*n, scope));
 }
 
-StratmasGraph::~StratmasGraph()
-{
-     delete mValue;
-}
-
-DataObject& StratmasGraph::operator= (const DataObject& d)
+template<class T>
+DataObject& StratmasGraph<T>::operator= (const DataObject& d)
 {
      // TODO this.graph = d.graph
      DataObject::operator=(d);
      return *this;
 }
 
-void StratmasGraph::print(ostream& o, const std::string indent) const
+template<class T>
+void StratmasGraph<T>::print(ostream& o, const std::string indent) const
 {
      mValue->print(o);
 }
 
-std::ostream& StratmasGraph::bodyXML(std::ostream& o, std::string indent) const
+template<class T>
+std::ostream& StratmasGraph<T>::bodyXML(std::ostream& o, std::string indent) const
 {
      // TODO
 }
@@ -995,11 +994,8 @@ DataObject* DataObjectFactory::createDataObject(const Reference& scope, const DO
      else if (type.canSubstitute("Shape")) {
           ret = new StratmasShape(scope, n);
      }
-     else if (type.canSubstitute("PathGraph")) {
-          ret = new StratmasGraph(scope, n);
-     }
-     else if (type.canSubstitute("EffectGraph")) {
-          ret = new StratmasGraph(scope, n);
+     else if (type.canSubstitute("PathGraph")) { // TODO other graphs
+          ret = new StratmasGraph<PathData>(scope, n);
      }
      else if (typeStr == "SymbolIDCode") {
           ret = new SymbolIDCode(scope, n);

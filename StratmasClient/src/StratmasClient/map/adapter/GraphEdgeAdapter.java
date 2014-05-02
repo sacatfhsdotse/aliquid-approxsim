@@ -52,7 +52,6 @@ public class GraphEdgeAdapter extends MapElementAdapter {
         System.out.println(node.getClass());
         node.addEventListener(new StratmasEventListener() {
             public void eventOccured(StratmasEvent event) {
-                System.out.println("wooohooo");
                 if (event.isRemoved()) {
                     ((StratmasObject) event.getSource())
                             .removeEventListener(this);
@@ -64,10 +63,12 @@ public class GraphEdgeAdapter extends MapElementAdapter {
                             .addEventListener(this);
                     displayListUpdated = false;
                     isLocationUpdated = false;
+                    isSymbolUpdated = false;
                     fireAdapterUpdated();
                 } else if (event.isChildChanged()) {
                     displayListUpdated = false;
                     isLocationUpdated = false;
+                    isSymbolUpdated = false;
                     fireAdapterUpdated();
                 }
             }
@@ -75,8 +76,10 @@ public class GraphEdgeAdapter extends MapElementAdapter {
     }
 
     private void addNodeListeners(StratmasObject element){
-        addNodeListener(element.getChild("origin"), element);
-        addNodeListener(element.getChild("target"), element);
+        addNodeListener(((StratmasReference) element.getChild("origin"))
+                        .getValue().resolve(element) , element);
+        addNodeListener(((StratmasReference) element.getChild("target"))
+                        .getValue().resolve(element) , element);
     }
 
     /**

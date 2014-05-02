@@ -367,7 +367,6 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      * @param event the event causing the call.
      */
     public void eventOccured(StratmasEvent event) {
-    	System.out.println(event);
         if (event.isValueChanged()) {
             sendTreeNodesChangedEvent();
         } else if (event.isRemoved()) {

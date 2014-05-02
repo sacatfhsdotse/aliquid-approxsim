@@ -1,7 +1,10 @@
 package StratmasClient.map.adapter;
 
 import javax.swing.event.EventListenerList;
+
+import java.util.ArrayList;
 import java.util.EventListener;
+import java.util.List;
 
 import StratmasClient.object.Shape;
 import StratmasClient.object.Line;
@@ -42,7 +45,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener,
     /**
      * The listeners of this adapter.
      */
-    protected EventListenerList eventListenerList = new EventListenerList();
+    protected List<MapDrawableAdapterListener> mapDrawableAdapterListenerList = new ArrayList<MapDrawableAdapterListener>();
 
     /**
      * Creates MapDrawableAdapters suitable for the given object. This is the approved method of getting MapDrawableAdapters...
@@ -212,26 +215,8 @@ public abstract class MapDrawableAdapter implements StratmasEventListener,
     /**
      * Returns a list of the listeners of this object.
      */
-    private EventListenerList getEventListenerList() {
-        return this.eventListenerList;
-    }
-
-    /**
-     * Adds an event listener for to the eventlistenerlist.
-     * 
-     * @param listener the listener to add.
-     */
-    private void addEventListener(EventListener listener) {
-        this.getEventListenerList().add(EventListener.class, listener);
-    }
-
-    /**
-     * Removes an event listener for from the eventlistenerlist.
-     * 
-     * @param listener the listener to add.
-     */
-    private void removeEventListener(EventListener listener) {
-        this.getEventListenerList().remove(EventListener.class, listener);
+    private List<MapDrawableAdapterListener> getMapDrawableAdapterListenerList() {
+        return this.mapDrawableAdapterListenerList;
     }
 
     /**
@@ -241,7 +226,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener,
      */
     public void addMapDrawableAdapterListener(
             MapDrawableAdapterListener listener) {
-        this.addEventListener(listener);
+        getMapDrawableAdapterListenerList().add(listener);
     }
 
     /**
@@ -251,21 +236,16 @@ public abstract class MapDrawableAdapter implements StratmasEventListener,
      */
     public void removeMapDrawableAdapterListener(
             MapDrawableAdapterListener listener) {
-        this.removeEventListener(listener);
+        getMapDrawableAdapterListenerList().remove(listener);
     }
 
     /**
      * Called when an MapDrawableAdapters object is removed.
      */
     protected void fireAdapterRemoved() {
-        Object[] listeners = getEventListenerList().getListenerList();
-        for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == MapDrawableAdapterListener.class) {
-                ((MapDrawableAdapterListener) listeners[i + 1])
-                        .mapDrawableAdapterRemoved(this);
-            }else{
-						  System.err.println("shit happened in fireAdapterRemoved");
-            }
+        List<MapDrawableAdapterListener> listeners = getMapDrawableAdapterListenerList();
+        for (int i = listeners.size() -1; i >= 0; i--) {
+              listeners.get(i).mapDrawableAdapterRemoved(this);
         }
     }
 
@@ -273,14 +253,9 @@ public abstract class MapDrawableAdapter implements StratmasEventListener,
      * Called when an MapDrawableAdapters object is updated.
      */
     protected void fireAdapterUpdated() {
-        Object[] listeners = getEventListenerList().getListenerList();
-        for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == MapDrawableAdapterListener.class) {
-                ((MapDrawableAdapterListener) listeners[i + 1])
-                        .mapDrawableAdapterUpdated(this);
-            }else{
-						  System.err.println("shit happened in fireAdapterUpdated " + listeners[i]);
-            }
+        List<MapDrawableAdapterListener> listeners = getMapDrawableAdapterListenerList();
+        for (int i = listeners.size() -1; i >= 0; i--) {
+              listeners.get(i).mapDrawableAdapterUpdated(this);
         }
     }
 
@@ -290,14 +265,9 @@ public abstract class MapDrawableAdapter implements StratmasEventListener,
      * @param obj the object added.
      */
     protected void fireAdapterChildAdded(StratmasObject obj) {
-        Object[] listeners = getEventListenerList().getListenerList();
-        for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == MapDrawableAdapterListener.class) {
-                ((MapDrawableAdapterListener) listeners[i + 1])
-                        .mapDrawableAdapterChildAdded(obj);
-            }else{
-						  System.err.println("shit happened in fireAdapterChildAdded");
-            }
+        List<MapDrawableAdapterListener> listeners = getMapDrawableAdapterListenerList();
+        for (int i = listeners.size() -1; i >= 0; i--) {
+              listeners.get(i).mapDrawableAdapterChildAdded(obj);
         }
     }
 

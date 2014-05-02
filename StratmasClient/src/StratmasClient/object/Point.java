@@ -150,17 +150,11 @@ public class Point extends StratmasObjectImpl {
             getParent().childChanged(this, initiator);
         }
 
-        // Guaranteed to return a non-null array
-        Object[] listeners = getListenerList();
-        if (listeners.length > 0) {
-            if (listeners.length > 0) {
-                StratmasEvent event = StratmasEvent.getValueChanged(this,
-                                                                    initiator);
-                for (int i = listeners.length - 2; i >= 0; i -= 2) {
-                    ((StratmasEventListener) listeners[i + 1])
-                            .eventOccured(event);
-                }
-            }
+        StratmasEvent event = StratmasEvent.getValueChanged(this,
+                                                            initiator);
+        
+        for (int i = getEventListenerList().size() - 1; i >= 0; i--) {
+            getEventListenerList().get(i).eventOccured(event);
         }
     }
 
@@ -184,8 +178,8 @@ public class Point extends StratmasObjectImpl {
      * @param lng The longitude of the new location.
      * @param lat The latitude of the new location.
      */
-    public void moveTo(double lng, double lat) {
-        move(lng - getLon(), lat - getLat());
+    public void moveTo(double lon, double lat) {
+        setLatLon(lat, lon, this);
     }
 
     /**

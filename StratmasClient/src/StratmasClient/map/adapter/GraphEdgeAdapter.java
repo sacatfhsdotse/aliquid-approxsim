@@ -17,6 +17,7 @@ import StratmasClient.Debug;
 import StratmasClient.map.Projection;
 import StratmasClient.object.Point;
 import StratmasClient.object.StratmasEvent;
+import StratmasClient.object.StratmasEventListener;
 import StratmasClient.object.StratmasObject;
 import StratmasClient.object.StratmasReference;
 
@@ -46,6 +47,36 @@ public class GraphEdgeAdapter extends MapElementAdapter {
      * The width of the shape lines.
      */
     private float lineWidth = DEFAULT_LINE_WIDTH;
+    
+    private void addNodeListener(StratmasObject node, final StratmasObject element){
+        node.addEventListener(new StratmasEventListener() {
+            public void eventOccured(StratmasEvent event) {
+                System.out.println("wooohooo");
+                if (event.isRemoved()) {
+                    ((StratmasObject) event.getSource())
+                            .removeEventListener(this);
+                    element.remove();
+                } else if (event.isReplaced()) {
+                    ((StratmasObject) event.getSource())
+                            .removeEventListener(this);
+                    ((StratmasObject) event.getArgument())
+                            .addEventListener(this);
+                    displayListUpdated = false;
+                    isLocationUpdated = false;
+                    fireAdapterUpdated();
+                } else if (event.isChildChanged()) {
+                    displayListUpdated = false;
+                    isLocationUpdated = false;
+                    fireAdapterUpdated();
+                }
+            }
+        });
+    }
+
+    private void addNodeListeners(StratmasObject element){
+        addNodeListener(element.getChild("origin"), element);
+        addNodeListener(element.getChild("target"), element);
+    }
 
     /**
      * Creates a new ElementAdapter.
@@ -54,7 +85,7 @@ public class GraphEdgeAdapter extends MapElementAdapter {
      */
     protected GraphEdgeAdapter(StratmasObject element) {
         super(element);
-        //TODO add listener for node position changes/removal
+        addNodeListeners(element);
     }
 
     /**
@@ -65,6 +96,7 @@ public class GraphEdgeAdapter extends MapElementAdapter {
      */
     protected GraphEdgeAdapter(StratmasObject element, int renderSelectionName) {
         super(element, renderSelectionName);
+        addNodeListeners(element);
     }
 
     /**

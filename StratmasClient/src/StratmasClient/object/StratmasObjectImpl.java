@@ -7,11 +7,15 @@ package StratmasClient.object;
 
 import StratmasClient.ActionGroup;
 import StratmasClient.Client;
-
 import StratmasClient.object.type.Type;
 import StratmasClient.object.type.Declaration;
+
 import javax.swing.event.EventListenerList;
+
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * StratmasObjectImpl is a convinience implementation of StratmasObject providing dynamic identifiers and parents as well as an
@@ -30,7 +34,7 @@ abstract class StratmasObjectImpl extends StratmasObject {
     /**
      * The listeners of this object.
      */
-    EventListenerList eventListenerList = null;
+    List<StratmasEventListener> eventListenerList = null;
 
     /**
      * The container holding this object, or null if nothing is holding it.
@@ -40,8 +44,9 @@ abstract class StratmasObjectImpl extends StratmasObject {
     /**
      * Empty list to use for EventListenerList implementation.
      */
-    static Object[] EMPTY_LIST = new Object[0];
-
+    static StratmasEventListener[] EMPTY_ARRAY = new StratmasEventListener[0];
+    static List<StratmasEventListener> EMPTY_LIST = new ArrayList<StratmasEventListener>(0);
+    
     /**
      * Creates a new StratmasObject.
      * 
@@ -107,20 +112,11 @@ abstract class StratmasObjectImpl extends StratmasObject {
     /**
      * Returns a list of the listeners of this object.
      */
-    protected EventListenerList getEventListenerList() {
-        return this.eventListenerList;
-    }
-
-    /**
-     * Returns an array of the listeners of this object.
-     */
-    protected Object[] getListenerList() {
-        EventListenerList e = getEventListenerList();
-        if (e == null) {
+    protected List<StratmasEventListener> getEventListenerList() {
+        if(eventListenerList == null){
             return EMPTY_LIST;
-        } else {
-            return e.getListenerList();
         }
+        return this.eventListenerList;
     }
 
     /**
@@ -129,10 +125,10 @@ abstract class StratmasObjectImpl extends StratmasObject {
      * @param listener the listener to add.
      */
     public void addEventListener(StratmasEventListener listener) {
-        if (getEventListenerList() == null) {
-            this.eventListenerList = new EventListenerList();
+        if (eventListenerList == null) {
+            eventListenerList = new ArrayList<StratmasEventListener>();
         }
-        this.getEventListenerList().add(StratmasEventListener.class, listener);
+        eventListenerList.add(listener);
     }
 
     /**
@@ -141,9 +137,8 @@ abstract class StratmasObjectImpl extends StratmasObject {
      * @param listener the listener to remove.
      */
     public void removeEventListener(StratmasEventListener listener) {
-        if (getEventListenerList() != null) {
-            this.getEventListenerList().remove(StratmasEventListener.class,
-                                               listener);
+        if (eventListenerList != null) {
+            eventListenerList.remove(listener);
         }
     }
 
@@ -153,13 +148,9 @@ abstract class StratmasObjectImpl extends StratmasObject {
      * @param initiator The initiator of the removal.
      */
     public void fireRemoved(Object initiator) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = getListenerList();
-        if (listeners.length > 0) {
-            StratmasEvent event = StratmasEvent.getRemoved(this, initiator);
-            for (int i = listeners.length - 2; i >= 0; i -= 2) {
-                ((StratmasEventListener) listeners[i + 1]).eventOccured(event);
-            }
+        StratmasEvent event = StratmasEvent.getRemoved(this, initiator);
+        for (int i = getEventListenerList().size() - 1; i >= 0; i--) {
+            getEventListenerList().get(i).eventOccured(event);
         }
     }
 
@@ -167,18 +158,15 @@ abstract class StratmasObjectImpl extends StratmasObject {
      *
      */
     public void fireSelected(boolean selected) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = getListenerList();
-        if (listeners.length > 0) {
-            StratmasEvent event;
-            if (selected) {
-                event = StratmasEvent.getSelected(this);
-            } else {
-                event = StratmasEvent.getUnselected(this);
-            }
-            for (int i = listeners.length - 2; i >= 0; i -= 2) {
-                ((StratmasEventListener) listeners[i + 1]).eventOccured(event);
-            }
+        StratmasEvent event;
+        if (selected) {
+            event = StratmasEvent.getSelected(this);
+        } else {
+            event = StratmasEvent.getUnselected(this);
+        }
+        
+        for (int i = getEventListenerList().size() - 1; i >= 0; i--) {
+            getEventListenerList().get(i).eventOccured(event);
         }
     }
 
@@ -189,14 +177,9 @@ abstract class StratmasObjectImpl extends StratmasObject {
      * @param initiator the initiator the identifier change.
      */
     protected void fireIdentifierChanged(String oldIdentifier, Object initiator) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = getListenerList();
-        if (listeners.length > 0) {
-            StratmasEvent event = StratmasEvent
-                    .getIdentifierChanged(this, oldIdentifier);
-            for (int i = listeners.length - 2; i >= 0; i -= 2) {
-                ((StratmasEventListener) listeners[i + 1]).eventOccured(event);
-            }
+        StratmasEvent event = StratmasEvent.getIdentifierChanged(this, oldIdentifier);
+        for (int i = getEventListenerList().size() - 1; i >= 0; i--) {
+            getEventListenerList().get(i).eventOccured(event);
         }
     }
 
@@ -206,18 +189,12 @@ abstract class StratmasObjectImpl extends StratmasObject {
      * @param changed The StratmasObject that has changed.
      */
     public void fireChildChanged(StratmasObject changed, Object initiator) {
-        // Notify listeners about changed child.
+        StratmasEvent event = StratmasEvent.getChildChanged(this,
+                                                            initiator,
+                                                            changed);
 
-        // Guaranteed to return a non-null array
-        Object[] listeners = getListenerList();
-        if (listeners.length > 0) {
-            StratmasEvent event = StratmasEvent.getChildChanged(this,
-                                                                initiator,
-                                                                changed);
-
-            for (int i = listeners.length - 2; i >= 0; i -= 2) {
-                ((StratmasEventListener) listeners[i + 1]).eventOccured(event);
-            }
+        for (int i = getEventListenerList().size() - 1; i >= 0; i--) {
+            getEventListenerList().get(i).eventOccured(event);
         }
     }
 
@@ -228,16 +205,13 @@ abstract class StratmasObjectImpl extends StratmasObject {
      * @param initiator The initiator of the event.
      */
     public void fireObjectAdded(StratmasObject added, Object initiator) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = getListenerList();
-        if (listeners.length > 0) {
-            // Notify listeners about added object.
-            StratmasEvent event = StratmasEvent.getObjectAdded(this, added,
-                                                               initiator);
-            for (int i = listeners.length - 2; i >= 0; i -= 2) {
-                ((StratmasEventListener) listeners[i + 1]).eventOccured(event);
-            }
+        // Notify listeners about added object.
+        StratmasEvent event = StratmasEvent.getObjectAdded(this, added,
+                                                           initiator);
+        for (int i = getEventListenerList().size() - 1; i >= 0; i--) {
+            getEventListenerList().get(i).eventOccured(event);
         }
+        
         // Tell our parent that we have changed.
         if (getParent() != null) {
             getParent().childChanged(this, null);
@@ -445,14 +419,10 @@ abstract class StratmasObjectImpl extends StratmasObject {
      * Notifies listeners that a child object has been replaced.
      */
     protected void fireReplaced(StratmasObject newObj, Object initiator) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = getListenerList();
-        if (listeners.length > 0) {
-            StratmasEvent event = StratmasEvent.getReplaced(this, initiator,
-                                                            newObj);
-            for (int i = listeners.length - 2; i >= 0; i -= 2) {
-                ((StratmasEventListener) listeners[i + 1]).eventOccured(event);
-            }
+        StratmasEvent event = StratmasEvent.getReplaced(this, initiator,
+                                                        newObj);
+        for (int i = getEventListenerList().size() - 1; i >= 0; i--) {
+            getEventListenerList().get(i).eventOccured(event);
         }
     }
 }

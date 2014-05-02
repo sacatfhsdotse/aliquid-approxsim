@@ -426,8 +426,6 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener,
      */
     public void mapDrawableAdapterUpdated(MapDrawableAdapter drawableAdapter) {
         synchronized (mapDrawableAdapterRecompilation) {
-            //FIXME remove
-            if (drawableAdapter instanceof GraphNodeAdapter){System.out.println("graph updated");}
             mapDrawableAdapterRecompilation.add(drawableAdapter);
             // update the list
             setIsDrawnMapDrawablesListUpdated(false);

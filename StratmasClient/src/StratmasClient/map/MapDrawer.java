@@ -240,6 +240,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
         dFilter.add(new TypeFilter(TypeFactory.getType("MilitaryUnit"), true));
         dFilter.add(new TypeFilter(TypeFactory.getType("AgencyTeam"), true));
         dFilter.add(new TypeFilter(TypeFactory.getType("Activity"), true));
+        dFilter.add(new TypeFilter(TypeFactory.getType("Node"), true));
         this.dragFilter = dFilter;
 
         // region associated with the map
@@ -572,29 +573,28 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
         int x = (int) (dge.getDragOrigin().getX());
         int y = (int) (dge.getDragOrigin().getY());
         // get elements
-        Vector v = dragFilter.filter(mapElementsUnderCursor());
+        Vector<StratmasObject> v = dragFilter.filter(mapElementsUnderCursor());
         // define cursor for the object
         Cursor c;
         Toolkit tk = Toolkit.getDefaultToolkit();
         // if there's anything to drag
         if (!v.isEmpty()) {
-            Image image = ((Icon) ((StratmasObject) v.get(0)).getIcon())
-                    .getImage();
+            Image image = ((v.get(0)).getIcon()).getImage();
             Dimension bestsize = tk.getBestCursorSize(image.getWidth(null),
                                                       image.getHeight(null));
             if (bestsize.width != 0 && v.size() == 1)
                 c = tk.createCustomCursor(image, new java.awt.Point(
                                                   bestsize.width / 2,
                                                   bestsize.height / 2),
-                                          ((StratmasObject) v.get(0))
+                                          (v.get(0))
                                                   .toString());
             else c = Cursor.getDefaultCursor();
             // only one element on the current location
             if (v.size() == 1) {
                 // set the dragged element
-                DraggedElement.setElement((StratmasObject) v.get(0));
+                DraggedElement.setElement(v.get(0));
                 // start the drag
-                source.startDrag(dge, c, (StratmasObject) v.get(0),
+                source.startDrag(dge, c, v.get(0),
                                  new DragSourceAdapter() {});
             }
             // several elements on the current location
@@ -1032,8 +1032,6 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
                     .hasMoreElements();) {
                 MapDrawableAdapter adapter = e.nextElement();
                 int oldDisplayList = adapter.getDisplayList();
-                //FIXME remove
-                if (adapter instanceof GraphNodeAdapter){System.out.println("graph recompile");}
                 adapter.reCompile(basicMap.getProjection(), glc);
                 if (oldDisplayList != adapter.getDisplayList()) {
                     removeMapDrawableDisplayList(oldDisplayList);
@@ -1328,7 +1326,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
         renderSelectionNames.put(new Integer(renderSelectionName),
                                  drawableAdapter);
         drawableAdapter.addMapDrawableAdapterListener(this);
-        if (drawableAdapter instanceof GraphNodeAdapter){System.out.println("graph listen");}
+        
         synchronized (mapDrawableAdapterRecompilation) {
             mapDrawableAdapterRecompilation.add(drawableAdapter);
         }

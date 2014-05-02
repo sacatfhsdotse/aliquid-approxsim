@@ -11,6 +11,7 @@ import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -18,6 +19,7 @@ import javax.swing.JOptionPane;
 
 import StratmasClient.Client;
 import StratmasClient.Debug;
+import StratmasClient.object.Point;
 import StratmasClient.object.StratmasObject;
 import StratmasClient.object.StratmasObjectFactory;
 import StratmasClient.object.Shape;
@@ -79,34 +81,47 @@ class MapDrawerDropTarget implements DropTargetListener {
         try {
             StratmasObject sObj = DraggedElement.getElement();
             // update the outline of the currently pointed elements only if the dragged element is activity
-            if (sObj != null
-                    && sObj.getType().canSubstitute("ActorBasedActivity")) {
-                // get the current location
-                java.awt.Point pt = dtde.getLocation();
-                drawer.setRenderSelectionArea((int) pt.getX(), (int) pt.getY());
-                drawer.update();
-                // get all MilitaryUnit element at the current location
-                Vector elements = drawer
-                        .mapDrawableAdaptersUnderCursor(MilitaryUnitAdapter.class);
-                Hashtable tmpOutlined = outlinedElements;
-                outlinedElements = new Hashtable();
-                for (Enumeration e = elements.elements(); e.hasMoreElements();) {
-                    MapElementAdapter meAdapter = (MapElementAdapter) e
-                            .nextElement();
-                    outlinedElements.put(meAdapter.getObject().getReference(),
-                                         meAdapter);
-                    if (tmpOutlined.contains(meAdapter)) {
-                        tmpOutlined
-                                .remove(meAdapter.getObject().getReference());
-                    } else {
-                        // set the outline for new elements
-                        meAdapter.setOutlined(true);
+            if (sObj != null){
+                if(sObj.getType().canSubstitute("ActorBasedActivity")) {
+                    // get the current location
+                    java.awt.Point pt = dtde.getLocation();
+                    drawer.setRenderSelectionArea((int) pt.getX(), (int) pt.getY());
+                    drawer.update();
+                    // get all MilitaryUnit element at the current location
+                    Vector elements = drawer
+                            .mapDrawableAdaptersUnderCursor(MilitaryUnitAdapter.class);
+                    Hashtable tmpOutlined = outlinedElements;
+                    outlinedElements = new Hashtable();
+                    for (Enumeration e = elements.elements(); e.hasMoreElements();) {
+                        MapElementAdapter meAdapter = (MapElementAdapter) e
+                                .nextElement();
+                        outlinedElements.put(meAdapter.getObject().getReference(),
+                                             meAdapter);
+                        if (tmpOutlined.contains(meAdapter)) {
+                            tmpOutlined
+                                    .remove(meAdapter.getObject().getReference());
+                        } else {
+                            // set the outline for new elements
+                            meAdapter.setOutlined(true);
+                        }
                     }
-                }
-                // remove the outline for unvalid elements
-                for (Enumeration e = tmpOutlined.elements(); e
-                        .hasMoreElements();) {
-                    ((MapElementAdapter) e.nextElement()).setOutlined(false);
+                    // remove the outline for unvalid elements
+                    for (Enumeration e = tmpOutlined.elements(); e
+                            .hasMoreElements();) {
+                        ((MapElementAdapter) e.nextElement()).setOutlined(false);
+                    }
+                }else if(sObj.getType().canSubstitute("Node")){
+                    Point p = (Point) sObj.getChild("point");
+                    
+                    java.awt.Point pt = dtde.getLocation();
+                    double lat = drawer.convertToLonLat((int) pt.getX(), (int) pt.getY())
+                            .getLat();
+                    double lon = drawer.convertToLonLat((int) pt.getX(), (int) pt.getY())
+                            .getLon();
+                    
+                    p.setLatLon(lat, lon, this);
+                    
+                    drawer.update();
                 }
             }
             //
@@ -245,6 +260,14 @@ class MapDrawerDropTarget implements DropTargetListener {
                             drawer.addMapDrawable((Shape) sc);
                             complete = true;
                         }
+                    }else if(sc.getType().canSubstitute("Node")){
+                        Point p = (Point) sc.getChild("point");
+                        
+                        p.setLatLon(lat, lon, this);
+                        
+                        // update the map
+                        drawer.update();
+                        complete = true;
                     }
                 } else {
                     Debug.err.println(obj.getClass()

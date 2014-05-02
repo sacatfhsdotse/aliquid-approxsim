@@ -16,6 +16,8 @@ import javax.media.opengl.glu.GLUtessellatorCallbackAdapter;
 import StratmasClient.Debug;
 import StratmasClient.map.Projection;
 import StratmasClient.object.Point;
+import StratmasClient.object.StratmasEvent;
+import StratmasClient.object.StratmasEventListener;
 import StratmasClient.object.StratmasObject;
 
 import com.jogamp.common.nio.Buffers;
@@ -95,7 +97,6 @@ public class GraphNodeAdapter extends MapElementAdapter {
             gl.glGetDoublev(GL2.GL_PROJECTION_MATRIX, buf);
             scale = getSymbolScale() * 0.000003d / buf.get(0);
         }
-        System.out.println("scale " + scale);
 
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
@@ -261,6 +262,21 @@ public class GraphNodeAdapter extends MapElementAdapter {
                 gl.glEnd();
             }
         };
+    }
+    
+    /**
+     * Updates this adapter when one of the adapted objects children changes.
+     * 
+     * @param event the event causing the change.
+     */
+    protected void childChanged(StratmasEvent event) {
+        StratmasObject child = (StratmasObject) event.getArgument();
+        if (child.getIdentifier().equals("point")) {
+            displayListUpdated = false;
+            isLocationUpdated = false;
+            fireAdapterUpdated();
+        }
+        super.childChanged(event);
     }
 
 }

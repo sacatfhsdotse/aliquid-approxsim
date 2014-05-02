@@ -516,17 +516,6 @@ public class TreeView extends JTree implements DragGestureListener,
 
         popup.add(new javax.swing.JSeparator());
 
-//         for (Enumeration e = actions.elements(); e.hasMoreElements();) {
-//             StratmasAbstractAction action = (StratmasAbstractAction)
-//                 e.nextElement();
-//             if (!isEditable()) {
-//                 if (action.isMutator()) {
-//                     action.setEnabled(false);
-//                 }
-//             }
-//             popup.add(action);
-//         }
-
         sObj.getActionGroup().addToPopupMenu(popup, isEditable());
 
         popup.show(this, x, y);
@@ -870,10 +859,9 @@ public class TreeView extends JTree implements DragGestureListener,
 }
 
 class TreeViewCellRenderer extends DefaultTreeCellRenderer {
-    /**
-	 * 
-	 */
+	
     private static final long serialVersionUID = 6437329528204104986L;
+    
     /**
      * The treeView this renderer renders for.
      */

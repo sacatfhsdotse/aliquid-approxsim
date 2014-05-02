@@ -367,6 +367,7 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      * @param event the event causing the call.
      */
     public void eventOccured(StratmasEvent event) {
+    	System.out.println(event);
         if (event.isValueChanged()) {
             sendTreeNodesChangedEvent();
         } else if (event.isRemoved()) {
@@ -508,9 +509,7 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
     protected void fireTreeNodesChanged(TreeModelEvent event) {
         Object[] listeners = getEventListenerList().getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == TreeModelListener.class) {
-                ((TreeModelListener) listeners[i + 1]).treeNodesChanged(event);
-            }
+            ((TreeModelListener) listeners[i + 1]).treeNodesChanged(event);
         }
     }
 
@@ -520,9 +519,7 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
     protected void fireTreeNodesInserted(TreeModelEvent event) {
         Object[] listeners = getEventListenerList().getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == TreeModelListener.class) {
-                ((TreeModelListener) listeners[i + 1]).treeNodesInserted(event);
-            }
+            ((TreeModelListener) listeners[i + 1]).treeNodesInserted(event);
         }
     }
 
@@ -532,9 +529,7 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
     protected void fireTreeNodesRemoved(TreeModelEvent event) {
         Object[] listeners = getEventListenerList().getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == TreeModelListener.class) {
-                ((TreeModelListener) listeners[i + 1]).treeNodesRemoved(event);
-            }
+            ((TreeModelListener) listeners[i + 1]).treeNodesRemoved(event);
         }
     }
 
@@ -544,10 +539,8 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
     protected void fireTreeStructureChanged(TreeModelEvent event) {
         Object[] listeners = getEventListenerList().getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == TreeModelListener.class) {
-                ((TreeModelListener) listeners[i + 1])
-                        .treeStructureChanged(event);
-            }
+            ((TreeModelListener) listeners[i + 1])
+                    .treeStructureChanged(event);
         }
     }
 
@@ -974,6 +967,7 @@ class InvisibleListListener implements StratmasEventListener {
      * 
      * @param event the event causing the call.
      */
+    @Override
     public void eventOccured(StratmasEvent event) {
         if (event.isObjectAdded()) {
             adapter.add((StratmasObject) event.getArgument());

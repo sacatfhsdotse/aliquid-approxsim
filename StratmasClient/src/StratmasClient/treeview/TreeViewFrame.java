@@ -49,6 +49,7 @@ public class TreeViewFrame extends JFrame implements StratmasEventListener {
     public TreeViewFrame(TreeView treeView) {
         super(((StratmasObjectAdapter) treeView.getModel()).getUserObject()
                 .getIdentifier());
+        ((StratmasObjectAdapter) treeView.getModel()).getUserObject().addEventListener(this);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.treeView = treeView;
         getContentPane().add(new JScrollPane(getTreeView()));
@@ -142,28 +143,6 @@ public class TreeViewFrame extends JFrame implements StratmasEventListener {
             toolBar.add(getTreeView().getActionMap().get("ZoomOut"));
         }
     }
-
-//     /**
-//      * Returns the common actions of this frame.
-//      */
-//     public Vector getActions()
-//     {
-//         Vector res = new Vector();
-
-//         for (Enumeration e = getRootObject().getActions().elements(); 
-//              e.hasMoreElements();) {
-//             StratmasAbstractAction action = (StratmasAbstractAction)
-//                 e.nextElement();
-//             if (!isEditable()) {
-//                 if (action.isMutator()) {
-//                     action.setEnabled(false);
-//                 }
-//             }
-//             res.add(action);
-//         }
-
-//         return res;
-//     }
 
     /**
      * Returns true if editing is enabled in this frame.

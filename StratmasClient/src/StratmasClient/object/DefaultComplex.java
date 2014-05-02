@@ -498,9 +498,7 @@ class DefaultComplex extends StratmasObjectDynImpl {
                 final Declaration dec = (Declaration) e.nextElement();
                 if (!hasChild(dec.getName())) {
                     ag.add(new ActionGroup("Add " + dec.getName(), true, false) {
-                        /**
-						 * 
-						 */
+                    	
                         private static final long serialVersionUID = -7535608805159655813L;
 
                         public void actionPerformed(ActionEvent e) {
@@ -546,9 +544,7 @@ class DefaultComplex extends StratmasObjectDynImpl {
         Type t = fDec.getType();
         ActionGroup agToAdd = new ActionGroup("Add " + t.getName() + " to "
                 + fDec.getName(), true, false) {
-            /**
-			 * 
-			 */
+        	
             private static final long serialVersionUID = -3149299615409272768L;
 
             public void actionPerformed(ActionEvent e) {
@@ -582,7 +578,7 @@ class DefaultComplex extends StratmasObjectDynImpl {
             if (!t.isAbstract()) {
                 ret.add(agToAdd);
             }
-            for (; en.hasMoreElements();) {
+            while (en.hasMoreElements()) {
                 ret.add(getAddActionGroupForListDec(fListToAddTo, fDec
                         .clone((Type) en.nextElement())));
             }

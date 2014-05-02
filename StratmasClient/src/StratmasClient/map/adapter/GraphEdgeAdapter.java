@@ -37,7 +37,7 @@ public class GraphEdgeAdapter extends MapElementAdapter {
     /**
      * The default width of the lines.
      */
-    public static float DEFAULT_LINE_WIDTH = 6000.0f; // TODO find better value
+    public static float DEFAULT_LINE_WIDTH = 3000.0f; // TODO find better value
     /**
      * The color of the shape lines.
      */
@@ -83,6 +83,14 @@ public class GraphEdgeAdapter extends MapElementAdapter {
         // Start list
         gl.glNewList(displayListsBuf.get(SYMBOL_POS), GL2.GL_COMPILE);
 
+        double tempWidth = lineWidth;
+        if (getInvariantSymbolSize()) {
+            gl.glMatrixMode(GL2.GL_PROJECTION);
+            DoubleBuffer buf = Buffers.newDirectDoubleBuffer(16);
+            gl.glGetDoublev(GL2.GL_PROJECTION_MATRIX, buf);
+            tempWidth *= 0.000003d / buf.get(0);
+        }
+        
         // Pushes the name for RenderSelection mode.
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
@@ -105,8 +113,9 @@ public class GraphEdgeAdapter extends MapElementAdapter {
         // rotate diff 90deg clockwise
         double[] n = {p2[1] - p1[1], p1[0]-p2[0]};
         double nLen = Math.sqrt(n[0]*n[0] + n[1]*n[1]);
-        n[0] *= lineWidth/2/nLen; // TODO multiply with some sort of scale?
-        n[1] *= lineWidth/2/nLen;
+
+        n[0] *= tempWidth/2/nLen;
+        n[1] *= tempWidth/2/nLen;
         
         gl.glBegin(GL2.GL_POLYGON);
         gl.glLineWidth(lineWidth);

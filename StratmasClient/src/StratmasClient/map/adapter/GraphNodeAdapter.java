@@ -43,7 +43,7 @@ public class GraphNodeAdapter extends MapElementAdapter {
      * @param element the Element to adapt.
      */
     protected GraphNodeAdapter(StratmasObject element) {
-        super(element);
+        this(element, 0);
     }
 
     /**
@@ -54,6 +54,8 @@ public class GraphNodeAdapter extends MapElementAdapter {
      */
     protected GraphNodeAdapter(StratmasObject element, int renderSelectionName) {
         super(element, renderSelectionName);
+        horizontalSymbolSize *= 0.8;
+        verticalSymbolSize *= 0.8;
     }
 
     /**

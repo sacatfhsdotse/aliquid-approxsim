@@ -49,7 +49,6 @@ public class TreeViewFrame extends JFrame implements StratmasEventListener {
     public TreeViewFrame(TreeView treeView) {
         super(((StratmasObjectAdapter) treeView.getModel()).getUserObject()
                 .getIdentifier());
-        ((StratmasObjectAdapter) treeView.getModel()).getUserObject().addEventListener(this);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.treeView = treeView;
         getContentPane().add(new JScrollPane(getTreeView()));

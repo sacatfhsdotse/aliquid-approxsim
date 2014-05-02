@@ -5,32 +5,31 @@
 
 package StratmasClient.treeview;
 
-import java.util.Enumeration;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasSimple;
-import StratmasClient.object.StratmasList;
-import StratmasClient.filter.StratmasObjectFilter;
-
-import java.util.Iterator;
-import java.util.Vector;
-import java.util.Comparator;
-import java.util.Collections;
-
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.MutableTreeNode;
-import javax.swing.tree.TreePath;
-import javax.swing.tree.TreeModel;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
-import java.util.EventListener;
-import javax.swing.event.EventListenerList;
+import javax.swing.tree.MutableTreeNode;
+import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
+
 import StratmasClient.Icon;
+import StratmasClient.filter.StratmasObjectFilter;
 import StratmasClient.object.StratmasEvent;
 import StratmasClient.object.StratmasEventListener;
+import StratmasClient.object.StratmasList;
+import StratmasClient.object.StratmasObject;
+import StratmasClient.object.StratmasSimple;
 
 /**
  * StratmasObjectAdapter adapts StratmasObjects for viewing in the tree.
@@ -48,7 +47,7 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
     /**
      * The listeners of this object.
      */
-    EventListenerList eventListenerList = new EventListenerList();
+    List<TreeModelListener> eventListenerList = new ArrayList<TreeModelListener>();
 
     /**
      * A vector containing child StratmasObjectAdapters
@@ -506,9 +505,8 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      * Called to notify listeners that tree nodes have changed.
      */
     protected void fireTreeNodesChanged(TreeModelEvent event) {
-        Object[] listeners = getEventListenerList().getListenerList();
-        for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            ((TreeModelListener) listeners[i + 1]).treeNodesChanged(event);
+        for (int i = eventListenerList.size() - 1; i >= 0; i--) {
+            eventListenerList.get(i).treeNodesChanged(event);
         }
     }
 
@@ -516,9 +514,8 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      * Called to notify listeners that tree nodes have been inserted.
      */
     protected void fireTreeNodesInserted(TreeModelEvent event) {
-        Object[] listeners = getEventListenerList().getListenerList();
-        for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            ((TreeModelListener) listeners[i + 1]).treeNodesInserted(event);
+        for (int i = eventListenerList.size() - 1; i >= 0; i--) {
+            eventListenerList.get(i).treeNodesInserted(event);
         }
     }
 
@@ -526,9 +523,8 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      * Called to notify listeners that tree nodes have been removed.
      */
     protected void fireTreeNodesRemoved(TreeModelEvent event) {
-        Object[] listeners = getEventListenerList().getListenerList();
-        for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            ((TreeModelListener) listeners[i + 1]).treeNodesRemoved(event);
+        for (int i = eventListenerList.size() - 1; i >= 0; i--) {
+            eventListenerList.get(i).treeNodesRemoved(event);
         }
     }
 
@@ -536,10 +532,8 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      * Called to notify listeners that the tree structure has drastically changed.
      */
     protected void fireTreeStructureChanged(TreeModelEvent event) {
-        Object[] listeners = getEventListenerList().getListenerList();
-        for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            ((TreeModelListener) listeners[i + 1])
-                    .treeStructureChanged(event);
+        for (int i = eventListenerList.size() - 1; i >= 0; i--) {
+            eventListenerList.get(i).treeStructureChanged(event);
         }
     }
 
@@ -612,7 +606,7 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
     /**
      * Returns a list of the listeners of this object.
      */
-    private EventListenerList getEventListenerList() {
+    private List<TreeModelListener> getEventListenerList() {
         return this.eventListenerList;
     }
 
@@ -621,8 +615,8 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      * 
      * @param listener the listener to add.
      */
-    private void addEventListener(EventListener listener) {
-        this.getEventListenerList().add(EventListener.class, listener);
+    private void addEventListener(TreeModelListener listener) {
+        this.getEventListenerList().add(listener);
     }
 
     /**
@@ -630,8 +624,8 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      * 
      * @param listener the listener to add.
      */
-    private void removeEventListener(EventListener listener) {
-        this.getEventListenerList().remove(EventListener.class, listener);
+    private void removeEventListener(TreeModelListener listener) {
+        this.getEventListenerList().remove(listener);
     }
 
     /**
@@ -966,7 +960,6 @@ class InvisibleListListener implements StratmasEventListener {
      * 
      * @param event the event causing the call.
      */
-    @Override
     public void eventOccured(StratmasEvent event) {
         if (event.isObjectAdded()) {
             adapter.add((StratmasObject) event.getArgument());

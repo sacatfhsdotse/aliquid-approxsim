@@ -106,7 +106,6 @@ public class GraphEdgeAdapter extends MapElementAdapter {
      * @param gld the gl drawable targeted.
      */
     protected void updateSymbolDisplayList(Projection proj, GLAutoDrawable gld) {
-        java.io.PrintStream o = System.out;
         GL2 gl = (GL2) gld.getGL();
         displayListsBuf
                 .put(SYMBOL_POS,
@@ -140,8 +139,6 @@ public class GraphEdgeAdapter extends MapElementAdapter {
         
         float[] cColor = lineColor.getRGBColorComponents(null);
 
-        o.format("p1=%f;%f, p2=%f;%f\n", p1[0],p1[1],p2[0],p2[1]);
-        
         // because coordinates must be relative to getLonLat().
         double[] center = proj.projToXY(getLonLat());
         p1[0] -= center[0];
@@ -152,9 +149,6 @@ public class GraphEdgeAdapter extends MapElementAdapter {
         // rotate diff 90deg clockwise
         double[] n = {p2[1] - p1[1], p1[0]-p2[0]};
         double nLen = Math.sqrt(n[0]*n[0] + n[1]*n[1]);
-
-        o.format("lw=%f, tw=%f\n", lineWidth, tempWidth);
-        o.format("h=%f, v=%f\n", horizontalSymbolSize, verticalSymbolSize);
 
         n[0] *= tempWidth/2/nLen;
         n[1] *= tempWidth/2/nLen;

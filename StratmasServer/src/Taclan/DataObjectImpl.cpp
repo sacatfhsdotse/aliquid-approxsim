@@ -995,7 +995,10 @@ DataObject* DataObjectFactory::createDataObject(const Reference& scope, const DO
      else if (type.canSubstitute("Shape")) {
           ret = new StratmasShape(scope, n);
      }
-     else if (type.canSubstitute("PathGraph")) { // TODO other graphs
+     else if (type.canSubstitute("PathGraph")) {
+          ret = new StratmasGraph(scope, n);
+     }
+     else if (type.canSubstitute("EffectGraph")) {
           ret = new StratmasGraph(scope, n);
      }
      else if (typeStr == "SymbolIDCode") {

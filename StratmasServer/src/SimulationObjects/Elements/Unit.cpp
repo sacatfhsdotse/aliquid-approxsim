@@ -758,7 +758,7 @@ void Unit::recover()
  */
 void Unit::move()
 {
-     // TODO add graph-pathfinding here. mak mGoal a list?
+     // TODO add graph-pathfinding here.
      double distanceKm;
      double speedKm;
      double portion;

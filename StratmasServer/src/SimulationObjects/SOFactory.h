@@ -87,3 +87,5 @@ public:
 };
 
 #endif   // STRATMAS_SOFACTORY
+
+// vim: ts=5 sw=5 expandtab:

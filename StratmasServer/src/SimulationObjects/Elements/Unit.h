@@ -25,6 +25,7 @@ class PresenceObject;
 class PresenceObjectAllocator;
 class Reference;
 class Shape;
+class NavigationPlan;
 
 
 /**
@@ -418,3 +419,5 @@ public:
 };
 
 #endif  // _UNIT_H
+
+// vim: ts=5 sw=5 expandtab:

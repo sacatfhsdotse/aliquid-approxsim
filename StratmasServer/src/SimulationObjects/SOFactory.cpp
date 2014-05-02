@@ -9,7 +9,6 @@
 #include "Distribution.h"
 #include "Error.h"
 #include "Faction.h"
-//#include "FactionRelation.h"
 #include "GridPartitioner.h"
 #include "Mapper.h"
 #include "ModelParameters.h"
@@ -82,41 +81,40 @@ SimulationObject* SOFactory::createSimulationObject(const DataObject& d, int64_t
      static bool firstTime = true;
      if (firstTime) {
           firstTime = false;
-           sCreatorMap["AmbushOrder"                  ] = createAmbushOrder;
-           sCreatorMap["AttackOrder"                  ] = createAttackOrder;
+          sCreatorMap["AmbushOrder"                  ] = createAmbushOrder;
+          sCreatorMap["AttackOrder"                  ] = createAttackOrder;
           sCreatorMap["Population"                   ] = createCity;
-           sCreatorMap["StratmasCityDistribution"     ] = createCityDistribution;
-           sCreatorMap["CommonScenario"               ] = createCommonScenario;
-           sCreatorMap["CommonSimulation"             ] = createCommonSimulation;
-           sCreatorMap["ConstantStepper"              ] = createConstantStepper;
-           sCreatorMap["ControlOrder"                 ] = createCustomPVModification; 
-           sCreatorMap["CustomAgencyTeam"             ] = createCustomAgencyTeam;
+          sCreatorMap["StratmasCityDistribution"     ] = createCityDistribution;
+          sCreatorMap["CommonScenario"               ] = createCommonScenario;
+          sCreatorMap["CommonSimulation"             ] = createCommonSimulation;
+          sCreatorMap["ConstantStepper"              ] = createConstantStepper;
+          sCreatorMap["ControlOrder"                 ] = createCustomPVModification; 
+          sCreatorMap["CustomAgencyTeam"             ] = createCustomAgencyTeam;
           sCreatorMap["CustomAreaOrder"              ] = createCustomPVModification;
-           sCreatorMap["CustomPVModification"         ] = createCustomPVModification;
-           sCreatorMap["DefendOrder"                  ] = createDefendOrder;
-           sCreatorMap["Disease"                      ] = createDisease;
+          sCreatorMap["CustomPVModification"         ] = createCustomPVModification;
+          sCreatorMap["DefendOrder"                  ] = createDefendOrder;
+          sCreatorMap["Disease"                      ] = createDisease;
           sCreatorMap["EthnicFaction"                ] = createEthnicFaction;
-//           sCreatorMap["FactionRelation"              ] = createFactionRelation;
-           sCreatorMap["FoodAgencyTeam"               ] = createFoodAgencyTeam;
-           sCreatorMap["FreedomOfMovementOrder"       ] = createCustomPVModification;
-           sCreatorMap["GoToOrder"                    ] = createGoToOrder;
-           sCreatorMap["HealthAgencyTeam"             ] = createHealthAgencyTeam;
+          sCreatorMap["FoodAgencyTeam"               ] = createFoodAgencyTeam;
+          sCreatorMap["FreedomOfMovementOrder"       ] = createCustomPVModification;
+          sCreatorMap["GoToOrder"                    ] = createGoToOrder;
+          sCreatorMap["HealthAgencyTeam"             ] = createHealthAgencyTeam;
           sCreatorMap["MilitaryFaction"              ] = createMilitaryFaction;
-           sCreatorMap["ModelParameters"              ] = createModelParameters;
-           sCreatorMap["NormalDistribution"           ] = createNormalDistribution;
-           sCreatorMap["ParameterGroup"               ] = createParameterGroup;
-           sCreatorMap["PoliceAgencyTeam"             ] = createPoliceAgencyTeam;
-           sCreatorMap["PresenceOrder"                ] = createCustomPVModification;
-           sCreatorMap["ProvideCivilianFunctionsOrder"] = createCustomPVModification;
-           sCreatorMap["RandomUniformDistribution"    ] = createRandomUniformDistribution;
-           sCreatorMap["Region"                       ] = createRegion;
-           sCreatorMap["SecureOrder"                  ] = createCustomPVModification;
-           sCreatorMap["ShelterAgencyTeam"            ] = createShelterAgencyTeam;
-           sCreatorMap["SquarePartitioner"            ] = createSquarePartitioner;
-           sCreatorMap["TerroristAttackOrder"         ] = createTerroristAttackOrder;
-           sCreatorMap["UniformDistribution"          ] = createUniformDistribution;
-           sCreatorMap["MilitaryUnit"                 ] = createUnit;
-           sCreatorMap["WaterAgencyTeam"              ] = createWaterAgencyTeam;
+          sCreatorMap["ModelParameters"              ] = createModelParameters;
+          sCreatorMap["NormalDistribution"           ] = createNormalDistribution;
+          sCreatorMap["ParameterGroup"               ] = createParameterGroup;
+          sCreatorMap["PoliceAgencyTeam"             ] = createPoliceAgencyTeam;
+          sCreatorMap["PresenceOrder"                ] = createCustomPVModification;
+          sCreatorMap["ProvideCivilianFunctionsOrder"] = createCustomPVModification;
+          sCreatorMap["RandomUniformDistribution"    ] = createRandomUniformDistribution;
+          sCreatorMap["Region"                       ] = createRegion;
+          sCreatorMap["SecureOrder"                  ] = createCustomPVModification;
+          sCreatorMap["ShelterAgencyTeam"            ] = createShelterAgencyTeam;
+          sCreatorMap["SquarePartitioner"            ] = createSquarePartitioner;
+          sCreatorMap["TerroristAttackOrder"         ] = createTerroristAttackOrder;
+          sCreatorMap["UniformDistribution"          ] = createUniformDistribution;
+          sCreatorMap["MilitaryUnit"                 ] = createUnit;
+          sCreatorMap["WaterAgencyTeam"              ] = createWaterAgencyTeam;
      }
      std::map<std::string, SimulationObject*(*)(const DataObject&)>::iterator it = sCreatorMap.find(d.getType().getName());
      if (it == sCreatorMap.end()) {
@@ -662,3 +660,4 @@ SimulationObject* SOFactory::createWaterAgencyTeam(const DataObject& d)
      return new WaterAgencyTeam(d);
 }
  
+// vim: ts=5 sw=5 expandtab:

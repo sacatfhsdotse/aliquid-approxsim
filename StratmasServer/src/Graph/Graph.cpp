@@ -28,21 +28,23 @@ NavigationPlan Graph::getPath(LatLng start, LatLng end){
 	return result;
 }
 
-Node::Node(){
+Node::Node() {
 
 }
 
 void Node::print(std::ostream& o){
-	o << "Node: {" << pos.lat() <<", " << pos.lng() << "}";
+	o << "Node: {" << pos.lat() << ", " << pos.lng() << "}";
 }
 
-Edge::Edge(){
+Edge::Edge() {
 
 }
 
 void Edge::print(std::ostream& o){
-	o<<"Edge: { o: " << origin 
-	 << ", t: " << target  
-	 << ", con:" << conected
-	 << ", sp:" << travalspeed <<"}";
+	o << "Edge: { o: " << origin 
+	  << ", t: " << target  
+	  << ", con:" << conected
+	  << ", sp:" << travelspeed << "}";
 }
+
+// vim: ts=4 sw=4 expandtab:

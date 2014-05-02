@@ -10,7 +10,7 @@
 using namespace std;
 
 /**
- * \brief This class represents a Node.
+ * \brief This class represents a Node in a graph.
  *
  * \author   Daniil Pintjuk
  * \date     $Date: 2014/04/25 20:14:00 $
@@ -20,13 +20,13 @@ class Node
 protected:
 	LatLng pos;
 public:
-	Node(LatLng p):pos(p){}
+	Node(LatLng p) : pos(p) {}
 	Node();
 	void print(std::ostream& o);
 };
 
 /**
- * \brief This class represents a Edg.
+ * \brief This class represents an Edge in a graph.
  *
  * \author    Daniil Pintjuk
  * \date     $Date: 2014/04/25 20:14:00 $
@@ -36,24 +36,22 @@ class Edge
 protected:
 	int origin;
 	int target;
-	bool conected;
-	double travalspeed;
+	bool connected;
+	double travelspeed;
 public:
 	Edge(int o, int t, bool con, double tsped):
-		origin(o), target(t), conected(con), travalspeed(tsped){
-
-	}
+		origin(o), target(t), connected(con), travelspeed(tsped) {}
 	Edge();
 	void print(std::ostream& o);
 };
 
 /**
- * \brief This class represents a Node.
+ * \brief This class represents a path through a graph.
  *
  * \author   Daniil Pintjuk
  * \date     $Date: 
  */
-struct NavigationPlan{
+struct NavigationPlan {
 	/// no  chour that this should be a list and not an array or vector TODO: decide
 	std::list<Edge*> path;
 	/// point on the map, wher the path starts, tupicaly inbetween two nodes on an edge.
@@ -77,18 +75,9 @@ protected:
 	int numEdges;
 	Edge* edges;
 public:
-	Graph(
-		int NumNodes,
-		Node* Nodes,
-		int NumEdges,
-		Edge* Edges):
-		numNodes(NumNodes),
-		nodes(Nodes),
-		numEdges(NumEdges),
-		edges(Edges){}
-
+	Graph(int NumNodes, Node* Nodes, int NumEdges, Edge* Edges) :
+		numNodes(NumNodes), nodes(Nodes), numEdges(NumEdges), edges(Edges) {}
 	void print(std::ostream& o);
-
 	NavigationPlan getPath(LatLng start, LatLng end);
 };
 
@@ -97,4 +86,4 @@ public:
 
 #endif   // STRATMAS_GRAPH_H
 
-// vim: ts=4 sw=4:
+// vim: ts=4 sw=4 expandtab:

@@ -1,278 +1,646 @@
-<?xml version="1.0" encoding="ISO-8859-1"?><root xmlns:sp="http://pdc.kth.se/stratmasNamespace" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xi="http://www.w3.org/2001/XInclude" xsi:type="sp:Root">
-<identifiables xsi:type="sp:CommonSimulation" identifier="KTH">
-<timeStepper xsi:type="sp:ConstantStepper">
-<dt xsi:type="sp:Duration">
-<value>86400000</value></dt></timeStepper>
-<gridPartitioner xsi:type="sp:SquarePartitioner">
-<cellSizeMeters xsi:type="sp:Double">
-<value>10.0</value></cellSizeMeters></gridPartitioner>
-<scenario xsi:type="sp:CommonScenario">
-<activities xsi:type="sp:CustomPVModification" identifier="new CustomPVModification">
-<active xsi:type="sp:Boolean">
-<value>false</value></active>
-<start xsi:type="sp:Timestamp">
-<value>2014-04-29T16:00:00.000Z</value></start>
-<end xsi:type="sp:Timestamp">
-<value>2014-04-28T22:00:00.000Z</value></end>
-<location xsi:type="sp:Circle">
-<radius xsi:type="sp:Double">
-<value>1.0</value></radius>
-<center xsi:type="sp:Point">
-<lat>59.3504138597307</lat>
-<lon>18.070832505978416</lon></center></location></activities>
-<map xsi:type="sp:Composite">
-<shapes xsi:type="sp:Polygon" identifier="1">
-<curves xsi:type="sp:Line" identifier="1">
-<p1 xsi:type="sp:Point">
-<lat>59.34608217835624</lat>
-<lon>18.07183793136494</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.34658951418979</lat>
-<lon>18.07144302845814</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="2">
-<p1 xsi:type="sp:Point">
-<lat>59.34658951418979</lat>
-<lon>18.07144302845814</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.34713990335646</lat>
-<lon>18.07000839312615</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="3">
-<p1 xsi:type="sp:Point">
-<lat>59.34713990335646</lat>
-<lon>18.07000839312615</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.34795025719246</lat>
-<lon>18.06862949973086</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="4">
-<p1 xsi:type="sp:Point">
-<lat>59.34795025719246</lat>
-<lon>18.06862949973086</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.34854830852915</lat>
-<lon>18.06761282653811</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="5">
-<p1 xsi:type="sp:Point">
-<lat>59.34854830852915</lat>
-<lon>18.06761282653811</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.34937797658361</lat>
-<lon>18.06613869371978</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="6">
-<p1 xsi:type="sp:Point">
-<lat>59.34937797658361</lat>
-<lon>18.06613869371978</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.35026894745246</lat>
-<lon>18.06547441858744</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="7">
-<p1 xsi:type="sp:Point">
-<lat>59.35026894745246</lat>
-<lon>18.06547441858744</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.35121867034177</lat>
-<lon>18.06507766930027</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="8">
-<p1 xsi:type="sp:Point">
-<lat>59.35121867034177</lat>
-<lon>18.06507766930027</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.3522408864137</lat>
-<lon>18.06405639587113</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="9">
-<p1 xsi:type="sp:Point">
-<lat>59.3522408864137</lat>
-<lon>18.06405639587113</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.35236556177978</lat>
-<lon>18.06425646407607</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="10">
-<p1 xsi:type="sp:Point">
-<lat>59.35236556177978</lat>
-<lon>18.06425646407607</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.35320280072066</lat>
-<lon>18.06409761959976</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="11">
-<p1 xsi:type="sp:Point">
-<lat>59.35320280072066</lat>
-<lon>18.06409761959976</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.35340966378224</lat>
-<lon>18.06317332078048</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="12">
-<p1 xsi:type="sp:Point">
-<lat>59.35340966378224</lat>
-<lon>18.06317332078048</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.35425247999735</lat>
-<lon>18.06347176790625</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="13">
-<p1 xsi:type="sp:Point">
-<lat>59.35425247999735</lat>
-<lon>18.06347176790625</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.35387657625291</lat>
-<lon>18.06744296387348</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="14">
-<p1 xsi:type="sp:Point">
-<lat>59.35387657625291</lat>
-<lon>18.06744296387348</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.35313378388136</lat>
-<lon>18.0671450038578</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="15">
-<p1 xsi:type="sp:Point">
-<lat>59.35313378388136</lat>
-<lon>18.0671450038578</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.35222120295584</lat>
-<lon>18.06855905376001</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="16">
-<p1 xsi:type="sp:Point">
-<lat>59.35222120295584</lat>
-<lon>18.06855905376001</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.35236262661863</lat>
-<lon>18.06895104173649</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="17">
-<p1 xsi:type="sp:Point">
-<lat>59.35236262661863</lat>
-<lon>18.06895104173649</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.35166939674929</lat>
-<lon>18.06995508251293</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="18">
-<p1 xsi:type="sp:Point">
-<lat>59.35166939674929</lat>
-<lon>18.06995508251293</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.35179546455841</lat>
-<lon>18.07140736705359</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="19">
-<p1 xsi:type="sp:Point">
-<lat>59.35179546455841</lat>
-<lon>18.07140736705359</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.35159303204047</lat>
-<lon>18.071468891758</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="20">
-<p1 xsi:type="sp:Point">
-<lat>59.35159303204047</lat>
-<lon>18.071468891758</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.35133188179967</lat>
-<lon>18.07214765572148</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="21">
-<p1 xsi:type="sp:Point">
-<lat>59.35133188179967</lat>
-<lon>18.07214765572148</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.35091141560422</lat>
-<lon>18.07335662758336</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="22">
-<p1 xsi:type="sp:Point">
-<lat>59.35091141560422</lat>
-<lon>18.07335662758336</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.35004499045657</lat>
-<lon>18.07491815373218</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="23">
-<p1 xsi:type="sp:Point">
-<lat>59.35004499045657</lat>
-<lon>18.07491815373218</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.34878309437803</lat>
-<lon>18.0752577525873</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="24">
-<p1 xsi:type="sp:Point">
-<lat>59.34878309437803</lat>
-<lon>18.0752577525873</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.34787527519857</lat>
-<lon>18.07493143433664</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="25">
-<p1 xsi:type="sp:Point">
-<lat>59.34787527519857</lat>
-<lon>18.07493143433664</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.34769498591376</lat>
-<lon>18.07539732329118</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="26">
-<p1 xsi:type="sp:Point">
-<lat>59.34769498591376</lat>
-<lon>18.07539732329118</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.34729684553724</lat>
-<lon>18.07507736203533</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="27">
-<p1 xsi:type="sp:Point">
-<lat>59.34729684553724</lat>
-<lon>18.07507736203533</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.34731094366746</lat>
-<lon>18.07469903110792</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="28">
-<p1 xsi:type="sp:Point">
-<lat>59.34731094366746</lat>
-<lon>18.07469903110792</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.34649943569243</lat>
-<lon>18.07402659210572</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="29">
-<p1 xsi:type="sp:Point">
-<lat>59.34649943569243</lat>
-<lon>18.07402659210572</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.34653554758497</lat>
-<lon>18.07376838575276</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="30">
-<p1 xsi:type="sp:Point">
-<lat>59.34653554758497</lat>
-<lon>18.07376838575276</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.34578659905355</lat>
-<lon>18.07320073344726</lon></p2></curves>
-<curves xsi:type="sp:Line" identifier="31">
-<p1 xsi:type="sp:Point">
-<lat>59.34578659905355</lat>
-<lon>18.07320073344726</lon></p1>
-<p2 xsi:type="sp:Point">
-<lat>59.34608217835624</lat>
-<lon>18.07183793136494</lon></p2></curves></shapes></map>
-<disease xsi:type="sp:Disease">
-<description xsi:type="sp:String">
-<value>None</value></description>
-<infectionRate xsi:type="sp:Double">
-<value>0.0</value></infectionRate>
-<recoveryRate xsi:type="sp:Double">
-<value>0.0</value></recoveryRate>
-<mortalityRate xsi:type="sp:Double">
-<value>0.0</value></mortalityRate></disease>
-<populationCenters xsi:type="sp:Population" identifier="Studenter">
-<present xsi:type="sp:Boolean">
-<value>true</value></present>
-<location xsi:type="sp:Circle">
-<radius xsi:type="sp:Double">
-<value>10.0</value></radius>
-<center xsi:type="sp:Point">
-<lat>59.35</lat>
-<lon>18.07</lon></center></location>
-<deployment xsi:type="sp:UniformDistribution"></deployment>
-<ethnicGroups xsi:type="sp:PopulationGroup" identifier="Svennar">
-<inhabitants xsi:type="sp:Double">
-<value>20000.0</value></inhabitants></ethnicGroups></populationCenters>
-<HDI xsi:type="sp:Double">
-<value>0.0</value></HDI>
-<unemployment xsi:type="sp:Double">
-<value>0.0</value></unemployment></scenario>
-<startTime xsi:type="sp:Timestamp">
-<value>2014-04-28T00:00:00.000Z</value></startTime>
-<modelParameters xsi:type="sp:ModelParameters">
-<fractionPotentialInsurgents xsi:type="sp:Double">
-<value>0.03</value></fractionPotentialInsurgents>
-<insurgentDisaffectionThreshold xsi:type="sp:Double">
-<value>30.0</value></insurgentDisaffectionThreshold>
-<insurgentGenerationCoefficient xsi:type="sp:Double">
-<value>0.01</value></insurgentGenerationCoefficient>
-<insurgentStrengthFactor xsi:type="sp:Double">
-<value>0.0375</value></insurgentStrengthFactor></modelParameters></identifiables></root>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root xmlns:sp="http://pdc.kth.se/stratmasNamespace" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="sp:Root">
+	<identifiables identifier="KTH" xsi:type="sp:CommonSimulation">
+		<timeStepper xsi:type="sp:ConstantStepper">
+			<dt xsi:type="sp:Duration">
+				<value>86400000</value>
+			</dt>
+		</timeStepper>
+		<gridPartitioner xsi:type="sp:SquarePartitioner">
+			<cellSizeMeters xsi:type="sp:Double">
+				<value>10.0</value>
+			</cellSizeMeters>
+		</gridPartitioner>
+		<scenario xsi:type="sp:CommonScenario">
+			<map xsi:type="sp:Composite">
+				<shapes identifier="1" xsi:type="sp:Polygon">
+					<curves identifier="1" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.34608217835624</lat>
+							<lon>18.07183793136494</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.34658951418979</lat>
+							<lon>18.07144302845814</lon>
+						</p2>
+					</curves>
+					<curves identifier="2" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.34658951418979</lat>
+							<lon>18.07144302845814</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.34713990335646</lat>
+							<lon>18.07000839312615</lon>
+						</p2>
+					</curves>
+					<curves identifier="3" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.34713990335646</lat>
+							<lon>18.07000839312615</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.34795025719246</lat>
+							<lon>18.06862949973086</lon>
+						</p2>
+					</curves>
+					<curves identifier="4" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.34795025719246</lat>
+							<lon>18.06862949973086</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.34854830852915</lat>
+							<lon>18.06761282653811</lon>
+						</p2>
+					</curves>
+					<curves identifier="5" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.34854830852915</lat>
+							<lon>18.06761282653811</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.34937797658361</lat>
+							<lon>18.06613869371978</lon>
+						</p2>
+					</curves>
+					<curves identifier="6" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.34937797658361</lat>
+							<lon>18.06613869371978</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.35026894745246</lat>
+							<lon>18.06547441858744</lon>
+						</p2>
+					</curves>
+					<curves identifier="7" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.35026894745246</lat>
+							<lon>18.06547441858744</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.35121867034177</lat>
+							<lon>18.06507766930027</lon>
+						</p2>
+					</curves>
+					<curves identifier="8" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.35121867034177</lat>
+							<lon>18.06507766930027</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.3522408864137</lat>
+							<lon>18.06405639587113</lon>
+						</p2>
+					</curves>
+					<curves identifier="9" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.3522408864137</lat>
+							<lon>18.06405639587113</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.35236556177978</lat>
+							<lon>18.06425646407607</lon>
+						</p2>
+					</curves>
+					<curves identifier="10" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.35236556177978</lat>
+							<lon>18.06425646407607</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.35320280072066</lat>
+							<lon>18.06409761959976</lon>
+						</p2>
+					</curves>
+					<curves identifier="11" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.35320280072066</lat>
+							<lon>18.06409761959976</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.35340966378224</lat>
+							<lon>18.06317332078048</lon>
+						</p2>
+					</curves>
+					<curves identifier="12" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.35340966378224</lat>
+							<lon>18.06317332078048</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.35425247999735</lat>
+							<lon>18.06347176790625</lon>
+						</p2>
+					</curves>
+					<curves identifier="13" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.35425247999735</lat>
+							<lon>18.06347176790625</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.35387657625291</lat>
+							<lon>18.06744296387348</lon>
+						</p2>
+					</curves>
+					<curves identifier="14" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.35387657625291</lat>
+							<lon>18.06744296387348</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.35313378388136</lat>
+							<lon>18.0671450038578</lon>
+						</p2>
+					</curves>
+					<curves identifier="15" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.35313378388136</lat>
+							<lon>18.0671450038578</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.35222120295584</lat>
+							<lon>18.06855905376001</lon>
+						</p2>
+					</curves>
+					<curves identifier="16" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.35222120295584</lat>
+							<lon>18.06855905376001</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.35236262661863</lat>
+							<lon>18.06895104173649</lon>
+						</p2>
+					</curves>
+					<curves identifier="17" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.35236262661863</lat>
+							<lon>18.06895104173649</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.35166939674929</lat>
+							<lon>18.06995508251293</lon>
+						</p2>
+					</curves>
+					<curves identifier="18" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.35166939674929</lat>
+							<lon>18.06995508251293</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.35179546455841</lat>
+							<lon>18.07140736705359</lon>
+						</p2>
+					</curves>
+					<curves identifier="19" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.35179546455841</lat>
+							<lon>18.07140736705359</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.35159303204047</lat>
+							<lon>18.071468891758</lon>
+						</p2>
+					</curves>
+					<curves identifier="20" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.35159303204047</lat>
+							<lon>18.071468891758</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.35133188179967</lat>
+							<lon>18.07214765572148</lon>
+						</p2>
+					</curves>
+					<curves identifier="21" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.35133188179967</lat>
+							<lon>18.07214765572148</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.35091141560422</lat>
+							<lon>18.07335662758336</lon>
+						</p2>
+					</curves>
+					<curves identifier="22" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.35091141560422</lat>
+							<lon>18.07335662758336</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.35004499045657</lat>
+							<lon>18.07491815373218</lon>
+						</p2>
+					</curves>
+					<curves identifier="23" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.35004499045657</lat>
+							<lon>18.07491815373218</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.34878309437803</lat>
+							<lon>18.0752577525873</lon>
+						</p2>
+					</curves>
+					<curves identifier="24" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.34878309437803</lat>
+							<lon>18.0752577525873</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.34787527519857</lat>
+							<lon>18.07493143433664</lon>
+						</p2>
+					</curves>
+					<curves identifier="25" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.34787527519857</lat>
+							<lon>18.07493143433664</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.34769498591376</lat>
+							<lon>18.07539732329118</lon>
+						</p2>
+					</curves>
+					<curves identifier="26" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.34769498591376</lat>
+							<lon>18.07539732329118</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.34729684553724</lat>
+							<lon>18.07507736203533</lon>
+						</p2>
+					</curves>
+					<curves identifier="27" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.34729684553724</lat>
+							<lon>18.07507736203533</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.34731094366746</lat>
+							<lon>18.07469903110792</lon>
+						</p2>
+					</curves>
+					<curves identifier="28" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.34731094366746</lat>
+							<lon>18.07469903110792</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.34649943569243</lat>
+							<lon>18.07402659210572</lon>
+						</p2>
+					</curves>
+					<curves identifier="29" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.34649943569243</lat>
+							<lon>18.07402659210572</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.34653554758497</lat>
+							<lon>18.07376838575276</lon>
+						</p2>
+					</curves>
+					<curves identifier="30" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.34653554758497</lat>
+							<lon>18.07376838575276</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.34578659905355</lat>
+							<lon>18.07320073344726</lon>
+						</p2>
+					</curves>
+					<curves identifier="31" xsi:type="sp:Line">
+						<p1 xsi:type="sp:Point">
+							<lat>59.34578659905355</lat>
+							<lon>18.07320073344726</lon>
+						</p1>
+						<p2 xsi:type="sp:Point">
+							<lat>59.34608217835624</lat>
+							<lon>18.07183793136494</lon>
+						</p2>
+					</curves>
+				</shapes>
+			</map>
+			<disease xsi:type="sp:Disease">
+				<description xsi:type="sp:String">
+					<value>None</value>
+				</description>
+				<infectionRate xsi:type="sp:Double">
+					<value>0.0</value>
+				</infectionRate>
+				<recoveryRate xsi:type="sp:Double">
+					<value>0.0</value>
+				</recoveryRate>
+				<mortalityRate xsi:type="sp:Double">
+					<value>0.0</value>
+				</mortalityRate>
+			</disease>
+			<populationCenters identifier="Studenter" xsi:type="sp:Population">
+				<present xsi:type="sp:Boolean">
+					<value>true</value>
+				</present>
+				<location xsi:type="sp:Circle">
+					<radius xsi:type="sp:Double">
+						<value>500.0</value>
+					</radius>
+					<center xsi:type="sp:Point">
+						<lat>59.35</lat>
+						<lon>18.07</lon>
+					</center>
+				</location>
+				<deployment xsi:type="sp:UniformDistribution"/>
+				<ethnicGroups identifier="Svennar" xsi:type="sp:PopulationGroup">
+					<inhabitants xsi:type="sp:Double">
+						<value>20000.0</value>
+					</inhabitants>
+				</ethnicGroups>
+			</populationCenters>
+			<HDI xsi:type="sp:Double">
+				<value>0.0</value>
+			</HDI>
+			<unemployment xsi:type="sp:Double">
+				<value>0.0</value>
+			</unemployment>
+			<path xsi:type="sp:PathGraph">
+				<nodes identifier="1" xsi:type="sp:PathNode">
+					<point xsi:type="sp:Point">
+						<lat>59.34665962558485</lat>
+						<lon>18.072617685972713</lon>
+					</point>
+				</nodes>
+				<nodes identifier="2" xsi:type="sp:PathNode">
+					<point xsi:type="sp:Point">
+						<lat>59.349109805864074</lat>
+						<lon>18.073033391781163</lon>
+					</point>
+				</nodes>
+				<nodes identifier="3" xsi:type="sp:PathNode">
+					<point xsi:type="sp:Point">
+						<lat>59.345773985356836</lat>
+						<lon>18.07237875279599</lon>
+					</point>
+				</nodes>
+				<nodes identifier="4" xsi:type="sp:PathNode">
+					<point xsi:type="sp:Point">
+						<lat>59.34956474463526</lat>
+						<lon>18.06857200676681</lon>
+					</point>
+				</nodes>
+				<nodes identifier="5" xsi:type="sp:PathNode">
+					<point xsi:type="sp:Point">
+						<lat>59.35218791700876</lat>
+						<lon>18.06759036006188</lon>
+					</point>
+				</nodes>
+				<nodes identifier="6" xsi:type="sp:PathNode">
+					<point xsi:type="sp:Point">
+						<lat>59.351823927390335</lat>
+						<lon>18.064407675987304</lon>
+					</point>
+				</nodes>
+				<edges identifier="Drottningkristinas v??g" xsi:type="sp:PathEdge">
+					<origin xsi:type="sp:NodeReference">
+						<name>4</name>
+						<scope>
+							<name>nodes</name>
+							<scope>
+								<name>path</name>
+								<scope>
+									<name>scenario</name>
+									<scope>
+										<name>KTH</name>
+										<scope>
+											<name>identifiables</name>
+										</scope>
+									</scope>
+								</scope>
+							</scope>
+						</scope>
+					</origin>
+					<target xsi:type="sp:NodeReference">
+						<name>1</name>
+						<scope>
+							<name>nodes</name>
+							<scope>
+								<name>path</name>
+								<scope>
+									<name>scenario</name>
+									<scope>
+										<name>KTH</name>
+										<scope>
+											<name>identifiables</name>
+										</scope>
+									</scope>
+								</scope>
+							</scope>
+						</scope>
+					</target>
+					<isConnected xsi:type="sp:Boolean">
+						<value>true</value>
+					</isConnected>
+					<travelSpeed xsi:type="sp:Double">
+						<value>1.0</value>
+					</travelSpeed>
+				</edges>
+				<edges identifier="Osquars backe" xsi:type="sp:PathEdge">
+					<origin xsi:type="sp:NodeReference">
+						<name>1</name>
+						<scope>
+							<name>nodes</name>
+							<scope>
+								<name>path</name>
+								<scope>
+									<name>scenario</name>
+									<scope>
+										<name>KTH</name>
+										<scope>
+											<name>identifiables</name>
+										</scope>
+									</scope>
+								</scope>
+							</scope>
+						</scope>
+					</origin>
+					<target xsi:type="sp:NodeReference">
+						<name>2</name>
+						<scope>
+							<name>nodes</name>
+							<scope>
+								<name>path</name>
+								<scope>
+									<name>scenario</name>
+									<scope>
+										<name>KTH</name>
+										<scope>
+											<name>identifiables</name>
+										</scope>
+									</scope>
+								</scope>
+							</scope>
+						</scope>
+					</target>
+					<isConnected xsi:type="sp:Boolean">
+						<value>true</value>
+					</isConnected>
+					<travelSpeed xsi:type="sp:Double">
+						<value>1.0</value>
+					</travelSpeed>
+				</edges>
+				<edges identifier="Stockholm ??stra" xsi:type="sp:PathEdge">
+					<origin xsi:type="sp:NodeReference">
+						<name>1</name>
+						<scope>
+							<name>nodes</name>
+							<scope>
+								<name>path</name>
+								<scope>
+									<name>scenario</name>
+									<scope>
+										<name>KTH</name>
+										<scope>
+											<name>identifiables</name>
+										</scope>
+									</scope>
+								</scope>
+							</scope>
+						</scope>
+					</origin>
+					<target xsi:type="sp:NodeReference">
+						<name>3</name>
+						<scope>
+							<name>nodes</name>
+							<scope>
+								<name>path</name>
+								<scope>
+									<name>scenario</name>
+									<scope>
+										<name>KTH</name>
+										<scope>
+											<name>identifiables</name>
+										</scope>
+									</scope>
+								</scope>
+							</scope>
+						</scope>
+					</target>
+					<isConnected xsi:type="sp:Boolean">
+						<value>true</value>
+					</isConnected>
+					<travelSpeed xsi:type="sp:Double">
+						<value>1.0</value>
+					</travelSpeed>
+				</edges>
+				<edges identifier="Brinellv??gen" xsi:type="sp:PathEdge">
+					<origin xsi:type="sp:NodeReference">
+						<name>4</name>
+						<scope>
+							<name>nodes</name>
+							<scope>
+								<name>path</name>
+								<scope>
+									<name>scenario</name>
+									<scope>
+										<name>KTH</name>
+										<scope>
+											<name>identifiables</name>
+										</scope>
+									</scope>
+								</scope>
+							</scope>
+						</scope>
+					</origin>
+					<target xsi:type="sp:NodeReference">
+						<name>5</name>
+						<scope>
+							<name>nodes</name>
+							<scope>
+								<name>path</name>
+								<scope>
+									<name>scenario</name>
+									<scope>
+										<name>KTH</name>
+										<scope>
+											<name>identifiables</name>
+										</scope>
+									</scope>
+								</scope>
+							</scope>
+						</scope>
+					</target>
+					<isConnected xsi:type="sp:Boolean">
+						<value>true</value>
+					</isConnected>
+					<travelSpeed xsi:type="sp:Double">
+						<value>1.0</value>
+					</travelSpeed>
+				</edges>
+				<edges identifier="Drottningkristinas v??g fort" xsi:type="sp:PathEdge">
+					<origin xsi:type="sp:NodeReference">
+						<name>4</name>
+						<scope>
+							<name>nodes</name>
+							<scope>
+								<name>path</name>
+								<scope>
+									<name>scenario</name>
+									<scope>
+										<name>KTH</name>
+										<scope>
+											<name>identifiables</name>
+										</scope>
+									</scope>
+								</scope>
+							</scope>
+						</scope>
+					</origin>
+					<target xsi:type="sp:NodeReference">
+						<name>6</name>
+						<scope>
+							<name>nodes</name>
+							<scope>
+								<name>path</name>
+								<scope>
+									<name>scenario</name>
+									<scope>
+										<name>KTH</name>
+										<scope>
+											<name>identifiables</name>
+										</scope>
+									</scope>
+								</scope>
+							</scope>
+						</scope>
+					</target>
+					<isConnected xsi:type="sp:Boolean">
+						<value>true</value>
+					</isConnected>
+					<travelSpeed xsi:type="sp:Double">
+						<value>1.0</value>
+					</travelSpeed>
+				</edges>
+			</path>
+		</scenario>
+		<startTime xsi:type="sp:Timestamp">
+			<value>2014-04-28T00:00:00.000Z</value>
+		</startTime>
+		<modelParameters xsi:type="sp:ModelParameters">
+			<fractionPotentialInsurgents xsi:type="sp:Double">
+				<value>0.03</value>
+			</fractionPotentialInsurgents>
+			<insurgentDisaffectionThreshold xsi:type="sp:Double">
+				<value>30.0</value>
+			</insurgentDisaffectionThreshold>
+			<insurgentGenerationCoefficient xsi:type="sp:Double">
+				<value>0.01</value>
+			</insurgentGenerationCoefficient>
+			<insurgentStrengthFactor xsi:type="sp:Double">
+				<value>0.0375</value>
+			</insurgentStrengthFactor>
+		</modelParameters>
+	</identifiables>
+</root>

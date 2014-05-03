@@ -360,6 +360,89 @@
 					</inhabitants>
 				</ethnicGroups>
 			</populationCenters>
+			<militaryUnits identifier="Osquarulda" xsi:type="sp:MilitaryUnit">
+				<present xsi:type="sp:Boolean">
+					<value>true</value>
+				</present>
+				<activities identifier="Till Maskin" xsi:type="sp:GoToOrder">
+					<active xsi:type="sp:Boolean">
+						<value>true</value>
+					</active>
+					<start xsi:type="sp:Timestamp">
+						<value>2014-04-28T00:00:00.000Z</value>
+					</start>
+					<carriedOut xsi:type="sp:Boolean">
+						<value>false</value>
+					</carriedOut>
+					<location xsi:type="sp:Circle">
+						<radius xsi:type="sp:Double">
+							<value>10.0</value>
+						</radius>
+						<center xsi:type="sp:Point">
+							<lat>59.354092572129645</lat>
+							<lon>18.063792418955227</lon>
+						</center>
+					</location>
+				</activities>
+				<location xsi:type="sp:Circle">
+					<radius xsi:type="sp:Double">
+						<value>10.0</value>
+					</radius>
+					<center xsi:type="sp:Point">
+						<lat>59.34621106978294</lat>
+						<lon>18.07334813644805</lon>
+					</center>
+				</location>
+				<deployment xsi:type="sp:UniformDistribution"/>
+				<symbolIDCode xsi:type="sp:SymbolIDCode">
+					<value>
+						<value>---------------</value>
+					</value>
+				</symbolIDCode>
+				<affiliation xsi:type="sp:FactionReference">
+					<name>Datasektionen</name>
+					<scope>
+						<name>factions</name>
+						<scope>
+							<name>scenario</name>
+							<scope>
+								<name>KTH</name>
+								<scope>
+									<name>identifiables</name>
+								</scope>
+							</scope>
+						</scope>
+					</scope>
+				</affiliation>
+				<personnel xsi:type="sp:NonNegativeInteger">
+					<value>10</value>
+				</personnel>
+				<casualties xsi:type="sp:NonNegativeInteger">
+					<value>0</value>
+				</casualties>
+				<strengthFactor xsi:type="sp:Double">
+					<value>0.2</value>
+				</strengthFactor>
+				<attackFactor xsi:type="sp:Double">
+					<value>1.0</value>
+				</attackFactor>
+				<defenseFactor xsi:type="sp:Double">
+					<value>1.0</value>
+				</defenseFactor>
+				<maxVelocity xsi:type="sp:Double">
+					<value>0.1</value>
+				</maxVelocity>
+				<deployTime xsi:type="sp:Timestamp">
+					<value>2014-01-01T00:00:00.000Z</value>
+				</deployTime>
+				<departTime xsi:type="sp:Timestamp">
+					<value>2020-04-28T00:00:00.000Z</value>
+				</departTime>
+				<WithdrawThreshold xsi:type="sp:Double">
+					<value>75.0</value>
+				</WithdrawThreshold>
+			</militaryUnits>
+			<factions identifier="Datasektionen" xsi:type="sp:MilitaryFaction"/>
 			<HDI xsi:type="sp:Double">
 				<value>0.0</value>
 			</HDI>

@@ -49,9 +49,9 @@ public class GraphEdgeAdapter extends MapElementAdapter {
     private float lineWidth = DEFAULT_LINE_WIDTH;
     
     private void addNodeListener(StratmasObject node, final StratmasObject element){
+        System.out.println(node.getClass());
         node.addEventListener(new StratmasEventListener() {
             public void eventOccured(StratmasEvent event) {
-                System.out.println("wooohooo");
                 if (event.isRemoved()) {
                     ((StratmasObject) event.getSource())
                             .removeEventListener(this);
@@ -63,10 +63,12 @@ public class GraphEdgeAdapter extends MapElementAdapter {
                             .addEventListener(this);
                     displayListUpdated = false;
                     isLocationUpdated = false;
+                    isSymbolUpdated = false;
                     fireAdapterUpdated();
                 } else if (event.isChildChanged()) {
                     displayListUpdated = false;
                     isLocationUpdated = false;
+                    isSymbolUpdated = false;
                     fireAdapterUpdated();
                 }
             }
@@ -74,8 +76,10 @@ public class GraphEdgeAdapter extends MapElementAdapter {
     }
 
     private void addNodeListeners(StratmasObject element){
-        addNodeListener(element.getChild("origin"), element);
-        addNodeListener(element.getChild("target"), element);
+        addNodeListener(((StratmasReference) element.getChild("origin"))
+                        .getValue().resolve(element) , element);
+        addNodeListener(((StratmasReference) element.getChild("target"))
+                        .getValue().resolve(element) , element);
     }
 
     /**
@@ -132,9 +136,13 @@ public class GraphEdgeAdapter extends MapElementAdapter {
         double[] p2 = getTargetLonLat();
         p1 = proj.projToXY(p1);
         p2 = proj.projToXY(p2);
+
+        double magic = 3.45d;
+        horizontalSymbolSize = magic*Math.abs(p2[0]-p1[0]);
+        verticalSymbolSize = magic*Math.abs(p2[1]-p1[1]);
         
         float[] cColor = lineColor.getRGBColorComponents(null);
-        
+
         // because coordinates must be relative to getLonLat().
         double[] center = proj.projToXY(getLonLat());
         p1[0] -= center[0];

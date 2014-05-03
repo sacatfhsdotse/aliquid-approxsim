@@ -143,28 +143,6 @@ public class TreeViewFrame extends JFrame implements StratmasEventListener {
         }
     }
 
-//     /**
-//      * Returns the common actions of this frame.
-//      */
-//     public Vector getActions()
-//     {
-//         Vector res = new Vector();
-
-//         for (Enumeration e = getRootObject().getActions().elements(); 
-//              e.hasMoreElements();) {
-//             StratmasAbstractAction action = (StratmasAbstractAction)
-//                 e.nextElement();
-//             if (!isEditable()) {
-//                 if (action.isMutator()) {
-//                     action.setEnabled(false);
-//                 }
-//             }
-//             res.add(action);
-//         }
-
-//         return res;
-//     }
-
     /**
      * Returns true if editing is enabled in this frame.
      */

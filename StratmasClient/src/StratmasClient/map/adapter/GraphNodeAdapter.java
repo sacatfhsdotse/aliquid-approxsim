@@ -75,7 +75,7 @@ public class GraphNodeAdapter extends MapElementAdapter {
 
         // circle code from http://slabode.exofire.net/circle_draw.shtml
         double r = horizontalSymbolSize / 2;
-        int k = 1; // change to a smaller/bigger number as needed
+        int k = 2; // change to a smaller/bigger number as needed
         int num_segments = (int) (k * Math.sqrt(r));
         double theta = 2 * Math.PI / num_segments;
         double c = Math.tan(theta); // precalculate the sine and cosine
@@ -151,10 +151,10 @@ public class GraphNodeAdapter extends MapElementAdapter {
             gl.glPushMatrix();
             // Draw below marker at a tenth of the vertical size of the
             // symbol.
-            double textScale = getVerticalSymbolSize() / (5 * (119.05 + 33.33));
+            double textScale =  scale * 10 * getVerticalSymbolSize() / (5 * (119.05 + 33.33));
             gl.glTranslated(-104.76 * textScale * str.length() / 2,
-                            -(119.05 * textScale + 2 + 0.5
-                            /* * inhabitantsScale */* getVerticalSymbolSize() / 2),
+                            -(119.05 * textScale + 2 + 0.5 *
+                            getVerticalSymbolSize() / 2),
                             0);
             gl.glScaled(textScale, textScale, 1.0);
 

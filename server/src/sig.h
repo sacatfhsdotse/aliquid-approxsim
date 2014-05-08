@@ -137,7 +137,7 @@ void init_segv(handler h)
 
 void hook_errors()
 {
-    init_segv(0);
+    //init_segv(0);
 }
 
 #else

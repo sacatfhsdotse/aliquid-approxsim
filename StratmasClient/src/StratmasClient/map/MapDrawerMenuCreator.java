@@ -4,12 +4,19 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.Point;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DragGestureEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.AbstractAction;
@@ -237,8 +244,24 @@ class MapDrawerMenuCreator {
             JMenuItem item2 = new JMenuItem("Add node");
             item2.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
-                    StratmasObject so = StratmasObjectFactory.cloneObject(v.get(0));
-                    so.setIdentifier("new cloned node");
+                    StratmasObject orig = v.get(0);
+                    StratmasObject clone = StratmasObjectFactory.cloneObject(orig);
+                    clone.setIdentifier("new node");
+                    while(orig.getParent().getChild(clone.getIdentifier()) != null){
+                        int a = 0;
+                        try{
+                            a =Integer.parseInt(clone.getIdentifier().replace("new node", ""));
+                        }catch (NumberFormatException ignore){};
+                        clone.setIdentifier("new node" + a + 1);
+                    }
+                    orig.getParent().add(clone);
+                    drawer.addMapDrawable(clone);
+//                    List<InputEvent> evlist = new ArrayList<InputEvent>();
+//                    evlist.add(new MouseEvent(drawer, MouseEvent.MOUSE_PRESSED,
+//                                              System.currentTimeMillis(), MouseEvent.BUTTON1_MASK, 0, 0, 1, false));
+//                    drawer.startDrag(new DragGestureEvent(drawer.recognizer,
+//                                                          DnDConstants.ACTION_MOVE, new Point(),
+//                                                          evlist), so);
                     //TODO fool MapDrawer into believing we have this selected and are moving it around
                 }
             });

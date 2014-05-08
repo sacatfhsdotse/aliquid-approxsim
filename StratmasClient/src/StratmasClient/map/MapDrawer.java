@@ -250,7 +250,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
         this.position_map = position_map;
         this.position_map.setMap(this);
 
-        // helper object used for creation of different kinds of menues in the map
+        // helper object used for creation of different kinds of menus in the map
         menuCreator = new MapDrawerMenuCreator(basicMap.getClient(), this,
                 region);
 
@@ -565,37 +565,22 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
      * Drag gesture handler. Part of DragGestureListener interface.
      * @param dge event created when a drag is started.
      */
-    public void dragGestureRecognized(final DragGestureEvent dge) {
-        // cancel features
-        mouseMovedTimer.cancel();
-        this.setShowingSymbolMagnification(false);
+    public void dragGestureRecognized(DragGestureEvent dge) {
         // get location
         int x = (int) (dge.getDragOrigin().getX());
         int y = (int) (dge.getDragOrigin().getY());
         // get elements
         Vector<StratmasObject> v = dragFilter.filter(mapElementsUnderCursor());
-        // define cursor for the object
-        Cursor c;
-        Toolkit tk = Toolkit.getDefaultToolkit();
+        
         // if there's anything to drag
         if (!v.isEmpty()) {
-            Image image = ((v.get(0)).getIcon()).getImage();
-            Dimension bestsize = tk.getBestCursorSize(image.getWidth(null),
-                                                      image.getHeight(null));
-            if (bestsize.width != 0 && v.size() == 1)
-                c = tk.createCustomCursor(image, new java.awt.Point(
-                                                  bestsize.width / 2,
-                                                  bestsize.height / 2),
-                                          (v.get(0))
-                                                  .toString());
-            else c = Cursor.getDefaultCursor();
+            // cancel features
+            mouseMovedTimer.cancel();
+            this.setShowingSymbolMagnification(false);
+            
             // only one element on the current location
             if (v.size() == 1) {
-                // set the dragged element
-                DraggedElement.setElement(v.get(0));
-                // start the drag
-                source.startDrag(dge, c, v.get(0),
-                                 new DragSourceAdapter() {});
+                startDrag(dge, v.get(0));
             }
             // several elements on the current location
             else if (v.size() > 1) {
@@ -603,6 +588,28 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
                 menuCreator.getDraggedElementsMenu(dragFilter).show(this, x, y);
             }
         }
+    }
+    
+    public void startDrag(DragGestureEvent dge, StratmasObject draggedObject){
+        //define cursor for the object
+        Cursor c;
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        
+        Image image = draggedObject.getIcon().getImage();
+        Dimension bestsize = tk.getBestCursorSize(image.getWidth(null),
+                                                  image.getHeight(null));
+        if (bestsize.width != 0){
+            c = tk.createCustomCursor(
+                   image,new java.awt.Point(bestsize.width / 2,
+                   bestsize.height / 2), draggedObject.toString());
+        } else {
+            c = Cursor.getDefaultCursor();
+        }
+        
+        // set the dragged element
+        DraggedElement.setElement(draggedObject);
+        // start the drag
+        source.startDrag(dge, c, draggedObject, new DragSourceAdapter() {});
     }
 
     /**

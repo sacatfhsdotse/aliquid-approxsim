@@ -303,6 +303,14 @@ void Session::handleApproxsimMessage(const std::string &xml, std::string &respon
           msg.toXML(ost);
           if (!isActive()) { closeSession(); }
      }
+     catch (const std::runtime_error& e) {
+          LOG_ERROR(networkLog, "Session " << id() << " caught Error: '" << e.what() << "'" );
+          ost.str("");
+          StatusMessage msg(mXMLHandler->lastType());
+          msg.addError(Error(e.what(), Error::eWarning));
+          msg.toXML(ost);
+          if (!isActive()) { closeSession(); }
+     }
 
      response = ost.str();
 }

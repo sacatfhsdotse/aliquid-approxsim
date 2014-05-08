@@ -78,8 +78,6 @@ do                                                              \
   }                                                             \
 while (0)  
 
-#endif /*defined __GNUC__ && __linux*/
-
 void default_segv()
 {
     throw std::runtime_error("Segfault");
@@ -109,12 +107,12 @@ SIGNAL_HANDLER(catch_segv)
 
     handle_segv();
 }
-
+#endif /*defined __GNUC__ && __linux*/
 }
 
 namespace segvcatch
 {
-
+#ifdef __linux
 void init_segv(handler h)
 {
     if (h)
@@ -123,6 +121,9 @@ void init_segv(handler h)
         handler_segv = default_segv;
     INIT_SEGV;
 }
-
+#else
+void init_segv(segvcatch::handler *h) {}
+#endif
 }
+
 

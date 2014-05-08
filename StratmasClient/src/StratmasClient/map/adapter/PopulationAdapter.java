@@ -194,9 +194,9 @@ public class PopulationAdapter extends ElementAdapter {
             gl.glPushMatrix();
             // Draw below marker at a tenth of the vertical size of the
             // symbol.
-            double textScale = getVerticalSymbolSize() / (5 * (119.05 + 33.33));
+            double textScale = scale * 5 * getVerticalSymbolSize() / (5 * (119.05 + 33.33));
             gl.glTranslated(-104.76 * textScale * str.length() / 2,
-                            -(119.05 * textScale + 2 + 0.5 * inhabitantsScale
+                            -(119.05 * textScale + scale * inhabitantsScale
                                     * getVerticalSymbolSize() / 2), 0);
             gl.glScaled(textScale, textScale, 1.0);
 

@@ -252,17 +252,11 @@ class MapDrawerMenuCreator {
                         try{
                             a =Integer.parseInt(clone.getIdentifier().replace("new node", ""));
                         }catch (NumberFormatException ignore){};
-                        clone.setIdentifier("new node" + a + 1);
+                        clone.setIdentifier("new node" + (a + 1));
                     }
+                    
                     orig.getParent().add(clone);
-                    drawer.addMapDrawable(clone);
-//                    List<InputEvent> evlist = new ArrayList<InputEvent>();
-//                    evlist.add(new MouseEvent(drawer, MouseEvent.MOUSE_PRESSED,
-//                                              System.currentTimeMillis(), MouseEvent.BUTTON1_MASK, 0, 0, 1, false));
-//                    drawer.startDrag(new DragGestureEvent(drawer.recognizer,
-//                                                          DnDConstants.ACTION_MOVE, new Point(),
-//                                                          evlist), so);
-                    //TODO fool MapDrawer into believing we have this selected and are moving it around
+                    drawer.placeObject(clone);
                 }
             });
             submenu.add(item2);

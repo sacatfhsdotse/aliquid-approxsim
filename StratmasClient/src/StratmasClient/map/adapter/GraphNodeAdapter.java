@@ -153,8 +153,7 @@ public class GraphNodeAdapter extends MapElementAdapter {
             // symbol.
             double textScale =  scale * 10 * getVerticalSymbolSize() / (5 * (119.05 + 33.33));
             gl.glTranslated(-104.76 * textScale * str.length() / 2,
-                            -(119.05 * textScale + 2 + 0.5 *
-                            getVerticalSymbolSize() / 2),
+                            -(119.05 * textScale + scale * getVerticalSymbolSize() / 2),
                             0);
             gl.glScaled(textScale, textScale, 1.0);
 

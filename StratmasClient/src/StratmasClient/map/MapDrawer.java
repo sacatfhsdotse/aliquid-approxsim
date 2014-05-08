@@ -40,6 +40,7 @@ import StratmasClient.map.adapter.MapElementAdapter;
 import StratmasClient.map.adapter.MapShapeAdapter;
 import StratmasClient.map.adapter.PopulationAdapter;
 import StratmasClient.map.adapter.GraphNodeAdapter;
+import StratmasClient.object.Point;
 import StratmasClient.object.Shape;
 import StratmasClient.object.SimpleShape;
 import StratmasClient.object.StratmasEvent;
@@ -224,6 +225,8 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
      */
     protected boolean doScreenShot = false;
     public ToolMode mode;
+    
+    private StratmasObject newlyCreatedObjectToBePlaced;
 
     /**
      * Creates new MapDrawer.
@@ -329,11 +332,6 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
         // convert the curent position to lon/lat
         MapPoint p = convertToLonLat(x, y);
 
-        // get projected coordinates
-        Projection proj = basicMap.getProjection();
-        p.getProjectedPoint(proj).getX();
-        p.getProjectedPoint(proj).getY();
-
         // right mouse button
         if (e.getButton() == MouseEvent.BUTTON3) {
             // create new menu
@@ -380,6 +378,19 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
         }
         // left mouse button
         else if (e.getButton() == MouseEvent.BUTTON1) {
+            if(newlyCreatedObjectToBePlaced != null){
+                if(newlyCreatedObjectToBePlaced.getType().canSubstitute("Edge")){
+                    
+                }else if(newlyCreatedObjectToBePlaced.getType().canSubstitute("Node")){
+                    Point p2 = (Point) newlyCreatedObjectToBePlaced.getChild("point");
+                    p2.setLatLon(p.lat, p.lon, this);
+                }
+                
+//                orig.getParent().add(clone);
+                addMapDrawable(newlyCreatedObjectToBePlaced);
+                newlyCreatedObjectToBePlaced = null;
+            }
+            
             // show information of the pointed element
             if (e.getClickCount() == 2) {
                 // find all elemets located at the pointed location
@@ -1784,5 +1795,13 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
 
     public void dispose(GLAutoDrawable glad) {
         // TODO implement
+    }
+    
+    public void placeObject(StratmasObject o){
+        if(newlyCreatedObjectToBePlaced == null){
+            newlyCreatedObjectToBePlaced = o;
+        }else{
+            throw new IllegalStateException("newlyCreatedObjectToBePlaced already in use");
+        }
     }
 }

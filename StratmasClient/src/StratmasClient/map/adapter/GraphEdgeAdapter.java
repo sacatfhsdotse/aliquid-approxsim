@@ -49,7 +49,6 @@ public class GraphEdgeAdapter extends MapElementAdapter {
     private float lineWidth = DEFAULT_LINE_WIDTH;
     
     private void addNodeListener(StratmasObject node, final StratmasObject element){
-        System.out.println(node.getClass());
         node.addEventListener(new StratmasEventListener() {
             public void eventOccured(StratmasEvent event) {
                 if (event.isRemoved()) {

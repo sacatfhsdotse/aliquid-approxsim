@@ -423,7 +423,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
 
         convertToLonLat(x, y);
 
-        // necessary for multi-screen enviroment
+        // necessary for multi-screen environment
         mouse_on = (x >= view_x && x <= view_x + view_width && y >= view_y && y <= view_y
                 + view_height) ? true : false;
         // convert the current position to lon/lat

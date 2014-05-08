@@ -76,11 +76,24 @@ do                                                              \
     act.k_sa_restorer = restore_rt;                             \
     syscall (SYS_rt_sigaction, SIGSEGV, &act, NULL, _NSIG / 8); \
   }                                                             \
-while (0)  
+while (0)
+
+/* SEGV, ABRT, what's the difference. */
+#define INIT_ABRT                                               \
+do                                                              \
+  {                                                             \
+    struct kernel_sigaction act;                                \
+    act.k_sa_sigaction = _Jv_catch_segv;                        \
+    sigemptyset (&act.k_sa_mask);                               \
+    act.k_sa_flags = SA_SIGINFO|0x4000000;                      \
+    act.k_sa_restorer = restore_rt;                             \
+    syscall (SYS_rt_sigaction, SIGABRT, &act, NULL, _NSIG / 8); \
+  }                                                             \
+while (0)
 
 void default_segv()
 {
-    throw std::runtime_error("Segfault");
+    throw std::runtime_error("Segfault or something");
 }
 
 void handle_segv()
@@ -121,9 +134,15 @@ void init_segv(handler h)
         handler_segv = default_segv;
     INIT_SEGV;
 }
-#else
-void init_segv(segvcatch::handler *h) {}
-#endif
+
+void hook_errors()
+{
+    init_segv(0);
 }
 
+#else
+void hook_errors() {}
+#endif
+
+}
 

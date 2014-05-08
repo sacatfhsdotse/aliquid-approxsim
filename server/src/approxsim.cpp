@@ -53,7 +53,7 @@ int main(int argc, char **argv)
      // Initialize logging
      Log4C::init(Environment::getInstallDir() / "/log4.xml");
 
-     segvcatch::init_segv(nullptr); // (sorry)
+     segvcatch::hook_errors(); // (sorry)
 
      // Set timezone to UTC (for XMLHelper)
      initTimeZone();

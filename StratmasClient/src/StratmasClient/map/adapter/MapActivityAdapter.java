@@ -1,7 +1,11 @@
 package StratmasClient.map.adapter;
 
+import java.nio.DoubleBuffer;
+
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
+
+import com.jogamp.common.nio.Buffers;
 
 import StratmasClient.BoundingBox;
 import StratmasClient.map.Projection;
@@ -68,6 +72,13 @@ public class MapActivityAdapter extends MapElementAdapter {
         gl.glPopName();
         // Pushes the name for RenderSelection mode.
         if (arrowDisplayed()) {
+            double arrowSize = 0.1 * getSymbolScale() * horizontalSymbolSize;
+            if (getInvariantSymbolSize()) {
+                gl.glMatrixMode(GL2.GL_PROJECTION);
+                DoubleBuffer buf = Buffers.newDirectDoubleBuffer(16);
+                gl.glGetDoublev(GL2.GL_PROJECTION_MATRIX, buf);
+                arrowSize *= 0.00003d / buf.get(0);
+            }
             gl.glMatrixMode(GL2.GL_MODELVIEW);
             gl.glPushMatrix();
             // get location center of the military unit
@@ -95,6 +106,7 @@ public class MapActivityAdapter extends MapElementAdapter {
             gl.glEnd();
             gl.glPopMatrix();
             // drawing the arrow
+            
             gl.glMatrixMode(GL2.GL_MODELVIEW);
             gl.glPushMatrix();
             // compute the rotation angle
@@ -107,7 +119,6 @@ public class MapActivityAdapter extends MapElementAdapter {
             double ang2 = (ang + 30 * Math.PI / 180 > 2 * Math.PI) ? ang + 30
                     * Math.PI / 180 - 2 * Math.PI : ang + 30 * Math.PI / 180;
             // gl.glRotated(ang, 0.0, 0.0, 1.0);
-            double arrowSize = 0.1 * getSymbolScale() * horizontalSymbolSize;
             gl.glBegin(GL2.GL_POLYGON);
             gl.glVertex2d(0, 0);
             gl.glVertex2d(arrowSize * Math.cos(ang1),

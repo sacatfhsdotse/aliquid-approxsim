@@ -38,6 +38,7 @@ import StratmasClient.BoundingBox;
 import StratmasClient.Configuration;
 import StratmasClient.Debug;
 import StratmasClient.map.adapter.MapDrawableAdapter;
+import StratmasClient.map.adapter.GraphNodeAdapter;
 import StratmasClient.map.adapter.MapDrawableAdapterListener;
 import StratmasClient.object.Shape;
 import StratmasClient.object.StratmasEvent;

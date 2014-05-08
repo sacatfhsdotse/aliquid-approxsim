@@ -17,6 +17,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.DoubleBuffer;
 import java.nio.IntBuffer;
 import java.util.Enumeration;
+import java.util.TimerTask;
 import java.util.Vector;
 
 import javax.media.opengl.GL2;
@@ -38,6 +39,7 @@ import StratmasClient.map.adapter.MapDrawableAdapter;
 import StratmasClient.map.adapter.MapElementAdapter;
 import StratmasClient.map.adapter.MapShapeAdapter;
 import StratmasClient.map.adapter.PopulationAdapter;
+import StratmasClient.map.adapter.GraphNodeAdapter;
 import StratmasClient.object.Shape;
 import StratmasClient.object.SimpleShape;
 import StratmasClient.object.StratmasEvent;
@@ -238,6 +240,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
         dFilter.add(new TypeFilter(TypeFactory.getType("MilitaryUnit"), true));
         dFilter.add(new TypeFilter(TypeFactory.getType("AgencyTeam"), true));
         dFilter.add(new TypeFilter(TypeFactory.getType("Activity"), true));
+        dFilter.add(new TypeFilter(TypeFactory.getType("Node"), true));
         this.dragFilter = dFilter;
 
         // region associated with the map
@@ -449,13 +452,24 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
 
         setRenderSelectionArea(x, y);
 
-        /*
-         * // check if the symbol magnifier should be turned on mouseMovedTimer.cancel(); if (isEnabledSymbolMagnifier()) { mouseMovedTimer
-         * = new java.util.Timer(); final MapDrawer self = this; for (int i = 1; i <= magnifierSizeSteps; i++) { final int foo = i;
-         * mouseMovedTimer.schedule(new TimerTask() { public void run() { self.setShowingSymbolMagnification(true);
-         * self.setMagnifierSizeScale((((double) (foo))/((double) self.getMagnifierSizeSteps()))); self.update(); } }, this.magnifierTimeout
-         * + (long) ((((double) (i)) /((double) getMagnifierSizeSteps())) * this.magnifierTimeout)); } }
-         */
+        
+        // check if the symbol magnifier should be turned on 
+        mouseMovedTimer.cancel();
+        if (isEnabledSymbolMagnifier()) {
+            mouseMovedTimer = new java.util.Timer();
+            final MapDrawer self = this;
+            for (int i = 1; i <= magnifierSizeSteps; i++) {
+            final int foo = i;
+            mouseMovedTimer.schedule(new TimerTask() {
+                public void run() {
+                    self.setShowingSymbolMagnification(true);
+                    self.setMagnifierSizeScale((((double) (foo))/((double) self.getMagnifierSizeSteps())));
+                    self.update();
+                }
+            }, this.magnifierTimeout + (long) ((((double) (i)) / ((double) getMagnifierSizeSteps())) * this.magnifierTimeout));
+            }
+        }
+
 
         // necessary for multi-screen enviroment
         mouse_on = (x >= view_x && x <= view_x + view_width && y >= view_y && y <= view_y
@@ -559,29 +573,28 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
         int x = (int) (dge.getDragOrigin().getX());
         int y = (int) (dge.getDragOrigin().getY());
         // get elements
-        Vector v = dragFilter.filter(mapElementsUnderCursor());
+        Vector<StratmasObject> v = dragFilter.filter(mapElementsUnderCursor());
         // define cursor for the object
         Cursor c;
         Toolkit tk = Toolkit.getDefaultToolkit();
         // if there's anything to drag
         if (!v.isEmpty()) {
-            Image image = ((Icon) ((StratmasObject) v.get(0)).getIcon())
-                    .getImage();
+            Image image = ((v.get(0)).getIcon()).getImage();
             Dimension bestsize = tk.getBestCursorSize(image.getWidth(null),
                                                       image.getHeight(null));
             if (bestsize.width != 0 && v.size() == 1)
                 c = tk.createCustomCursor(image, new java.awt.Point(
                                                   bestsize.width / 2,
                                                   bestsize.height / 2),
-                                          ((StratmasObject) v.get(0))
+                                          (v.get(0))
                                                   .toString());
             else c = Cursor.getDefaultCursor();
             // only one element on the current location
             if (v.size() == 1) {
                 // set the dragged element
-                DraggedElement.setElement((StratmasObject) v.get(0));
+                DraggedElement.setElement(v.get(0));
                 // start the drag
-                source.startDrag(dge, c, (StratmasObject) v.get(0),
+                source.startDrag(dge, c, v.get(0),
                                  new DragSourceAdapter() {});
             }
             // several elements on the current location
@@ -1313,6 +1326,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
         renderSelectionNames.put(new Integer(renderSelectionName),
                                  drawableAdapter);
         drawableAdapter.addMapDrawableAdapterListener(this);
+        
         synchronized (mapDrawableAdapterRecompilation) {
             mapDrawableAdapterRecompilation.add(drawableAdapter);
         }

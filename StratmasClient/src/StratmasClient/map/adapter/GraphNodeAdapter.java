@@ -16,6 +16,8 @@ import javax.media.opengl.glu.GLUtessellatorCallbackAdapter;
 import StratmasClient.Debug;
 import StratmasClient.map.Projection;
 import StratmasClient.object.Point;
+import StratmasClient.object.StratmasEvent;
+import StratmasClient.object.StratmasEventListener;
 import StratmasClient.object.StratmasObject;
 
 import com.jogamp.common.nio.Buffers;
@@ -43,7 +45,7 @@ public class GraphNodeAdapter extends MapElementAdapter {
      * @param element the Element to adapt.
      */
     protected GraphNodeAdapter(StratmasObject element) {
-        super(element);
+        this(element, 0);
     }
 
     /**
@@ -54,6 +56,8 @@ public class GraphNodeAdapter extends MapElementAdapter {
      */
     protected GraphNodeAdapter(StratmasObject element, int renderSelectionName) {
         super(element, renderSelectionName);
+        horizontalSymbolSize *= 0.8;
+        verticalSymbolSize *= 0.8;
     }
 
     /**
@@ -71,7 +75,7 @@ public class GraphNodeAdapter extends MapElementAdapter {
 
         // circle code from http://slabode.exofire.net/circle_draw.shtml
         double r = horizontalSymbolSize / 2;
-        int k = 1; // change to a smaller/bigger number as needed
+        int k = 2; // change to a smaller/bigger number as needed
         int num_segments = (int) (k * Math.sqrt(r));
         double theta = 2 * Math.PI / num_segments;
         double c = Math.tan(theta); // precalculate the sine and cosine
@@ -147,10 +151,10 @@ public class GraphNodeAdapter extends MapElementAdapter {
             gl.glPushMatrix();
             // Draw below marker at a tenth of the vertical size of the
             // symbol.
-            double textScale = getVerticalSymbolSize() / (5 * (119.05 + 33.33));
+            double textScale =  scale * 10 * getVerticalSymbolSize() / (5 * (119.05 + 33.33));
             gl.glTranslated(-104.76 * textScale * str.length() / 2,
-                            -(119.05 * textScale + 2 + 0.5
-                            /* * inhabitantsScale */* getVerticalSymbolSize() / 2),
+                            -(119.05 * textScale + 2 + 0.5 *
+                            getVerticalSymbolSize() / 2),
                             0);
             gl.glScaled(textScale, textScale, 1.0);
 
@@ -258,6 +262,21 @@ public class GraphNodeAdapter extends MapElementAdapter {
                 gl.glEnd();
             }
         };
+    }
+    
+    /**
+     * Updates this adapter when one of the adapted objects children changes.
+     * 
+     * @param event the event causing the change.
+     */
+    protected void childChanged(StratmasEvent event) {
+        StratmasObject child = (StratmasObject) event.getArgument();
+        if (child.getIdentifier().equals("point")) {
+            displayListUpdated = false;
+            isLocationUpdated = false;
+            fireAdapterUpdated();
+        }
+        super.childChanged(event);
     }
 
 }

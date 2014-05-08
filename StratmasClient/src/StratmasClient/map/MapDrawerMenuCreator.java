@@ -1,46 +1,48 @@
 package StratmasClient.map;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.Enumeration;
 import java.awt.Dimension;
-import java.awt.Insets;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.ActionListener;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import javax.swing.JPopupMenu;
+import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Vector;
+
+import javax.swing.AbstractAction;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JDialog;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.BorderFactory;
+import javax.swing.JPopupMenu;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-import javax.swing.AbstractAction;
-import javax.swing.JFrame;
+
+import StratmasClient.BoundingBox;
 import StratmasClient.Client;
 import StratmasClient.Configuration;
-import StratmasClient.BoundingBox;
-import StratmasClient.object.Shape;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.primitive.Reference;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.treeview.TreeView;
-import StratmasClient.treeview.TreeViewFrame;
-import StratmasClient.filter.TypeFilter;
 import StratmasClient.filter.StratmasObjectFilter;
-import StratmasClient.map.adapter.GraphEdgeAdapter;
+import StratmasClient.filter.TypeFilter;
 import StratmasClient.map.adapter.MapElementAdapter;
 import StratmasClient.map.adapter.MapShapeAdapter;
+import StratmasClient.object.Shape;
+import StratmasClient.object.StratmasObject;
+import StratmasClient.object.StratmasObjectFactory;
+import StratmasClient.object.primitive.Reference;
+import StratmasClient.object.type.TypeFactory;
 import StratmasClient.proj.MGRSConversion;
+import StratmasClient.treeview.TreeView;
+import StratmasClient.treeview.TreeViewFrame;
 
 /**
  * This class is used to create different kinds of menus used in the map.
@@ -218,9 +220,10 @@ class MapDrawerMenuCreator {
      */
     protected JMenu getMenuForGraphNodes() {
         JMenu submenu = null;
-        // add all military units at the pointed location
-        Vector<StratmasObject> v = (new TypeFilter(TypeFactory.getType("Node"),
+        
+        final Vector<StratmasObject> v = (new TypeFilter(TypeFactory.getType("Node"),
                 true)).filter(drawer.mapElementsUnderCursor());
+        
         if (!v.isEmpty()) {
             submenu = new JMenu("Edit graph : ");
             JMenuItem item = new JMenuItem("Connect node");
@@ -234,7 +237,9 @@ class MapDrawerMenuCreator {
             JMenuItem item2 = new JMenuItem("Add node");
             item2.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
-                    // TODO implement
+                    StratmasObject so = StratmasObjectFactory.cloneObject(v.get(0));
+                    so.setIdentifier("new cloned node");
+                    //TODO fool MapDrawer into believing we have this selected and are moving it around
                 }
             });
             submenu.add(item2);

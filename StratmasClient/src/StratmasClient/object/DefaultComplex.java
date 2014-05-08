@@ -355,14 +355,10 @@ class DefaultComplex extends StratmasObjectDynImpl {
      * @param initiator The initator of the event.
      */
     public void fireRemoved(Object initiator) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = getListenerList();
-        if (listeners.length > 0) {
-            // Notify listeners about my own removal.
-            StratmasEvent event = StratmasEvent.getRemoved(this, initiator);
-            for (int i = listeners.length - 2; i >= 0; i -= 2) {
-                ((StratmasEventListener) listeners[i + 1]).eventOccured(event);
-            }
+        // Notify listeners about my own removal.
+        StratmasEvent event = StratmasEvent.getRemoved(this, initiator);
+        for (int i = getEventListenerList().size() - 1; i >= 0; i--) {
+            getEventListenerList().get(i).eventOccured(event);
         }
 
         // The children must be removed too.
@@ -502,9 +498,7 @@ class DefaultComplex extends StratmasObjectDynImpl {
                 final Declaration dec = (Declaration) e.nextElement();
                 if (!hasChild(dec.getName())) {
                     ag.add(new ActionGroup("Add " + dec.getName(), true, false) {
-                        /**
-						 * 
-						 */
+                    	
                         private static final long serialVersionUID = -7535608805159655813L;
 
                         public void actionPerformed(ActionEvent e) {
@@ -550,9 +544,7 @@ class DefaultComplex extends StratmasObjectDynImpl {
         Type t = fDec.getType();
         ActionGroup agToAdd = new ActionGroup("Add " + t.getName() + " to "
                 + fDec.getName(), true, false) {
-            /**
-			 * 
-			 */
+        	
             private static final long serialVersionUID = -3149299615409272768L;
 
             public void actionPerformed(ActionEvent e) {
@@ -586,7 +578,7 @@ class DefaultComplex extends StratmasObjectDynImpl {
             if (!t.isAbstract()) {
                 ret.add(agToAdd);
             }
-            for (; en.hasMoreElements();) {
+            while (en.hasMoreElements()) {
                 ret.add(getAddActionGroupForListDec(fListToAddTo, fDec
                         .clone((Type) en.nextElement())));
             }

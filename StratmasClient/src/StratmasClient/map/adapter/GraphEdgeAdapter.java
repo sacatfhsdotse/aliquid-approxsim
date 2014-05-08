@@ -17,6 +17,7 @@ import StratmasClient.Debug;
 import StratmasClient.map.Projection;
 import StratmasClient.object.Point;
 import StratmasClient.object.StratmasEvent;
+import StratmasClient.object.StratmasEventListener;
 import StratmasClient.object.StratmasObject;
 import StratmasClient.object.StratmasReference;
 
@@ -37,7 +38,7 @@ public class GraphEdgeAdapter extends MapElementAdapter {
     /**
      * The default width of the lines.
      */
-    public static float DEFAULT_LINE_WIDTH = 6000.0f; // TODO find better value
+    public static float DEFAULT_LINE_WIDTH = 3000.0f; // TODO find better value
     /**
      * The color of the shape lines.
      */
@@ -46,6 +47,40 @@ public class GraphEdgeAdapter extends MapElementAdapter {
      * The width of the shape lines.
      */
     private float lineWidth = DEFAULT_LINE_WIDTH;
+    
+    private void addNodeListener(StratmasObject node, final StratmasObject element){
+        System.out.println(node.getClass());
+        node.addEventListener(new StratmasEventListener() {
+            public void eventOccured(StratmasEvent event) {
+                if (event.isRemoved()) {
+                    ((StratmasObject) event.getSource())
+                            .removeEventListener(this);
+                    element.remove();
+                } else if (event.isReplaced()) {
+                    ((StratmasObject) event.getSource())
+                            .removeEventListener(this);
+                    ((StratmasObject) event.getArgument())
+                            .addEventListener(this);
+                    displayListUpdated = false;
+                    isLocationUpdated = false;
+                    isSymbolUpdated = false;
+                    fireAdapterUpdated();
+                } else if (event.isChildChanged()) {
+                    displayListUpdated = false;
+                    isLocationUpdated = false;
+                    isSymbolUpdated = false;
+                    fireAdapterUpdated();
+                }
+            }
+        });
+    }
+
+    private void addNodeListeners(StratmasObject element){
+        addNodeListener(((StratmasReference) element.getChild("origin"))
+                        .getValue().resolve(element) , element);
+        addNodeListener(((StratmasReference) element.getChild("target"))
+                        .getValue().resolve(element) , element);
+    }
 
     /**
      * Creates a new ElementAdapter.
@@ -54,6 +89,7 @@ public class GraphEdgeAdapter extends MapElementAdapter {
      */
     protected GraphEdgeAdapter(StratmasObject element) {
         super(element);
+        addNodeListeners(element);
     }
 
     /**
@@ -64,6 +100,7 @@ public class GraphEdgeAdapter extends MapElementAdapter {
      */
     protected GraphEdgeAdapter(StratmasObject element, int renderSelectionName) {
         super(element, renderSelectionName);
+        addNodeListeners(element);
     }
 
     /**
@@ -82,6 +119,14 @@ public class GraphEdgeAdapter extends MapElementAdapter {
         // Start list
         gl.glNewList(displayListsBuf.get(SYMBOL_POS), GL2.GL_COMPILE);
 
+        double tempWidth = lineWidth;
+        if (getInvariantSymbolSize()) {
+            gl.glMatrixMode(GL2.GL_PROJECTION);
+            DoubleBuffer buf = Buffers.newDirectDoubleBuffer(16);
+            gl.glGetDoublev(GL2.GL_PROJECTION_MATRIX, buf);
+            tempWidth *= 0.000003d / buf.get(0);
+        }
+        
         // Pushes the name for RenderSelection mode.
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
@@ -91,9 +136,13 @@ public class GraphEdgeAdapter extends MapElementAdapter {
         double[] p2 = getTargetLonLat();
         p1 = proj.projToXY(p1);
         p2 = proj.projToXY(p2);
+
+        double magic = 3.45d;
+        horizontalSymbolSize = magic*Math.abs(p2[0]-p1[0]);
+        verticalSymbolSize = magic*Math.abs(p2[1]-p1[1]);
         
         float[] cColor = lineColor.getRGBColorComponents(null);
-        
+
         // because coordinates must be relative to getLonLat().
         double[] center = proj.projToXY(getLonLat());
         p1[0] -= center[0];
@@ -107,8 +156,9 @@ public class GraphEdgeAdapter extends MapElementAdapter {
         // rotate diff 90deg clockwise
         double[] n = {p2[1] - p1[1], p1[0]-p2[0]};
         double nLen = Math.sqrt(n[0]*n[0] + n[1]*n[1]);
-        n[0] *= lineWidth/2/nLen; // TODO multiply with some sort of scale?
-        n[1] *= lineWidth/2/nLen;
+
+        n[0] *= tempWidth/2/nLen;
+        n[1] *= tempWidth/2/nLen;
         
         gl.glBegin(GL2.GL_POLYGON);
         gl.glLineWidth(lineWidth);

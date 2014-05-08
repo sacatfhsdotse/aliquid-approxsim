@@ -144,17 +144,10 @@ public abstract class StratmasSimple extends StratmasObjectImpl {
             getParent().childChanged(this, initiator);
         }
 
-        // Guaranteed to return a non-null array
-        Object[] listeners = getListenerList();
-        if (listeners.length > 0) {
-            if (listeners.length > 0) {
-                StratmasEvent event = StratmasEvent.getValueChanged(this,
-                                                                    initiator);
-                for (int i = listeners.length - 2; i >= 0; i -= 2) {
-                    ((StratmasEventListener) listeners[i + 1])
-                            .eventOccured(event);
-                }
-            }
+        StratmasEvent event = StratmasEvent.getValueChanged(this,
+                                                            initiator);
+        for (int i = getEventListenerList().size() - 1; i >= 0; i--) {
+            getEventListenerList().get(i).eventOccured(event);
         }
     }
 

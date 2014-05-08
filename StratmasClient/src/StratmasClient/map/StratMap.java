@@ -111,7 +111,6 @@ public class StratMap extends BasicMap {
         tabbed_pane.add("Map Control", control_panel);
         tabbed_pane.add("Simulation", display.getSimulationPanel());
         tabbed_pane.add("Topography", display.getTopographyPanel());
-        tabbed_pane.add("Tools", display.getToolsPanel());
         tabbed_pane.add("Preferences", display.getPreferenceDisplayPanel());
         main_panel.add(tabbed_pane, BorderLayout.CENTER);
 

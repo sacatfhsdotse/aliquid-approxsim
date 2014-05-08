@@ -263,8 +263,7 @@ class MapDrawerMenuCreator {
                     }
                     try {
                         ((ApproxsimReference) edge.getChild("origin")).valueFromString("nodes:"+orig.getIdentifier(), this);
-                        edges.add(edge);
-                        drawer.placeObject(edge);
+                        drawer.placeObject(edge, edges);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -286,8 +285,7 @@ class MapDrawerMenuCreator {
                         clone.setIdentifier("new node" + (a + 1));
                     }
                     
-                    orig.getParent().add(clone);
-                    drawer.placeObject(clone);
+                    drawer.placeObject(clone, orig.getParent());
                 }
             });
             submenu.add(item2);

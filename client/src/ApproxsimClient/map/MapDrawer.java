@@ -229,7 +229,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
     protected boolean doScreenShot = false;
     public ToolMode mode;
     
-    private ApproxsimObject newlyCreatedObjectToBePlaced;
+    private ApproxsimObject newlyCreatedObjectToBePlaced, newlyCreatedObjectsParent;
 
     /**
      * Creates new MapDrawer.
@@ -392,12 +392,12 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
                         try {
                             ApproxsimObject potentialNode = v.get(0);
                             if(((ApproxsimReference) newlyCreatedObjectToBePlaced.getChild("origin")).
-                                    getValue().resolve(newlyCreatedObjectToBePlaced).
+                                    getValue().resolve(newlyCreatedObjectsParent).
                                     getParent() == potentialNode.getParent()){ // In the same graph
                                 ((ApproxsimReference) newlyCreatedObjectToBePlaced.getChild("target")).
                                 valueFromString("nodes:"+potentialNode.getIdentifier(), this);
-                                addMapDrawable(newlyCreatedObjectToBePlaced);
-                                newlyCreatedObjectToBePlaced = null;
+                                newlyCreatedObjectsParent.add(newlyCreatedObjectToBePlaced);
+                                newlyCreatedObjectToBePlaced = newlyCreatedObjectsParent = null;
                             }else{
                                 JOptionPane.showMessageDialog(null, "It is invalid to connect nodes of different graphs", "User stupidity error",
                                                               JOptionPane.ERROR_MESSAGE);
@@ -409,12 +409,11 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
                             e1.printStackTrace();
                         }
                     }
-                    
                 }else if(newlyCreatedObjectToBePlaced.getType().canSubstitute("Node")){
                     Point p2 = (Point) newlyCreatedObjectToBePlaced.getChild("point");
                     p2.setLatLon(p.lat, p.lon, this);
-                    addMapDrawable(newlyCreatedObjectToBePlaced);
-                    newlyCreatedObjectToBePlaced = null;
+                    newlyCreatedObjectsParent.add(newlyCreatedObjectToBePlaced);
+                    newlyCreatedObjectToBePlaced = newlyCreatedObjectsParent = null;
                 }
             }
             
@@ -1824,9 +1823,10 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
         // TODO implement
     }
     
-    public void placeObject(ApproxsimObject o){
+    public void placeObject(ApproxsimObject o, ApproxsimObject parent){
         if(newlyCreatedObjectToBePlaced == null){
             newlyCreatedObjectToBePlaced = o;
+            newlyCreatedObjectsParent = parent;
         }else{
             throw new IllegalStateException("newlyCreatedObjectToBePlaced already in use");
         }

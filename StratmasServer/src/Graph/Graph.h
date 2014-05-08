@@ -2,6 +2,7 @@
 #define STRATMAS_GRAPH_H
 
 
+#include <map>
 #include <string>
 #include <list>
 #include <LatLng.h>
@@ -80,21 +81,27 @@ struct NavigationPlan {
 template<class T>
 class Graph
 {
+private:
+	static std::map<std::string, Graph<T>*>& getSavedGraphs();
 protected:
 	int numNodes;
 	Node<T>* nodes;
 	int numEdges;
 	Edge<T>* edges;
 public:
-	Graph(int numNodes, Node<T>* nodes, int numEdges, Edge<T>* edges):
-		numNodes(numNodes), nodes(nodes), numEdges(numEdges), edges(edges){}
+	Graph(std::string identifier, int numNodes, Node<T>* nodes, int numEdges, Edge<T>* edges):
+		numNodes(numNodes), nodes(nodes), numEdges(numEdges), edges(edges){
+			getSavedGraphs()[identifier] = this;
+		}
 
 	~Graph() {delete edges; delete nodes;}
 
 	void print(std::ostream& o, std::string indent="");
 
-	NavigationPlan getPath(LatLng start, LatLng end);
+	static Graph<T>* getGraph(std::string identifier);
 };
+
+NavigationPlan pathfind(LatLng start, LatLng end);
 
 #endif   // STRATMAS_GRAPH_H
 

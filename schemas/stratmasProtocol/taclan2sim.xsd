@@ -875,8 +875,8 @@
     <xsd:complexContent>
       <xsd:extension base="sp:Graph">
         <xsd:sequence>
-          <xsd:element name="nodes" type="sp:EffectNode" maxOccurs="unbounded"/>
-          <xsd:element name="edges" type="sp:EffectEdge" maxOccurs="unbounded"/>
+          <xsd:element name="nodes" type="sp:EffectNode" minOccurs="0" maxOccurs="unbounded"/>
+          <xsd:element name="edges" type="sp:EffectEdge" minOccurs="0" maxOccurs="unbounded"/>
           <xsd:element name="nodeConnected" type="sp:Effect" minOccurs="0"/>
           <xsd:element name="nodeDisconnected" type="sp:Effect" minOccurs="0"/>
           <xsd:element name="edgeConnected" type="sp:Effect" minOccurs="0"/>
@@ -890,8 +890,8 @@
     <xsd:complexContent>
       <xsd:extension base="sp:Graph">
         <xsd:sequence>
-          <xsd:element name="nodes" type="sp:PathNode" maxOccurs="unbounded"/>
-          <xsd:element name="edges" type="sp:PathEdge" maxOccurs="unbounded"/>
+          <xsd:element name="nodes" type="sp:PathNode" minOccurs="0" maxOccurs="unbounded"/>
+          <xsd:element name="edges" type="sp:PathEdge" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>

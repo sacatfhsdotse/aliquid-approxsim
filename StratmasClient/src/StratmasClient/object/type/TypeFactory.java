@@ -1,15 +1,15 @@
 // $Id: TypeFactory.java,v 1.2 2006/03/31 16:55:51 dah Exp $
 /*
- * @(#)StratmasObjectFactory.java
+ * @(#)ApproxsimObjectFactory.java
  */
 
-package StratmasClient.object.type;
+package ApproxsimClient.object.type;
 
-import StratmasClient.object.type.Type;
-import StratmasClient.object.type.TypeInformation;
-import StratmasClient.object.XMLHelper;
+import ApproxsimClient.object.type.Type;
+import ApproxsimClient.object.type.TypeInformation;
+import ApproxsimClient.object.XMLHelper;
 
-import StratmasClient.StratmasConstants;
+import ApproxsimClient.ApproxsimConstants;
 
 import org.w3c.dom.Element;
 
@@ -29,12 +29,12 @@ public class TypeFactory {
     /**
      * Default namespace to look in.
      */
-    static String defaultNamespace = StratmasConstants.stratmasNamespace;
+    static String defaultNamespace = ApproxsimConstants.approxsimNamespace;
 
     /**
      * Uri from which to load the schema.
      */
-    static String defaultUri = StratmasConstants.STRATMAS_SIMULATION_SCHEMA;
+    static String defaultUri = ApproxsimConstants.APPROXSIM_SIMULATION_SCHEMA;
 
     /**
      * Creates the typeInformation object to use when constructing types.

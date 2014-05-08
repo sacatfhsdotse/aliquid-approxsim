@@ -1,13 +1,13 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import java.util.Comparator;
 import java.util.Arrays;
 import java.util.Vector;
 import javax.swing.table.AbstractTableModel;
 
-import StratmasClient.object.StratmasObject;
-import StratmasClient.StratmasConstants;
-import StratmasClient.ProcessVariableDescription;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.ApproxsimConstants;
+import ApproxsimClient.ProcessVariableDescription;
 
 /**
  * The table model for the table of process variables and factions.
@@ -72,9 +72,9 @@ public class ProcessVariableTableModel extends AbstractTableModel {
         columns = new Object[factions.size() + 3];
         columns[0] = new String("PV");
         columns[1] = new String("Category");
-        columns[2] = new String(StratmasConstants.factionAll);
+        columns[2] = new String(ApproxsimConstants.factionAll);
         for (int i = 0; i < factions.size(); i++) {
-            columns[i + 3] = (StratmasObject) factions.get(i);
+            columns[i + 3] = (ApproxsimObject) factions.get(i);
         }
         // get rows
         pvValues = new Object[pv.size()][factions.size() + 3];
@@ -103,8 +103,8 @@ public class ProcessVariableTableModel extends AbstractTableModel {
      * @param col the column.
      */
     public String getColumnName(int col) {
-        if (columns[col] instanceof StratmasObject) {
-            return ((StratmasObject) columns[col]).getReference()
+        if (columns[col] instanceof ApproxsimObject) {
+            return ((ApproxsimObject) columns[col]).getReference()
                     .getIdentifier().trim();
         } else {
             return (String) columns[col];

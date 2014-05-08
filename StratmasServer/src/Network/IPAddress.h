@@ -1,5 +1,5 @@
-#ifndef STRATMAS_IPADDRESS_H
-#define STRATMAS_IPADDRESS_H
+#ifndef APPROXSIM_IPADDRESS_H
+#define APPROXSIM_IPADDRESS_H
 
 
 // System
@@ -28,4 +28,4 @@ public:
      friend std::ostream& operator << (std::ostream& o, const IPAddress& ip);
 };
 
-#endif   // STRATMAS_IPADDRESS_H
+#endif   // APPROXSIM_IPADDRESS_H

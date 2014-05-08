@@ -3,7 +3,7 @@
  * @(#)StopperFactory.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
 /**
  * Provides Stopper instances

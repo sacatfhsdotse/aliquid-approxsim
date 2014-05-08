@@ -1,4 +1,4 @@
-package StratmasClient.map.graph;
+package ApproxsimClient.map.graph;
 
 import java.text.DecimalFormat;
 import java.awt.Graphics;
@@ -8,7 +8,7 @@ import java.awt.FontMetrics;
 import java.awt.Dimension;
 import javax.swing.JLabel;
 
-import StratmasClient.ProcessVariableDescription;
+import ApproxsimClient.ProcessVariableDescription;
 
 /**
  * This class is used to draw scale numbers on the y-axis in the graph.

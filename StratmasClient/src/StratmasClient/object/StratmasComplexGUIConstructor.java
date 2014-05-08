@@ -1,11 +1,11 @@
-// $Id: StratmasComplexGUIConstructor.java,v 1.1 2006/03/22 14:30:51 dah Exp $
+// $Id: ApproxsimComplexGUIConstructor.java,v 1.1 2006/03/22 14:30:51 dah Exp $
 /*
- * @(#)StratmasObject.java
+ * @(#)ApproxsimObject.java
  */
 
-package StratmasClient.object;
+package ApproxsimClient.object;
 
-import StratmasClient.object.type.Declaration;
+import ApproxsimClient.object.type.Declaration;
 
 import java.util.Enumeration;
 import java.util.Vector;
@@ -14,39 +14,39 @@ import javax.swing.BoxLayout;
 import javax.swing.JOptionPane;
 
 /**
- * StratmasComplexGUIConstructor creates GUIs for creating StratmasComplex objects.
+ * ApproxsimComplexGUIConstructor creates GUIs for creating ApproxsimComplex objects.
  * 
  * @version 1, $Date: 2006/03/22 14:30:51 $
  * @author Daniel Ahlin
  */
-public class StratmasComplexGUIConstructor extends StratmasGUIConstructor {
+public class ApproxsimComplexGUIConstructor extends ApproxsimGUIConstructor {
     /**
 	 * 
 	 */
     private static final long serialVersionUID = -8177601284453709935L;
     /**
-     * The StratmasGUIConstructor's for each subpart of this constructor.
+     * The ApproxsimGUIConstructor's for each subpart of this constructor.
      */
-    Vector<StratmasGUIConstructor> subDeclarations;
+    Vector<ApproxsimGUIConstructor> subDeclarations;
 
     /**
-     * Creates a new StratmasComplexGUIConstructor using specifications in the supplied declaration.
+     * Creates a new ApproxsimComplexGUIConstructor using specifications in the supplied declaration.
      * 
      * @param declaration the declaration to use.
      * @param useChooser lets the user choose different the subtypes of the provided declaration.
      */
-    public StratmasComplexGUIConstructor(Declaration declaration,
+    public ApproxsimComplexGUIConstructor(Declaration declaration,
             boolean useChooser) {
         super(declaration, useChooser);
     }
 
     /**
-     * Creates a new StratmasComplexGUIConstructor using specifications in the supplied declaration. If the type in the declaration is
-     * abstract StratmasComplexGUIConstructor(declaration, true) is run.
+     * Creates a new ApproxsimComplexGUIConstructor using specifications in the supplied declaration. If the type in the declaration is
+     * abstract ApproxsimComplexGUIConstructor(declaration, true) is run.
      * 
      * @param declaration the declaration to use.
      */
-    public StratmasComplexGUIConstructor(Declaration declaration) {
+    public ApproxsimComplexGUIConstructor(Declaration declaration) {
         super(declaration);
     }
 
@@ -55,7 +55,7 @@ public class StratmasComplexGUIConstructor extends StratmasGUIConstructor {
      */
     protected void buildPanel() {
         if (subDeclarations == null) {
-            subDeclarations = new Vector<StratmasGUIConstructor>();
+            subDeclarations = new Vector<ApproxsimGUIConstructor>();
         }
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         for (Enumeration ss = getType().getSubElements().elements(); ss
@@ -70,23 +70,23 @@ public class StratmasComplexGUIConstructor extends StratmasGUIConstructor {
      * @param subDeclaration the declaration to use.
      */
     protected void processSubDeclaration(Declaration subDeclaration) {
-        StratmasGUIConstructor c = StratmasObjectFactory
+        ApproxsimGUIConstructor c = ApproxsimObjectFactory
                 .guiCreate(subDeclaration);
         subDeclarations.add(c);
         add(c);
     }
 
     /**
-     * Tries to create the StratmasObject from the values in the GUI.
+     * Tries to create the ApproxsimObject from the values in the GUI.
      */
-    protected void createStratmasObject() {
-        Vector<StratmasObject> contents = new Vector<StratmasObject>();
+    protected void createApproxsimObject() {
+        Vector<ApproxsimObject> contents = new Vector<ApproxsimObject>();
         Vector<String> unFinished = new Vector<String>();
 
-        for (Enumeration<StratmasGUIConstructor> ss = this.subDeclarations
+        for (Enumeration<ApproxsimGUIConstructor> ss = this.subDeclarations
                 .elements(); ss.hasMoreElements();) {
-            StratmasGUIConstructor s = ss.nextElement();
-            StratmasObject sObj = s.getStratmasObject();
+            ApproxsimGUIConstructor s = ss.nextElement();
+            ApproxsimObject sObj = s.getApproxsimObject();
             if (sObj == null && s.getDeclaration().getMinOccurs() != 0) {
                 unFinished.add(s.getDeclaration().getName());
             } else if (sObj != null) {
@@ -96,9 +96,9 @@ public class StratmasComplexGUIConstructor extends StratmasGUIConstructor {
 
         if (unFinished.isEmpty()) {
             Declaration decl = getDeclaration().clone(getType());
-            StratmasVectorConstructor vectorConstructor = StratmasObjectFactory
+            ApproxsimVectorConstructor vectorConstructor = ApproxsimObjectFactory
                     .vectorCreate(decl);
-            this.result = vectorConstructor.getStratmasObject(getIdentifier(),
+            this.result = vectorConstructor.getApproxsimObject(getIdentifier(),
                                                               contents);
         } else {
             String errmsg = "The following required items are missing:";

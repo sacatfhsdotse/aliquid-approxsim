@@ -40,7 +40,7 @@ const Type& TypeFactory::getType(const std::string& typeName, const std::string&
 {
      if (sXSDContent == 0) {
           MemEntityResolver r;
-          InputSource* inp = r.resolve(Environment::STRATMAS_PROTOCOL_SCHEMA);
+          InputSource* inp = r.resolve(Environment::APPROXSIM_PROTOCOL_SCHEMA);
           sXSDContent = XSDContent::create(inp);
           delete inp;
      }

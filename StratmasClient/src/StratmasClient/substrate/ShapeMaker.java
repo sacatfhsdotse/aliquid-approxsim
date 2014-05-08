@@ -1,14 +1,14 @@
-package StratmasClient.substrate;
+package ApproxsimClient.substrate;
 
 import java.awt.Color;
 import java.util.Vector;
 import java.util.Hashtable;
 
-import StratmasClient.map.adapter.MapDrawableAdapter;
-import StratmasClient.map.adapter.MapShapeAdapter;
-import StratmasClient.map.adapter.MapPointAdapter;
-import StratmasClient.map.adapter.MapLineAdapter;
-import StratmasClient.object.Point;
+import ApproxsimClient.map.adapter.MapDrawableAdapter;
+import ApproxsimClient.map.adapter.MapShapeAdapter;
+import ApproxsimClient.map.adapter.MapPointAdapter;
+import ApproxsimClient.map.adapter.MapLineAdapter;
+import ApproxsimClient.object.Point;
 
 /**
  * This class implements methods used to construct, change and move shapes.

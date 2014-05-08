@@ -3,16 +3,16 @@
  * @(#)GuiEvolverFactory.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.Shape;
-import StratmasClient.object.StratmasObjectFactory;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.Shape;
+import ApproxsimClient.object.ApproxsimObjectFactory;
 
-import StratmasClient.dispatcher.StratmasDispatcher;
+import ApproxsimClient.dispatcher.ApproxsimDispatcher;
 
-import StratmasClient.communication.ServerException;
-import StratmasClient.treeview.TreeView;
+import ApproxsimClient.communication.ServerException;
+import ApproxsimClient.treeview.TreeView;
 
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -78,7 +78,7 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory {
     /**
      * If this simulation has a specific root this is it.
      */
-    StratmasObject root;
+    ApproxsimObject root;
 
     /**
      * Creates a new EvolverFactory letting the user configure the various components of an Evolver.
@@ -120,7 +120,7 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory {
      * 
      * @param root the root to use
      */
-    public GuiEvolverFactory(StratmasObject root) {
+    public GuiEvolverFactory(ApproxsimObject root) {
         // setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setRoot(root);
 
@@ -191,14 +191,14 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory {
     /**
      * Sets the root object to be evolved
      */
-    void setRoot(StratmasObject root) {
+    void setRoot(ApproxsimObject root) {
         this.root = root;
     }
 
     /**
      * Returns the root object to be evolved
      */
-    StratmasObject getRoot() {
+    ApproxsimObject getRoot() {
         return this.root;
     }
 
@@ -228,9 +228,9 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory {
         res.add(new JScrollPane(new JTable(parameterTableModel)));
 
         res.setDropTarget(new DropTarget(res, new DropSink() {
-            ParameterFactory parameterFactory = new StratmasParameterFactory();
+            ParameterFactory parameterFactory = new ApproxsimParameterFactory();
 
-            public boolean checkDrop(final StratmasObject object) {
+            public boolean checkDrop(final ApproxsimObject object) {
                 if (getRoot() != null
                         && getRoot().getRoot() != object.getRoot()) {
                     JOptionPane
@@ -298,11 +298,11 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory {
                             .getValueAt(i, parameterTableModel
                                     .findColumn("Parameter"));
                     if (entry != null
-                            && parameter instanceof StratmasObjectParameter
-                            && entry instanceof StratmasObjectParameter
-                            && ((StratmasObjectParameter) parameter)
+                            && parameter instanceof ApproxsimObjectParameter
+                            && entry instanceof ApproxsimObjectParameter
+                            && ((ApproxsimObjectParameter) parameter)
                                     .getReference()
-                                    .equals(((StratmasObjectParameter) entry)
+                                    .equals(((ApproxsimObjectParameter) entry)
                                                     .getReference())) {
                         return true;
                     }
@@ -327,9 +327,9 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory {
         res.add(new JScrollPane(new JTable(measureTableModel)));
 
         res.setDropTarget(new DropTarget(res, new DropSink() {
-            ParameterFactory parameterFactory = new StratmasParameterFactory();
+            ParameterFactory parameterFactory = new ApproxsimParameterFactory();
 
-            public boolean checkDrop(final StratmasObject object) {
+            public boolean checkDrop(final ApproxsimObject object) {
                 if (getRoot() != null
                         && getRoot().getRoot() != object.getRoot()) {
                     JOptionPane
@@ -497,13 +497,13 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory {
         final Parameter targetParameter = getTargetParameter();
 
         ParameterInstanceSet initialValues = new ParameterInstanceSet();
-        StratmasObject yca = null;
+        ApproxsimObject yca = null;
         boolean initYca = true; // Hack
         for (Enumeration e = getEvolveParameters().elements(); e
                 .hasMoreElements();) {
             Parameter parameter = (Parameter) e.nextElement();
-            StratmasObject object = ((StratmasObjectParameter) parameter)
-                    .getStratmasObject();
+            ApproxsimObject object = ((ApproxsimObjectParameter) parameter)
+                    .getApproxsimObject();
             if (initYca) {
                 yca = object;
                 initYca = false;
@@ -512,12 +512,12 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory {
             }
 
             initialValues.add(parameter
-                    .getParameterInstance(StratmasObjectFactory
+                    .getParameterInstance(ApproxsimObjectFactory
                             .cloneObject(object)));
         }
 
         // Find the simulation the parameters belong to:
-        StratmasObject simulation = null;
+        ApproxsimObject simulation = null;
         for (simulation = yca; simulation != null
                 && !simulation.getType().canSubstitute("Simulation"); simulation = simulation
                 .getParent());
@@ -527,7 +527,7 @@ public class GuiEvolverFactory extends JPanel implements EvolverFactory {
         }
 
         EvaluatorFactory evaluatorFactory = new SimulationEvaluatorFactory(
-                StratmasDispatcher.getDefaultDispatcher(), simulation) {
+                ApproxsimDispatcher.getDefaultDispatcher(), simulation) {
             SimulationEvaluatorTarget createTarget() {
                 SimulationEvaluatorTarget target = ((SimulationEvaluatorTargetFactory) getTargetParameter())
                         .createSimulationEvaluatorTarget();
@@ -567,11 +567,11 @@ abstract class DropSink extends DropTargetAdapter {
     public void dragOver(DropTargetDragEvent dtde) {}
 
     public void drop(DropTargetDropEvent dtde) {
-        if (dtde.isDataFlavorSupported(StratmasObject.STRATMAS_OBJECT_FLAVOR)) {
+        if (dtde.isDataFlavorSupported(ApproxsimObject.APPROXSIM_OBJECT_FLAVOR)) {
             dtde.acceptDrop(DnDConstants.ACTION_LINK);
             try {
                 Object object = dtde.getTransferable()
-                        .getTransferData(StratmasObject.STRATMAS_OBJECT_FLAVOR);
+                        .getTransferData(ApproxsimObject.APPROXSIM_OBJECT_FLAVOR);
                 // Apple's dnd implementation needs some
                 // looking over... Call the
                 // getTransferData method for the string
@@ -582,8 +582,8 @@ abstract class DropSink extends DropTargetAdapter {
                             .getTransferData(DataFlavor.stringFlavor);
                 }
 
-                if (object instanceof StratmasObject) {
-                    dtde.dropComplete(checkDrop((StratmasObject) object));
+                if (object instanceof ApproxsimObject) {
+                    dtde.dropComplete(checkDrop((ApproxsimObject) object));
                 } else {
                     dtde.dropComplete(false);
                 }
@@ -602,10 +602,10 @@ abstract class DropSink extends DropTargetAdapter {
     }
 
     /**
-     * Function called with the StratmasObject dropped on this panel.
+     * Function called with the ApproxsimObject dropped on this panel.
      * 
-     * @param stratmasObject the object dropped.
+     * @param approxsimObject the object dropped.
      * @return true if the drop is accepted.
      */
-    abstract boolean checkDrop(StratmasObject stratmasObject);
+    abstract boolean checkDrop(ApproxsimObject approxsimObject);
 }

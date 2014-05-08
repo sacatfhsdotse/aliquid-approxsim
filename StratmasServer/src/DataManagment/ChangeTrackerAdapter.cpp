@@ -44,7 +44,7 @@ ostream& XMLize(ostream& o, const DataObject& d, string indent)
  *
  * \param v The DataObject to track changes for.
  */
-BoolChangeTrackerAdapter::BoolChangeTrackerAdapter(StratmasBool& v) : mObject(v), mLast(mObject.getBool())
+BoolChangeTrackerAdapter::BoolChangeTrackerAdapter(ApproxsimBool& v) : mObject(v), mLast(mObject.getBool())
 {
 }
 
@@ -66,7 +66,7 @@ ostream& BoolChangeTrackerAdapter::toXML(ostream& o, string indent)
  *
  * \param v The DataObject to track changes for.
  */
-DoubleChangeTrackerAdapter::DoubleChangeTrackerAdapter(StratmasDouble& v) : mObject(v), mLast(mObject.getDouble())
+DoubleChangeTrackerAdapter::DoubleChangeTrackerAdapter(ApproxsimDouble& v) : mObject(v), mLast(mObject.getDouble())
 {
 }
 
@@ -88,7 +88,7 @@ ostream& DoubleChangeTrackerAdapter::toXML(ostream& o, string indent)
  *
  * \param v The DataObject to track changes for.
  */
-Int64_tChangeTrackerAdapter::Int64_tChangeTrackerAdapter(StratmasInt64_t& v) : mObject(v), mLast(mObject.getInt64_t())
+Int64_tChangeTrackerAdapter::Int64_tChangeTrackerAdapter(ApproxsimInt64_t& v) : mObject(v), mLast(mObject.getInt64_t())
 {
 }
 
@@ -110,7 +110,7 @@ ostream& Int64_tChangeTrackerAdapter::toXML(ostream& o, string indent)
  *
  * \param v The DataObject to track changes for.
  */
-ReferenceChangeTrackerAdapter::ReferenceChangeTrackerAdapter(StratmasReference& v)
+ReferenceChangeTrackerAdapter::ReferenceChangeTrackerAdapter(ApproxsimReference& v)
      : mObject(v), mLast(&mObject.getReference())
 {
 }
@@ -133,7 +133,7 @@ ostream& ReferenceChangeTrackerAdapter::toXML(ostream& o, string indent)
  *
  * \param v The DataObject to track changes for.
  */
-ShapeChangeTrackerAdapter::ShapeChangeTrackerAdapter(StratmasShape& v)
+ShapeChangeTrackerAdapter::ShapeChangeTrackerAdapter(ApproxsimShape& v)
      : mObject(v), mLast(mObject.getShapeRef().changes())
 {
 }
@@ -156,7 +156,7 @@ ostream& ShapeChangeTrackerAdapter::toXML(ostream& o, string indent)
  *
  * \param v The DataObject to track changes for.
  */
-StringChangeTrackerAdapter::StringChangeTrackerAdapter(StratmasString& v) : mObject(v), mLast(mObject.getString())
+StringChangeTrackerAdapter::StringChangeTrackerAdapter(ApproxsimString& v) : mObject(v), mLast(mObject.getString())
 {
 }
 
@@ -200,7 +200,7 @@ ostream& SymbolIDCodeChangeTrackerAdapter::toXML(ostream& o, string indent)
  *
  * \param v The DataObject to track changes for.
  */
-TimeChangeTrackerAdapter::TimeChangeTrackerAdapter(StratmasTime& v) : mObject(v), mLast(mObject.getTime())
+TimeChangeTrackerAdapter::TimeChangeTrackerAdapter(ApproxsimTime& v) : mObject(v), mLast(mObject.getTime())
 {
 }
 
@@ -299,7 +299,7 @@ void ContainerChangeTrackerAdapter::removeChild(const Reference& ref)
                mChildren.erase(it);
           }
           else {
-               stratmasDebug("Removed change adapter for " << ref << " twice!!! But it's ok...");
+               approxsimDebug("Removed change adapter for " << ref << " twice!!! But it's ok...");
           }
      }
 }
@@ -335,11 +335,11 @@ void ContainerChangeTrackerAdapter::objectAdded(const Reference& ref, int64_t in
           std::map<const Reference*, char>::iterator it = mChanges.find(&ref);
           if (it == mChanges.end()) {
                mChanges[&ref] = 'a';
-               stratmasDebug("---Object " << ref << " added -> 'a'");
+               approxsimDebug("---Object " << ref << " added -> 'a'");
           }
           else if (it->second == 'r') {
                mChanges[&ref] = 'x';
-               stratmasDebug("---Object " << ref << " added -> 'x'");
+               approxsimDebug("---Object " << ref << " added -> 'x'");
           }
           else {
                Error e;
@@ -480,28 +480,28 @@ ChangeTrackerAdapter* ChangeTrackerAdapterFactory::createChangeTrackerAdapter(co
      ChangeTrackerAdapter* ret = 0;
      DataObject* d = Mapper::map(r);
      if (d) {
-           if (StratmasBool* o = dynamic_cast<StratmasBool*>(d)) {
+           if (ApproxsimBool* o = dynamic_cast<ApproxsimBool*>(d)) {
                 ret = new BoolChangeTrackerAdapter(*o);
            }
-           else if (StratmasDouble* o = dynamic_cast<StratmasDouble*>(d)) {
+           else if (ApproxsimDouble* o = dynamic_cast<ApproxsimDouble*>(d)) {
                 ret = new DoubleChangeTrackerAdapter(*o);
            }
-           else if (StratmasInt64_t* o = dynamic_cast<StratmasInt64_t*>(d)) {
+           else if (ApproxsimInt64_t* o = dynamic_cast<ApproxsimInt64_t*>(d)) {
                 ret = new Int64_tChangeTrackerAdapter(*o);
            }
-          else if (StratmasReference* o = dynamic_cast<StratmasReference*>(d)) {
+          else if (ApproxsimReference* o = dynamic_cast<ApproxsimReference*>(d)) {
                ret = new ReferenceChangeTrackerAdapter(*o);
           }
-          else if (StratmasShape* o = dynamic_cast<StratmasShape*>(d)) {
+          else if (ApproxsimShape* o = dynamic_cast<ApproxsimShape*>(d)) {
                ret = new ShapeChangeTrackerAdapter(*o);
           }
-           else if (StratmasString* o = dynamic_cast<StratmasString*>(d)) {
+           else if (ApproxsimString* o = dynamic_cast<ApproxsimString*>(d)) {
                 ret = new StringChangeTrackerAdapter(*o);
            }
           else if (SymbolIDCode* o = dynamic_cast<SymbolIDCode*>(d)) {
                ret = new SymbolIDCodeChangeTrackerAdapter(*o);
           }
-           else if (StratmasTime* o = dynamic_cast<StratmasTime*>(d)) {
+           else if (ApproxsimTime* o = dynamic_cast<ApproxsimTime*>(d)) {
                 ret = new TimeChangeTrackerAdapter(*o);
            }
           else if (dynamic_cast<ContainerDataObject*>(d)) {

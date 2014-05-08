@@ -1,5 +1,5 @@
-#ifndef STRATMAS_SIMULATION_H
-#define STRATMAS_SIMULATION_H
+#ifndef APPROXSIM_SIMULATION_H
+#define APPROXSIM_SIMULATION_H
 
 // Own
 #include "Time2.h"
@@ -104,4 +104,4 @@ public:
      CommonSimulation(const DataObject& d) : Simulation(d) {}
 };
 
-#endif   // STRATMAS_SIMULATION_H
+#endif   // APPROXSIM_SIMULATION_H

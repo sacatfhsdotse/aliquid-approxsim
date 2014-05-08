@@ -1,13 +1,13 @@
-package StratmasClient.substrate;
+package ApproxsimClient.substrate;
 
 import java.awt.Color;
 
-import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.object.Circle;
-import StratmasClient.object.Point;
-import StratmasClient.map.GeoMath;
-import StratmasClient.map.adapter.MapShapeAdapter;
-import StratmasClient.map.adapter.MapDrawableAdapter;
+import ApproxsimClient.object.ApproxsimObjectFactory;
+import ApproxsimClient.object.Circle;
+import ApproxsimClient.object.Point;
+import ApproxsimClient.map.GeoMath;
+import ApproxsimClient.map.adapter.MapShapeAdapter;
+import ApproxsimClient.map.adapter.MapDrawableAdapter;
 
 /**
  * This class implements methods used to construct and modify circles
@@ -33,7 +33,7 @@ public class CircleMaker extends ShapeMaker {
      * Creates new circle.
      */
     protected void createCircle(double lon, double lat, double radius) {
-        circle = (Circle) StratmasObjectFactory
+        circle = (Circle) ApproxsimObjectFactory
                 .createCircle("circle" + String.valueOf(createdCircleCounter++),
                               lat, lon, radius);
     }

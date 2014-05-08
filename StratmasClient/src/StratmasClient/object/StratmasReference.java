@@ -1,64 +1,64 @@
-// $Id: StratmasReference.java,v 1.5 2006/07/19 07:01:59 alexius Exp $
+// $Id: ApproxsimReference.java,v 1.5 2006/07/19 07:01:59 alexius Exp $
 /*
- * @(#)StratmasReference.java
+ * @(#)ApproxsimReference.java
  */
 
-package StratmasClient.object;
+package ApproxsimClient.object;
 
-import StratmasClient.object.type.Type;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.object.type.Declaration;
-import StratmasClient.object.primitive.Reference;
-import StratmasClient.object.primitive.Identifier;
-import StratmasClient.object.primitive.Timestamp;
+import ApproxsimClient.object.type.Type;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.object.type.Declaration;
+import ApproxsimClient.object.primitive.Reference;
+import ApproxsimClient.object.primitive.Identifier;
+import ApproxsimClient.object.primitive.Timestamp;
 
 import org.w3c.dom.Element;
 
 import java.text.ParseException;
 
 /**
- * StratmasReference is a Stratmas adapter for references.
+ * ApproxsimReference is a Approxsim adapter for references.
  * 
  * @version 1, $Date: 2006/07/19 07:01:59 $
  * @author Daniel Ahlin
  */
 
-public class StratmasReference extends StratmasSimple {
+public class ApproxsimReference extends ApproxsimSimple {
     /**
      * The actual reference this object represents.
      */
     Reference value;
 
     /**
-     * Creates a new StratmasReference.
+     * Creates a new ApproxsimReference.
      * 
      * @param identifier the identifier for the object.
      * @param type the type of the object.
      * @param value the value of the object.
      */
-    protected StratmasReference(String identifier, Type type, Reference value) {
+    protected ApproxsimReference(String identifier, Type type, Reference value) {
         super(identifier, type);
         this.value = value;
     }
 
     /**
-     * Creates a new StratmasReference from a Declaration.
+     * Creates a new ApproxsimReference from a Declaration.
      * 
      * @param declaration the declaration for this object.
      * @param value the value of the string.
      */
-    protected StratmasReference(Declaration declaration, Reference value) {
+    protected ApproxsimReference(Declaration declaration, Reference value) {
         super(declaration);
         this.value = value;
     }
 
     /**
-     * Creates a new StratmasReference from a Declaration.
+     * Creates a new ApproxsimReference from a Declaration.
      * 
      * @param declaration the declaration for this object.
      * @param str the value of the string.
      */
-    protected StratmasReference(Declaration declaration, String str) {
+    protected ApproxsimReference(Declaration declaration, String str) {
         super(declaration);
         this.value = Reference.parseReference(str);
     }
@@ -112,7 +112,7 @@ public class StratmasReference extends StratmasSimple {
     public StringBuffer bodyXML(StringBuffer b) {
         // Resolve the reference and print the reference to that
         // object.
-        StratmasObject target = value.resolve(this.getParent());
+        ApproxsimObject target = value.resolve(this.getParent());
         if (target == null) {
             getValue().bodyXML(b);
         } else {
@@ -123,26 +123,26 @@ public class StratmasReference extends StratmasSimple {
     }
 
     /**
-     * Creates a StratmasReference from a DOM element.
+     * Creates a ApproxsimReference from a DOM element.
      * <p>
      * author Per Alexius
      * 
      * @param n The dom element from which the object is created.
      */
-    protected static StratmasObject domCreate(Element n) {
-        return new StratmasReference(Identifier.getIdentifier(n),
+    protected static ApproxsimObject domCreate(Element n) {
+        return new ApproxsimReference(Identifier.getIdentifier(n),
                 TypeFactory.getType(n), Reference.getReference(n));
     }
 
     /**
-     * Creates a StratmasReference from the specified Declaration.
+     * Creates a ApproxsimReference from the specified Declaration.
      * <p>
      * author Per Alexius
      * 
      * @param declaration The declaration for which the object is created.
      */
-    protected static StratmasObject defaultCreate(Declaration declaration) {
-        return new StratmasReference(declaration, "UNKNOWN");
+    protected static ApproxsimObject defaultCreate(Declaration declaration) {
+        return new ApproxsimReference(declaration, "UNKNOWN");
     }
 
     /**
@@ -167,18 +167,18 @@ public class StratmasReference extends StratmasSimple {
      * @return A clone of this object.
      */
     protected Object clone() {
-        return new StratmasReference(identifier, type,
+        return new ApproxsimReference(identifier, type,
                 (Reference) value.clone());
     }
 
     /**
-     * Returns a StratmasGUIConstructor suitable for constructing objects of this type.
+     * Returns a ApproxsimGUIConstructor suitable for constructing objects of this type.
      * 
      * @param declaration the declaration for which the GUI is created.
      */
-    protected static StratmasGUIConstructor getGUIConstructor(
+    protected static ApproxsimGUIConstructor getGUIConstructor(
             Declaration declaration) {
-        return new StratmasReferenceGUIConstructor(declaration);
+        return new ApproxsimReferenceGUIConstructor(declaration);
     }
 
     /**
@@ -195,12 +195,12 @@ public class StratmasReference extends StratmasSimple {
 }
 
 /**
- * StratmasReferenceGUIConstructor creates GUIs for creating StratmasReference objects.
+ * ApproxsimReferenceGUIConstructor creates GUIs for creating ApproxsimReference objects.
  * 
  * @version 1, $Date: 2006/07/19 07:01:59 $
  * @author Per Alexius
  */
-class StratmasReferenceGUIConstructor extends StratmasGUIConstructor {
+class ApproxsimReferenceGUIConstructor extends ApproxsimGUIConstructor {
     /**
 	 * 
 	 */
@@ -208,11 +208,11 @@ class StratmasReferenceGUIConstructor extends StratmasGUIConstructor {
     javax.swing.JTextField field;
 
     /**
-     * Creates a new StratmasReferenceGUIConstructor using the supplied declaration.
+     * Creates a new ApproxsimReferenceGUIConstructor using the supplied declaration.
      * 
      * @param declaration the declaration to use.
      */
-    public StratmasReferenceGUIConstructor(Declaration declaration) {
+    public ApproxsimReferenceGUIConstructor(Declaration declaration) {
         super(declaration);
     }
 
@@ -226,15 +226,15 @@ class StratmasReferenceGUIConstructor extends StratmasGUIConstructor {
     }
 
     /**
-     * Tries to create the StratmasObject from the values in the GUI.
+     * Tries to create the ApproxsimObject from the values in the GUI.
      */
-    protected void createStratmasObject() {
+    protected void createApproxsimObject() {
         if (field.getText().length() != 0) {
-            StratmasReference prospect = new StratmasReference(
+            ApproxsimReference prospect = new ApproxsimReference(
                     this.declaration, field.getText());
-            setStratmasObject(prospect);
+            setApproxsimObject(prospect);
         } else {
-            setStratmasObject(null);
+            setApproxsimObject(null);
         }
     }
 }

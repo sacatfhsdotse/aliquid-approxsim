@@ -1,4 +1,4 @@
-package StratmasClient.substrate;
+package ApproxsimClient.substrate;
 
 import java.awt.Insets;
 import java.awt.BorderLayout;
@@ -20,12 +20,12 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.BorderFactory;
-import StratmasClient.StratmasDialog;
-import StratmasClient.ClientMainFrame;
-import StratmasClient.object.StratmasObject;
+import ApproxsimClient.ApproxsimDialog;
+import ApproxsimClient.ClientMainFrame;
+import ApproxsimClient.object.ApproxsimObject;
 
 /**
- * This class is used to create GUI components used in StratmasEditor.
+ * This class is used to create GUI components used in ApproxsimEditor.
  */
 public class DisplayControl {
     /**
@@ -522,7 +522,7 @@ public class DisplayControl {
             private static final long serialVersionUID = 6055530061383099689L;
 
             public void actionPerformed(ActionEvent event) {
-                StratmasDialog
+                ApproxsimDialog
                         .showProgressBarDialog(null,
                                                "Proceeding to simulation ...");
                 Thread thread = new Thread() {
@@ -540,10 +540,10 @@ public class DisplayControl {
                             }
                         });
                         // create map and timeline
-                        StratmasObject root = sEditor.getClient()
+                        ApproxsimObject root = sEditor.getClient()
                                 .getRootObject();
                         if (root != null) {
-                            StratmasObject sim = (StratmasObject) root
+                            ApproxsimObject sim = (ApproxsimObject) root
                                     .children().nextElement();
                             if (sim != null
                                     && sim.getType()
@@ -551,7 +551,7 @@ public class DisplayControl {
                                 sEditor.getClient().importSimulation(sim);
                             }
                         }
-                        StratmasDialog.quitProgressBarDialog();
+                        ApproxsimDialog.quitProgressBarDialog();
                     }
                 };
                 thread.start();

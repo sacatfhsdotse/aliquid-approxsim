@@ -1,20 +1,20 @@
-// $Id: StratmasVectorConstructor.java,v 1.1 2006/03/22 14:30:52 dah Exp $
+// $Id: ApproxsimVectorConstructor.java,v 1.1 2006/03/22 14:30:52 dah Exp $
 /*
- * @(#)StratmasObject.java
+ * @(#)ApproxsimObject.java
  */
 
-package StratmasClient.object;
+package ApproxsimClient.object;
 
-import StratmasClient.object.type.Declaration;
+import ApproxsimClient.object.type.Declaration;
 import java.util.Vector;
 
 /**
- * StratmasVectorConstructor is a abstract supeclass for classes acting as source of new StratmasObjects created from hashes.
+ * ApproxsimVectorConstructor is a abstract supeclass for classes acting as source of new ApproxsimObjects created from hashes.
  * 
  * @version 1, $Date: 2006/03/22 14:30:52 $
  * @author Daniel Ahlin
  */
-public abstract class StratmasVectorConstructor {
+public abstract class ApproxsimVectorConstructor {
     /**
      * The declaration for which the result is constructed.
      */
@@ -25,27 +25,27 @@ public abstract class StratmasVectorConstructor {
      * 
      * @param declaration the declaration to use.
      */
-    public StratmasVectorConstructor(Declaration declaration) {
+    public ApproxsimVectorConstructor(Declaration declaration) {
         this.declaration = declaration;
     }
 
     /**
-     * Returns the StratmasObject this component was created to provide.
+     * Returns the ApproxsimObject this component was created to provide.
      * 
      * @param parts the parts to use in constructing the object.
      */
-    public abstract StratmasObject getStratmasObject(
-            Vector<StratmasObject> parts);
+    public abstract ApproxsimObject getApproxsimObject(
+            Vector<ApproxsimObject> parts);
 
     /**
-     * Returns the StratmasObject this component was created to provide.
+     * Returns the ApproxsimObject this component was created to provide.
      * 
      * @param identifier sets the identifier of the object to the one provided
      * @param parts the parts to use in constructing the object.
      */
-    public StratmasObject getStratmasObject(String identifier,
-            Vector<StratmasObject> parts) {
-        StratmasObject object = getStratmasObject(parts);
+    public ApproxsimObject getApproxsimObject(String identifier,
+            Vector<ApproxsimObject> parts) {
+        ApproxsimObject object = getApproxsimObject(parts);
         object.setIdentifier(identifier);
         return object;
     }

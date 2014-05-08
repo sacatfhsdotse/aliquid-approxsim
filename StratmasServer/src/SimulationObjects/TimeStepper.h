@@ -1,5 +1,5 @@
-#ifndef _STRATMAS_TIMESTEPPER_H
-#define _STRATMAS_TIMESTEPPER_H
+#ifndef _APPROXSIM_TIMESTEPPER_H
+#define _APPROXSIM_TIMESTEPPER_H
 
 // Own
 #include "SimulationObject.h"
@@ -60,4 +60,4 @@ public:
      Time dt() { return mDt; }
 };
 
-#endif   // _STRATMAS_TIMESTEPPER_H
+#endif   // _APPROXSIM_TIMESTEPPER_H

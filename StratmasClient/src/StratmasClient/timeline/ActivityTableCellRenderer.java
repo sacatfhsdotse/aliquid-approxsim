@@ -1,4 +1,4 @@
-package StratmasClient.timeline;
+package ApproxsimClient.timeline;
 
 import java.awt.Color;
 import java.awt.Component;

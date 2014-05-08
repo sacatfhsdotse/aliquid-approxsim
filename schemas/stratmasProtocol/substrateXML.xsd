@@ -1,6 +1,6 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-            xmlns:sp="http://pdc.kth.se/stratmasNamespace"
-            targetNamespace="http://pdc.kth.se/stratmasNamespace">
+            xmlns:sp="http://pdc.kth.se/approxsimNamespace"
+            targetNamespace="http://pdc.kth.se/approxsimNamespace">
 
   <xsd:annotation>
     <xsd:documentation xml:lang="en">

@@ -1,6 +1,6 @@
 // $Id: ESRIInputStream.java,v 1.6 2006/09/18 09:58:02 alexius Exp $
 
-package StratmasClient;
+package ApproxsimClient;
 
 import java.net.URL;
 import java.io.InputStream;
@@ -28,11 +28,11 @@ public class ESRIInputStream extends InputStream {
     /**
      * Root attributes to use.
      */
-    static String rootAttributes = "xmlns:sp=\"http://pdc.kth.se/stratmasNamespace\" "
+    static String rootAttributes = "xmlns:sp=\"http://pdc.kth.se/approxsimNamespace\" "
             + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
             + "xmlns:xi=\"http://www.w3.org/2001/XInclude\" "
-            + "xsi:schemaLocation=\"http://pdc.kth.se/stratmasNamespace /schemas/stratmasProtocol.xsd\""; // TODO does file location need to
-// be mention here? See StratmasConstants.java. The reader, not the file, should figure out where imports are...
+            + "xsi:schemaLocation=\"http://pdc.kth.se/approxsimNamespace /schemas/approxsimProtocol.xsd\""; // TODO does file location need to
+// be mention here? See ApproxsimConstants.java. The reader, not the file, should figure out where imports are...
 
     /**
      * The stream containing the ESRI shapes.

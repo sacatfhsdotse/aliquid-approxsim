@@ -1,6 +1,6 @@
-package StratmasClient.map.adapter;
+package ApproxsimClient.map.adapter;
 
-import StratmasClient.object.StratmasObject;
+import ApproxsimClient.object.ApproxsimObject;
 import java.util.EventListener;
 
 /**
@@ -30,5 +30,5 @@ public interface MapDrawableAdapterListener extends EventListener {
      * 
      * @param object the new object.
      */
-    public abstract void mapDrawableAdapterChildAdded(StratmasObject object);
+    public abstract void mapDrawableAdapterChildAdded(ApproxsimObject object);
 }

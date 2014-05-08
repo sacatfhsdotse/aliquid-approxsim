@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<processvariables xmlns:sp="http://pdc.kth.se/stratmasNamespace"
+<processvariables xmlns:sp="http://pdc.kth.se/approxsimNamespace"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xmlns:xi="http://www.w3.org/2001/XInclude"
       xsi:type="sp:ProcessVariableDescriptionSet">

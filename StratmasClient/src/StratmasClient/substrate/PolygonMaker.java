@@ -1,18 +1,18 @@
-package StratmasClient.substrate;
+package ApproxsimClient.substrate;
 
 import java.awt.Color;
 import java.util.Vector;
 import java.util.Enumeration;
 
-import StratmasClient.object.Line;
-import StratmasClient.object.Point;
-import StratmasClient.object.Polygon;
-import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.BoundingBox;
-import StratmasClient.map.adapter.MapDrawableAdapter;
-import StratmasClient.map.adapter.MapShapeAdapter;
-import StratmasClient.map.adapter.MapLineAdapter;
-import StratmasClient.map.adapter.MapPointAdapter;
+import ApproxsimClient.object.Line;
+import ApproxsimClient.object.Point;
+import ApproxsimClient.object.Polygon;
+import ApproxsimClient.object.ApproxsimObjectFactory;
+import ApproxsimClient.BoundingBox;
+import ApproxsimClient.map.adapter.MapDrawableAdapter;
+import ApproxsimClient.map.adapter.MapShapeAdapter;
+import ApproxsimClient.map.adapter.MapLineAdapter;
+import ApproxsimClient.map.adapter.MapPointAdapter;
 
 /**
  * This class implements methods used to construct, change and move polygonials.
@@ -89,7 +89,7 @@ public class PolygonMaker extends ShapeMaker {
         }
         // add new line to the polygonial
         if (lastPoint != null) {
-            Point p2 = StratmasObjectFactory.createPoint("p2", point.getLat(),
+            Point p2 = ApproxsimObjectFactory.createPoint("p2", point.getLat(),
                                                          point.getLon());
             addMapPointAdapter(p2);
             addLine(lastPoint, p2);
@@ -117,7 +117,7 @@ public class PolygonMaker extends ShapeMaker {
      * @param p2 the end point of the line.
      */
     private void addLine(Point p1, Point p2) {
-        Line line = StratmasObjectFactory.createLine(String
+        Line line = ApproxsimObjectFactory.createLine(String
                 .valueOf(lineAdapters.size()), p1, p2);
         addMapLineAdapter(line);
     }
@@ -137,7 +137,7 @@ public class PolygonMaker extends ShapeMaker {
     protected void addLastLine() {
         if (!isPolygonCompleted()) {
             if (lineAdapters.size() >= 2) {
-                Point p2 = StratmasObjectFactory.createPoint("p2", firstPoint
+                Point p2 = ApproxsimObjectFactory.createPoint("p2", firstPoint
                         .getLat(), firstPoint.getLon());
                 addMapPointAdapter(p2);
                 addLine(lastPoint, p2);
@@ -201,16 +201,16 @@ public class PolygonMaker extends ShapeMaker {
             Point p2 = point;
             point.setIdentifier("p2");
             addMapPointAdapter(p2);
-            Line l1 = StratmasObjectFactory
+            Line l1 = ApproxsimObjectFactory
                     .createLine(String.valueOf(lineId), line.getStartPoint(),
                                 p2);
             addMapLineAdapter(l1);
 
             // create and add the second line
-            Point p1 = StratmasObjectFactory.createPoint("p1", point.getLat(),
+            Point p1 = ApproxsimObjectFactory.createPoint("p1", point.getLat(),
                                                          point.getLon());
             addMapPointAdapter(p1);
-            Line l2 = StratmasObjectFactory.createLine(String
+            Line l2 = ApproxsimObjectFactory.createLine(String
                     .valueOf(lineId + 1), p1, line.getEndPoint());
             addMapLineAdapter(l2);
 
@@ -336,7 +336,7 @@ public class PolygonMaker extends ShapeMaker {
                 lines.add(Integer.parseInt(line.getIdentifier()), line);
             }
             // create the polygonial shape
-            return StratmasObjectFactory
+            return ApproxsimObjectFactory
                     .createPolygon("polygon"
                                            + String.valueOf(createdPolygonCounter++),
                                    lines);

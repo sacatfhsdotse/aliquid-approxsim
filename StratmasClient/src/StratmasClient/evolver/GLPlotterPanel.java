@@ -3,7 +3,7 @@
  * @(#)GLPlotterPanel.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
 import javax.swing.JScrollPane;
 import javax.swing.JPanel;

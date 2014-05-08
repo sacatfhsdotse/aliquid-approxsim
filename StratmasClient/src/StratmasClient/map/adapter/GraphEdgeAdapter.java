@@ -3,7 +3,7 @@
  * @(#)GraphAdapter.java
  */
 
-package StratmasClient.map.adapter;
+package ApproxsimClient.map.adapter;
 
 import java.awt.Color;
 import java.nio.DoubleBuffer;
@@ -13,18 +13,18 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLUtessellatorCallback;
 import javax.media.opengl.glu.GLUtessellatorCallbackAdapter;
 
-import StratmasClient.Debug;
-import StratmasClient.map.Projection;
-import StratmasClient.object.Point;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasReference;
+import ApproxsimClient.Debug;
+import ApproxsimClient.map.Projection;
+import ApproxsimClient.object.Point;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimReference;
 
 import com.jogamp.common.nio.Buffers;
 
 /**
- * GraphAdapter adapts StratmasObjects descendants of Graph for viewing on a map window.
+ * GraphAdapter adapts ApproxsimObjects descendants of Graph for viewing on a map window.
  * 
  * @version 1, $Date: 2014-04-08 $
  * @author Exuvo
@@ -48,17 +48,17 @@ public class GraphEdgeAdapter extends MapElementAdapter {
      */
     private float lineWidth = DEFAULT_LINE_WIDTH;
     
-    private void addNodeListener(StratmasObject node, final StratmasObject element){
-        node.addEventListener(new StratmasEventListener() {
-            public void eventOccured(StratmasEvent event) {
+    private void addNodeListener(ApproxsimObject node, final ApproxsimObject element){
+        node.addEventListener(new ApproxsimEventListener() {
+            public void eventOccured(ApproxsimEvent event) {
                 if (event.isRemoved()) {
-                    ((StratmasObject) event.getSource())
+                    ((ApproxsimObject) event.getSource())
                             .removeEventListener(this);
                     element.remove();
                 } else if (event.isReplaced()) {
-                    ((StratmasObject) event.getSource())
+                    ((ApproxsimObject) event.getSource())
                             .removeEventListener(this);
-                    ((StratmasObject) event.getArgument())
+                    ((ApproxsimObject) event.getArgument())
                             .addEventListener(this);
                     displayListUpdated = false;
                     isLocationUpdated = false;
@@ -74,10 +74,10 @@ public class GraphEdgeAdapter extends MapElementAdapter {
         });
     }
 
-    private void addNodeListeners(StratmasObject element){
-        addNodeListener(((StratmasReference) element.getChild("origin"))
+    private void addNodeListeners(ApproxsimObject element){
+        addNodeListener(((ApproxsimReference) element.getChild("origin"))
                         .getValue().resolve(element) , element);
-        addNodeListener(((StratmasReference) element.getChild("target"))
+        addNodeListener(((ApproxsimReference) element.getChild("target"))
                         .getValue().resolve(element) , element);
     }
 
@@ -86,7 +86,7 @@ public class GraphEdgeAdapter extends MapElementAdapter {
      * 
      * @param element the Element to adapt.
      */
-    protected GraphEdgeAdapter(StratmasObject element) {
+    protected GraphEdgeAdapter(ApproxsimObject element) {
         super(element);
         addNodeListeners(element);
     }
@@ -97,7 +97,7 @@ public class GraphEdgeAdapter extends MapElementAdapter {
      * @param element the Element to adapt.
      * @param renderSelectionName the integer to use as the base for names in RENDER_SELECTION
      */
-    protected GraphEdgeAdapter(StratmasObject element, int renderSelectionName) {
+    protected GraphEdgeAdapter(ApproxsimObject element, int renderSelectionName) {
         super(element, renderSelectionName);
         addNodeListeners(element);
     }
@@ -190,13 +190,13 @@ public class GraphEdgeAdapter extends MapElementAdapter {
     }
 
     protected double[] getOriginLonLat() {
-        StratmasObject walker = getObject();
+        ApproxsimObject walker = getObject();
         while (walker != null && walker.getChild("origin") == null) {
             walker = walker.getParent();
         }
 
         if (walker != null) {
-            Point p = (Point) ((StratmasReference) walker.getChild("origin"))
+            Point p = (Point) ((ApproxsimReference) walker.getChild("origin"))
                     .getValue().resolve(walker).getChild("point");
             return new double[] { p.getLon(), p.getLat() };
         } else {
@@ -206,13 +206,13 @@ public class GraphEdgeAdapter extends MapElementAdapter {
     }
 
     protected double[] getTargetLonLat() {
-        StratmasObject walker = getObject();
+        ApproxsimObject walker = getObject();
         while (walker != null && walker.getChild("target") == null) {
             walker = walker.getParent();
         }
 
         if (walker != null) {
-            Point p = (Point) ((StratmasReference) walker.getChild("target"))
+            Point p = (Point) ((ApproxsimReference) walker.getChild("target"))
                     .getValue().resolve(walker).getChild("point");
             return new double[] { p.getLon(), p.getLat() };
         } else {
@@ -275,11 +275,11 @@ public class GraphEdgeAdapter extends MapElementAdapter {
         };
     }
 
-    public void eventOccured(StratmasEvent event) {
+    public void eventOccured(ApproxsimEvent event) {
         super.eventOccured(event);
     }
 
-    protected void childChanged(StratmasEvent event) {
+    protected void childChanged(ApproxsimEvent event) {
         super.childChanged(event);
     }
 

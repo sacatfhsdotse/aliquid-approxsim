@@ -1,4 +1,4 @@
-package StratmasClient.object.primitive;
+package ApproxsimClient.object.primitive;
 
 import java.text.DateFormat;
 import java.text.ParseException;

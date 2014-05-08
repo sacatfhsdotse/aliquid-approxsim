@@ -1,4 +1,4 @@
-package StratmasClient.substrate;
+package ApproxsimClient.substrate;
 
 import java.util.Vector;
 import java.awt.Font;
@@ -24,19 +24,19 @@ import javax.swing.DefaultListModel;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.CompoundBorder;
 
-import StratmasClient.StratmasDialog;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.FactoryListener;
-import StratmasClient.object.type.TypeFactory;
+import ApproxsimClient.ApproxsimDialog;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimObjectFactory;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.FactoryListener;
+import ApproxsimClient.object.type.TypeFactory;
 
 /**
  * This dialog is used to create factions.
  */
 public class CreateFactionDialog extends JDialog implements ActionListener,
-        FactoryListener, StratmasEventListener {
+        FactoryListener, ApproxsimEventListener {
     /**
 	 * 
 	 */
@@ -94,7 +94,7 @@ public class CreateFactionDialog extends JDialog implements ActionListener,
     private CreateFactionDialog(Frame frame, FactionHandler factionHandler) {
         super(frame, new String("Ethnic Factions"), true);
         this.factionHandler = factionHandler;
-        StratmasObjectFactory.addEventListener(this);
+        ApproxsimObjectFactory.addEventListener(this);
 
         listModel = new DefaultListModel();
         Vector factions = factionHandler.getFactions();
@@ -210,12 +210,12 @@ public class CreateFactionDialog extends JDialog implements ActionListener,
     /**
      * Part of FactoryListener interface.
      */
-    public void stratmasObjectCreated(StratmasObject object) {}
+    public void approxsimObjectCreated(ApproxsimObject object) {}
 
     /**
      * Adds newly attached faction to the list of factions. Part of FactoryListener interface.
      */
-    public void stratmasObjectAttached(StratmasObject object) {
+    public void approxsimObjectAttached(ApproxsimObject object) {
         if (object.getType().canSubstitute("Faction")) {
             object.addEventListener(this);
             listModel.addElement(object);
@@ -223,9 +223,9 @@ public class CreateFactionDialog extends JDialog implements ActionListener,
     }
 
     /**
-     * Responds to the events in the factions contained in the list. Part of StratmasEventListener interface.
+     * Responds to the events in the factions contained in the list. Part of ApproxsimEventListener interface.
      */
-    public void eventOccured(StratmasEvent event) {
+    public void eventOccured(ApproxsimEvent event) {
         // remove faction from the list
         if (event.isRemoved()) {}
         // update the list of factions
@@ -247,7 +247,7 @@ public class CreateFactionDialog extends JDialog implements ActionListener,
         else if (addFactionButton.equals(obj)) {
             String facName = factionNameTextField.getText();
             if (facName.length() > 0) {
-                StratmasObject so = StratmasObjectFactory.create(TypeFactory
+                ApproxsimObject so = ApproxsimObjectFactory.create(TypeFactory
                         .getType("EthnicFaction"));
                 // set unique id to the faction
                 String id = facName;
@@ -259,7 +259,7 @@ public class CreateFactionDialog extends JDialog implements ActionListener,
                 // clear the field
                 factionNameTextField.setText("");
             } else {
-                StratmasDialog
+                ApproxsimDialog
                         .showErrorMessageDialog(null,
                                                 "Enter name of the faction!",
                                                 "Error message");
@@ -270,9 +270,9 @@ public class CreateFactionDialog extends JDialog implements ActionListener,
             for (Object val : factionList.getSelectedValues()) {
                 if (!factionHandler.getSelectedFaction().equals(val)) {
                     listModel.removeElement(val);
-                    ((StratmasObject) val).remove();
+                    ((ApproxsimObject) val).remove();
                 } else {
-                    StratmasDialog
+                    ApproxsimDialog
                             .showErrorMessageDialog(null,
                                                     "Selected faction can't be removed!",
                                                     "Error message");

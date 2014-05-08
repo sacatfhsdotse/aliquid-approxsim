@@ -11,7 +11,7 @@
 #include "GridCell.h"
 #include "Grid.h"
 #include "ProjCoord.h"
-#include "StratmasConstants.h"
+#include "ApproxsimConstants.h"
 #include "LogStream.h"
 #include "ModelParameters.h"
 #include "random2.h"
@@ -382,7 +382,7 @@ void GridCell::expose(eAllPV pv, const EthnicFaction& faction, double size)
      if (pv < static_cast<int>(eNumWithFac)) {
           if (exposeFaction[pv]) {
                (this->*exposeFaction[pv])(mPVF[mWriteInd][pv], faction, size);
-//               stratmasDebug("exposing ePVF " << pv << " = "<< PVHelper::pvfName(static_cast<ePVF>(pv)));
+//               approxsimDebug("exposing ePVF " << pv << " = "<< PVHelper::pvfName(static_cast<ePVF>(pv)));
           }
           else {
                slog << "Shouldn't expose faction pv " << pv << logEnd;
@@ -392,7 +392,7 @@ void GridCell::expose(eAllPV pv, const EthnicFaction& faction, double size)
           int i = pv - eNumWithFac;
           if (exposeNoFaction[i]) {
                (this->*exposeNoFaction[i])(&mPV[mWriteInd][i], size);
-//               stratmasDebug("exposing ePV " << i << " = "<< PVHelper::pvName(static_cast<ePV>(i)));
+//               approxsimDebug("exposing ePV " << i << " = "<< PVHelper::pvName(static_cast<ePV>(i)));
           }
           else {
                slog << "Shouldn't expose pv " << pv << logEnd;
@@ -402,7 +402,7 @@ void GridCell::expose(eAllPV pv, const EthnicFaction& faction, double size)
           int i = pv - eNumWithFac - eNumNoFac;
           if (exposeDFaction[i]) {
                (this->*exposeDFaction[i])(&mDerivedF[i * (sFactions + 1)], faction, size);
-//               stratmasDebug("exposing eDerivedF " << i << " = "<< PVHelper::pdfName(static_cast<eDerivedF>(i)));
+//               approxsimDebug("exposing eDerivedF " << i << " = "<< PVHelper::pdfName(static_cast<eDerivedF>(i)));
           }
           else {
                slog << "Shouldn't expose derived faction pv " << pv << logEnd;
@@ -488,7 +488,7 @@ void GridCell::handleRoundOffErrors()
           o << "Sheltered > Displaced: " << totShelt << " > " << totDisp << endl;
      }
      if (pvGet(eFractionInfected) + pvGet(eFractionRecovered) > 1) {
-          // This sum will exceed 1 frequently. According to old Stratmas source
+          // This sum will exceed 1 frequently. According to old Approxsim source
           // code this seems to be part of the model. The following comment can
           // be found in DGridCell::DoEpidemics() in the old source code.
 
@@ -502,7 +502,7 @@ void GridCell::handleRoundOffErrors()
           pvSetR(eFractionRecovered, 1 - pvGet(eFractionInfected));
      }
      if (o.str() != "") {
-          stratmasDebug("Cell: " << mRow << ", " << mCol << endl << o.str());
+          approxsimDebug("Cell: " << mRow << ", " << mCol << endl << o.str());
      }
 }
 

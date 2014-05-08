@@ -3,7 +3,7 @@
  * @(#)SamplerFactory.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
 /**
  * Provides Sampler instances

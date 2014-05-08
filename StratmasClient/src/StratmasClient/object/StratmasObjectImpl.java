@@ -1,14 +1,14 @@
-// $Id: StratmasObjectImpl.java,v 1.6 2006/07/31 10:18:45 alexius Exp $
+// $Id: ApproxsimObjectImpl.java,v 1.6 2006/07/31 10:18:45 alexius Exp $
 /*
- * @(#)StratmasObject.java
+ * @(#)ApproxsimObject.java
  */
 
-package StratmasClient.object;
+package ApproxsimClient.object;
 
-import StratmasClient.ActionGroup;
-import StratmasClient.Client;
-import StratmasClient.object.type.Type;
-import StratmasClient.object.type.Declaration;
+import ApproxsimClient.ActionGroup;
+import ApproxsimClient.Client;
+import ApproxsimClient.object.type.Type;
+import ApproxsimClient.object.type.Declaration;
 
 import javax.swing.event.EventListenerList;
 
@@ -18,14 +18,14 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * StratmasObjectImpl is a convinience implementation of StratmasObject providing dynamic identifiers and parents as well as an
+ * ApproxsimObjectImpl is a convinience implementation of ApproxsimObject providing dynamic identifiers and parents as well as an
  * EventListener implementation and some actions.
  * 
  * @version 1, $Date: 2006/07/31 10:18:45 $
  * @author Daniel Ahlin
  */
 
-abstract class StratmasObjectImpl extends StratmasObject {
+abstract class ApproxsimObjectImpl extends ApproxsimObject {
     /**
      * The identifier of this object.
      */
@@ -34,42 +34,42 @@ abstract class StratmasObjectImpl extends StratmasObject {
     /**
      * The listeners of this object.
      */
-    List<StratmasEventListener> eventListenerList = null;
+    List<ApproxsimEventListener> eventListenerList = null;
 
     /**
      * The container holding this object, or null if nothing is holding it.
      */
-    StratmasObject parent = null;
+    ApproxsimObject parent = null;
 
     /**
      * Empty list to use for EventListenerList implementation.
      */
-    static StratmasEventListener[] EMPTY_ARRAY = new StratmasEventListener[0];
-    static List<StratmasEventListener> EMPTY_LIST = new ArrayList<StratmasEventListener>(0);
+    static ApproxsimEventListener[] EMPTY_ARRAY = new ApproxsimEventListener[0];
+    static List<ApproxsimEventListener> EMPTY_LIST = new ArrayList<ApproxsimEventListener>(0);
     
     /**
-     * Creates a new StratmasObject.
+     * Creates a new ApproxsimObject.
      * 
      * @param identifier the identifier for the object.
      * @param type the type of the object.
      */
-    StratmasObjectImpl(String identifier) {
+    ApproxsimObjectImpl(String identifier) {
         this.identifier = identifier;
     }
 
     /**
-     * Creates a new StratmasObject from a Declaration.
+     * Creates a new ApproxsimObject from a Declaration.
      * 
      * @param declaration the declaration for this object.
      */
-    StratmasObjectImpl(Declaration declaration) {
+    ApproxsimObjectImpl(Declaration declaration) {
         this(declaration.getName());
     }
 
     /**
      * Returns the parent of this object (or null if no parent).
      */
-    public StratmasObject getParent() {
+    public ApproxsimObject getParent() {
         return this.parent;
     }
 
@@ -88,8 +88,8 @@ abstract class StratmasObjectImpl extends StratmasObject {
     public void setIdentifier(String identifier) {
         String oldIdentifier = getIdentifier();
         this.identifier = identifier;
-        if (getParent() instanceof StratmasList) {
-            ((StratmasList) getParent()).childIdentifierChange(oldIdentifier,
+        if (getParent() instanceof ApproxsimList) {
+            ((ApproxsimList) getParent()).childIdentifierChange(oldIdentifier,
                                                                identifier);
         }
         fireIdentifierChanged(oldIdentifier, null);
@@ -100,10 +100,10 @@ abstract class StratmasObjectImpl extends StratmasObject {
      * 
      * @param parent the new parent of this object.
      */
-    protected void setParent(StratmasObject parent) {
+    protected void setParent(ApproxsimObject parent) {
         if (this.parent == null) {
             this.parent = parent;
-            StratmasObjectFactory.attached(this);
+            ApproxsimObjectFactory.attached(this);
         } else {
             this.parent = parent;
         }
@@ -112,7 +112,7 @@ abstract class StratmasObjectImpl extends StratmasObject {
     /**
      * Returns a list of the listeners of this object.
      */
-    protected List<StratmasEventListener> getEventListenerList() {
+    protected List<ApproxsimEventListener> getEventListenerList() {
         if(eventListenerList == null){
             return EMPTY_LIST;
         }
@@ -124,9 +124,9 @@ abstract class StratmasObjectImpl extends StratmasObject {
      * 
      * @param listener the listener to add.
      */
-    public void addEventListener(StratmasEventListener listener) {
+    public void addEventListener(ApproxsimEventListener listener) {
         if (eventListenerList == null) {
-            eventListenerList = new ArrayList<StratmasEventListener>();
+            eventListenerList = new ArrayList<ApproxsimEventListener>();
         }
         eventListenerList.add(listener);
     }
@@ -136,7 +136,7 @@ abstract class StratmasObjectImpl extends StratmasObject {
      * 
      * @param listener the listener to remove.
      */
-    public void removeEventListener(StratmasEventListener listener) {
+    public void removeEventListener(ApproxsimEventListener listener) {
         if (eventListenerList != null) {
             eventListenerList.remove(listener);
         }
@@ -148,7 +148,7 @@ abstract class StratmasObjectImpl extends StratmasObject {
      * @param initiator The initiator of the removal.
      */
     public void fireRemoved(Object initiator) {
-        StratmasEvent event = StratmasEvent.getRemoved(this, initiator);
+        ApproxsimEvent event = ApproxsimEvent.getRemoved(this, initiator);
         for (int i = getEventListenerList().size() - 1; i >= 0; i--) {
             getEventListenerList().get(i).eventOccured(event);
         }
@@ -158,11 +158,11 @@ abstract class StratmasObjectImpl extends StratmasObject {
      *
      */
     public void fireSelected(boolean selected) {
-        StratmasEvent event;
+        ApproxsimEvent event;
         if (selected) {
-            event = StratmasEvent.getSelected(this);
+            event = ApproxsimEvent.getSelected(this);
         } else {
-            event = StratmasEvent.getUnselected(this);
+            event = ApproxsimEvent.getUnselected(this);
         }
         
         for (int i = getEventListenerList().size() - 1; i >= 0; i--) {
@@ -177,7 +177,7 @@ abstract class StratmasObjectImpl extends StratmasObject {
      * @param initiator the initiator the identifier change.
      */
     protected void fireIdentifierChanged(String oldIdentifier, Object initiator) {
-        StratmasEvent event = StratmasEvent.getIdentifierChanged(this, oldIdentifier);
+        ApproxsimEvent event = ApproxsimEvent.getIdentifierChanged(this, oldIdentifier);
         for (int i = getEventListenerList().size() - 1; i >= 0; i--) {
             getEventListenerList().get(i).eventOccured(event);
         }
@@ -186,10 +186,10 @@ abstract class StratmasObjectImpl extends StratmasObject {
     /**
      * Notifies listeners that a child object has changed.
      * 
-     * @param changed The StratmasObject that has changed.
+     * @param changed The ApproxsimObject that has changed.
      */
-    public void fireChildChanged(StratmasObject changed, Object initiator) {
-        StratmasEvent event = StratmasEvent.getChildChanged(this,
+    public void fireChildChanged(ApproxsimObject changed, Object initiator) {
+        ApproxsimEvent event = ApproxsimEvent.getChildChanged(this,
                                                             initiator,
                                                             changed);
 
@@ -201,12 +201,12 @@ abstract class StratmasObjectImpl extends StratmasObject {
     /**
      * Notifies listeners that an object has been added to this object.
      * 
-     * @param added The StratmasObject that has been added.
+     * @param added The ApproxsimObject that has been added.
      * @param initiator The initiator of the event.
      */
-    public void fireObjectAdded(StratmasObject added, Object initiator) {
+    public void fireObjectAdded(ApproxsimObject added, Object initiator) {
         // Notify listeners about added object.
-        StratmasEvent event = StratmasEvent.getObjectAdded(this, added,
+        ApproxsimEvent event = ApproxsimEvent.getObjectAdded(this, added,
                                                            initiator);
         for (int i = getEventListenerList().size() - 1; i >= 0; i--) {
             getEventListenerList().get(i).eventOccured(event);
@@ -226,7 +226,7 @@ abstract class StratmasObjectImpl extends StratmasObject {
      * @param toReplaceWith The object to replace this object with.
      * @param initiator The initiator of this replace action.
      */
-    public void replace(StratmasObject toReplaceWith, Object initiator) {
+    public void replace(ApproxsimObject toReplaceWith, Object initiator) {
         if (getParent() != null) {
             getParent().replaceChild(this, toReplaceWith, initiator);
         }
@@ -240,10 +240,10 @@ abstract class StratmasObjectImpl extends StratmasObject {
 //     {
 //         Vector res = new Vector();
 
-//         final StratmasObject self = this;
+//         final ApproxsimObject self = this;
 
-//         StratmasAbstractAction deleteAction = 
-//             new StratmasAbstractAction("Delete", true)
+//         ApproxsimAbstractAction deleteAction = 
+//             new ApproxsimAbstractAction("Delete", true)
 //             {
 //                 public void actionPerformed(ActionEvent e)
 //                 {
@@ -253,11 +253,11 @@ abstract class StratmasObjectImpl extends StratmasObject {
 //         deleteAction.setEnabled(false);
 
 //         if (this.getParent() != null && 
-//             (this.getParent() instanceof StratmasList ||
+//             (this.getParent() instanceof ApproxsimList ||
 //             (getDeclaration() != null && 
 //              getDeclaration().getMinOccurs() == 0))) {
-//             if (this.getParent() instanceof StratmasList) {
-//                 StratmasList list = (StratmasList) this.getParent();
+//             if (this.getParent() instanceof ApproxsimList) {
+//                 ApproxsimList list = (ApproxsimList) this.getParent();
 //                 if (list.getDeclaration() != null) {
 //                     if((list.getChildCount() - 1) >= list.getDeclaration().getMinOccurs()) {
 //                         deleteAction.setEnabled(true);
@@ -276,7 +276,7 @@ abstract class StratmasObjectImpl extends StratmasObject {
 //         }
 //         res.add(deleteAction);
 
-//         res.add(new StratmasAbstractAction("Save as", false)
+//         res.add(new ApproxsimAbstractAction("Save as", false)
 //             {
 //                 public void actionPerformed(ActionEvent e)
 //                     {
@@ -285,10 +285,10 @@ abstract class StratmasObjectImpl extends StratmasObject {
 
 //             });
 
-//         if (!(this instanceof StratmasList) && 
+//         if (!(this instanceof ApproxsimList) && 
 //             getType().getAnnotations() != null &&
 //             getType().getAnnotations().length != 0) {
-//             res.add(new StratmasAbstractAction("Whats this?", false)
+//             res.add(new ApproxsimAbstractAction("Whats this?", false)
 //                 {
 //                     public void actionPerformed(ActionEvent e)
 //                     {
@@ -328,7 +328,7 @@ abstract class StratmasObjectImpl extends StratmasObject {
         ActionGroup ag = new ActionGroup("Actions for " + getIdentifier(),
                 false, true);
 
-        final StratmasObject self = this;
+        final ApproxsimObject self = this;
 
         ActionGroup deleteAction = new ActionGroup("Delete", true, false) {
             /**
@@ -343,10 +343,10 @@ abstract class StratmasObjectImpl extends StratmasObject {
         deleteAction.setEnabled(false);
 
         if (this.getParent() != null
-                && (this.getParent() instanceof StratmasList || (getDeclaration() != null && getDeclaration()
+                && (this.getParent() instanceof ApproxsimList || (getDeclaration() != null && getDeclaration()
                         .getMinOccurs() == 0))) {
-            if (this.getParent() instanceof StratmasList) {
-                StratmasList list = (StratmasList) this.getParent();
+            if (this.getParent() instanceof ApproxsimList) {
+                ApproxsimList list = (ApproxsimList) this.getParent();
                 if (list.getDeclaration() != null) {
                     if ((list.getChildCount() - 1) >= list.getDeclaration()
                             .getMinOccurs()) {
@@ -374,7 +374,7 @@ abstract class StratmasObjectImpl extends StratmasObject {
             }
         });
 
-        if (!(this instanceof StratmasList)
+        if (!(this instanceof ApproxsimList)
                 && getType().getAnnotations() != null
                 && getType().getAnnotations().length != 0) {
             ag.add(new ActionGroup("Whats this?", false, false) {
@@ -418,8 +418,8 @@ abstract class StratmasObjectImpl extends StratmasObject {
     /**
      * Notifies listeners that a child object has been replaced.
      */
-    protected void fireReplaced(StratmasObject newObj, Object initiator) {
-        StratmasEvent event = StratmasEvent.getReplaced(this, initiator,
+    protected void fireReplaced(ApproxsimObject newObj, Object initiator) {
+        ApproxsimEvent event = ApproxsimEvent.getReplaced(this, initiator,
                                                         newObj);
         for (int i = getEventListenerList().size() - 1; i >= 0; i--) {
             getEventListenerList().get(i).eventOccured(event);

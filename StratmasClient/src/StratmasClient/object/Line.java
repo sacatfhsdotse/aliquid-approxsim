@@ -3,21 +3,21 @@
  * @(#)Line.java
  */
 
-package StratmasClient.object;
+package ApproxsimClient.object;
 
 import java.util.Vector;
 import java.util.Enumeration;
 
 import java.util.NoSuchElementException;
 
-import StratmasClient.object.type.Type;
-import StratmasClient.object.type.Declaration;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.object.primitive.Timestamp;
-import StratmasClient.object.primitive.Identifier;
-import StratmasClient.IconFactory;
-import StratmasClient.Icon;
-import StratmasClient.map.Projection;
+import ApproxsimClient.object.type.Type;
+import ApproxsimClient.object.type.Declaration;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.object.primitive.Timestamp;
+import ApproxsimClient.object.primitive.Identifier;
+import ApproxsimClient.IconFactory;
+import ApproxsimClient.Icon;
+import ApproxsimClient.map.Projection;
 
 import org.w3c.dom.Element;
 
@@ -111,11 +111,11 @@ public class Line extends Curve {
     }
 
     /**
-     * Returns a StratmasVectorConstructor suitable for constructing objects of this type.
+     * Returns a ApproxsimVectorConstructor suitable for constructing objects of this type.
      * 
      * @param declaration the declaration for which the object is created.
      */
-    protected static StratmasVectorConstructor getVectorConstructor(
+    protected static ApproxsimVectorConstructor getVectorConstructor(
             Declaration declaration) {
         return new LineVectorConstructor(declaration);
     }
@@ -125,17 +125,17 @@ public class Line extends Curve {
      * 
      * @param declaration The declaration for which the object is created.
      */
-    protected static StratmasObject defaultCreate(Declaration declaration) {
+    protected static ApproxsimObject defaultCreate(Declaration declaration) {
         Vector newParts = new Vector();
         for (java.util.Iterator it = declaration.getType().getSubElements()
                 .iterator(); it.hasNext();) {
             Declaration dec = (Declaration) it.next();
             if (dec.isSingular()) {
-                newParts.add(StratmasObjectFactory.defaultCreate(dec));
+                newParts.add(ApproxsimObjectFactory.defaultCreate(dec));
             }
         }
 
-        return getVectorConstructor(declaration).getStratmasObject(newParts);
+        return getVectorConstructor(declaration).getApproxsimObject(newParts);
     }
 
     /**
@@ -170,11 +170,11 @@ public class Line extends Curve {
      * @param n The Element to get the object from.
      * @return The newly created Line.
      */
-    protected static StratmasObject domCreate(Element n) {
+    protected static ApproxsimObject domCreate(Element n) {
         return new Line(Identifier.getIdentifier(n),
-                (Point) StratmasObjectFactory.domCreate(XMLHelper
+                (Point) ApproxsimObjectFactory.domCreate(XMLHelper
                         .getFirstChildByTag(n, "p1")),
-                (Point) StratmasObjectFactory.domCreate(XMLHelper
+                (Point) ApproxsimObjectFactory.domCreate(XMLHelper
                         .getFirstChildByTag(n, "p2")));
     }
 
@@ -251,7 +251,7 @@ public class Line extends Curve {
      * 
      * @param index the index of the object.
      */
-    public StratmasObject getChild(int index) {
+    public ApproxsimObject getChild(int index) {
         if (index == 0) {
             return start;
         } else if (index == 1) {
@@ -267,7 +267,7 @@ public class Line extends Curve {
      * 
      * @param identifier the identifier of the child to get.
      */
-    public StratmasObject getChild(String identifier) {
+    public ApproxsimObject getChild(String identifier) {
         if (identifier.equals("p1")) {
             return start;
         } else if (identifier.equals("p2")) {
@@ -322,7 +322,7 @@ public class Line extends Curve {
      * 
      * @param child the child queried for.
      */
-    public int getIndexOfChild(StratmasObject child) {
+    public int getIndexOfChild(ApproxsimObject child) {
         if (child == start) {
             return 0;
         } else if (child == end) {
@@ -342,10 +342,10 @@ public class Line extends Curve {
     /**
      * Adds a new child object to this object. If child with identical identifier exists, the previous entry is removed.
      * 
-     * @param part the StratmasObject to add.
+     * @param part the ApproxsimObject to add.
      * @param initiator The initiator of the add.
      */
-    public void add(StratmasObject part, Object initiator) {
+    public void add(ApproxsimObject part, Object initiator) {
         if (part instanceof Point) {
             if (part.getIdentifier().equals("p1")) {
                 start = (Point) part;
@@ -364,7 +364,7 @@ public class Line extends Curve {
      * 
      * @param child child to remove
      */
-    protected void remove(StratmasObject child) {
+    protected void remove(ApproxsimObject child) {
         throw new AssertionError("Removing necessary component of line");
     }
 
@@ -375,7 +375,7 @@ public class Line extends Curve {
      * @param newObj the object replacing oldObj
      * @param initiator the object causing the replacement.
      */
-    protected void replaceChild(StratmasObject oldObj, StratmasObject newObj,
+    protected void replaceChild(ApproxsimObject oldObj, ApproxsimObject newObj,
             Object initiator) {
         if (oldObj == start) {
             start = (Point) newObj;
@@ -397,7 +397,7 @@ public class Line extends Curve {
  * @version 1, $Date: 2006/04/10 09:45:55 $
  * @author Daniel Ahlin
  */
-class LineVectorConstructor extends StratmasVectorConstructor {
+class LineVectorConstructor extends ApproxsimVectorConstructor {
     /**
      * Creates a new LineVectorConstructor using the supplied declaration.
      * 
@@ -408,11 +408,11 @@ class LineVectorConstructor extends StratmasVectorConstructor {
     }
 
     /**
-     * Returns the StratmasObject this component was created to provide.
+     * Returns the ApproxsimObject this component was created to provide.
      * 
      * @param parts the parts to use in constructing the object.
      */
-    public StratmasObject getStratmasObject(Vector parts) {
+    public ApproxsimObject getApproxsimObject(Vector parts) {
         Point p1 = (Point) parts.get(0);
         Point p2 = (Point) parts.get(1);
 

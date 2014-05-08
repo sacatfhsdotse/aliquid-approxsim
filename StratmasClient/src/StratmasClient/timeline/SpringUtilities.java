@@ -1,4 +1,4 @@
-package StratmasClient.timeline;
+package ApproxsimClient.timeline;
 
 import javax.swing.*;
 import javax.swing.SpringLayout;

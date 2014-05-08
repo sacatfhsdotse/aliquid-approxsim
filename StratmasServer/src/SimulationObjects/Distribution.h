@@ -1,5 +1,5 @@
-#ifndef STRATMAS_DISTRIBUTION_H
-#define STRATMAS_DISTRIBUTION_H
+#ifndef APPROXSIM_DISTRIBUTION_H
+#define APPROXSIM_DISTRIBUTION_H
 
 // System
 #include <cmath>
@@ -173,4 +173,4 @@ public:
      void reset(const DataObject& d);
 };
 
-#endif   // STRATMAS_DISTRIBUTION_H
+#endif   // APPROXSIM_DISTRIBUTION_H

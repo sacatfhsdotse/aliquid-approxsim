@@ -7,7 +7,7 @@
 ServerUpdater
 </TITLE>
 
-<META NAME="keywords" CONTENT="StratmasClient.ServerUpdater class">
+<META NAME="keywords" CONTENT="ApproxsimClient.ServerUpdater class">
 
 <LINK REL ="stylesheet" TYPE="text/css" HREF="../stylesheet.css" TITLE="Style">
 
@@ -51,10 +51,10 @@ function windowTitle()
 
 <TR>
 <TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="../StratmasClient/ProcessVariableDescription.html" title="class in StratmasClient"><B>PREV CLASS</B></A>&nbsp;
-&nbsp;<A HREF="../StratmasClient/StratmasAbstractAction.html" title="class in StratmasClient"><B>NEXT CLASS</B></A></FONT></TD>
+&nbsp;<A HREF="../ApproxsimClient/ProcessVariableDescription.html" title="class in ApproxsimClient"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../ApproxsimClient/ApproxsimAbstractAction.html" title="class in ApproxsimClient"><B>NEXT CLASS</B></A></FONT></TD>
 <TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
-  <A HREF="../index.html?StratmasClient/ServerUpdater.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+  <A HREF="../index.html?ApproxsimClient/ServerUpdater.html" target="_top"><B>FRAMES</B></A>  &nbsp;
 &nbsp;<A HREF="ServerUpdater.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
 &nbsp;<SCRIPT type="text/javascript">
   <!--
@@ -84,29 +84,29 @@ DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&n
 <!-- ======== START OF CLASS DATA ======== -->
 <H2>
 <FONT SIZE="-1">
-StratmasClient</FONT>
+ApproxsimClient</FONT>
 <BR>
 Class ServerUpdater</H2>
 <PRE>
 <A HREF="http://java.sun.com/j2se/1.4/docs/api/java/lang/Object.html" title="class or interface in java.lang">java.lang.Object</A>
-  <IMG SRC="../resources/inherit.gif" ALT="extended by "><B>StratmasClient.ServerUpdater</B>
+  <IMG SRC="../resources/inherit.gif" ALT="extended by "><B>ApproxsimClient.ServerUpdater</B>
 </PRE>
 <DL>
-<DT><B>All Implemented Interfaces:</B> <DD><A HREF="http://java.sun.com/j2se/1.4/docs/api/java/util/EventListener.html" title="class or interface in java.util">EventListener</A>, <A HREF="../StratmasClient/object/StratmasEventListener.html" title="interface in StratmasClient.object">StratmasEventListener</A></DD>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="http://java.sun.com/j2se/1.4/docs/api/java/util/EventListener.html" title="class or interface in java.util">EventListener</A>, <A HREF="../ApproxsimClient/object/ApproxsimEventListener.html" title="interface in ApproxsimClient.object">ApproxsimEventListener</A></DD>
 </DL>
 <HR>
 <DL>
-<DT><PRE>public class <B>ServerUpdater</B><DT>extends <A HREF="http://java.sun.com/j2se/1.4/docs/api/java/lang/Object.html" title="class or interface in java.lang">Object</A><DT>implements <A HREF="../StratmasClient/object/StratmasEventListener.html" title="interface in StratmasClient.object">StratmasEventListener</A></DL>
+<DT><PRE>public class <B>ServerUpdater</B><DT>extends <A HREF="http://java.sun.com/j2se/1.4/docs/api/java/lang/Object.html" title="class or interface in java.lang">Object</A><DT>implements <A HREF="../ApproxsimClient/object/ApproxsimEventListener.html" title="interface in ApproxsimClient.object">ApproxsimEventListener</A></DL>
 </PRE>
 
 <P>
 A class that handles the transfer of updates from the Client to the
  server (during a simulation). An update should be performed
- whenever a StratmasObject is modified during a simulation by
+ whenever a ApproxsimObject is modified during a simulation by
  anything except the server, in order to synchronize the server's
  and the client's views of the simulation. The ServerUpdater listens
  to all ValueType descendants in the provided tree of
- StratmasObjects and performs updates whenever an update triggering
+ ApproxsimObjects and performs updates whenever an update triggering
  event occurs.
 <P>
 
@@ -124,12 +124,12 @@ A class that handles the transfer of updates from the Client to the
 <B>Constructor Summary</B></FONT></TH>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
-<TD><CODE><B><A HREF="../StratmasClient/ServerUpdater.html#ServerUpdater(StratmasClient.communication.ServerConnection, StratmasClient.object.StratmasObject, StratmasClient.Controller)">ServerUpdater</A></B>(<A HREF="../StratmasClient/communication/ServerConnection.html" title="class in StratmasClient.communication">ServerConnection</A>&nbsp;sc,
-              <A HREF="../StratmasClient/object/StratmasObject.html" title="class in StratmasClient.object">StratmasObject</A>&nbsp;root,
-              <A HREF="../StratmasClient/Controller.html" title="class in StratmasClient">Controller</A>&nbsp;controller)</CODE>
+<TD><CODE><B><A HREF="../ApproxsimClient/ServerUpdater.html#ServerUpdater(ApproxsimClient.communication.ServerConnection, ApproxsimClient.object.ApproxsimObject, ApproxsimClient.Controller)">ServerUpdater</A></B>(<A HREF="../ApproxsimClient/communication/ServerConnection.html" title="class in ApproxsimClient.communication">ServerConnection</A>&nbsp;sc,
+              <A HREF="../ApproxsimClient/object/ApproxsimObject.html" title="class in ApproxsimClient.object">ApproxsimObject</A>&nbsp;root,
+              <A HREF="../ApproxsimClient/Controller.html" title="class in ApproxsimClient">Controller</A>&nbsp;controller)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Constructs a ServerUpdater for the StratmasObjects in the tree
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Constructs a ServerUpdater for the ApproxsimObjects in the tree
  rooted at the provided StratamsObject.</TD>
 </TR>
 </TABLE>
@@ -145,7 +145,7 @@ A class that handles the transfer of updates from the Client to the
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>&nbsp;void</CODE></FONT></TD>
-<TD><CODE><B><A HREF="../StratmasClient/ServerUpdater.html#eventOccured(StratmasClient.object.StratmasEvent)">eventOccured</A></B>(<A HREF="../StratmasClient/object/StratmasEvent.html" title="class in StratmasClient.object">StratmasEvent</A>&nbsp;e)</CODE>
+<TD><CODE><B><A HREF="../ApproxsimClient/ServerUpdater.html#eventOccured(ApproxsimClient.object.ApproxsimEvent)">eventOccured</A></B>(<A HREF="../ApproxsimClient/object/ApproxsimEvent.html" title="class in ApproxsimClient.object">ApproxsimEvent</A>&nbsp;e)</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Performs a server update if the event is a ValueChanged or
@@ -155,7 +155,7 @@ A class that handles the transfer of updates from the Client to the
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
 <CODE>&nbsp;void</CODE></FONT></TD>
-<TD><CODE><B><A HREF="../StratmasClient/ServerUpdater.html#inactivate()">inactivate</A></B>()</CODE>
+<TD><CODE><B><A HREF="../ApproxsimClient/ServerUpdater.html#inactivate()">inactivate</A></B>()</CODE>
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Forces this ServerUpdater to no longer listen to any
@@ -184,18 +184,18 @@ A class that handles the transfer of updates from the Client to the
 </TR>
 </TABLE>
 
-<A NAME="ServerUpdater(StratmasClient.communication.ServerConnection, StratmasClient.object.StratmasObject, StratmasClient.Controller)"><!-- --></A><H3>
+<A NAME="ServerUpdater(ApproxsimClient.communication.ServerConnection, ApproxsimClient.object.ApproxsimObject, ApproxsimClient.Controller)"><!-- --></A><H3>
 ServerUpdater</H3>
 <PRE>
-public <B>ServerUpdater</B>(<A HREF="../StratmasClient/communication/ServerConnection.html" title="class in StratmasClient.communication">ServerConnection</A>&nbsp;sc,
-                     <A HREF="../StratmasClient/object/StratmasObject.html" title="class in StratmasClient.object">StratmasObject</A>&nbsp;root,
-                     <A HREF="../StratmasClient/Controller.html" title="class in StratmasClient">Controller</A>&nbsp;controller)</PRE>
+public <B>ServerUpdater</B>(<A HREF="../ApproxsimClient/communication/ServerConnection.html" title="class in ApproxsimClient.communication">ServerConnection</A>&nbsp;sc,
+                     <A HREF="../ApproxsimClient/object/ApproxsimObject.html" title="class in ApproxsimClient.object">ApproxsimObject</A>&nbsp;root,
+                     <A HREF="../ApproxsimClient/Controller.html" title="class in ApproxsimClient">Controller</A>&nbsp;controller)</PRE>
 <DL>
-<DD>Constructs a ServerUpdater for the StratmasObjects in the tree
+<DD>Constructs a ServerUpdater for the ApproxsimObjects in the tree
  rooted at the provided StratamsObject.
 <P>
 <DL>
-<DT><B>Parameters:</B><DD><CODE>sc</CODE> - The ServerConnection to use for sending updates.<DD><CODE>root</CODE> - The root of the tree of StratmasObjects to handle
+<DT><B>Parameters:</B><DD><CODE>sc</CODE> - The ServerConnection to use for sending updates.<DD><CODE>root</CODE> - The root of the tree of ApproxsimObjects to handle
  updates for.<DD><CODE>controller</CODE> - The Controller object. Only needed in order
  to be able to disconnect if an update failed. This should be
  handled differently when the Controller class is rewritten.</DL>
@@ -230,17 +230,17 @@ public void <B>inactivate</B>()</PRE>
 </DL>
 <HR>
 
-<A NAME="eventOccured(StratmasClient.object.StratmasEvent)"><!-- --></A><H3>
+<A NAME="eventOccured(ApproxsimClient.object.ApproxsimEvent)"><!-- --></A><H3>
 eventOccured</H3>
 <PRE>
-public void <B>eventOccured</B>(<A HREF="../StratmasClient/object/StratmasEvent.html" title="class in StratmasClient.object">StratmasEvent</A>&nbsp;e)</PRE>
+public void <B>eventOccured</B>(<A HREF="../ApproxsimClient/object/ApproxsimEvent.html" title="class in ApproxsimClient.object">ApproxsimEvent</A>&nbsp;e)</PRE>
 <DL>
 <DD>Performs a server update if the event is a ValueChanged or
  ChildChanged event and if the event isn't initiated by the
  server, i.e. by a subscribed data update.
 <P>
 <DD><DL>
-<DT><B>Specified by:</B><DD><CODE><A HREF="../StratmasClient/object/StratmasEventListener.html#eventOccured(StratmasClient.object.StratmasEvent)">eventOccured</A></CODE> in interface <CODE><A HREF="../StratmasClient/object/StratmasEventListener.html" title="interface in StratmasClient.object">StratmasEventListener</A></CODE></DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../ApproxsimClient/object/ApproxsimEventListener.html#eventOccured(ApproxsimClient.object.ApproxsimEvent)">eventOccured</A></CODE> in interface <CODE><A HREF="../ApproxsimClient/object/ApproxsimEventListener.html" title="interface in ApproxsimClient.object">ApproxsimEventListener</A></CODE></DL>
 </DD>
 <DD><DL>
 <DT><B>Parameters:</B><DD><CODE>e</CODE> - The event that occured.</DL>
@@ -276,10 +276,10 @@ public void <B>eventOccured</B>(<A HREF="../StratmasClient/object/StratmasEvent.
 
 <TR>
 <TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
-&nbsp;<A HREF="../StratmasClient/ProcessVariableDescription.html" title="class in StratmasClient"><B>PREV CLASS</B></A>&nbsp;
-&nbsp;<A HREF="../StratmasClient/StratmasAbstractAction.html" title="class in StratmasClient"><B>NEXT CLASS</B></A></FONT></TD>
+&nbsp;<A HREF="../ApproxsimClient/ProcessVariableDescription.html" title="class in ApproxsimClient"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../ApproxsimClient/ApproxsimAbstractAction.html" title="class in ApproxsimClient"><B>NEXT CLASS</B></A></FONT></TD>
 <TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
-  <A HREF="../index.html?StratmasClient/ServerUpdater.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+  <A HREF="../index.html?ApproxsimClient/ServerUpdater.html" target="_top"><B>FRAMES</B></A>  &nbsp;
 &nbsp;<A HREF="ServerUpdater.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
 &nbsp;<SCRIPT type="text/javascript">
   <!--

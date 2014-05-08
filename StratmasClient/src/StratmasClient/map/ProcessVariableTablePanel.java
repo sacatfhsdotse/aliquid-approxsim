@@ -1,4 +1,4 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import java.util.Hashtable;
 import java.util.Comparator;
@@ -23,9 +23,9 @@ import javax.swing.BorderFactory;
 import javax.swing.border.TitledBorder;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
-import StratmasClient.Client;
-import StratmasClient.object.Shape;
-import StratmasClient.map.graph.ProcessVariableXYGraph;
+import ApproxsimClient.Client;
+import ApproxsimClient.object.Shape;
+import ApproxsimClient.map.graph.ProcessVariableXYGraph;
 
 /**
  * This is implementation of a table of values for all process variables and all factions over an arbitrary region. This table is user
@@ -43,7 +43,7 @@ public class ProcessVariableTablePanel extends JPanel {
     /**
      * The actual frame.
      */
-    private final JFrame frame = new JFrame("Stratmas PV Table");
+    private final JFrame frame = new JFrame("Approxsim PV Table");
     /**
      * The actual table of process variables and factions.
      */

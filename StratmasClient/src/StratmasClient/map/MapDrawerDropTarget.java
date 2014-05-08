@@ -1,4 +1,4 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import java.util.Hashtable;
 import java.util.Vector;
@@ -17,17 +17,17 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JOptionPane;
 
-import StratmasClient.Client;
-import StratmasClient.Debug;
-import StratmasClient.object.Point;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.object.Shape;
-import StratmasClient.object.StratmasList;
-import StratmasClient.StratmasDialog;
-import StratmasClient.HierarchyImportSet;
-import StratmasClient.map.adapter.MapElementAdapter;
-import StratmasClient.map.adapter.MilitaryUnitAdapter;
+import ApproxsimClient.Client;
+import ApproxsimClient.Debug;
+import ApproxsimClient.object.Point;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimObjectFactory;
+import ApproxsimClient.object.Shape;
+import ApproxsimClient.object.ApproxsimList;
+import ApproxsimClient.ApproxsimDialog;
+import ApproxsimClient.HierarchyImportSet;
+import ApproxsimClient.map.adapter.MapElementAdapter;
+import ApproxsimClient.map.adapter.MilitaryUnitAdapter;
 
 /**
  * This class implements DropTargetListener for use in the MapDrawer.
@@ -79,7 +79,7 @@ class MapDrawerDropTarget implements DropTargetListener {
     public void dragOver(DropTargetDragEvent dtde) {
         // get the dragged object
         try {
-            StratmasObject sObj = DraggedElement.getElement();
+            ApproxsimObject sObj = DraggedElement.getElement();
             // update the outline of the currently pointed elements only if the dragged element is activity
             if (sObj != null){
                 if(sObj.getType().canSubstitute("ActorBasedActivity")) {
@@ -145,20 +145,20 @@ class MapDrawerDropTarget implements DropTargetListener {
         double lon = drawer.convertToLonLat((int) pt.getX(), (int) pt.getY())
                 .getLon();
         try {
-            if (dtde.isDataFlavorSupported(StratmasObject.STRATMAS_OBJECT_FLAVOR)) {
+            if (dtde.isDataFlavorSupported(ApproxsimObject.APPROXSIM_OBJECT_FLAVOR)) {
                 dtde.acceptDrop(DnDConstants.ACTION_LINK);
                 // accept the drop
                 dropAccepted = true;
                 // get the dropped object
                 Object obj = dtde.getTransferable()
-                        .getTransferData(StratmasObject.STRATMAS_OBJECT_FLAVOR);
+                        .getTransferData(ApproxsimObject.APPROXSIM_OBJECT_FLAVOR);
                 // Apple's dnd implementation sucks... We must call the getTransferData method for the string
                 // flavor in order to get a valid callback.
                 dtde.getTransferable().getTransferData(DataFlavor.stringFlavor);
-                // the dropped object has to be a StratmasObject ...
-                if (obj instanceof StratmasObject) {
-                    StratmasObject sc = (StratmasObject) obj;
-                    StratmasObject loc = (StratmasObject) sc
+                // the dropped object has to be a ApproxsimObject ...
+                if (obj instanceof ApproxsimObject) {
+                    ApproxsimObject sc = (ApproxsimObject) obj;
+                    ApproxsimObject loc = (ApproxsimObject) sc
                             .getChild("location");
                     // special treatment for activities; check if the dropped object is Activity with or without "location"
                     if (sc.getType().canSubstitute("Order")) {
@@ -193,7 +193,7 @@ class MapDrawerDropTarget implements DropTargetListener {
                         // if the activity doesn't have "location"
                         else if (loc == null && drawer.registredOnMap(sc)) {
                             // get the location of the military unit that "owns" the activity
-                            StratmasObject l = StratmasObjectFactory
+                            ApproxsimObject l = ApproxsimObjectFactory
                                     .cloneObject(sc.getParent().getParent()
                                             .getChild("location"));
                             // add "location" to the activity
@@ -213,19 +213,19 @@ class MapDrawerDropTarget implements DropTargetListener {
                         // its current parent and add it to the scenario's element list.
                         if (sc.getType().canSubstitute("Element")
                                 && !drawer.registredOnMap(sc)) {
-                            StratmasObject sim = (StratmasObject) client
+                            ApproxsimObject sim = (ApproxsimObject) client
                                     .getRootObject().children().nextElement();
-                            StratmasObject scenario = sim.getChild("scenario");
-                            StratmasList targetList;
+                            ApproxsimObject scenario = sim.getChild("scenario");
+                            ApproxsimList targetList;
                             if (sc.getType().canSubstitute("Population")) {
-                                targetList = (StratmasList) scenario
+                                targetList = (ApproxsimList) scenario
                                         .getChild("populationCenters");
                             } else if (sc.getType()
                                     .canSubstitute("MilitaryUnit")) {
-                                targetList = (StratmasList) scenario
+                                targetList = (ApproxsimList) scenario
                                         .getChild("militaryUnits");
                             } else {
-                                targetList = (StratmasList) scenario
+                                targetList = (ApproxsimList) scenario
                                         .getChild("agencyTeams");
                             }
                             if (targetList.getChild(sc.getIdentifier()) == null
@@ -248,7 +248,7 @@ class MapDrawerDropTarget implements DropTargetListener {
                     else if (sc instanceof Shape) {
                         boolean accept = false;
                         // check if the Shape is a part of the map
-                        for (StratmasObject walker = sc; walker != null; walker = walker
+                        for (ApproxsimObject walker = sc; walker != null; walker = walker
                                 .getParent()) {
                             if (walker.getIdentifier().equals("map")) {
                                 accept = true;
@@ -271,7 +271,7 @@ class MapDrawerDropTarget implements DropTargetListener {
                     }
                 } else {
                     Debug.err.println(obj.getClass()
-                            + " instead of StratmasObject");
+                            + " instead of ApproxsimObject");
                 }
                 //
                 dtde.dropComplete(complete);
@@ -320,8 +320,8 @@ class MapDrawerDropTarget implements DropTargetListener {
      * @param so the dropped element.
      * @return true if the dropped element replaces the existing element, false otherwise.
      */
-    private boolean replaceDroppedElement(StratmasObject so) {
-        int res = StratmasDialog
+    private boolean replaceDroppedElement(ApproxsimObject so) {
+        int res = ApproxsimDialog
                 .showOptionDialog(null, "The element '" + so.getIdentifier()
                                           + " already exists. Replace it?",
                                   "Replace Element?",
@@ -337,13 +337,13 @@ class MapDrawerDropTarget implements DropTargetListener {
      * @param activity the activity to add.
      * @param militaryUnit the military unit.
      */
-    protected void addActivityToMilitaryUnit(StratmasObject activity,
-            StratmasObject militaryUnit) {
+    protected void addActivityToMilitaryUnit(ApproxsimObject activity,
+            ApproxsimObject militaryUnit) {
         // check if the activity is registred on the map
         boolean alreadyOnMap = drawer.registredOnMap(activity);
         // add the activity to the military unit
         activity.remove();
-        ((StratmasList) militaryUnit.getChild("activities"))
+        ((ApproxsimList) militaryUnit.getChild("activities"))
                 .addWithUniqueIdentifier(activity);
 
         // add the activity to the map
@@ -364,11 +364,11 @@ class MapDrawerDropTarget implements DropTargetListener {
      * @param activity the activity which will be added to the selected military unit.
      */
     protected JMenu getMenuForMilitaryUnits(Hashtable militaryUnits,
-            StratmasObject activity) {
+            ApproxsimObject activity) {
         JMenu submenu = new JMenu("Add activity to : ");
         for (Enumeration e = militaryUnits.elements(); e.hasMoreElements();) {
-            final StratmasObject act = activity;
-            final StratmasObject sc = (StratmasObject) ((MapElementAdapter) e
+            final ApproxsimObject act = activity;
+            final ApproxsimObject sc = (ApproxsimObject) ((MapElementAdapter) e
                     .nextElement()).getObject();
             final MapDrawerDropTarget self = this;
             final Hashtable mUnits = militaryUnits;

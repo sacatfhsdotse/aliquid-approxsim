@@ -1,4 +1,4 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import java.util.Hashtable;
 import java.lang.Object;
@@ -14,8 +14,8 @@ import javax.swing.*;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
-import StratmasClient.BoundingBox;
-import StratmasClient.StratmasDialog;
+import ApproxsimClient.BoundingBox;
+import ApproxsimClient.ApproxsimDialog;
 
 /**
  * Zomming and scaling functionalities.
@@ -364,7 +364,7 @@ public class ZoomAndScale implements ActionListener, ChangeListener {
      */
     private void errorMess() {
         Object[] options = { "OK", "Help" };
-        StratmasDialog.showOptionDialog(new JFrame("ERROR!!!"),
+        ApproxsimDialog.showOptionDialog(new JFrame("ERROR!!!"),
                                         "Invalid input value!",
                                         "Error message",
                                         JOptionPane.YES_NO_OPTION,

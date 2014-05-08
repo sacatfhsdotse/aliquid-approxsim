@@ -9,7 +9,7 @@
 #include "Grid.h"
 #include "GridCell.h"
 #include "GridDataHandler.h"
-#include "StratmasConstants.h"
+#include "ApproxsimConstants.h"
 
 
 using namespace std;

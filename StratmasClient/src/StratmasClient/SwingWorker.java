@@ -1,4 +1,4 @@
-package StratmasClient;
+package ApproxsimClient;
 
 import javax.swing.SwingUtilities;
 

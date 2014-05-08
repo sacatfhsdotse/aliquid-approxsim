@@ -3,20 +3,20 @@
  * @(#)Typefilter.java
  */
 
-package StratmasClient.filter;
+package ApproxsimClient.filter;
 
-import StratmasClient.object.StratmasObject;
+import ApproxsimClient.object.ApproxsimObject;
 
-import StratmasClient.object.type.Type;
+import ApproxsimClient.object.type.Type;
 
 /**
- * Typefilter filters out StratmasObjects accordning to provided rules.
+ * Typefilter filters out ApproxsimObjects accordning to provided rules.
  * 
  * @version 1, $Date: 2006/03/22 14:30:50 $
  * @author Daniel Ahlin
  */
 
-public class TypeFilter extends StratmasObjectFilter {
+public class TypeFilter extends ApproxsimObjectFilter {
     /**
      * The type the filter should filter for.
      */
@@ -81,11 +81,11 @@ public class TypeFilter extends StratmasObjectFilter {
     }
 
     /**
-     * Returns true if the provided StratmasObject passes the type constraint.
+     * Returns true if the provided ApproxsimObject passes the type constraint.
      * 
      * @param sObj the object to test
      */
-    public boolean pass(StratmasObject sObj) {
+    public boolean pass(ApproxsimObject sObj) {
         if (isSubstitutionOk()) {
             return applyInverted(sObj.getType().canSubstitute(getType()));
         } else {

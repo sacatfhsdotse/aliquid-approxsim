@@ -3,7 +3,7 @@
  * @(#)ServerException.java
  */
 
-package StratmasClient.communication;
+package ApproxsimClient.communication;
 
 /**
  * An object representing any error in a client-server exchange

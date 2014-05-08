@@ -1,5 +1,5 @@
-#ifndef STRATMAS_PARSERERRORREPORTER_H
-#define STRATMAS_PARSERERRORREPORTER_H
+#ifndef APPROXSIM_PARSERERRORREPORTER_H
+#define APPROXSIM_PARSERERRORREPORTER_H
 
 // System
 #include <vector>
@@ -85,4 +85,4 @@ inline void ParserErrorReporter::fatalError(const SAXParseException& toCatch)
 }
 
 
-#endif   // STRATMAS_PARSERERRORREPORTER_H
+#endif   // APPROXSIM_PARSERERRORREPORTER_H

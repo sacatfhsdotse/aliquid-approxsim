@@ -3,18 +3,18 @@
  * @(#)Point.java
  */
 
-package StratmasClient.object;
+package ApproxsimClient.object;
 
 import org.w3c.dom.Element;
 
-import StratmasClient.IconFactory;
-import StratmasClient.Icon;
-import StratmasClient.proj.MGRSConversion;
-import StratmasClient.object.type.Type;
-import StratmasClient.object.type.Declaration;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.object.primitive.Timestamp;
-import StratmasClient.object.primitive.Identifier;
+import ApproxsimClient.IconFactory;
+import ApproxsimClient.Icon;
+import ApproxsimClient.proj.MGRSConversion;
+import ApproxsimClient.object.type.Type;
+import ApproxsimClient.object.type.Declaration;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.object.primitive.Timestamp;
+import ApproxsimClient.object.primitive.Identifier;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -26,7 +26,7 @@ import javax.swing.JLabel;
  * @author Daniel Ahlin
  */
 
-public class Point extends StratmasObjectImpl {
+public class Point extends ApproxsimObjectImpl {
     /**
      * The latitude component of this point.
      */
@@ -150,7 +150,7 @@ public class Point extends StratmasObjectImpl {
             getParent().childChanged(this, initiator);
         }
 
-        StratmasEvent event = StratmasEvent.getValueChanged(this,
+        ApproxsimEvent event = ApproxsimEvent.getValueChanged(this,
                                                             initiator);
         
         for (int i = getEventListenerList().size() - 1; i >= 0; i--) {
@@ -197,11 +197,11 @@ public class Point extends StratmasObjectImpl {
     }
 
     /**
-     * Returns a StratmasGUIConstructor suitable for constructing objects of this type.
+     * Returns a ApproxsimGUIConstructor suitable for constructing objects of this type.
      * 
      * @param declaration the declaration for which the GUI is created.
      */
-    protected static StratmasGUIConstructor getGUIConstructor(
+    protected static ApproxsimGUIConstructor getGUIConstructor(
             Declaration declaration) {
         return new PointGUIConstructor(declaration);
     }
@@ -213,7 +213,7 @@ public class Point extends StratmasObjectImpl {
      * 
      * @param declaration The declaration for which the object is created.
      */
-    protected static StratmasObject defaultCreate(Declaration declaration) {
+    protected static ApproxsimObject defaultCreate(Declaration declaration) {
         return new Point(declaration.getName(), 0.0d, 0.0d);
     }
 
@@ -236,8 +236,8 @@ public class Point extends StratmasObjectImpl {
      * 
      * @param n The dom element from which the object is created.
      */
-    protected static StratmasObject domCreate(Element n) {
-        return StratmasObjectFactory.createPoint(Identifier.getIdentifier(n),
+    protected static ApproxsimObject domCreate(Element n) {
+        return ApproxsimObjectFactory.createPoint(Identifier.getIdentifier(n),
                                                  XMLHelper.getDouble(n, "lat"),
                                                  XMLHelper.getDouble(n, "lon"));
     }
@@ -262,7 +262,7 @@ public class Point extends StratmasObjectImpl {
  * @version 1, $Date: 2006/04/21 07:55:46 $
  * @author Daniel Ahlin
  */
-class PointGUIConstructor extends StratmasGUIConstructor {
+class PointGUIConstructor extends ApproxsimGUIConstructor {
     /**
 	 * 
 	 */
@@ -289,15 +289,15 @@ class PointGUIConstructor extends StratmasGUIConstructor {
     }
 
     /**
-     * Tries to create the StratmasObject from the values in the GUI.
+     * Tries to create the ApproxsimObject from the values in the GUI.
      */
-    protected void createStratmasObject() {
+    protected void createApproxsimObject() {
         try {
-            setStratmasObject(new Point(this.getDeclaration().getName(),
+            setApproxsimObject(new Point(this.getDeclaration().getName(),
                     Double.parseDouble(lonField.getText()),
                     Double.parseDouble(latField.getText())));
         } catch (NumberFormatException e) {
-            setStratmasObject(null);
+            setApproxsimObject(null);
         }
     }
 }

@@ -3,24 +3,24 @@
  * @(#)Combinedfilter.java
  */
 
-package StratmasClient.filter;
+package ApproxsimClient.filter;
 
 import java.util.Enumeration;
 import java.util.Vector;
-import StratmasClient.object.StratmasObject;
+import ApproxsimClient.object.ApproxsimObject;
 
 /**
- * Combinedfilter filters out StratmasObjects accordning to provided rules.
+ * Combinedfilter filters out ApproxsimObjects accordning to provided rules.
  * 
  * @version 1, $Date: 2006/03/30 10:13:30 $
  * @author Daniel Ahlin
  */
 
-public class CombinedFilter extends StratmasObjectFilter {
+public class CombinedFilter extends ApproxsimObjectFilter {
     /**
      * The filters this filter is made of.
      */
-    Vector<StratmasObjectFilter> filters = new Vector<StratmasObjectFilter>();
+    Vector<ApproxsimObjectFilter> filters = new Vector<ApproxsimObjectFilter>();
 
     /**
      * Creates a new filter.
@@ -40,14 +40,14 @@ public class CombinedFilter extends StratmasObjectFilter {
     }
 
     /**
-     * Returns true if the provided StratmasObject passes the filter.
+     * Returns true if the provided ApproxsimObject passes the filter.
      * 
      * @param sObj the object to test
      */
-    public boolean pass(StratmasObject sObj) {
+    public boolean pass(ApproxsimObject sObj) {
         boolean res = true;
 
-        for (Enumeration<StratmasObjectFilter> e = getFilters(); e
+        for (Enumeration<ApproxsimObjectFilter> e = getFilters(); e
                 .hasMoreElements();) {
             if (!e.nextElement().pass(sObj)) {
                 res = false;
@@ -58,7 +58,7 @@ public class CombinedFilter extends StratmasObjectFilter {
         return applyInverted(res);
     }
 
-    public void addFilter(StratmasObjectFilter filter) {
+    public void addFilter(ApproxsimObjectFilter filter) {
         this.filters.add(filter);
     }
 
@@ -67,7 +67,7 @@ public class CombinedFilter extends StratmasObjectFilter {
      * 
      * @param filter the filter to add.
      */
-    public void add(StratmasObjectFilter filter) {
+    public void add(ApproxsimObjectFilter filter) {
         this.filters.add(filter);
     }
 
@@ -78,7 +78,7 @@ public class CombinedFilter extends StratmasObjectFilter {
      */
     public void add(Vector filters) {
         for (Enumeration e = filters.elements(); e.hasMoreElements();) {
-            add((StratmasObjectFilter) e.nextElement());
+            add((ApproxsimObjectFilter) e.nextElement());
         }
     }
 
@@ -87,14 +87,14 @@ public class CombinedFilter extends StratmasObjectFilter {
      * 
      * @param filter the filter to remove.
      */
-    public void remove(StratmasObjectFilter filter) {
+    public void remove(ApproxsimObjectFilter filter) {
         this.filters.remove(filter);
     }
 
     /**
      * Returns the filters making up this filter.
      */
-    public Enumeration<StratmasObjectFilter> getFilters() {
+    public Enumeration<ApproxsimObjectFilter> getFilters() {
         return this.filters.elements();
     }
 }

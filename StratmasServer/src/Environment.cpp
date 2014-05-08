@@ -28,11 +28,11 @@ namespace fs = boost::filesystem;
 namespace po = boost::program_options;
 
 // Static Definitions
-const string Environment::STRATMAS_VERSION("$Name: Stratmas_V_7_5 $");
+const string Environment::APPROXSIM_VERSION("$Name: Approxsim_V_7_5 $");
 const string Environment::DEFAULT_VERSION("under development...");
-const string Environment::DEFAULT_SCHEMA_NAMESPACE("http://pdc.kth.se/stratmasNamespace");
+const string Environment::DEFAULT_SCHEMA_NAMESPACE("http://pdc.kth.se/approxsimNamespace");
 const string Environment::XSD_NAMESPACE("http://www.w3.org/2001/XMLSchema");
-const string Environment::STRATMAS_PROTOCOL_SCHEMA("stratmasProtocol.xsd");
+const string Environment::APPROXSIM_PROTOCOL_SCHEMA("approxsimProtocol.xsd");
 bool         Environment::initStarted = false;
 apr_pool_t* Environment::apr_pool;
 
@@ -98,7 +98,7 @@ std::string Environment::getNativePath(const fs::path& path)
 
 /**
  * \brief tries to parse the provided string as a os-native path and
- * returns the stratmas native path representation. The following
+ * returns the approxsim native path representation. The following
  * implicit conventions apply:
  *
  * 1. If the filename is absolute it is stored as is.
@@ -119,9 +119,9 @@ fs::path Environment::importNativePath(const std::string& nativePath)
 }
 
 /**
- * \brief Returns the directory where stratmas is assumed to be installed.
+ * \brief Returns the directory where approxsim is assumed to be installed.
  *
- * \return the directory where stratmas is assumed to be installed
+ * \return the directory where approxsim is assumed to be installed
  */
 const fs::path& Environment::getInstallDir()
 {
@@ -158,13 +158,13 @@ bool Environment::isFile(const fs::path& path)
 }
 
 /**
- * \brief Accessor for the Stratmas version.
+ * \brief Accessor for the Approxsim version.
  *
- * \return The Stratmas version.
+ * \return The Approxsim version.
  */
 string Environment::getVersion()
 {
-     string version = STRATMAS_VERSION;
+     string version = APPROXSIM_VERSION;
      if (version.size() <= 7) {
           return string(DEFAULT_VERSION);
      }
@@ -199,7 +199,7 @@ void Environment::setConfigFile(const std::string& file)
 }
 
 /**
- * \brief Sets the directory where stratmas will dump files, also
+ * \brief Sets the directory where approxsim will dump files, also
  * activates file dumping.
  */
 void Environment::setDumpDir(const std::string& dirname)
@@ -252,8 +252,8 @@ void Environment::initEnvironment(int argc, char** argv)
      // Bug fix, for comments see static initializations above.
      sInstallDir = fs::path(".");
      sDumpDir = fs::path(".");
-     sExecutable = fs::path("stratmas");
-     sConfigFile = fs::path("stratmas.cfg");
+     sExecutable = fs::path("approxsim");
+     sConfigFile = fs::path("approxsim.cfg");
 
      // If any program name supplied, use that, else use default.
      if (argc > 0) {
@@ -269,7 +269,7 @@ void Environment::initEnvironment(int argc, char** argv)
 
      // Handle configuration last. Note that the Windows Service code
      // depends on this being the last function called in this
-     // scope. (When starting stratmas as a Windows Service the
+     // scope. (When starting approxsim as a Windows Service the
      // start/main thread will not return from this call-path.)
      initConfig(argc, argv); return;
 
@@ -356,14 +356,14 @@ void Environment::initConfig(int argc, char** argv)
 
      // Handle help and version from here.
      if (vm.count("help") != 0) {
-          po::options_description visible("Stratmas Server options");
+          po::options_description visible("Approxsim Server options");
           visible.add(invocation);
           visible.add(configuration);
           visible.print(std::cout);
           std::cout << std::endl;
           exit(0);
      } else if (vm.count("version") != 0) {
-          std::cout << "Stratmas Server" << std::endl
+          std::cout << "Approxsim Server" << std::endl
                     << "    Version:   " << getVersion() << std::endl;
           exit(0);
      }
@@ -410,7 +410,7 @@ void Environment::initConfig(int argc, char** argv)
 
      // Handle platform options last. Note that the Windows Service
      // code depends on this being the last function called in this
-     // scope. (When starting stratmas as a Windows Service the
+     // scope. (When starting approxsim as a Windows Service the
      // start/main thread will not return from this call-path.)
      handlePlatformOptions(&vm); return;
 }

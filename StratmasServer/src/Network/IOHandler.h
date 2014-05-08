@@ -1,5 +1,5 @@
-#ifndef STRATMAS_IOHANDLER
-#define STRATMAS_IOHANDLER
+#ifndef APPROXSIM_IOHANDLER
+#define APPROXSIM_IOHANDLER
 
 // System
 #include <iostream>
@@ -26,4 +26,4 @@ public:
 };
 
 
-#endif   // STRATMAS_IOHANDLER
+#endif   // APPROXSIM_IOHANDLER

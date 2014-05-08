@@ -1,4 +1,4 @@
-package StratmasClient.substrate;
+package ApproxsimClient.substrate;
 
 import java.awt.Graphics;
 import java.awt.Color;

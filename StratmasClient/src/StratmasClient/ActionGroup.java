@@ -3,7 +3,7 @@
  * @(#) ActionGroup.java
  */
 
-package StratmasClient;
+package ApproxsimClient;
 
 import java.awt.event.ActionEvent;
 
@@ -21,7 +21,7 @@ import javax.swing.JPopupMenu;
  * @version 1, $Date: 2006/07/31 10:17:48 $
  * @author Per Alexius
  */
-public class ActionGroup extends StratmasAbstractAction {
+public class ActionGroup extends ApproxsimAbstractAction {
     /**
 	 * 
 	 */

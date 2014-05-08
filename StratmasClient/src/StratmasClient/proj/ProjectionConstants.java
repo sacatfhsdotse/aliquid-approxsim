@@ -1,4 +1,4 @@
-package StratmasClient.proj;
+package ApproxsimClient.proj;
 
 /**
  * This class is used to define the global variables used in the coordinate conversion process.

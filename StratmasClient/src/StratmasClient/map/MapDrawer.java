@@ -1,4 +1,4 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -28,32 +28,32 @@ import javax.swing.JMenu;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 
-import StratmasClient.BoundingBox;
-import StratmasClient.Debug;
-import StratmasClient.Icon;
-import StratmasClient.filter.CombinedORFilter;
-import StratmasClient.filter.PassFilter;
-import StratmasClient.filter.StratmasObjectFilter;
-import StratmasClient.filter.TypeFilter;
-import StratmasClient.map.adapter.ElementAdapter;
-import StratmasClient.map.adapter.MapActivityAdapter;
-import StratmasClient.map.adapter.MapDrawableAdapter;
-import StratmasClient.map.adapter.MapElementAdapter;
-import StratmasClient.map.adapter.MapShapeAdapter;
-import StratmasClient.map.adapter.PopulationAdapter;
-import StratmasClient.map.adapter.GraphNodeAdapter;
-import StratmasClient.object.Point;
-import StratmasClient.object.Shape;
-import StratmasClient.object.SimpleShape;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.StratmasList;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasReference;
-import StratmasClient.object.type.Type;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.treeview.TreeView;
-import StratmasClient.treeview.TreeViewFrame;
+import ApproxsimClient.BoundingBox;
+import ApproxsimClient.Debug;
+import ApproxsimClient.Icon;
+import ApproxsimClient.filter.CombinedORFilter;
+import ApproxsimClient.filter.PassFilter;
+import ApproxsimClient.filter.ApproxsimObjectFilter;
+import ApproxsimClient.filter.TypeFilter;
+import ApproxsimClient.map.adapter.ElementAdapter;
+import ApproxsimClient.map.adapter.MapActivityAdapter;
+import ApproxsimClient.map.adapter.MapDrawableAdapter;
+import ApproxsimClient.map.adapter.MapElementAdapter;
+import ApproxsimClient.map.adapter.MapShapeAdapter;
+import ApproxsimClient.map.adapter.PopulationAdapter;
+import ApproxsimClient.map.adapter.GraphNodeAdapter;
+import ApproxsimClient.object.Point;
+import ApproxsimClient.object.Shape;
+import ApproxsimClient.object.SimpleShape;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.object.ApproxsimList;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimReference;
+import ApproxsimClient.object.type.Type;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.treeview.TreeView;
+import ApproxsimClient.treeview.TreeViewFrame;
 
 import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.util.gl2.GLUT;
@@ -63,14 +63,14 @@ import com.jogamp.opengl.util.gl2.GLUT;
  * displayed are handled here. <br>
  * The map is rendered by using OpenGL binding for Java (JOGL). <code> GLCanvas </code> is used as a drawing area.
  * <p>
- * Drag'n'drop is supported in this class. All <code>StratmasObject</code> elements with location can be dropped on the map. Further on,
+ * Drag'n'drop is supported in this class. All <code>ApproxsimObject</code> elements with location can be dropped on the map. Further on,
  * elements of type "MilitaryUnits" and "AgencyTeams" can be both dragged and dropped on the map.
  * 
  * @version 1.0
  * @author Amir Filipovic, Daniel Ahlin
  */
 public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
-        StratmasEventListener {
+        ApproxsimEventListener {
     /**
 	 * 
 	 */
@@ -216,20 +216,20 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
      */
     protected boolean showPopulationNames = false;
     /**
-     * Filter indicating which StratmasObjects that are dragable (as in drag-and-drop).
+     * Filter indicating which ApproxsimObjects that are dragable (as in drag-and-drop).
      */
-    protected StratmasObjectFilter dragFilter;
+    protected ApproxsimObjectFilter dragFilter;
     /**
      * Filter indicating which elements and activities to draw.
      */
-    protected StratmasObjectFilter drawnMapElementsFilter = new PassFilter();
+    protected ApproxsimObjectFilter drawnMapElementsFilter = new PassFilter();
     /**
      * Indicates that a screenshot should be made during the next redraw.
      */
     protected boolean doScreenShot = false;
     public ToolMode mode;
     
-    private StratmasObject newlyCreatedObjectToBePlaced;
+    private ApproxsimObject newlyCreatedObjectToBePlaced;
 
     /**
      * Creates new MapDrawer.
@@ -386,15 +386,15 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
         else if (e.getButton() == MouseEvent.BUTTON1) {
             if(newlyCreatedObjectToBePlaced != null){
                 if(newlyCreatedObjectToBePlaced.getType().canSubstitute("Edge")){
-                    final Vector<StratmasObject> v = (new TypeFilter(TypeFactory.getType("Node"),
+                    final Vector<ApproxsimObject> v = (new TypeFilter(TypeFactory.getType("Node"),
                                                                      true)).filter(mapElementsUnderCursor());
                     if(v.size() > 0){
                         try {
-                            StratmasObject potentialNode = v.get(0);
-                            if(((StratmasReference) newlyCreatedObjectToBePlaced.getChild("origin")).
+                            ApproxsimObject potentialNode = v.get(0);
+                            if(((ApproxsimReference) newlyCreatedObjectToBePlaced.getChild("origin")).
                                     getValue().resolve(newlyCreatedObjectToBePlaced).
                                     getParent() == potentialNode.getParent()){ // In the same graph
-                                ((StratmasReference) newlyCreatedObjectToBePlaced.getChild("target")).
+                                ((ApproxsimReference) newlyCreatedObjectToBePlaced.getChild("target")).
                                 valueFromString("nodes:"+potentialNode.getIdentifier(), this);
                                 addMapDrawable(newlyCreatedObjectToBePlaced);
                                 newlyCreatedObjectToBePlaced = null;
@@ -420,7 +420,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
             // show information of the pointed element
             if (e.getClickCount() == 2) {
                 // find all elemets located at the pointed location
-                Vector<StratmasObject> pointedElements = mapElementsUnderCursor();
+                Vector<ApproxsimObject> pointedElements = mapElementsUnderCursor();
                 // if only one element found
                 if (pointedElements.size() == 1) {
                     final TreeViewFrame frame = TreeView
@@ -545,11 +545,11 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
     }
 
     /**
-     * Updates the map. Part of StratmasEventListener interface.
+     * Updates the map. Part of ApproxsimEventListener interface.
      * 
      * @param se the occured event.
      */
-    public void eventOccured(StratmasEvent se) {
+    public void eventOccured(ApproxsimEvent se) {
         // redraw the map
         if (se.isSubscriptionHandled()) {
             update();
@@ -607,7 +607,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
         int x = (int) (dge.getDragOrigin().getX());
         int y = (int) (dge.getDragOrigin().getY());
         // get elements
-        Vector<StratmasObject> v = dragFilter.filter(mapElementsUnderCursor());
+        Vector<ApproxsimObject> v = dragFilter.filter(mapElementsUnderCursor());
         
         // if there's anything to drag
         if (!v.isEmpty()) {
@@ -627,7 +627,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
         }
     }
     
-    public void startDrag(DragGestureEvent dge, StratmasObject draggedObject){
+    public void startDrag(DragGestureEvent dge, ApproxsimObject draggedObject){
         //define cursor for the object
         Cursor c;
         Toolkit tk = Toolkit.getDefaultToolkit();
@@ -769,14 +769,14 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
      * @param element the element to be checked.
      * @return true if the element is registred on the map as MapDrawableAdapter, false otherwise.
      */
-    public boolean registredOnMap(StratmasObject element) {
+    public boolean registredOnMap(ApproxsimObject element) {
         return mapDrawableAdapters.containsKey(element);
     }
 
     /**
-     * Returns the MapElementAdapter for the given StratmasObject. Null is returned if the MapElementAdapter doesn't exist.
+     * Returns the MapElementAdapter for the given ApproxsimObject. Null is returned if the MapElementAdapter doesn't exist.
      */
-    public MapElementAdapter getMapElementAdapter(StratmasObject element) {
+    public MapElementAdapter getMapElementAdapter(ApproxsimObject element) {
         return (MapElementAdapter) mapDrawableAdapters.get(element);
     }
 
@@ -785,7 +785,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
      * 
      * @param element element or activity to check.
      */
-    public boolean isElementDisplayed(StratmasObject element) {
+    public boolean isElementDisplayed(ApproxsimObject element) {
         // get adapter of the element
         MapElementAdapter mea = getMapElementAdapter(element);
         // get display list of the adapter
@@ -804,7 +804,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
      * 
      * @param filter the new filter.
      */
-    public void setDrawnMapElementsFilter(StratmasObjectFilter filter) {
+    public void setDrawnMapElementsFilter(ApproxsimObjectFilter filter) {
         this.drawnMapElementsFilter = filter;
         setIsDrawnMapDrawablesListUpdated(false);
         update();
@@ -813,7 +813,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
     /**
      * Returns the filter which decides which elements to draw on the map.
      */
-    public StratmasObjectFilter getDrawnMapElementsFilter() {
+    public ApproxsimObjectFilter getDrawnMapElementsFilter() {
         return this.drawnMapElementsFilter;
     }
 
@@ -991,18 +991,18 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
     }
 
     /**
-     * Returns a vector with StratmasObject inherited elements presently drawn under the cursor. NB the objects has to be rendered to be
+     * Returns a vector with ApproxsimObject inherited elements presently drawn under the cursor. NB the objects has to be rendered to be
      * returned by this function.
      * 
      * @return the drawn elements and activities currently under the cursor.
      */
-    public Vector<StratmasObject> mapElementsUnderCursor() {
-        Vector<StratmasObject> res = new Vector<StratmasObject>();
+    public Vector<ApproxsimObject> mapElementsUnderCursor() {
+        Vector<ApproxsimObject> res = new Vector<ApproxsimObject>();
         for (Enumeration e = latestRenderSelection.getTopSelectionObjects()
                 .elements(); e.hasMoreElements();) {
             Object o = e.nextElement();
             if (o instanceof MapElementAdapter) {
-                res.add(((MapElementAdapter) o).getStratmasObject());
+                res.add(((MapElementAdapter) o).getApproxsimObject());
             }
         }
         return res;
@@ -1099,22 +1099,22 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
     }
 
     /**
-     * Shows subunits of the specified StratmasObject.
+     * Shows subunits of the specified ApproxsimObject.
      * 
      * @param so the object to show subunits for.
      */
-    protected void showSubunits(StratmasObject so) {
-        final StratmasObject parent = so;
-        StratmasObjectFilter filter = new StratmasObjectFilter() {
+    protected void showSubunits(ApproxsimObject so) {
+        final ApproxsimObject parent = so;
+        ApproxsimObjectFilter filter = new ApproxsimObjectFilter() {
             /**
-             * Returns true if the provided StratmasObject is a descendant of parent and not a list and has a type that may substitute
+             * Returns true if the provided ApproxsimObject is a descendant of parent and not a list and has a type that may substitute
              * parents type.
              * 
              * @param sObj the object to test
              */
-            public boolean pass(StratmasObject sObj) {
+            public boolean pass(ApproxsimObject sObj) {
                 return sObj != null
-                        && (!(sObj instanceof StratmasList))
+                        && (!(sObj instanceof ApproxsimList))
                         && sObj.getType().canSubstitute(parent.getType())
                         && (sObj.getParent() != null && sObj.getParent()
                                 .equals(parent));
@@ -1334,7 +1334,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
      * Adds a new MapDrawableAdapter to this map.
      */
     protected MapDrawableAdapter addMapDrawableAdapter(
-            StratmasObject mapDrawable) {
+            ApproxsimObject mapDrawable) {
         MapDrawableAdapter drawableAdapter = MapDrawableAdapter
                 .getMapDrawableAdapter(mapDrawable);
         int renderSelectionName = getNewRenderSelectionName(drawableAdapter
@@ -1766,37 +1766,37 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
         // additional elements added to elements
         TypeFilter filter = new TypeFilter(TypeFactory.getType("Scenario"),
                 true);
-        for (Enumeration<StratmasObject> e = filter.filterTree(basicMap
+        for (Enumeration<ApproxsimObject> e = filter.filterTree(basicMap
                 .getClient().getRootObject()); e.hasMoreElements();) {
-            StratmasObject scenario = e.nextElement();
+            ApproxsimObject scenario = e.nextElement();
             // Find lists that may generate new Elements and put a listener on it.
-            for (Enumeration<StratmasObject> ee = scenario.children(); ee
+            for (Enumeration<ApproxsimObject> ee = scenario.children(); ee
                     .hasMoreElements();) {
-                StratmasObject candidate = ee.nextElement();
+                ApproxsimObject candidate = ee.nextElement();
                 if (candidate.getType().canSubstitute("Element")
                         || candidate.getType().canSubstitute("Activity")
                         || candidate.getType().canSubstitute("Graph")) {
-                    if (candidate instanceof StratmasList) {
+                    if (candidate instanceof ApproxsimList) {
                         // Add any current elements and add a listener that imports any consequent ones.
-                        for (Enumeration<StratmasObject> le = candidate
+                        for (Enumeration<ApproxsimObject> le = candidate
                                 .children(); le.hasMoreElements();) {
                             addMapDrawable(le.nextElement());
                         }
-                        candidate.addEventListener(new StratmasEventListener() {
-                            public void eventOccured(StratmasEvent subEvent) {
+                        candidate.addEventListener(new ApproxsimEventListener() {
+                            public void eventOccured(ApproxsimEvent subEvent) {
                                 if (subEvent.isObjectAdded()) {
-                                    addMapDrawable((StratmasObject) subEvent
+                                    addMapDrawable((ApproxsimObject) subEvent
                                             .getArgument());
                                 } else if (subEvent.isRemoved()) {
-                                    ((StratmasObject) subEvent.getSource())
+                                    ((ApproxsimObject) subEvent.getSource())
                                             .removeEventListener(this);
                                 } else if (subEvent.isReplaced()) {
                                     // UNTESTED - the replace code is untested 2005-09-22
                                     Debug.err
                                             .println("FIXME - Replace behavior untested in MapDrawer");
-                                    ((StratmasObject) subEvent.getSource())
+                                    ((ApproxsimObject) subEvent.getSource())
                                             .removeEventListener(this);
-                                    ((StratmasObject) subEvent.getArgument())
+                                    ((ApproxsimObject) subEvent.getArgument())
                                             .addEventListener(this);
                                 }
                             }
@@ -1823,7 +1823,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
         // TODO implement
     }
     
-    public void placeObject(StratmasObject o){
+    public void placeObject(ApproxsimObject o){
         if(newlyCreatedObjectToBePlaced == null){
             newlyCreatedObjectToBePlaced = o;
         }else{

@@ -1,4 +1,4 @@
-package StratmasClient;
+package ApproxsimClient;
 
 import java.util.Vector;
 import java.util.Enumeration;
@@ -6,30 +6,30 @@ import java.util.Enumeration;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import StratmasClient.timeline.Timeline;
-import StratmasClient.filter.TypeFilter;
+import ApproxsimClient.timeline.Timeline;
+import ApproxsimClient.filter.TypeFilter;
 
-import StratmasClient.communication.GetGridMessage;
-import StratmasClient.communication.InitializationMessage;
-import StratmasClient.communication.RegisterForUpdatesMessage;
-import StratmasClient.communication.ResetMessage;
-import StratmasClient.communication.StratmasMessage;
-import StratmasClient.communication.ServerException;
-import StratmasClient.communication.StepMessage;
-import StratmasClient.communication.StratmasSocket;
+import ApproxsimClient.communication.GetGridMessage;
+import ApproxsimClient.communication.InitializationMessage;
+import ApproxsimClient.communication.RegisterForUpdatesMessage;
+import ApproxsimClient.communication.ResetMessage;
+import ApproxsimClient.communication.ApproxsimMessage;
+import ApproxsimClient.communication.ServerException;
+import ApproxsimClient.communication.StepMessage;
+import ApproxsimClient.communication.ApproxsimSocket;
 
-import StratmasClient.map.Visualizer;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.object.StratmasReference;
-import StratmasClient.object.StratmasList;
+import ApproxsimClient.map.Visualizer;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.object.ApproxsimReference;
+import ApproxsimClient.object.ApproxsimList;
 
 /**
  * This class is used to controll the simulation flow.
  */
-public class Controller implements Runnable, StratmasEventListener {
+public class Controller implements Runnable, ApproxsimEventListener {
     /**
      * Reference to the client.
      */
@@ -60,13 +60,13 @@ public class Controller implements Runnable, StratmasEventListener {
     TypeFilter unresolvedRefFilter = new TypeFilter(
             TypeFactory.getType("Reference"), true) {
         /**
-         * Returns true if the provided StratmasObject passes the type constraint and can not be resolved to a valid target
+         * Returns true if the provided ApproxsimObject passes the type constraint and can not be resolved to a valid target
          * 
          * @param sObj the object to test
          */
-        public boolean pass(StratmasObject sObj) {
-            if (super.pass(sObj) && !(sObj instanceof StratmasList)) {
-                return ((StratmasReference) sObj).getValue()
+        public boolean pass(ApproxsimObject sObj) {
+            if (super.pass(sObj) && !(sObj instanceof ApproxsimList)) {
+                return ((ApproxsimReference) sObj).getValue()
                         .resolve(sObj.getParent()) == null;
             } else {
                 return false;
@@ -101,13 +101,13 @@ public class Controller implements Runnable, StratmasEventListener {
     public boolean connectToServer() {
         String status_message;
         // check for the unresolved references
-        Enumeration<StratmasObject> unResolved = unresolvedRefFilter
+        Enumeration<ApproxsimObject> unResolved = unresolvedRefFilter
                 .filterTree(client.getRootObject());
         if (unResolved.hasMoreElements()) {
             StringBuffer buf = new StringBuffer(
                     "The following references could not be resolved:\n");
             while (unResolved.hasMoreElements()) {
-                StratmasObject sObj = (StratmasObject) unResolved.nextElement();
+                ApproxsimObject sObj = (ApproxsimObject) unResolved.nextElement();
                 buf.append(sObj.getReference().toString() + "\n");
             }
             buf.append("please correct these and try to connect again.");
@@ -119,9 +119,9 @@ public class Controller implements Runnable, StratmasEventListener {
         }
 
         // get name of the server to connect to
-        StratmasSocket socket = null;
-        if (client.getStratmasDispatcher() != null) {
-            socket = client.getStratmasDispatcher().allocateServer(10);
+        ApproxsimSocket socket = null;
+        if (client.getApproxsimDispatcher() != null) {
+            socket = client.getApproxsimDispatcher().allocateServer(10);
             if (socket == null) {
                 JOptionPane
                         .showMessageDialog((JFrame) null,
@@ -158,7 +158,7 @@ public class Controller implements Runnable, StratmasEventListener {
         client.setActiveClient(true);
 
         // initialize the server
-        StratmasMessage sm = new InitializationMessage((StratmasObject) client
+        ApproxsimMessage sm = new InitializationMessage((ApproxsimObject) client
                 .getRootObject().children().nextElement(), client);
         try {
             client.getServerConnection().blockingSend(sm);
@@ -477,9 +477,9 @@ public class Controller implements Runnable, StratmasEventListener {
     }
 
     /**
-     * Responds to the different stratmas events.
+     * Responds to the different approxsim events.
      */
-    public void eventOccured(StratmasEvent e) {
+    public void eventOccured(ApproxsimEvent e) {
         if (e.isRemoved()) {
             if (client.getServerConnection() != null
                     && client.getServerConnection().isAlive()) {
@@ -487,13 +487,13 @@ public class Controller implements Runnable, StratmasEventListener {
             }
             control_panel.close();
             control_panel = null;
-            ((StratmasObject) e.getSource()).removeEventListener(this);
+            ((ApproxsimObject) e.getSource()).removeEventListener(this);
         } else if (e.isReplaced()) {
             // UNTESTED - the replace code is untested 2005-09-22
             Debug.err
                     .println("FIXME - Replace behavior untested in Controller");
-            ((StratmasObject) e.getSource()).removeEventListener(this);
-            ((StratmasObject) e.getArgument()).addEventListener(this);
+            ((ApproxsimObject) e.getSource()).removeEventListener(this);
+            ((ApproxsimObject) e.getArgument()).addEventListener(this);
         } else if (e.isGridUpdated()) {
             Timeline tline = client.getTimeline();
             if (tline.getSimStartTime() == tline.getCurrentTime()) {

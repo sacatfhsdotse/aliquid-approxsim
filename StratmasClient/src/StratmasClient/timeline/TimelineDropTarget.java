@@ -1,4 +1,4 @@
-package StratmasClient.timeline;
+package ApproxsimClient.timeline;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.DnDConstants;
@@ -6,11 +6,11 @@ import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetAdapter;
 
-import StratmasClient.Debug;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasTimestamp;
-import StratmasClient.object.primitive.Timestamp;
-import StratmasClient.map.DraggedElement;
+import ApproxsimClient.Debug;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimTimestamp;
+import ApproxsimClient.object.primitive.Timestamp;
+import ApproxsimClient.map.DraggedElement;
 
 /**
  * This class implements DropTargetListener for use in the Timeline.
@@ -55,29 +55,29 @@ class TimelineDropTarget extends DropTargetAdapter {
         int x = (int) pt.getX();
         try {
             if (dtde.isDataFlavorSupported(DataFlavor.stringFlavor)
-                    || dtde.isDataFlavorSupported(StratmasObject.STRATMAS_OBJECT_FLAVOR)) {
+                    || dtde.isDataFlavorSupported(ApproxsimObject.APPROXSIM_OBJECT_FLAVOR)) {
                 dtde.acceptDrop(DnDConstants.ACTION_LINK);
                 dropAccepted = true;
                 Object obj;
                 if (dtde.getTransferable()
-                        .isDataFlavorSupported(StratmasObject.STRATMAS_OBJECT_FLAVOR)) {
-                    // accept StratmasObject
+                        .isDataFlavorSupported(ApproxsimObject.APPROXSIM_OBJECT_FLAVOR)) {
+                    // accept ApproxsimObject
                     obj = dtde
                             .getTransferable()
-                            .getTransferData(StratmasObject.STRATMAS_OBJECT_FLAVOR);
+                            .getTransferData(ApproxsimObject.APPROXSIM_OBJECT_FLAVOR);
                 } else {
                     // accept String
                     obj = dtde.getTransferable()
                             .getTransferData(DataFlavor.stringFlavor);
                 }
-                if (obj instanceof StratmasObject) {
-                    StratmasObject so = (StratmasObject) obj;
+                if (obj instanceof ApproxsimObject) {
+                    ApproxsimObject so = (ApproxsimObject) obj;
                     if (so.getChild("start") != null) {
                         if (so.getChild("end") != null) {
-                            long old_start = ((StratmasTimestamp) so
+                            long old_start = ((ApproxsimTimestamp) so
                                     .getChild("start")).getValue()
                                     .getMilliSecs();
-                            long old_end = ((StratmasTimestamp) so
+                            long old_end = ((ApproxsimTimestamp) so
                                     .getChild("end")).getValue().getMilliSecs();
                             long old_center = (old_start + old_end) / 2;
                             long new_center = timelinePanel
@@ -94,9 +94,9 @@ class TimelineDropTarget extends DropTargetAdapter {
                                     .getCurrentTime()
                                     && eTime.getMilliSecs() > timeline
                                             .getCurrentTime()) {
-                                ((StratmasTimestamp) so.getChild("start"))
+                                ((ApproxsimTimestamp) so.getChild("start"))
                                         .setValue(sTime, this);
-                                ((StratmasTimestamp) so.getChild("end"))
+                                ((ApproxsimTimestamp) so.getChild("end"))
                                         .setValue(eTime, this);
                             }
                         } else {
@@ -105,15 +105,15 @@ class TimelineDropTarget extends DropTargetAdapter {
                                             .convertProjectedXToCurrentTime(x))
                                     + timeline.getSimStartTime();
                             if (new_center > timeline.getCurrentTime()) {
-                                ((StratmasTimestamp) so.getChild("start"))
+                                ((ApproxsimTimestamp) so.getChild("start"))
                                         .setValue(new Timestamp(new_center),
                                                   this);
                             }
                         }
                         //
                         dtde.dropComplete(true);
-                    } else if (so instanceof StratmasTimestamp) {
-                        StratmasTimestamp st = (StratmasTimestamp) so;
+                    } else if (so instanceof ApproxsimTimestamp) {
+                        ApproxsimTimestamp st = (ApproxsimTimestamp) so;
                         long newTime = timelinePanel
                                 .timeToMilliseconds(activityPanel
                                         .convertProjectedXToCurrentTime(x))

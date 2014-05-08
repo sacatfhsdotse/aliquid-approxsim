@@ -1,5 +1,5 @@
-#ifndef _STRATMASTIME_H
-#define _STRATMASTIME_H
+#ifndef _APPROXSIMTIME_H
+#define _APPROXSIMTIME_H
 
 
 // System
@@ -11,13 +11,13 @@
 #include "stdint.h"
 
 #if defined(OS_WIN32) && !defined(COMPILER_CYGWIN)
-#define STRATMAS_INVALID_TIME (LLONG_MIN)
-#define STRATMAS_MIN_TIME (LLONG_MIN + 1)
-#define STRATMAS_MAX_TIME (LLONG_MAX)
+#define APPROXSIM_INVALID_TIME (LLONG_MIN)
+#define APPROXSIM_MIN_TIME (LLONG_MIN + 1)
+#define APPROXSIM_MAX_TIME (LLONG_MAX)
 #else
-#define STRATMAS_INVALID_TIME (std::numeric_limits<int64_t>::min())
-#define STRATMAS_MIN_TIME (std::numeric_limits<int64_t>::min() + 1)
-#define STRATMAS_MAX_TIME (std::numeric_limits<int64_t>::max())
+#define APPROXSIM_INVALID_TIME (std::numeric_limits<int64_t>::min())
+#define APPROXSIM_MIN_TIME (std::numeric_limits<int64_t>::min() + 1)
+#define APPROXSIM_MAX_TIME (std::numeric_limits<int64_t>::max())
 #endif
 
 /**
@@ -36,7 +36,7 @@ private:
      int64_t mMilliSec;   ///< The number of seconds from the reference time
 
 public:
-     Time() : mMilliSec(STRATMAS_INVALID_TIME) {} ///< Default constructor
+     Time() : mMilliSec(APPROXSIM_INVALID_TIME) {} ///< Default constructor
      Time(const Time &t) : mMilliSec(t.mMilliSec) {}       ///< Copy constructor
      /**
       * \brief Constructor
@@ -52,18 +52,18 @@ public:
 
      
      /**
-      * \brief Returns the maximum time that Stratmas may represent.
+      * \brief Returns the maximum time that Approxsim may represent.
       *
-      * \return The maximum time that Stratmas may represent.
+      * \return The maximum time that Approxsim may represent.
       */
-     static Time maxTime() { return Time(0, 0, 0, 0, STRATMAS_MAX_TIME); }
+     static Time maxTime() { return Time(0, 0, 0, 0, APPROXSIM_MAX_TIME); }
 
      /**
-      * \brief Returns the minimum time that Stratmas may represent.
+      * \brief Returns the minimum time that Approxsim may represent.
       *
-      * \return The minimum time that Stratmas may represent.
+      * \return The minimum time that Approxsim may represent.
       */
-     static Time minTime() { return Time(0, 0, 0, 0, STRATMAS_MIN_TIME); }
+     static Time minTime() { return Time(0, 0, 0, 0, APPROXSIM_MIN_TIME); }
 
      /**
       * \brief Returns the number of hours represented by this Time
@@ -106,7 +106,7 @@ public:
       *
       * \return True if this time is valid, false otherwise.
       */
-     bool isValid() const { return mMilliSec != STRATMAS_INVALID_TIME; }
+     bool isValid() const { return mMilliSec != APPROXSIM_INVALID_TIME; }
 
      // Operators
      /// Less-than operator
@@ -149,4 +149,4 @@ public:
      }
 };
 
-#endif  // _STRATMASTIME_H
+#endif  // _APPROXSIMTIME_H

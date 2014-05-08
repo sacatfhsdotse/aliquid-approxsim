@@ -3,7 +3,7 @@
  * @(#)ParameterInstanceSet.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
 import java.util.Hashtable;
 import java.util.Enumeration;

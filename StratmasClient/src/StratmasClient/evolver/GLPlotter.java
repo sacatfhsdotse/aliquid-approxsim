@@ -3,7 +3,7 @@
  * @(#)GLPlotter.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;

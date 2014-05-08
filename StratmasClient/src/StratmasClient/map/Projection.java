@@ -1,9 +1,9 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import java.lang.String;
-import StratmasClient.BoundingBox;
+import ApproxsimClient.BoundingBox;
 
-import StratmasClient.object.Point;
+import ApproxsimClient.object.Point;
 
 /**
  * This is a parent class of all projection classes.

@@ -251,7 +251,7 @@ void DataObject::dereg() const
 
 /**
  * \brief Produces an XML representation of this DataObject according
- * to the Stratmas xml schemas.
+ * to the Approxsim xml schemas.
  *
  * \param o The ostream to print to.
  * \param indent Intention string for readable output.
@@ -470,7 +470,7 @@ ComplexDataObject::ComplexDataObject(const Reference& ref, const Type& type) : C
 
 /**
  * \brief Adds a child to this ContainerDataObject preserving the
- * order as specified in the Stratmas xml schemas.
+ * order as specified in the Approxsim xml schemas.
  *
  * \param o The child to add.
  */
@@ -563,12 +563,12 @@ ostream& DataObjectList::toXML(ostream& o, string indent) const
  * \param scope A Reference the scope to create the DataObject in.
  * \param n The DOMElement to create this DataObject from.
  */
-StratmasBool::StratmasBool(const Reference& scope, const DOMElement* n) : DataObject(scope, n)
+ApproxsimBool::ApproxsimBool(const Reference& scope, const DOMElement* n) : DataObject(scope, n)
 {
      mValue = XMLHelper::getBool(*n, "value");
 }
 
-DataObject& StratmasBool::operator = (const DataObject& d)
+DataObject& ApproxsimBool::operator = (const DataObject& d)
 {
      if (d.getType().canSubstitute(getType())) {
           setBool(d.getBool());
@@ -579,13 +579,13 @@ DataObject& StratmasBool::operator = (const DataObject& d)
      return *this;
 }
 
-ostream& StratmasBool::bodyXML(ostream& o, string indent) const
+ostream& ApproxsimBool::bodyXML(ostream& o, string indent) const
 {
      o << indent << "<value>" << getBool() << "</value>" << endl;
      return o;
 }
 
-void StratmasBool::print(ostream& o, const std::string indent) const 
+void ApproxsimBool::print(ostream& o, const std::string indent) const 
 {
      DataObject::print(o, indent);
      o << getBool();
@@ -600,12 +600,12 @@ void StratmasBool::print(ostream& o, const std::string indent) const
  * \param scope A Reference the scope to create the DataObject in.
  * \param n The DOMElement to create this DataObject from.
  */
-StratmasDouble::StratmasDouble(const Reference& scope, const DOMElement* n) : DataObject(scope, n)
+ApproxsimDouble::ApproxsimDouble(const Reference& scope, const DOMElement* n) : DataObject(scope, n)
 {
      mValue = XMLHelper::getDouble(*n, "value");
 }
 
-DataObject& StratmasDouble::operator = (const DataObject& d)
+DataObject& ApproxsimDouble::operator = (const DataObject& d)
 {
      if (d.getType().canSubstitute(getType())) {
           setDouble(d.getDouble());
@@ -616,7 +616,7 @@ DataObject& StratmasDouble::operator = (const DataObject& d)
      return *this;
 }
 
-ostream& StratmasDouble::bodyXML(ostream& o, string indent) const
+ostream& ApproxsimDouble::bodyXML(ostream& o, string indent) const
 {
      o << indent << "<value>";
      if (!std::isnan(getDouble())) {
@@ -629,7 +629,7 @@ ostream& StratmasDouble::bodyXML(ostream& o, string indent) const
      return o;
 }
 
-void StratmasDouble::print(ostream& o, const std::string indent) const 
+void ApproxsimDouble::print(ostream& o, const std::string indent) const 
 {
      DataObject::print(o, indent);
      o << getDouble();
@@ -644,12 +644,12 @@ void StratmasDouble::print(ostream& o, const std::string indent) const
  * \param scope A Reference the scope to create the DataObject in.
  * \param n The DOMElement to create this DataObject from.
  */
-StratmasInt64_t::StratmasInt64_t(const Reference& scope, const DOMElement* n) : DataObject(scope, n)
+ApproxsimInt64_t::ApproxsimInt64_t(const Reference& scope, const DOMElement* n) : DataObject(scope, n)
 {
      mValue = XMLHelper::getLongInt(*n, "value");
 }
 
-DataObject& StratmasInt64_t::operator = (const DataObject& d)
+DataObject& ApproxsimInt64_t::operator = (const DataObject& d)
 {
      if (d.getType().canSubstitute(getType())) {
           setInt64_t(d.getInt64_t());
@@ -660,13 +660,13 @@ DataObject& StratmasInt64_t::operator = (const DataObject& d)
      return *this;
 }
 
-ostream& StratmasInt64_t::bodyXML(ostream& o, string indent) const
+ostream& ApproxsimInt64_t::bodyXML(ostream& o, string indent) const
 {
      o << indent << "<value>" << getInt64_t() << "</value>" << endl;
      return o;
 }
 
-void StratmasInt64_t::print(ostream& o, const std::string indent) const 
+void ApproxsimInt64_t::print(ostream& o, const std::string indent) const 
 {
      DataObject::print(o, indent);
      o << getInt64_t();
@@ -681,12 +681,12 @@ void StratmasInt64_t::print(ostream& o, const std::string indent) const
  * \param scope A Reference the scope to create the DataObject in.
  * \param n The DOMElement to create this DataObject from.
  */
-StratmasReference::StratmasReference(const Reference& scope, const DOMElement* n) : DataObject(scope, n)
+ApproxsimReference::ApproxsimReference(const Reference& scope, const DOMElement* n) : DataObject(scope, n)
 {
      mValue = &Reference::get(n);
 }
 
-DataObject& StratmasReference::operator = (const DataObject& d)
+DataObject& ApproxsimReference::operator = (const DataObject& d)
 {
      if (d.getType().canSubstitute(getType())) {
           setReference(d.getReference());
@@ -697,13 +697,13 @@ DataObject& StratmasReference::operator = (const DataObject& d)
      return *this;
 }
 
-ostream& StratmasReference::bodyXML(ostream& o, string indent) const
+ostream& ApproxsimReference::bodyXML(ostream& o, string indent) const
 {
      mValue->toXML(o, indent) << endl;
      return o;
 }
 
-void StratmasReference::print(ostream& o, const std::string indent) const 
+void ApproxsimReference::print(ostream& o, const std::string indent) const 
 {
      DataObject::print(o, indent);
      o << getReference();
@@ -716,7 +716,7 @@ void StratmasReference::print(ostream& o, const std::string indent) const
  *
  * \param c The DataObject to copy.
  */
-StratmasShape::StratmasShape(const StratmasShape& c) : DataObject(c), mValue(c.mValue->clone())
+ApproxsimShape::ApproxsimShape(const ApproxsimShape& c) : DataObject(c), mValue(c.mValue->clone())
 {
 }
 
@@ -727,12 +727,12 @@ StratmasShape::StratmasShape(const StratmasShape& c) : DataObject(c), mValue(c.m
  * \param scope A Reference the scope to create the DataObject in.
  * \param n The DOMElement to create this DataObject from.
  */
-StratmasShape::StratmasShape(const Reference& scope, const DOMElement* n) : DataObject(scope, n)
+ApproxsimShape::ApproxsimShape(const Reference& scope, const DOMElement* n) : DataObject(scope, n)
 {
      mValue = XMLHelper::getShape(*n, scope);
 }
 
-StratmasShape::~StratmasShape()
+ApproxsimShape::~ApproxsimShape()
 {
      delete mValue;
 }
@@ -743,7 +743,7 @@ StratmasShape::~StratmasShape()
  *
  * /return A copy of the Shape.
  */
-Shape* StratmasShape::getShape() const
+Shape* ApproxsimShape::getShape() const
 {
      return mValue->clone();
 }
@@ -757,13 +757,13 @@ Shape* StratmasShape::getShape() const
  *
  * /return A copy of the Shape.
  */
-void StratmasShape::setShape(const Shape* v)
+void ApproxsimShape::setShape(const Shape* v)
 {
      if (mValue) {
           if (v->type() != mValue->type()) {
-               stratmasDebug("this " << this << ", mValue " << mValue << ", v " << v);
-               stratmasDebug("mValue->type() " << mValue->type() << ", v->type() " << v->type());
-               StratmasShape* s = new StratmasShape(ref(), TypeFactory::getType(v->type()));
+               approxsimDebug("this " << this << ", mValue " << mValue << ", v " << v);
+               approxsimDebug("mValue->type() " << mValue->type() << ", v->type() " << v->type());
+               ApproxsimShape* s = new ApproxsimShape(ref(), TypeFactory::getType(v->type()));
                s->setShape(v);
                SOFactory::simulationObjectReplaced(*s, -1);
           }
@@ -777,13 +777,13 @@ void StratmasShape::setShape(const Shape* v)
      }
 }
 
-DataObject& StratmasShape::operator = (const DataObject& d)
+DataObject& ApproxsimShape::operator = (const DataObject& d)
 {
      if (d.getType().canSubstitute(getType())) {
           setShape(d.getShape());
           Circle* c = dynamic_cast<Circle*>(getShape());
           if (c) {
-               stratmasDebug("New value: " << *c);
+               approxsimDebug("New value: " << *c);
           }
      }
      else {
@@ -792,13 +792,13 @@ DataObject& StratmasShape::operator = (const DataObject& d)
      return *this;
 }
 
-ostream& StratmasShape::bodyXML(ostream& o, string indent) const
+ostream& ApproxsimShape::bodyXML(ostream& o, string indent) const
 {
      mValue->toXML(o, indent);
      return o;
 }
 
-void StratmasShape::print(ostream& o, const std::string indent) const 
+void ApproxsimShape::print(ostream& o, const std::string indent) const 
 {
      DataObject::print(o, indent);
      o << "center: " << mValue->cenCoord();
@@ -817,12 +817,12 @@ void StratmasShape::print(ostream& o, const std::string indent) const
  * \param scope A Reference the scope to create the DataObject in.
  * \param n The DOMElement to create this DataObject from.
  */
-StratmasString::StratmasString(const Reference& scope, const DOMElement* n) : DataObject(scope, n)
+ApproxsimString::ApproxsimString(const Reference& scope, const DOMElement* n) : DataObject(scope, n)
 {
      XMLHelper::getString(*n, "value", mValue);
 }
 
-DataObject& StratmasString::operator = (const DataObject& d)
+DataObject& ApproxsimString::operator = (const DataObject& d)
 {
      if (d.getType().canSubstitute(getType())) {
           setString(d.getString());
@@ -833,13 +833,13 @@ DataObject& StratmasString::operator = (const DataObject& d)
      return *this;
 }
 
-ostream& StratmasString::bodyXML(ostream& o, string indent) const
+ostream& ApproxsimString::bodyXML(ostream& o, string indent) const
 {
      o << indent << "<value>" << getString() << "</value>" << endl;
      return o;
 }
 
-void StratmasString::print(ostream& o, const std::string indent) const 
+void ApproxsimString::print(ostream& o, const std::string indent) const 
 {
      DataObject::print(o, indent);
      o << getString();
@@ -854,7 +854,7 @@ void StratmasString::print(ostream& o, const std::string indent) const
  * \param scope A Reference the scope to create the DataObject in.
  * \param n The DOMElement to create this DataObject from.
  */
-StratmasTime::StratmasTime(const Reference& scope, const DOMElement* n) : DataObject(scope, n)
+ApproxsimTime::ApproxsimTime(const Reference& scope, const DOMElement* n) : DataObject(scope, n)
 {
      if (getType().getName() == "Duration") {
           mValue = Time(0, 0, 0, 0, XMLHelper::getLongInt(*n, "value"));
@@ -864,7 +864,7 @@ StratmasTime::StratmasTime(const Reference& scope, const DOMElement* n) : DataOb
      }
 }
 
-DataObject& StratmasTime::operator = (const DataObject& d)
+DataObject& ApproxsimTime::operator = (const DataObject& d)
 {
      if (d.getType().canSubstitute(getType())) {
           setTime(d.getTime());
@@ -875,7 +875,7 @@ DataObject& StratmasTime::operator = (const DataObject& d)
      return *this;
 }
 
-ostream& StratmasTime::bodyXML(ostream& o, string indent) const
+ostream& ApproxsimTime::bodyXML(ostream& o, string indent) const
 {
      o << indent << "<value>";
      if (getType().getName() == "Duration") {
@@ -888,7 +888,7 @@ ostream& StratmasTime::bodyXML(ostream& o, string indent) const
      return o;
 }
 
-void StratmasTime::print(ostream& o, const std::string indent) const 
+void ApproxsimTime::print(ostream& o, const std::string indent) const 
 {
      DataObject::print(o, indent);
      o << getTime();
@@ -933,13 +933,13 @@ void SymbolIDCode::print(ostream& o, const std::string indent) const
 
 
 template<class T>
-StratmasGraph<T>::StratmasGraph(const Reference& scope, const DOMElement* n) : DataObject(scope, n)
+ApproxsimGraph<T>::ApproxsimGraph(const Reference& scope, const DOMElement* n) : DataObject(scope, n)
 {
      mValue = std::shared_ptr<Graph<T>> (XMLHelper::getGraph<T>(*n, scope));
 }
 
 template<class T>
-DataObject& StratmasGraph<T>::operator= (const DataObject& d)
+DataObject& ApproxsimGraph<T>::operator= (const DataObject& d)
 {
      // TODO this.graph = d.graph
      DataObject::operator=(d);
@@ -947,13 +947,13 @@ DataObject& StratmasGraph<T>::operator= (const DataObject& d)
 }
 
 template<class T>
-void StratmasGraph<T>::print(ostream& o, const std::string indent) const
+void ApproxsimGraph<T>::print(ostream& o, const std::string indent) const
 {
      mValue->print(o);
 }
 
 template<class T>
-std::ostream& StratmasGraph<T>::bodyXML(std::ostream& o, std::string indent) const
+std::ostream& ApproxsimGraph<T>::bodyXML(std::ostream& o, std::string indent) const
 {
      // TODO
 }
@@ -974,28 +974,28 @@ DataObject* DataObjectFactory::createDataObject(const Reference& scope, const DO
      string typeStr = XMLHelper::getTypeAttribute(*n);
      const Type& type = TypeFactory::getType(typeStr);
      if (type.canSubstitute("Double")) {
-          ret = new StratmasDouble(scope, n);
+          ret = new ApproxsimDouble(scope, n);
      }
      else if (type.canSubstitute("Timestamp") || type.canSubstitute("Duration")) {
-          ret = new StratmasTime(scope, n);
+          ret = new ApproxsimTime(scope, n);
      }
      else if (type.canSubstitute("NonNegativeInteger")) {
-          ret = new StratmasInt64_t(scope, n);
+          ret = new ApproxsimInt64_t(scope, n);
      }
      else if (type.canSubstitute("String")) {
-          ret = new StratmasString(scope, n);
+          ret = new ApproxsimString(scope, n);
      }
      else if (type.canSubstitute("Boolean")) {
-          ret = new StratmasBool(scope, n);
+          ret = new ApproxsimBool(scope, n);
      }
      else if (type.canSubstitute("Reference")) {
-          ret = new StratmasReference(scope, n);
+          ret = new ApproxsimReference(scope, n);
      }
      else if (type.canSubstitute("Shape")) {
-          ret = new StratmasShape(scope, n);
+          ret = new ApproxsimShape(scope, n);
      }
      else if (type.canSubstitute("PathGraph")) { // TODO other graphs
-          ret = new StratmasGraph<PathData>(scope, n);
+          ret = new ApproxsimGraph<PathData>(scope, n);
      }
      else if (typeStr == "SymbolIDCode") {
           ret = new SymbolIDCode(scope, n);
@@ -1018,25 +1018,25 @@ DataObject* DataObjectFactory::createDataObject(const Reference& ref, const Type
      DataObject* ret = 0;
      string typeStr = type.getName();
      if (type.canSubstitute("Double")) {
-          ret = new StratmasDouble(ref, type);
+          ret = new ApproxsimDouble(ref, type);
      }
      else if (type.canSubstitute("Timestamp") || type.canSubstitute("Duration")) {
-          ret = new StratmasTime(ref, type);
+          ret = new ApproxsimTime(ref, type);
      }
      else if (type.canSubstitute("NonNegativeInteger")) {
-          ret = new StratmasInt64_t(ref, type);
+          ret = new ApproxsimInt64_t(ref, type);
      }
      else if (type.canSubstitute("String")) {
-          ret = new StratmasString(ref, type);
+          ret = new ApproxsimString(ref, type);
      }
      else if (type.canSubstitute("Boolean")) {
-          ret = new StratmasBool(ref, type);
+          ret = new ApproxsimBool(ref, type);
      }
      else if (type.canSubstitute("Reference")) {
-          ret = new StratmasReference(ref, type);
+          ret = new ApproxsimReference(ref, type);
      }
      else if (type.canSubstitute("Shape")) {
-          ret = new StratmasShape(ref, type);
+          ret = new ApproxsimShape(ref, type);
      }
      else if (typeStr == "SymbolIDCode") {
           ret = new SymbolIDCode(ref, type);

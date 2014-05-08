@@ -4,7 +4,7 @@
  * @(#)ConnectionHandler.java
  */
 
-package StratmasDispatcher;
+package ApproxsimDispatcher;
 
 import java.util.Enumeration;
 import java.util.Vector;
@@ -55,14 +55,14 @@ public class ConnectionHandler implements Runnable
     static String XML_SCHEMA_NS = "http://www.w3.org/2001/XMLSchema-instance";
 
     /**
-     * StratmasProtocol location
+     * ApproxsimProtocol location
      */
     static String DISPATCHER_PROTOCOL = "dispatcherRequest.xsd";
 
     /**
      * The dispatcher to which the handler is associated.
      */
-    StratmasDispatcher dispatcher;
+    ApproxsimDispatcher dispatcher;
 
     /**
      * The DomImplementationLS to use.
@@ -88,7 +88,7 @@ public class ConnectionHandler implements Runnable
              */
             public boolean handle(Element request, Element reply, ConnectionHandler handler)
             {
-                StratmasDispatcher.log("Unknown element type: " + 
+                ApproxsimDispatcher.log("Unknown element type: " + 
                                        request.getAttribute("xsi:type"));
                 return false;
             }
@@ -100,7 +100,7 @@ public class ConnectionHandler implements Runnable
      * @param socketChannel the socket making up the connection
      * @param dispatcher the dispatcher to which the handler is associated.
      */
-    public ConnectionHandler(SocketChannel socketChannel, StratmasDispatcher dispatcher)
+    public ConnectionHandler(SocketChannel socketChannel, ApproxsimDispatcher dispatcher)
     {
         this.socketChannel = socketChannel;
         this.dispatcher = dispatcher;
@@ -179,7 +179,7 @@ public class ConnectionHandler implements Runnable
     /**
      * Returns the dispatcher of this connection
      */
-    public StratmasDispatcher getDispatcher()
+    public ApproxsimDispatcher getDispatcher()
     {
         return this.dispatcher;
     }
@@ -217,19 +217,19 @@ public class ConnectionHandler implements Runnable
                     for(int w = 0; w < 4 + array.length; w += getSocketChannel().write(byteBuffer));
                 }
             } catch (org.w3c.dom.ls.LSException e) {
-                StratmasDispatcher.log("Parse error recieving from " + 
+                ApproxsimDispatcher.log("Parse error recieving from " + 
                                        getSocketChannel().socket().getRemoteSocketAddress() +
                                        ": " + e.getMessage());
             }
             getSocketChannel().close();
         } catch (IOException e) {
-            StratmasDispatcher.log("Error recieiving from " + 
+            ApproxsimDispatcher.log("Error recieiving from " + 
                                    getSocketChannel().socket().getRemoteSocketAddress() + 
                                    ":" + e.getMessage());
             try {
                 getSocketChannel().close();
             } catch (IOException ex) {
-                StratmasDispatcher.log(ex.getMessage() + "\nFatal error, exiting...");
+                ApproxsimDispatcher.log(ex.getMessage() + "\nFatal error, exiting...");
                 System.exit(1);
             }
         }        
@@ -254,7 +254,7 @@ public class ConnectionHandler implements Runnable
                  */
                 public boolean handle(Element request, Element reply, ConnectionHandler handler)
                 {
-                    handler.getDispatcher().registerServer(StratmasServer.fromDOMElement((Element) request.getElementsByTagName("stratmasServer").item(0)));
+                    handler.getDispatcher().registerServer(ApproxsimServer.fromDOMElement((Element) request.getElementsByTagName("approxsimServer").item(0)));
                     return false;
                 }
             });
@@ -288,7 +288,7 @@ public class ConnectionHandler implements Runnable
      */
     Document handle(Element request)
     {
-        StratmasDispatcher.log(request.getAttribute("xsi:type") + " from " +
+        ApproxsimDispatcher.log(request.getAttribute("xsi:type") + " from " +
                                getSocketChannel().socket().getRemoteSocketAddress());
         ElementHandler handler = 
             (ElementHandler) elementHandlers.get(request.getAttribute("xsi:type"));

@@ -3,7 +3,7 @@
  * @(#)SemanticException.java
  */
 
-package StratmasClient.TaclanV2;
+package ApproxsimClient.TaclanV2;
 
 /**
  * An object representing a semantic error in TaclanV2

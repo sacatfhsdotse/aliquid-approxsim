@@ -3,7 +3,7 @@
  * @(#)ColorMapper.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
 /**
  * Defines an interface for mapping a double to a four component RGBA color

@@ -1,6 +1,6 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
-import StratmasClient.BoundingBox;
+import ApproxsimClient.BoundingBox;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;

@@ -1,4 +1,4 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

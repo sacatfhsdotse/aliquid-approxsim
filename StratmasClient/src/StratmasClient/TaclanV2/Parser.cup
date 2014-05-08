@@ -1,15 +1,15 @@
 // $Id: Parser.cup,v 1.15 2006/03/22 14:30:49 dah Exp $
 
-package StratmasClient.TaclanV2;
+package ApproxsimClient.TaclanV2;
 
-import StratmasClient.TaclanV2.java_cup.runtime.Symbol;
-import StratmasClient.object.StratmasList;
-import StratmasClient.object.StratmasObject;
+import ApproxsimClient.TaclanV2.java_cup.runtime.Symbol;
+import ApproxsimClient.object.ApproxsimList;
+import ApproxsimClient.object.ApproxsimObject;
 
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.object.type.TypeInformation;
-import StratmasClient.object.type.Type;
-import StratmasClient.object.type.Declaration;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.object.type.TypeInformation;
+import ApproxsimClient.object.type.Type;
+import ApproxsimClient.object.type.Declaration;
 
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
@@ -118,14 +118,14 @@ parser code {:
         }
 
     /**
-     * Returns a StratmasList containing the StratmasObjects the 
+     * Returns a ApproxsimList containing the ApproxsimObjects the 
      * parsing resulted in.
      *
      * @param declaration the declaration to get.
      */
-    public StratmasList getStratmasList(Declaration declaration) throws SemanticException, SyntaxException
+    public ApproxsimList getApproxsimList(Declaration declaration) throws SemanticException, SyntaxException
         {            
-            return (StratmasList) (new ParsedList(new SourcePosition(getLocation()), getParsedDeclarationList())).getStratmasObject(declaration);
+            return (ApproxsimList) (new ParsedList(new SourcePosition(getLocation()), getParsedDeclarationList())).getApproxsimObject(declaration);
         }
     
     /**

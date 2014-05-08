@@ -3,7 +3,7 @@
  * @(#)ScreenShotHandler.java
  */
 
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageTypeSpecifier;

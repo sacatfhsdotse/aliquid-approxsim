@@ -1,13 +1,13 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import java.util.Vector;
 import java.util.Enumeration;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.Shape;
-import StratmasClient.object.SimpleShape;
-import StratmasClient.BoundingBox;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.Shape;
+import ApproxsimClient.object.SimpleShape;
+import ApproxsimClient.BoundingBox;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
 
 /**
  * Region defined by <code>Shape</code> objects.
@@ -15,7 +15,7 @@ import StratmasClient.object.StratmasEventListener;
  * @version 1.0
  * @author Amir Filipovic
  */
-public class Region implements StratmasEventListener {
+public class Region implements ApproxsimEventListener {
     /**
      * Reference to the main container.
      */
@@ -31,7 +31,7 @@ public class Region implements StratmasEventListener {
     /**
      * List of listeners.
      */
-    private Vector<StratmasEventListener> listeners = new Vector<StratmasEventListener>();
+    private Vector<ApproxsimEventListener> listeners = new Vector<ApproxsimEventListener>();
 
     /**
      * Creates geographical region.
@@ -55,7 +55,7 @@ public class Region implements StratmasEventListener {
      * 
      * @param se the event to handle.
      */
-    public void eventOccured(StratmasEvent se) {
+    public void eventOccured(ApproxsimEvent se) {
         // a Shape is removed from the Region
         if (se.isRemoved()) {
             shapes.remove(se.getSource());
@@ -64,44 +64,44 @@ public class Region implements StratmasEventListener {
             // update projection
             basicMap.setProjection(new AzEqAreaProj(lon_lat_box));
             // notify all the listeners
-            notifyListeners(StratmasEvent.getRegionUpdated(this));
+            notifyListeners(ApproxsimEvent.getRegionUpdated(this));
         }
         // a Shape is added to the Region
         else if (se.isObjectAdded()) {
             // notify all the listeners
-            notifyListeners(StratmasEvent.getRegionUpdated(this));
+            notifyListeners(ApproxsimEvent.getRegionUpdated(this));
         } else if (se.isReplaced()) {
             throw new AssertionError("Replace behavior not implemented");
         }
     }
 
     /**
-     * Adds new stratmas listener to the list.
+     * Adds new approxsim listener to the list.
      */
-    public void addListener(StratmasEventListener listener) {
+    public void addListener(ApproxsimEventListener listener) {
         listeners.add(listener);
     }
 
     /**
-     * Removes a stratmas listener from the list.
+     * Removes a approxsim listener from the list.
      */
-    public void removeListener(StratmasEventListener listener) {
+    public void removeListener(ApproxsimEventListener listener) {
         listeners.remove(listener);
     }
 
     /**
-     * Removes all stratmas listeners from the list.
+     * Removes all approxsim listeners from the list.
      */
     public void removeAllListeners() {
         listeners.removeAllElements();
     }
 
     /**
-     * Notifies all listeners that a stratmas event has occured.
+     * Notifies all listeners that a approxsim event has occured.
      */
-    public void notifyListeners(StratmasEvent se) {
+    public void notifyListeners(ApproxsimEvent se) {
         for (int i = 0; i < listeners.size(); i++) {
-            ((StratmasEventListener) listeners.get(i)).eventOccured(se);
+            ((ApproxsimEventListener) listeners.get(i)).eventOccured(se);
         }
     }
 
@@ -112,8 +112,8 @@ public class Region implements StratmasEventListener {
         // remove all listeners
         for (int i = 0; i < listeners.size(); i++) {
             // FIXME THIS SHOULD NOT BE A REMOVE EVENT!!!
-            ((StratmasEventListener) listeners.get(i))
-                    .eventOccured(StratmasEvent.getRemoved(this, null));
+            ((ApproxsimEventListener) listeners.get(i))
+                    .eventOccured(ApproxsimEvent.getRemoved(this, null));
         }
         removeAllListeners();
         // remove all shapes.
@@ -132,7 +132,7 @@ public class Region implements StratmasEventListener {
             // update projection
             basicMap.setProjection(new AzEqAreaProj(lon_lat_box));
             // notify all listeners that the region has been updated
-            notifyListeners(StratmasEvent.getRegionUpdated(this));
+            notifyListeners(ApproxsimEvent.getRegionUpdated(this));
         }
     }
 
@@ -141,10 +141,10 @@ public class Region implements StratmasEventListener {
      * 
      * @param shape the actual shape.
      */
-    private void listenToShape(StratmasObject shape) {
+    private void listenToShape(ApproxsimObject shape) {
         if (!shape.getIdentifier().equals("curves")) {
             shape.addEventListener(this);
-            for (Enumeration<StratmasObject> e = shape.children(); e
+            for (Enumeration<ApproxsimObject> e = shape.children(); e
                     .hasMoreElements();) {
                 listenToShape(e.nextElement());
             }

@@ -1,5 +1,5 @@
-#ifndef STRATMAS_SHAPE_H
-#define STRATMAS_SHAPE_H
+#ifndef APPROXSIM_SHAPE_H
+#define APPROXSIM_SHAPE_H
 
 // System
 #include <list>
@@ -161,9 +161,9 @@ public:
      virtual Shape* clone() const = 0;
 
      /**
-      * \brief Returns the stratmas protocol type of this shape.
+      * \brief Returns the approxsim protocol type of this shape.
       *
-      * \return The stratmas protocol type of this shape.
+      * \return The approxsim protocol type of this shape.
       */
      virtual const std::string type() const = 0;
 
@@ -293,9 +293,9 @@ public:
      }
 
      /**
-      * \brief Returns the stratmas protocol type of this shape.
+      * \brief Returns the approxsim protocol type of this shape.
       *
-      * \return The stratmas protocol type of this shape.
+      * \return The approxsim protocol type of this shape.
       */
      const std::string type() const { return "Circle"; }
 
@@ -375,9 +375,9 @@ public:
      Shape *clone() const { return new Polygon(*this); }
 
      /**
-      * \brief Returns the stratmas protocol type of this shape.
+      * \brief Returns the approxsim protocol type of this shape.
       *
-      * \return The stratmas protocol type of this shape.
+      * \return The approxsim protocol type of this shape.
       */
      const std::string type() const { return "Polygon"; }
 
@@ -466,9 +466,9 @@ public:
      Shape *clone() const;
 
      /**
-      * \brief Returns the stratmas protocol type of this shape.
+      * \brief Returns the approxsim protocol type of this shape.
       *
-      * \return The stratmas protocol type of this shape.
+      * \return The approxsim protocol type of this shape.
       */
      const std::string type() const { return "Composite"; }
 
@@ -479,4 +479,4 @@ public:
 };
 
 
-#endif   // STRATMAS_SHAPE_H
+#endif   // APPROXSIM_SHAPE_H

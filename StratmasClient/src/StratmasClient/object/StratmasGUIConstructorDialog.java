@@ -1,19 +1,19 @@
-// $Id: StratmasGUIConstructorDialog.java,v 1.1 2006/03/22 14:30:51 dah Exp $
+// $Id: ApproxsimGUIConstructorDialog.java,v 1.1 2006/03/22 14:30:51 dah Exp $
 /*
- * @(#)StratmasGUIConstructor.java
+ * @(#)ApproxsimGUIConstructor.java
  */
 
-package StratmasClient.object;
+package ApproxsimClient.object;
 
 import javax.swing.JDialog;
 
 /**
- * A JDialog used to create a StratmasObject.
+ * A JDialog used to create a ApproxsimObject.
  * 
  * @version 1, $Date: 2006/03/22 14:30:51 $
  * @author Daniel Ahlin
  */
-public class StratmasGUIConstructorDialog extends JDialog {
+public class ApproxsimGUIConstructorDialog extends JDialog {
     /**
 	 * 
 	 */
@@ -22,7 +22,7 @@ public class StratmasGUIConstructorDialog extends JDialog {
     /**
      * The constructor this dialog wraps.
      */
-    StratmasGUIConstructor constructor;
+    ApproxsimGUIConstructor constructor;
 
     /**
      * Indicates that this dialog was cancelled.
@@ -34,18 +34,18 @@ public class StratmasGUIConstructorDialog extends JDialog {
      * 
      * @param constructor constructor to wrap.
      */
-    StratmasGUIConstructorDialog(StratmasGUIConstructor constructor) {
+    ApproxsimGUIConstructorDialog(ApproxsimGUIConstructor constructor) {
         super((java.awt.Frame) null, "Create "
                 + constructor.getDeclaration().getType().getName(), true);
         this.constructor = constructor;
     }
 
     /**
-     * Returns the StratmasObject this dialog is expected to create, or null if none has been created.
+     * Returns the ApproxsimObject this dialog is expected to create, or null if none has been created.
      */
-    public StratmasObject getStratmasObject() {
+    public ApproxsimObject getApproxsimObject() {
         if (!cancelled) {
-            return constructor.getStratmasObject();
+            return constructor.getApproxsimObject();
         } else {
             return null;
         }

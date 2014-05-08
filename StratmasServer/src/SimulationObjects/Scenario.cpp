@@ -48,7 +48,7 @@ Scenario::Scenario(const DataObject& d)
        mHDI(d.getChild("HDI")->getDouble()),
        mUnemployment(d.getChild("unemployment")->getDouble())
 {
-     mMap = new Map(dynamic_cast<StratmasShape*>(d.getChild("map"))->getShapeRef());
+     mMap = new Map(dynamic_cast<ApproxsimShape*>(d.getChild("map"))->getShapeRef());
 
      // Initialize factions
      const vector<DataObject*>& factions = d.getChild("factions")->objects();
@@ -322,11 +322,11 @@ void Scenario::modify(const DataObject& d)
      const string& attr = d.identifier();
      if (attr == "HDI") {
           mHDI = d.getDouble();
-          stratmasDebug("Setting HDI to " << mHDI);
+          approxsimDebug("Setting HDI to " << mHDI);
      }
      else if (attr == "unemployment") {
           mUnemployment = d.getDouble();
-          stratmasDebug("Setting unemployment to " << mUnemployment);
+          approxsimDebug("Setting unemployment to " << mUnemployment);
      }
      else {
           Error e;
@@ -363,7 +363,7 @@ void Scenario::reset(const DataObject& d)
      if (mMap) {
           delete mMap;
      }
-     mMap = new Map(dynamic_cast<StratmasShape*>(d.getChild("map"))->getShapeRef());
+     mMap = new Map(dynamic_cast<ApproxsimShape*>(d.getChild("map"))->getShapeRef());
 
      mDisease->reset(*d.getChild("disease"));
 

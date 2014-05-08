@@ -3,7 +3,7 @@
  * @(#)ImportException.java
  */
 
-package StratmasClient.TaclanV2;
+package ApproxsimClient.TaclanV2;
 
 /**
  * An object representing an error importing something into TaclanV2

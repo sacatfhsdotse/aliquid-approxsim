@@ -1,5 +1,5 @@
-#ifndef STRATMAS_ELEMENT_H
-#define STRATMAS_ELEMENT_H
+#ifndef APPROXSIM_ELEMENT_H
+#define APPROXSIM_ELEMENT_H
 
 
 // Own
@@ -12,7 +12,7 @@ class Shape;
 
 
 /**
- * \brief Abstract base class for a Stratmas Element.
+ * \brief Abstract base class for a Approxsim Element.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/02/28 17:48:16 $
@@ -59,4 +59,4 @@ public:
      virtual void reset(const DataObject& d);
 };
 
-#endif   // STRATMAS_ELEMENT_H
+#endif   // APPROXSIM_ELEMENT_H

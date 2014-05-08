@@ -1,4 +1,4 @@
-package StratmasClient.substrate;
+package ApproxsimClient.substrate;
 
 import java.awt.Font;
 import java.awt.Insets;
@@ -23,8 +23,8 @@ import javax.swing.BoxLayout;
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
 
-import StratmasClient.StratmasDialog;
-import StratmasClient.ProcessVariableDescription;
+import ApproxsimClient.ApproxsimDialog;
+import ApproxsimClient.ProcessVariableDescription;
 
 /**
  * ColorMapDialog is used to set color map options for a process variable in SubstrateEditor.
@@ -256,7 +256,7 @@ public class ColorMapDialog extends JDialog implements ActionListener {
      */
     private void errorMess() {
         Object[] options = { "OK", "Help" };
-        StratmasDialog.showOptionDialog(new JFrame("ERROR!!!"),
+        ApproxsimDialog.showOptionDialog(new JFrame("ERROR!!!"),
                                         "Invalid input value!",
                                         "Error message",
                                         JOptionPane.YES_NO_OPTION,

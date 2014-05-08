@@ -1,4 +1,4 @@
-package StratmasClient.TaclanV2.java_cup.runtime;
+package ApproxsimClient.TaclanV2.java_cup.runtime;
 
 /**
  * Defines the Scanner interface, which CUP uses in the default implementation of <code>lr_parser.scan()</code>. Integration of scanners

@@ -3,7 +3,7 @@
  * @(#)EvaluatorFactory.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
 /**
  * Provides an Evolver with Evaluator instances

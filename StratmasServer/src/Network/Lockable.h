@@ -1,5 +1,5 @@
-#ifndef STRATMAS_LOCKABLE_H
-#define STRATMAS_LOCKABLE_H
+#ifndef APPROXSIM_LOCKABLE_H
+#define APPROXSIM_LOCKABLE_H
 
 // System
 #include <boost/thread/mutex.hpp>
@@ -23,4 +23,4 @@ public:
      boost::mutex& mutex() const { return mMutex; }
 };
 
-#endif   // _STRATMAS_LOCKABLE_H
+#endif   // _APPROXSIM_LOCKABLE_H

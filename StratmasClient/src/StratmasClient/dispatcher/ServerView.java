@@ -4,10 +4,10 @@
  * @(#)ServerView.java
  */
 
-package StratmasClient.dispatcher;
+package ApproxsimClient.dispatcher;
 
-import StratmasClient.Client;
-import StratmasClient.StratmasDialog;
+import ApproxsimClient.Client;
+import ApproxsimClient.ApproxsimDialog;
 
 import java.util.Enumeration;
 import java.awt.event.KeyEvent;
@@ -77,17 +77,17 @@ public class ServerView extends JTree {
     /**
      * The dispatcher backing this tree.
      */
-    StratmasDispatcher stratmasDispatcher;
+    ApproxsimDispatcher approxsimDispatcher;
 
     /**
      * Creates a new Tree panel using the the specified dispatcher for information.
      * 
      * @param dispatcher the dispatcher this tree is a view of.
      */
-    public ServerView(StratmasDispatcher dispatcher) {
+    public ServerView(ApproxsimDispatcher dispatcher) {
         super(dispatcher.getServers());
         final ServerView self = this;
-        this.stratmasDispatcher = dispatcher;
+        this.approxsimDispatcher = dispatcher;
 
         // Add listener that ensures that added top level components
         // are shown when isRootVisible == false. And that the tree is
@@ -232,14 +232,14 @@ public class ServerView extends JTree {
     public void refreshServers() {
         DefaultMutableTreeNode newRoot = new DefaultMutableTreeNode("root");
         JTree.DynamicUtilTreeNode.createChildren(newRoot,
-                                                 getStratmasDispatcher()
+                                                 getApproxsimDispatcher()
                                                          .getServers());
         DefaultTreeModel newModel = new DefaultTreeModel(newRoot, false);
         setModel(newModel);
     }
 
     /**
-     * Helper function, returns the StratmasObject under the drop, note that the root is assumed to 'cover' everything that is not another
+     * Helper function, returns the ApproxsimObject under the drop, note that the root is assumed to 'cover' everything that is not another
      * node.
      * 
      * @param point point in components coordinates.
@@ -249,7 +249,7 @@ public class ServerView extends JTree {
     }
 
     /**
-     * Helper function, returns the StratmasObject under the drop, note that the root is assumed to 'cover' everything that is not another
+     * Helper function, returns the ApproxsimObject under the drop, note that the root is assumed to 'cover' everything that is not another
      * node.
      * 
      * @param x x in components coordinates.
@@ -266,15 +266,15 @@ public class ServerView extends JTree {
     }
 
     /*
-     * Shows a popup for the specified StratmasServerAdapter at the specified place.
+     * Shows a popup for the specified ApproxsimServerAdapter at the specified place.
      * @param x where to place the popup.
      * @param y where to place the popup.
-     * @param objectAdapter the StratmasServerAdapter for which the popup is shown.
+     * @param objectAdapter the ApproxsimServerAdapter for which the popup is shown.
      */
     protected void showPopup(int x, int y, DefaultMutableTreeNode objectAdapter) {
-        if (objectAdapter.getUserObject() instanceof StratmasServer) {
+        if (objectAdapter.getUserObject() instanceof ApproxsimServer) {
             JPopupMenu popup = new JPopupMenu(objectAdapter.toString());
-            final StratmasServer server = (StratmasServer) objectAdapter
+            final ApproxsimServer server = (ApproxsimServer) objectAdapter
                     .getUserObject();
             if (server.getSimulations().size() != 0) {
                 for (Enumeration e = server.getSimulations().elements(); e
@@ -289,14 +289,14 @@ public class ServerView extends JTree {
                         public void actionPerformed(ActionEvent event) {
                             Client.getClient().setServerName(server.getHost());
                             Client.getClient().setServerPort(server.getPort());
-                            StratmasDialog
+                            ApproxsimDialog
                                     .showProgressBarDialog(null,
                                                            "Initializing - passive mode ...");
                             new Thread() {
                                 public void run() {
                                     Client.getClient()
                                             .getRootObjectFromServer();
-                                    StratmasDialog.quitProgressBarDialog();
+                                    ApproxsimDialog.quitProgressBarDialog();
                                 }
                             }.start();
                         }
@@ -328,7 +328,7 @@ public class ServerView extends JTree {
      * 
      * @param dispatcher the dispatcher to use.
      */
-    public static ServerViewFrame getDefaultFrame(StratmasDispatcher dispatcher) {
+    public static ServerViewFrame getDefaultFrame(ApproxsimDispatcher dispatcher) {
         ServerViewFrame res = new ServerViewFrame(
                 getDefaultServerView(dispatcher));
         return res;
@@ -339,7 +339,7 @@ public class ServerView extends JTree {
      * 
      * @param dispatcher the dispatcher to use.
      */
-    public static ServerView getDefaultServerView(StratmasDispatcher dispatcher) {
+    public static ServerView getDefaultServerView(ApproxsimDispatcher dispatcher) {
         final ServerView view = new ServerView(dispatcher);
         // view.setShowsRootHandles(false);
 
@@ -426,8 +426,8 @@ public class ServerView extends JTree {
     /**
      * Returns the dispatcher backing this tree.
      */
-    public StratmasDispatcher getStratmasDispatcher() {
-        return this.stratmasDispatcher;
+    public ApproxsimDispatcher getApproxsimDispatcher() {
+        return this.approxsimDispatcher;
     }
 }
 
@@ -490,9 +490,9 @@ class ServerViewCellRenderer extends DefaultTreeCellRenderer {
             boolean hasFocus) {
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
 
-        if (node.getUserObject() instanceof StratmasServer) {
+        if (node.getUserObject() instanceof ApproxsimServer) {
 
-            StratmasServer server = (StratmasServer) node.getUserObject();
+            ApproxsimServer server = (ApproxsimServer) node.getUserObject();
             this.hasFocus = hasFocus;
             setText(server.toString());
 

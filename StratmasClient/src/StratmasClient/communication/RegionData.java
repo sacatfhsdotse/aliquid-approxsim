@@ -1,16 +1,16 @@
-package StratmasClient.communication;
+package ApproxsimClient.communication;
 
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Vector;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import StratmasClient.Client;
-import StratmasClient.object.primitive.Reference;
-import StratmasClient.object.Shape;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.primitive.Timestamp;
+import ApproxsimClient.Client;
+import ApproxsimClient.object.primitive.Reference;
+import ApproxsimClient.object.Shape;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.object.primitive.Timestamp;
 
 /**
  * Class used when subscribing to aggregated pv values over a Region.
@@ -19,8 +19,8 @@ import StratmasClient.object.primitive.Timestamp;
  * @author Per Alexius
  */
 public class RegionData {
-    /** Vector of StratmasEventListeners listening to this object. */
-    private Vector<StratmasEventListener> mListeners = new Vector<StratmasEventListener>();
+    /** Vector of ApproxsimEventListeners listening to this object. */
+    private Vector<ApproxsimEventListener> mListeners = new Vector<ApproxsimEventListener>();
 
     /** The region this data refers to. */
     private Shape mRegion;
@@ -90,7 +90,7 @@ public class RegionData {
      * 
      * @param listener The listener to add.
      */
-    public synchronized void addListener(StratmasEventListener listener) {
+    public synchronized void addListener(ApproxsimEventListener listener) {
         mListeners.add(listener);
     }
 
@@ -99,7 +99,7 @@ public class RegionData {
      * 
      * @param listener The listener to remove.
      */
-    public synchronized void removeListener(StratmasEventListener listener) {
+    public synchronized void removeListener(ApproxsimEventListener listener) {
         mListeners.remove(listener);
         if (mListeners.isEmpty()) {
             if (mClient != null) {
@@ -200,7 +200,7 @@ public class RegionData {
                                                                     "faction");
                 String factionName;
                 if (factionElem == null) {
-                    factionName = StratmasClient.StratmasConstants.factionAll;
+                    factionName = ApproxsimClient.ApproxsimConstants.factionAll;
                 } else {
                     factionName = Reference.getReference(factionElem)
                             .getIdentifier();
@@ -209,8 +209,8 @@ public class RegionData {
             }
         }
 
-        StratmasEvent event = StratmasEvent.getGeneric(this);
-        for (Iterator<StratmasEventListener> it = mListeners.iterator(); it
+        ApproxsimEvent event = ApproxsimEvent.getGeneric(this);
+        for (Iterator<ApproxsimEventListener> it = mListeners.iterator(); it
                 .hasNext();) {
             it.next().eventOccured(event);
         }

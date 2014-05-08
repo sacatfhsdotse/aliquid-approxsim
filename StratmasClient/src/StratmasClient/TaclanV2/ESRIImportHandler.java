@@ -3,7 +3,7 @@
  * @(#)ESRIImportHandler.java
  */
 
-package StratmasClient.TaclanV2;
+package ApproxsimClient.TaclanV2;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

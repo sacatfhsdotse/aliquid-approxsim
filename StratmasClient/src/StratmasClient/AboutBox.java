@@ -1,11 +1,11 @@
 // $Id: AboutBox.java,v 1.4 2006/03/22 14:30:40 dah Exp $
 
-package StratmasClient;
+package ApproxsimClient;
 
 import javax.swing.JOptionPane;
 
 /**
- * Simple class for showing an about box for Stratmas.
+ * Simple class for showing an about box for Approxsim.
  * 
  * @version 1, $Date: 2006/03/22 14:30:40 $
  * @author Per Alexius
@@ -14,7 +14,7 @@ public class AboutBox {
     /**
      * The version string. Checking out a certian version will replace this string with the version name.
      */
-    static final String version = "$Name: Stratmas_V_7_6 $";
+    static final String version = "$Name: Approxsim_V_7_6 $";
 
     /**
      * Shows the about box.
@@ -28,8 +28,8 @@ public class AboutBox {
                     .replaceFirst("\\s*\\$", "");
         }
 
-        String message = "Stratmas Client\n" + "   version: " + theVersion;
-        JOptionPane.showMessageDialog(null, message, "About Stratmas Client",
+        String message = "Approxsim Client\n" + "   version: " + theVersion;
+        JOptionPane.showMessageDialog(null, message, "About Approxsim Client",
                                       JOptionPane.PLAIN_MESSAGE);
     }
 }

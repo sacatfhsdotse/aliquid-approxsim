@@ -1,5 +1,5 @@
-#ifndef STRATMAS_SOFACTORY
-#define STRATMAS_SOFACTORY
+#ifndef APPROXSIM_SOFACTORY
+#define APPROXSIM_SOFACTORY
 
 // System
 #include <map>
@@ -86,6 +86,6 @@ public:
      static SimulationObject* createWaterAgencyTeam(const DataObject& d);
 };
 
-#endif   // STRATMAS_SOFACTORY
+#endif   // APPROXSIM_SOFACTORY
 
 // vim: ts=5 sw=5 expandtab:

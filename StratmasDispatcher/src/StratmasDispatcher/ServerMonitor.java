@@ -4,7 +4,7 @@
  * @(#)ServerMonitor.java
  */
 
-package StratmasDispatcher;
+package ApproxsimDispatcher;
 
 import java.io.IOException;
 import java.io.ByteArrayOutputStream;
@@ -49,17 +49,17 @@ public class ServerMonitor implements Runnable
     /**
      * The server to monitor
      */
-    StratmasServer server;
+    ApproxsimServer server;
 
     /**
-     * StratmasProtocol namespace
+     * ApproxsimProtocol namespace
      */
-    static String STRATMAS_PROTOCOL_NS = "http://pdc.kth.se/stratmasNamespace";
+    static String APPROXSIM_PROTOCOL_NS = "http://pdc.kth.se/approxsimNamespace";
 
     /**
-     * StratmasProtocol location
+     * ApproxsimProtocol location
      */
-    static String STRATMAS_PROTOCOL = "stratmasProtocol.xsd";
+    static String APPROXSIM_PROTOCOL = "approxsimProtocol.xsd";
 
     /**
      * XML Schema namespace
@@ -92,7 +92,7 @@ public class ServerMonitor implements Runnable
      *
      * @param server the server to monitor.
      */
-    public ServerMonitor(StratmasServer server)
+    public ServerMonitor(ApproxsimServer server)
     {
         this.server = server;
     }
@@ -100,7 +100,7 @@ public class ServerMonitor implements Runnable
     /**
      * Returns the server this monitor watches.
      */
-    public StratmasServer getServer()
+    public ApproxsimServer getServer()
     {
         return this.server;
     }
@@ -126,7 +126,7 @@ public class ServerMonitor implements Runnable
 
             document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
             document.createEntityReference("xsi");
-            Element element = document.createElementNS(STRATMAS_PROTOCOL_NS, "stratmasMessage");
+            Element element = document.createElementNS(APPROXSIM_PROTOCOL_NS, "approxsimMessage");
             element.setPrefix("sp");
             element.setAttribute("xmlns:xsi", XML_SCHEMA_NS);
             element.setAttribute("xsi:type", "sp:LoadQueryMessage");
@@ -182,7 +182,7 @@ public class ServerMonitor implements Runnable
     }
 
     /**
-     * Creates a parser for communication with a StratmasServer.
+     * Creates a parser for communication with a ApproxsimServer.
      */
     public LSParser createParser()
     {
@@ -204,7 +204,7 @@ public class ServerMonitor implements Runnable
                 }
             });
 
-        parser.getDomConfig().setParameter("schema-location", STRATMAS_PROTOCOL);
+        parser.getDomConfig().setParameter("schema-location", APPROXSIM_PROTOCOL);
         parser.getDomConfig().setParameter("validate", Boolean.TRUE);
         parser.getDomConfig().setParameter("namespaces", Boolean.TRUE);
 
@@ -279,7 +279,7 @@ public class ServerMonitor implements Runnable
                                                                         "type");
 //                Wait for DOM3
 //                 TypeInfo typeInfo = reply.getDocumentElement().getSchemaTypeInfo();
-//                 if (typeInfo.isDerivedFrom(STRATMAS_PROTOCOL_NS,
+//                 if (typeInfo.isDerivedFrom(APPROXSIM_PROTOCOL_NS,
 //                                            "LoadQueryResponseMessage",
 //                                            0)) {
                 if (type != null && type.equals("sp:LoadQueryResponseMessage")) {
@@ -290,7 +290,7 @@ public class ServerMonitor implements Runnable
                         throw new RuntimeException("Malformed LoadQueryResponseMessage "  + 
                                                    "accepted by XML parser");
                     }
-//                 } else if (typeInfo.isDerivedFrom(STRATMAS_PROTOCOL_NS,
+//                 } else if (typeInfo.isDerivedFrom(APPROXSIM_PROTOCOL_NS,
 //                                                   "StatusMessage",
 //                                                   0)) {
                 } else if (type != null && type.equals("sp:StatusMessage")) {
@@ -334,7 +334,7 @@ public class ServerMonitor implements Runnable
      */
     void downCheck(String message)
     {
-        StratmasDispatcher.log("Downchecking " + 
+        ApproxsimDispatcher.log("Downchecking " + 
                                getServer().getHost() + ":" + 
                                getServer().getPort() + " due to: " + 
                                message);

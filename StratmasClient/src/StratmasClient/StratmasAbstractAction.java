@@ -1,19 +1,19 @@
-// $Id: StratmasAbstractAction.java,v 1.4 2006/07/31 10:17:49 alexius Exp $
+// $Id: ApproxsimAbstractAction.java,v 1.4 2006/07/31 10:17:49 alexius Exp $
 /*
- * @(#) StratmasAbstractAction
+ * @(#) ApproxsimAbstractAction
  */
 
-package StratmasClient;
+package ApproxsimClient;
 
 import javax.swing.AbstractAction;
 
 /**
- * StratmasAbstractAction is subclass of AbstractAction that allows defining if the action is a mutator.
+ * ApproxsimAbstractAction is subclass of AbstractAction that allows defining if the action is a mutator.
  * 
  * @version 1, $Date: 2006/07/31 10:17:49 $
  * @author Daniel Ahlin
  */
-public abstract class StratmasAbstractAction extends AbstractAction {
+public abstract class ApproxsimAbstractAction extends AbstractAction {
     /**
 	 * 
 	 */
@@ -24,12 +24,12 @@ public abstract class StratmasAbstractAction extends AbstractAction {
     boolean isMutator;
 
     /**
-     * Creates a new StratmasAbstractAction with the specified name
+     * Creates a new ApproxsimAbstractAction with the specified name
      * 
      * @param str the name of the action.
      * @param isMutator indicating if this action changes the object or not.
      */
-    public StratmasAbstractAction(String str, boolean isMutator) {
+    public ApproxsimAbstractAction(String str, boolean isMutator) {
         super(str);
         this.isMutator = isMutator;
     }

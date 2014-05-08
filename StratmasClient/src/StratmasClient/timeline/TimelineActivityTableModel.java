@@ -1,4 +1,4 @@
-package StratmasClient.timeline;
+package ApproxsimClient.timeline;
 
 import java.text.ParseException;
 import java.util.Vector;
@@ -26,17 +26,17 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import StratmasClient.Debug;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.object.StratmasTimestamp;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.StratmasReference;
-import StratmasClient.object.StratmasList;
-import StratmasClient.object.primitive.Timestamp;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.object.type.Declaration;
+import ApproxsimClient.Debug;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimObjectFactory;
+import ApproxsimClient.object.ApproxsimTimestamp;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.object.ApproxsimReference;
+import ApproxsimClient.object.ApproxsimList;
+import ApproxsimClient.object.primitive.Timestamp;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.object.type.Declaration;
 
 /**
  * The table model for the table of activities.
@@ -44,7 +44,7 @@ import StratmasClient.object.type.Declaration;
  * @author Amir Filipovic
  */
 public class TimelineActivityTableModel extends AbstractTableModel implements
-        StratmasEventListener {
+        ApproxsimEventListener {
     /**
 	 * 
 	 */
@@ -61,7 +61,7 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
     /**
      * The list of activities.
      */
-    private Vector<StratmasObject> activityList = new Vector<StratmasObject>();
+    private Vector<ApproxsimObject> activityList = new Vector<ApproxsimObject>();
     /**
      * Indicator for the order of activities in the table.
      */
@@ -93,10 +93,10 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
     /**
      * Used to compare start times of the activities.
      */
-    public static final Comparator<StratmasObject> START_TIME_COMPARATOR = new Comparator<StratmasObject>() {
-        public int compare(StratmasObject o1, StratmasObject o2) {
-            StratmasTimestamp st1 = (StratmasTimestamp) o1.getChild("start");
-            StratmasTimestamp st2 = (StratmasTimestamp) o2.getChild("start");
+    public static final Comparator<ApproxsimObject> START_TIME_COMPARATOR = new Comparator<ApproxsimObject>() {
+        public int compare(ApproxsimObject o1, ApproxsimObject o2) {
+            ApproxsimTimestamp st1 = (ApproxsimTimestamp) o1.getChild("start");
+            ApproxsimTimestamp st2 = (ApproxsimTimestamp) o2.getChild("start");
             if (st1 == null) {
                 return -1;
             } else if (st2 == null) {
@@ -111,10 +111,10 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
     /**
      * Used to compare end times of the activities.
      */
-    public static final Comparator<StratmasObject> END_TIME_COMPARATOR = new Comparator<StratmasObject>() {
-        public int compare(StratmasObject o1, StratmasObject o2) {
-            StratmasTimestamp st1 = (StratmasTimestamp) o1.getChild("end");
-            StratmasTimestamp st2 = (StratmasTimestamp) o2.getChild("end");
+    public static final Comparator<ApproxsimObject> END_TIME_COMPARATOR = new Comparator<ApproxsimObject>() {
+        public int compare(ApproxsimObject o1, ApproxsimObject o2) {
+            ApproxsimTimestamp st1 = (ApproxsimTimestamp) o1.getChild("end");
+            ApproxsimTimestamp st2 = (ApproxsimTimestamp) o2.getChild("end");
             if (st1 == null) {
                 return -1;
             } else if (st2 == null) {
@@ -129,8 +129,8 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
     /**
      * Used to compare the activity names.
      */
-    public static final Comparator<StratmasObject> ACTIVITY_NAME_COMPARATOR = new Comparator<StratmasObject>() {
-        public int compare(StratmasObject o1, StratmasObject o2) {
+    public static final Comparator<ApproxsimObject> ACTIVITY_NAME_COMPARATOR = new Comparator<ApproxsimObject>() {
+        public int compare(ApproxsimObject o1, ApproxsimObject o2) {
             String s1 = o1.getIdentifier();
             String s2 = o2.getIdentifier();
             return s1.compareTo(s2);
@@ -139,11 +139,11 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
     /**
      * Used to compare names of the resources.
      */
-    public static final Comparator<StratmasObject> MU_NAME_COMPARATOR = new Comparator<StratmasObject>() {
-        public int compare(StratmasObject o1, StratmasObject o2) {
+    public static final Comparator<ApproxsimObject> MU_NAME_COMPARATOR = new Comparator<ApproxsimObject>() {
+        public int compare(ApproxsimObject o1, ApproxsimObject o2) {
             try {
-                StratmasObject mu1 = o1.getParent().getParent();
-                StratmasObject mu2 = o2.getParent().getParent();
+                ApproxsimObject mu1 = o1.getParent().getParent();
+                ApproxsimObject mu2 = o2.getParent().getParent();
                 if (!mu1.getType().canSubstitute("MilitaryUnit")) {
                     return -1;
                 } else if (!mu2.getType().canSubstitute("MilitaryUnit")) {
@@ -160,19 +160,19 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
     /**
      * Used to compare names of the affiliations of the resources.
      */
-    public static final Comparator<StratmasObject> AFF_NAME_COMPARATOR = new Comparator<StratmasObject>() {
-        public int compare(StratmasObject o1, StratmasObject o2) {
+    public static final Comparator<ApproxsimObject> AFF_NAME_COMPARATOR = new Comparator<ApproxsimObject>() {
+        public int compare(ApproxsimObject o1, ApproxsimObject o2) {
             try {
-                StratmasObject mu1 = o1.getParent().getParent();
-                StratmasObject mu2 = o2.getParent().getParent();
+                ApproxsimObject mu1 = o1.getParent().getParent();
+                ApproxsimObject mu2 = o2.getParent().getParent();
                 if (!mu1.getType().canSubstitute("MilitaryUnit")) {
                     return -1;
                 } else if (!mu2.getType().canSubstitute("MilitaryUnit")) {
                     return 1;
                 }
-                String s1 = ((StratmasReference) mu1.getChild("affiliation"))
+                String s1 = ((ApproxsimReference) mu1.getChild("affiliation"))
                         .getValue().getIdentifier();
-                String s2 = ((StratmasReference) mu2.getChild("affiliation"))
+                String s2 = ((ApproxsimReference) mu2.getChild("affiliation"))
                         .getValue().getIdentifier();
                 return s1.compareTo(s2);
             } catch (NullPointerException exc) {
@@ -233,14 +233,14 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
      */
     public synchronized Object getValueAt(int row, int col) {
         if (row < activityList.size()) {
-            StratmasObject activity = activityList.get(row);
+            ApproxsimObject activity = activityList.get(row);
             // name of the activity
             if (col == 0) {
                 return activity.getIdentifier();
             }
             // start time of the activity
             else if (col == 1) {
-                StratmasTimestamp t = (StratmasTimestamp) activity
+                ApproxsimTimestamp t = (ApproxsimTimestamp) activity
                         .getChild("start");
                 if (t != null) {
                     return t.valueToPrettyString();
@@ -248,7 +248,7 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
             }
             // end time of the activity
             else if (col == 2) {
-                StratmasTimestamp t = (StratmasTimestamp) activity
+                ApproxsimTimestamp t = (ApproxsimTimestamp) activity
                         .getChild("end");
                 if (t != null) {
                     return t.valueToPrettyString();
@@ -257,7 +257,7 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
             // military units which executes the activity
             else if (col == 3) {
                 try {
-                    StratmasObject parent = activity.getParent().getParent();
+                    ApproxsimObject parent = activity.getParent().getParent();
                     if (parent.getType().canSubstitute("MilitaryUnit")) {
                         return parent.getIdentifier();
                     } else {
@@ -270,9 +270,9 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
             // affiliation of the military unit
             else if (col == 4) {
                 try {
-                    StratmasObject parent = activity.getParent().getParent();
+                    ApproxsimObject parent = activity.getParent().getParent();
                     if (parent.getType().canSubstitute("MilitaryUnit")) {
-                        return ((StratmasReference) parent
+                        return ((ApproxsimReference) parent
                                 .getChild("affiliation")).getValue()
                                 .getIdentifier();
                     } else {
@@ -291,7 +291,7 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
      * Checks if the cell is editable.
      */
     public boolean isCellEditable(int row, int col) {
-        StratmasObject activity = activityList.get(row);
+        ApproxsimObject activity = activityList.get(row);
         // end time not allowed according to the schema
         if (col == 2) {
             Declaration decl = activity.getType().getSubElement("end");
@@ -301,7 +301,7 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
         } else if (col == 3) {
             try {
                 // get the current resource value
-                StratmasObject parent = activity.getParent().getParent();
+                ApproxsimObject parent = activity.getParent().getParent();
                 if (!parent.getType().canSubstitute("MilitaryUnit")) {
                     return false;
                 }
@@ -322,7 +322,7 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
      * @param col the column of the modified cell.
      */
     public void setValueAt(Object value, int row, int col) {
-        final StratmasObject activity = activityList.get(row);
+        final ApproxsimObject activity = activityList.get(row);
         // change the identifier of the activity
         if (col == 0) {
             activity.setIdentifier((String) value);
@@ -330,7 +330,7 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
         // change the start time of the activity
         else if (col == 1) {
             String timeString = (String) value;
-            StratmasTimestamp t = (StratmasTimestamp) activity
+            ApproxsimTimestamp t = (ApproxsimTimestamp) activity
                     .getChild("start");
             if (t != null) {
                 try {
@@ -350,7 +350,7 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
         else if (col == 2) {
             String timeString = (String) value;
             try {
-                StratmasTimestamp endTime = (StratmasTimestamp) activity
+                ApproxsimTimestamp endTime = (ApproxsimTimestamp) activity
                         .getChild("end");
                 Declaration decl = activity.getType().getSubElement("end");
                 // modify the end time
@@ -365,7 +365,7 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
                 }
                 // add the end time
                 else if (endTime == null && timeString.length() > 0) {
-                    StratmasTimestamp endT = (StratmasTimestamp) StratmasObjectFactory
+                    ApproxsimTimestamp endT = (ApproxsimTimestamp) ApproxsimObjectFactory
                             .create(TypeFactory.getType("Timestamp"));
                     endT.setIdentifier("end");
                     endT.valueFromString(timeString, this);
@@ -385,7 +385,7 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
             String newValue = (String) value;
             try {
                 // get the current resource value
-                StratmasObject parent = activity.getParent().getParent();
+                ApproxsimObject parent = activity.getParent().getParent();
                 if (parent.getType().canSubstitute("MilitaryUnit")) {
                     // military units with the selected identifier
                     Vector selectedUnits = militaryUnitsComboBox
@@ -398,9 +398,9 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
                             lastRemovedRow = activityList.indexOf(activity);
                             activity.remove();
                             // get the new resource
-                            StratmasObject res = (StratmasObject) selectedUnits
+                            ApproxsimObject res = (ApproxsimObject) selectedUnits
                                     .firstElement();
-                            ((StratmasList) res.getChild("activities"))
+                            ((ApproxsimList) res.getChild("activities"))
                                     .addWithUniqueIdentifier(activity);
 
                         }
@@ -413,7 +413,7 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
                                     "Please refine your selection :");
                             for (Enumeration e = selectedUnits.elements(); e
                                     .hasMoreElements();) {
-                                final StratmasObject mUnit = (StratmasObject) e
+                                final ApproxsimObject mUnit = (ApproxsimObject) e
                                         .nextElement();
                                 JMenuItem item = new JMenuItem(
                                         getPathOfMilitaryUnits(mUnit));
@@ -426,7 +426,7 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
                                     public void actionPerformed(
                                             ActionEvent event) {
                                         activity.remove();
-                                        ((StratmasList) mUnit
+                                        ((ApproxsimList) mUnit
                                                 .getChild("activities"))
                                                 .addWithUniqueIdentifier(activity);
                                     }
@@ -458,11 +458,11 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
      * 
      * @param event the event causing the call.
      */
-    public void eventOccured(StratmasEvent event) {
+    public void eventOccured(ApproxsimEvent event) {
         // the start time and the end time are considered
         if (event.isChildChanged()) {
-            int row = activityList.indexOf((StratmasObject) event.getSource());
-            StratmasObject child = (StratmasObject) event.getArgument();
+            int row = activityList.indexOf((ApproxsimObject) event.getSource());
+            ApproxsimObject child = (ApproxsimObject) event.getArgument();
             // update the start time
             if (child.getIdentifier().equals("start")) {
                 fireTableCellUpdated(row, 1);
@@ -478,7 +478,7 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
                 }
             }
         } else if (event.isIdentifierChanged()) {
-            StratmasObject src = (StratmasObject) event.getSource();
+            ApproxsimObject src = (ApproxsimObject) event.getSource();
             // update the name of the military unit which exectutes the activity
             if (src.getType().canSubstitute("MilitaryUnit")) {
                 for (int i = 0; i < activityList.size(); i++) {
@@ -504,15 +504,15 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
             // UNTESTED - the replace code is untested
             Debug.err
                     .println("FIXME - Replace behavior untested in TimelineActivityTable");
-            remove((StratmasObject) event.getSource());
-            add((StratmasObject) event.getArgument());
+            remove((ApproxsimObject) event.getSource());
+            add((ApproxsimObject) event.getArgument());
         }
     }
 
     /**
      * Adds a new activity to the table.
      */
-    public void add(StratmasObject activity) {
+    public void add(ApproxsimObject activity) {
         if (!activityList.contains(activity)) {
             try {
                 // used when the activity has changed it's resource in the table
@@ -526,7 +526,7 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
                 }
                 activity.addEventListener(this);
                 // check for the military unit
-                StratmasObject anc = activity.getParent().getParent();
+                ApproxsimObject anc = activity.getParent().getParent();
                 if (anc.getType().canSubstitute("MilitaryUnit")
                         && !militaryUnitsComboBox.contains(anc)) {
                     anc.addEventListener(this);
@@ -541,13 +541,13 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
     /**
      * Adds a new activity to the table. If the table is sorted the activity is inserted such that the sorting is remained.
      */
-    public void addSorted(StratmasObject activity) {
+    public void addSorted(ApproxsimObject activity) {
         if (!activityList.contains(activity)) {
             if (currentOrder == NOT_SORTED) {
                 add(activity);
             } else {
                 try {
-                    Comparator<StratmasObject> comp = comparators[lastSortedCol];
+                    Comparator<ApproxsimObject> comp = comparators[lastSortedCol];
                     int i = 0;
                     boolean inserted = false;
                     while (i < activityList.size() && !inserted) {
@@ -566,7 +566,7 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
                     }
                     activity.addEventListener(this);
                     // check for the military unit
-                    StratmasObject anc = activity.getParent().getParent();
+                    ApproxsimObject anc = activity.getParent().getParent();
                     if (anc.getType().canSubstitute("MilitaryUnit")
                             && !militaryUnitsComboBox.contains(anc)) {
                         anc.addEventListener(this);
@@ -580,13 +580,13 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
     /**
      * Removes an activity from the table.
      */
-    public void remove(StratmasObject activity) {
+    public void remove(ApproxsimObject activity) {
         if (activityList.contains(activity)) {
             int index = activityList.indexOf(activity);
             activityList.remove(activity);
             activity.removeEventListener(this);
             // check for the military unit
-            StratmasObject anc = activity.getParent().getParent();
+            ApproxsimObject anc = activity.getParent().getParent();
             if (anc.getType().canSubstitute("MilitaryUnit")) {
                 anc.removeEventListener(this);
             }
@@ -661,20 +661,20 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
     /**
      * Returns the list of activities displayed in the table.
      */
-    public Vector<StratmasObject> getActivities() {
+    public Vector<ApproxsimObject> getActivities() {
         return activityList;
     }
 
     /**
      * Returns the tree path consisting of miltary units only.
      */
-    public String getPathOfMilitaryUnits(StratmasObject militaryUnit) {
+    public String getPathOfMilitaryUnits(ApproxsimObject militaryUnit) {
         String path = militaryUnit.getIdentifier();
-        StratmasObject mu = militaryUnit;
+        ApproxsimObject mu = militaryUnit;
         while (mu.getParent() != null) {
             mu = mu.getParent();
             if (mu.getType().canSubstitute("MilitaryUnit")
-                    && !(mu instanceof StratmasList)) {
+                    && !(mu instanceof ApproxsimList)) {
                 path = mu.getIdentifier().concat(" : ").concat(path);
             }
         }
@@ -711,7 +711,7 @@ public class TimelineActivityTableModel extends AbstractTableModel implements
      * @param comparator the comaparator used for the sorting.
      * @param col the column where the sorting is initialized.
      */
-    private void sortByOrder(Comparator<StratmasObject> comparator, int col) {
+    private void sortByOrder(Comparator<ApproxsimObject> comparator, int col) {
         // if the table is already sorted wrt the column then reverse it
         if (currentOrder == ASCENDING && lastSortedCol == col) {
             Collections.reverse(activityList);

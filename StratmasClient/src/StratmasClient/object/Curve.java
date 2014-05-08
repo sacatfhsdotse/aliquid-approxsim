@@ -3,7 +3,7 @@
  * @(#)Curve.java
  */
 
-package StratmasClient.object;
+package ApproxsimClient.object;
 
 import java.util.Vector;
 
@@ -14,7 +14,7 @@ import java.util.Vector;
  * @author Daniel Ahlin
  */
 
-public abstract class Curve extends StratmasObjectImpl {
+public abstract class Curve extends ApproxsimObjectImpl {
     /**
      * Creates an Curve
      * 
@@ -37,7 +37,7 @@ public abstract class Curve extends StratmasObjectImpl {
      * 
      * @param child the child that changed
      */
-    public void childChanged(StratmasObject child, Object initiator) {
+    public void childChanged(ApproxsimObject child, Object initiator) {
         if (getParent() != null) {
             getParent().childChanged(this, initiator);
         }

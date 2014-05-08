@@ -1,9 +1,9 @@
-// $Id: StratmasObject.java,v 1.11 2006/09/27 12:56:07 alexius Exp $
+// $Id: ApproxsimObject.java,v 1.11 2006/09/27 12:56:07 alexius Exp $
 /*
- * @(#)StratmasObject.java
+ * @(#)ApproxsimObject.java
  */
 
-package StratmasClient.object;
+package ApproxsimClient.object;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -15,26 +15,26 @@ import java.util.Vector;
 
 import org.w3c.dom.Element;
 
-import StratmasClient.ActionGroup;
-import StratmasClient.Debug;
-import StratmasClient.Icon;
-import StratmasClient.StratmasConstants;
-import StratmasClient.filter.StratmasObjectFilter;
-import StratmasClient.object.primitive.Identifier;
-import StratmasClient.object.primitive.Reference;
-import StratmasClient.object.primitive.Timestamp;
-import StratmasClient.object.type.Declaration;
-import StratmasClient.object.type.Type;
+import ApproxsimClient.ActionGroup;
+import ApproxsimClient.Debug;
+import ApproxsimClient.Icon;
+import ApproxsimClient.ApproxsimConstants;
+import ApproxsimClient.filter.ApproxsimObjectFilter;
+import ApproxsimClient.object.primitive.Identifier;
+import ApproxsimClient.object.primitive.Reference;
+import ApproxsimClient.object.primitive.Timestamp;
+import ApproxsimClient.object.type.Declaration;
+import ApproxsimClient.object.type.Type;
 
 /**
- * StratmasObject is the common origin of the objects handled by the StratmasClient. The tree-handling methods of this class acts like a
+ * ApproxsimObject is the common origin of the objects handled by the ApproxsimClient. The tree-handling methods of this class acts like a
  * leaf-node.
  * 
  * @version 1, $Date: 2006/09/27 12:56:07 $
  * @author Daniel Ahlin
  */
 
-public abstract class StratmasObject implements Transferable {
+public abstract class ApproxsimObject implements Transferable {
     /**
      * Convenience newline string for toXML methods.
      */
@@ -43,7 +43,7 @@ public abstract class StratmasObject implements Transferable {
     /**
      * DataFlavor type used to transfer the reference of the object.
      */
-    public static final DataFlavor STRATMAS_OBJECT_FLAVOR = createStratmasObjectFlavor();
+    public static final DataFlavor APPROXSIM_OBJECT_FLAVOR = createApproxsimObjectFlavor();
 
     /**
      * Prefered indentation of TaclanV2 source.
@@ -53,12 +53,12 @@ public abstract class StratmasObject implements Transferable {
     /**
      * A copy of an empty enumeration to use for children().
      */
-    static Enumeration<StratmasObject> emptyEnumeration = new Enumeration<StratmasObject>() {
+    static Enumeration<ApproxsimObject> emptyEnumeration = new Enumeration<ApproxsimObject>() {
         public boolean hasMoreElements() {
             return false;
         }
 
-        public StratmasObject nextElement() throws NoSuchElementException {
+        public ApproxsimObject nextElement() throws NoSuchElementException {
             throw new NoSuchElementException("No more elements.");
         }
     };
@@ -109,7 +109,7 @@ public abstract class StratmasObject implements Transferable {
      * 
      * @param index the index of the object.
      */
-    public StratmasObject getChild(int index) {
+    public ApproxsimObject getChild(int index) {
         return null;
     }
 
@@ -119,7 +119,7 @@ public abstract class StratmasObject implements Transferable {
      * 
      * @param identifier the identifier of the child to get.
      */
-    public StratmasObject getChild(String identifier) {
+    public ApproxsimObject getChild(String identifier) {
         return null;
     }
 
@@ -149,7 +149,7 @@ public abstract class StratmasObject implements Transferable {
     /**
      * Returns the children of this object.
      */
-    public Enumeration<StratmasObject> children() {
+    public Enumeration<ApproxsimObject> children() {
         return emptyEnumeration;
     }
 
@@ -158,7 +158,7 @@ public abstract class StratmasObject implements Transferable {
      * 
      * @param child the child queried for.
      */
-    public int getIndexOfChild(StratmasObject child) {
+    public int getIndexOfChild(ApproxsimObject child) {
         return -1;
     }
 
@@ -172,19 +172,19 @@ public abstract class StratmasObject implements Transferable {
     /**
      * Convenience method for adding without identified initiator.
      * 
-     * @param part the StratmasObject to add.
+     * @param part the ApproxsimObject to add.
      */
-    public void add(StratmasObject part) {
+    public void add(ApproxsimObject part) {
         add(part, null);
     }
 
     /**
      * Adds a new child object to this object. If child with identical identifier exists, the previous entry is removed.
      * 
-     * @param part the StratmasObject to add.
+     * @param part the ApproxsimObject to add.
      * @param initiator The initiator of the add.
      */
-    public void add(StratmasObject part, Object initiator) {}
+    public void add(ApproxsimObject part, Object initiator) {}
 
     /**
      * Adds all children in provided vector to this object. If any child with identical identifier already exists, the previous entry is
@@ -192,10 +192,10 @@ public abstract class StratmasObject implements Transferable {
      * <p>
      * author Daniel Ahlin
      * 
-     * @param parts the StratmasObjects to add.
+     * @param parts the ApproxsimObjects to add.
      */
-    public void add(Vector<StratmasObject> parts) {
-        for (Enumeration<StratmasObject> ps = parts.elements(); ps
+    public void add(Vector<ApproxsimObject> parts) {
+        for (Enumeration<ApproxsimObject> ps = parts.elements(); ps
                 .hasMoreElements();) {
             this.add(ps.nextElement());
         }
@@ -206,7 +206,7 @@ public abstract class StratmasObject implements Transferable {
      * 
      * @param child child to remove
      */
-    protected void remove(StratmasObject child) {}
+    protected void remove(ApproxsimObject child) {}
 
     /**
      * Called when a (direct) child of this has changed.
@@ -214,7 +214,7 @@ public abstract class StratmasObject implements Transferable {
      * @param child the child that changed
      * @param initiator The initiator of the Event.
      */
-    public void childChanged(StratmasObject child, Object initiator) {
+    public void childChanged(ApproxsimObject child, Object initiator) {
         fireChildChanged(child, initiator);
     }
 
@@ -225,21 +225,21 @@ public abstract class StratmasObject implements Transferable {
      * @param newObj the object replacing oldObj
      * @param initiator the object causing the replacement.
      */
-    protected void replaceChild(StratmasObject oldObj, StratmasObject newObj,
+    protected void replaceChild(ApproxsimObject oldObj, ApproxsimObject newObj,
             Object initiator) {}
 
     /**
      * Returns the parent of this object (or null if no parent).
      */
-    public abstract StratmasObject getParent();
+    public abstract ApproxsimObject getParent();
 
     /**
-     * Sets the parent of this object. Note that implementations of this method have to make sure to call StratmasObjectFactory.attached iff
+     * Sets the parent of this object. Note that implementations of this method have to make sure to call ApproxsimObjectFactory.attached iff
      * getParent()==null when this function is called with a non-null argument.
      * 
      * @param parent the new parent of this object.
      */
-    protected abstract void setParent(StratmasObject parent);
+    protected abstract void setParent(ApproxsimObject parent);
 
     /**
      * Returns true if this object has a parent.
@@ -264,14 +264,14 @@ public abstract class StratmasObject implements Transferable {
      * 
      * @param listener the listener to add.
      */
-    public abstract void addEventListener(StratmasEventListener listener);
+    public abstract void addEventListener(ApproxsimEventListener listener);
 
     /**
      * Removes an event listener for from the eventlistenerlist.
      * 
      * @param listener the listener to remove.
      */
-    public abstract void removeEventListener(StratmasEventListener listener);
+    public abstract void removeEventListener(ApproxsimEventListener listener);
 
     /**
      * Replaces this object with the provided object.
@@ -281,7 +281,7 @@ public abstract class StratmasObject implements Transferable {
      * @param toReplaceWith The object to replace this object with.
      * @param initiator The initiator of this replace action.
      */
-    public abstract void replace(StratmasObject toReplaceWith, Object initiator);
+    public abstract void replace(ApproxsimObject toReplaceWith, Object initiator);
 
     /**
      * Returns the string representation of this object.
@@ -308,7 +308,7 @@ public abstract class StratmasObject implements Transferable {
         // Can not use this.getDeclaration().getName() here since getDeclaration uses
         // getTag().
 
-        if (getParent() instanceof StratmasList) {
+        if (getParent() instanceof ApproxsimList) {
             return getParent().getTag();
         } else {
             return getIdentifier();
@@ -337,7 +337,7 @@ public abstract class StratmasObject implements Transferable {
     public StringBuffer toXML(StringBuffer b) {
         b.append(NL).append("<").append(getTag());
         b.append(" xsi:type=\"sp:").append(getType().getName());
-        if (getParent() instanceof StratmasList) {
+        if (getParent() instanceof ApproxsimList) {
             b.append("\" identifier=\"")
                     .append(XMLHelper.encodeSpecialCharacters(getIdentifier()));
         }
@@ -358,45 +358,45 @@ public abstract class StratmasObject implements Transferable {
     public abstract StringBuffer bodyXML(StringBuffer b);
 
     /**
-     * Returns a StratmasGUIConstructor suitable for constructing objects of this type.
+     * Returns a ApproxsimGUIConstructor suitable for constructing objects of this type.
      * 
      * @param declaration the declaration for which the GUI is created.
      */
-    protected static StratmasGUIConstructor getGUIConstructor(
+    protected static ApproxsimGUIConstructor getGUIConstructor(
             Declaration declaration) {
         throw new AssertionError("GUIConstructor for "
                 + declaration.getType().getName() + " not implemented.");
     }
 
     /**
-     * Returns a StratmasVectorConstructor suitable for constructing objects of this type.
+     * Returns a ApproxsimVectorConstructor suitable for constructing objects of this type.
      * 
      * @param declaration the declaration for which the object is created.
      */
-    protected static StratmasVectorConstructor getVectorConstructor(
+    protected static ApproxsimVectorConstructor getVectorConstructor(
             Declaration declaration) {
         throw new AssertionError("VectorConstructor for "
                 + declaration.getType().getName() + " not implemented.");
     }
 
     /**
-     * Creates a StratmasObject from a DOM element.
+     * Creates a ApproxsimObject from a DOM element.
      * 
      * @param n The dom element from which the object is created.
      */
-    protected static StratmasObject domCreate(Element n) {
+    protected static ApproxsimObject domCreate(Element n) {
         throw new AssertionError("DomConstructor for "
                 + n.getAttribute("xsi:type") + " not implemented.");
     }
 
     /**
-     * Creates a StratmasObject from the specified Declaration.
+     * Creates a ApproxsimObject from the specified Declaration.
      * <p>
      * author Per Alexius
      * 
      * @param declaration The declaration for which the object is created.
      */
-    protected static StratmasObject defaultCreate(Declaration declaration) {
+    protected static ApproxsimObject defaultCreate(Declaration declaration) {
         throw new AssertionError("DomConstructor for "
                 + declaration.getType().getName() + " not implemented.");
     }
@@ -410,7 +410,7 @@ public abstract class StratmasObject implements Transferable {
      * Returns data flavors.
      */
     public DataFlavor[] getTransferDataFlavors() {
-        return new DataFlavor[] { STRATMAS_OBJECT_FLAVOR,
+        return new DataFlavor[] { APPROXSIM_OBJECT_FLAVOR,
                 DataFlavor.stringFlavor };
     }
 
@@ -418,7 +418,7 @@ public abstract class StratmasObject implements Transferable {
      * Checks if the given data flavor is supported.
      */
     public boolean isDataFlavorSupported(DataFlavor flavor) {
-        return STRATMAS_OBJECT_FLAVOR.match(flavor)
+        return APPROXSIM_OBJECT_FLAVOR.match(flavor)
                 || DataFlavor.stringFlavor.match(flavor);
     }
 
@@ -432,13 +432,13 @@ public abstract class StratmasObject implements Transferable {
         }
         if (flavor.match(DataFlavor.stringFlavor)) {
             StringBuffer b = new StringBuffer();
-            b.append(StratmasConstants.xmlFileHeader);
+            b.append(ApproxsimConstants.xmlFileHeader);
             b.append("<identifiables xsi:type=\"sp:")
                     .append(getType().getName());
             b.append("\" identifier=\"").append(getIdentifier()).append("\">");
             bodyXML(b);
             b.append("</identifiables>");
-            b.append(StratmasConstants.xmlFileFooter);
+            b.append(ApproxsimConstants.xmlFileFooter);
             return b.toString();
         } else {
             return this;
@@ -446,16 +446,16 @@ public abstract class StratmasObject implements Transferable {
     }
 
     /**
-     * Initializes the STRATMAS_OBJECT_FLAVOR.
+     * Initializes the APPROXSIM_OBJECT_FLAVOR.
      * 
-     * @return The STRATMAS_OBJECT_FLAVOR.
+     * @return The APPROXSIM_OBJECT_FLAVOR.
      */
-    public static final DataFlavor createStratmasObjectFlavor() {
+    public static final DataFlavor createApproxsimObjectFlavor() {
         DataFlavor flavor = null;
         try {
             flavor = new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType);
         } catch (ClassNotFoundException e) {
-            System.err.println("Couldn't create STRATMAS_OBJECT_FLAVOR");
+            System.err.println("Couldn't create APPROXSIM_OBJECT_FLAVOR");
         }
         return flavor;
     }
@@ -465,9 +465,9 @@ public abstract class StratmasObject implements Transferable {
      * 
      * @param filter the filter to use.
      */
-    public Enumeration<StratmasObject> getFilteredChildren(
-            StratmasObjectFilter filter) {
-        return getFilteredChildren(filter, new Vector<StratmasObject>())
+    public Enumeration<ApproxsimObject> getFilteredChildren(
+            ApproxsimObjectFilter filter) {
+        return getFilteredChildren(filter, new Vector<ApproxsimObject>())
                 .elements();
     }
 
@@ -477,13 +477,13 @@ public abstract class StratmasObject implements Transferable {
      * @param filter the filter to use.
      * @param v the vector to which to add the objects.
      */
-    private Vector<StratmasObject> getFilteredChildren(
-            StratmasObjectFilter filter, Vector<StratmasObject> v) {
+    private Vector<ApproxsimObject> getFilteredChildren(
+            ApproxsimObjectFilter filter, Vector<ApproxsimObject> v) {
         if (filter.pass(this)) {
             v.add(this);
         }
-        for (Enumeration<StratmasObject> e = children(); e.hasMoreElements();) {
-            StratmasObject sObj = e.nextElement();
+        for (Enumeration<ApproxsimObject> e = children(); e.hasMoreElements();) {
+            ApproxsimObject sObj = e.nextElement();
             sObj.getFilteredChildren(filter, v);
         }
 
@@ -517,7 +517,7 @@ public abstract class StratmasObject implements Transferable {
         buf.append(indent + getType().toTaclanV2() + " "
                 + Identifier.toTaclanV2(getIdentifier()) + " {");
         if (!isLeaf()) {
-            for (Enumeration<StratmasObject> cs = children(); cs
+            for (Enumeration<ApproxsimObject> cs = children(); cs
                     .hasMoreElements();) {
                 buf.append("\n");
                 (cs.nextElement()).toTaclanV2StringBuffer(buf, indent
@@ -552,15 +552,15 @@ public abstract class StratmasObject implements Transferable {
      * @param t The simulation time for which the data is valid.
      */
     public void update(Element n, Timestamp t) {
-        Debug.err.println("Update in StratmasObject for type "
+        Debug.err.println("Update in ApproxsimObject for type "
                 + getType().getName());
     }
 
     /**
-     * Returns the root of the tree this StratmasObject is part of.
+     * Returns the root of the tree this ApproxsimObject is part of.
      */
-    public StratmasObject getRoot() {
-        StratmasObject walker = this;
+    public ApproxsimObject getRoot() {
+        ApproxsimObject walker = this;
         while (walker.getParent() != null) {
             walker = walker.getParent();
         }
@@ -573,8 +573,8 @@ public abstract class StratmasObject implements Transferable {
      * 
      * @param obj the prospective ancestor.
      */
-    public boolean isAncestor(StratmasObject obj) {
-        StratmasObject walker = getParent();
+    public boolean isAncestor(ApproxsimObject obj) {
+        ApproxsimObject walker = getParent();
         while (walker != null && !walker.equals(obj)) {
             walker = walker.getParent();
         }
@@ -587,15 +587,15 @@ public abstract class StratmasObject implements Transferable {
      * 
      * @param other the other object
      */
-    public StratmasObject getYoungestCommonAncestor(StratmasObject other) {
-        HashSet<StratmasObject> set = new HashSet<StratmasObject>();
+    public ApproxsimObject getYoungestCommonAncestor(ApproxsimObject other) {
+        HashSet<ApproxsimObject> set = new HashSet<ApproxsimObject>();
 
-        for (StratmasObject walker = other; walker != null; walker = walker
+        for (ApproxsimObject walker = other; walker != null; walker = walker
                 .getParent()) {
             set.add(walker);
         }
 
-        for (StratmasObject walker = this; walker != null; walker = walker
+        for (ApproxsimObject walker = this; walker != null; walker = walker
                 .getParent()) {
             if (set.contains(walker)) {
                 return walker;
@@ -610,7 +610,7 @@ public abstract class StratmasObject implements Transferable {
      * 
      * @param object the object to check for validity.
      */
-    public boolean canAdd(StratmasObject object) {
+    public boolean canAdd(ApproxsimObject object) {
         Declaration declaration = getType()
                 .getSubElement(object.getIdentifier().toString());
         if (declaration != null
@@ -644,23 +644,23 @@ public abstract class StratmasObject implements Transferable {
      * @param newObj the object replacing the old.
      * @param initiator the initiator of the change.
      */
-    protected abstract void fireReplaced(StratmasObject newObj, Object initiator);
+    protected abstract void fireReplaced(ApproxsimObject newObj, Object initiator);
 
     /**
      * Notifies listeners that an object has been added to this object.
      * 
-     * @param added The StratmasObject that has been added.
+     * @param added The ApproxsimObject that has been added.
      * @param initiator The initiator of the add.
      */
-    public abstract void fireObjectAdded(StratmasObject added, Object initiator);
+    public abstract void fireObjectAdded(ApproxsimObject added, Object initiator);
 
     /**
      * Notifies listeners that a child object has changed.
      * 
-     * @param changed The StratmasObject that has changed.
+     * @param changed The ApproxsimObject that has changed.
      * @param initiator the initiator of the change.
      */
-    public abstract void fireChildChanged(StratmasObject changed,
+    public abstract void fireChildChanged(ApproxsimObject changed,
             Object initiator);
 
     /**

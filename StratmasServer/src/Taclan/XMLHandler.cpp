@@ -14,7 +14,7 @@
 #include "ParserErrorReporter.h"
 #include "PropertyHandler.h"
 #include "PVRegion.h"
-#include "StratmasMessage.h"
+#include "ApproxsimMessage.h"
 #include "StrX.h"
 #include "Subscription.h"
 #include "Update.h"
@@ -430,8 +430,8 @@ void XMLHandler::createSubscription(DOMElement &n)
 //          addSubscription(new GeneralSubscription(&n, mBuf));
           LOG_WARN(taclanLog,"=========== GeneralSubscriptions no longer supported! ===========");
      }
-     else if (type == "sp:StratmasObjectSubscription") {
-          addSubscription(new StratmasObjectSubscription(&n, mBuf, mId));
+     else if (type == "sp:ApproxsimObjectSubscription") {
+          addSubscription(new ApproxsimObjectSubscription(&n, mBuf, mId));
      }
      else if (type == "sp:LayerSubscription") {
           addSubscription(new LayerSubscription(&n, mBuf, mSessionBigEndian));
@@ -455,7 +455,7 @@ void XMLHandler::createSubscription(DOMElement &n)
      }
      else {
           Error e(Error::eWarning);
-          e << "Stratmas does not support Subscription of type: " << type.str();
+          e << "Approxsim does not support Subscription of type: " << type.str();
           throw e;
      }
 }

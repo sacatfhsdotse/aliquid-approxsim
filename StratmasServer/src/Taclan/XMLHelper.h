@@ -1,5 +1,5 @@
-#ifndef STRATMAS_XMLHELPER_H
-#define STRATMAS_XMLHELPER_H
+#ifndef APPROXSIM_XMLHELPER_H
+#define APPROXSIM_XMLHELPER_H
 
 
 // System
@@ -194,4 +194,4 @@ public:
      const Point& p2() const { return mP2; }
 };
 
-#endif   // STRATMAS_XMLHELPER_H
+#endif   // APPROXSIM_XMLHELPER_H

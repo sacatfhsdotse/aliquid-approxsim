@@ -3,7 +3,7 @@
  * @(#)Type.java
  */
 
-package StratmasClient.object.type;
+package ApproxsimClient.object.type;
 
 import java.util.Hashtable;
 import java.util.Vector;

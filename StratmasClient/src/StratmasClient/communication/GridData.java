@@ -1,4 +1,4 @@
-package StratmasClient.communication;
+package ApproxsimClient.communication;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
@@ -8,7 +8,7 @@ import java.util.Hashtable;
 import org.apache.xerces.impl.dv.util.Base64;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import StratmasClient.object.primitive.Reference;
+import ApproxsimClient.object.primitive.Reference;
 
 /**
  * A storage class for data about the grid.

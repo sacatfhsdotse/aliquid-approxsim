@@ -3,7 +3,7 @@
  * @(#)ImportHandler.java
  */
 
-package StratmasClient.TaclanV2;
+package ApproxsimClient.TaclanV2;
 
 /**
  * An abstract class specifying necessary operations for an ImportHandler in the taclan language. An ImportHandler is a class converting a

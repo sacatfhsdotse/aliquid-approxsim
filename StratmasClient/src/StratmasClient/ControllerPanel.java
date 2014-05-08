@@ -1,4 +1,4 @@
-package StratmasClient;
+package ApproxsimClient;
 
 import java.util.Vector;
 import java.awt.Font;
@@ -18,9 +18,9 @@ import javax.swing.SpringLayout;
 import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.timeline.SpringUtilities;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.timeline.SpringUtilities;
 
 /**
  * This panel controls the simulation. It contains buttons for connect/disconnect the client to/from the server, start/stop the simulation,
@@ -60,7 +60,7 @@ public class ControllerPanel extends JPanel implements ActionListener {
      */
     private String path = "map/images/";
     /**
-     * Reference to the stratmas client.
+     * Reference to the approxsim client.
      */
     private Client client;
     /**
@@ -70,7 +70,7 @@ public class ControllerPanel extends JPanel implements ActionListener {
     /**
      * The list of listeners.
      */
-    private Vector<StratmasEventListener> listeners = new Vector<StratmasEventListener>();
+    private Vector<ApproxsimEventListener> listeners = new Vector<ApproxsimEventListener>();
     /**
      * The frame in which this panel is shown.
      */
@@ -390,7 +390,7 @@ public class ControllerPanel extends JPanel implements ActionListener {
      */
     private int exitMess() {
         Object[] options = { "Yes", "No" };
-        int answer = StratmasDialog
+        int answer = ApproxsimDialog
                 .showOptionDialog(null, "Are you sure you want to exit?",
                                   "Question message",
                                   JOptionPane.YES_NO_OPTION,
@@ -404,7 +404,7 @@ public class ControllerPanel extends JPanel implements ActionListener {
      */
     private int disconnectMess() {
         Object[] options = { "Yes", "No" };
-        int answer = StratmasDialog
+        int answer = ApproxsimDialog
                 .showOptionDialog(null, "Are you sure you want to disconnect?",
                                   "Question message",
                                   JOptionPane.YES_NO_OPTION,
@@ -420,7 +420,7 @@ public class ControllerPanel extends JPanel implements ActionListener {
         Object[] options = { "Yes", "No" };
         String msg = "Are you sure you want to restart the simulation? The simulation will be reset\n"
                 + "to the same state as when the connection to the server was established.";
-        int answer = StratmasDialog
+        int answer = ApproxsimDialog
                 .showOptionDialog(null, msg, "Question message",
                                   JOptionPane.YES_NO_OPTION,
                                   JOptionPane.QUESTION_MESSAGE, null, options,
@@ -438,7 +438,7 @@ public class ControllerPanel extends JPanel implements ActionListener {
         }
         for (int i = 0; i < listeners.size(); i++) {
             if (listeners.get(i) != null) {
-                (listeners.get(i)).eventOccured(StratmasEvent.getRemoved(this,
+                (listeners.get(i)).eventOccured(ApproxsimEvent.getRemoved(this,
                                                                          null));
             }
         }
@@ -449,7 +449,7 @@ public class ControllerPanel extends JPanel implements ActionListener {
      * 
      * @param listener the listener to add.
      */
-    public void addStratmasEventListener(StratmasEventListener listener) {
+    public void addApproxsimEventListener(ApproxsimEventListener listener) {
         listeners.add(listener);
     }
 }

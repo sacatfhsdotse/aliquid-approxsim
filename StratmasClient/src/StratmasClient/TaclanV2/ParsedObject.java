@@ -3,7 +3,7 @@
  * @(#)ParsedObject.java
  */
 
-package StratmasClient.TaclanV2;
+package ApproxsimClient.TaclanV2;
 
 /**
  * An object representing any parsed construct of the Taclan V2 language. As a parsed construct it contains artefacts of the language, e. g.

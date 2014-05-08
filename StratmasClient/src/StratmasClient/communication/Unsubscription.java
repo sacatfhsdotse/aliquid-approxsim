@@ -1,7 +1,7 @@
-package StratmasClient.communication;
+package ApproxsimClient.communication;
 
 import org.w3c.dom.Element;
-import StratmasClient.object.primitive.Timestamp;
+import ApproxsimClient.object.primitive.Timestamp;
 
 /**
  * Class representing an unsubscription to an issued subscription.

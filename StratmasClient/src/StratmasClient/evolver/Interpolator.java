@@ -3,7 +3,7 @@
  * @(#)Interpolator.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
 /**
  * Holding class for static interpolator methods

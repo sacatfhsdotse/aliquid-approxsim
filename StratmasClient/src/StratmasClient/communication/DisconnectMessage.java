@@ -1,4 +1,4 @@
-package StratmasClient.communication;
+package ApproxsimClient.communication;
 
 /**
  * Class representing the disconnect message. The disconnect message is the message that a client sends to a server in order to terminate a
@@ -7,7 +7,7 @@ package StratmasClient.communication;
  * @version 1, $Date: 2006/03/22 14:30:49 $
  * @author Per Alexius
  */
-public class DisconnectMessage extends StratmasMessage {
+public class DisconnectMessage extends ApproxsimMessage {
     /**
      * Returns a string representation of the type of this message.
      * 

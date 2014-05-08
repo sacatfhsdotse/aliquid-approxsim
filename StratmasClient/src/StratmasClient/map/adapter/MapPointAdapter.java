@@ -1,13 +1,13 @@
-package StratmasClient.map.adapter;
+package ApproxsimClient.map.adapter;
 
 import java.nio.DoubleBuffer;
 
-import StratmasClient.object.Point;
-import StratmasClient.Icon;
-import StratmasClient.IconFactory;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.map.Projection;
-import StratmasClient.map.SymbolToTextureMapper;
+import ApproxsimClient.object.Point;
+import ApproxsimClient.Icon;
+import ApproxsimClient.IconFactory;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.map.Projection;
+import ApproxsimClient.map.SymbolToTextureMapper;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
@@ -253,7 +253,7 @@ public class MapPointAdapter extends MapDrawableAdapter {
      * 
      * @param event the event causing the change.
      */
-    protected void valueChanged(StratmasEvent event) {
+    protected void valueChanged(ApproxsimEvent event) {
         displayListUpdated = false;
         fireAdapterUpdated();
     }

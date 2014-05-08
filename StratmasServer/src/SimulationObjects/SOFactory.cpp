@@ -84,7 +84,7 @@ SimulationObject* SOFactory::createSimulationObject(const DataObject& d, int64_t
           sCreatorMap["AmbushOrder"                  ] = createAmbushOrder;
           sCreatorMap["AttackOrder"                  ] = createAttackOrder;
           sCreatorMap["Population"                   ] = createCity;
-          sCreatorMap["StratmasCityDistribution"     ] = createCityDistribution;
+          sCreatorMap["ApproxsimCityDistribution"     ] = createCityDistribution;
           sCreatorMap["CommonScenario"               ] = createCommonScenario;
           sCreatorMap["CommonSimulation"             ] = createCommonSimulation;
           sCreatorMap["ConstantStepper"              ] = createConstantStepper;

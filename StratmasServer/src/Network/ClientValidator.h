@@ -1,6 +1,6 @@
 // $Id: ClientValidator.h,v 1.1 2006/07/21 13:35:29 dah Exp $
-#ifndef STRATMAS_CLIENTVALIDATOR_H
-#define STRATMAS_CLIENTVALIDATOR_H
+#ifndef APPROXSIM_CLIENTVALIDATOR_H
+#define APPROXSIM_CLIENTVALIDATOR_H
 
 // Own
 #include "Socket.h"
@@ -29,4 +29,4 @@ public:
      virtual bool isValidClient(const Socket* socket) {return true;}
 };
 
-#endif   // STRATMAS_CLIENTVALIDATOR_H
+#endif   // APPROXSIM_CLIENTVALIDATOR_H

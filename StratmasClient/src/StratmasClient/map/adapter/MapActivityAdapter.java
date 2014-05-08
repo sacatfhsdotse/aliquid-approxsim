@@ -1,4 +1,4 @@
-package StratmasClient.map.adapter;
+package ApproxsimClient.map.adapter;
 
 import java.nio.DoubleBuffer;
 
@@ -7,15 +7,15 @@ import javax.media.opengl.GLAutoDrawable;
 
 import com.jogamp.common.nio.Buffers;
 
-import StratmasClient.BoundingBox;
-import StratmasClient.map.Projection;
-import StratmasClient.object.Shape;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.SymbolIDCode;
+import ApproxsimClient.BoundingBox;
+import ApproxsimClient.map.Projection;
+import ApproxsimClient.object.Shape;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.SymbolIDCode;
 
 /**
- * MapActivityAdapter adapts StratmasObjects descendants of Activity for viewing on a map window.
+ * MapActivityAdapter adapts ApproxsimObjects descendants of Activity for viewing on a map window.
  * 
  * @version 1,
  * @author Amir Filipovic
@@ -31,7 +31,7 @@ public class MapActivityAdapter extends MapElementAdapter {
      * 
      * @param mapElement the object to adapt.
      */
-    protected MapActivityAdapter(StratmasObject mapElement) {
+    protected MapActivityAdapter(ApproxsimObject mapElement) {
         super(mapElement);
         if (ownedByMilitaryUnit()) {
             getObject().getParent().getParent().addEventListener(this);
@@ -44,7 +44,7 @@ public class MapActivityAdapter extends MapElementAdapter {
      * @param mapElement the object to adapt.
      * @param renderSelectionName the integer to use as the base for names in RENDER_SELECTION
      */
-    protected MapActivityAdapter(StratmasObject mapElement,
+    protected MapActivityAdapter(ApproxsimObject mapElement,
             int renderSelectionName) {
         super(mapElement, renderSelectionName);
         if (ownedByMilitaryUnit()) {
@@ -144,9 +144,9 @@ public class MapActivityAdapter extends MapElementAdapter {
      * Returns the military unit that owns the activity this adapter adapts.If the activity is not owned by a military unit, null is
      * returned.
      */
-    public StratmasObject getOwner() {
+    public ApproxsimObject getOwner() {
         if (ownedByMilitaryUnit()) {
-            return (StratmasObject) getObject().getParent().getParent();
+            return (ApproxsimObject) getObject().getParent().getParent();
         } else {
             return null;
         }
@@ -239,7 +239,7 @@ public class MapActivityAdapter extends MapElementAdapter {
      * 
      * @param event the event causing the call.
      */
-    public void eventOccured(StratmasEvent event) {
+    public void eventOccured(ApproxsimEvent event) {
         // update the element if the event source is either the activity or the military unit
         // that owns the activity
         if (event.isChildChanged()) {
@@ -247,9 +247,9 @@ public class MapActivityAdapter extends MapElementAdapter {
         }
         // update the element only if the event source is the activity
         else if (event.isRemoved()) {
-            if (StratmasObject.class.isAssignableFrom(event.getSource()
+            if (ApproxsimObject.class.isAssignableFrom(event.getSource()
                     .getClass())) {
-                if (((StratmasObject) event.getSource()).getType()
+                if (((ApproxsimObject) event.getSource()).getType()
                         .canSubstitute("Activity")) {
                     getObject().removeEventListener(this);
                     fireAdapterRemoved();
@@ -258,9 +258,9 @@ public class MapActivityAdapter extends MapElementAdapter {
         }
         // update the element only if the event source is the activity
         else if (event.isSelected()) {
-            if (StratmasObject.class.isAssignableFrom(event.getSource()
+            if (ApproxsimObject.class.isAssignableFrom(event.getSource()
                     .getClass())) {
-                if (((StratmasObject) event.getSource()).getType()
+                if (((ApproxsimObject) event.getSource()).getType()
                         .canSubstitute("Activity")) {
                     setSelected(true);
                 }
@@ -268,9 +268,9 @@ public class MapActivityAdapter extends MapElementAdapter {
         }
         // update the element only if the event source is the activity
         else if (event.isUnselected()) {
-            if (StratmasObject.class.isAssignableFrom(event.getSource()
+            if (ApproxsimObject.class.isAssignableFrom(event.getSource()
                     .getClass())) {
-                if (((StratmasObject) event.getSource()).getType()
+                if (((ApproxsimObject) event.getSource()).getType()
                         .canSubstitute("Activity")) {
                     setSelected(false);
                 }
@@ -285,8 +285,8 @@ public class MapActivityAdapter extends MapElementAdapter {
      * 
      * @param event the event causing the change.
      */
-    protected void childChanged(StratmasEvent event) {
-        StratmasObject child = (StratmasObject) event.getArgument();
+    protected void childChanged(ApproxsimEvent event) {
+        ApproxsimObject child = (ApproxsimObject) event.getArgument();
         if (child.getIdentifier().equals("location")) {
             displayListUpdated = false;
             isLocationUpdated = false;

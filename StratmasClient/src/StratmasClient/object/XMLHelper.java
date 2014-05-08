@@ -1,6 +1,6 @@
 // $Id: XMLHelper.java,v 1.1 2006/03/31 16:55:51 dah Exp $
 
-package StratmasClient.object;
+package ApproxsimClient.object;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -8,8 +8,8 @@ import org.w3c.dom.TypeInfo;
 
 import java.util.Vector;
 
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.object.type.Type;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.object.type.Type;
 
 /**
  * XML helper functions.
@@ -19,13 +19,13 @@ import StratmasClient.object.type.Type;
  */
 public class XMLHelper {
     /**
-     * Gets the type of StratmasObject represented by the provided dom element. Casts the provided Element to an ElementImpl to avoid the
+     * Gets the type of ApproxsimObject represented by the provided dom element. Casts the provided Element to an ElementImpl to avoid the
      * problem that the getSchemaTypeInfo method does not exist in 1.4.2. This is not a perfect solution but rather an acceptable hack until
      * 1.5 becomed default version. If the getSchemaTypeInfo method fails the xsi:type attribute is checked. This will occur when validation
      * is switched off, which it often is for performance reasons.
      * 
      * @param element The dom element to get the type for.
-     * @return The type of StratmasObject the element represents.
+     * @return The type of ApproxsimObject the element represents.
      */
     public static Type getType(Element element) {
         TypeInfo typeInfo = ((org.apache.xerces.dom.ElementImpl) element)

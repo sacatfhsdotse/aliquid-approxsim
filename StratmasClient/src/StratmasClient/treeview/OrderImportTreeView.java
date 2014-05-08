@@ -1,11 +1,11 @@
-package StratmasClient.treeview;
+package ApproxsimClient.treeview;
 
-import StratmasClient.Debug;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasList;
-import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.filter.StratmasObjectFilter;
-import StratmasClient.map.DraggedElement;
+import ApproxsimClient.Debug;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimList;
+import ApproxsimClient.object.ApproxsimObjectFactory;
+import ApproxsimClient.filter.ApproxsimObjectFilter;
+import ApproxsimClient.map.DraggedElement;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.DnDConstants;
@@ -33,7 +33,7 @@ public class OrderImportTreeView extends TreeView {
      * 
      * @param root the object to use as root for this tree.
      */
-    public OrderImportTreeView(StratmasObjectAdapter root) {
+    public OrderImportTreeView(ApproxsimObjectAdapter root) {
         super(root);
         this.setDropTarget(new DropTarget(this, new DropTargetAdapter() {
             public void dragEnter(DropTargetDragEvent dtde) {
@@ -47,12 +47,12 @@ public class OrderImportTreeView extends TreeView {
             public void drop(DropTargetDropEvent dtde) {
                 boolean dropAccepted = false;
                 try {
-                    if (dtde.isDataFlavorSupported(StratmasObject.STRATMAS_OBJECT_FLAVOR)) {
+                    if (dtde.isDataFlavorSupported(ApproxsimObject.APPROXSIM_OBJECT_FLAVOR)) {
                         dtde.acceptDrop(DnDConstants.ACTION_LINK);
                         dropAccepted = true;
                         Object obj = dtde
                                 .getTransferable()
-                                .getTransferData(StratmasObject.STRATMAS_OBJECT_FLAVOR);
+                                .getTransferData(ApproxsimObject.APPROXSIM_OBJECT_FLAVOR);
                         // Apple's dnd implementation sucks... We must call the
                         // getTransferData method for the string flavor in order
                         // to get a valid callback.
@@ -60,17 +60,17 @@ public class OrderImportTreeView extends TreeView {
                                 .getTransferData(DataFlavor.stringFlavor);
                         //
                         boolean complete = false;
-                        if (obj instanceof StratmasObject) {
-                            StratmasObject so = (StratmasObject) obj;
-                            StratmasObject target = pointToObject(dtde
+                        if (obj instanceof ApproxsimObject) {
+                            ApproxsimObject so = (ApproxsimObject) obj;
+                            ApproxsimObject target = pointToObject(dtde
                                     .getLocation());
-                            if (target instanceof StratmasList
+                            if (target instanceof ApproxsimList
                                     && so.getType().canSubstitute("Activity") &&  // May only drop activities.
-                                    !(so instanceof StratmasList) &&  // May not drop lists.
+                                    !(so instanceof ApproxsimList) &&  // May not drop lists.
                                     so.getParent() != null) {  // May not drop objects from the treeview itself.
-                                ((StratmasList) StratmasObjectFactory
+                                ((ApproxsimList) ApproxsimObjectFactory
                                         .cloneObject(target))
-                                        .addWithUniqueIdentifier((StratmasObject) so);
+                                        .addWithUniqueIdentifier((ApproxsimObject) so);
                                 complete = true;
                             }
                         }
@@ -99,17 +99,17 @@ public class OrderImportTreeView extends TreeView {
     }
 
     /**
-     * Gets the StratmasObject pointed to by the provided path.
+     * Gets the ApproxsimObject pointed to by the provided path.
      * 
-     * @param path The path to fetch the StratmasObject for.
-     * @return The StratmasObject pointed to by path or null if the path is invalid or no such object could be found.
+     * @param path The path to fetch the ApproxsimObject for.
+     * @return The ApproxsimObject pointed to by path or null if the path is invalid or no such object could be found.
      */
-    public StratmasObject getObjectForPath(javax.swing.tree.TreePath path) {
+    public ApproxsimObject getObjectForPath(javax.swing.tree.TreePath path) {
         if (path != null) {
-            StratmasObjectAdapter soa = (StratmasObjectAdapter) path
+            ApproxsimObjectAdapter soa = (ApproxsimObjectAdapter) path
                     .getLastPathComponent();
             if (soa != null) {
-                return StratmasObjectFactory.cloneObject((StratmasObject) soa
+                return ApproxsimObjectFactory.cloneObject((ApproxsimObject) soa
                         .getUserObject());
             }
         }
@@ -122,8 +122,8 @@ public class OrderImportTreeView extends TreeView {
      * @param root the object to use as root for this tree.
      * @param filter the object to use as root for this tree.
      */
-    public static TreeViewFrame getDefaultFrame(StratmasObject root,
-            StratmasObjectFilter filter) {
+    public static TreeViewFrame getDefaultFrame(ApproxsimObject root,
+            ApproxsimObjectFilter filter) {
         TreeViewFrame res = new TreeViewFrame(getDefaultTreeView(root, filter));
         return res;
     }
@@ -133,13 +133,13 @@ public class OrderImportTreeView extends TreeView {
      * 
      * @param root the object to use as root for this tree.
      */
-    public static TreeView getDefaultTreeView(StratmasObject root,
-            StratmasObjectFilter filter) {
-        TreeView view = new OrderImportTreeView(new StratmasObjectAdapter(root,
+    public static TreeView getDefaultTreeView(ApproxsimObject root,
+            ApproxsimObjectFilter filter) {
+        TreeView view = new OrderImportTreeView(new ApproxsimObjectAdapter(root,
                 filter));
         view.setShowsRootHandles(false);
         // By defualt, don't show root handle for lists.
-        if (root instanceof StratmasList) {
+        if (root instanceof ApproxsimList) {
             view.setRootVisible(false);
         }
         return view;

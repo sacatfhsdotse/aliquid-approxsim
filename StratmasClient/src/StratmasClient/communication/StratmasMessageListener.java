@@ -1,7 +1,7 @@
-package StratmasClient.communication;
+package ApproxsimClient.communication;
 
 /**
- * This interface should be implemented by objects that are interested in receiving notifications about what happens with a StratmasMessage.
+ * This interface should be implemented by objects that are interested in receiving notifications about what happens with a ApproxsimMessage.
  * Events are generated when:
  * <p>
  * The message is sent by the client to the server.
@@ -15,20 +15,20 @@ package StratmasClient.communication;
  * @version 1, $Date: 2005/10/31 09:24:34 $
  * @author Per Alexius
  */
-public interface StratmasMessageListener extends java.util.EventListener {
+public interface ApproxsimMessageListener extends java.util.EventListener {
     /**
      * Called when the client has sent the message to the server.
      * 
      * @param e The event that occured.
      */
-    public void messageSent(StratmasMessageEvent e);
+    public void messageSent(ApproxsimMessageEvent e);
 
     /**
      * Called when the client has received the answer to the message from the server..
      * 
      * @param e The event that occured.
      */
-    public void messageReceived(StratmasMessageEvent e);
+    public void messageReceived(ApproxsimMessageEvent e);
 
     /**
      * Called when the XMLHandler has processed the data in the answer message received from the server.
@@ -36,13 +36,13 @@ public interface StratmasMessageListener extends java.util.EventListener {
      * @param e The event that occured.
      * @param reply the reply, if any, else null
      */
-    public void messageHandled(StratmasMessageEvent e, Object reply);
+    public void messageHandled(ApproxsimMessageEvent e, Object reply);
 
     /**
      * Called when something has gone wrong during the process of sending the message and receiving and handling the answer.
      * 
      * @param e The event that occured.
      */
-    public void errorOccurred(StratmasMessageEvent e);
+    public void errorOccurred(ApproxsimMessageEvent e);
 
 }

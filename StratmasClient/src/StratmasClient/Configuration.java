@@ -1,4 +1,4 @@
-package StratmasClient;
+package ApproxsimClient;
 
 import java.util.Enumeration;
 import java.util.Vector;
@@ -16,8 +16,8 @@ import javax.swing.ButtonGroup;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.BorderFactory;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.StratmasEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.object.ApproxsimEvent;
 
 /**
  * This class contains necessary parameters for the actual screen device.
@@ -30,7 +30,7 @@ public class Configuration {
     /**
      * List of listeners.
      */
-    public static Vector<StratmasEventListener> listeners = new Vector<StratmasEventListener>();
+    public static Vector<ApproxsimEventListener> listeners = new Vector<ApproxsimEventListener>();
     /**
      * Indicator for geodetic coordinates (latitude and longitude).
      */
@@ -365,14 +365,14 @@ public class Configuration {
     /**
      * Adds a new listener to the list.
      */
-    public static void addStratmasListener(StratmasEventListener listener) {
+    public static void addApproxsimListener(ApproxsimEventListener listener) {
         listeners.add(listener);
     }
 
     /**
      * Removes a listener from the list.
      */
-    public static void removeStratmasListener(StratmasEventListener listener) {
+    public static void removeApproxsimListener(ApproxsimEventListener listener) {
         listeners.remove(listener);
     }
 
@@ -380,12 +380,12 @@ public class Configuration {
      * Updates the listeners with new event.
      */
     public static void fireEventOccured() {
-        for (Enumeration<StratmasEventListener> e = listeners.elements(); e
+        for (Enumeration<ApproxsimEventListener> e = listeners.elements(); e
                 .hasMoreElements();) {
             Object obj = e.nextElement();
             if (obj != null) {
-                ((StratmasEventListener) obj)
-                        .eventOccured(StratmasEvent
+                ((ApproxsimEventListener) obj)
+                        .eventOccured(ApproxsimEvent
                                 .getCoordSystemChanged(Configuration
                                         .getConfiguration()));
             }

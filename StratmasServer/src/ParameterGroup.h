@@ -1,5 +1,5 @@
-#ifndef STRATMAS_PARAMETERGROUP_H
-#define STRATMAS_PARAMETERGROUP_H
+#ifndef APPROXSIM_PARAMETERGROUP_H
+#define APPROXSIM_PARAMETERGROUP_H
 
 
 // System
@@ -201,7 +201,7 @@ public:
      }
 
      void addObject(DataObject& toAdd, int64_t initiator) {
-          stratmasDebug("ParameterGroup " << ref() << " ignoring added object " << toAdd.ref().name());
+          approxsimDebug("ParameterGroup " << ref() << " ignoring added object " << toAdd.ref().name());
      }
 
      void removeObject(const Reference& toRemove, int64_t initiator) {
@@ -227,17 +227,17 @@ public:
      }
 
      void replaceObject(DataObject& newObject, int64_t initiator) {
-          stratmasDebug("ParameterGroup " << ref() << " ignoring to replace object " << newObject.identifier());
+          approxsimDebug("ParameterGroup " << ref() << " ignoring to replace object " << newObject.identifier());
      }
 
      void modify(const DataObject& d) {
           typename std::map<std::string, ENUM>::iterator it = mNameToIndex.find(d.identifier());
           if (it != mNameToIndex.end()) {
                mParameters[it->second] = d.getDouble();
-               stratmasDebug("Setting " << it->first << " to " << mParameters[it->second]);
+               approxsimDebug("Setting " << it->first << " to " << mParameters[it->second]);
           }
           else {
-               stratmasDebug("No updatable attribute '" << d.identifier() << "' in '" << ref() << "'. Ignoring...");
+               approxsimDebug("No updatable attribute '" << d.identifier() << "' in '" << ref() << "'. Ignoring...");
           }
      }
 
@@ -287,4 +287,4 @@ public:
      }
 };
 
-#endif   // STRATMAS_PARAMETERGROUP_H
+#endif   // APPROXSIM_PARAMETERGROUP_H

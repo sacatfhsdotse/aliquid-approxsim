@@ -1,4 +1,4 @@
-package StratmasClient.proj;
+package ApproxsimClient.proj;
 
 /**
  * This class converts geodetic values (longitude, latitude) into UTM coordinates and vice versa.

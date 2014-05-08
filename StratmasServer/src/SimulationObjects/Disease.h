@@ -1,5 +1,5 @@
-#ifndef STRATMAS_DISEASE_H
-#define STRATMAS_DISEASE_H
+#ifndef APPROXSIM_DISEASE_H
+#define APPROXSIM_DISEASE_H
 
 
 // System
@@ -14,7 +14,7 @@ class DataObject;
 
 /**
  * \brief This is the SimulationObject that corresponds to the Disease
- * type in the Stratmas xml schema.
+ * type in the Approxsim xml schema.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/03/06 09:18:08 $
@@ -54,4 +54,4 @@ public:
      void reset(const DataObject& d);
 };
 
-#endif   // STRATMAS_DISEASE_H
+#endif   // APPROXSIM_DISEASE_H

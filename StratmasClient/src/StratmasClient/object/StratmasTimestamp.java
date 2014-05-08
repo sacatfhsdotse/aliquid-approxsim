@@ -1,62 +1,62 @@
-// $Id: StratmasTimestamp.java,v 1.5 2006/05/16 12:37:02 alexius Exp $
+// $Id: ApproxsimTimestamp.java,v 1.5 2006/05/16 12:37:02 alexius Exp $
 /*
- * @(#)StratmasTimestamp.java
+ * @(#)ApproxsimTimestamp.java
  */
 
-package StratmasClient.object;
+package ApproxsimClient.object;
 
-import StratmasClient.object.type.Type;
-import StratmasClient.object.type.Declaration;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.object.primitive.Identifier;
-import StratmasClient.object.primitive.Timestamp;
+import ApproxsimClient.object.type.Type;
+import ApproxsimClient.object.type.Declaration;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.object.primitive.Identifier;
+import ApproxsimClient.object.primitive.Timestamp;
 import org.w3c.dom.Element;
 
 import java.text.ParseException;
 
 /**
- * StratmasTimestamp is a Stratmas timestamp class
+ * ApproxsimTimestamp is a Approxsim timestamp class
  * 
  * @version 1, $Date: 2006/05/16 12:37:02 $
  * @author Per Alexius
  */
 
-public class StratmasTimestamp extends StratmasSimple {
+public class ApproxsimTimestamp extends ApproxsimSimple {
     /**
      * The number of seconds since 1:st jan 1970 00:00:00.
      */
     Timestamp value;
 
     /**
-     * Creates a new StratmasTimestamp.
+     * Creates a new ApproxsimTimestamp.
      * 
      * @param identifier the identifier for the object.
      * @param type the type of the object.
      * @param value the value of the object.
      */
-    protected StratmasTimestamp(String identifier, Type type, long value) {
+    protected ApproxsimTimestamp(String identifier, Type type, long value) {
         super(identifier, type);
         this.value = new Timestamp(value);
     }
 
     /**
-     * Creates a new StratmasTimestamp from a Declaration.
+     * Creates a new ApproxsimTimestamp from a Declaration.
      * 
      * @param declaration the declaration for this object.
      * @param value the value of the string.
      */
-    protected StratmasTimestamp(Declaration declaration, long value) {
+    protected ApproxsimTimestamp(Declaration declaration, long value) {
         super(declaration);
         this.value = new Timestamp(value);
     }
 
     /**
-     * Creates a new StratmasTimestamp from a Declaration.
+     * Creates a new ApproxsimTimestamp from a Declaration.
      * 
      * @param declaration the declaration for this object.
      * @param value the value of the timestamp.
      */
-    protected StratmasTimestamp(Declaration declaration, String value)
+    protected ApproxsimTimestamp(Declaration declaration, String value)
             throws ParseException {
         this(declaration, 0);
         this.value = Timestamp.parseTimestamp(value);
@@ -127,25 +127,25 @@ public class StratmasTimestamp extends StratmasSimple {
     }
 
     /**
-     * Returns a StratmasGUIConstructor suitable for constructing objects of this type.
+     * Returns a ApproxsimGUIConstructor suitable for constructing objects of this type.
      * 
      * @param declaration the declaration for which the GUI is created.
      */
-    protected static StratmasGUIConstructor getGUIConstructor(
+    protected static ApproxsimGUIConstructor getGUIConstructor(
             Declaration declaration) {
-        return new StratmasTimestampGUIConstructor(declaration);
+        return new ApproxsimTimestampGUIConstructor(declaration);
     }
 
     /**
-     * Creates a StratmasTimestamp from a DOM element.
+     * Creates a ApproxsimTimestamp from a DOM element.
      * 
      * @param n The dom element from which the object is created.
      */
-    protected static StratmasObject domCreate(Element n) {
+    protected static ApproxsimObject domCreate(Element n) {
         try {
             Timestamp t = Timestamp
                     .parseTimestamp(XMLHelper.getString(n, "value"));
-            return new StratmasTimestamp(Identifier.getIdentifier(n),
+            return new ApproxsimTimestamp(Identifier.getIdentifier(n),
                     TypeFactory.getType("Timestamp"), t.getMilliSecs());
         } catch (NumberFormatException e) {
             return null;
@@ -155,14 +155,14 @@ public class StratmasTimestamp extends StratmasSimple {
     }
 
     /**
-     * Creates a StratmasTimestamp from the specified Declaration.
+     * Creates a ApproxsimTimestamp from the specified Declaration.
      * <p>
      * author Per Alexius
      * 
      * @param declaration The declaration for which the object is created.
      */
-    protected static StratmasObject defaultCreate(Declaration declaration) {
-        return new StratmasTimestamp(declaration, 0);
+    protected static ApproxsimObject defaultCreate(Declaration declaration) {
+        return new ApproxsimTimestamp(declaration, 0);
     }
 
     /**
@@ -187,17 +187,17 @@ public class StratmasTimestamp extends StratmasSimple {
      * @return A clone of this object.
      */
     protected Object clone() {
-        return new StratmasTimestamp(identifier, type, value.getMilliSecs());
+        return new ApproxsimTimestamp(identifier, type, value.getMilliSecs());
     }
 }
 
 /**
- * StratmasTimestampGUIConstructor creates GUIs for creating StratmasTimestamp objects.
+ * ApproxsimTimestampGUIConstructor creates GUIs for creating ApproxsimTimestamp objects.
  * 
  * @version 1, $Date: 2006/05/16 12:37:02 $
  * @author Per Alexius
  */
-class StratmasTimestampGUIConstructor extends StratmasGUIConstructor {
+class ApproxsimTimestampGUIConstructor extends ApproxsimGUIConstructor {
     /**
 	 * 
 	 */
@@ -205,11 +205,11 @@ class StratmasTimestampGUIConstructor extends StratmasGUIConstructor {
     javax.swing.JTextField field;
 
     /**
-     * Creates a new StratmasTimestampGUIConstructor using the supplied declaration.
+     * Creates a new ApproxsimTimestampGUIConstructor using the supplied declaration.
      * 
      * @param declaration the declaration to use.
      */
-    public StratmasTimestampGUIConstructor(Declaration declaration) {
+    public ApproxsimTimestampGUIConstructor(Declaration declaration) {
         super(declaration);
     }
 
@@ -223,11 +223,11 @@ class StratmasTimestampGUIConstructor extends StratmasGUIConstructor {
     }
 
     /**
-     * Tries to create the StratmasObject from the values in the GUI.
+     * Tries to create the ApproxsimObject from the values in the GUI.
      */
-    protected void createStratmasObject() {
+    protected void createApproxsimObject() {
         try {
-            setStratmasObject(new StratmasTimestamp(this.declaration,
+            setApproxsimObject(new ApproxsimTimestamp(this.declaration,
                     field.getText()));
         } catch (java.text.ParseException e) {
             System.err.println("FIXME: Don't fail quietly "

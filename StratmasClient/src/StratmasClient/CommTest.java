@@ -1,21 +1,21 @@
-package StratmasClient;
+package ApproxsimClient;
 
 import java.io.*;
 import java.util.Hashtable;
-import StratmasClient.communication.*;
+import ApproxsimClient.communication.*;
 
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.object.type.TypeFactory;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimObjectFactory;
+import ApproxsimClient.object.type.TypeFactory;
 
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 public class CommTest {
-    final private static String path = "/afs/pdc.kth.se/projects/stratmas/alexius/xml/CommTest_files/";
+    final private static String path = "/afs/pdc.kth.se/projects/approxsim/alexius/xml/CommTest_files/";
     final private static String mLoadQueryFileName = path + "loadQuery.xml";
 
     private static Hashtable<String, String> mPropHash = new Hashtable<String, String>();
@@ -57,7 +57,7 @@ public class CommTest {
             }
         }
 
-        StratmasSocket sock = null;
+        ApproxsimSocket sock = null;
         BufferedReader stdIn = new BufferedReader(new InputStreamReader(
                 System.in));
 
@@ -65,9 +65,9 @@ public class CommTest {
         boolean fromFile = false;
         String line = null;
         String old = null;
-        StratmasObject root = null;
+        ApproxsimObject root = null;
         MyClient fooClient = new MyClient("");
-        MyXMLHandler xh = new MyXMLHandler(fooClient, "stratmasProtocol.xsd");
+        MyXMLHandler xh = new MyXMLHandler(fooClient, "approxsimProtocol.xsd");
         SubscriptionHandler sh = new SubscriptionHandler();
         ServerConnection sc = null;
         xh.connect(sh);
@@ -111,9 +111,9 @@ public class CommTest {
                 } else if (line.equalsIgnoreCase("i") && conn == true) {
                     System.out.println("Filename in samples/misc: ");
                     String filename = stdIn.readLine();
-                    root = StratmasObjectFactory.createList(TypeFactory
+                    root = ApproxsimObjectFactory.createList(TypeFactory
                             .getType("Root").getSubElement("identifiables"));
-                    StratmasObject sim = Client.importXMLSimulation("misc/"
+                    ApproxsimObject sim = Client.importXMLSimulation("misc/"
                             + filename);
                     if (sim.getParent() != null) {
                         sim.remove();
@@ -122,7 +122,7 @@ public class CommTest {
                     sc.blockingSend(new InitializationMessage(sim));
                 } else if (line.equalsIgnoreCase("ic") && conn == true) {
                     System.out.print("Initializing combat.scn: ");
-                    StratmasObject list = StratmasObjectFactory
+                    ApproxsimObject list = ApproxsimObjectFactory
                             .createList(TypeFactory.getType("Root")
                                     .getSubElement("identifiables"));
                     root = Client.importXMLSimulation("misc/combat.scn");
@@ -151,7 +151,7 @@ public class CommTest {
                     conn = false;
                 } else if (line.equalsIgnoreCase("l")) {
                     // LoadQuery
-                    StratmasSocket foo = new StratmasSocket();
+                    ApproxsimSocket foo = new ApproxsimSocket();
                     foo.id(0);
                     foo.connect("localhost", 28444);
                     foo.sendMessage(getMsgFromFile(mLoadQueryFileName));
@@ -209,14 +209,14 @@ public class CommTest {
     }
 }
 
-class FooListener implements StratmasEventListener {
+class FooListener implements ApproxsimEventListener {
     MyClient mClient = null;
 
     FooListener(MyClient client) {
         mClient = client;
     }
 
-    public void eventOccured(StratmasEvent event) {
+    public void eventOccured(ApproxsimEvent event) {
         System.err.println("Event occured!");
         mClient.tell();
     }
@@ -233,7 +233,7 @@ class MyXMLHandler extends XMLHandler {
             mParser.parse(new InputSource(new StringReader(xml)));
             Element elem = mParser.getDocument().getDocumentElement();
             if (elem != null) {
-                StratmasObject o = StratmasObjectFactory
+                ApproxsimObject o = ApproxsimObjectFactory
                         .domCreate(getFirstChildByTag(elem, "object"));
                 dumpToFile("theOutput.xml", o.toXML());
             } else {

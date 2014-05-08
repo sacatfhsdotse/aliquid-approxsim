@@ -1,7 +1,7 @@
-package StratmasClient;
+package ApproxsimClient;
 
-import StratmasClient.object.StratmasEventListener;
+import ApproxsimClient.object.ApproxsimEventListener;
 
-public interface StratmasWindowListener extends StratmasEventListener {
+public interface ApproxsimWindowListener extends ApproxsimEventListener {
     public void doExit();
 }

@@ -3,17 +3,17 @@
  * @(#)Polygon.java
  */
 
-package StratmasClient.object;
+package ApproxsimClient.object;
 
-import StratmasClient.object.type.Type;
-import StratmasClient.object.type.Declaration;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.object.primitive.Timestamp;
-import StratmasClient.object.primitive.Identifier;
+import ApproxsimClient.object.type.Type;
+import ApproxsimClient.object.type.Declaration;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.object.primitive.Timestamp;
+import ApproxsimClient.object.primitive.Identifier;
 
-import StratmasClient.map.Projection;
+import ApproxsimClient.map.Projection;
 
-import StratmasClient.BoundingBox;
+import ApproxsimClient.BoundingBox;
 
 import java.util.Hashtable;
 import java.util.Vector;
@@ -60,11 +60,11 @@ public class Polygon extends Segmented {
     }
 
     /**
-     * Returns a StratmasVectorConstructor suitable for constructing objects of this type.
+     * Returns a ApproxsimVectorConstructor suitable for constructing objects of this type.
      * 
      * @param declaration the declaration for which the object is created.
      */
-    protected static StratmasVectorConstructor getVectorConstructor(
+    protected static ApproxsimVectorConstructor getVectorConstructor(
             Declaration declaration) {
         return new PolygonVectorConstructor(declaration);
     }
@@ -76,7 +76,7 @@ public class Polygon extends Segmented {
      * 
      * @param declaration The declaration for which the object is created.
      */
-    protected static StratmasObject defaultCreate(Declaration declaration) {
+    protected static ApproxsimObject defaultCreate(Declaration declaration) {
         throw new AssertionError("No default constructor for Polygon.");
     }
 
@@ -185,7 +185,7 @@ public class Polygon extends Segmented {
     protected Object clone() {
         Vector elements = new Vector();
         for (Enumeration en = children(); en.hasMoreElements();) {
-            elements.add(((StratmasObject) en.nextElement()).clone());
+            elements.add(((ApproxsimObject) en.nextElement()).clone());
         }
         return new Polygon(identifier, elements);
     }
@@ -200,10 +200,10 @@ public class Polygon extends Segmented {
      */
     public void update(Element n, Timestamp t) {
         if (getType().equals(TypeFactory.getType(n))) {
-            // Get the StratmasList containing the child curves.
-            StratmasList curveList = (StratmasList) getChild("curves");
+            // Get the ApproxsimList containing the child curves.
+            ApproxsimList curveList = (ApproxsimList) getChild("curves");
             if (curveList == null) {
-                throw new AssertionError("Polygon without curve StratmasList");
+                throw new AssertionError("Polygon without curve ApproxsimList");
             }
 
             // Go through the child curves in the new Polygon and
@@ -229,7 +229,7 @@ public class Polygon extends Segmented {
                             || !childCurve.getType().equals(typeOfNewChild)) {
                         // Same number of curves but not same
                         // identifers -> replace.
-                        replace(StratmasObjectFactory.domCreate(n), n);
+                        replace(ApproxsimObjectFactory.domCreate(n), n);
                         return;
                     } else {
                         // Ok, it was just an update of the same
@@ -239,12 +239,12 @@ public class Polygon extends Segmented {
                 }
             } else {
                 // More or less curves than in the old polygon -> replace.
-                replace(StratmasObjectFactory.domCreate(n), n);
+                replace(ApproxsimObjectFactory.domCreate(n), n);
                 return;
             }
         } else {
             // Different type -> replace
-            replace(StratmasObjectFactory.domCreate(n), n);
+            replace(ApproxsimObjectFactory.domCreate(n), n);
         }
     }
 
@@ -253,7 +253,7 @@ public class Polygon extends Segmented {
      * 
      * @param child the child that changed
      */
-    public void childChanged(StratmasObject child, Object initiator) {
+    public void childChanged(ApproxsimObject child, Object initiator) {
         if (getParent() != null) {
             getParent().childChanged(this, initiator);
         }
@@ -319,7 +319,7 @@ public class Polygon extends Segmented {
  * @version 1, $Date: 2007/01/24 14:08:55 $
  * @author Daniel Ahlin
  */
-class PolygonVectorConstructor extends StratmasVectorConstructor {
+class PolygonVectorConstructor extends ApproxsimVectorConstructor {
     /**
      * Creates a new object using specifications in declaration.
      * 
@@ -330,11 +330,11 @@ class PolygonVectorConstructor extends StratmasVectorConstructor {
     }
 
     /**
-     * Returns the StratmasObject this component was created to provide.
+     * Returns the ApproxsimObject this component was created to provide.
      * 
      * @param parts the parts to use in constructing the object.
      */
-    public StratmasObject getStratmasObject(Vector parts) {
+    public ApproxsimObject getApproxsimObject(Vector parts) {
         return new Polygon(this.getDeclaration(), parts);
     }
 }

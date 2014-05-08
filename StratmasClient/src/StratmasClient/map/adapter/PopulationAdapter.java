@@ -3,20 +3,20 @@
  * @(#)PopulationAdapter.java
  */
 
-package StratmasClient.map.adapter;
+package ApproxsimClient.map.adapter;
 
 import java.util.Enumeration;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasDecimal;
-import StratmasClient.Debug;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimDecimal;
+import ApproxsimClient.Debug;
 
 import java.io.UnsupportedEncodingException;
 
-import StratmasClient.filter.StratmasObjectFilter;
+import ApproxsimClient.filter.ApproxsimObjectFilter;
 
-import StratmasClient.map.Projection;
+import ApproxsimClient.map.Projection;
 
 import javax.media.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
@@ -28,7 +28,7 @@ import com.jogamp.common.nio.Buffers;
 import java.nio.DoubleBuffer;
 
 /**
- * PopulationAdapter adapts StratmasObjects descendants of Population for viewing on a map window.
+ * PopulationAdapter adapts ApproxsimObjects descendants of Population for viewing on a map window.
  * 
  * @version 1, $Date: 2006/10/02 12:22:24 $
  * @author Daniel Ahlin
@@ -52,7 +52,7 @@ public class PopulationAdapter extends ElementAdapter {
     /**
      * The listener used to notify about inhabitants changes
      */
-    StratmasEventListener inhabitantsListener = null;
+    ApproxsimEventListener inhabitantsListener = null;
 
     /**
      * The whether to draw name of element under symbol.
@@ -64,19 +64,19 @@ public class PopulationAdapter extends ElementAdapter {
      * 
      * @param element the Element to adapt.
      */
-    protected PopulationAdapter(StratmasObject element) {
+    protected PopulationAdapter(ApproxsimObject element) {
         super(element);
         resetInhabitantListener();
 
         // Register a listener for the populationgroup list.
         if (element.getChild("ethnicGroups") != null) {
             element.getChild("ethnicGroups")
-                    .addEventListener(new StratmasEventListener() {
-                        public void eventOccured(StratmasEvent event) {
+                    .addEventListener(new ApproxsimEventListener() {
+                        public void eventOccured(ApproxsimEvent event) {
                             if (event.isObjectAdded()) {
                                 resetInhabitantListener();
                             } else if (event.isRemoved()) {
-                                ((StratmasObject) event.getSource())
+                                ((ApproxsimObject) event.getSource())
                                         .removeEventListener(this);
                                 resetInhabitantListener();
                             } else if (event.isReplaced()) {
@@ -94,19 +94,19 @@ public class PopulationAdapter extends ElementAdapter {
      * @param element the Element to adapt.
      * @param renderSelectionName the integer to use as the base for names in RENDER_SELECTION
      */
-    protected PopulationAdapter(StratmasObject element, int renderSelectionName) {
+    protected PopulationAdapter(ApproxsimObject element, int renderSelectionName) {
         super(element, renderSelectionName);
         resetInhabitantListener();
 
         // Register a listener for the populationgroup list.
         if (element.getChild("ethnicGroups") != null) {
             element.getChild("ethnicGroups")
-                    .addEventListener(new StratmasEventListener() {
-                        public void eventOccured(StratmasEvent event) {
+                    .addEventListener(new ApproxsimEventListener() {
+                        public void eventOccured(ApproxsimEvent event) {
                             if (event.isObjectAdded()) {
                                 resetInhabitantListener();
                             } else if (event.isRemoved()) {
-                                ((StratmasObject) event.getSource())
+                                ((ApproxsimObject) event.getSource())
                                         .removeEventListener(this);
                                 resetInhabitantListener();
                             } else if (event.isReplaced()) {
@@ -123,12 +123,12 @@ public class PopulationAdapter extends ElementAdapter {
      * 
      * @param event the event causing the call.
      */
-    public void eventOccured(StratmasEvent event) {
+    public void eventOccured(ApproxsimEvent event) {
         super.eventOccured(event);
         if (event.isObjectAdded()
-                && ((StratmasObject) event.getArgument()).getType()
+                && ((ApproxsimObject) event.getArgument()).getType()
                         .canSubstitute("Element")) {
-            fireAdapterChildAdded((StratmasObject) event.getArgument());
+            fireAdapterChildAdded((ApproxsimObject) event.getArgument());
         }
     }
 
@@ -298,11 +298,11 @@ public class PopulationAdapter extends ElementAdapter {
      */
     public void updateInhabitantsScale() {
         // Find all inhabitants
-        StratmasObjectFilter filter = new StratmasObjectFilter() {
+        ApproxsimObjectFilter filter = new ApproxsimObjectFilter() {
             /**
              * Returns true for any object called inhabitants that are of type Double.
              */
-            public boolean pass(StratmasObject obj) {
+            public boolean pass(ApproxsimObject obj) {
                 return obj.getIdentifier().equals("inhabitants")
                         && obj.getType().canSubstitute("Double");
             }
@@ -310,9 +310,9 @@ public class PopulationAdapter extends ElementAdapter {
 
         // Sum inhabitants
         double total = 0.0;
-        for (Enumeration e = filter.filterTree(getStratmasObject()); e
+        for (Enumeration e = filter.filterTree(getApproxsimObject()); e
                 .hasMoreElements();) {
-            StratmasDecimal dec = (StratmasDecimal) e.nextElement();
+            ApproxsimDecimal dec = (ApproxsimDecimal) e.nextElement();
             total += dec.getValue();
         }
 
@@ -354,13 +354,13 @@ public class PopulationAdapter extends ElementAdapter {
     synchronized protected void resetInhabitantListener() {
         if (inhabitantsListener == null) {
             final PopulationAdapter self = this;
-            this.inhabitantsListener = new StratmasEventListener() {
+            this.inhabitantsListener = new ApproxsimEventListener() {
                 /**
                  * Called when the Element this adapter adapts changes.
                  * 
                  * @param event the event causing the call.
                  */
-                public void eventOccured(StratmasEvent event) {
+                public void eventOccured(ApproxsimEvent event) {
                     if (event.isValueChanged()) {
                         self.updateInhabitantsScale();
                     } else if (event.isRemoved()) {
@@ -376,18 +376,18 @@ public class PopulationAdapter extends ElementAdapter {
         }
 
         // Find all inhabitants
-        StratmasObjectFilter filter = new StratmasObjectFilter() {
+        ApproxsimObjectFilter filter = new ApproxsimObjectFilter() {
             /**
              * Returns true for any object called inhabitants that are of type Double.
              */
-            public boolean pass(StratmasObject obj) {
+            public boolean pass(ApproxsimObject obj) {
                 return obj.getIdentifier().equals("inhabitants")
                         && obj.getType().canSubstitute("Double");
             }
         };
-        for (Enumeration e = filter.filterTree(getStratmasObject()); e
+        for (Enumeration e = filter.filterTree(getApproxsimObject()); e
                 .hasMoreElements();) {
-            StratmasDecimal dec = (StratmasDecimal) e.nextElement();
+            ApproxsimDecimal dec = (ApproxsimDecimal) e.nextElement();
             // Lazily making sure we are not alread listening
             dec.removeEventListener(this.inhabitantsListener);
             dec.addEventListener(this.inhabitantsListener);

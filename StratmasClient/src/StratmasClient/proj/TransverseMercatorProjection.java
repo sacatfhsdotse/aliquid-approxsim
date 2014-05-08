@@ -1,4 +1,4 @@
-package StratmasClient.proj;
+package ApproxsimClient.proj;
 
 /**
  * This is implementation of the Transverse Mercator projection where (longitude/latitude) values are converted into (easting/northing)

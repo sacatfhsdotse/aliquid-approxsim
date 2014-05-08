@@ -1,13 +1,13 @@
-// $Id: StratmasGUIConstructor.java,v 1.1 2006/03/22 14:30:51 dah Exp $
+// $Id: ApproxsimGUIConstructor.java,v 1.1 2006/03/22 14:30:51 dah Exp $
 /*
- * @(#)StratmasGUIConstructor.java
+ * @(#)ApproxsimGUIConstructor.java
  */
 
-package StratmasClient.object;
+package ApproxsimClient.object;
 
-import StratmasClient.object.type.Declaration;
-import StratmasClient.object.type.Type;
-import StratmasClient.TypeSelector;
+import ApproxsimClient.object.type.Declaration;
+import ApproxsimClient.object.type.Type;
+import ApproxsimClient.TypeSelector;
 import javax.swing.JPanel;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
@@ -20,12 +20,12 @@ import java.awt.event.ActionEvent;
 import javax.swing.BoxLayout;
 
 /**
- * StratmasGUIConstructor is a abstract superclass for JComponents acting as source of new StratmasObjects.
+ * ApproxsimGUIConstructor is a abstract superclass for JComponents acting as source of new ApproxsimObjects.
  * 
  * @version 1, $Date: 2006/03/22 14:30:51 $
  * @author Daniel Ahlin
  */
-public abstract class StratmasGUIConstructor extends JPanel {
+public abstract class ApproxsimGUIConstructor extends JPanel {
     /**
 	 * 
 	 */
@@ -47,9 +47,9 @@ public abstract class StratmasGUIConstructor extends JPanel {
     String identifier;
 
     /**
-     * The resulting StratmasObject
+     * The resulting ApproxsimObject
      */
-    StratmasObject result = null;
+    ApproxsimObject result = null;
 
     /**
      * If this gui constructor uses a chooser.
@@ -57,12 +57,12 @@ public abstract class StratmasGUIConstructor extends JPanel {
     boolean useChooser = false;
 
     /**
-     * Creates a new StratmasComplexGUIConstructor using specifications in the supplied declaration.
+     * Creates a new ApproxsimComplexGUIConstructor using specifications in the supplied declaration.
      * 
      * @param declaration the declaration to use.
      * @param useChooser lets the user choose different the subtypes of the provided declaration.
      */
-    public StratmasGUIConstructor(Declaration declaration, boolean useChooser) {
+    public ApproxsimGUIConstructor(Declaration declaration, boolean useChooser) {
         this.declaration = declaration;
         setIdentifier(declaration.getName());
         setType(getDeclaration().getType());
@@ -79,7 +79,7 @@ public abstract class StratmasGUIConstructor extends JPanel {
      * 
      * @param declaration the declaration to use.
      */
-    public StratmasGUIConstructor(Declaration declaration) {
+    public ApproxsimGUIConstructor(Declaration declaration) {
         this(declaration, declaration.getType().isAbstract());
     }
 
@@ -88,7 +88,7 @@ public abstract class StratmasGUIConstructor extends JPanel {
      */
     public void buildChooser() {
         this.add(new JLabel(declaration.getName()));
-        final StratmasGUIConstructor self = this;
+        final ApproxsimGUIConstructor self = this;
         final TypeSelector typeSelector = new TypeSelector(
                 this.declaration.getType());
         // Hack to get selected item implicitly selected item.
@@ -107,13 +107,13 @@ public abstract class StratmasGUIConstructor extends JPanel {
              * @param e the event
              */
             public void actionPerformed(ActionEvent e) {
-                StratmasGUIConstructorDialog deferedDialog = StratmasGUIConstructor
-                        .buildDialog(StratmasObjectFactory
+                ApproxsimGUIConstructorDialog deferedDialog = ApproxsimGUIConstructor
+                        .buildDialog(ApproxsimObjectFactory
                                 .guiCreate(declaration.clone(typeSelector
                                         .getSelectedType())));
                 deferedDialog.setVisible(true);
-                self.setStratmasObject(deferedDialog.getStratmasObject());
-                if (self.getStratmasObject() != null) {
+                self.setApproxsimObject(deferedDialog.getApproxsimObject());
+                if (self.getApproxsimObject() != null) {
                     createButton.setText("Redo...");
                 }
             }
@@ -127,9 +127,9 @@ public abstract class StratmasGUIConstructor extends JPanel {
     protected abstract void buildPanel();
 
     /**
-     * Tries to create the StratmasObject from the values in the GUI.
+     * Tries to create the ApproxsimObject from the values in the GUI.
      */
-    protected abstract void createStratmasObject();
+    protected abstract void createApproxsimObject();
 
     /**
      * Sets the type for this constructor to create.
@@ -164,14 +164,14 @@ public abstract class StratmasGUIConstructor extends JPanel {
     }
 
     /**
-     * Returns the StratmasObject this component was created to provide.
+     * Returns the ApproxsimObject this component was created to provide.
      */
-    public StratmasObject getStratmasObject() {
+    public ApproxsimObject getApproxsimObject() {
         if (this.result == null) {
             // If this constructor is handled by the chooser the defered
-            // constructor will take care of the creation of the StratmasObject.
+            // constructor will take care of the creation of the ApproxsimObject.
             if (!useChooser) {
-                createStratmasObject();
+                createApproxsimObject();
             }
         }
 
@@ -183,9 +183,9 @@ public abstract class StratmasGUIConstructor extends JPanel {
     }
 
     /**
-     * Sets the StratmasObject this component will provide.
+     * Sets the ApproxsimObject this component will provide.
      */
-    protected void setStratmasObject(StratmasObject object) {
+    protected void setApproxsimObject(ApproxsimObject object) {
         this.result = object;
     }
 
@@ -202,8 +202,8 @@ public abstract class StratmasGUIConstructor extends JPanel {
      * @param constructor the constructor to build for.
      * @param fixedIdentifier wether the identifier of the object created is fixed.
      */
-    public static final StratmasGUIConstructorDialog buildDialog(
-            StratmasGUIConstructor constructor, boolean fixedIdentifier) {
+    public static final ApproxsimGUIConstructorDialog buildDialog(
+            ApproxsimGUIConstructor constructor, boolean fixedIdentifier) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         // Handle identifier specifically.
@@ -212,7 +212,7 @@ public abstract class StratmasGUIConstructor extends JPanel {
         JTextField identifierField = new JTextField(
                 constructor.getIdentifier(), 15);
 
-        final StratmasGUIConstructor fCons = constructor;
+        final ApproxsimGUIConstructor fCons = constructor;
         identifierField.addCaretListener(new CaretListener() {
             public void caretUpdate(CaretEvent e) {
                 JTextField tF = (JTextField) e.getSource();
@@ -226,7 +226,7 @@ public abstract class StratmasGUIConstructor extends JPanel {
 
         panel.add(new javax.swing.JSeparator());
         panel.add(constructor);
-        StratmasGUIConstructorDialog dialog = new StratmasGUIConstructorDialog(
+        ApproxsimGUIConstructorDialog dialog = new ApproxsimGUIConstructorDialog(
                 constructor);
         panel.add(constructor.getExitButtons(dialog));
         dialog.getRootPane().getContentPane().add(panel);
@@ -240,8 +240,8 @@ public abstract class StratmasGUIConstructor extends JPanel {
      * 
      * @param constructor the constructor to build for.
      */
-    public static final StratmasGUIConstructorDialog buildDialog(
-            StratmasGUIConstructor constructor) {
+    public static final ApproxsimGUIConstructorDialog buildDialog(
+            ApproxsimGUIConstructor constructor) {
         return buildDialog(constructor, true);
     }
 
@@ -250,10 +250,10 @@ public abstract class StratmasGUIConstructor extends JPanel {
      * 
      * @param d the dialog the buttons control.
      */
-    protected JPanel getExitButtons(StratmasGUIConstructorDialog d) {
+    protected JPanel getExitButtons(ApproxsimGUIConstructorDialog d) {
         JPanel panel = new JPanel();
-        final StratmasGUIConstructorDialog dialog = d;
-        final StratmasGUIConstructor target = this;
+        final ApproxsimGUIConstructorDialog dialog = d;
+        final ApproxsimGUIConstructor target = this;
         panel.add(new JButton(new AbstractAction("Create") {
             /**
 			 * 
@@ -261,7 +261,7 @@ public abstract class StratmasGUIConstructor extends JPanel {
             private static final long serialVersionUID = -3635537960479502675L;
 
             public void actionPerformed(ActionEvent e) {
-                if (target.getStratmasObject() != null) {
+                if (target.getApproxsimObject() != null) {
                     dialog.dispose();
                 } else {
                     JOptionPane

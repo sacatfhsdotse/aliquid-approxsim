@@ -1,5 +1,5 @@
-#ifndef STRATMAS_TYPEATTRIBUTE
-#define STRATMAS_TYPEATTRIBUTE
+#ifndef APPROXSIM_TYPEATTRIBUTE
+#define APPROXSIM_TYPEATTRIBUTE
 
 // System
 #include <iosfwd>
@@ -22,7 +22,7 @@ XERCES_CPP_NAMESPACE_USE
 
 /**
  * \brief The TypeAttribute class represents an attribute of a type in
- * the Stratmas xml schema.
+ * the Approxsim xml schema.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/05/24 12:32:11 $
@@ -74,4 +74,4 @@ public:
      friend std::ostream& operator << (std::ostream& o, const TypeAttribute& t);
 };
 
-#endif   // STRATMAS_TYPEATTRIBUTE
+#endif   // APPROXSIM_TYPEATTRIBUTE

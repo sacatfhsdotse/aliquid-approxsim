@@ -83,7 +83,7 @@ const Reference& Reference::get(const Reference& scope, const std::string& name)
 const Reference &Reference::get(const DOMElement* n) {
      if (!n) {
           Error e;
-          e << "Invalid Stratmas message. Null element node in Reference::Reference()";
+          e << "Invalid Approxsim message. Null element node in Reference::Reference()";
           throw e;
      }
      

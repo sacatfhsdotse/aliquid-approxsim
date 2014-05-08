@@ -1,7 +1,7 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 /**
- * This class contains necessary measures and methods used in STRATMAS map manipulations.
+ * This class contains necessary measures and methods used in APPROXSIM map manipulations.
  * 
  * @version 1.0
  * @author Amir Filipovic

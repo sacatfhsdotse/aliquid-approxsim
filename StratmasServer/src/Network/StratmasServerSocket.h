@@ -1,5 +1,5 @@
-#ifndef _STRATMASSERVERSOCKET_H
-#define _STRATMASSERVERSOCKET_H
+#ifndef _APPROXSIMSERVERSOCKET_H
+#define _APPROXSIMSERVERSOCKET_H
 
 
 // Own
@@ -7,16 +7,16 @@
 
 
 /**
- * \brief ServerSocket user for listening to incoming stratmas
+ * \brief ServerSocket user for listening to incoming approxsim
  * messages.
  *
  * \author Per Alexius
  * \date   $Date: 2005/06/13 13:41:15 $
  */
-class StratmasServerSocket : public Socket {
+class ApproxsimServerSocket : public Socket {
 public:
-     StratmasServerSocket(const char *host, int port);
+     ApproxsimServerSocket(const char *host, int port);
 };
 
 
-#endif   // _STRATMASSERVERSOCKET_H
+#endif   // _APPROXSIMSERVERSOCKET_H

@@ -1,10 +1,10 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-  xmlns:sp="http://pdc.kth.se/stratmasNamespace"
-  targetNamespace="http://pdc.kth.se/stratmasNamespace">
+  xmlns:sp="http://pdc.kth.se/approxsimNamespace"
+  targetNamespace="http://pdc.kth.se/approxsimNamespace">
 
   <xsd:annotation>
     <xsd:documentation xml:lang="en">
-      A test schema for the Stratmas client server protocol
+      A test schema for the Approxsim client server protocol
     </xsd:documentation>
   </xsd:annotation>
 
@@ -14,12 +14,12 @@
   <xsd:include schemaLocation="substrateXML.xsd"/>        
 
 
-  <xsd:element name="stratmasMessage" type="sp:StratmasMessage"/>
+  <xsd:element name="approxsimMessage" type="sp:ApproxsimMessage"/>
   <xsd:element name="root" type="sp:Root"/>
 
   <!-- Messages -->
 
-  <xsd:complexType name="StratmasMessage" abstract="true">
+  <xsd:complexType name="ApproxsimMessage" abstract="true">
   </xsd:complexType> 
 
 
@@ -27,7 +27,7 @@
 
   <xsd:complexType name="ConnectMessage">
     <xsd:complexContent> 
-      <xsd:extension base="sp:StratmasMessage">
+      <xsd:extension base="sp:ApproxsimMessage">
         <xsd:sequence>   
           <xsd:element name="bigEndian" type="xsd:boolean"/>
         </xsd:sequence>    
@@ -37,21 +37,21 @@
 
   <xsd:complexType name="DisconnectMessage">
     <xsd:complexContent> 
-      <xsd:extension base="sp:StratmasMessage">
+      <xsd:extension base="sp:ApproxsimMessage">
       </xsd:extension>
     </xsd:complexContent> 
   </xsd:complexType> 
 
   <xsd:complexType name="ServerCapabilitiesMessage">
     <xsd:complexContent> 
-      <xsd:extension base="sp:StratmasMessage">
+      <xsd:extension base="sp:ApproxsimMessage">
       </xsd:extension>
     </xsd:complexContent> 
   </xsd:complexType> 
 
   <xsd:complexType name="InitializationMessage">
     <xsd:complexContent> 
-      <xsd:extension base="sp:StratmasMessage">
+      <xsd:extension base="sp:ApproxsimMessage">
         <xsd:sequence>   
           <xsd:element name="simulation" type="sp:Simulation"/>
           <xsd:element name="pvinitvalues" type="sp:ProcessVariableInitialValues" minOccurs="0" maxOccurs="unbounded"/>        
@@ -62,14 +62,14 @@
 
   <xsd:complexType name="GetGridMessage">
     <xsd:complexContent> 
-      <xsd:extension base="sp:StratmasMessage">
+      <xsd:extension base="sp:ApproxsimMessage">
       </xsd:extension>
     </xsd:complexContent> 
   </xsd:complexType> 
 
   <xsd:complexType name="RegisterForUpdatesMessage">
     <xsd:complexContent> 
-      <xsd:extension base="sp:StratmasMessage">
+      <xsd:extension base="sp:ApproxsimMessage">
         <xsd:sequence>   
           <xsd:element name="register" type="xsd:boolean"/>        
         </xsd:sequence>    
@@ -79,7 +79,7 @@
 
   <xsd:complexType name="SubscriptionMessage">
     <xsd:complexContent> 
-      <xsd:extension base="sp:StratmasMessage">
+      <xsd:extension base="sp:ApproxsimMessage">
         <xsd:sequence>   
           <xsd:element name="subscription" type="sp:Subscription" minOccurs="1" maxOccurs="unbounded"/>        
         </xsd:sequence>    
@@ -89,7 +89,7 @@
 
   <xsd:complexType name="StepMessage">
     <xsd:complexContent> 
-      <xsd:extension base="sp:StratmasMessage">
+      <xsd:extension base="sp:ApproxsimMessage">
         <xsd:sequence>   
           <xsd:element name="numberOfTimesteps" type="xsd:nonNegativeInteger"/>        
           <xsd:element name="detached" type="xsd:boolean" minOccurs="0"/>        
@@ -100,7 +100,7 @@
 
   <xsd:complexType name="UpdateServerMessage">
     <xsd:complexContent>
-      <xsd:extension base="sp:StratmasMessage">
+      <xsd:extension base="sp:ApproxsimMessage">
         <xsd:sequence>
           <xsd:element name="update" type="sp:ServerUpdate" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
@@ -154,14 +154,14 @@
 
   <xsd:complexType name="ResetMessage">
     <xsd:complexContent> 
-      <xsd:extension base="sp:StratmasMessage">
+      <xsd:extension base="sp:ApproxsimMessage">
       </xsd:extension>
     </xsd:complexContent> 
   </xsd:complexType> 
 
   <xsd:complexType name="SetPropertyMessage">
     <xsd:complexContent> 
-      <xsd:extension base="sp:StratmasMessage">
+      <xsd:extension base="sp:ApproxsimMessage">
         <xsd:sequence>   
           <xsd:element name="property" type="xsd:string"/>        
           <xsd:element name="value" type="xsd:string"/>        
@@ -175,7 +175,7 @@
 
   <xsd:complexType name="ConnectResponseMessage">
     <xsd:complexContent> 
-      <xsd:extension base="sp:StratmasMessage">
+      <xsd:extension base="sp:ApproxsimMessage">
         <xsd:sequence>   
           <xsd:element name="active" type="xsd:boolean"/>
         </xsd:sequence>    
@@ -185,7 +185,7 @@
 
   <xsd:complexType name="GetGridResponseMessage">
     <xsd:complexContent> 
-      <xsd:extension base="sp:StratmasMessage">
+      <xsd:extension base="sp:ApproxsimMessage">
         <xsd:sequence>   
           <xsd:element name="gridData" type="sp:Grid"/>
         </xsd:sequence>    
@@ -227,7 +227,7 @@
 
   <xsd:complexType name="StatusMessage">
     <xsd:complexContent> 
-      <xsd:extension base="sp:StratmasMessage">
+      <xsd:extension base="sp:ApproxsimMessage">
         <xsd:sequence>   
           <xsd:element name="type" type="xsd:string"/>        
           <xsd:element name="error" type="sp:Error" minOccurs="0" maxOccurs="unbounded"/>        
@@ -254,7 +254,7 @@
 
   <xsd:complexType name="ServerCapabilitiesResponseMessage">
     <xsd:complexContent> 
-      <xsd:extension base="sp:StratmasMessage">
+      <xsd:extension base="sp:ApproxsimMessage">
         <xsd:sequence>   
           <xsd:element name="processVariables" type="sp:ProcessVariableDescriptionSet"/>
         </xsd:sequence>    
@@ -264,7 +264,7 @@
 
   <xsd:complexType name="UpdateClientMessage">
     <xsd:complexContent> 
-      <xsd:extension base="sp:StratmasMessage">
+      <xsd:extension base="sp:ApproxsimMessage">
         <xsd:sequence>   
           <xsd:element name="simulationTime" type="sp:Timestamp"/>        
           <xsd:element name="update" type="sp:Update" minOccurs="0" maxOccurs="1"/>        
@@ -350,7 +350,7 @@
 
   <xsd:complexType name="LoadQueryMessage">
     <xsd:complexContent> 
-      <xsd:extension base="sp:StratmasMessage">
+      <xsd:extension base="sp:ApproxsimMessage">
       </xsd:extension>
     </xsd:complexContent> 
   </xsd:complexType> 
@@ -360,7 +360,7 @@
 
   <xsd:complexType name="LoadQueryResponseMessage">
     <xsd:complexContent> 
-      <xsd:extension base="sp:StratmasMessage">
+      <xsd:extension base="sp:ApproxsimMessage">
         <xsd:sequence>   
           <xsd:element name="hasActiveClient" type="xsd:boolean"/>
           <xsd:element name="simulation" type="sp:Identifier" minOccurs="0" maxOccurs="unbounded"/>

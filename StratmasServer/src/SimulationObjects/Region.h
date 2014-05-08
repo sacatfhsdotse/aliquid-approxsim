@@ -1,5 +1,5 @@
-#ifndef STRATMAS_REGION_H
-#define STRATMAS_REGION_H
+#ifndef APPROXSIM_REGION_H
+#define APPROXSIM_REGION_H
 
 
 // System
@@ -38,7 +38,7 @@ enum eRegionPV {
 
 /**
  * \brief This is the SimulationObject that corresponds to the Region
- * type in the Stratmas xml schema.
+ * type in the Approxsim xml schema.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/10/02 16:05:14 $
@@ -86,4 +86,4 @@ public:
      static const char* paramName(eRegionParameter param) { return regionParameterName[param]; }
 };
 
-#endif   // STRATMAS_REGION_H
+#endif   // APPROXSIM_REGION_H

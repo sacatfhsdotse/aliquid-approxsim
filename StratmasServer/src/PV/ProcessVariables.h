@@ -1,5 +1,5 @@
-#ifndef STRATMAS_PROCESSVARIABLES_H
-#define STRATMAS_PROCESSVARIABLES_H
+#ifndef APPROXSIM_PROCESSVARIABLES_H
+#define APPROXSIM_PROCESSVARIABLES_H
 
 
 // System
@@ -437,4 +437,4 @@ public:
      static eAllPV displayNameToOverAllOrder(const std::string& name);
 };
 
-#endif   // STRATMAS_PROCESSVARIABLES_H
+#endif   // APPROXSIM_PROCESSVARIABLES_H

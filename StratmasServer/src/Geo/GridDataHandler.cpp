@@ -97,7 +97,7 @@ GridDataHandler::GridDataHandler(Grid& grid, CombatGrid& cg, const vector<Factio
 //      }
 
 //       for (std::map<std::string, int>::iterator it = mLayerNameToIndex.begin(); it != mLayerNameToIndex.end(); it++) {
-//                  stratmasDebug(it->first << " - " << it->second);
+//                  approxsimDebug(it->first << " - " << it->second);
 //       }
 
      // Allocate memory for new grid

@@ -13,7 +13,7 @@
 #include "Shape.h"
 #include "Server.h"
 #include "Session.h"
-#include "StratmasMessage.h"
+#include "ApproxsimMessage.h"
 #include "Subscription.h"
 #include "Time2.h"
 #include "XMLHelper.h"
@@ -88,15 +88,15 @@ static std::ostream &gridToXML(std::ostream& o, const BasicGrid& grid, bool bigE
 
 /**
  * \brief Helper for creating the header of the XML representation
- * of a StratmasMessage.
+ * of a ApproxsimMessage.
  *
  * \param o   The stream to write to.
  * \param type The type of the message to write a header for.
  */
-void StratmasMessage::openMessage(std::ostream &o, const std::string &type) const
+void ApproxsimMessage::openMessage(std::ostream &o, const std::string &type) const
 {
      o << "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>" << std::endl
-       << "<sp:stratmasMessage xmlns:sp=\"" << Environment::DEFAULT_SCHEMA_NAMESPACE << "\"" << std::endl
+       << "<sp:approxsimMessage xmlns:sp=\"" << Environment::DEFAULT_SCHEMA_NAMESPACE << "\"" << std::endl
        << "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"" << std::endl
        << "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"" << std::endl
        << "xsi:type=\"sp:" << type << "\">";
@@ -104,13 +104,13 @@ void StratmasMessage::openMessage(std::ostream &o, const std::string &type) cons
 
 /**
  * \brief Helper for creating the end of the XML representation of a
- * StratmasMessage.
+ * ApproxsimMessage.
  *
  * \param o   The stream to write to.
  */
-void StratmasMessage::closeMessage(std::ostream &o) const
+void ApproxsimMessage::closeMessage(std::ostream &o) const
 {
-     o << "</sp:stratmasMessage>";
+     o << "</sp:approxsimMessage>";
 }
 
 

@@ -1,15 +1,15 @@
-package StratmasClient;
+package ApproxsimClient;
 
-import StratmasClient.object.Point;
-import StratmasClient.object.StratmasList;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.object.StratmasReference;
-import StratmasClient.object.StratmasSimple;
-import StratmasClient.object.primitive.Reference;
-import StratmasClient.object.type.Declaration;
-import StratmasClient.object.type.Type;
-import StratmasClient.object.type.TypeFactory;
+import ApproxsimClient.object.Point;
+import ApproxsimClient.object.ApproxsimList;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimObjectFactory;
+import ApproxsimClient.object.ApproxsimReference;
+import ApproxsimClient.object.ApproxsimSimple;
+import ApproxsimClient.object.primitive.Reference;
+import ApproxsimClient.object.type.Declaration;
+import ApproxsimClient.object.type.Type;
+import ApproxsimClient.object.type.TypeFactory;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,7 +36,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 /**
- * This class handles the creation of StratmasObejcts from xml. (Acknowledgement: Some comments in this file copied and or adapted from the
+ * This class handles the creation of ApproxsimObejcts from xml. (Acknowledgement: Some comments in this file copied and or adapted from the
  * Xerces library.)
  * 
  * @version 1, $Date: 2006/09/18 09:45:25 $
@@ -52,7 +52,7 @@ public class XMLImporter {
         }
 
         try {
-            StratmasObject so;
+            ApproxsimObject so;
             so = saxParseFromFile(args[0]);
             so = saxParseFromFile(args[0]);
             System.err.println("Created " + so.getIdentifier() + ", "
@@ -69,7 +69,7 @@ public class XMLImporter {
         }
     }
 
-    public static StratmasObject saxParseFromFile(String instanceFile)
+    public static ApproxsimObject saxParseFromFile(String instanceFile)
             throws IOException, ExceptionCollection {
         InputSource source = new InputSource(new BufferedInputStream(
                 new FileInputStream(instanceFile)));
@@ -77,14 +77,14 @@ public class XMLImporter {
         return saxParse(source);
     }
 
-    public static StratmasObject saxParseFromString(String instanceDoc)
+    public static ApproxsimObject saxParseFromString(String instanceDoc)
             throws IOException, ExceptionCollection {
         return saxParse(new InputSource(new StringReader(instanceDoc)));
     }
 
-    public static StratmasObject saxParse(InputSource source)
+    public static ApproxsimObject saxParse(InputSource source)
             throws IOException, ExceptionCollection {
-        StratmasObject ret = null;
+        ApproxsimObject ret = null;
         SAXDocumentHandler handler = null;
 
         try {
@@ -95,9 +95,9 @@ public class XMLImporter {
             }
 
             parser.setProperty("http://apache.org/xml/properties/schema/external-schemaLocation",
-                               StratmasConstants.stratmasNamespace
+                               ApproxsimConstants.approxsimNamespace
                                        + " "
-                                       + StratmasConstants.STRATMAS_SIMULATION_SCHEMA);
+                                       + ApproxsimConstants.APPROXSIM_SIMULATION_SCHEMA);
 
             handler = new SAXDocumentHandler();
             parser.setContentHandler(handler);
@@ -125,7 +125,7 @@ public class XMLImporter {
             throw new ExceptionCollection(v);
         } finally {
             // Remove parsers reference to handler (because handler
-            // have references to stratmasObject's it creates.)
+            // have references to approxsimObject's it creates.)
             if (handler != null) {
                 handler.nullify();
                 if (parser != null) {
@@ -175,7 +175,7 @@ class ExceptionCollection extends Exception {
 }
 
 /**
- * A place holder object for complex StratmasObjects used when creating StratmasObjects from an xml document.
+ * A place holder object for complex ApproxsimObjects used when creating ApproxsimObjects from an xml document.
  * 
  * @version 1, $Date: 2006/09/18 09:45:25 $
  * @author Per Alexius
@@ -197,9 +197,9 @@ class SOPlaceHolder {
     private SOPlaceHolder parent = null;
 
     /**
-     * A Hashtable mapping a child's name to its StratmasObject.
+     * A Hashtable mapping a child's name to its ApproxsimObject.
      */
-    private Hashtable<String, StratmasObject> objects = new Hashtable<String, StratmasObject>();
+    private Hashtable<String, ApproxsimObject> objects = new Hashtable<String, ApproxsimObject>();
 
     /**
      * Creates a placeholder for an object of the specified type.
@@ -213,15 +213,15 @@ class SOPlaceHolder {
         this.type = type;
         this.parent = parent;
 
-        // Create StratmasLists for all lists in our Type.
+        // Create ApproxsimLists for all lists in our Type.
         for (Enumeration en = type.getSubElements().elements(); en
                 .hasMoreElements();) {
             Declaration dec = (Declaration) en.nextElement();
             if (dec.isList()) {
                 objects.put(dec.getName(),
-                            StratmasObjectFactory
+                            ApproxsimObjectFactory
                                     .vectorCreateList(dec)
-                                    .getStratmasObject(new Vector<StratmasObject>()));
+                                    .getApproxsimObject(new Vector<ApproxsimObject>()));
             }
         }
     }
@@ -254,17 +254,17 @@ class SOPlaceHolder {
     }
 
     /**
-     * Adds a created StratmasObject to this placeholder. Notice that in order to be able to put list elements in the correct lists the
-     * identifier of the provided StratmasObject must be the tag of the dom element it was created from and newIdentifier must contain the
+     * Adds a created ApproxsimObject to this placeholder. Notice that in order to be able to put list elements in the correct lists the
+     * identifier of the provided ApproxsimObject must be the tag of the dom element it was created from and newIdentifier must contain the
      * value of the identifier attribute.
      * 
-     * @param o The StratmasObject to add.
-     * @param newIdentifier The value of the identifier attribute in the dom element the StratmasObject was created from.
+     * @param o The ApproxsimObject to add.
+     * @param newIdentifier The value of the identifier attribute in the dom element the ApproxsimObject was created from.
      */
-    public void addObject(StratmasObject o, String newIdentifier) {
+    public void addObject(ApproxsimObject o, String newIdentifier) {
         Declaration dec = getType().getSubElement(o.getIdentifier());
         if (dec.isList()) {
-            StratmasList list = (StratmasList) objects.get(o.getIdentifier());
+            ApproxsimList list = (ApproxsimList) objects.get(o.getIdentifier());
             o.setIdentifier(newIdentifier);
             list.add(o);
         } else {
@@ -273,17 +273,17 @@ class SOPlaceHolder {
     }
 
     /**
-     * Creates the StratmasObject that this object is placeholder for.
+     * Creates the ApproxsimObject that this object is placeholder for.
      * 
      * @param tag The tag of the dom element this Object was is created from.
-     * @return The newly created StratmasObject.
+     * @return The newly created ApproxsimObject.
      */
-    public StratmasObject createStratmasObject(String tag)
+    public ApproxsimObject createApproxsimObject(String tag)
             throws IncompleteVectorConstructException {
-        Vector<StratmasObject> parts = new Vector<StratmasObject>();
+        Vector<ApproxsimObject> parts = new Vector<ApproxsimObject>();
         for (Enumeration en = type.getSubElements().elements(); en
                 .hasMoreElements();) {
-            StratmasObject o = objects.get(((Declaration) en.nextElement())
+            ApproxsimObject o = objects.get(((Declaration) en.nextElement())
                     .getName());
             if (o != null) {
                 parts.add(o);
@@ -296,8 +296,8 @@ class SOPlaceHolder {
         } else {
             dec = getParent().getType().getSubElement(tag).clone(getType());
         }
-        StratmasObject so = StratmasObjectFactory.vectorCreate(dec)
-                .getStratmasObject(parts);
+        ApproxsimObject so = ApproxsimObjectFactory.vectorCreate(dec)
+                .getApproxsimObject(parts);
         if (so == null) {
             throw new IncompleteVectorConstructException(
                     "Error when creating object of type "
@@ -310,7 +310,7 @@ class SOPlaceHolder {
 }
 
 /**
- * The DocumentHandler that when attached to an XMLReader creates StratmasObjects from the parsed xml. It also handles import from ESRI .shp
+ * The DocumentHandler that when attached to an XMLReader creates ApproxsimObjects from the parsed xml. It also handles import from ESRI .shp
  * files.
  * 
  * @version 1, $Date: 2006/09/18 09:45:25 $
@@ -354,12 +354,12 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
 
     /**
      * When parsing a Reference refDepth keeps track of the current depth i.e. the recursion depth. Necessary since a Reference may contain
-     * other complete Reference objects and it is only the top Reference that should be created as a StratmasObject.
+     * other complete Reference objects and it is only the top Reference that should be created as a ApproxsimObject.
      */
     private int refDepth = 0;
 
     /**
-     * The placeholder for the StratmasComplex currently beeing constructed.
+     * The placeholder for the ApproxsimComplex currently beeing constructed.
      */
     private SOPlaceHolder currentPlaceHolder = null;
 
@@ -369,19 +369,19 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
     private Stack<Type> typeStack = new Stack<Type>();
 
     /**
-     * The identifer of the StratmasObject currently beeing created.
+     * The identifer of the ApproxsimObject currently beeing created.
      */
     private String currentIdentifier = null;
 
     /**
-     * The StratmasSimple currently beeing created.
+     * The ApproxsimSimple currently beeing created.
      */
-    private StratmasObject currentObject = null;
+    private ApproxsimObject currentObject = null;
 
     /**
-     * The StratmasObject created from the parsed document.
+     * The ApproxsimObject created from the parsed document.
      */
-    private StratmasObject createdObject = null;
+    private ApproxsimObject createdObject = null;
 
     /**
      * The locator, if the parser sets any.
@@ -396,11 +396,11 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
     }
 
     /**
-     * Accessor for the StratmasObject created from the parsed document.
+     * Accessor for the ApproxsimObject created from the parsed document.
      * 
-     * @return The StratmasObject created from the parsed document.
+     * @return The ApproxsimObject created from the parsed document.
      */
-    public StratmasObject getCreatedObject() {
+    public ApproxsimObject getCreatedObject() {
         return createdObject;
     }
 
@@ -545,9 +545,9 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
         if (type == null) {
             throw new AssertionError("Can't create Type for element with tag '"
                     + localName + "'");
-        } else if (!type.getNamespace().equals(StratmasConstants.xsdNamespace)
+        } else if (!type.getNamespace().equals(ApproxsimConstants.xsdNamespace)
                 && !type.canSubstitute("Identifier",
-                                       StratmasConstants.stratmasNamespace)) {
+                                       ApproxsimConstants.approxsimNamespace)) {
             // Shouldn't care about currentIdentifier if we're
             // currently parsing a Reference.
             if (refDepth == 0) {
@@ -558,25 +558,25 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
             }
 
             if (type.canSubstitute("Reference",
-                                   StratmasConstants.stratmasNamespace)) {
-                // Just increase depth. StratmasReferences are
+                                   ApproxsimConstants.approxsimNamespace)) {
+                // Just increase depth. ApproxsimReferences are
                 // created in endElement in order to avoid a
                 // refDepth check here.
                 refDepth++;
             } else if (type.getName().equals("Point")
                     || (type.canSubstitute("SimpleType",
-                                           StratmasConstants.stratmasNamespace) && !type
+                                           ApproxsimConstants.approxsimNamespace) && !type
                             .getName().equals("SymbolIDCode"))) {
                 // Points and simple types except for Reference
                 // and SymbolIDCode may be created here.
                 Declaration decToCreateFrom = typeStack.peek()
                         .getSubElement(localName).clone(type);
-                currentObject = StratmasObjectFactory
+                currentObject = ApproxsimObjectFactory
                         .defaultCreate(decToCreateFrom);
             } else if (type.canSubstitute("ComplexType",
-                                          StratmasConstants.stratmasNamespace)
+                                          ApproxsimConstants.approxsimNamespace)
                     || type.canSubstitute("Shape",
-                                          StratmasConstants.stratmasNamespace)
+                                          ApproxsimConstants.approxsimNamespace)
                     || type.getName().equals("SymbolIDCode")
                     || type.getName().equals("Root")) {
                 // Create a place holder for complex types and SymbolIDCodes.
@@ -629,15 +629,15 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
                                     currentLength)), null);
                 }
             } else if (type.canSubstitute("Reference",
-                                          StratmasConstants.stratmasNamespace)) {
+                                          ApproxsimConstants.approxsimNamespace)) {
                 // Collect the newly parsed Identifier in the reference Vector.
                 refVec.add(new String(chars, 0, currentLength));
             } else if (type.canSubstitute("SimpleType",
-                                          StratmasConstants.stratmasNamespace)
+                                          ApproxsimConstants.approxsimNamespace)
                     && !type.getName().equals("SymbolIDCode")) {
                 // Set value of simple type.
                 try {
-                    ((StratmasSimple) currentObject)
+                    ((ApproxsimSimple) currentObject)
                             .valueFromString(new String(chars, 0, currentLength),
                                              null);
                 } catch (ParseException e) {
@@ -650,16 +650,16 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
         } else {
             Type type = typeStack.pop();
             if (type.canSubstitute("Reference",
-                                   StratmasConstants.stratmasNamespace)) {
+                                   ApproxsimConstants.approxsimNamespace)) {
                 refDepth--;
                 if (refDepth == 0) {
                     // Here we're closing a top Reference element
-                    // so we must create a StratmasReference from
+                    // so we must create a ApproxsimReference from
                     // the identifiers in the reference Vector.
                     String[] ids = new String[refVec.size()];
                     ids = refVec.toArray(ids);
                     Declaration dec = typeStack.peek().getSubElement(localName);
-                    StratmasReference so = (StratmasReference) StratmasObjectFactory
+                    ApproxsimReference so = (ApproxsimReference) ApproxsimObjectFactory
                             .defaultCreate(dec);
                     so.setValue(new Reference(ids), null);
                     refVec.removeAllElements();
@@ -668,7 +668,7 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
                 }
             } else if (type.getName().equals("Point")
                     || (type.canSubstitute("SimpleType",
-                                           StratmasConstants.stratmasNamespace) && !type
+                                           ApproxsimConstants.approxsimNamespace) && !type
                             .getName().equals("SymbolIDCode"))) {
                 // Points and SimpleTypes except for References
                 // and SymbolIDCodes are already created so simply
@@ -677,9 +677,9 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
                 currentIdentifier = currentPlaceHolder.getIdentifier();
             } else if (currentPlaceHolder.getParent() == null) {
                 // Now we're going to create the last object.
-                StratmasObject so = null;
+                ApproxsimObject so = null;
                 try {
-                    so = currentPlaceHolder.createStratmasObject(localName);
+                    so = currentPlaceHolder.createApproxsimObject(localName);
                 } catch (IncompleteVectorConstructException e) {
                     String msg = "";
                     if (locator != null) {
@@ -694,21 +694,21 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
                     // The document has a root element that isn't
                     // of type Root so we must create the Root
                     // type object explicitly.
-                    StratmasObject docRoot = so;
-                    so = StratmasObjectFactory.create(TypeFactory
+                    ApproxsimObject docRoot = so;
+                    so = ApproxsimObjectFactory.create(TypeFactory
                             .getType("Root"));
                     so.getChild("identifiables").add(docRoot);
                 }
 
                 createdObject = so;
             } else if (!type.canSubstitute("anySimpleType",
-                                           StratmasConstants.xsdNamespace)) {
+                                           ApproxsimConstants.xsdNamespace)) {
                 // Here we're closing a complex element so let's
-                // create a StratmasComplex from the current
+                // create a ApproxsimComplex from the current
                 // placeholder.
-                StratmasObject so = null;
+                ApproxsimObject so = null;
                 try {
-                    so = currentPlaceHolder.createStratmasObject(localName);
+                    so = currentPlaceHolder.createApproxsimObject(localName);
                 } catch (IncompleteVectorConstructException e) {
                     String msg = "";
                     if (locator != null) {
@@ -764,7 +764,7 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
         InputSource ret = null;
 
         InputStream stream = XMLImporter.class
-                .getResourceAsStream(StratmasConstants.JAR_SCHEMA_LOCATION
+                .getResourceAsStream(ApproxsimConstants.JAR_SCHEMA_LOCATION
                         + systemId);
         if (stream != null) {
             ret = new InputSource(stream);
@@ -896,7 +896,7 @@ class SAXDocumentHandler extends DefaultHandler implements EntityResolver2 {
     }
 
     /**
-     * Nullifies references this object currently has to any StratmasObject.
+     * Nullifies references this object currently has to any ApproxsimObject.
      */
     public void nullify() {
         currentPlaceHolder = null;

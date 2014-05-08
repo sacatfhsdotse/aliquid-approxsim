@@ -1,4 +1,4 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,7 +6,7 @@ import java.util.Vector;
 import java.lang.RuntimeException;
 import java.awt.event.*;
 
-import StratmasClient.StratmasDialog;
+import ApproxsimClient.ApproxsimDialog;
 
 /**
  * ColorMapDialog is used to set options for the color map. The following options can be chosen: 1. Scale for the diplayed values - linear
@@ -322,7 +322,7 @@ public class ColorMapDialog extends JDialog implements ActionListener {
      */
     private void errorMess() {
         Object[] options = { "OK", "Help" };
-        StratmasDialog.showOptionDialog(new JFrame("ERROR!!!"),
+        ApproxsimDialog.showOptionDialog(new JFrame("ERROR!!!"),
                                         "Invalid input value!",
                                         "Error message",
                                         JOptionPane.YES_NO_OPTION,

@@ -1,13 +1,13 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-  xmlns:sp="http://pdc.kth.se/stratmasNamespace"
-  targetNamespace="http://pdc.kth.se/stratmasNamespace">
+  xmlns:sp="http://pdc.kth.se/approxsimNamespace"
+  targetNamespace="http://pdc.kth.se/approxsimNamespace">
 
   <!-- For xml:base attribute of Identifiable -->
   <xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
 
   <xsd:annotation>
     <xsd:documentation xml:lang="en">
-      This is a schema defining the correspondence between a Stratmas
+      This is a schema defining the correspondence between a Approxsim
       client and server on initialization of a scenario.
     </xsd:documentation>
   </xsd:annotation>
@@ -702,7 +702,7 @@
     </xsd:complexContent>
   </xsd:complexType>
 
-  <xsd:complexType name="StratmasCityDistribution">
+  <xsd:complexType name="ApproxsimCityDistribution">
     <xsd:complexContent>
       <xsd:extension base="sp:Distribution">
         <xsd:sequence>

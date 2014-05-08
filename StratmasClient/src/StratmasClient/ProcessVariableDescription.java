@@ -1,4 +1,4 @@
-package StratmasClient;
+package ApproxsimClient;
 
 /**
  * Class that represents a description of a process variable.

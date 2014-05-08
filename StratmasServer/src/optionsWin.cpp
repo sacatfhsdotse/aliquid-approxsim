@@ -15,14 +15,14 @@ int main(int argc, char** argv);
 // http://forums.microsoft.com/msdn/showpost.aspx?postid=318383&siteid=1).
 #include <windows.h>
 
-VOID WINAPI stratmasServiceMain(DWORD argc, LPTSTR* argv);
-DWORD WINAPI stratmasHandlerEx(DWORD dwControl, DWORD dwEventType, 
+VOID WINAPI approxsimServiceMain(DWORD argc, LPTSTR* argv);
+DWORD WINAPI approxsimHandlerEx(DWORD dwControl, DWORD dwEventType, 
                                LPVOID lpEventData, LPVOID lpContext);
 
 
 // Variable carrying status information:
-SERVICE_STATUS stratmasServiceStatus;
-SERVICE_STATUS_HANDLE stratmasServiceStatusHandle;
+SERVICE_STATUS approxsimServiceStatus;
+SERVICE_STATUS_HANDLE approxsimServiceStatusHandle;
 
 /**
  * \brief Fills in platform specific options.
@@ -32,13 +32,13 @@ void Environment::addPlatformOptions(po::options_description* invocation,
                                      po::options_description* development)
 {
      invocation->add_options()
-          ("installService", "Installs Stratmas as a service")
-          ("uninstallService", "Uninstall any Stratmas service")
-          ("startService", "Start the Stratmas service")
-          ("stopService", "Stop the Stratmas service")
+          ("installService", "Installs Approxsim as a service")
+          ("uninstallService", "Uninstall any Approxsim service")
+          ("startService", "Start the Approxsim service")
+          ("stopService", "Stop the Approxsim service")
           ;
      development->add_options()
-          ("service", "Start the Stratmas Server as a service")
+          ("service", "Start the Approxsim Server as a service")
           ;
 }
 
@@ -70,8 +70,8 @@ void Environment::handlePlatformOptions(po::variables_map* vm)
  
           SC_HANDLE srvHandle = CreateService( 
                dbHandle,                  // SCManager database 
-               TEXT("stratmas"),          // name of service 
-               TEXT("Stratmas Server"),   // service name to display 
+               TEXT("approxsim"),          // name of service 
+               TEXT("Approxsim Server"),   // service name to display 
                SERVICE_ALL_ACCESS,        // desired access 
                SERVICE_WIN32_OWN_PROCESS, // service type 
                SERVICE_DEMAND_START,      // start type 
@@ -90,7 +90,7 @@ void Environment::handlePlatformOptions(po::variables_map* vm)
                exit(1);
           }
 
-          char* description = "Stratmas Server Service";
+          char* description = "Approxsim Server Service";
           SERVICE_DESCRIPTION descriptionWrapper;
           descriptionWrapper.lpDescription = description;
           if (!ChangeServiceConfig2(srvHandle, SERVICE_CONFIG_DESCRIPTION,
@@ -123,7 +123,7 @@ void Environment::handlePlatformOptions(po::variables_map* vm)
                exit(1);
           }
           
-          SC_HANDLE srvHandle = OpenService(dbHandle, "stratmas", DELETE);
+          SC_HANDLE srvHandle = OpenService(dbHandle, "approxsim", DELETE);
 
           if (srvHandle == 0) {
                slog << "Error retrieving service: " << 
@@ -155,7 +155,7 @@ void Environment::handlePlatformOptions(po::variables_map* vm)
                exit(1);
           }
           
-          SC_HANDLE srvHandle = OpenService(dbHandle, "stratmas", 
+          SC_HANDLE srvHandle = OpenService(dbHandle, "approxsim", 
                                             SERVICE_START);
 
           if (srvHandle == 0) {
@@ -192,7 +192,7 @@ void Environment::handlePlatformOptions(po::variables_map* vm)
                exit(1);
           }
           
-          SC_HANDLE srvHandle = OpenService(dbHandle, "stratmas", 
+          SC_HANDLE srvHandle = OpenService(dbHandle, "approxsim", 
                                             SERVICE_STOP);
 
           if (srvHandle == 0) {
@@ -210,10 +210,10 @@ void Environment::handlePlatformOptions(po::variables_map* vm)
 
           if (status.dwCurrentState != SERVICE_STOPPED) {
                if (status.dwCurrentState == SERVICE_STOP_PENDING) {
-                    slog << "Stratmas service claims to be stopping " 
+                    slog << "Approxsim service claims to be stopping " 
                          << "(we will not wait for it)." << logEnd;
                } else {
-                    slog << "Stratmas service not stopping, current state: "
+                    slog << "Approxsim service not stopping, current state: "
                          << status.dwCurrentState << logEnd;
                     exit(1);
                }
@@ -235,7 +235,7 @@ void Environment::handlePlatformOptions(po::variables_map* vm)
           slog.setLogSink(WinEventSink::createWinEventSink(Environment::getProgramName().c_str()));
           SERVICE_TABLE_ENTRY dispatchTable[] = 
                { 
-                    {"stratmas", ::stratmasServiceMain}, 
+                    {"approxsim", ::approxsimServiceMain}, 
                     {0, 0} 
                }; 
  
@@ -251,11 +251,11 @@ void Environment::handlePlatformOptions(po::variables_map* vm)
 }
 
 /**
- * \brief serves as serviceControlHandle for stratmas. Implements the
+ * \brief serves as serviceControlHandle for approxsim. Implements the
  * SERVICE_CONTROL_STOP and SERVICE_CONTROL_INTERROGAT control
  * messages. Everything else is an error.
  */
-DWORD WINAPI ::stratmasHandlerEx(DWORD dwControl, DWORD dwEventType, 
+DWORD WINAPI ::approxsimHandlerEx(DWORD dwControl, DWORD dwEventType, 
                                LPVOID lpEventData, LPVOID lpContext)
 {
      DWORD status; 
@@ -263,16 +263,16 @@ DWORD WINAPI ::stratmasHandlerEx(DWORD dwControl, DWORD dwEventType,
      switch(dwControl) { 
      case SERVICE_CONTROL_STOP:
           // Do whatever it takes to stop here. 
-          stratmasServiceStatus.dwWin32ExitCode = 0; 
-          stratmasServiceStatus.dwCurrentState  = SERVICE_STOPPED; 
-          stratmasServiceStatus.dwCheckPoint    = 0; 
-          stratmasServiceStatus.dwWaitHint      = 0; 
-          if (!SetServiceStatus (::stratmasServiceStatusHandle, 
-                                 &::stratmasServiceStatus)) { 
+          approxsimServiceStatus.dwWin32ExitCode = 0; 
+          approxsimServiceStatus.dwCurrentState  = SERVICE_STOPPED; 
+          approxsimServiceStatus.dwCheckPoint    = 0; 
+          approxsimServiceStatus.dwWaitHint      = 0; 
+          if (!SetServiceStatus (::approxsimServiceStatusHandle, 
+                                 &::approxsimServiceStatus)) { 
                slog << "SetServiceStatus error: " <<  GetLastError() << logEnd;
                exit(1);
           }
-          slog << "Stratmas is stopping" << logEnd; 
+          slog << "Approxsim is stopping" << logEnd; 
           return 1;
      case SERVICE_CONTROL_INTERROGATE: 
           // Fall through to send current status. 
@@ -283,8 +283,8 @@ DWORD WINAPI ::stratmasHandlerEx(DWORD dwControl, DWORD dwEventType,
      } 
      
      // Send current status. 
-     if (!SetServiceStatus (stratmasServiceStatusHandle, 
-                            &stratmasServiceStatus)) { 
+     if (!SetServiceStatus (approxsimServiceStatusHandle, 
+                            &approxsimServiceStatus)) { 
           slog << "SetServiceStatus error: " <<  GetLastError() << logEnd; 
           return 1;
      }
@@ -293,38 +293,38 @@ DWORD WINAPI ::stratmasHandlerEx(DWORD dwControl, DWORD dwEventType,
 }
 
 /**
- * \brief serves as ServiceMain for stratmas, basically tells the SCM
+ * \brief serves as ServiceMain for approxsim, basically tells the SCM
  * that all is dandy, then calls main(), this particular solution
  * heavily depends on initEnvironment is the first call in main and
  * that it can be called several times but will immidiatelly return on
  * any call but the first.
  */
-VOID WINAPI ::stratmasServiceMain(DWORD argc, LPTSTR* argv)
+VOID WINAPI ::approxsimServiceMain(DWORD argc, LPTSTR* argv)
 {     
-     ::stratmasServiceStatus.dwServiceType = SERVICE_WIN32; 
-     ::stratmasServiceStatus.dwCurrentState = SERVICE_START_PENDING; 
-     ::stratmasServiceStatus.dwControlsAccepted = SERVICE_ACCEPT_STOP;
-     ::stratmasServiceStatus.dwWin32ExitCode = ERROR_SERVICE_SPECIFIC_ERROR ; 
-     ::stratmasServiceStatus.dwServiceSpecificExitCode = NO_ERROR; 
-     ::stratmasServiceStatus.dwCheckPoint = 0; 
-     ::stratmasServiceStatus.dwWaitHint = 0; 
+     ::approxsimServiceStatus.dwServiceType = SERVICE_WIN32; 
+     ::approxsimServiceStatus.dwCurrentState = SERVICE_START_PENDING; 
+     ::approxsimServiceStatus.dwControlsAccepted = SERVICE_ACCEPT_STOP;
+     ::approxsimServiceStatus.dwWin32ExitCode = ERROR_SERVICE_SPECIFIC_ERROR ; 
+     ::approxsimServiceStatus.dwServiceSpecificExitCode = NO_ERROR; 
+     ::approxsimServiceStatus.dwCheckPoint = 0; 
+     ::approxsimServiceStatus.dwWaitHint = 0; 
      
-     ::stratmasServiceStatusHandle = 
-            RegisterServiceCtrlHandlerEx("stratmas", stratmasHandlerEx, 0); 
+     ::approxsimServiceStatusHandle = 
+            RegisterServiceCtrlHandlerEx("approxsim", approxsimHandlerEx, 0); 
      
-     if (::stratmasServiceStatusHandle == (SERVICE_STATUS_HANDLE) 0) { 
+     if (::approxsimServiceStatusHandle == (SERVICE_STATUS_HANDLE) 0) { 
           slog << "RegisterServiceCtrlHandler failed: " << 
                GetLastError() << logEnd; 
           exit(1);
      }
      
      // Report running status. 
-     ::stratmasServiceStatus.dwCurrentState       = SERVICE_RUNNING; 
-     ::stratmasServiceStatus.dwCheckPoint         = 0; 
-     ::stratmasServiceStatus.dwWaitHint           = 0; 
+     ::approxsimServiceStatus.dwCurrentState       = SERVICE_RUNNING; 
+     ::approxsimServiceStatus.dwCheckPoint         = 0; 
+     ::approxsimServiceStatus.dwWaitHint           = 0; 
      
-     if (!SetServiceStatus (::stratmasServiceStatusHandle, 
-                            &::stratmasServiceStatus)) 
+     if (!SetServiceStatus (::approxsimServiceStatusHandle, 
+                            &::approxsimServiceStatus)) 
      { 
           slog << "RegisterServiceCtrlHandler failed: " << 
                GetLastError() << logEnd; 

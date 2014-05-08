@@ -1,4 +1,4 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import javax.swing.JSlider;
 import javax.swing.JLabel;
@@ -17,8 +17,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
 import javax.swing.WindowConstants;
 
-import StratmasClient.map.adapter.MapElementAdapter;
-import StratmasClient.map.adapter.ElementAdapter;
+import ApproxsimClient.map.adapter.MapElementAdapter;
+import ApproxsimClient.map.adapter.ElementAdapter;
 
 /**
  * Debug frame for the MapDrawer class

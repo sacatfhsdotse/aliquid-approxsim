@@ -3,9 +3,9 @@
  * @(#)DefaultSimulationEvaluatorTarget.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
-import StratmasClient.communication.Subscription;
+import ApproxsimClient.communication.Subscription;
 
 /**
  * A default implementation for a SimulationEvaluatorTarget. Before extending this class, make sure to read the documentation of

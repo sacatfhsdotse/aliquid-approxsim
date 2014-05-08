@@ -1,5 +1,5 @@
-#ifndef _STRATMAS_SESSION_H
-#define _STRATMAS_SESSION_H
+#ifndef _APPROXSIM_SESSION_H
+#define _APPROXSIM_SESSION_H
 
 // System
 
@@ -16,7 +16,7 @@ class Engine;
 class EngineStatusObject;
 class Reference;
 class Server;
-class StratmasSocket;
+class ApproxsimSocket;
 class XMLHandler;
 
 
@@ -49,7 +49,7 @@ private:
      /// Set to true when we should disconnect.
      bool mDisconnect;
      /// The socket over which to communicate.
-     StratmasSocket* mSocket;
+     ApproxsimSocket* mSocket;
      /// The XMLHandler Object that handles parsing of xml messages.
      XMLHandler* mXMLHandler;
      /// Keeps the last simulation time for which data was sent to the client.
@@ -64,18 +64,18 @@ private:
      bool mRegisteredForUpdates;
 
 public:
-     Session(Server &parent, Engine &e, Buffer &b, bool isMaster, StratmasSocket *s);
+     Session(Server &parent, Engine &e, Buffer &b, bool isMaster, ApproxsimSocket *s);
      ~Session();
 
      void closeSession();
 
-     void handleStratmasMessage(const std::string &xml, std::string &response);
+     void handleApproxsimMessage(const std::string &xml, std::string &response);
      void handleInitialization();
 
      void start();
      static void *staticStart(Session* instance);
      
-     bool setSocket(StratmasSocket *s);
+     bool setSocket(ApproxsimSocket *s);
 
      /**
       * \brief Accessors for the id.
@@ -101,4 +101,4 @@ public:
      
 };
 
-#endif   // _STRATMAS_SESSION_H
+#endif   // _APPROXSIM_SESSION_H

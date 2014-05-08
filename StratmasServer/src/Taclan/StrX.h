@@ -1,5 +1,5 @@
-#ifndef STRATMAS_STRX_H
-#define STRATMAS_STRX_H
+#ifndef APPROXSIM_STRX_H
+#define APPROXSIM_STRX_H
 
 
 // System
@@ -300,4 +300,4 @@ public:
 };
 
 
-#endif   // STRATMAS_STRX_H
+#endif   // APPROXSIM_STRX_H

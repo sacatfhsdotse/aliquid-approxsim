@@ -1,8 +1,8 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import java.lang.Math;
 
-import StratmasClient.BoundingBox;
+import ApproxsimClient.BoundingBox;
 
 /**
  * Azimuthal Equal Area Projection is implemented in this class.

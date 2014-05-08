@@ -1,5 +1,5 @@
-#ifndef STRATMAS_BUFFER_H
-#define STRATMAS_BUFFER_H
+#ifndef APPROXSIM_BUFFER_H
+#define APPROXSIM_BUFFER_H
 
 // System
 #include <string>
@@ -155,4 +155,4 @@ public:
      DataObject* map(const Reference& ref) const { return Mapper::map(ref); }
 };
 
-#endif   // STRATMAS_BUFFER_H
+#endif   // APPROXSIM_BUFFER_H

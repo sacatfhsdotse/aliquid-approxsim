@@ -7,8 +7,8 @@
  * initialized with reasonable values when the simulation starts.
  */
 
-#ifndef STRATMAS_EPIDEMICSWEIGHTS_H
-#define STRATMAS_EPIDEMICSWEIGHTS_H
+#ifndef APPROXSIM_EPIDEMICSWEIGHTS_H
+#define APPROXSIM_EPIDEMICSWEIGHTS_H
 
 // System
 #include <cmath>
@@ -92,4 +92,4 @@ inline void EpidemicsWeights::limits(int row, int col, int &top, int &left, int 
      right  = std::min( mCols - 1, col + mHalfNumberOfCells );
 }
 
-#endif   // STRATMAS_EPIDEMICSWEIGHTS_H
+#endif   // APPROXSIM_EPIDEMICSWEIGHTS_H

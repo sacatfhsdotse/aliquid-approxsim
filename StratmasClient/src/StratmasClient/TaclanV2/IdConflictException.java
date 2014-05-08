@@ -3,7 +3,7 @@
  * @(#)IdConflictException.java
  */
 
-package StratmasClient.TaclanV2;
+package ApproxsimClient.TaclanV2;
 
 public class IdConflictException extends SemanticException {
     /**

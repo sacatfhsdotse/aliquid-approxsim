@@ -1,5 +1,5 @@
-#ifndef STRATMAS_PVINFO_H
-#define STRATMAS_PVINFO_H
+#ifndef APPROXSIM_PVINFO_H
+#define APPROXSIM_PVINFO_H
 
 
 // System
@@ -93,4 +93,4 @@ public:
      static std::ostream& toXML(std::ostream& o);
 };
 
-#endif   // STRATMAS_PVINFO_H
+#endif   // APPROXSIM_PVINFO_H

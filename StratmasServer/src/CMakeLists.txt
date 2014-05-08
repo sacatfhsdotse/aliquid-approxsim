@@ -61,7 +61,7 @@ ENDIF()
 #Generate schemas.h and schemas.cpp from *.xsd files.
 ADD_EXECUTABLE(file2h Schemas/file2h.cpp)
 TARGET_LINK_LIBRARIES(file2h ${Boost_LIBRARIES})
-FILE (GLOB_RECURSE project_schemas "${schemas_dir}/stratmasProtocol/*.xsd")
+FILE (GLOB_RECURSE project_schemas "${schemas_dir}/approxsimProtocol/*.xsd")
 ADD_CUSTOM_COMMAND(
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/schemas.h ${CMAKE_CURRENT_BINARY_DIR}/schemas.cpp
   COMMAND file2h ${CMAKE_CURRENT_BINARY_DIR}/schemas.cpp ${CMAKE_CURRENT_BINARY_DIR}/schemas.h ${project_schemas}
@@ -79,7 +79,7 @@ LIST(REMOVE_DUPLICATES project_includes)
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${project_includes})
 ###
 
-#stratmas
+#approxsim
 ADD_EXECUTABLE(${project_BIN} ${project_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/schemas.cpp)
 TARGET_LINK_LIBRARIES(${project_BIN} ${project_LIBS} ${project_OS_SPECIFIC})
 SET_TARGET_PROPERTIES(${project_BIN} PROPERTIES VERSION "${APPLICATION_VERSION_MAJOR}.${APPLICATION_VERSION_MINOR}" OUTPUT_NAME ${project_BIN} CLEAN_DIRECT_OUTPUT 1)

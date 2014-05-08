@@ -3,7 +3,7 @@
  * @(#)Camera.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
 import javax.media.opengl.glu.GLU;
 import java.awt.Component;

@@ -1,4 +1,4 @@
-package StratmasClient.TaclanV2.java_cup.runtime;
+package ApproxsimClient.TaclanV2.java_cup.runtime;
 
 import java.util.Stack;
 
@@ -9,7 +9,7 @@ import java.util.Stack;
  * success or failure of parse ahead is determined the system then reverts to the original parse stack (which has not actually been
  * modified). Since parse ahead does not execute actions, only parse state is maintained on the virtual stack, not full Symbol objects.
  * 
- * @see StratmasClient.TaclanV2.java_cup.runtime.lr_parser
+ * @see ApproxsimClient.TaclanV2.java_cup.runtime.lr_parser
  * @version last updated: 7/3/96
  * @author Frank Flannery
  */

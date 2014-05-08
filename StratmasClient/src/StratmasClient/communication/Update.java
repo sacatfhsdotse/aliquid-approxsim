@@ -1,6 +1,6 @@
-package StratmasClient.communication;
+package ApproxsimClient.communication;
 
-import StratmasClient.object.StratmasObject;
+import ApproxsimClient.object.ApproxsimObject;
 import java.lang.StringBuffer;
 
 /**
@@ -19,7 +19,7 @@ public class Update {
      * @param o The object added, removed or modified or the object to replace an old object with..
      * @param type The type of update (add, remove, replace or modify).
      */
-    public Update(StratmasObject o, String type) {
+    public Update(ApproxsimObject o, String type) {
         xml.append(XMLHelper.NL).append("<update xsi:type=\"sp:").append(type)
                 .append("\">");
         xml.append(XMLHelper.NL).append("<reference>");

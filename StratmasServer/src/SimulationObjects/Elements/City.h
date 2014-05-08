@@ -1,5 +1,5 @@
-#ifndef STRATMAS_CITY_H
-#define STRATMAS_CITY_H
+#ifndef APPROXSIM_CITY_H
+#define APPROXSIM_CITY_H
 
 // System
 #include <iosfwd>
@@ -19,13 +19,13 @@ class Reference;
 
 
 /**
- * \brief City is the class containing Stratmas' representation of a
+ * \brief City is the class containing Approxsim' representation of a
  * City, or more general - a population instance.
  *
  * A City has an area, a population from one or more Factions and a
  * population Distribution. Currently all cities have the same kind of
- * Distribution - the StratmasCityDistribution that represents the way
- * older versions of Stratmas distributed population from cities.
+ * Distribution - the ApproxsimCityDistribution that represents the way
+ * older versions of Approxsim distributed population from cities.
  */
 class City : public Element, public PVArea {
 private:
@@ -61,4 +61,4 @@ public:
 };
 
 
-#endif   // STRATMAS_CITY_H
+#endif   // APPROXSIM_CITY_H

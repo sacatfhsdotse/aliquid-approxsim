@@ -1,5 +1,5 @@
-#ifndef STRATMAS_DATAOBJECTIMPL_H
-#define STRATMAS_DATAOBJECTIMPL_H
+#ifndef APPROXSIM_DATAOBJECTIMPL_H
+#define APPROXSIM_DATAOBJECTIMPL_H
 
 // System
 #include <map>
@@ -14,7 +14,7 @@ class Declaration;
 
 /**
  * \brief ContainerDataObject is the abstract super class for all
- * lists and complex objects in the Stratmas xml schema except
+ * lists and complex objects in the Approxsim xml schema except
  * ValueType descendants.
  *
  * \author   Per Alexius
@@ -79,7 +79,7 @@ public:
 
 
 /**
- * \brief ComplexDataObjects represent complex objects in the Stratmas
+ * \brief ComplexDataObjects represent complex objects in the Approxsim
  * xml schema except ValueType descendants.
  *
  * \author   Per Alexius
@@ -112,7 +112,7 @@ public:
 
 
 /**
- * \brief DataObjectsList represent lists in the Stratmas xml schema.
+ * \brief DataObjectsList represent lists in the Approxsim xml schema.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/03/27 09:43:40 $
@@ -144,13 +144,13 @@ public:
 
 
 /**
- * \brief StratmasBool corresponds to the Boolean type in the Stratmas
+ * \brief ApproxsimBool corresponds to the Boolean type in the Approxsim
  * xml schema.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/03/27 09:43:40 $
  */
-class StratmasBool : public DataObject {
+class ApproxsimBool : public DataObject {
 private:
      bool mValue;   ///< The value.
 protected:
@@ -159,9 +159,9 @@ protected:
       *
       * \param c The DataObject to copy.
       */
-     StratmasBool(const StratmasBool& c) : DataObject(c), mValue(c.mValue) {}
+     ApproxsimBool(const ApproxsimBool& c) : DataObject(c), mValue(c.mValue) {}
 public:
-     StratmasBool(const Reference& scope, const DOMElement* n);
+     ApproxsimBool(const Reference& scope, const DOMElement* n);
 
      /**
       * \brief Constructor that creates a DataObject of the specified
@@ -170,13 +170,13 @@ public:
       * \param ref The Reference to the DataObject tp be created.
       * \param type The Type of the DataObject to be created.
       */
-     StratmasBool(const Reference& ref, const Type& type) : DataObject(ref, type), mValue(0) {}
+     ApproxsimBool(const Reference& ref, const Type& type) : DataObject(ref, type), mValue(0) {}
      bool getBool() const { return mValue; }
      void setBool(bool v) { mValue = v; }
 
      DataObject& operator = (const DataObject& d);
 
-     DataObject* clone() const { return new StratmasBool(*this); }
+     DataObject* clone() const { return new ApproxsimBool(*this); }
      std::ostream& bodyXML(std::ostream& o, std::string indent) const;
      void print(std::ostream& o, const std::string indent) const;
 };
@@ -184,13 +184,13 @@ public:
 
 
 /**
- * \brief StratmasDouble corresponds to the Double type in the
- * Stratmas xml schema.
+ * \brief ApproxsimDouble corresponds to the Double type in the
+ * Approxsim xml schema.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/03/27 09:43:40 $
  */
-class StratmasDouble : public DataObject {
+class ApproxsimDouble : public DataObject {
 private:
      double mValue;   ///< The value.
 protected:
@@ -199,9 +199,9 @@ protected:
       *
       * \param c The DataObject to copy.
       */
-     StratmasDouble(const StratmasDouble& c) : DataObject(c), mValue(c.mValue) {}
+     ApproxsimDouble(const ApproxsimDouble& c) : DataObject(c), mValue(c.mValue) {}
 public:
-     StratmasDouble(const Reference& scope, const DOMElement* n);
+     ApproxsimDouble(const Reference& scope, const DOMElement* n);
 
      /**
       * \brief Constructor that creates a DataObject of the specified
@@ -210,13 +210,13 @@ public:
       * \param ref The Reference to the DataObject tp be created.
       * \param type The Type of the DataObject to be created.
       */
-     StratmasDouble(const Reference& ref, const Type& type) : DataObject(ref, type), mValue(0) {}
+     ApproxsimDouble(const Reference& ref, const Type& type) : DataObject(ref, type), mValue(0) {}
      double getDouble() const { return mValue; }
      void setDouble(double v) { mValue = v; }
 
      DataObject& operator = (const DataObject& d);
 
-     DataObject* clone() const { return new StratmasDouble(*this); }
+     DataObject* clone() const { return new ApproxsimDouble(*this); }
      std::ostream& bodyXML(std::ostream& o, std::string indent) const;
      void print(std::ostream& o, const std::string indent) const;
 };
@@ -224,13 +224,13 @@ public:
 
 
 /**
- * \brief StratmasInt64_t corresponds to the NonNegativeInteger type
- * in the Stratmas xml schema.
+ * \brief ApproxsimInt64_t corresponds to the NonNegativeInteger type
+ * in the Approxsim xml schema.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/03/27 09:43:40 $
  */
-class StratmasInt64_t : public DataObject {
+class ApproxsimInt64_t : public DataObject {
 private:
      int64_t mValue;   ///< The value.
 protected:
@@ -239,9 +239,9 @@ protected:
       *
       * \param c The DataObject to copy.
       */
-     StratmasInt64_t(const StratmasInt64_t& c) : DataObject(c), mValue(c.mValue) {}
+     ApproxsimInt64_t(const ApproxsimInt64_t& c) : DataObject(c), mValue(c.mValue) {}
 public:
-     StratmasInt64_t(const Reference& scope, const DOMElement* n);
+     ApproxsimInt64_t(const Reference& scope, const DOMElement* n);
 
      /**
       * \brief Constructor that creates a DataObject of the specified
@@ -250,13 +250,13 @@ public:
       * \param ref The Reference to the DataObject tp be created.
       * \param type The Type of the DataObject to be created.
       */
-     StratmasInt64_t(const Reference& ref, const Type& type) : DataObject(ref, type), mValue(0) {}
+     ApproxsimInt64_t(const Reference& ref, const Type& type) : DataObject(ref, type), mValue(0) {}
      int64_t getInt64_t() const { return mValue; }
      void setInt64_t(int64_t v) { mValue = v; }
 
      DataObject& operator = (const DataObject& d);
 
-     DataObject* clone() const { return new StratmasInt64_t(*this); }
+     DataObject* clone() const { return new ApproxsimInt64_t(*this); }
      std::ostream& bodyXML(std::ostream& o, std::string indent) const;
      void print(std::ostream& o, const std::string indent) const;
 };
@@ -264,13 +264,13 @@ public:
 
 
 /**
- * \brief StratmasReference corresponds to the Reference type in the
- * Stratmas xml schema.
+ * \brief ApproxsimReference corresponds to the Reference type in the
+ * Approxsim xml schema.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/03/27 09:43:40 $
  */
-class StratmasReference : public DataObject {
+class ApproxsimReference : public DataObject {
 private:
      const Reference* mValue;   ///< The value.
 protected:
@@ -279,9 +279,9 @@ protected:
       *
       * \param c The DataObject to copy.
       */
-     StratmasReference(const StratmasReference& c) : DataObject(c), mValue(c.mValue) {}
+     ApproxsimReference(const ApproxsimReference& c) : DataObject(c), mValue(c.mValue) {}
 public:
-     StratmasReference(const Reference& scope, const DOMElement* n);
+     ApproxsimReference(const Reference& scope, const DOMElement* n);
 
      /**
       * \brief Constructor that creates a DataObject of the specified
@@ -290,13 +290,13 @@ public:
       * \param ref The Reference to the DataObject tp be created.
       * \param type The Type of the DataObject to be created.
       */
-     StratmasReference(const Reference& ref, const Type& type) : DataObject(ref, type), mValue(0) {}
+     ApproxsimReference(const Reference& ref, const Type& type) : DataObject(ref, type), mValue(0) {}
      const Reference& getReference() const { return *mValue; }
      void setReference(const Reference& v) { mValue = &v; }
 
      DataObject& operator = (const DataObject& d);
 
-     DataObject* clone() const { return new StratmasReference(*this); }
+     DataObject* clone() const { return new ApproxsimReference(*this); }
      std::ostream& bodyXML(std::ostream& o, std::string indent) const;
      void print(std::ostream& o, const std::string indent) const;
 };
@@ -304,19 +304,19 @@ public:
 
 
 /**
- * \brief StratmasShape corresponds to the Shape type in the Stratmas
+ * \brief ApproxsimShape corresponds to the Shape type in the Approxsim
  * xml schema.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/03/27 09:43:40 $
  */
-class StratmasShape : public DataObject {
+class ApproxsimShape : public DataObject {
 private:
      Shape* mValue;   ///< The value.
 protected:
-     StratmasShape(const StratmasShape& c);
+     ApproxsimShape(const ApproxsimShape& c);
 public:
-     StratmasShape(const Reference& scope, const DOMElement* n);
+     ApproxsimShape(const Reference& scope, const DOMElement* n);
 
      /**
       * \brief Constructor that creates a DataObject of the specified
@@ -325,8 +325,8 @@ public:
       * \param ref The Reference to the DataObject tp be created.
       * \param type The Type of the DataObject to be created.
       */
-     StratmasShape(const Reference& ref, const Type& type) : DataObject(ref, type), mValue(0) {}
-     ~StratmasShape();
+     ApproxsimShape(const Reference& ref, const Type& type) : DataObject(ref, type), mValue(0) {}
+     ~ApproxsimShape();
      Shape* getShape() const;
 
      /**
@@ -339,7 +339,7 @@ public:
 
      DataObject& operator = (const DataObject& d);
 
-     DataObject* clone() const { return new StratmasShape(*this); }
+     DataObject* clone() const { return new ApproxsimShape(*this); }
      std::ostream& bodyXML(std::ostream& o, std::string indent) const;
      void print(std::ostream& o, const std::string indent) const;
 };
@@ -347,13 +347,13 @@ public:
 
 
 /**
- * \brief StratmasString corresponds to the String type in the
- * Stratmas xml schema.
+ * \brief ApproxsimString corresponds to the String type in the
+ * Approxsim xml schema.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/03/27 09:43:40 $
  */
-class StratmasString : public DataObject {
+class ApproxsimString : public DataObject {
 private:
      std::string mValue;   ///< The value.
 protected:
@@ -362,9 +362,9 @@ protected:
       *
       * \param c The DataObject to copy.
       */
-     StratmasString(const StratmasString& c) : DataObject(c), mValue(c.mValue) {}
+     ApproxsimString(const ApproxsimString& c) : DataObject(c), mValue(c.mValue) {}
 public:
-     StratmasString(const Reference& scope, const DOMElement* n);
+     ApproxsimString(const Reference& scope, const DOMElement* n);
 
      /**
       * \brief Constructor that creates a DataObject of the specified
@@ -373,13 +373,13 @@ public:
       * \param ref The Reference to the DataObject tp be created.
       * \param type The Type of the DataObject to be created.
       */
-     StratmasString(const Reference& ref, const Type& type) : DataObject(ref, type), mValue(0) {}
+     ApproxsimString(const Reference& ref, const Type& type) : DataObject(ref, type), mValue(0) {}
      std::string getString() const { return mValue; }
      void setString(const std::string& v) { mValue = v; }
 
      DataObject& operator = (const DataObject& d);
 
-     DataObject* clone() const { return new StratmasString(*this); }
+     DataObject* clone() const { return new ApproxsimString(*this); }
      std::ostream& bodyXML(std::ostream& o, std::string indent) const;
      void print(std::ostream& o, const std::string indent) const;
 };
@@ -387,13 +387,13 @@ public:
 
 
 /**
- * \brief StratmasTime corresponds to the Timestamp and Duration types
- * in the Stratmas xml schema.
+ * \brief ApproxsimTime corresponds to the Timestamp and Duration types
+ * in the Approxsim xml schema.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/03/27 09:43:40 $
  */
-class StratmasTime : public DataObject {
+class ApproxsimTime : public DataObject {
 private:
      Time mValue;   ///< The value.
 protected:
@@ -402,9 +402,9 @@ protected:
       *
       * \param c The DataObject to copy.
       */
-     StratmasTime(const StratmasTime& c) : DataObject(c), mValue(c.mValue) {}
+     ApproxsimTime(const ApproxsimTime& c) : DataObject(c), mValue(c.mValue) {}
 public:
-     StratmasTime(const Reference& scope, const DOMElement* n);
+     ApproxsimTime(const Reference& scope, const DOMElement* n);
 
      /**
       * \brief Constructor that creates a DataObject of the specified
@@ -413,13 +413,13 @@ public:
       * \param ref The Reference to the DataObject tp be created.
       * \param type The Type of the DataObject to be created.
       */
-     StratmasTime(const Reference& ref, const Type& type) : DataObject(ref, type), mValue(0) {}
+     ApproxsimTime(const Reference& ref, const Type& type) : DataObject(ref, type), mValue(0) {}
      Time getTime() const { return mValue; }
      void setTime(Time v) { mValue = v; }
 
      DataObject& operator = (const DataObject& d);
 
-     DataObject* clone() const { return new StratmasTime(*this); }
+     DataObject* clone() const { return new ApproxsimTime(*this); }
      std::ostream& bodyXML(std::ostream& o, std::string indent) const;
      void print(std::ostream& o, const std::string indent) const;
 };
@@ -427,8 +427,8 @@ public:
 
 
 /**
- * \brief StratmasSymbolIDCode corresponds to the SymbolIDCode type in
- * the Stratmas xml schema.
+ * \brief ApproxsimSymbolIDCode corresponds to the SymbolIDCode type in
+ * the Approxsim xml schema.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/03/27 09:43:40 $
@@ -466,14 +466,14 @@ public:
 
 
 /**
- * \brief StratmasGraph corresponds to the Graph type in the
- * Stratmas xml schema.
+ * \brief ApproxsimGraph corresponds to the Graph type in the
+ * Approxsim xml schema.
  *
  * \author   Johannes Olegård
  * \date     $Date: 2014/04/25 19:54:00$
  */
 template<class T>
-class StratmasGraph : public DataObject {
+class ApproxsimGraph : public DataObject {
 private:
      std::shared_ptr<Graph<T>> mValue;   ///< The value.
 protected:
@@ -482,9 +482,9 @@ protected:
       *
       * \param c The DataObject to copy.
       */
-     StratmasGraph(const StratmasGraph& c) : DataObject(c), mValue(c.mValue) {}
+     ApproxsimGraph(const ApproxsimGraph& c) : DataObject(c), mValue(c.mValue) {}
 public:
-     StratmasGraph(const Reference& scope, const DOMElement* n);
+     ApproxsimGraph(const Reference& scope, const DOMElement* n);
 
      /**
       * \brief Constructor that creates a DataObject of the specified
@@ -493,7 +493,7 @@ public:
       * \param ref The Reference to the DataObject tp be created.
       * \param type The Type of the DataObject to be created.
       */
-     StratmasGraph(const Reference& ref, const Type& type) : DataObject(ref, type), mValue(0) {}
+     ApproxsimGraph(const Reference& ref, const Type& type) : DataObject(ref, type), mValue(0) {}
 
      /**
       * 
@@ -505,10 +505,10 @@ public:
 
      DataObject& operator = (const DataObject& d);
 
-     DataObject* clone() const { return new StratmasGraph<T>(*this); }
+     DataObject* clone() const { return new ApproxsimGraph<T>(*this); }
      std::ostream& bodyXML(std::ostream& o, std::string indent) const;
      void print(std::ostream& o, const std::string indent) const;
 };
 
 
-#endif   // STRATMAS_DATAOBJECTIMPL_H
+#endif   // APPROXSIM_DATAOBJECTIMPL_H

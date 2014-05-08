@@ -3,9 +3,9 @@
  * @(#)SimpleShape.java
  */
 
-package StratmasClient.object;
+package ApproxsimClient.object;
 
-import StratmasClient.object.type.Type;
+import ApproxsimClient.object.type.Type;
 
 import java.util.Vector;
 
@@ -93,7 +93,7 @@ public abstract class SimpleShape extends Shape {
      * 
      * @param child the child that changed
      */
-    public void childChanged(StratmasObject child, Object initiator) {
+    public void childChanged(ApproxsimObject child, Object initiator) {
         if (this.cachedPolygon != null) {
             cachedPolygon.remove();
             this.cachedPolygon = null;

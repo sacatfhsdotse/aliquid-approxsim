@@ -1,5 +1,5 @@
-#ifndef STRATMAS_TYPE
-#define STRATMAS_TYPE
+#ifndef APPROXSIM_TYPE
+#define APPROXSIM_TYPE
 
 // System
 #include <iosfwd>
@@ -20,7 +20,7 @@ XERCES_CPP_NAMESPACE_USE
 
 
 /**
- * \brief The Type class represents a Type in the Stratmas xml schema.
+ * \brief The Type class represents a Type in the Approxsim xml schema.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/03/02 17:06:56 $
@@ -29,7 +29,7 @@ class Type {
 private:
      /**
       * \brief The children of this type. The order of the elements in
-      * this vector is the same as in the sequence in the Stratmas XML
+      * this vector is the same as in the sequence in the Approxsim XML
       * schema.
       */
      std::vector<const Declaration*> mSubElements;
@@ -135,4 +135,4 @@ struct lessTypeP {
 };
 
 
-#endif   // STRATMAS_TYPE
+#endif   // APPROXSIM_TYPE

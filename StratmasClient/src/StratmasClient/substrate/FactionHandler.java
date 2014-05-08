@@ -1,4 +1,4 @@
-package StratmasClient.substrate;
+package ApproxsimClient.substrate;
 
 import java.util.Vector;
 import java.util.Enumeration;
@@ -9,17 +9,17 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.BorderFactory;
 
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.object.FactoryListener;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimObjectFactory;
+import ApproxsimClient.object.FactoryListener;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
 
 /**
  * This class takes care of the factions used with SubstrateEditor. The list of factions is displayed by using JComboBox component and is
  * updated when a faction is created, modified or removed.
  */
-class FactionHandler implements FactoryListener, StratmasEventListener,
+class FactionHandler implements FactoryListener, ApproxsimEventListener,
         ActionListener {
     /**
      * Reference to the substrate editor.
@@ -46,18 +46,18 @@ class FactionHandler implements FactoryListener, StratmasEventListener,
      */
     public FactionHandler(SubstrateEditor substrateEditor) {
         this.substrateEditor = substrateEditor;
-        StratmasObjectFactory.addEventListener(this);
+        ApproxsimObjectFactory.addEventListener(this);
         factionBox.setFont(factionBox.getFont().deriveFont(Font.PLAIN));
         factionBox.setLightWeightPopupEnabled(false);
         factionBox.addItem("");
         factionBox.addItem("Each faction");
         // check for factions in the simulation
-        StratmasObject simulation = (StratmasObject) substrateEditor
+        ApproxsimObject simulation = (ApproxsimObject) substrateEditor
                 .getClient().getRootObject().children().nextElement();
-        StratmasObject factions = (StratmasObject) simulation
+        ApproxsimObject factions = (ApproxsimObject) simulation
                 .getChild("scenario").getChild("factions");
         for (Enumeration e = factions.children(); e.hasMoreElements();) {
-            StratmasObject sObj = (StratmasObject) e.nextElement();
+            ApproxsimObject sObj = (ApproxsimObject) e.nextElement();
             if (sObj.getType().canSubstitute("EthnicFaction")) {
                 sObj.addEventListener(this);
                 factionBox.addItem(sObj);
@@ -73,11 +73,11 @@ class FactionHandler implements FactoryListener, StratmasEventListener,
     /**
      * Part of FactoryListener interface.
      */
-    public void stratmasObjectCreated(StratmasObject object) {
+    public void approxsimObjectCreated(ApproxsimObject object) {
         if (object.getType().canSubstitute("EthnicFaction")) {
-            StratmasObject simulation = (StratmasObject) substrateEditor
+            ApproxsimObject simulation = (ApproxsimObject) substrateEditor
                     .getClient().getRootObject().children().nextElement();
-            StratmasObject factions = (StratmasObject) simulation
+            ApproxsimObject factions = (ApproxsimObject) simulation
                     .getChild("scenario").getChild("factions");
             factions.add(object);
         }
@@ -86,7 +86,7 @@ class FactionHandler implements FactoryListener, StratmasEventListener,
     /**
      * Adds newly attached faction to the list of factions. Part of FactoryListener interface.
      */
-    public void stratmasObjectAttached(StratmasObject object) {
+    public void approxsimObjectAttached(ApproxsimObject object) {
         if (object.getType().canSubstitute("EthnicFaction")) {
             if (substrateEditor.getProcessVariable() != null
                     && substrateEditor.getProcessVariable().hasFactions()
@@ -101,14 +101,14 @@ class FactionHandler implements FactoryListener, StratmasEventListener,
     }
 
     /**
-     * Responds to the events in the factions contained in the list. Part of StratmasEventListener interface.
+     * Responds to the events in the factions contained in the list. Part of ApproxsimEventListener interface.
      */
-    public void eventOccured(StratmasEvent event) {
+    public void eventOccured(ApproxsimEvent event) {
         // remove faction from the list
         if (event.isRemoved()) {
-            substrateEditor.removeFactionValues((StratmasObject) event
+            substrateEditor.removeFactionValues((ApproxsimObject) event
                     .getSource());
-            factionBox.removeItem((StratmasObject) event.getSource());
+            factionBox.removeItem((ApproxsimObject) event.getSource());
             if (substrateEditor.getProcessVariable() != null
                     && substrateEditor.getProcessVariable().hasFactions()
                     && getFactions().isEmpty()) {
@@ -136,7 +136,7 @@ class FactionHandler implements FactoryListener, StratmasEventListener,
     /**
      * Returns the selected faction.
      * 
-     * @return a StratmasObject if a faction is selected otherwise a String.
+     * @return a ApproxsimObject if a faction is selected otherwise a String.
      */
     public Object getSelectedFaction() {
         return factionBox.getSelectedItem();
@@ -145,13 +145,13 @@ class FactionHandler implements FactoryListener, StratmasEventListener,
     /**
      * Returns all the factions.
      * 
-     * @return a list of StratmasObject objects.
+     * @return a list of ApproxsimObject objects.
      */
     public Vector getFactions() {
         Vector factions = new Vector();
         for (int i = 0; i < factionBox.getItemCount(); i++) {
             Object obj = factionBox.getItemAt(i);
-            if (obj instanceof StratmasObject) {
+            if (obj instanceof ApproxsimObject) {
                 factions.add(obj);
             }
         }
@@ -161,10 +161,10 @@ class FactionHandler implements FactoryListener, StratmasEventListener,
     /**
      * Returns a faction with the given identifier. If no such faction exists in the list null is returned.
      */
-    public StratmasObject getFaction(String identifier) {
+    public ApproxsimObject getFaction(String identifier) {
         Vector factions = getFactions();
         for (int i = 0; i < factions.size(); i++) {
-            StratmasObject faction = (StratmasObject) factions.get(i);
+            ApproxsimObject faction = (ApproxsimObject) factions.get(i);
             if (faction.getIdentifier().equals(identifier)) {
                 return faction;
             }

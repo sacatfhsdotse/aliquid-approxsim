@@ -1,41 +1,41 @@
-// $Id: StratmasDecimalParameter.java,v 1.8 2006/04/10 09:45:55 dah Exp $
+// $Id: ApproxsimDecimalParameter.java,v 1.8 2006/04/10 09:45:55 dah Exp $
 /*
- * @(#)StratmasDecimalParameter.java
+ * @(#)ApproxsimDecimalParameter.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
-import StratmasClient.object.primitive.Reference;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.StratmasDecimal;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.communication.Subscription;
-import StratmasClient.communication.StratmasObjectSubscription;
+import ApproxsimClient.object.primitive.Reference;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.object.ApproxsimDecimal;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimObjectFactory;
+import ApproxsimClient.communication.Subscription;
+import ApproxsimClient.communication.ApproxsimObjectSubscription;
 
 /**
- * A parameter subclass usable for parameters backed by StratmasDecimals
+ * A parameter subclass usable for parameters backed by ApproxsimDecimals
  * 
  * @version 1, $Date: 2006/04/10 09:45:55 $
  * @author Daniel Ahlin
  */
 
-public class StratmasDecimalParameter extends DoubleParameter implements
-        StratmasObjectParameter, SimulationEvaluatorTargetFactory {
+public class ApproxsimDecimalParameter extends DoubleParameter implements
+        ApproxsimObjectParameter, SimulationEvaluatorTargetFactory {
     /**
-     * The StratmasObject backing this parameter.
+     * The ApproxsimObject backing this parameter.
      */
-    StratmasObject stratmasObject;
+    ApproxsimObject approxsimObject;
 
     /**
-     * Creates a new StratmasDecimalParameter with the specified name.
+     * Creates a new ApproxsimDecimalParameter with the specified name.
      * 
      * @param object the object being adapted.
      */
-    public StratmasDecimalParameter(StratmasDecimal object) {
+    public ApproxsimDecimalParameter(ApproxsimDecimal object) {
         super(object.getReference().toString());
-        setStratmasObject(object);
+        setApproxsimObject(object);
     }
 
     /**
@@ -48,58 +48,58 @@ public class StratmasDecimalParameter extends DoubleParameter implements
              * the subscription is updated.
              */
             Subscription createSubscription() {
-//                     return new GeneralSubscription((StratmasObject) getStratmasObject().clone(), 
-//                                                    getStratmasObject().getReference());
-                return new StratmasObjectSubscription(
-                        StratmasObjectFactory.cloneObject(getStratmasObject()),
-                        getStratmasObject().getReference());
+//                     return new GeneralSubscription((ApproxsimObject) getApproxsimObject().clone(), 
+//                                                    getApproxsimObject().getReference());
+                return new ApproxsimObjectSubscription(
+                        ApproxsimObjectFactory.cloneObject(getApproxsimObject()),
+                        getApproxsimObject().getReference());
             }
 
             /**
              * Creates the ParameterInstance acting as evaluation in the Evaluations created by the SimulationEvaluator.
              */
             public ParameterInstance createEvaluation() {
-                return getParameterInstance(((StratmasObjectSubscription) getSubscription())
+                return getParameterInstance(((ApproxsimObjectSubscription) getSubscription())
                         .object());
             }
         };
     }
 
     /**
-     * Returns the reference of the StratmasObject backing this parameter.
+     * Returns the reference of the ApproxsimObject backing this parameter.
      */
     public Reference getReference() {
-        return getStratmasObject().getReference();
+        return getApproxsimObject().getReference();
     }
 
     /**
-     * Returns the StratmasObject backing this parameter.
+     * Returns the ApproxsimObject backing this parameter.
      */
-    public StratmasObject getStratmasObject() {
-        return this.stratmasObject;
+    public ApproxsimObject getApproxsimObject() {
+        return this.approxsimObject;
     }
 
     /**
-     * Sets the StratmasObject backing this parameter.
+     * Sets the ApproxsimObject backing this parameter.
      * 
      * @param object the new object
      */
-    public void setStratmasObject(StratmasObject object) {
+    public void setApproxsimObject(ApproxsimObject object) {
         if (object != null) {
-            object.addEventListener(new StratmasEventListener() {
-                public void eventOccured(StratmasEvent event) {
+            object.addEventListener(new ApproxsimEventListener() {
+                public void eventOccured(ApproxsimEvent event) {
                     if (event.isRemoved()) {
-                        ((StratmasObject) event.getSource())
+                        ((ApproxsimObject) event.getSource())
                                 .removeEventListener(this);
-                        setStratmasObject(null);
+                        setApproxsimObject(null);
                     } else if (event.isReplaced()) {
-                        setStratmasObject((StratmasObject) event.getArgument());
+                        setApproxsimObject((ApproxsimObject) event.getArgument());
                     }
                 }
             });
         }
 
-        this.stratmasObject = object;
+        this.approxsimObject = object;
     }
 
     /**
@@ -111,8 +111,8 @@ public class StratmasDecimalParameter extends DoubleParameter implements
      */
     public ParameterInstance getGradientNeighbour(ParameterInstance instance,
             double gradient) {
-        StratmasDecimal neighbour = (StratmasDecimal) StratmasObjectFactory
-                .cloneObject(((StratmasDecimal) instance.getValue()));
+        ApproxsimDecimal neighbour = (ApproxsimDecimal) ApproxsimObjectFactory
+                .cloneObject(((ApproxsimDecimal) instance.getValue()));
         neighbour.setValue(neighbour.getValue() + gradient);
 
         return getParameterInstance(neighbour);
@@ -124,6 +124,6 @@ public class StratmasDecimalParameter extends DoubleParameter implements
      * @param instance the instance
      */
     double getDouble(ParameterInstance instance) {
-        return ((StratmasDecimal) instance.getValue()).getValue();
+        return ((ApproxsimDecimal) instance.getValue()).getValue();
     }
 }

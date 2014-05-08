@@ -1,4 +1,4 @@
-package StratmasClient.substrate;
+package ApproxsimClient.substrate;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -15,7 +15,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.AbstractAction;
-import StratmasClient.Client;
+import ApproxsimClient.Client;
 
 /**
  * The dialog used to select input shape file for SubstrateEditor.

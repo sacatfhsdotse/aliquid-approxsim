@@ -1,4 +1,4 @@
-package StratmasClient.timeline;
+package ApproxsimClient.timeline;
 
 import java.util.Vector;
 import java.util.Enumeration;
@@ -12,12 +12,12 @@ import javax.swing.JPopupMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JTable;
 import javax.swing.DefaultCellEditor;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasList;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.filter.TypeFilter;
-import StratmasClient.treeview.TreeView;
-import StratmasClient.treeview.TreeViewFrame;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimList;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.filter.TypeFilter;
+import ApproxsimClient.treeview.TreeView;
+import ApproxsimClient.treeview.TreeViewFrame;
 
 /**
  * The table contains the activities displayed in the timeline. The rows of the table can be sorted with respect to the column values.
@@ -65,7 +65,7 @@ public class TimelineActivityTable extends JTable implements MouseListener {
             int col = columnAtPoint(p);
             // column for the activities
             if (col == 0) {
-                StratmasObject so = getActivity(row);
+                ApproxsimObject so = getActivity(row);
                 // create the menu
                 JPopupMenu menu = new JPopupMenu();
                 // open new window with the information about the selected object
@@ -78,7 +78,7 @@ public class TimelineActivityTable extends JTable implements MouseListener {
             // clumn for the resources
             else if (col == 3) {
                 try {
-                    StratmasObject so = getActivity(row).getParent()
+                    ApproxsimObject so = getActivity(row).getParent()
                             .getParent();
                     if (so.getType().canSubstitute("MilitaryUnit")) {
                         // create the menu
@@ -115,7 +115,7 @@ public class TimelineActivityTable extends JTable implements MouseListener {
     /**
      * Returns true if the table contains the activity.
      */
-    public boolean contains(StratmasObject activity) {
+    public boolean contains(ApproxsimObject activity) {
         TimelineActivityTableModel tableModel = (TimelineActivityTableModel) getModel();
         return tableModel.getActivities().contains(activity);
     }
@@ -125,7 +125,7 @@ public class TimelineActivityTable extends JTable implements MouseListener {
      * 
      * @param activity the activity.
      */
-    public void addActivity(StratmasObject activity) {
+    public void addActivity(ApproxsimObject activity) {
         TimelineActivityTableModel tableModel = (TimelineActivityTableModel) getModel();
         tableModel.add(activity);
     }
@@ -135,7 +135,7 @@ public class TimelineActivityTable extends JTable implements MouseListener {
      * 
      * @param activity the activity.
      */
-    public void addSortedActivity(StratmasObject activity) {
+    public void addSortedActivity(ApproxsimObject activity) {
         TimelineActivityTableModel tableModel = (TimelineActivityTableModel) getModel();
         tableModel.addSorted(activity);
     }
@@ -145,7 +145,7 @@ public class TimelineActivityTable extends JTable implements MouseListener {
      * 
      * @param activity the activity.
      */
-    public void removeActivity(StratmasObject activity) {
+    public void removeActivity(ApproxsimObject activity) {
         TimelineActivityTableModel tableModel = (TimelineActivityTableModel) getModel();
         tableModel.remove(activity);
     }
@@ -178,11 +178,11 @@ public class TimelineActivityTable extends JTable implements MouseListener {
      * @param row the row number in the table.
      * @return the activity at the specified row in the table.
      */
-    public StratmasObject getActivity(int row) {
+    public ApproxsimObject getActivity(int row) {
         Vector activities = ((TimelineActivityTableModel) getModel())
                 .getActivities();
         if (activities.size() > row) {
-            return (StratmasObject) activities.get(row);
+            return (ApproxsimObject) activities.get(row);
         }
         return null;
     }
@@ -193,7 +193,7 @@ public class TimelineActivityTable extends JTable implements MouseListener {
      * @param activity the given activity.
      * @return the row in the table where the activity is displayed. If the activity is not contained in the table, -1 is returned.
      */
-    public int getRow(StratmasObject activity) {
+    public int getRow(ApproxsimObject activity) {
         return ((TimelineActivityTableModel) getModel()).getActivities()
                 .indexOf(activity);
     }
@@ -214,7 +214,7 @@ public class TimelineActivityTable extends JTable implements MouseListener {
      * 
      * @param root the parent node of all resources.
      */
-    public void updateResources(StratmasObject root) {
+    public void updateResources(ApproxsimObject root) {
         ActivityTableComboBox militaryUnitsComboBox = ((TimelineActivityTableModel) getModel())
                 .getMilitaryUnitsComboBox();
         // add all military units
@@ -222,9 +222,9 @@ public class TimelineActivityTable extends JTable implements MouseListener {
                 true);
         Enumeration mUnits = filter.filterTree(root);
         for (; mUnits.hasMoreElements();) {
-            StratmasObject scom = (StratmasObject) mUnits.nextElement();
+            ApproxsimObject scom = (ApproxsimObject) mUnits.nextElement();
             if (scom.getType().canSubstitute("MilitaryUnit")
-                    && !(scom instanceof StratmasList)) {
+                    && !(scom instanceof ApproxsimList)) {
                 militaryUnitsComboBox.addResource(scom);
             }
         }
@@ -235,8 +235,8 @@ public class TimelineActivityTable extends JTable implements MouseListener {
     /**
      * Returns the menu item used to show information about an activity.
      */
-    private JMenuItem getShowInformationItem(StratmasObject so) {
-        final StratmasObject fso = so;
+    private JMenuItem getShowInformationItem(ApproxsimObject so) {
+        final ApproxsimObject fso = so;
         JMenuItem item = new JMenuItem("More information about "
                 + so.getIdentifier().trim());
         item.addActionListener(new AbstractAction() {
@@ -261,8 +261,8 @@ public class TimelineActivityTable extends JTable implements MouseListener {
     /**
      * Returns the menu item used to remove an activity.
      */
-    private JMenuItem getRemoveActivityItem(StratmasObject so) {
-        final StratmasObject fso = so;
+    private JMenuItem getRemoveActivityItem(ApproxsimObject so) {
+        final ApproxsimObject fso = so;
         JMenuItem removeActivityItem = new JMenuItem("Remove "
                 + so.getIdentifier().trim());
         removeActivityItem.addActionListener(new AbstractAction() {

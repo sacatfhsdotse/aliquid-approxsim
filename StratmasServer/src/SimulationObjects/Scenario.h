@@ -1,5 +1,5 @@
-#ifndef STRATMAS_SCENARIO_H
-#define STRATMAS_SCENARIO_H
+#ifndef APPROXSIM_SCENARIO_H
+#define APPROXSIM_SCENARIO_H
 
 // System
 #include <map>
@@ -115,4 +115,4 @@ public:
      void createCityRegionMapping();
 };
 
-#endif   // STRATMAS_SCENARIO_H
+#endif   // APPROXSIM_SCENARIO_H

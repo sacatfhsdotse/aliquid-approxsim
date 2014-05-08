@@ -1,4 +1,4 @@
-package StratmasClient.communication;
+package ApproxsimClient.communication;
 
 /**
  * Class representing the server capabilities message. The server capabilities message is the message that a client sends to a server in
@@ -7,7 +7,7 @@ package StratmasClient.communication;
  * @version 1, $Date: 2006/03/22 14:30:49 $
  * @author Per Alexius
  */
-public class ServerCapabilitiesMessage extends StratmasMessage {
+public class ServerCapabilitiesMessage extends ApproxsimMessage {
     /**
      * Returns a string representation of the type of this message.
      * 

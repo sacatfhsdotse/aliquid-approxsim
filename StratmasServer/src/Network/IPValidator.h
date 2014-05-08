@@ -1,5 +1,5 @@
-#ifndef STRATMAS_IPVALIDATOR_H
-#define STRATMAS_IPVALIDATOR_H
+#ifndef APPROXSIM_IPVALIDATOR_H
+#define APPROXSIM_IPVALIDATOR_H
 
 
 // System
@@ -38,4 +38,4 @@ public:
      int numValidIPs() const { return mIPSet.size(); }
 };
 
-#endif   // STRATMAS_IPVALIDATOR_H
+#endif   // APPROXSIM_IPVALIDATOR_H

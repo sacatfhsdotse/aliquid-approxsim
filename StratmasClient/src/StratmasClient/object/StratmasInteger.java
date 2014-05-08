@@ -1,51 +1,51 @@
-// $Id: StratmasInteger.java,v 1.3 2006/04/10 09:45:55 dah Exp $
+// $Id: ApproxsimInteger.java,v 1.3 2006/04/10 09:45:55 dah Exp $
 /*
- * @(#)StratmasInteger.java
+ * @(#)ApproxsimInteger.java
  */
 
-package StratmasClient.object;
+package ApproxsimClient.object;
 
-import StratmasClient.object.type.Type;
-import StratmasClient.object.type.Declaration;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.object.primitive.Identifier;
+import ApproxsimClient.object.type.Type;
+import ApproxsimClient.object.type.Declaration;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.object.primitive.Identifier;
 
 import org.w3c.dom.Element;
 
 import java.text.ParseException;
 
 /**
- * StratmasInteger is a Stratmas adapter for integers (read longs).
+ * ApproxsimInteger is a Approxsim adapter for integers (read longs).
  * 
  * @version 1, $Date: 2006/04/10 09:45:55 $
  * @author Daniel Ahlin
  */
 
-public class StratmasInteger extends StratmasSimple {
+public class ApproxsimInteger extends ApproxsimSimple {
     /**
      * The actual long this object represents.
      */
     long value;
 
     /**
-     * Creates a new StratmasInteger.
+     * Creates a new ApproxsimInteger.
      * 
      * @param identifier the identifier for the object.
      * @param type the type of the object.
      * @param value the value of the object.
      */
-    protected StratmasInteger(String identifier, Type type, long value) {
+    protected ApproxsimInteger(String identifier, Type type, long value) {
         super(identifier, type);
         this.value = value;
     }
 
     /**
-     * Creates a new StratmasInteger from a Declaration.
+     * Creates a new ApproxsimInteger from a Declaration.
      * 
      * @param declaration the declaration for this object.
      * @param value the value of the string.
      */
-    protected StratmasInteger(Declaration declaration, long value) {
+    protected ApproxsimInteger(Declaration declaration, long value) {
         super(declaration);
         this.value = value;
     }
@@ -101,23 +101,23 @@ public class StratmasInteger extends StratmasSimple {
     }
 
     /**
-     * Returns a StratmasGUIConstructor suitable for constructing objects of this type.
+     * Returns a ApproxsimGUIConstructor suitable for constructing objects of this type.
      * 
      * @param declaration the declaration for which the GUI is created.
      */
-    protected static StratmasGUIConstructor getGUIConstructor(
+    protected static ApproxsimGUIConstructor getGUIConstructor(
             Declaration declaration) {
-        return new StratmasIntegerGUIConstructor(declaration);
+        return new ApproxsimIntegerGUIConstructor(declaration);
     }
 
     /**
-     * Creates a StratmasInteger from a DOM element.
+     * Creates a ApproxsimInteger from a DOM element.
      * 
      * @param n The dom element from which the object is created.
      */
-    protected static StratmasObject domCreate(Element n) {
+    protected static ApproxsimObject domCreate(Element n) {
         try {
-            return new StratmasInteger(Identifier.getIdentifier(n),
+            return new ApproxsimInteger(Identifier.getIdentifier(n),
                     TypeFactory.getType(n), XMLHelper.getLong(n, "value"));
         } catch (NumberFormatException e) {
             return null;
@@ -125,14 +125,14 @@ public class StratmasInteger extends StratmasSimple {
     }
 
     /**
-     * Creates a StratmasInteger from the specified Declaration.
+     * Creates a ApproxsimInteger from the specified Declaration.
      * <p>
      * author Per Alexius
      * 
      * @param declaration The declaration for which the object is created.
      */
-    protected static StratmasObject defaultCreate(Declaration declaration) {
-        return new StratmasInteger(declaration, 0);
+    protected static ApproxsimObject defaultCreate(Declaration declaration) {
+        return new ApproxsimInteger(declaration, 0);
     }
 
     /**
@@ -144,17 +144,17 @@ public class StratmasInteger extends StratmasSimple {
      * @return A clone of this object.
      */
     protected Object clone() {
-        return new StratmasInteger(identifier, type, value);
+        return new ApproxsimInteger(identifier, type, value);
     }
 }
 
 /**
- * StratmasIntegerGUIConstructor creates GUIs for creating StratmasInteger objects.
+ * ApproxsimIntegerGUIConstructor creates GUIs for creating ApproxsimInteger objects.
  * 
  * @version 1, $Date: 2006/04/10 09:45:55 $
  * @author Daniel Ahlin
  */
-class StratmasIntegerGUIConstructor extends StratmasGUIConstructor {
+class ApproxsimIntegerGUIConstructor extends ApproxsimGUIConstructor {
     /**
 	 * 
 	 */
@@ -162,11 +162,11 @@ class StratmasIntegerGUIConstructor extends StratmasGUIConstructor {
     javax.swing.JTextField field;
 
     /**
-     * Creates a new StratmasIntegerGUIConstructor using the supplied declaration.
+     * Creates a new ApproxsimIntegerGUIConstructor using the supplied declaration.
      * 
      * @param declaration the declaration to use.
      */
-    public StratmasIntegerGUIConstructor(Declaration declaration) {
+    public ApproxsimIntegerGUIConstructor(Declaration declaration) {
         super(declaration);
     }
 
@@ -180,14 +180,14 @@ class StratmasIntegerGUIConstructor extends StratmasGUIConstructor {
     }
 
     /**
-     * Tries to create the StratmasObject from the values in the GUI.
+     * Tries to create the ApproxsimObject from the values in the GUI.
      */
-    protected void createStratmasObject() {
+    protected void createApproxsimObject() {
         try {
-            setStratmasObject(new StratmasInteger(this.declaration,
+            setApproxsimObject(new ApproxsimInteger(this.declaration,
                     Long.parseLong(field.getText())));
         } catch (NumberFormatException e) {
-            setStratmasObject(null);
+            setApproxsimObject(null);
         }
     }
 }

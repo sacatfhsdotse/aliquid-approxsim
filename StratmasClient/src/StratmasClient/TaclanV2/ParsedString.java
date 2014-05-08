@@ -3,14 +3,14 @@
  * @(#)ParsedString.java
  */
 
-package StratmasClient.TaclanV2;
+package ApproxsimClient.TaclanV2;
 
 import java.text.ParseException;
 
-import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.object.StratmasSimple;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.type.Declaration;
+import ApproxsimClient.object.ApproxsimObjectFactory;
+import ApproxsimClient.object.ApproxsimSimple;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.type.Declaration;
 
 /**
  * An object representing the type string of the Taclan language. As such it contains artefacts of the language.
@@ -47,11 +47,11 @@ public class ParsedString extends ParsedPrimitive {
     }
 
     /**
-     * Returns the StratmasObject equivalent this declaration.
+     * Returns the ApproxsimObject equivalent this declaration.
      * 
      * @param declaration the declaration to use.
      */
-    public StratmasObject getStratmasObject(Declaration declaration)
+    public ApproxsimObject getApproxsimObject(Declaration declaration)
             throws SemanticException {
         String literal = toString();
         // Expand \n and \"
@@ -59,7 +59,7 @@ public class ParsedString extends ParsedPrimitive {
         literal = literal.replaceAll("\\\\\"", "\"");
 
         try {
-            StratmasSimple res = (StratmasSimple) StratmasObjectFactory
+            ApproxsimSimple res = (ApproxsimSimple) ApproxsimObjectFactory
                     .defaultCreate(declaration);
             res.valueFromString(valueToString());
             return res;

@@ -1,5 +1,5 @@
-#ifndef STRATMAS_GOODSTUFF_H
-#define STRATMAS_GOODSTUFF_H
+#ifndef APPROXSIM_GOODSTUFF_H
+#define APPROXSIM_GOODSTUFF_H
 
 // System
 #include <cmath>
@@ -37,7 +37,7 @@ const double kKmPerDegreeLat2 = kKmPerDegreeLat * kKmPerDegreeLat;
 const double kMetersPerDegreeLat2 = kMetersPerDegreeLat * kMetersPerDegreeLat;
 
 /**
- * \brief Poor round function adapted from older versions of Stratmas.
+ * \brief Poor round function adapted from older versions of Approxsim.
  *
  * \param x The value to be rounded.
  * \return The rounded value.
@@ -45,7 +45,7 @@ const double kMetersPerDegreeLat2 = kMetersPerDegreeLat * kMetersPerDegreeLat;
 inline int Round(float  x) { return int(x + 0.5); }
 
 /**
- * \brief Poor round function adapted from older versions of Stratmas.
+ * \brief Poor round function adapted from older versions of Approxsim.
  *
  * \param x The value to be rounded.
  * \return The rounded value.
@@ -129,4 +129,4 @@ inline void ByteSwapX(unsigned char *b, int n)
 //#define isnan(x) (isnan(x))
 #endif
 
-#endif   // STRATMAS_GOODSTUFF_H
+#endif   // APPROXSIM_GOODSTUFF_H

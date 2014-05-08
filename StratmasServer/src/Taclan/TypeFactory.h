@@ -1,5 +1,5 @@
-#ifndef STRATMAS_TYPEFACTORY
-#define STRATMAS_TYPEFACTORY
+#ifndef APPROXSIM_TYPEFACTORY
+#define APPROXSIM_TYPEFACTORY
 
 // System
 #include <string>
@@ -25,4 +25,4 @@ public:
      static const Type& getType(const std::string& typeName, const std::string& nameSpace);
 };
 
-#endif   // STRATMAS_TYPEFACTORY
+#endif   // APPROXSIM_TYPEFACTORY

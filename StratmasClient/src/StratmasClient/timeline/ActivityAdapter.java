@@ -1,4 +1,4 @@
-package StratmasClient.timeline;
+package ApproxsimClient.timeline;
 
 import java.awt.Color;
 import java.awt.Toolkit;
@@ -10,30 +10,30 @@ import java.util.EventListener;
 import java.util.Hashtable;
 import java.lang.ref.WeakReference;
 
-import StratmasClient.Debug;
-import StratmasClient.Icon;
-import StratmasClient.IconFactory;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.StratmasTimestamp;
-import StratmasClient.object.SymbolIDCode;
-import StratmasClient.object.primitive.Timestamp;
-import StratmasClient.filter.StratmasObjectAdapter;
-import StratmasClient.filter.OrderColorFilter;
-import StratmasClient.map.SymbolToTextureMapper;
+import ApproxsimClient.Debug;
+import ApproxsimClient.Icon;
+import ApproxsimClient.IconFactory;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.object.ApproxsimTimestamp;
+import ApproxsimClient.object.SymbolIDCode;
+import ApproxsimClient.object.primitive.Timestamp;
+import ApproxsimClient.filter.ApproxsimObjectAdapter;
+import ApproxsimClient.filter.OrderColorFilter;
+import ApproxsimClient.map.SymbolToTextureMapper;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 
 /**
- * This adapter is used to adapt StratmasObject of type activity for visualizing in the timeline.
+ * This adapter is used to adapt ApproxsimObject of type activity for visualizing in the timeline.
  * 
  * @author Amir Filipovic
  */
-public class ActivityAdapter implements StratmasObjectAdapter,
-        StratmasEventListener {
+public class ActivityAdapter implements ApproxsimObjectAdapter,
+        ApproxsimEventListener {
     /**
      * The time pointed by the left arrow in the timeline.
      */
@@ -87,9 +87,9 @@ public class ActivityAdapter implements StratmasObjectAdapter,
      */
     private boolean isSelected = false;
     /**
-     * The StratmasObject this adapter adapts.
+     * The ApproxsimObject this adapter adapts.
      */
-    private StratmasObject activity;
+    private ApproxsimObject activity;
     /**
      * The horizontal size of the symbol.
      */
@@ -116,7 +116,7 @@ public class ActivityAdapter implements StratmasObjectAdapter,
      * 
      * @param activity the object to adapt.
      */
-    public ActivityAdapter(StratmasObject activity) {
+    public ActivityAdapter(ApproxsimObject activity) {
         this.setActivity(activity);
         this.setRenderSelectionName();
         setLeftArrowPointedTime(getStartTime());
@@ -128,7 +128,7 @@ public class ActivityAdapter implements StratmasObjectAdapter,
      * 
      * @param activity target of the adapter.
      */
-    private void setActivity(StratmasObject activity) {
+    private void setActivity(ApproxsimObject activity) {
         this.activity = activity;
         getActivity().addEventListener(this);
     }
@@ -261,7 +261,7 @@ public class ActivityAdapter implements StratmasObjectAdapter,
         Icon rightArrowIcon = new Icon(
                 IconFactory.class.getResource("icons/right_arrow.png"));
         if (hasResource()) {
-            StratmasObject mu = activity.getParent().getParent();
+            ApproxsimObject mu = activity.getParent().getParent();
             // create new icons
             leftArrowIcon = getArrowIcon((SymbolIDCode) mu
                                                  .getChild("symbolIDCode"),
@@ -387,7 +387,7 @@ public class ActivityAdapter implements StratmasObjectAdapter,
         gl.glPushName(getRenderSelectionName() + 5);
         if (hasResource()) {
             // get the color of the resource
-            StratmasObject mu = activity.getParent().getParent();
+            ApproxsimObject mu = activity.getParent().getParent();
             Color c = IconFactory.getSymbolBackgroundColor((SymbolIDCode) mu
                     .getChild("symbolIDCode"));
             float[] colors = c.getRGBColorComponents(null);
@@ -524,14 +524,14 @@ public class ActivityAdapter implements StratmasObjectAdapter,
     /**
      * Returns the activity this adapter adapts.
      */
-    public StratmasObject getActivity() {
+    public ApproxsimObject getActivity() {
         return activity;
     }
 
     /**
-     * Returns the StratmasObject this adapter adapts.
+     * Returns the ApproxsimObject this adapter adapts.
      */
-    public StratmasObject getStratmasObject() {
+    public ApproxsimObject getApproxsimObject() {
         return getActivity();
     }
 
@@ -612,10 +612,10 @@ public class ActivityAdapter implements StratmasObjectAdapter,
      * Updates the start and the end times of the activity.
      */
     public void updateActivityTimes() {
-        ((StratmasTimestamp) getActivity().getChild("start"))
+        ((ApproxsimTimestamp) getActivity().getChild("start"))
                 .setValue(new Timestamp(getLeftArrowPointedTime()), this);
         if (getActivity().getChild("end") != null) {
-            ((StratmasTimestamp) getActivity().getChild("end"))
+            ((ApproxsimTimestamp) getActivity().getChild("end"))
                     .setValue(new Timestamp(getRightArrowPointedTime()), this);
         }
     }
@@ -624,7 +624,7 @@ public class ActivityAdapter implements StratmasObjectAdapter,
      * Returns start time of the activity in milliseconds.
      */
     public long getStartTime() {
-        return ((StratmasTimestamp) getActivity().getChild("start")).getValue()
+        return ((ApproxsimTimestamp) getActivity().getChild("start")).getValue()
                 .getMilliSecs();
     }
 
@@ -632,11 +632,11 @@ public class ActivityAdapter implements StratmasObjectAdapter,
      * Returns end time of the activity in milliseconds.
      */
     public long getEndTime() {
-        StratmasObject obj = getActivity();
-        StratmasTimestamp t = (StratmasTimestamp) obj.getChild("end");
+        ApproxsimObject obj = getActivity();
+        ApproxsimTimestamp t = (ApproxsimTimestamp) obj.getChild("end");
         long ret;
         if (t == null) {
-            ret = ((StratmasTimestamp) obj.getChild("start")).getValue()
+            ret = ((ApproxsimTimestamp) obj.getChild("start")).getValue()
                     .getMilliSecs();
         } else {
             ret = t.getValue().getMilliSecs();
@@ -649,7 +649,7 @@ public class ActivityAdapter implements StratmasObjectAdapter,
      * 
      * @param event the event causing the call.
      */
-    public void eventOccured(StratmasEvent event) {
+    public void eventOccured(ApproxsimEvent event) {
         if (event.isChildChanged()) {
             childChanged(event);
         } else if (event.isRemoved()) {
@@ -660,7 +660,7 @@ public class ActivityAdapter implements StratmasObjectAdapter,
             Debug.err
                     .println("FIXME - Replace behavior untested in ActivityAdapter");
             getActivity().removeEventListener(this);
-            setActivity((StratmasObject) event.getArgument());
+            setActivity((ApproxsimObject) event.getArgument());
             fireActivityAdapterUpdated();
         } else if (event.isSelected()) {
             fireActivitySelected(true);
@@ -674,8 +674,8 @@ public class ActivityAdapter implements StratmasObjectAdapter,
      * 
      * @param event the event causing the change.
      */
-    protected void childChanged(StratmasEvent event) {
-        StratmasObject child = (StratmasObject) event.getArgument();
+    protected void childChanged(ApproxsimEvent event) {
+        ApproxsimObject child = (ApproxsimObject) event.getArgument();
         if (child.getIdentifier().equals("start")) {
             setLeftArrowPointedTime(getStartTime());
             if (getActivity().getChild("end") == null) {

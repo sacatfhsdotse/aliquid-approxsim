@@ -1,9 +1,9 @@
-// $Id: StratmasObjectAdapter.java,v 1.39 2006/08/31 14:45:12 alexius Exp $
+// $Id: ApproxsimObjectAdapter.java,v 1.39 2006/08/31 14:45:12 alexius Exp $
 /*
- * @(#)StratmasObjectAdapter.java
+ * @(#)ApproxsimObjectAdapter.java
  */
 
-package StratmasClient.treeview;
+package ApproxsimClient.treeview;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -23,26 +23,26 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-import StratmasClient.Icon;
-import StratmasClient.filter.StratmasObjectFilter;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.StratmasList;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasSimple;
+import ApproxsimClient.Icon;
+import ApproxsimClient.filter.ApproxsimObjectFilter;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.object.ApproxsimList;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimSimple;
 
 /**
- * StratmasObjectAdapter adapts StratmasObjects for viewing in the tree.
+ * ApproxsimObjectAdapter adapts ApproxsimObjects for viewing in the tree.
  * 
  * @version 1, $Date: 2006/08/31 14:45:12 $
  * @author Daniel Ahlin
  */
-public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
-        StratmasEventListener, StratmasClient.filter.StratmasObjectAdapter {
+public class ApproxsimObjectAdapter implements MutableTreeNode, TreeModel,
+        ApproxsimEventListener, ApproxsimClient.filter.ApproxsimObjectAdapter {
     /**
-     * The StratmasObject this adapter adapts.
+     * The ApproxsimObject this adapter adapts.
      */
-    StratmasObject stratmasObject;
+    ApproxsimObject approxsimObject;
 
     /**
      * The listeners of this object.
@@ -50,7 +50,7 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
     List<TreeModelListener> eventListenerList = new ArrayList<TreeModelListener>();
 
     /**
-     * A vector containing child StratmasObjectAdapters
+     * A vector containing child ApproxsimObjectAdapters
      */
     Vector<MutableTreeNode> children = null;
 
@@ -60,7 +60,7 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
     Vector<InvisibleListListener> invisibleListListeners = null;
 
     /**
-     * StratmasObjectAdapter
+     * ApproxsimObjectAdapter
      */
     MutableTreeNode parent;
 
@@ -77,30 +77,30 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
     /**
      * True if the node is currently selected.
      */
-    StratmasObjectFilter filter = null;
+    ApproxsimObjectFilter filter = null;
 
     /**
-     * Creates a new StratmasObjectAdapter.
+     * Creates a new ApproxsimObjectAdapter.
      */
-    protected StratmasObjectAdapter() {}
+    protected ApproxsimObjectAdapter() {}
 
     /**
-     * Creates a new StratmasObjectAdapter.
+     * Creates a new ApproxsimObjectAdapter.
      * 
-     * @param stratmasObject the object to adapt.
+     * @param approxsimObject the object to adapt.
      */
-    protected StratmasObjectAdapter(StratmasObject stratmasObject) {
-        this.setUserObject(stratmasObject);
+    protected ApproxsimObjectAdapter(ApproxsimObject approxsimObject) {
+        this.setUserObject(approxsimObject);
     }
 
     /**
-     * Creates a new StratmasObjectAdapter.
+     * Creates a new ApproxsimObjectAdapter.
      * 
-     * @param stratmasObject the object to adapt.
+     * @param approxsimObject the object to adapt.
      */
-    protected StratmasObjectAdapter(StratmasObject stratmasObject,
-            StratmasObjectFilter filter) {
-        this.setUserObject(stratmasObject);
+    protected ApproxsimObjectAdapter(ApproxsimObject approxsimObject,
+            ApproxsimObjectFilter filter) {
+        this.setUserObject(approxsimObject);
         this.filter = filter;
     }
 
@@ -121,44 +121,44 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      * Initializes the children of this object.
      */
     protected void createChildren() {
-        if (stratmasObject == null) {
+        if (approxsimObject == null) {
             this.children = new Vector<MutableTreeNode>();
         } else {
             this.children = new Vector<MutableTreeNode>();
 
             if (filter == null) {
-                for (Enumeration e = stratmasObject.children(); e
+                for (Enumeration e = approxsimObject.children(); e
                         .hasMoreElements();) {
-                    silentAdd(StratmasObjectAdapter.getStratmasObjectAdapter((StratmasObject) e
+                    silentAdd(ApproxsimObjectAdapter.getApproxsimObjectAdapter((ApproxsimObject) e
                                       .nextElement()), this.children.size());
                 }
 
-                if (stratmasObject instanceof StratmasList) {
+                if (approxsimObject instanceof ApproxsimList) {
                     sort();
                 }
             } else {
-                for (Enumeration e = stratmasObject.children(); e
+                for (Enumeration e = approxsimObject.children(); e
                         .hasMoreElements();) {
-                    StratmasObject sObj = (StratmasObject) e.nextElement();
-                    if (sObj instanceof StratmasList) {
+                    ApproxsimObject sObj = (ApproxsimObject) e.nextElement();
+                    if (sObj instanceof ApproxsimList) {
                         // Must listen to the invisible list in order
                         // to receive add events for objects in the
                         // list that passes the filter.
                         if (filter.pass(sObj)) {
                             addInvisibleListListener(new InvisibleListListener(
-                                    this, (StratmasList) sObj));
+                                    this, (ApproxsimList) sObj));
                         }
                         for (Enumeration i = sObj.children(); i
                                 .hasMoreElements();) {
-                            silentAdd(StratmasObjectAdapter
-                                              .getStratmasObjectAdapter((StratmasObject) i
+                            silentAdd(ApproxsimObjectAdapter
+                                              .getApproxsimObjectAdapter((ApproxsimObject) i
                                                                                 .nextElement(),
                                                                         filter),
                                       this.children.size());
                         }
                     } else {
-                        silentAdd(StratmasObjectAdapter
-                                          .getStratmasObjectAdapter(sObj,
+                        silentAdd(ApproxsimObjectAdapter
+                                          .getApproxsimObjectAdapter(sObj,
                                                                     filter),
                                   this.children.size());
                     }
@@ -176,15 +176,15 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
         Comparator<MutableTreeNode> comparator = new Comparator<MutableTreeNode>() {
             public int compare(MutableTreeNode sObj1, MutableTreeNode sObj2) {
 
-                if (((StratmasObjectAdapter) sObj1)
+                if (((ApproxsimObjectAdapter) sObj1)
                         .getUserObject()
                         .getType()
-                        .equals(((StratmasObjectAdapter) sObj2).getUserObject()
+                        .equals(((ApproxsimObjectAdapter) sObj2).getUserObject()
                                         .getType())) {
-                    return ((StratmasObjectAdapter) sObj1)
+                    return ((ApproxsimObjectAdapter) sObj1)
                             .getUserObject()
                             .getIdentifier()
-                            .compareTo(((StratmasObjectAdapter) sObj2)
+                            .compareTo(((ApproxsimObjectAdapter) sObj2)
                                                .getUserObject().getIdentifier());
                 } else {
                     return 0;
@@ -204,7 +204,7 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      * 
      * @param child the child to add.
      */
-    protected void add(StratmasObjectAdapter child) {
+    protected void add(ApproxsimObjectAdapter child) {
         add(child, getChildren().size());
     }
 
@@ -214,7 +214,7 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      * @param child the child to add.
      * @param index
      */
-    protected void add(StratmasObjectAdapter child, int index) {
+    protected void add(ApproxsimObjectAdapter child, int index) {
         if (silentAdd(child, index)) {
             sendTreeNodeAddedEvent(child);
         }
@@ -226,7 +226,7 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      * @param child the child to add.
      * @param index where to put child.
      */
-    protected boolean silentAdd(StratmasObjectAdapter child, int index) {
+    protected boolean silentAdd(ApproxsimObjectAdapter child, int index) {
         if (filter == null || filter.pass(child.getUserObject())) {
             getChildren().add(index, child);
             child.setParent(this);
@@ -241,7 +241,7 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      * 
      * @param child the child to add.
      */
-    protected void add(StratmasObject child) {
+    protected void add(ApproxsimObject child) {
         add(child, getChildren().size());
     }
 
@@ -250,12 +250,12 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      * 
      * @param child the child to add.
      */
-    protected void add(StratmasObject child, int index) {
+    protected void add(ApproxsimObject child, int index) {
         if (filter != null) {
-            add(StratmasObjectAdapter.getStratmasObjectAdapter(child, filter),
+            add(ApproxsimObjectAdapter.getApproxsimObjectAdapter(child, filter),
                 index);
         } else {
-            add(StratmasObjectAdapter.getStratmasObjectAdapter(child), index);
+            add(ApproxsimObjectAdapter.getApproxsimObjectAdapter(child), index);
         }
     }
 
@@ -274,10 +274,10 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
         // with the JTree HiearchyCache
         getChildren();
 
-        if (stratmasObject == null) {
+        if (approxsimObject == null) {
             return false;
         } else {
-            return !stratmasObject.isLeaf();
+            return !approxsimObject.isLeaf();
         }
     }
 
@@ -287,7 +287,7 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      * @param childIndex the index of the child requested.
      */
     public TreeNode getChildAt(int childIndex) {
-        return (StratmasObjectAdapter) getChildren().elementAt(childIndex);
+        return (ApproxsimObjectAdapter) getChildren().elementAt(childIndex);
     }
 
     /**
@@ -297,7 +297,7 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      * @param index the index of the child requested.
      */
     public Object getChild(Object parent, int index) {
-        return ((StratmasObjectAdapter) parent).getChildAt(index);
+        return ((ApproxsimObjectAdapter) parent).getChildAt(index);
     }
 
     /**
@@ -315,11 +315,11 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
     }
 
     /**
-     * Returns true if two Adapters represents the same StratmasObject
+     * Returns true if two Adapters represents the same ApproxsimObject
      */
     public boolean equals(Object o) {
-        if (o instanceof StratmasObjectAdapter) {
-            return stratmasObject == ((StratmasObjectAdapter) o).stratmasObject;
+        if (o instanceof ApproxsimObjectAdapter) {
+            return approxsimObject == ((ApproxsimObjectAdapter) o).approxsimObject;
         }
         return false;
     }
@@ -337,7 +337,7 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      * @param parent the parent;
      */
     public int getChildCount(Object parent) {
-        return ((StratmasObjectAdapter) parent).getChildCount();
+        return ((ApproxsimObjectAdapter) parent).getChildCount();
     }
 
     /**
@@ -356,16 +356,16 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      * @param child the child.
      */
     public int getIndexOfChild(Object parent, Object child) {
-        return ((StratmasObjectAdapter) parent)
-                .getIndex((StratmasObjectAdapter) child);
+        return ((ApproxsimObjectAdapter) parent)
+                .getIndex((ApproxsimObjectAdapter) child);
     }
 
     /**
-     * Called when the StratmasObject this adapter adapts changes.
+     * Called when the ApproxsimObject this adapter adapts changes.
      * 
      * @param event the event causing the call.
      */
-    public void eventOccured(StratmasEvent event) {
+    public void eventOccured(ApproxsimEvent event) {
         if (event.isValueChanged()) {
             sendTreeNodesChangedEvent();
         } else if (event.isRemoved()) {
@@ -377,36 +377,36 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
             if (getParent() != null) {
                 parent.remove(this);
             }
-            stratmasObject = null;
+            approxsimObject = null;
         } else if (event.isObjectAdded()) {
             // Only interested in this if getChildren has been called,
             // else we will pick it up when the first getChildren
             // triggers the childCreate function. This is not really
             // thread safe. Maybe better to call getChildren here.
             if (this.children != null) {
-                add((StratmasObject) event.getArgument());
+                add((ApproxsimObject) event.getArgument());
             }
         } else if (event.isChildChanged()) {
             // HACK special handling of children affecting the look of
             // the parent icon.
-            StratmasObject child = (StratmasObject) event.getArgument();
+            ApproxsimObject child = (ApproxsimObject) event.getArgument();
             if (child.getIdentifier().equals("symbolIDCode")) {
                 sendTreeNodesChangedEvent();
             }
         } else if (event.isReplaced()) {
             getUserObject().removeEventListener(this);
-            StratmasObjectAdapter parent = (StratmasObjectAdapter) getParent();
+            ApproxsimObjectAdapter parent = (ApproxsimObjectAdapter) getParent();
             if (parent != null) {
                 // System.out.println("index before = "+getParent().getIndex(this));
                 int ind = getParent().getIndex(this);
                 sendTreeNodeRemovedEvent();
                 parent.remove(this);
-                parent.add((StratmasObject) event.getArgument(), ind);
+                parent.add((ApproxsimObject) event.getArgument(), ind);
             } else {
-                StratmasObject o = (StratmasObject) event.getArgument();
+                ApproxsimObject o = (ApproxsimObject) event.getArgument();
                 setUserObject(o);
                 for (Enumeration en = o.children(); en.hasMoreElements();) {
-                    add((StratmasObject) en.nextElement());
+                    add((ApproxsimObject) en.nextElement());
                 }
                 sendTreeNodesChangedEvent();
             }
@@ -418,7 +418,7 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      */
     protected void sendTreeNodesChangedEvent() {
         TreeModelEvent event = buildTreeNodesChangedEvent();
-        StratmasObjectAdapter model = (StratmasObjectAdapter) event.getSource();
+        ApproxsimObjectAdapter model = (ApproxsimObjectAdapter) event.getSource();
         model.fireTreeNodesChanged(event);
     }
 
@@ -429,8 +429,8 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
         if (getParent() != null) {
             Object[] children = { this };
             int[] childIndices = { getParent().getIndex(this) };
-            Vector<StratmasObjectAdapter> ancestors = new Vector<StratmasObjectAdapter>();
-            for (StratmasObjectAdapter walker = (StratmasObjectAdapter) getParent(); walker != null; walker = (StratmasObjectAdapter) walker
+            Vector<ApproxsimObjectAdapter> ancestors = new Vector<ApproxsimObjectAdapter>();
+            for (ApproxsimObjectAdapter walker = (ApproxsimObjectAdapter) getParent(); walker != null; walker = (ApproxsimObjectAdapter) walker
                     .getParent()) {
                 ancestors.add(0, walker);
             }
@@ -447,9 +447,9 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      * 
      * @param object the object that was added.
      */
-    protected void sendTreeNodeAddedEvent(StratmasObjectAdapter object) {
+    protected void sendTreeNodeAddedEvent(ApproxsimObjectAdapter object) {
         TreeModelEvent event = buildTreeNodeAddedEvent(object);
-        StratmasObjectAdapter model = (StratmasObjectAdapter) event.getSource();
+        ApproxsimObjectAdapter model = (ApproxsimObjectAdapter) event.getSource();
         model.fireTreeNodesInserted(event);
     }
 
@@ -459,11 +459,11 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      * @param object the object that was added.
      */
     protected TreeModelEvent buildTreeNodeAddedEvent(
-            StratmasObjectAdapter object) {
+            ApproxsimObjectAdapter object) {
         Object[] children = { object };
         int[] childIndices = { getIndex(object) };
-        Vector<StratmasObjectAdapter> ancestors = new Vector<StratmasObjectAdapter>();
-        for (StratmasObjectAdapter walker = this; walker != null; walker = (StratmasObjectAdapter) walker
+        Vector<ApproxsimObjectAdapter> ancestors = new Vector<ApproxsimObjectAdapter>();
+        for (ApproxsimObjectAdapter walker = this; walker != null; walker = (ApproxsimObjectAdapter) walker
                 .getParent()) {
             ancestors.add(0, walker);
         }
@@ -477,7 +477,7 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      */
     protected void sendTreeNodeRemovedEvent() {
         TreeModelEvent event = buildTreeNodeRemovedEvent();
-        StratmasObjectAdapter model = (StratmasObjectAdapter) event.getSource();
+        ApproxsimObjectAdapter model = (ApproxsimObjectAdapter) event.getSource();
         model.fireTreeNodesRemoved(event);
     }
 
@@ -488,8 +488,8 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
         if (getParent() != null) {
             Object[] children = { this };
             // int[] childIndices = {getParent().getIndex(this)};
-            Vector<StratmasObjectAdapter> ancestors = new Vector<StratmasObjectAdapter>();
-            for (StratmasObjectAdapter walker = (StratmasObjectAdapter) getParent(); walker != null; walker = (StratmasObjectAdapter) walker
+            Vector<ApproxsimObjectAdapter> ancestors = new Vector<ApproxsimObjectAdapter>();
+            for (ApproxsimObjectAdapter walker = (ApproxsimObjectAdapter) getParent(); walker != null; walker = (ApproxsimObjectAdapter) walker
                     .getParent()) {
                 ancestors.add(0, walker);
             }
@@ -544,8 +544,8 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      */
     public void setSelected(boolean selected) {
         this.selected = selected;
-        if (stratmasObject != null) {
-            stratmasObject.fireSelected(selected);
+        if (approxsimObject != null) {
+            approxsimObject.fireSelected(selected);
         }
     }
 
@@ -563,7 +563,7 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
         // HACK create children here to prevent reentrancy problems
         // with the JTree HiearchyCache
         getChildren();
-        StratmasObject object = getStratmasObject();
+        ApproxsimObject object = getApproxsimObject();
         if (object != null) {
             return object.isLeaf();
         } else {
@@ -577,7 +577,7 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      * @param node the node.
      */
     public boolean isLeaf(Object node) {
-        return ((StratmasObjectAdapter) node).isLeaf();
+        return ((ApproxsimObjectAdapter) node).isLeaf();
     }
 
     /**
@@ -653,7 +653,7 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      * @param newValue the new value of the node.
      */
     public void valueForPathChanged(TreePath path, Object newValue) {
-        StratmasObjectAdapter sObj = (StratmasObjectAdapter) path
+        ApproxsimObjectAdapter sObj = (ApproxsimObjectAdapter) path
                 .getLastPathComponent();
         sObj.update(newValue);
     }
@@ -662,30 +662,30 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      * Tries to update the target of this adapter with the provided object.
      */
     public void update(Object o) {
-        if (stratmasObject == null) {
+        if (approxsimObject == null) {
             return;
         }
 
         if (o instanceof String) {
-            if (stratmasObject instanceof StratmasSimple) {
+            if (approxsimObject instanceof ApproxsimSimple) {
                 try {
-                    ((StratmasSimple) stratmasObject).valueFromString(o
+                    ((ApproxsimSimple) approxsimObject).valueFromString(o
                             .toString(), this);
                 } catch (ParseException e) {
                     JOptionPane.showMessageDialog((JFrame) null,
                                                   "Parse error:\nUnable to assign \""
                                                           + o
                                                           + "\" to a/an "
-                                                          + getStratmasObject()
+                                                          + getApproxsimObject()
                                                                   .getType()
                                                                   .getName(),
                                                   "Parse Error",
                                                   JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-                if (stratmasObject.getParent() != null
-                        && stratmasObject.getParent() instanceof StratmasList) {
-                    stratmasObject.setIdentifier(o.toString());
+                if (approxsimObject.getParent() != null
+                        && approxsimObject.getParent() instanceof ApproxsimList) {
+                    approxsimObject.setIdentifier(o.toString());
                 }
             }
         } else {
@@ -730,29 +730,29 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
         }
     }
 
-    public StratmasObject getUserObject() {
-        return getStratmasObject();
+    public ApproxsimObject getUserObject() {
+        return getApproxsimObject();
     }
 
     /**
-     * Returns the stratmasobject this adapter adapts.
+     * Returns the approxsimobject this adapter adapts.
      */
-    public StratmasObject getStratmasObject() {
-        return stratmasObject;
+    public ApproxsimObject getApproxsimObject() {
+        return approxsimObject;
     }
 
     /**
      * Returns the string the invokation of the editor should hold for this value.
      */
     public String toEditableString() {
-        if (stratmasObject == null) {
+        if (approxsimObject == null) {
             return "";
         }
 
-        if (stratmasObject instanceof StratmasSimple) {
-            return ((StratmasSimple) stratmasObject).valueToPrettyString();
+        if (approxsimObject instanceof ApproxsimSimple) {
+            return ((ApproxsimSimple) approxsimObject).valueToPrettyString();
         } else {
-            return stratmasObject.getIdentifier();
+            return approxsimObject.getIdentifier();
         }
     }
 
@@ -760,11 +760,11 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      * Returns the string the invokation of the editor should hold for this value.
      */
     public String getTextTag() {
-        if (stratmasObject != null) {
-            if (stratmasObject.isLeaf()) {
-                return stratmasObject.toString();
+        if (approxsimObject != null) {
+            if (approxsimObject.isLeaf()) {
+                return approxsimObject.toString();
             } else {
-                return stratmasObject.getIdentifier();
+                return approxsimObject.getIdentifier();
             }
         } else {
             return null;
@@ -775,8 +775,8 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      * Returns the Icon the invokation of the editor should hold for this value.
      */
     public Icon getIcon() {
-        if (stratmasObject != null) {
-            return stratmasObject.getIcon();
+        if (approxsimObject != null) {
+            return approxsimObject.getIcon();
         } else {
             return null;
         }
@@ -788,15 +788,15 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      * @param object the object this adapter reflects.
      */
     public void setUserObject(Object object) {
-        StratmasObject oldObject = getUserObject();
+        ApproxsimObject oldObject = getUserObject();
         if (oldObject != null) {
             oldObject.removeEventListener(this);
         }
 
-        this.stratmasObject = (StratmasObject) object;
+        this.approxsimObject = (ApproxsimObject) object;
 
         if (object != null) {
-            this.stratmasObject.addEventListener(this);
+            this.approxsimObject.addEventListener(this);
         } else if (invisibleListListeners != null) {
             // The user object will (should... must!) be set to null
             // when the adapter is destroyed.
@@ -809,49 +809,49 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
     }
 
     /**
-     * Creates StratmasObjectAdapters suitable for the given object. This is the approved method of getting StratmasObjectAdapters...
+     * Creates ApproxsimObjectAdapters suitable for the given object. This is the approved method of getting ApproxsimObjectAdapters...
      * 
-     * @param stratmasObject the stratmasObject to adapt.
+     * @param approxsimObject the approxsimObject to adapt.
      */
-    public static StratmasObjectAdapter getStratmasObjectAdapter(
-            StratmasObject stratmasObject) {
-        if (stratmasObject.getType().canSubstitute("Point")) {
-            return new PointAdapter(stratmasObject);
-        } else if (stratmasObject.getType().canSubstitute("ParameterGroup")) {
-            StratmasObjectFilter filter = new StratmasObjectFilter() {
-                public boolean pass(StratmasObject o) {
+    public static ApproxsimObjectAdapter getApproxsimObjectAdapter(
+            ApproxsimObject approxsimObject) {
+        if (approxsimObject.getType().canSubstitute("Point")) {
+            return new PointAdapter(approxsimObject);
+        } else if (approxsimObject.getType().canSubstitute("ParameterGroup")) {
+            ApproxsimObjectFilter filter = new ApproxsimObjectFilter() {
+                public boolean pass(ApproxsimObject o) {
                     return (o.getType().canSubstitute("ParameterGroup") || o
                             .getType().canSubstitute("SimpleType"));
                 }
             };
-            return getStratmasObjectAdapter(stratmasObject, filter);
+            return getApproxsimObjectAdapter(approxsimObject, filter);
         } else {
-            return new StratmasObjectAdapter(stratmasObject);
+            return new ApproxsimObjectAdapter(approxsimObject);
         }
     }
 
     /**
-     * Creates StratmasObjectAdapters suitable for the given object. This is the approved method of getting StratmasObjectAdapters...
+     * Creates ApproxsimObjectAdapters suitable for the given object. This is the approved method of getting ApproxsimObjectAdapters...
      * 
-     * @param stratmasObject the stratmasObject to adapt.
-     * @param stratmasFilter the filter for this object.
+     * @param approxsimObject the approxsimObject to adapt.
+     * @param approxsimFilter the filter for this object.
      */
-    public static StratmasObjectAdapter getStratmasObjectAdapter(
-            StratmasObject stratmasObject, StratmasObjectFilter stratmasFilter) {
-        if (stratmasObject.getType().canSubstitute("Point")) {
-            return new PointAdapter(stratmasObject, stratmasFilter);
-        } else if (stratmasObject.getType().canSubstitute("ParameterGroup")) {
-            final StratmasObjectFilter fStratmasFilter = stratmasFilter;
-            StratmasObjectFilter filter = new StratmasObjectFilter() {
-                public boolean pass(StratmasObject o) {
-                    return (fStratmasFilter.pass(o) && (o.getType()
+    public static ApproxsimObjectAdapter getApproxsimObjectAdapter(
+            ApproxsimObject approxsimObject, ApproxsimObjectFilter approxsimFilter) {
+        if (approxsimObject.getType().canSubstitute("Point")) {
+            return new PointAdapter(approxsimObject, approxsimFilter);
+        } else if (approxsimObject.getType().canSubstitute("ParameterGroup")) {
+            final ApproxsimObjectFilter fApproxsimFilter = approxsimFilter;
+            ApproxsimObjectFilter filter = new ApproxsimObjectFilter() {
+                public boolean pass(ApproxsimObject o) {
+                    return (fApproxsimFilter.pass(o) && (o.getType()
                             .canSubstitute("ParameterGroup") || o.getType()
                             .canSubstitute("SimpleType")));
                 }
             };
-            return new StratmasObjectAdapter(stratmasObject, filter);
+            return new ApproxsimObjectAdapter(approxsimObject, filter);
         } else {
-            return new StratmasObjectAdapter(stratmasObject, stratmasFilter);
+            return new ApproxsimObjectAdapter(approxsimObject, approxsimFilter);
         }
     }
 
@@ -861,8 +861,8 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
      * @return tree path of this adapter.
      */
     public TreePath getTreePath() {
-        Vector<StratmasObjectAdapter> ancestors = new Vector<StratmasObjectAdapter>();
-        for (StratmasObjectAdapter walker = (StratmasObjectAdapter) this; walker != null; walker = (StratmasObjectAdapter) walker
+        Vector<ApproxsimObjectAdapter> ancestors = new Vector<ApproxsimObjectAdapter>();
+        for (ApproxsimObjectAdapter walker = (ApproxsimObjectAdapter) this; walker != null; walker = (ApproxsimObjectAdapter) walker
                 .getParent()) {
             ancestors.add(0, walker);
         }
@@ -881,10 +881,10 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
             if (children != null) {
                 for (Enumeration<MutableTreeNode> e = children(); e
                         .hasMoreElements();) {
-                    ((StratmasObjectAdapter) e.nextElement()).dispose();
+                    ((ApproxsimObjectAdapter) e.nextElement()).dispose();
                 }
             }
-            // Removes the eventlistener on the StratmasObject, will
+            // Removes the eventlistener on the ApproxsimObject, will
             // also make getChildren return an empty vector.
             setUserObject(null);
         }
@@ -892,7 +892,7 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
 
     /**
      * Adds an InvisibleListListener. The listener does not listen to the adapter directly but to a StramtasList that is a child of the
-     * object the adapter adapts. Since this list is not adapted by any StratmasObjectAdapter it must be listened to explicitly in order to
+     * object the adapter adapts. Since this list is not adapted by any ApproxsimObjectAdapter it must be listened to explicitly in order to
      * be able to forward add events for the list to the adapter that needs to add a new child adapter for the added object.
      * 
      * @param listener the listener to add.
@@ -918,22 +918,22 @@ public class StratmasObjectAdapter implements MutableTreeNode, TreeModel,
 }
 
 /**
- * An InvisibleListListener listens to lists that is not visible in a TreeView (and thus not adapted by any StratmasObjectAdapter) due to
+ * An InvisibleListListener listens to lists that is not visible in a TreeView (and thus not adapted by any ApproxsimObjectAdapter) due to
  * the current filter. When elements are added to the list the listener forwards the add (i.e. adds the object) to the actual adapter.
  * 
  * @version 1, $Date: 2006/08/31 14:45:12 $
  * @author Per Alexius
  */
-class InvisibleListListener implements StratmasEventListener {
+class InvisibleListListener implements ApproxsimEventListener {
     /**
      * The adapter to notify about added objects.
      */
-    StratmasObjectAdapter adapter;
+    ApproxsimObjectAdapter adapter;
 
     /**
      * The list to listen to.
      */
-    StratmasList object;
+    ApproxsimList object;
 
     /**
      * Creates a new InvisibleListListener.
@@ -941,7 +941,7 @@ class InvisibleListListener implements StratmasEventListener {
      * @param toNotify The adapter to notify about added objects.
      * @param toWatch The list to listen to.
      */
-    InvisibleListListener(StratmasObjectAdapter toNotify, StratmasList toWatch) {
+    InvisibleListListener(ApproxsimObjectAdapter toNotify, ApproxsimList toWatch) {
         this.adapter = toNotify;
         this.object = toWatch;
         object.addEventListener(this);
@@ -960,16 +960,16 @@ class InvisibleListListener implements StratmasEventListener {
      * 
      * @param event the event causing the call.
      */
-    public void eventOccured(StratmasEvent event) {
+    public void eventOccured(ApproxsimEvent event) {
         if (event.isObjectAdded()) {
-            adapter.add((StratmasObject) event.getArgument());
+            adapter.add((ApproxsimObject) event.getArgument());
         } else if (event.isRemoved()) {
             dispose();
             adapter.removeInvisibleListListener(this);
             adapter = null;
         } else if (event.isReplaced()) {
             object.removeEventListener(this);
-            object = (StratmasList) event.getArgument();
+            object = (ApproxsimList) event.getArgument();
             object.addEventListener(this);
         }
     }

@@ -1,5 +1,5 @@
-#ifndef STRATMAS_MODELPARAMETERS_H
-#define STRATMAS_MODELPARAMETERS_H
+#ifndef APPROXSIM_MODELPARAMETERS_H
+#define APPROXSIM_MODELPARAMETERS_H
 
 
 // System
@@ -74,7 +74,7 @@ static const char* modelParameterName[] = {
 
 /**
  * \brief The SimulationObject that corresponds to the ModelParameters
- * type in the Stratmas xml schemas.
+ * type in the Approxsim xml schemas.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/09/04 14:34:42 $
@@ -100,4 +100,4 @@ public:
      static const char* paramName(eModelParameter param) { return modelParameterName[param]; }
 };
 
-#endif   // STRATMAS_MODELPARAMETERS_H
+#endif   // APPROXSIM_MODELPARAMETERS_H

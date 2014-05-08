@@ -1,5 +1,5 @@
-#ifndef STRATMAS_XMLHANDLER_H
-#define STRATMAS_XMLHANDLER_H
+#ifndef APPROXSIM_XMLHANDLER_H
+#define APPROXSIM_XMLHANDLER_H
 
 
 // System
@@ -30,9 +30,9 @@ XERCES_CPP_NAMESPACE_USE
 
 
 /**
- * \brief Enumeration for the different kinds of StratmasMessages.
+ * \brief Enumeration for the different kinds of ApproxsimMessages.
  */
-enum eStratmasMsgType {
+enum eApproxsimMsgType {
      eConnect,
      eDisconnect,
      eInitialization,
@@ -52,7 +52,7 @@ enum eStratmasMsgType {
 
 /**
  * \brief This class handles the extraction of data from
- * StratmasMessages.
+ * ApproxsimMessages.
  *
  * \author   Per Alexius
  * \date     $Date: 2007/01/24 13:13:26 $
@@ -108,7 +108,7 @@ private:
      /// A vector containing the Updates from the last message.
      std::vector<Update*> mUpdates;
 
-     /// Type of the last StratmasMessage handled.
+     /// Type of the last ApproxsimMessage handled.
      std::string mLastType;
 
      /// The parser used to parse incoming messages.
@@ -199,4 +199,4 @@ public:
 
 };
 
-#endif   // STRATMAS_XMLHANDLER_H
+#endif   // APPROXSIM_XMLHANDLER_H

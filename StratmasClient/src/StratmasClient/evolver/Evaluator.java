@@ -3,7 +3,7 @@
  * @(#)Evaluator.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
 /**
  * An Evaluator provides performance measure for a ParameterInstanceSet. E. g. given a set of parameter instances {x, y, x, ...} the

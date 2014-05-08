@@ -1,11 +1,11 @@
-package StratmasClient.treeview;
+package ApproxsimClient.treeview;
 
-import StratmasClient.Debug;
-import StratmasClient.Icon;
-import StratmasClient.HierarchyImportSet;
-import StratmasClient.object.StratmasList;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.filter.StratmasObjectFilter;
+import ApproxsimClient.Debug;
+import ApproxsimClient.Icon;
+import ApproxsimClient.HierarchyImportSet;
+import ApproxsimClient.object.ApproxsimList;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.filter.ApproxsimObjectFilter;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -27,7 +27,7 @@ import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
 /**
- * HierarchyImportTreeView is presentation of a tree of StratmasObjects imported from Hierarchy.
+ * HierarchyImportTreeView is presentation of a tree of ApproxsimObjects imported from Hierarchy.
  * 
  * @version 1, $Date: 2006/05/22 09:54:18 $
  * @author Per Alexius
@@ -103,10 +103,10 @@ public class HierarchyImportTreeView extends TreeView {
             }
 
             private void getSubPaths(TreePath path, Vector paths) {
-                StratmasObjectAdapter soa = (StratmasObjectAdapter) path
+                ApproxsimObjectAdapter soa = (ApproxsimObjectAdapter) path
                         .getLastPathComponent();
                 for (Enumeration en = soa.children(); en.hasMoreElements();) {
-                    getSubPaths(((StratmasObjectAdapter) en.nextElement())
+                    getSubPaths(((ApproxsimObjectAdapter) en.nextElement())
                                         .getTreePath(),
                                 paths);
                 }
@@ -190,8 +190,8 @@ public class HierarchyImportTreeView extends TreeView {
      * @param root the object to use as root for this tree.
      * @param filter the object to use as root for this tree.
      */
-    public static TreeViewFrame getDefaultFrame(StratmasObject root,
-            StratmasObjectFilter filter) {
+    public static TreeViewFrame getDefaultFrame(ApproxsimObject root,
+            ApproxsimObjectFilter filter) {
         final HierarchyImportTreeView view = (HierarchyImportTreeView) getDefaultTreeView(root,
                                                                                           filter);
         TreeViewFrame res = new TreeViewFrame(view);
@@ -209,13 +209,13 @@ public class HierarchyImportTreeView extends TreeView {
      * 
      * @param root the object to use as root for this tree.
      */
-    public static TreeView getDefaultTreeView(StratmasObject root,
-            StratmasObjectFilter filter) {
+    public static TreeView getDefaultTreeView(ApproxsimObject root,
+            ApproxsimObjectFilter filter) {
         HierarchyImportTreeView view = new HierarchyImportTreeView(
                 new HierarchyImportSet(new HierarchyObjectAdapter(root, filter)));
         view.setShowsRootHandles(false);
         // By defualt, don't show root handle for lists.
-        if (root instanceof StratmasList) {
+        if (root instanceof ApproxsimList) {
             view.setRootVisible(false);
         }
         return view;
@@ -260,7 +260,7 @@ class HierarchyImportTreeViewCellRenderer extends DefaultTreeCellRenderer {
             setBackgroundSelectionColor(mTreeView.mSelectionColor);
         }
 
-        StratmasClient.Icon icon = val.getIcon()
+        ApproxsimClient.Icon icon = val.getIcon()
                 .getScaledInstance(mTreeView.getPreferedIconSize());
 
         setIcon(icon);

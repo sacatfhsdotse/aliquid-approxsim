@@ -1,5 +1,5 @@
-#ifndef STRATMAS_PVAREA_H
-#define STRATMAS_PVAREA_H
+#ifndef APPROXSIM_PVAREA_H
+#define APPROXSIM_PVAREA_H
 
 
 // System
@@ -159,4 +159,4 @@ public:
      const std::vector<PVModification>& pvs() const { return mPVs; }
 };
 
-#endif   // STRATMAS_PVAREA_H
+#endif   // APPROXSIM_PVAREA_H

@@ -1,4 +1,4 @@
-package StratmasClient.communication;
+package ApproxsimClient.communication;
 
 import java.lang.StringBuffer;
 import java.util.Iterator;
@@ -6,12 +6,12 @@ import java.util.Vector;
 
 /**
  * This class represents the subscription message. This type of message is sent to the server in order to subscribe to updates for
- * StratmasObjects.
+ * ApproxsimObjects.
  * 
  * @version 1, $Date: 2006/03/22 14:30:50 $
  * @author Per Alexius
  */
-public class SubscriptionMessage extends StratmasMessage {
+public class SubscriptionMessage extends ApproxsimMessage {
     /** Contains all subscriptions. */
     private Vector mSubscriptions;
 

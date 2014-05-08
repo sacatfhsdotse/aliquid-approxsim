@@ -1,4 +1,4 @@
-package StratmasClient.communication;
+package ApproxsimClient.communication;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -21,14 +21,14 @@ import org.w3c.dom.Node;
 import org.w3c.dom.TypeInfo;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import StratmasClient.Client;
-import StratmasClient.Debug;
-import StratmasClient.ProcessVariableDescription;
-import StratmasClient.object.primitive.Timestamp;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.object.type.Type;
-import StratmasClient.StratmasConstants;
-import StratmasClient.LSJarXSDResolver;
+import ApproxsimClient.Client;
+import ApproxsimClient.Debug;
+import ApproxsimClient.ProcessVariableDescription;
+import ApproxsimClient.object.primitive.Timestamp;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.object.type.Type;
+import ApproxsimClient.ApproxsimConstants;
+import ApproxsimClient.LSJarXSDResolver;
 import org.apache.xerces.util.XMLResourceIdentifierImpl;
 
 // For printNode only
@@ -134,7 +134,7 @@ public class XMLHandler implements Runnable {
      * Creates an XMLHandler operating independently of any Client, initializes a default DOMParser.
      */
     public XMLHandler() {
-        this(null, StratmasConstants.STRATMAS_PROTOCOL_SCHEMA);
+        this(null, ApproxsimConstants.APPROXSIM_PROTOCOL_SCHEMA);
     }
 
     /**
@@ -224,9 +224,9 @@ public class XMLHandler implements Runnable {
      * Enqueues an xml message for handling.
      * 
      * @param xml The message to enqueue.
-     * @param msg The StratmasMessage that generated the response now to be handled.
+     * @param msg The ApproxsimMessage that generated the response now to be handled.
      */
-    public void handle(String xml, StratmasMessage msg) {
+    public void handle(String xml, ApproxsimMessage msg) {
         mQueue.enqueue(new QueueEntry(msg, xml));
     }
 
@@ -246,7 +246,7 @@ public class XMLHandler implements Runnable {
             mParser.parse(inputSource);
 
             Element elem = mParser.getDocument().getDocumentElement();
-            if (elem.getNodeName().equals("sp:stratmasMessage")) {
+            if (elem.getNodeName().equals("sp:approxsimMessage")) {
                 String type = elem.getAttribute("xsi:type");
                 // ConnectResponseMessage
                 if (type.equals("sp:ConnectResponseMessage")) {
@@ -295,7 +295,7 @@ public class XMLHandler implements Runnable {
                     throw new HandleException();
                 }
             } else {
-                System.err.println("Root element not 'sp:stratmasMessage'");
+                System.err.println("Root element not 'sp:approxsimMessage'");
                 System.exit(1);
                 // throw new HandleException();
             }
@@ -492,13 +492,13 @@ public class XMLHandler implements Runnable {
 /// Helpers
 
     /**
-     * Gets the type of StratmasObject represented by the provided dom element. Casts the provided Element to an ElementImpl to avoid the
+     * Gets the type of ApproxsimObject represented by the provided dom element. Casts the provided Element to an ElementImpl to avoid the
      * problem that the getSchemaTypeInfo method does not exist in 1.4.2. This is not a perfect solution but rather an acceptable hack until
      * 1.5 becomed default version. If the getSchemaTypeInfo method fails the xsi:type attribute is checked. This will occur when validation
      * is switched off, which it often is for performance reasons.
      * 
      * @param element The dom element to get the type for.
-     * @return The type of StratmasObject the element represents.
+     * @return The type of ApproxsimObject the element represents.
      */
     public static Type getType(Element element) {
         TypeInfo typeInfo = ((org.apache.xerces.dom.ElementImpl) element)
@@ -520,12 +520,12 @@ public class XMLHandler implements Runnable {
     }
 
     /**
-     * Gets the type of StratmasObject represented by the provided dom element. First check the xsi:type attribute and if it doesn't exist
+     * Gets the type of ApproxsimObject represented by the provided dom element. First check the xsi:type attribute and if it doesn't exist
      * use the 1.5 specific method getSchemaTypeInfo method. Since Xerces supports this method it should be possible to call it even though
      * 1.4.2 is used.
      * 
      * @param element The dom element to get the type for.
-     * @return The type of StratmasObject the element represents.
+     * @return The type of ApproxsimObject the element represents.
      */
     public static Type getXsiType(Element element) {
         boolean checkSchemaTypeInfo = false;
@@ -757,26 +757,26 @@ public class XMLHandler implements Runnable {
  * @author Per Alexius
  */
 class QueueEntry {
-    public StratmasMessage mMessage;
+    public ApproxsimMessage mMessage;
     public String mResponseMessageString;
 
     /**
      * Constructor
      * 
-     * @param msg The stratmas message.
+     * @param msg The approxsim message.
      * @param reMsgStr The response message xml string.
      */
-    public QueueEntry(StratmasMessage msg, String reMsgStr) {
+    public QueueEntry(ApproxsimMessage msg, String reMsgStr) {
         mMessage = msg;
         mResponseMessageString = reMsgStr;
     }
 
     /**
-     * Gets the stratmas message
+     * Gets the approxsim message
      * 
-     * @return The stratmas message.
+     * @return The approxsim message.
      */
-    public StratmasMessage getMessage() {
+    public ApproxsimMessage getMessage() {
         return mMessage;
     }
 

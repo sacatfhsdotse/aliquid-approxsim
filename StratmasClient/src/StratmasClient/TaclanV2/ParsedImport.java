@@ -3,7 +3,7 @@
  * @(#)ParsedImport.java
  */
 
-package StratmasClient.TaclanV2;
+package ApproxsimClient.TaclanV2;
 
 import java.util.Vector;
 import java.io.File;

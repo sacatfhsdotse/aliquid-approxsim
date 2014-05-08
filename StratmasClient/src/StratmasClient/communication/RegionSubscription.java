@@ -1,6 +1,6 @@
-package StratmasClient.communication;
+package ApproxsimClient.communication;
 
-import StratmasClient.object.primitive.Timestamp;
+import ApproxsimClient.object.primitive.Timestamp;
 
 /**
  * This class represents a subscription to the aggregate of the process variables for a specified region.

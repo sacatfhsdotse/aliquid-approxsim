@@ -1,8 +1,8 @@
-package StratmasClient.communication;
+package ApproxsimClient.communication;
 
 import java.lang.StringBuffer;
 import javax.swing.event.EventListenerList;
-import StratmasClient.StratmasConstants;
+import ApproxsimClient.ApproxsimConstants;
 
 /**
  * Abstract class that is the super class of all messages to be sent between the vlient and the server.
@@ -10,7 +10,7 @@ import StratmasClient.StratmasConstants;
  * @version 1, $Date: 2005/11/01 09:36:43 $
  * @author Per Alexius
  */
-public abstract class StratmasMessage extends XMLHelper {
+public abstract class ApproxsimMessage extends XMLHelper {
     /**
      * The listeners of this object.
      */
@@ -28,9 +28,9 @@ public abstract class StratmasMessage extends XMLHelper {
      * 
      * @param listener the listener to add.
      */
-    public void addEventListener(StratmasMessageListener listener) {
+    public void addEventListener(ApproxsimMessageListener listener) {
         this.getEventListenerList()
-                .add(StratmasMessageListener.class, listener);
+                .add(ApproxsimMessageListener.class, listener);
     }
 
     /**
@@ -38,18 +38,18 @@ public abstract class StratmasMessage extends XMLHelper {
      * 
      * @param listener the listener to remove.
      */
-    public void removeEventListener(StratmasMessageListener listener) {
-        this.getEventListenerList().remove(StratmasMessageListener.class,
+    public void removeEventListener(ApproxsimMessageListener listener) {
+        this.getEventListenerList().remove(ApproxsimMessageListener.class,
                                            listener);
     }
 
     /**
      * Returns the tag
      * 
-     * @return The tag e.g 'stratmasMessage'
+     * @return The tag e.g 'approxsimMessage'
      */
     public String getTag() {
-        return "stratmasMessage";
+        return "approxsimMessage";
     }
 
     /**
@@ -61,13 +61,13 @@ public abstract class StratmasMessage extends XMLHelper {
     public StringBuffer toXML(StringBuffer b) {
 //          b.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         b.append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
-        b.append("<sp:stratmasMessage xmlns:sp=\"")
-                .append(StratmasConstants.stratmasNamespace);
-        b.append("\" xmlns:xsi=\"").append(StratmasConstants.xmlnsNamespace)
+        b.append("<sp:approxsimMessage xmlns:sp=\"")
+                .append(ApproxsimConstants.approxsimNamespace);
+        b.append("\" xmlns:xsi=\"").append(ApproxsimConstants.xmlnsNamespace)
                 .append("\" ");
         b.append("xsi:type=\"sp:").append(getTypeAsString()).append("\">");
         bodyXML(b);
-        b.append("</sp:stratmasMessage>");
+        b.append("</sp:approxsimMessage>");
         return b;
     }
 
@@ -75,13 +75,13 @@ public abstract class StratmasMessage extends XMLHelper {
      * Fires an event telling that this message has been sent.
      */
     public void fireMessageSent() {
-        StratmasMessageEvent event = new StratmasMessageEvent(this);
+        ApproxsimMessageEvent event = new ApproxsimMessageEvent(this);
 
         // Guaranteed to return a non-null array
         Object[] listeners = getEventListenerList().getListenerList();
 
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            ((StratmasMessageListener) listeners[i + 1]).messageSent(event);
+            ((ApproxsimMessageListener) listeners[i + 1]).messageSent(event);
         }
     }
 
@@ -89,13 +89,13 @@ public abstract class StratmasMessage extends XMLHelper {
      * Fires an event telling that the answer to this message has been received.
      */
     public void fireMessageReceived() {
-        StratmasMessageEvent event = new StratmasMessageEvent(this);
+        ApproxsimMessageEvent event = new ApproxsimMessageEvent(this);
 
         // Guaranteed to return a non-null array
         Object[] listeners = getEventListenerList().getListenerList();
 
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            ((StratmasMessageListener) listeners[i + 1]).messageReceived(event);
+            ((ApproxsimMessageListener) listeners[i + 1]).messageReceived(event);
         }
     }
 
@@ -105,13 +105,13 @@ public abstract class StratmasMessage extends XMLHelper {
      * @param reply the reply, if any, else null
      */
     public void fireMessageHandled(Object reply) {
-        StratmasMessageEvent event = new StratmasMessageEvent(this);
+        ApproxsimMessageEvent event = new ApproxsimMessageEvent(this);
 
         // Guaranteed to return a non-null array
         Object[] listeners = getEventListenerList().getListenerList();
 
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            ((StratmasMessageListener) listeners[i + 1]).messageHandled(event,
+            ((ApproxsimMessageListener) listeners[i + 1]).messageHandled(event,
                                                                         reply);
         }
     }
@@ -120,13 +120,13 @@ public abstract class StratmasMessage extends XMLHelper {
      * Fires an event telling that something went wrong during the sending, answer-receiving or answer-handling of this message.
      */
     public void fireErrorOccurred() {
-        StratmasMessageEvent event = new StratmasMessageEvent(this);
+        ApproxsimMessageEvent event = new ApproxsimMessageEvent(this);
 
         // Guaranteed to return a non-null array
         Object[] listeners = getEventListenerList().getListenerList();
 
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            ((StratmasMessageListener) listeners[i + 1]).errorOccurred(event);
+            ((ApproxsimMessageListener) listeners[i + 1]).errorOccurred(event);
         }
     }
 }

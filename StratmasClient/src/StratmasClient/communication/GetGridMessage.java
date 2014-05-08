@@ -1,4 +1,4 @@
-package StratmasClient.communication;
+package ApproxsimClient.communication;
 
 /**
  * Class representing the GetGridMessage. The GetGridMessage is the message that a client sends to a server in order to find out how the
@@ -7,7 +7,7 @@ package StratmasClient.communication;
  * @version 1, $Date: 2006/03/22 14:30:49 $
  * @author Per Alexius
  */
-public class GetGridMessage extends StratmasMessage {
+public class GetGridMessage extends ApproxsimMessage {
     /**
      * Returns a string representation of the type of this message.
      * 

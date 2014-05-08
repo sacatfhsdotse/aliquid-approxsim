@@ -1,4 +1,4 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -30,22 +30,22 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-import StratmasClient.BoundingBox;
-import StratmasClient.Client;
-import StratmasClient.Configuration;
-import StratmasClient.filter.StratmasObjectFilter;
-import StratmasClient.filter.TypeFilter;
-import StratmasClient.map.adapter.MapElementAdapter;
-import StratmasClient.map.adapter.MapShapeAdapter;
-import StratmasClient.object.Shape;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.object.StratmasReference;
-import StratmasClient.object.primitive.Reference;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.proj.MGRSConversion;
-import StratmasClient.treeview.TreeView;
-import StratmasClient.treeview.TreeViewFrame;
+import ApproxsimClient.BoundingBox;
+import ApproxsimClient.Client;
+import ApproxsimClient.Configuration;
+import ApproxsimClient.filter.ApproxsimObjectFilter;
+import ApproxsimClient.filter.TypeFilter;
+import ApproxsimClient.map.adapter.MapElementAdapter;
+import ApproxsimClient.map.adapter.MapShapeAdapter;
+import ApproxsimClient.object.Shape;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimObjectFactory;
+import ApproxsimClient.object.ApproxsimReference;
+import ApproxsimClient.object.primitive.Reference;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.proj.MGRSConversion;
+import ApproxsimClient.treeview.TreeView;
+import ApproxsimClient.treeview.TreeViewFrame;
 
 /**
  * This class is used to create different kinds of menus used in the map.
@@ -101,7 +101,7 @@ class MapDrawerMenuCreator {
                         .nextElement());
                 final MapDrawer fdrawer = drawer;
                 final Region fregion = region;
-                JMenuItem item = new JMenuItem(sea.getStratmasObject()
+                JMenuItem item = new JMenuItem(sea.getApproxsimObject()
                         .getIdentifier().trim());
                 item.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent event) {
@@ -126,7 +126,7 @@ class MapDrawerMenuCreator {
         // add all elements at the pointed location
         submenu = new JMenu("Show information for : ");
         for (Enumeration en = pointedElements.elements(); en.hasMoreElements();) {
-            final StratmasObject so = ((StratmasObject) en.nextElement());
+            final ApproxsimObject so = ((ApproxsimObject) en.nextElement());
             JMenuItem item = new JMenuItem(so.getIdentifier().trim());
             item.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
@@ -174,7 +174,7 @@ class MapDrawerMenuCreator {
                     .hasMoreElements();) {
                 final MapElementAdapter meAdapter = ((MapElementAdapter) en
                         .nextElement());
-                final StratmasObject so = meAdapter.getObject();
+                final ApproxsimObject so = meAdapter.getObject();
                 final boolean fselected = selected;
                 JMenuItem item = new JMenuItem(so.getIdentifier().trim());
                 item.addActionListener(new ActionListener() {
@@ -203,7 +203,7 @@ class MapDrawerMenuCreator {
             submenu = new JMenu("Show subunits for : ");
             for (Enumeration en = v.elements(); en.hasMoreElements();) {
                 final MapDrawer fdrawer = drawer;
-                final StratmasObject so = ((StratmasObject) en.nextElement());
+                final ApproxsimObject so = ((ApproxsimObject) en.nextElement());
                 JMenuItem item = new JMenuItem(so.getIdentifier().trim());
                 item.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent event) {
@@ -224,7 +224,7 @@ class MapDrawerMenuCreator {
     protected JMenu getMenuForGraphNodes() {
         JMenu submenu = null;
         
-        final Vector<StratmasObject> v = (new TypeFilter(TypeFactory.getType("Node"),
+        final Vector<ApproxsimObject> v = (new TypeFilter(TypeFactory.getType("Node"),
                 true)).filter(drawer.mapElementsUnderCursor());
         
         if (!v.isEmpty()) {
@@ -232,17 +232,17 @@ class MapDrawerMenuCreator {
             JMenuItem item = new JMenuItem("Connect node");
             item.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
-                    StratmasObject orig = v.get(0);
-                    StratmasObject edge;
+                    ApproxsimObject orig = v.get(0);
+                    ApproxsimObject edge;
                     if(orig.getType().canSubstitute("PathNode")){
-                        edge = StratmasObjectFactory.create(orig.getType().getTypeInformation().getType("PathEdge"));
+                        edge = ApproxsimObjectFactory.create(orig.getType().getTypeInformation().getType("PathEdge"));
                     }else if(orig.getType().canSubstitute("EffectNode")){
-                        edge = StratmasObjectFactory.create(orig.getType().getTypeInformation().getType("EffectEdge"));
+                        edge = ApproxsimObjectFactory.create(orig.getType().getTypeInformation().getType("EffectEdge"));
                     }else{
                         throw new InvalidParameterException();
                     }
                     
-                    StratmasObject edges = orig.getParent().getParent().getChild("edges");
+                    ApproxsimObject edges = orig.getParent().getParent().getChild("edges");
                     
                     edge.setIdentifier("new edge");
                     while(edges.getChild(edge.getIdentifier()) != null){
@@ -253,7 +253,7 @@ class MapDrawerMenuCreator {
                         edge.setIdentifier("new edge" + (a + 1));
                     }
                     try {
-                        ((StratmasReference) edge.getChild("origin")).valueFromString("nodes:"+orig.getIdentifier(), this);
+                        ((ApproxsimReference) edge.getChild("origin")).valueFromString("nodes:"+orig.getIdentifier(), this);
                         edges.add(edge);
                         drawer.placeObject(edge);
                     } catch (ParseException e) {
@@ -266,8 +266,8 @@ class MapDrawerMenuCreator {
             JMenuItem item2 = new JMenuItem("Add node");
             item2.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
-                    StratmasObject orig = v.get(0);
-                    StratmasObject clone = StratmasObjectFactory.cloneObject(orig);
+                    ApproxsimObject orig = v.get(0);
+                    ApproxsimObject clone = ApproxsimObjectFactory.cloneObject(orig);
                     clone.setIdentifier("new node");
                     while(orig.getParent().getChild(clone.getIdentifier()) != null){
                         int a = 0;
@@ -302,7 +302,7 @@ class MapDrawerMenuCreator {
     protected JMenu getMenuForGraphEdges() {
         JMenu submenu = null;
         
-        final Vector<StratmasObject> v = (new TypeFilter(TypeFactory.getType("Edge"),
+        final Vector<ApproxsimObject> v = (new TypeFilter(TypeFactory.getType("Edge"),
                 true)).filter(drawer.mapElementsUnderCursor());
         
         if (!v.isEmpty()) {
@@ -399,7 +399,7 @@ class MapDrawerMenuCreator {
             submenu = new JMenu("Show position for : ");
             for (Enumeration en = pointedElements.elements(); en
                     .hasMoreElements();) {
-                final StratmasObject so = ((StratmasObject) en.nextElement());
+                final ApproxsimObject so = ((ApproxsimObject) en.nextElement());
                 final MapDrawerMenuCreator self = this;
                 JMenuItem item = new JMenuItem(so.getIdentifier().trim());
                 item.addActionListener(new ActionListener() {
@@ -430,11 +430,11 @@ class MapDrawerMenuCreator {
      * @param dragFilter the actual filter.
      * @return the menu with the elements.
      */
-    protected JPopupMenu getDraggedElementsMenu(StratmasObjectFilter dragFilter) {
+    protected JPopupMenu getDraggedElementsMenu(ApproxsimObjectFilter dragFilter) {
         Vector elements = dragFilter.filter(drawer.mapElementsUnderCursor());
         JPopupMenu menu = new JPopupMenu();
         for (int i = 0; i < elements.size(); i++) {
-            menu.add(new DraggableJMenuItem((StratmasObject) elements.get(i)));
+            menu.add(new DraggableJMenuItem((ApproxsimObject) elements.get(i)));
         }
         return menu;
     }
@@ -442,7 +442,7 @@ class MapDrawerMenuCreator {
     /**
      * Returns the dialog which displays the elements position on the map.
      */
-    public JDialog getElementPositionDialog(StratmasObject so) {
+    public JDialog getElementPositionDialog(ApproxsimObject so) {
         // create the dialog
         final JDialog dialog = new JDialog(new JFrame(), "Current Position");
 

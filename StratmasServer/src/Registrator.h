@@ -1,6 +1,6 @@
 // $Id: Registrator.h,v 1.8 2006/07/21 13:35:29 dah Exp $
-#ifndef STRATMAS_REGISTRATOR_H
-#define STRATMAS_REGISTRATOR_H
+#ifndef APPROXSIM_REGISTRATOR_H
+#define APPROXSIM_REGISTRATOR_H
 
 // System
 #include <string>
@@ -8,7 +8,7 @@
 // Own
 #include "Socket.h"
 
-class StratmasServerSocket;
+class ApproxsimServerSocket;
 
 /**
  * \brief This class represents a registration to the dispatcher.
@@ -52,4 +52,4 @@ public:
      bool sendDispatcherMessage(const std::string msg);
 };
 
-#endif   // STRATMAS_REGISTRATOR_H
+#endif   // APPROXSIM_REGISTRATOR_H

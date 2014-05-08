@@ -1,5 +1,5 @@
-#ifndef STRATMAS_ENGINE_H
-#define STRATMAS_ENGINE_H
+#ifndef APPROXSIM_ENGINE_H
+#define APPROXSIM_ENGINE_H
 
 // System
 #include <map>
@@ -227,4 +227,4 @@ public:
      static void* start(void* engineToStart);
 };
 
-#endif   // STRATMAS_ENGINE_H
+#endif   // APPROXSIM_ENGINE_H

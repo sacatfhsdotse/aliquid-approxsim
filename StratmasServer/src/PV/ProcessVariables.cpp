@@ -116,7 +116,7 @@ eAllPV PVHelper::nameToOverAllOrder(const std::string& name) {
      std::map<std::string, eAllPV>::iterator it = sNameToOverAllOrder.find(name);
      if (it == sNameToOverAllOrder.end()) {
           Error e;
-          e << "The process variable '" << name << "' is not a valid Stratmas process variable.";
+          e << "The process variable '" << name << "' is not a valid Approxsim process variable.";
           throw e;
      }
 
@@ -142,7 +142,7 @@ eAllPV PVHelper::displayNameToOverAllOrder(const std::string& name) {
      std::map<std::string, eAllPV>::iterator it = sDisplayNameToOverAllOrder.find(name);
      if (it == sDisplayNameToOverAllOrder.end()) {
           Error e;
-          e << "The process variable '" << name << "' is not a valid Stratmas process variable.";
+          e << "The process variable '" << name << "' is not a valid Approxsim process variable.";
           throw e;
      }
 

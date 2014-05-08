@@ -3,9 +3,9 @@
  * @(#)SimpleShape.java
  */
 
-package StratmasClient.object;
+package ApproxsimClient.object;
 
-import StratmasClient.object.type.Type;
+import ApproxsimClient.object.type.Type;
 
 import java.util.Enumeration;
 
@@ -32,8 +32,8 @@ public abstract class Segmented extends SimpleShape {
      */
     public Enumeration getCurves() {
         // We know that Segmented is expected to contain a
-        // StratmasList as its only direct child.
-        StratmasList curves = (StratmasList) this.getChild("curves");
+        // ApproxsimList as its only direct child.
+        ApproxsimList curves = (ApproxsimList) this.getChild("curves");
         return curves.children();
     }
 }

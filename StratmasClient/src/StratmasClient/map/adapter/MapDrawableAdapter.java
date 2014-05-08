@@ -1,4 +1,4 @@
-package StratmasClient.map.adapter;
+package ApproxsimClient.map.adapter;
 
 import javax.swing.event.EventListenerList;
 
@@ -6,26 +6,26 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
-import StratmasClient.object.Shape;
-import StratmasClient.object.Line;
-import StratmasClient.object.Point;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.filter.StratmasObjectAdapter;
-import StratmasClient.map.Projection;
+import ApproxsimClient.object.Shape;
+import ApproxsimClient.object.Line;
+import ApproxsimClient.object.Point;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.filter.ApproxsimObjectAdapter;
+import ApproxsimClient.map.Projection;
 
 import java.io.UnsupportedEncodingException;
 
 import javax.media.opengl.GLAutoDrawable;
 
 /**
- * The adapter which adapts all StratmasObjects that can be drawn on the map.
+ * The adapter which adapts all ApproxsimObjects that can be drawn on the map.
  * 
  * @author Daniel Ahlin, Amir Filipovic
  */
-public abstract class MapDrawableAdapter implements StratmasEventListener,
-        StratmasObjectAdapter {
+public abstract class MapDrawableAdapter implements ApproxsimEventListener,
+        ApproxsimObjectAdapter {
     /**
      * Display list for the object this adapter adapts.
      */
@@ -41,7 +41,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener,
     /**
      * The object this adapter adapts.
      */
-    protected StratmasObject stComp;
+    protected ApproxsimObject stComp;
     /**
      * The listeners of this adapter.
      */
@@ -53,7 +53,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener,
      * @param mapDrawable the mapDrawable to adapt.
      */
     public static MapDrawableAdapter getMapDrawableAdapter(
-            StratmasObject mapDrawable) {
+            ApproxsimObject mapDrawable) {
         if (mapDrawable.getType().canSubstitute("MilitaryUnit")) {
             return new MilitaryUnitAdapter(mapDrawable);
         } else if (mapDrawable.getType().canSubstitute("Population")) {
@@ -83,7 +83,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener,
      * 
      * @param stComp the object to adapt.
      */
-    public MapDrawableAdapter(StratmasObject stComp) {
+    public MapDrawableAdapter(ApproxsimObject stComp) {
         this.setObject(stComp);
     }
 
@@ -99,7 +99,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener,
     /**
      * Sets the target of this adapter.
      */
-    protected void setObject(StratmasObject stComp) {
+    protected void setObject(ApproxsimObject stComp) {
         this.stComp = stComp;
         getObject().addEventListener(this);
     }
@@ -142,7 +142,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener,
     /**
      * Returns the object this adapter adapts.
      */
-    public StratmasObject getObject() {
+    public ApproxsimObject getObject() {
         return stComp;
     }
 
@@ -160,9 +160,9 @@ public abstract class MapDrawableAdapter implements StratmasEventListener,
     }
 
     /**
-     * Returns the StratmasObject this adapter adapts.
+     * Returns the ApproxsimObject this adapter adapts.
      */
-    public StratmasObject getStratmasObject() {
+    public ApproxsimObject getApproxsimObject() {
         return getObject();
     }
 
@@ -181,7 +181,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener,
      * 
      * @param event the event causing the call.
      */
-    public void eventOccured(StratmasEvent event) {
+    public void eventOccured(ApproxsimEvent event) {
         if (event.isChildChanged()) {
             childChanged(event);
         } else if (event.isValueChanged()) {
@@ -199,7 +199,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener,
      * 
      * @param event the event causing the change.
      */
-    protected void childChanged(StratmasEvent event) {
+    protected void childChanged(ApproxsimEvent event) {
         displayListUpdated = false;
         fireAdapterUpdated();
     }
@@ -210,7 +210,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener,
      * 
      * @param event the event causing the change.
      */
-    protected void valueChanged(StratmasEvent event) {}
+    protected void valueChanged(ApproxsimEvent event) {}
 
     /**
      * Returns a list of the listeners of this object.
@@ -220,7 +220,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener,
     }
 
     /**
-     * Adds a listener to the StratmasElementAdapter.
+     * Adds a listener to the ApproxsimElementAdapter.
      * 
      * @param listener the listener to add.
      */
@@ -230,7 +230,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener,
     }
 
     /**
-     * Removes a listener from the StratmasElementAdapter.
+     * Removes a listener from the ApproxsimElementAdapter.
      * 
      * @param listener the listener to add.
      */
@@ -264,7 +264,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener,
      * 
      * @param obj the object added.
      */
-    protected void fireAdapterChildAdded(StratmasObject obj) {
+    protected void fireAdapterChildAdded(ApproxsimObject obj) {
         List<MapDrawableAdapterListener> listeners = getMapDrawableAdapterListenerList();
         for (int i = listeners.size() -1; i >= 0; i--) {
               listeners.get(i).mapDrawableAdapterChildAdded(obj);
@@ -275,7 +275,7 @@ public abstract class MapDrawableAdapter implements StratmasEventListener,
      * Utility function to get a glut compatible ID string for use in GLUT text functions.
      */
     public String getGLUTIDString() throws UnsupportedEncodingException {
-        byte[] buf = getStratmasObject().getIdentifier().getBytes("ISO-8859-1");
+        byte[] buf = getApproxsimObject().getIdentifier().getBytes("ISO-8859-1");
         byte[] newBuf = new byte[2 * buf.length];
 
         int writei = 0;

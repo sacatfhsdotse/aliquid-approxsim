@@ -1,5 +1,5 @@
-#ifndef STRATMAS_TYPEDEFINITION
-#define STRATMAS_TYPEDEFINITION
+#ifndef APPROXSIM_TYPEDEFINITION
+#define APPROXSIM_TYPEDEFINITION
 
 // Own
 #include "Type.h"
@@ -49,4 +49,4 @@ public:
      bool canSubstitute(const Type& type) const;
 };
 
-#endif   // STRATMAS_TYPEDEFINITION
+#endif   // APPROXSIM_TYPEDEFINITION

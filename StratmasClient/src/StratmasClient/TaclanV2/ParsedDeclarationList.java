@@ -3,17 +3,17 @@
  * @(#)ParsedDeclarationList.java
  */
 
-package StratmasClient.TaclanV2;
+package ApproxsimClient.TaclanV2;
 
 import java.util.Vector;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.object.type.TypeInformation;
-import StratmasClient.object.type.Declaration;
-import StratmasClient.object.type.Type;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimObjectFactory;
+import ApproxsimClient.object.type.TypeInformation;
+import ApproxsimClient.object.type.Declaration;
+import ApproxsimClient.object.type.Type;
 
 /**
  * An object representing a sequence of declarations in the Taclan V2 language.
@@ -311,13 +311,13 @@ public class ParsedDeclarationList {
     }
 
     /**
-     * Returns a vector containing the StratmasObject equivalent of the members of this list.
+     * Returns a vector containing the ApproxsimObject equivalent of the members of this list.
      * 
      * @param type the type of the objects in this list.
      */
-    public Vector<StratmasObject> getStratmasObjects(Type type)
+    public Vector<ApproxsimObject> getApproxsimObjects(Type type)
             throws SemanticException {
-        Vector<StratmasObject> result = new Vector<StratmasObject>();
+        Vector<ApproxsimObject> result = new Vector<ApproxsimObject>();
         for (Enumeration ds = type.getSubElements().elements(); ds
                 .hasMoreElements();) {
             Declaration d = (Declaration) ds.nextElement();
@@ -327,10 +327,10 @@ public class ParsedDeclarationList {
                     throw new MissingDeclarationException(d, "");
                 } else if (d.isUnbounded() || d.getMaxOccurs() > 1) {
                     // Here there may be a list, create it, even though it is empty.
-                    result.add(StratmasObjectFactory.createList(d));
+                    result.add(ApproxsimObjectFactory.createList(d));
                 }
             } else {
-                result.add(ps.getStratmasObject(d));
+                result.add(ps.getApproxsimObject(d));
             }
         }
 

@@ -1,4 +1,4 @@
-package StratmasClient.TaclanV2.java_cup.runtime;
+package ApproxsimClient.TaclanV2.java_cup.runtime;
 
 /**
  * Defines the Symbol class, which is used to represent all terminals and nonterminals while parsing. The lexer should pass CUP Symbols and

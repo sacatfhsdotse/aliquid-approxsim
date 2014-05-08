@@ -1,4 +1,4 @@
-package StratmasClient.timeline;
+package ApproxsimClient.timeline;
 
 import java.util.Date;
 import java.util.Enumeration;
@@ -34,18 +34,18 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
-import StratmasClient.Client;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasList;
-import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.object.type.Type;
-import StratmasClient.map.MapConstants;
-import StratmasClient.filter.ActivityTimeFilter;
-import StratmasClient.filter.ActivityResourceFilter;
-import StratmasClient.filter.MilitaryCodeFilter;
-import StratmasClient.filter.TypeFilter;
-import StratmasClient.filter.IdentifierFilter;
+import ApproxsimClient.Client;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimList;
+import ApproxsimClient.object.ApproxsimObjectFactory;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.object.type.Type;
+import ApproxsimClient.map.MapConstants;
+import ApproxsimClient.filter.ActivityTimeFilter;
+import ApproxsimClient.filter.ActivityResourceFilter;
+import ApproxsimClient.filter.MilitaryCodeFilter;
+import ApproxsimClient.filter.TypeFilter;
+import ApproxsimClient.filter.IdentifierFilter;
 
 /**
  * This class implements the various panels used with the timeline.
@@ -516,14 +516,14 @@ public class TimelineDisplayControl {
             private static final long serialVersionUID = -2250180086264966237L;
 
             public void actionPerformed(ActionEvent e) {
-                StratmasObject activity = StratmasObjectFactory
+                ApproxsimObject activity = ApproxsimObjectFactory
                         .create(TypeFactory.getType("CustomPVModification"));
                 IdentifierFilter scFilter = new IdentifierFilter("scenario");
-                StratmasObject scenario = (StratmasObject) scFilter
+                ApproxsimObject scenario = (ApproxsimObject) scFilter
                         .filterTree(tline.getClient().getRootObject())
                         .nextElement();
                 // add new activity
-                ((StratmasList) scenario.getChild("activities"))
+                ((ApproxsimList) scenario.getChild("activities"))
                         .addWithUniqueIdentifier(activity);
             }
         });
@@ -677,9 +677,9 @@ public class TimelineDisplayControl {
         Enumeration mUnits = filter.filterTree(timeline.getClient()
                 .getRootObject());
         for (; mUnits.hasMoreElements();) {
-            StratmasObject scom = (StratmasObject) mUnits.nextElement();
+            ApproxsimObject scom = (ApproxsimObject) mUnits.nextElement();
             if (scom.getType().canSubstitute("MilitaryUnit")
-                    && !(scom instanceof StratmasList)) {
+                    && !(scom instanceof ApproxsimList)) {
                 muBox.addItem(scom);
             }
         }
@@ -694,9 +694,9 @@ public class TimelineDisplayControl {
         okButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String orderName = (String) orderBox.getSelectedItem();
-                StratmasObject activity = StratmasObjectFactory
+                ApproxsimObject activity = ApproxsimObjectFactory
                         .create(TypeFactory.getType(orderName));
-                ((StratmasList) ((StratmasObject) muBox.getSelectedItem())
+                ((ApproxsimList) ((ApproxsimObject) muBox.getSelectedItem())
                         .getChild("activities"))
                         .addWithUniqueIdentifier(activity);
                 dialog.setVisible(false);

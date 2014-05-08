@@ -1,4 +1,4 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import java.text.DecimalFormat;
 import java.util.Vector;
@@ -19,15 +19,15 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import StratmasClient.Client;
-import StratmasClient.object.Shape;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.StratmasConstants;
-import StratmasClient.ProcessVariableDescription;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.communication.RegionData;
-import StratmasClient.map.graph.ProcessVariableXYGraph;
+import ApproxsimClient.Client;
+import ApproxsimClient.object.Shape;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.ApproxsimConstants;
+import ApproxsimClient.ProcessVariableDescription;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.communication.RegionData;
+import ApproxsimClient.map.graph.ProcessVariableXYGraph;
 
 /**
  * This is implementation of a table of values for all process variables and all factions over an arbitrary region. This table is user
@@ -38,7 +38,7 @@ import StratmasClient.map.graph.ProcessVariableXYGraph;
  * @author Amir Filipovic
  */
 public class ProcessVariableTable extends JTable implements MouseListener,
-        StratmasEventListener {
+        ApproxsimEventListener {
     /**
 	 * 
 	 */
@@ -123,12 +123,12 @@ public class ProcessVariableTable extends JTable implements MouseListener,
             ProcessVariableDescription pvd = (ProcessVariableDescription) processVariables
                     .get(i);
             int row = getRow(pvd.getName());
-            int col = getColumn(StratmasConstants.factionAll);
+            int col = getColumn(ApproxsimConstants.factionAll);
             setValueAt("0", row, col);
             if (pvd.hasFactions()) {
                 for (int j = 0; j < factions.size(); j++) {
                     row = getRow(pvd.getName());
-                    col = getColumn(((StratmasObject) factions.get(j))
+                    col = getColumn(((ApproxsimObject) factions.get(j))
                             .getReference().getIdentifier().trim());
                     setValueAt("0", row, col);
                 }
@@ -139,7 +139,7 @@ public class ProcessVariableTable extends JTable implements MouseListener,
     /**
      * Updates the table.
      */
-    public void eventOccured(StratmasEvent e) {
+    public void eventOccured(ApproxsimEvent e) {
         if (e.getSource().equals(actualValues)) {
             update(actualValues.getPV());
         }
@@ -185,11 +185,11 @@ public class ProcessVariableTable extends JTable implements MouseListener,
                     .get(i);
             Hashtable h = (Hashtable) elements.get(pvd.getName());
             if (h != null) {
-                Number num = (Number) h.get(StratmasConstants.factionAll);
+                Number num = (Number) h.get(ApproxsimConstants.factionAll);
                 // faction "All"
                 if (num != null) {
                     int row = getRow(pvd.getName());
-                    int col = getColumn(StratmasConstants.factionAll);
+                    int col = getColumn(ApproxsimConstants.factionAll);
                     if (row != -1 && col != -1) {
                         setValueAt(numToString(num), row, col);
                     }
@@ -197,11 +197,11 @@ public class ProcessVariableTable extends JTable implements MouseListener,
                 // the other factions
                 if (pvd.hasFactions()) {
                     for (int j = 0; j < factions.size(); j++) {
-                        num = (Number) h.get(((StratmasObject) factions.get(j))
+                        num = (Number) h.get(((ApproxsimObject) factions.get(j))
                                 .getReference().getIdentifier().trim());
                         if (num != null) {
                             int row = getRow(pvd.getName());
-                            int col = getColumn(((StratmasObject) factions
+                            int col = getColumn(((ApproxsimObject) factions
                                     .get(j)).getReference().getIdentifier()
                                     .trim());
                             if (row != -1 && col != -1) {
@@ -379,12 +379,12 @@ public class ProcessVariableTable extends JTable implements MouseListener,
                 }
                 // graph containing faction "All"
                 else if (col == 0 || col == 2) {
-                    layoutOneFactionGraph(pv, StratmasConstants.factionAll,
+                    layoutOneFactionGraph(pv, ApproxsimConstants.factionAll,
                                           usedColors[0]);
                 }
                 // graph containing specific faction
                 else if (pv.hasFactions()) {
-                    String actFaction = ((StratmasObject) factions.get(col - 3))
+                    String actFaction = ((ApproxsimObject) factions.get(col - 3))
                             .getReference().getIdentifier().trim();
                     layoutOneFactionGraph(pv, actFaction, usedColors[col - 2]);
                 }
@@ -399,7 +399,7 @@ public class ProcessVariableTable extends JTable implements MouseListener,
                     if (pv.hasFactions()) {
                         layoutAllFactionsGraph(pv);
                     } else {
-                        layoutOneFactionGraph(pv, StratmasConstants.factionAll,
+                        layoutOneFactionGraph(pv, ApproxsimConstants.factionAll,
                                               usedColors[0]);
                     }
                 }
@@ -430,9 +430,9 @@ public class ProcessVariableTable extends JTable implements MouseListener,
     private void layoutAllFactionsGraph(ProcessVariableDescription pv) {
         // get all factions incl. faction "All"
         String[] fac = new String[factions.size() + 1];
-        fac[0] = StratmasConstants.factionAll;
+        fac[0] = ApproxsimConstants.factionAll;
         for (int i = 0; i < factions.size(); i++) {
-            fac[i + 1] = ((StratmasObject) factions.get(i)).getReference()
+            fac[i + 1] = ((ApproxsimObject) factions.get(i)).getReference()
                     .getIdentifier().trim();
         }
         // create the graph

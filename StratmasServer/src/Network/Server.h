@@ -16,8 +16,8 @@
 
 
 class Session;
-class StratmasServerSocket;
-class StratmasSocket;
+class ApproxsimServerSocket;
+class ApproxsimSocket;
 
 
 /**
@@ -32,7 +32,7 @@ private:
      static bool sBigEndian;
 
      /// The socket used to receive connections .
-     StratmasServerSocket* mSocket;
+     ApproxsimServerSocket* mSocket;
 
      /// Current number of sessions.
      int mNumSessions;
@@ -53,7 +53,7 @@ private:
      int64_t mActiveId;
 
      /// Queue used to communicate with the dispatcher thread.
-     TSQueue<StratmasSocket*>      mConQ;
+     TSQueue<ApproxsimSocket*>      mConQ;
 
      /// Used to validate incomming connections.
      ClientValidator* mClientValidator;
@@ -91,7 +91,7 @@ public:
       */
      const std::map<int64_t, Session*>& sessions() const { return mSessions; }
 
-     static void handleTemporarySession(Server& server, StratmasSocket& sock);
+     static void handleTemporarySession(Server& server, ApproxsimSocket& sock);
 };
 
 #endif   // _SERVER_H

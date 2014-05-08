@@ -7,7 +7,7 @@
 // Own
 #include "WinEventSink.h"
 
-std::string WinEventSink::sSourceName("stratmas");
+std::string WinEventSink::sSourceName("approxsim");
 std::string WinEventSink::sServerName("");
 HANDLE WinEventSink::sHandle = 0;
 bool WinEventSink::sEventSourcedRegistered = false;

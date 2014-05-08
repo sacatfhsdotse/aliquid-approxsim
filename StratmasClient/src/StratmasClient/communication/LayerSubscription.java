@@ -1,8 +1,8 @@
-package StratmasClient.communication;
+package ApproxsimClient.communication;
 
 import java.lang.StringBuffer;
 import org.w3c.dom.Element;
-import StratmasClient.object.primitive.Timestamp;
+import ApproxsimClient.object.primitive.Timestamp;
 
 /**
  * This class represents a subsctiption to a Layer.

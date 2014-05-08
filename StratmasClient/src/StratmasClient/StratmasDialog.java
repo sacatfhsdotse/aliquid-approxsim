@@ -1,4 +1,4 @@
-package StratmasClient;
+package ApproxsimClient;
 
 import java.awt.Frame;
 import java.awt.Container;
@@ -13,11 +13,11 @@ import javax.swing.BoxLayout;
 import javax.swing.JOptionPane;
 
 /**
- * This class implements the different dialogs used in STRATMAS.
+ * This class implements the different dialogs used in APPROXSIM.
  * 
  * @author Amir Filipovic
  */
-public class StratmasDialog {
+public class ApproxsimDialog {
     /**
      * Instance of the progress bar dialog.
      */
@@ -83,7 +83,7 @@ public class StratmasDialog {
         contentPane.add(infoField);
         contentPane.add(progressBar);
         // initialize values
-        JDialog dialog = new JDialog(frame, "Stratmas Info Dialog", true);
+        JDialog dialog = new JDialog(frame, "Approxsim Info Dialog", true);
         dialog.setContentPane(contentPane);
         dialog.pack();
         //
@@ -108,7 +108,7 @@ public class StratmasDialog {
      */
     public static void showErrorMessageDialog(Component parentComponent,
             Object message, String title) {
-        StratmasDialog.quitProgressBarDialog();
+        ApproxsimDialog.quitProgressBarDialog();
         JOptionPane.showMessageDialog(parentComponent,
                                       preprocessMessage(message), title,
                                       JOptionPane.ERROR_MESSAGE);
@@ -123,7 +123,7 @@ public class StratmasDialog {
      */
     public static void showWarningMessageDialog(Component parentComponent,
             Object message, String title) {
-        StratmasDialog.quitProgressBarDialog();
+        ApproxsimDialog.quitProgressBarDialog();
         JOptionPane.showMessageDialog(parentComponent,
                                       preprocessMessage(message), title,
                                       JOptionPane.WARNING_MESSAGE);
@@ -146,7 +146,7 @@ public class StratmasDialog {
     public static int showOptionDialog(Component parentComponent,
             Object message, String title, int optionType, int messageType,
             Icon icon, Object[] options, Object initialValue) {
-        StratmasDialog.quitProgressBarDialog();
+        ApproxsimDialog.quitProgressBarDialog();
         // set this dialog as the top component
         progressBarOnTop = false;
         int result = JOptionPane.showOptionDialog(parentComponent,
@@ -167,7 +167,7 @@ public class StratmasDialog {
      */
     public static String showInputDialog(Component parentComponent,
             Object message, Object initialSelectionValue) {
-        StratmasDialog.quitProgressBarDialog();
+        ApproxsimDialog.quitProgressBarDialog();
         return JOptionPane.showInputDialog(parentComponent, message,
                                            initialSelectionValue);
     }

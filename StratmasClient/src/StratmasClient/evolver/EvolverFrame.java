@@ -4,7 +4,7 @@
  * @(#)EvolverFrame.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -58,7 +58,7 @@ public class EvolverFrame extends JFrame {
      * @param evolverGUI the evolverGUI to visualize
      */
     public EvolverFrame(EvolverGUI evolverGUI) {
-        super("StratmasClient Evolver");
+        super("ApproxsimClient Evolver");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.evolverGUI = evolverGUI;
         getContentPane().add(evolverGUI);

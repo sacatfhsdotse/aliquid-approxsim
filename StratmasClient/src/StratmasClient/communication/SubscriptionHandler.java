@@ -1,9 +1,9 @@
-package StratmasClient.communication;
+package ApproxsimClient.communication;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
-import StratmasClient.Debug;
-import StratmasClient.object.primitive.Timestamp;
+import ApproxsimClient.Debug;
+import ApproxsimClient.object.primitive.Timestamp;
 
 /**
  * This class handles subscriptions created by differentother objets. It bundles them up in SubscriptionMessages and passes them on to the
@@ -89,8 +89,8 @@ public class SubscriptionHandler implements Runnable {
             if (o != null) {
                 mQueue.enqueue(sub);
             }
-        } else if (sub instanceof StratmasObjectSubscription) {
-            StratmasObjectSubscription sosub = (StratmasObjectSubscription) sub;
+        } else if (sub instanceof ApproxsimObjectSubscription) {
+            ApproxsimObjectSubscription sosub = (ApproxsimObjectSubscription) sub;
             sosub.setSubscriptionHandler(this);
             mSubs.put(new Integer(sub.id()), sub);
             mQueue.enqueue(sub);
@@ -109,8 +109,8 @@ public class SubscriptionHandler implements Runnable {
             throws ServerException {
         if (sub instanceof Unsubscription) {
             mSubs.remove(new Integer(sub.id()));
-        } else if (sub instanceof StratmasObjectSubscription) {
-            StratmasObjectSubscription sosub = (StratmasObjectSubscription) sub;
+        } else if (sub instanceof ApproxsimObjectSubscription) {
+            ApproxsimObjectSubscription sosub = (ApproxsimObjectSubscription) sub;
             sosub.setSubscriptionHandler(this);
             mSubs.put(new Integer(sub.id()), sub);
         } else {
@@ -124,13 +124,13 @@ public class SubscriptionHandler implements Runnable {
     }
 
     /**
-     * Make Subscriptions listening to StratmasObjects stop listen.
+     * Make Subscriptions listening to ApproxsimObjects stop listen.
      */
     private void disconnectSubscriptionsFromObjects() {
         for (Enumeration en = mSubs.elements(); en.hasMoreElements();) {
             Subscription sub = (Subscription) en.nextElement();
-            if (sub instanceof StratmasObjectSubscription) {
-                ((StratmasObjectSubscription) sub).annihilate();
+            if (sub instanceof ApproxsimObjectSubscription) {
+                ((ApproxsimObjectSubscription) sub).annihilate();
             }
         }
     }
@@ -191,8 +191,8 @@ public class SubscriptionHandler implements Runnable {
         Integer id = new Integer(n.getAttribute("id"));
         Subscription sub = (Subscription) mSubs.get(id);
         if (sub != null) {
-            if (sub instanceof StratmasObjectSubscription) {
-                StratmasObjectSubscription s = (StratmasObjectSubscription) sub;
+            if (sub instanceof ApproxsimObjectSubscription) {
+                ApproxsimObjectSubscription s = (ApproxsimObjectSubscription) sub;
                 Debug.err.println("handling sub for "
                         + s.object().getReference());
             }

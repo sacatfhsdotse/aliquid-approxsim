@@ -1,7 +1,7 @@
 /**
- * \file stratmas.cpp
+ * \file approxsim.cpp
  * 
- * \brief This file contains the main function of the StratmasServer.
+ * \brief This file contains the main function of the ApproxsimServer.
  */
 
 
@@ -75,7 +75,7 @@ int main(int argc, char **argv)
                     << Environment::getDispatcherPort() << logEnd;
                exit(1);
           } else {
-               stratmasDebug("Registered with dispatcher at "
+               approxsimDebug("Registered with dispatcher at "
                      << Environment::getDispatcherHost() << ":" 
                      << Environment::getDispatcherPort());
 

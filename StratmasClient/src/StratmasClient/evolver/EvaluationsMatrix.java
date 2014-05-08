@@ -3,7 +3,7 @@
  * @(#)EvaluationsMatrix.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
 import java.util.Vector;
 import java.util.Hashtable;

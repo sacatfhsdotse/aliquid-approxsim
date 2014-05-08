@@ -170,7 +170,7 @@ void Buffer::transferUpdatesToSimulation()
                Update& u = **it;
                SimulationObject* target = SOMapper::map(u.getTargetRef());
                if (target) {
-                    stratmasDebug("Trying to update target " << target->ref());
+                    approxsimDebug("Trying to update target " << target->ref());
                     target->update(u);
                }
                else {

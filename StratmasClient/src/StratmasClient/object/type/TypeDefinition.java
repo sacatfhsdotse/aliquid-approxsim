@@ -3,7 +3,7 @@
  * @(#)TypeDefinition.java
  */
 
-package StratmasClient.object.type;
+package ApproxsimClient.object.type;
 
 import org.apache.xerces.xs.*;
 
@@ -111,7 +111,7 @@ public class TypeDefinition extends Type {
                 processParticles(group.getParticles());
                 break;
             case XSConstants.WILDCARD:
-                StratmasClient.Debug.err
+                ApproxsimClient.Debug.err
                         .println("FIXME: WILDCARD not implemented.");
                 break;
             default:

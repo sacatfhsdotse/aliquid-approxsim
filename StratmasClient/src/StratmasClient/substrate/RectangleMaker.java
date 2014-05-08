@@ -1,14 +1,14 @@
-package StratmasClient.substrate;
+package ApproxsimClient.substrate;
 
 import java.util.Vector;
 import java.awt.Color;
 
-import StratmasClient.object.Line;
-import StratmasClient.object.Point;
-import StratmasClient.object.Polygon;
-import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.map.adapter.MapDrawableAdapter;
-import StratmasClient.map.adapter.MapShapeAdapter;
+import ApproxsimClient.object.Line;
+import ApproxsimClient.object.Point;
+import ApproxsimClient.object.Polygon;
+import ApproxsimClient.object.ApproxsimObjectFactory;
+import ApproxsimClient.map.adapter.MapDrawableAdapter;
+import ApproxsimClient.map.adapter.MapShapeAdapter;
 
 /**
  * This class implements methods used to construct and change rectangles.
@@ -103,19 +103,19 @@ class RectangleMaker extends ShapeMaker {
      */
     protected void createRectangle(double fixedLon, double fixedLat,
             double steerLon, double steerLat) {
-        Point p1 = StratmasObjectFactory.createPoint("p1", fixedLat, fixedLon);
-        Point p2 = StratmasObjectFactory.createPoint("p2", fixedLat, steerLon);
-        Point p3 = StratmasObjectFactory.createPoint("p1", fixedLat, steerLon);
-        Point p4 = StratmasObjectFactory.createPoint("p2", steerLat, steerLon);
-        Point p5 = StratmasObjectFactory.createPoint("p1", steerLat, steerLon);
-        Point p6 = StratmasObjectFactory.createPoint("p2", steerLat, fixedLon);
-        Point p7 = StratmasObjectFactory.createPoint("p1", steerLat, fixedLon);
-        Point p8 = StratmasObjectFactory.createPoint("p2", fixedLat, fixedLon);
+        Point p1 = ApproxsimObjectFactory.createPoint("p1", fixedLat, fixedLon);
+        Point p2 = ApproxsimObjectFactory.createPoint("p2", fixedLat, steerLon);
+        Point p3 = ApproxsimObjectFactory.createPoint("p1", fixedLat, steerLon);
+        Point p4 = ApproxsimObjectFactory.createPoint("p2", steerLat, steerLon);
+        Point p5 = ApproxsimObjectFactory.createPoint("p1", steerLat, steerLon);
+        Point p6 = ApproxsimObjectFactory.createPoint("p2", steerLat, fixedLon);
+        Point p7 = ApproxsimObjectFactory.createPoint("p1", steerLat, fixedLon);
+        Point p8 = ApproxsimObjectFactory.createPoint("p2", fixedLat, fixedLon);
 
-        line1 = StratmasObjectFactory.createLine("0", p1, p2);
-        line2 = StratmasObjectFactory.createLine("1", p3, p4);
-        line3 = StratmasObjectFactory.createLine("2", p5, p6);
-        line4 = StratmasObjectFactory.createLine("3", p7, p8);
+        line1 = ApproxsimObjectFactory.createLine("0", p1, p2);
+        line2 = ApproxsimObjectFactory.createLine("1", p3, p4);
+        line3 = ApproxsimObjectFactory.createLine("2", p5, p6);
+        line4 = ApproxsimObjectFactory.createLine("3", p7, p8);
 
         Vector lines = new Vector();
         lines.add(line1);
@@ -123,7 +123,7 @@ class RectangleMaker extends ShapeMaker {
         lines.add(line3);
         lines.add(line4);
 
-        polygon = StratmasObjectFactory
+        polygon = ApproxsimObjectFactory
                 .createPolygon("rectangle"
                                        + String.valueOf(createdRectangleCounter++),
                                lines);

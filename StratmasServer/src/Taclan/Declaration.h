@@ -1,5 +1,5 @@
-#ifndef STRATMAS_DECLARATION
-#define STRATMAS_DECLARATION
+#ifndef APPROXSIM_DECLARATION
+#define APPROXSIM_DECLARATION
 
 // System
 #include <iosfwd>
@@ -105,4 +105,4 @@ public:
      friend std::ostream& operator << (std::ostream& o, const Declaration& d);
 };
 
-#endif   // STRATMAS_DECLARATION
+#endif   // APPROXSIM_DECLARATION

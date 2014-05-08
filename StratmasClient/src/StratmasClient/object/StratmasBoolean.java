@@ -1,47 +1,47 @@
-package StratmasClient.object;
+package ApproxsimClient.object;
 
-import StratmasClient.object.type.Type;
-import StratmasClient.object.type.Declaration;
-import StratmasClient.object.type.TypeFactory;
+import ApproxsimClient.object.type.Type;
+import ApproxsimClient.object.type.Declaration;
+import ApproxsimClient.object.type.TypeFactory;
 
-import StratmasClient.object.primitive.Identifier;
+import ApproxsimClient.object.primitive.Identifier;
 
 import org.w3c.dom.Element;
 
 import java.text.ParseException;
 
 /**
- * StratmasBoolean is a Stratmas adapter for booleans.
+ * ApproxsimBoolean is a Approxsim adapter for booleans.
  * 
  * @version 1, $Date: 2006/04/10 09:45:55 $
  * @author Per Alexius
  */
 
-public class StratmasBoolean extends StratmasSimple {
+public class ApproxsimBoolean extends ApproxsimSimple {
     /**
      * The actual boolean this object represents.
      */
     boolean value;
 
     /**
-     * Creates a new StratmasBoolean.
+     * Creates a new ApproxsimBoolean.
      * 
      * @param identifier the identifier for the object.
      * @param type the type of the object.
      * @param value the value of the object.
      */
-    protected StratmasBoolean(String identifier, Type type, boolean value) {
+    protected ApproxsimBoolean(String identifier, Type type, boolean value) {
         super(identifier, type);
         this.value = value;
     }
 
     /**
-     * Creates a new StratmasBoolean from a Declaration.
+     * Creates a new ApproxsimBoolean from a Declaration.
      * 
      * @param declaration the declaration for this object.
      * @param value the value of the string.
      */
-    protected StratmasBoolean(Declaration declaration, boolean value) {
+    protected ApproxsimBoolean(Declaration declaration, boolean value) {
         super(declaration);
         this.value = value;
     }
@@ -92,23 +92,23 @@ public class StratmasBoolean extends StratmasSimple {
     }
 
     /**
-     * Returns a StratmasGUIConstructor suitable for constructing objects of this type.
+     * Returns a ApproxsimGUIConstructor suitable for constructing objects of this type.
      * 
      * @param declaration the declaration for which the GUI is created.
      */
-    protected static StratmasGUIConstructor getGUIConstructor(
+    protected static ApproxsimGUIConstructor getGUIConstructor(
             Declaration declaration) {
-        return new StratmasBooleanGUIConstructor(declaration);
+        return new ApproxsimBooleanGUIConstructor(declaration);
     }
 
     /**
-     * Creates a StratmasBoolean from a DOM element.
+     * Creates a ApproxsimBoolean from a DOM element.
      * 
      * @param n The dom element from which the object is created.
      */
-    protected static StratmasObject domCreate(Element n) {
+    protected static ApproxsimObject domCreate(Element n) {
         try {
-            return new StratmasBoolean(Identifier.getIdentifier(n),
+            return new ApproxsimBoolean(Identifier.getIdentifier(n),
                     TypeFactory.getType(n), XMLHelper.getBoolean(n, "value"));
         } catch (NumberFormatException e) {
             return null;
@@ -116,14 +116,14 @@ public class StratmasBoolean extends StratmasSimple {
     }
 
     /**
-     * Creates a StratmasBoolean from the specified Declaration.
+     * Creates a ApproxsimBoolean from the specified Declaration.
      * <p>
      * author Per Alexius
      * 
      * @param declaration The declaration for which the object is created.
      */
-    protected static StratmasObject defaultCreate(Declaration declaration) {
-        return new StratmasBoolean(declaration, false);
+    protected static ApproxsimObject defaultCreate(Declaration declaration) {
+        return new ApproxsimBoolean(declaration, false);
     }
 
     /**
@@ -133,17 +133,17 @@ public class StratmasBoolean extends StratmasSimple {
      * @return A clone of this object.
      */
     protected Object clone() {
-        return new StratmasBoolean(identifier, type, value);
+        return new ApproxsimBoolean(identifier, type, value);
     }
 }
 
 /**
- * StratmasBooleanGUIConstructor creates GUIs for creating StratmasBoolean objects.
+ * ApproxsimBooleanGUIConstructor creates GUIs for creating ApproxsimBoolean objects.
  * 
  * @version 1, $Date: 2006/04/10 09:45:55 $
  * @author Per Alexius
  */
-class StratmasBooleanGUIConstructor extends StratmasGUIConstructor {
+class ApproxsimBooleanGUIConstructor extends ApproxsimGUIConstructor {
     /**
 	 * 
 	 */
@@ -151,11 +151,11 @@ class StratmasBooleanGUIConstructor extends StratmasGUIConstructor {
     javax.swing.JComboBox field;
 
     /**
-     * Creates a new StratmasBooleanGUIConstructor using the supplied declaration.
+     * Creates a new ApproxsimBooleanGUIConstructor using the supplied declaration.
      * 
      * @param declaration the declaration to use.
      */
-    public StratmasBooleanGUIConstructor(Declaration declaration) {
+    public ApproxsimBooleanGUIConstructor(Declaration declaration) {
         super(declaration);
     }
 
@@ -170,10 +170,10 @@ class StratmasBooleanGUIConstructor extends StratmasGUIConstructor {
     }
 
     /**
-     * Tries to create the StratmasObject from the values in the GUI.
+     * Tries to create the ApproxsimObject from the values in the GUI.
      */
-    protected void createStratmasObject() {
-        setStratmasObject(new StratmasBoolean(this.declaration,
+    protected void createApproxsimObject() {
+        setApproxsimObject(new ApproxsimBoolean(this.declaration,
                 ((Boolean) field.getSelectedItem()).booleanValue()));
     }
 }

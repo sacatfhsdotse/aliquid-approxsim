@@ -3,9 +3,9 @@
  * @(#)Passfilter.java
  */
 
-package StratmasClient.filter;
+package ApproxsimClient.filter;
 
-import StratmasClient.object.StratmasObject;
+import ApproxsimClient.object.ApproxsimObject;
 
 /**
  * PassFilter filters passes everything, unless inverted.
@@ -14,7 +14,7 @@ import StratmasClient.object.StratmasObject;
  * @author Daniel Ahlin
  */
 
-public class PassFilter extends StratmasObjectFilter {
+public class PassFilter extends ApproxsimObjectFilter {
     /**
      * Creates a new PassFilter allowing everything
      */
@@ -23,11 +23,11 @@ public class PassFilter extends StratmasObjectFilter {
     }
 
     /**
-     * Returns true if the provided StratmasObject passes the filter.
+     * Returns true if the provided ApproxsimObject passes the filter.
      * 
      * @param sObj the object to test
      */
-    public boolean pass(StratmasObject sObj) {
+    public boolean pass(ApproxsimObject sObj) {
         return applyInverted(true);
     }
 }

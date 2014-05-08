@@ -15,30 +15,30 @@
 #include "Log4C.h"
 #include "../Environment.h"
 
-log4cxx::LoggerPtr agenciesLog(log4cxx::Logger::getLogger("stratmas.agencies")),
- dataManagementLog(log4cxx::Logger::getLogger("stratmas.dataManagement")),
- debugLog(log4cxx::Logger::getLogger("stratmas.debug")),
- geoLog(log4cxx::Logger::getLogger("stratmas.geo")),
- networkLog(log4cxx::Logger::getLogger("stratmas.network")),
- pvLog(log4cxx::Logger::getLogger("stratmas.pv")),
- simulationObjectsLog(log4cxx::Logger::getLogger("stratmas.simulationObjects")),
- taclanLog(log4cxx::Logger::getLogger("stratmas.taclan")),
- stratmasLog(log4cxx::Logger::getLogger("stratmas.log"));
+log4cxx::LoggerPtr agenciesLog(log4cxx::Logger::getLogger("approxsim.agencies")),
+ dataManagementLog(log4cxx::Logger::getLogger("approxsim.dataManagement")),
+ debugLog(log4cxx::Logger::getLogger("approxsim.debug")),
+ geoLog(log4cxx::Logger::getLogger("approxsim.geo")),
+ networkLog(log4cxx::Logger::getLogger("approxsim.network")),
+ pvLog(log4cxx::Logger::getLogger("approxsim.pv")),
+ simulationObjectsLog(log4cxx::Logger::getLogger("approxsim.simulationObjects")),
+ taclanLog(log4cxx::Logger::getLogger("approxsim.taclan")),
+ approxsimLog(log4cxx::Logger::getLogger("approxsim.log"));
 
 
 const bool logDebug = false;
 
 void Log4CexitHook(){
-    LOG_FATAL(stratmasLog, "--Shutting down--\n");
+    LOG_FATAL(approxsimLog, "--Shutting down--\n");
 }
 
 void Log4C::init(const boost::filesystem::path& config){
     if(exists(config)){
         //try{
             std::string installDir = (Environment::getInstallDir() / "/").string();
-            apr_env_set("stratmas.install", installDir.c_str(), Environment::apr_pool);
+            apr_env_set("approxsim.install", installDir.c_str(), Environment::apr_pool);
 
-            if(logDebug) std::cout << "stratmas.install = " << log4cxx::helpers::System::getProperty("stratmas.install") << std::endl;
+            if(logDebug) std::cout << "approxsim.install = " << log4cxx::helpers::System::getProperty("approxsim.install") << std::endl;
 
             log4cxx::xml::DOMConfigurator::configureAndWatch(config.string());
             
@@ -66,14 +66,14 @@ void Log4C::init(const boost::filesystem::path& config){
         }*/
     }else{
         log4cxx::BasicConfigurator::configure();
-        LOG4CXX_ERROR(stratmasLog, "Log4C config \"" << config << "\" not found, using default configuration." )
+        LOG4CXX_ERROR(approxsimLog, "Log4C config \"" << config << "\" not found, using default configuration." )
     }
 
-    LOG_INFO(stratmasLog, "Logging started");
+    LOG_INFO(approxsimLog, "Logging started");
 
     //TODO not working
-    Log4SinkDebug* log4debug = new Log4SinkDebug("stratmas.debug");
-    Log4SinkInfo* log4info = new Log4SinkInfo("stratmas.info");
+    Log4SinkDebug* log4debug = new Log4SinkDebug("approxsim.debug");
+    Log4SinkInfo* log4info = new Log4SinkInfo("approxsim.info");
 
     slog.setLogSink(log4info);
     debug.setLogSink(log4debug);

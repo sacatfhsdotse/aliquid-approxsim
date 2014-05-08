@@ -1,52 +1,52 @@
-sp = "http://pdc.kth.se/stratmasNamespace"
-targetNamespace = "http://pdc.kth.se/stratmasNamespace">
+sp = "http://pdc.kth.se/approxsimNamespace"
+targetNamespace = "http://pdc.kth.se/approxsimNamespace">
 
 <!-- Description -->
-      A test schema for the Stratmas client server protocol
+      A test schema for the Approxsim client server protocol
 
 include "taclan2sim.xsd"
 include "subscription.xsd"
 include "processVariables.xsd"
 include "substrateXML.xsd"
 
-stratmasMessage: sp.StratmasMessage
+approxsimMessage: sp.ApproxsimMessage
 root: sp.Root
 
   <!-- Messages -->
 
-abstract StratmasMessage
+abstract ApproxsimMessage
 
   <!-- Client -> Server Messages -->
 
-ConnectMessage < sp.StratmasMessage {
+ConnectMessage < sp.ApproxsimMessage {
   bigEndian: boolean
 }
 
-DisconnectMessage < sp.StratmasMessage {}
+DisconnectMessage < sp.ApproxsimMessage {}
 
-ServerCapabilitiesMessage < sp.StratmasMessage {}
+ServerCapabilitiesMessage < sp.ApproxsimMessage {}
 
-InitializationMessage < sp.StratmasMessage {
+InitializationMessage < sp.ApproxsimMessage {
   simulation: sp.Simulation
   pvinitvalues*: sp.ProcessVariableInitialValues
 }
 
-GetGridMessage < sp.StratmasMessage {}
+GetGridMessage < sp.ApproxsimMessage {}
 
-RegisterForUpdatesMessage < sp.StratmasMessage {
+RegisterForUpdatesMessage < sp.ApproxsimMessage {
   register: bool
 }
 
-SubscriptionMessage < sp.StratmasMessage {
+SubscriptionMessage < sp.ApproxsimMessage {
   subscription+: sp.Subscription
 }
 
-StepMessage < sp.StratmasMessage {
+StepMessage < sp.ApproxsimMessage {
   numberOfTimesteps: nonNegativeInt
   detached?: bool
 }
 
-UpdateServerMessage < sp.StratmasMessage {
+UpdateServerMessage < sp.ApproxsimMessage {
   update*: sp.ServerUpdate
 }
 
@@ -68,20 +68,20 @@ ServerUpdateModify < sp.ServerUpdate {
   newValue: sp.ValueType
 }
 
-ResetMessage < sp.StratmasMessage {}
+ResetMessage < sp.ApproxsimMessage {}
 
-SetPropertyMessage < sp.StratmasMessage {
+SetPropertyMessage < sp.ApproxsimMessage {
   property: string
   value: string
 }
 
   <!-- Server -> Client messges -->
 
-ConnectResponseMessage < sp.StratmasMessage {
+ConnectResponseMessage < sp.ApproxsimMessage {
   active: bool
 }
 
-GetGridResponseMessage < sp.StratmasMessage {
+GetGridResponseMessage < sp.ApproxsimMessage {
   gridData: sp.Grid
 }
 
@@ -108,7 +108,7 @@ RegionData {
   cells: base64Binary
 }
 
-StatusMessage < sp.StratmasMessage {
+StatusMessage < sp.ApproxsimMessage {
   type: string
   error*: sp.Error
 }
@@ -120,11 +120,11 @@ Error {
 
 ErrorType < string (matching /warning|general|fatal/)
 
-ServerCapabilitiesResponseMessage < sp.StratmasMessage {
+ServerCapabilitiesResponseMessage < sp.ApproxsimMessage {
   processVariables: sp.ProcessVariableDescriptionSet
 }
 
-UpdateClientMessage < sp.StratmasMessage {
+UpdateClientMessage < sp.ApproxsimMessage {
   simulationTime: sp.Timestamp
   update?: sp.Update
   subscribedData*: sp.SubscribedData
@@ -157,11 +157,11 @@ UpdateModify < sp.Update {
 
   <!-- Dispatcher -> Server Messages -->
 
-LoadQueryMessage < sp.StratmasMessage {}
+LoadQueryMessage < sp.ApproxsimMessage {}
 
   <!-- Server -> Dispatcher messges -->
 
-LoadQueryResponseMessage < sp.StratmasMessage {
+LoadQueryResponseMessage < sp.ApproxsimMessage {
   hasActiveClient: bool
   simulation*: sp.Identifier
 }

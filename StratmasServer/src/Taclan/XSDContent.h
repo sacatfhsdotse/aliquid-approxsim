@@ -1,5 +1,5 @@
-#ifndef STRATMAS_XSDCONTENT_H
-#define STRATMAS_XSDCONTENT_H
+#ifndef APPROXSIM_XSDCONTENT_H
+#define APPROXSIM_XSDCONTENT_H
 
 // System
 #include <map>
@@ -53,4 +53,4 @@ public:
      const Type& getType(const std::string& typeName, const std::string& nameSpace);
 };
 
-#endif   // STRATMAS_XSDCONTENT_H
+#endif   // APPROXSIM_XSDCONTENT_H

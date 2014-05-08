@@ -3,7 +3,7 @@
  * equal()ity. Simple. Resolution from key to object is done on demand by a MRUCache.Getter object.
  */
 
-package StratmasClient.symbolloader;
+package ApproxsimClient.symbolloader;
 
 class MRUCache {
     // An entry in the cache. Retains key, value associated with key,

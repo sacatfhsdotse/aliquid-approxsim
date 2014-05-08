@@ -3,7 +3,7 @@
  * @(#)DefaultEvaluator.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
 import javax.swing.event.EventListenerList;
 

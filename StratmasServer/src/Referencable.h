@@ -1,5 +1,5 @@
-#ifndef STRATMAS_REFERENCABLE_H
-#define STRATMAS_REFERENCABLE_H
+#ifndef APPROXSIM_REFERENCABLE_H
+#define APPROXSIM_REFERENCABLE_H
 
 // Xerces
 #include <xercesc/util/XercesDefs.hpp>
@@ -57,4 +57,4 @@ public:
      const Reference& ref() const { return *mReference; }
 };
 
-#endif   // STRATMAS_REFERENCABLE_H
+#endif   // APPROXSIM_REFERENCABLE_H

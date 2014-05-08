@@ -3,7 +3,7 @@
  * @(#)GLScreenShotHandler.java
  */
 
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GL2;

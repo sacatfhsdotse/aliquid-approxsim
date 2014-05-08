@@ -3,7 +3,7 @@
  * @(#)TypeErrorException.java
  */
 
-package StratmasClient.TaclanV2;
+package ApproxsimClient.TaclanV2;
 
 public class TypeErrorException extends SemanticException {
     /**

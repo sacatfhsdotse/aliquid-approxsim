@@ -1,5 +1,5 @@
-#ifndef _STRATMASBASICGRID_H
-#define _STRATMASBASICGRID_H
+#ifndef _APPROXSIMBASICGRID_H
+#define _APPROXSIMBASICGRID_H
 
 // System
 #include <iosfwd>
@@ -203,4 +203,4 @@ public:
      friend std::ostream &operator << (std::ostream& o, const BasicGrid& g);
 };
 
-#endif    // _STRATMASBASICGRID_H
+#endif    // _APPROXSIMBASICGRID_H

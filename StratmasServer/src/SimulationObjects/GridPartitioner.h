@@ -1,5 +1,5 @@
-#ifndef STRATMAS_GRIDPARTITIONER_H
-#define STRATMAS_GRIDPARTITIONER_H
+#ifndef APPROXSIM_GRIDPARTITIONER_H
+#define APPROXSIM_GRIDPARTITIONER_H
 
 // Own
 #include "SimulationObject.h"
@@ -74,4 +74,4 @@ public:
      double cellSideMeters() { return mCellSideMeters; }
 };
 
-#endif   // STRATMAS_GRIDPARTITIONER_H
+#endif   // APPROXSIM_GRIDPARTITIONER_H

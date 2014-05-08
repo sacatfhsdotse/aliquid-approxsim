@@ -2,8 +2,8 @@
 
 /* Partly accomodates lack of stdint.h on different plattforms. */
 
-#ifndef STRATMAS_STDINT_H
-#define STRATMAS_STDINT_H
+#ifndef APPROXSIM_STDINT_H
+#define APPROXSIM_STDINT_H
 
 // Platform Dependent
 #ifdef OS_SOLARIS
@@ -27,4 +27,4 @@ typedef unsigned __int8 uint8_t;
 #endif
 
 #endif 
-/* STRATMAS_STDINT_H */
+/* APPROXSIM_STDINT_H */

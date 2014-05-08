@@ -1,10 +1,10 @@
-package StratmasClient.communication;
+package ApproxsimClient.communication;
 
 import java.io.*;
 import java.net.*;
 
 /**
- * Wrapper around Socket class that may send and receive stratmas messages. A stratmas message has the following structure.
+ * Wrapper around Socket class that may send and receive approxsim messages. A approxsim message has the following structure.
  * <p>
  * <t> |---length---|---id----|---xml content---|
  * <p>
@@ -15,7 +15,7 @@ import java.net.*;
  * @version 1, $Date: 2006/09/11 09:33:42 $
  * @author Per Alexius
  */
-public class StratmasSocket {
+public class ApproxsimSocket {
     /** The id of the session. */
     private long mId;
     /** The socket. */
@@ -26,7 +26,7 @@ public class StratmasSocket {
     private DataInputStream mIn;
 
     /** Default constructor. */
-    public StratmasSocket() {
+    public ApproxsimSocket() {
         mId = -1;
     }
 
@@ -95,7 +95,7 @@ public class StratmasSocket {
     }
 
     /**
-     * Opens a connection to a stratmas server.
+     * Opens a connection to a approxsim server.
      * 
      * @param host The name of the host to connect to.
      * @param port The port to connect to.
@@ -109,7 +109,7 @@ public class StratmasSocket {
     }
 
     /**
-     * Sends a stratmas message.
+     * Sends a approxsim message.
      * 
      * @param msg The message to be sent (xml).
      */
@@ -124,7 +124,7 @@ public class StratmasSocket {
     }
 
     /**
-     * Receives a stratmas message. Blocks until a message is received.
+     * Receives a approxsim message. Blocks until a message is received.
      * 
      * @return The message received (xml).
      */

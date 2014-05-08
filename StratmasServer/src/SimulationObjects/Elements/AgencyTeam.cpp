@@ -20,7 +20,7 @@
 #include "Reference.h"
 #include "Shape.h"
 #include "SOFactory.h"
-#include "StratmasConstants.h"
+#include "ApproxsimConstants.h"
 #include "Type.h"
 
 
@@ -324,7 +324,7 @@ void FoodAgencyTeam::act(Time now)
      mLocation->move(mGoal);
 //     mLat = mGoal.lat();
 //     mLng = mGoal.lng();
-//     stratmasDebug("FoodTeam has location (lat, lng): " << location().center().lat() << ", " << location().center().lng());
+//     approxsimDebug("FoodTeam has location (lat, lng): " << location().center().lat() << ", " << location().center().lng());
 
      // Do our thing...
      list<GridPos> cells;
@@ -398,7 +398,7 @@ void WaterAgencyTeam::act(Time now)
      }
      // Move - Teleport for now...
      mLocation->move(mGoal);
-//     stratmasDebug("WaterTeam has location (lat, lng): " << location().center().lat() << ", " << location().center().lng());
+//     approxsimDebug("WaterTeam has location (lat, lng): " << location().center().lat() << ", " << location().center().lng());
 
      // Do our thing...
      list<GridPos> cells;
@@ -455,16 +455,16 @@ void ShelterAgencyTeam::act(Time now)
      else if (!mCamp) {
           // Move - Teleport for now...
           mLocation->move(mGoal);
-//          stratmasDebug("ShelterTeam has location (lat, lng): " << location().center().lat() << ", " << location().center().lng());
+//          approxsimDebug("ShelterTeam has location (lat, lng): " << location().center().lat() << ", " << location().center().lng());
 
           // We've been ordered to build a camp but we haven't started yet so
           // let's start building.
           mCamp = new Camp(Reference::get(ref(), "camp"), location(), mGrid->factions());
-          stratmasDebug("%%%%% Building Camp at location: " << mCamp->center().lat() << ", " << mCamp->center().lng());
+          approxsimDebug("%%%%% Building Camp at location: " << mCamp->center().lat() << ", " << mCamp->center().lng());
           GridCell *ccc = mGrid->cell(mCamp->center());
           if (ccc) {
                mGrid->notifyAboutCamp(mCamp);
-               stratmasDebug("Row, col: " << ccc->row() << ", " << ccc->col());
+               approxsimDebug("Row, col: " << ccc->row() << ", " << ccc->col());
           }
           else {
                slog << "NULL cell for Camp in ShelterAgencyTeam::act()" << logEnd;
@@ -549,7 +549,7 @@ void HealthAgencyTeam::act(Time now)
      }
      // Move - Teleport for now...
      mLocation->move(mGoal);
-//     stratmasDebug("HealthTeam has location (lat, lng): " << location().center().lat() << ", " << location().center().lng());
+//     approxsimDebug("HealthTeam has location (lat, lng): " << location().center().lat() << ", " << location().center().lng());
 
      // Do our thing...
      list<GridPos> cells;
@@ -570,7 +570,7 @@ void HealthAgencyTeam::act(Time now)
                sumServed += c->pvfGet(ePopulation);
           }
      }
-//     FIXME... probably... stratmasDebug("Should increase recovered here!!!");
+//     FIXME... probably... approxsimDebug("Should increase recovered here!!!");
 }
 
 
@@ -589,7 +589,7 @@ void PoliceAgencyTeam::act(Time now)
      }
      // Move - Teleport for now...
      mLocation->move(mGoal);
-//     stratmasDebug("PoliceTeam has location (lat, lng): " << location().center().lat() << ", " << location().center().lng());
+//     approxsimDebug("PoliceTeam has location (lat, lng): " << location().center().lat() << ", " << location().center().lng());
 
      // Do our thing...
      list<GridPos> cells;
@@ -650,13 +650,13 @@ void CustomAgencyTeam::createEffects() {
      if (!targetFaction) {
           Error e;
           e << "Tried to create effects in CustomAgencyTeam but couldn't map the Reference '" << *mTarget;
-          e << "' to any ethnic faction.\nStratmas does not yet support other targets for Activities";
+          e << "' to any ethnic faction.\nApproxsim does not yet support other targets for Activities";
           throw e;
      }
 
      mEffects.clear();
      for (std::map<string, double>::iterator it = mSeverities.begin(); it != mSeverities.end(); it++) {
-//          stratmasDebug("  " << it->first << " - " << it->second);
+//          approxsimDebug("  " << it->first << " - " << it->second);
           addEffect(PVHelper::nameToOverAllOrder(it->first), it->second, targetFaction);
      }
 }

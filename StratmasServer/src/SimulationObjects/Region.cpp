@@ -10,7 +10,7 @@
 #include "Reference.h"
 #include "Region.h"
 #include "Shape.h"
-#include "StratmasConstants.h"
+#include "ApproxsimConstants.h"
 #include "Update.h"
 
 using namespace std;

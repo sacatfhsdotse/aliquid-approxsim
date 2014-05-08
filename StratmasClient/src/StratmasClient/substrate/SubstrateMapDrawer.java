@@ -1,4 +1,4 @@
-package StratmasClient.substrate;
+package ApproxsimClient.substrate;
 
 import java.nio.IntBuffer;
 import java.util.Stack;
@@ -17,26 +17,26 @@ import javax.media.opengl.GL2;
 import javax.media.opengl.awt.GLCanvas;
 import com.jogamp.common.nio.Buffers;
 
-import StratmasClient.BoundingBox;
-import StratmasClient.StratmasDialog;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.object.StratmasList;
-import StratmasClient.object.Shape;
-import StratmasClient.object.Point;
-import StratmasClient.object.Line;
-import StratmasClient.object.SimpleShape;
-import StratmasClient.map.BasicMap;
-import StratmasClient.map.BasicMapDrawer;
-import StratmasClient.map.RenderSelection;
-import StratmasClient.map.Region;
-import StratmasClient.map.ZoomAndScale;
-import StratmasClient.map.MapPoint;
-import StratmasClient.map.Projection;
-import StratmasClient.map.adapter.MapDrawableAdapter;
-import StratmasClient.map.adapter.MapShapeAdapter;
-import StratmasClient.map.adapter.MapPointAdapter;
-import StratmasClient.map.adapter.MapLineAdapter;
+import ApproxsimClient.BoundingBox;
+import ApproxsimClient.ApproxsimDialog;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimObjectFactory;
+import ApproxsimClient.object.ApproxsimList;
+import ApproxsimClient.object.Shape;
+import ApproxsimClient.object.Point;
+import ApproxsimClient.object.Line;
+import ApproxsimClient.object.SimpleShape;
+import ApproxsimClient.map.BasicMap;
+import ApproxsimClient.map.BasicMapDrawer;
+import ApproxsimClient.map.RenderSelection;
+import ApproxsimClient.map.Region;
+import ApproxsimClient.map.ZoomAndScale;
+import ApproxsimClient.map.MapPoint;
+import ApproxsimClient.map.Projection;
+import ApproxsimClient.map.adapter.MapDrawableAdapter;
+import ApproxsimClient.map.adapter.MapShapeAdapter;
+import ApproxsimClient.map.adapter.MapPointAdapter;
+import ApproxsimClient.map.adapter.MapLineAdapter;
 
 /**
  * This class is used to display shapes for regions and population centers as well as to create new shapes. Further on, all the shapes can
@@ -504,7 +504,7 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
             // add new point to the polygon
             else if (substrateMode == CREATE_POLYGON_MODE) {
                 if (!((PolygonMaker) shapeMaker).isPolygonCompleted()) {
-                    ((PolygonMaker) shapeMaker).addPoint(StratmasObjectFactory
+                    ((PolygonMaker) shapeMaker).addPoint(ApproxsimObjectFactory
                             .createPoint("p1", p.getLat(), p.getLon()));
                 }
             }
@@ -514,7 +514,7 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
                 if (!mlAdapters.isEmpty()) {
                     MapLineAdapter mlAdapter = (MapLineAdapter) mlAdapters
                             .firstElement();
-                    Point newPoint = StratmasObjectFactory.createPoint("p1", p
+                    Point newPoint = ApproxsimObjectFactory.createPoint("p1", p
                             .getLat(), p.getLon());
                     ((PolygonMaker) shapeMaker)
                             .insertPoint(newPoint, mlAdapter);
@@ -749,7 +749,7 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
      * Displays the dialog when the created shape is not valid.
      */
     private void showShapeErrorDialog() {
-        StratmasDialog.showErrorMessageDialog(null, "Not valid area!",
+        ApproxsimDialog.showErrorMessageDialog(null, "Not valid area!",
                                               "Area definition!");
     }
 
@@ -1196,19 +1196,19 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
     }
 
     /**
-     * Returns all the shape adapters such that the given StratmasObjects is ancestor of the adapted shapes.
+     * Returns all the shape adapters such that the given ApproxsimObjects is ancestor of the adapted shapes.
      * 
-     * @param so the actual StratmasObject.
+     * @param so the actual ApproxsimObject.
      * @return the list of shape adapters.
      */
     protected Vector<MapDrawableAdapter> getChildrenShapeAdapters(
-            StratmasObject so) {
+            ApproxsimObject so) {
         Vector<MapDrawableAdapter> childrenAdapters = new Vector<MapDrawableAdapter>();
         for (Enumeration<MapDrawableAdapter> e = mapDrawableAdapters.elements(); e
                 .hasMoreElements();) {
             MapDrawableAdapter mda = e.nextElement();
             if (mda instanceof MapShapeAdapter) {
-                StratmasObject sObj = mda.getObject();
+                ApproxsimObject sObj = mda.getObject();
                 if (sObj.isAncestor(so)) {
                     childrenAdapters.add(mda);
                 }
@@ -1222,8 +1222,8 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
      * 
      * @param so the actual object.
      */
-    private Shape getParentShape(StratmasObject so) {
-        StratmasObject walker = so.getParent();
+    private Shape getParentShape(ApproxsimObject so) {
+        ApproxsimObject walker = so.getParent();
         while (walker != null && !(walker instanceof Shape)) {
             walker = walker.getParent();
         }
@@ -1238,9 +1238,9 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
         if (shapeName.equals("map")) {
             return new String("Complete Region");
         }
-        StratmasObject walker = shape.getParent();
+        ApproxsimObject walker = shape.getParent();
         while (walker != null && !walker.getIdentifier().equals("map")) {
-            if (!(walker instanceof StratmasList)) {
+            if (!(walker instanceof ApproxsimList)) {
                 shapeName = walker.getIdentifier().concat(" - ")
                         .concat(shapeName);
             }

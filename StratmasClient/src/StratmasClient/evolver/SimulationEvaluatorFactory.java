@@ -3,13 +3,13 @@
  * @(#)SimulationEvaluatorFactory.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
-import StratmasClient.dispatcher.StratmasDispatcher;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.communication.StratmasSocket;
+import ApproxsimClient.dispatcher.ApproxsimDispatcher;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.communication.ApproxsimSocket;
 
 /**
  * Provides an Evolver with SimulatorEvaluator instances
@@ -18,16 +18,16 @@ import StratmasClient.communication.StratmasSocket;
  * @author Daniel Ahlin
  */
 public abstract class SimulationEvaluatorFactory implements EvaluatorFactory,
-        StratmasEventListener {
+        ApproxsimEventListener {
     /**
      * The dispatcher used by this factory
      */
-    StratmasDispatcher dispatcher;
+    ApproxsimDispatcher dispatcher;
 
     /**
      * The simulation to simulate
      */
-    StratmasObject simulation = null;
+    ApproxsimObject simulation = null;
 
     /**
      * Creates a new factory.
@@ -35,8 +35,8 @@ public abstract class SimulationEvaluatorFactory implements EvaluatorFactory,
      * @param dispatcher the dispatcher to use when allocating new servers.
      * @param simulation the simulation to simulate.
      */
-    SimulationEvaluatorFactory(StratmasDispatcher dispatcher,
-            StratmasObject simulation) {
+    SimulationEvaluatorFactory(ApproxsimDispatcher dispatcher,
+            ApproxsimObject simulation) {
         this.dispatcher = dispatcher;
         setSimulation(simulation);
     }
@@ -61,7 +61,7 @@ public abstract class SimulationEvaluatorFactory implements EvaluatorFactory,
      * 
      * @param simulation the simulation to use.
      */
-    void setSimulation(StratmasObject simulation) {
+    void setSimulation(ApproxsimObject simulation) {
         if (getSimulation() != null) {
             getSimulation().removeEventListener(this);
         }
@@ -76,7 +76,7 @@ public abstract class SimulationEvaluatorFactory implements EvaluatorFactory,
     /**
      * Returns the simulation to simulate.
      */
-    StratmasObject getSimulation() {
+    ApproxsimObject getSimulation() {
         return this.simulation;
     }
 
@@ -85,7 +85,7 @@ public abstract class SimulationEvaluatorFactory implements EvaluatorFactory,
      * 
      * @param event the event.
      */
-    public void eventOccured(StratmasEvent event) {
+    public void eventOccured(ApproxsimEvent event) {
         if (event.isRemoved() || event.isReplaced()) {
             setSimulation(null);
         }
@@ -101,7 +101,7 @@ public abstract class SimulationEvaluatorFactory implements EvaluatorFactory,
      * could be created.
      */
     ServerSession createServerSession() {
-        StratmasSocket socket = getDispatcher().allocateServer(10);
+        ApproxsimSocket socket = getDispatcher().allocateServer(10);
         if (socket != null) {
             return new DefaultServerSession(socket);
         } else {
@@ -112,7 +112,7 @@ public abstract class SimulationEvaluatorFactory implements EvaluatorFactory,
     /**
      * Returns the dispatcher used by this factory.
      */
-    public StratmasDispatcher getDispatcher() {
+    public ApproxsimDispatcher getDispatcher() {
         return this.dispatcher;
     }
 }

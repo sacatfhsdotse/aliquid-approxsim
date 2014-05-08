@@ -3,7 +3,7 @@
  * @(#)ParsedBoolean.java
  */
 
-package StratmasClient.TaclanV2;
+package ApproxsimClient.TaclanV2;
 
 /**
  * An object representing the type boolean of the Taclan language. As such it contains artefacts of the language.

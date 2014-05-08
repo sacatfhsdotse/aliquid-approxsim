@@ -1,5 +1,5 @@
-#ifndef STRATMAS_RANDOM_H
-#define STRATMAS_RANDOM_H
+#ifndef APPROXSIM_RANDOM_H
+#define APPROXSIM_RANDOM_H
 
 /**
  * \file random2.h"
@@ -377,4 +377,4 @@ inline int probBySize(const double* sizes, int length)
      return 0;
 }
 
-#endif   // STRATMAS_RANDOM_H
+#endif   // APPROXSIM_RANDOM_H

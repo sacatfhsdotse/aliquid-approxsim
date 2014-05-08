@@ -1,8 +1,8 @@
-package StratmasClient.communication;
+package ApproxsimClient.communication;
 
 import java.util.Timer;
 import java.util.TimerTask;
-import StratmasClient.ClientMainFrame;
+import ApproxsimClient.ClientMainFrame;
 
 /**
  * This class is used to monitor the intensity of the communication between the client and the server. If this comunication is intensive,

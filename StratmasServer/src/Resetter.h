@@ -1,5 +1,5 @@
-#ifndef STRATMAS_RESETTER
-#define STRATMAS_RESETTER
+#ifndef APPROXSIM_RESETTER
+#define APPROXSIM_RESETTER
 
 // System
 #include <map>
@@ -75,4 +75,4 @@ template<class T> void Resetter<T>::reset(std::vector<T*>& simObjs, const std::v
      }
 }
 
-#endif   // STRATMAS_RESETTER
+#endif   // APPROXSIM_RESETTER

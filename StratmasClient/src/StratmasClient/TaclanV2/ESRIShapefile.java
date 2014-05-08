@@ -1,6 +1,6 @@
 // $Id: ESRIShapefile.java,v 1.10 2006/01/11 22:15:43 dah Exp $
 
-package StratmasClient.TaclanV2;
+package ApproxsimClient.TaclanV2;
 
 import java.io.RandomAccessFile;
 import java.util.Enumeration;
@@ -17,7 +17,7 @@ import java.nio.BufferOverflowException;
 import java.util.Hashtable;
 import java.nio.BufferUnderflowException;
 
-import StratmasClient.TaclanV2.ESRIShapeFactory.ESRIShapeCreator;
+import ApproxsimClient.TaclanV2.ESRIShapeFactory.ESRIShapeCreator;
 
 import com.linuxense.javadbf.DBFReader;
 import com.linuxense.javadbf.DBFField;
@@ -56,10 +56,10 @@ public class ESRIShapefile {
                 esriDBNameField = v.get(0);
             }
         } catch (ESRIDBFileException e) {
-            StratmasClient.Debug.err.println("Error reading " + esridbffilename
+            ApproxsimClient.Debug.err.println("Error reading " + esridbffilename
                     + "\nNo metadata will be imported.");
         } catch (FileNotFoundException e) {
-            StratmasClient.Debug.err.println("No ESRI database file found, "
+            ApproxsimClient.Debug.err.println("No ESRI database file found, "
                     + "no metadata will be imported.");
         }
 

@@ -1,63 +1,63 @@
-// $Id: StratmasDuration.java,v 1.3 2006/04/10 09:45:55 dah Exp $
+// $Id: ApproxsimDuration.java,v 1.3 2006/04/10 09:45:55 dah Exp $
 /*
- * @(#)StratmasDuration.java
+ * @(#)ApproxsimDuration.java
  */
 
-package StratmasClient.object;
+package ApproxsimClient.object;
 
-import StratmasClient.object.type.Type;
-import StratmasClient.object.type.Declaration;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.object.primitive.Duration;
-import StratmasClient.object.primitive.Identifier;
-import StratmasClient.object.primitive.Timestamp;
+import ApproxsimClient.object.type.Type;
+import ApproxsimClient.object.type.Declaration;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.object.primitive.Duration;
+import ApproxsimClient.object.primitive.Identifier;
+import ApproxsimClient.object.primitive.Timestamp;
 import org.w3c.dom.Element;
 
 import java.text.ParseException;
 
 /**
- * StratmasDuration is a Stratmas duration class
+ * ApproxsimDuration is a Approxsim duration class
  * 
  * @version 1, $Date: 2006/04/10 09:45:55 $
  * @author Daniel Ahlin
  */
 
-public class StratmasDuration extends StratmasSimple {
+public class ApproxsimDuration extends ApproxsimSimple {
     /**
      * The number of milliseconds the duration is.
      */
     Duration value;
 
     /**
-     * Creates a new StratmasDuration.
+     * Creates a new ApproxsimDuration.
      * 
      * @param identifier the identifier for the object.
      * @param type the type of the object.
      * @param value the value of the object.
      */
-    protected StratmasDuration(String identifier, Type type, long value) {
+    protected ApproxsimDuration(String identifier, Type type, long value) {
         super(identifier, type);
         this.value = new Duration(value);
     }
 
     /**
-     * Creates a new StratmasDuration from a Declaration.
+     * Creates a new ApproxsimDuration from a Declaration.
      * 
      * @param declaration the declaration for this object.
      * @param value the value of the string.
      */
-    protected StratmasDuration(Declaration declaration, long value) {
+    protected ApproxsimDuration(Declaration declaration, long value) {
         super(declaration);
         this.value = new Duration(value);
     }
 
     /**
-     * Creates a new StratmasDuration from a Declaration.
+     * Creates a new ApproxsimDuration from a Declaration.
      * 
      * @param declaration the declaration for this object.
      * @param value the value of the duration.
      */
-    protected StratmasDuration(Declaration declaration, String value)
+    protected ApproxsimDuration(Declaration declaration, String value)
             throws ParseException {
         this(declaration, 0);
         this.value = Duration.parseDuration(value);
@@ -112,23 +112,23 @@ public class StratmasDuration extends StratmasSimple {
     }
 
     /**
-     * Returns a StratmasGUIConstructor suitable for constructing objects of this type.
+     * Returns a ApproxsimGUIConstructor suitable for constructing objects of this type.
      * 
      * @param declaration the declaration for which the GUI is created.
      */
-    protected static StratmasGUIConstructor getGUIConstructor(
+    protected static ApproxsimGUIConstructor getGUIConstructor(
             Declaration declaration) {
-        return new StratmasDurationGUIConstructor(declaration);
+        return new ApproxsimDurationGUIConstructor(declaration);
     }
 
     /**
-     * Creates a StratmasDuration from a DOM element.
+     * Creates a ApproxsimDuration from a DOM element.
      * 
      * @param n The dom element from which the object is created.
      */
-    protected static StratmasObject domCreate(Element n) {
+    protected static ApproxsimObject domCreate(Element n) {
         try {
-            return new StratmasDuration(Identifier.getIdentifier(n),
+            return new ApproxsimDuration(Identifier.getIdentifier(n),
                     TypeFactory.getType("Duration"), XMLHelper.getLong(n,
                                                                        "value"));
         } catch (NumberFormatException e) {
@@ -139,14 +139,14 @@ public class StratmasDuration extends StratmasSimple {
     }
 
     /**
-     * Creates a StratmasDuration from the specified Declaration.
+     * Creates a ApproxsimDuration from the specified Declaration.
      * <p>
      * author Per Alexius
      * 
      * @param declaration The declaration for which the object is created.
      */
-    public static StratmasObject defaultCreate(Declaration declaration) {
-        return new StratmasDuration(declaration, 0);
+    public static ApproxsimObject defaultCreate(Declaration declaration) {
+        return new ApproxsimDuration(declaration, 0);
     }
 
     /**
@@ -171,7 +171,7 @@ public class StratmasDuration extends StratmasSimple {
      * @return A clone of this object.
      */
     protected Object clone() {
-        return new StratmasDuration(identifier, type, value.getMilliSecs());
+        return new ApproxsimDuration(identifier, type, value.getMilliSecs());
     }
 
     /**
@@ -188,12 +188,12 @@ public class StratmasDuration extends StratmasSimple {
 }
 
 /**
- * StratmasDurationGUIConstructor creates GUIs for creating StratmasDuration objects.
+ * ApproxsimDurationGUIConstructor creates GUIs for creating ApproxsimDuration objects.
  * 
  * @version 1, $Date: 2006/04/10 09:45:55 $
  * @author Per Alexius
  */
-class StratmasDurationGUIConstructor extends StratmasGUIConstructor {
+class ApproxsimDurationGUIConstructor extends ApproxsimGUIConstructor {
     /**
 	 * 
 	 */
@@ -201,11 +201,11 @@ class StratmasDurationGUIConstructor extends StratmasGUIConstructor {
     javax.swing.JTextField field;
 
     /**
-     * Creates a new StratmasDurationGUIConstructor using the supplied declaration.
+     * Creates a new ApproxsimDurationGUIConstructor using the supplied declaration.
      * 
      * @param declaration the declaration to use.
      */
-    public StratmasDurationGUIConstructor(Declaration declaration) {
+    public ApproxsimDurationGUIConstructor(Declaration declaration) {
         super(declaration);
     }
 
@@ -219,11 +219,11 @@ class StratmasDurationGUIConstructor extends StratmasGUIConstructor {
     }
 
     /**
-     * Tries to create the StratmasObject from the values in the GUI.
+     * Tries to create the ApproxsimObject from the values in the GUI.
      */
-    protected void createStratmasObject() {
+    protected void createApproxsimObject() {
         try {
-            setStratmasObject(new StratmasDuration(this.declaration,
+            setApproxsimObject(new ApproxsimDuration(this.declaration,
                     field.getText()));
         } catch (java.text.ParseException e) {
             System.err.println("FIXME: Don't fail quietly "

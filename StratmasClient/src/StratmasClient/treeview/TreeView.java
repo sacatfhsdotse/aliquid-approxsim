@@ -4,19 +4,19 @@
  * @(#)TreeView.java
  */
 
-package StratmasClient.treeview;
+package ApproxsimClient.treeview;
 
-import StratmasClient.map.DraggedElement;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.filter.StratmasObjectFilter;
-import StratmasClient.filter.TypeFilter;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.StratmasList;
-import StratmasClient.object.StratmasReference;
-import StratmasClient.ClientMainFrame;
-import StratmasClient.Debug;
-import StratmasClient.Icon;
+import ApproxsimClient.map.DraggedElement;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.filter.ApproxsimObjectFilter;
+import ApproxsimClient.filter.TypeFilter;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.object.ApproxsimList;
+import ApproxsimClient.object.ApproxsimReference;
+import ApproxsimClient.ClientMainFrame;
+import ApproxsimClient.Debug;
+import ApproxsimClient.Icon;
 
 import java.util.Enumeration;
 import java.util.Vector;
@@ -62,14 +62,14 @@ import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 
 /**
- * TreeView is presentation of a tree of StratmasObjects.
+ * TreeView is presentation of a tree of ApproxsimObjects.
  * 
  * @version 1, $Date: 2006/07/31 11:50:56 $
  * @author Daniel Ahlin
  */
 
 public class TreeView extends JTree implements DragGestureListener,
-        WindowListener, StratmasEventListener {
+        WindowListener, ApproxsimEventListener {
     /**
 	 * 
 	 */
@@ -102,11 +102,11 @@ public class TreeView extends JTree implements DragGestureListener,
      * 
      * @param root the object to use as root for this tree.
      */
-    public TreeView(StratmasObjectAdapter root) {
+    public TreeView(ApproxsimObjectAdapter root) {
         super((TreeModel) root);
 
         // Add listener that kills this tree if root's object is deleted.
-        root.getStratmasObject().addEventListener(this);
+        root.getApproxsimObject().addEventListener(this);
 
         // Add listener that ensures that added top level components
         // are shown when isRootVisible == false. And that the tree is
@@ -146,11 +146,11 @@ public class TreeView extends JTree implements DragGestureListener,
                     TreePath selPath = getPathForLocation(e.getX(), e.getY());
                     if (selPath != null) {
                         showPopup(e.getX(), e.getY(),
-                                  (StratmasObjectAdapter) selPath
+                                  (ApproxsimObjectAdapter) selPath
                                           .getLastPathComponent());
                     } else {
                         showPopup(e.getX(), e.getY(),
-                                  (StratmasObjectAdapter) getModel().getRoot());
+                                  (ApproxsimObjectAdapter) getModel().getRoot());
                     }
                 }
             }
@@ -161,10 +161,10 @@ public class TreeView extends JTree implements DragGestureListener,
                 TreePath[] paths = e.getPaths();
                 for (int i = 0; i < paths.length; i++) {
                     if (e.isAddedPath(paths[i])) {
-                        ((StratmasObjectAdapter) paths[i]
+                        ((ApproxsimObjectAdapter) paths[i]
                                 .getLastPathComponent()).setSelected(true);
                     } else {
-                        ((StratmasObjectAdapter) paths[i]
+                        ((ApproxsimObjectAdapter) paths[i]
                                 .getLastPathComponent()).setSelected(false);
                     }
                 }
@@ -184,41 +184,41 @@ public class TreeView extends JTree implements DragGestureListener,
             public void drop(DropTargetDropEvent dtde) {
                 boolean dropAccepted = false;
                 try {
-                    if (dtde.isDataFlavorSupported(StratmasObject.STRATMAS_OBJECT_FLAVOR)) {
+                    if (dtde.isDataFlavorSupported(ApproxsimObject.APPROXSIM_OBJECT_FLAVOR)) {
                         dtde.acceptDrop(DnDConstants.ACTION_LINK);
                         dropAccepted = true;
                         Object obj = dtde
                                 .getTransferable()
-                                .getTransferData(StratmasObject.STRATMAS_OBJECT_FLAVOR);
+                                .getTransferData(ApproxsimObject.APPROXSIM_OBJECT_FLAVOR);
                         // Apple's dnd implementation sucks... We must call the
                         // getTransferData method for the string flavor in order
                         // to get a valid callback.
                         dtde.getTransferable()
                                 .getTransferData(DataFlavor.stringFlavor);
                         //
-                        if (obj instanceof StratmasObject) {
-                            StratmasObject so = (StratmasObject) obj;
-                            StratmasObject target = pointToObject(dtde
+                        if (obj instanceof ApproxsimObject) {
+                            ApproxsimObject so = (ApproxsimObject) obj;
+                            ApproxsimObject target = pointToObject(dtde
                                     .getLocation());
-                            if (target instanceof StratmasList
+                            if (target instanceof ApproxsimList
                                     && so.getType()
                                             .canSubstitute(target.getType())
                                     && so != target
-                                    && !(so instanceof StratmasList)) {
+                                    && !(so instanceof ApproxsimList)) {
                                 so.remove();
                                 // Default behavior when adding Activities is to give duplicate
                                 // objects a unique identifier instead of overwriting the old instance.
                                 if (so.getType().canSubstitute("Activity")) {
-                                    ((StratmasList) target)
+                                    ((ApproxsimList) target)
                                             .addWithUniqueIdentifier(so);
                                 } else {
-                                    ((StratmasList) target).add(so);
+                                    ((ApproxsimList) target).add(so);
                                 }
                                 dtde.dropComplete(true);
-                            } else if (target instanceof StratmasReference) {
+                            } else if (target instanceof ApproxsimReference) {
                                 if (target.getType()
                                         .isValidReferenceType(so.getType())) {
-                                    ((StratmasReference) target).setValue(so
+                                    ((ApproxsimReference) target).setValue(so
                                             .getReference(), null);
                                     dtde.dropComplete(true);
                                 } else {
@@ -232,7 +232,7 @@ public class TreeView extends JTree implements DragGestureListener,
                             dtde.dropComplete(false);
                         }
                     } else if (dtde
-                            .isDataFlavorSupported(StratmasClient.HierarchyImportSet.HIERARCHYIMPORTSET_FLAVOR)) {
+                            .isDataFlavorSupported(ApproxsimClient.HierarchyImportSet.HIERARCHYIMPORTSET_FLAVOR)) {
                         dtde.rejectDrop();
                     } else if (dtde
                             .isDataFlavorSupported(DataFlavor.stringFlavor)) {
@@ -240,35 +240,35 @@ public class TreeView extends JTree implements DragGestureListener,
                         dropAccepted = true;
                         String string = (String) dtde.getTransferable()
                                 .getTransferData(DataFlavor.stringFlavor);
-                        StratmasList stratmasList = null;
-                        StratmasObject importedRoot = StratmasClient.Client
+                        ApproxsimList approxsimList = null;
+                        ApproxsimObject importedRoot = ApproxsimClient.Client
                                 .importXMLString(string);
                         if (importedRoot != null) {
-                            stratmasList = (StratmasList) importedRoot
+                            approxsimList = (ApproxsimList) importedRoot
                                     .getChild("identifiables");
                         }
 
-                        StratmasObject target = pointToObject(dtde
+                        ApproxsimObject target = pointToObject(dtde
                                 .getLocation());
-                        if (stratmasList != null
-                                && target instanceof StratmasList) {
-                            StratmasList targetList = (StratmasList) target;
+                        if (approxsimList != null
+                                && target instanceof ApproxsimList) {
+                            ApproxsimList targetList = (ApproxsimList) target;
                             // Add to vector first to not
                             // disturb the enumeration we are
                             // using by removing objects from its collection.
-                            Vector<StratmasObject> v = new Vector<StratmasObject>();
-                            for (Enumeration e = stratmasList.children(); e
+                            Vector<ApproxsimObject> v = new Vector<ApproxsimObject>();
+                            for (Enumeration e = approxsimList.children(); e
                                     .hasMoreElements();) {
-                                StratmasObject sObj = (StratmasObject) e
+                                ApproxsimObject sObj = (ApproxsimObject) e
                                         .nextElement();
                                 if (sObj.getType()
                                         .canSubstitute(targetList.getType())) {
                                     v.add(sObj);
                                 }
                             }
-                            for (Enumeration<StratmasObject> e = v.elements(); e
+                            for (Enumeration<ApproxsimObject> e = v.elements(); e
                                     .hasMoreElements();) {
-                                StratmasObject sObj = e.nextElement();
+                                ApproxsimObject sObj = e.nextElement();
                                 sObj.remove();
                                 targetList.add(sObj);
                             }
@@ -367,14 +367,14 @@ public class TreeView extends JTree implements DragGestureListener,
      * @param candidates
      * @param target
      */
-    protected boolean checkObjects(Vector candidates, StratmasObject target) {
+    protected boolean checkObjects(Vector candidates, ApproxsimObject target) {
         boolean status = true;
         if (target.isLeaf()) {
             status = false;
-        } else if (target instanceof StratmasList) {
-            StratmasList list = (StratmasList) target;
+        } else if (target instanceof ApproxsimList) {
+            ApproxsimList list = (ApproxsimList) target;
             for (Enumeration e = candidates.elements(); e.hasMoreElements();) {
-                StratmasObject candidate = (StratmasObject) e.nextElement();
+                ApproxsimObject candidate = (ApproxsimObject) e.nextElement();
                 // Check type and name conflict
                 // FIXME Note that names can still conflict inside the vector.
                 if (!candidate.getType().canSubstitute(list.getType())
@@ -385,7 +385,7 @@ public class TreeView extends JTree implements DragGestureListener,
             }
         } else {
             for (Enumeration e = candidates.elements(); e.hasMoreElements();) {
-                StratmasObject candidate = (StratmasObject) e.nextElement();
+                ApproxsimObject candidate = (ApproxsimObject) e.nextElement();
                 // Check if any unfilled declaration matches
                 // FIXME Note that names can still conflict inside the vector.
                 // I. e. someone could provide 2 locations in this drop.
@@ -402,47 +402,47 @@ public class TreeView extends JTree implements DragGestureListener,
     }
 
     /**
-     * Helper function, returns the StratmasObject under the drop, note that the root is assumed to 'cover' everything that is not another
+     * Helper function, returns the ApproxsimObject under the drop, note that the root is assumed to 'cover' everything that is not another
      * node.
      * 
      * @param point point in components coordinates.
      */
-    protected StratmasObject pointToObject(Point point) {
+    protected ApproxsimObject pointToObject(Point point) {
         return pointToObject((int) point.getX(), (int) point.getY());
     }
 
     /**
-     * Helper function, returns the StratmasObject under the drop, note that the root is assumed to 'cover' everything that is not another
+     * Helper function, returns the ApproxsimObject under the drop, note that the root is assumed to 'cover' everything that is not another
      * node.
      * 
      * @param x x in components coordinates.
      * @param y y in components coordinates.
      */
-    protected StratmasObject pointToObject(int x, int y) {
+    protected ApproxsimObject pointToObject(int x, int y) {
         TreePath path = getPathForLocation(x, y);
 
         if (path != null) {
-            return ((StratmasObjectAdapter) path.getLastPathComponent())
+            return ((ApproxsimObjectAdapter) path.getLastPathComponent())
                     .getUserObject();
         } else {
-            return ((StratmasObjectAdapter) getModel().getRoot())
+            return ((ApproxsimObjectAdapter) getModel().getRoot())
                     .getUserObject();
         }
     }
 
     /**
-     * Helper function returns the StratmasObjects in the transferable, or null if no such.
+     * Helper function returns the ApproxsimObjects in the transferable, or null if no such.
      * 
      * @param transferable transferable to extract.
      */
-    public Vector<StratmasObject> transferableToObjects(
+    public Vector<ApproxsimObject> transferableToObjects(
             Transferable transferable) {
-        Vector<StratmasObject> res = new Vector<StratmasObject>();
+        Vector<ApproxsimObject> res = new Vector<ApproxsimObject>();
         DataFlavor[] flavors = transferable.getTransferDataFlavors();
         try {
             for (int i = 0; i < flavors.length; i++) {
                 if (transferable.isDataFlavorSupported(flavors[i])) {
-                    res.add((StratmasObject) transferable
+                    res.add((ApproxsimObject) transferable
                             .getTransferData(flavors[i]));
                 }
             }
@@ -456,13 +456,13 @@ public class TreeView extends JTree implements DragGestureListener,
     }
 
     /*
-     * Shows a popup for the specified StratmasObjectAdapter at the specified place.
+     * Shows a popup for the specified ApproxsimObjectAdapter at the specified place.
      * @param x where to place the popup.
      * @param y where to place the popup.
-     * @param objectAdapter the StratmasObjectAdapter for which the popup is shown.
+     * @param objectAdapter the ApproxsimObjectAdapter for which the popup is shown.
      */
-    protected void showPopup(int x, int y, StratmasObjectAdapter objectAdapter) {
-        final StratmasObject sObj = objectAdapter.getUserObject();
+    protected void showPopup(int x, int y, ApproxsimObjectAdapter objectAdapter) {
+        final ApproxsimObject sObj = objectAdapter.getUserObject();
         final TreeView self = this;
 
         // Vector actions = sObj.getActions();
@@ -522,16 +522,16 @@ public class TreeView extends JTree implements DragGestureListener,
     }
 
     /**
-     * Gets the StratmasObject pointed to by the provided path. This method is called in the dragGestureRecognized method. Its purpose is to
+     * Gets the ApproxsimObject pointed to by the provided path. This method is called in the dragGestureRecognized method. Its purpose is to
      * be overridden by TreeView descendants in order to override the 'MOVE' default behavior for drag operations. This should be
      * implemented differently as soon as Apple fixes the DnD implementation that obviously is broken in 1.4.2.
      * 
-     * @param path The path to fetch the StratmasObject for.
-     * @return The StratmasObject pointed to by path or null if the path is invalid or no such object could be found.
+     * @param path The path to fetch the ApproxsimObject for.
+     * @return The ApproxsimObject pointed to by path or null if the path is invalid or no such object could be found.
      */
-    public StratmasObject getObjectForPath(TreePath path) {
+    public ApproxsimObject getObjectForPath(TreePath path) {
         if (path != null) {
-            StratmasObjectAdapter soa = (StratmasObjectAdapter) path
+            ApproxsimObjectAdapter soa = (ApproxsimObjectAdapter) path
                     .getLastPathComponent();
             if (soa != null) {
                 return soa.getUserObject();
@@ -567,7 +567,7 @@ public class TreeView extends JTree implements DragGestureListener,
             // define cursor for the object
             Cursor c;
             Toolkit tk = Toolkit.getDefaultToolkit();
-            Image image = ((Icon) ((StratmasObject) transferable).getIcon())
+            Image image = ((Icon) ((ApproxsimObject) transferable).getIcon())
                     .getImage();
             Dimension bestsize = tk.getBestCursorSize(image.getWidth(null),
                                                       image.getHeight(null));
@@ -575,13 +575,13 @@ public class TreeView extends JTree implements DragGestureListener,
                 c = tk.createCustomCursor(image, new java.awt.Point(
                                                   bestsize.width / 2,
                                                   bestsize.height / 2),
-                                          ((StratmasObject) transferable)
+                                          ((ApproxsimObject) transferable)
                                                   .toString());
             } else {
                 c = Cursor.getDefaultCursor();
             }
             // set the dragged element
-            DraggedElement.setElement((StratmasObject) transferable);
+            DraggedElement.setElement((ApproxsimObject) transferable);
             // start the drag
             dndSource.startDrag(dge, c, transferable, dndSourceAdapter);
         } catch (java.awt.dnd.InvalidDnDOperationException e) {
@@ -604,7 +604,7 @@ public class TreeView extends JTree implements DragGestureListener,
      */
     public String convertValueToText(Object value, boolean selected,
             boolean expanded, boolean leaf, int row, boolean hasFocus) {
-        return ((StratmasObjectAdapter) value).toEditableString();
+        return ((ApproxsimObjectAdapter) value).toEditableString();
     }
 
     /**
@@ -612,7 +612,7 @@ public class TreeView extends JTree implements DragGestureListener,
      * 
      * @param root the object to use as root for this tree.
      */
-    public static TreeViewFrame getDefaultFrame(StratmasObject root) {
+    public static TreeViewFrame getDefaultFrame(ApproxsimObject root) {
         TreeViewFrame res = new TreeViewFrame(getDefaultTreeView(root));
         return res;
     }
@@ -623,8 +623,8 @@ public class TreeView extends JTree implements DragGestureListener,
      * @param root the object to use as root for this tree.
      * @param filter the object to use as root for this tree.
      */
-    public static TreeViewFrame getDefaultFrame(StratmasObject root,
-            StratmasObjectFilter filter) {
+    public static TreeViewFrame getDefaultFrame(ApproxsimObject root,
+            ApproxsimObjectFilter filter) {
         TreeViewFrame res = new TreeViewFrame(getDefaultTreeView(root, filter));
         return res;
     }
@@ -634,11 +634,11 @@ public class TreeView extends JTree implements DragGestureListener,
      * 
      * @param root the object to use as root for this tree.
      */
-    public static TreeView getDefaultTreeView(StratmasObject root) {
+    public static TreeView getDefaultTreeView(ApproxsimObject root) {
         final TreeView view = new TreeView(
-                StratmasObjectAdapter.getStratmasObjectAdapter(root));
+                ApproxsimObjectAdapter.getApproxsimObjectAdapter(root));
         view.setShowsRootHandles(false);
-        if (root instanceof StratmasList) {
+        if (root instanceof ApproxsimList) {
             view.setRootVisible(true);
         }
 
@@ -650,13 +650,13 @@ public class TreeView extends JTree implements DragGestureListener,
      * 
      * @param root the object to use as root for this tree.
      */
-    public static TreeView getDefaultTreeView(StratmasObject root,
-            StratmasObjectFilter filter) {
+    public static TreeView getDefaultTreeView(ApproxsimObject root,
+            ApproxsimObjectFilter filter) {
         TreeView view = new TreeView(
-                StratmasObjectAdapter.getStratmasObjectAdapter(root, filter));
+                ApproxsimObjectAdapter.getApproxsimObjectAdapter(root, filter));
         view.setShowsRootHandles(false);
         // By defualt, dont show root handle for lists.
-        if (root instanceof StratmasList) {
+        if (root instanceof ApproxsimList) {
             view.setRootVisible(false);
         }
 
@@ -752,14 +752,14 @@ public class TreeView extends JTree implements DragGestureListener,
     public void windowClosed(WindowEvent e) {
         // Remove listeners
         e.getWindow().removeWindowListener(this);
-        StratmasObjectAdapter root = (StratmasObjectAdapter) getModel()
+        ApproxsimObjectAdapter root = (ApproxsimObjectAdapter) getModel()
                 .getRoot();
-        StratmasObject rootObj = root.getStratmasObject();
+        ApproxsimObject rootObj = root.getApproxsimObject();
         if (rootObj != null) {
             rootObj.removeEventListener(this);
         }
         // Kill off the adapters
-        ((StratmasObjectAdapter) getModel().getRoot()).dispose();
+        ((ApproxsimObjectAdapter) getModel().getRoot()).dispose();
 //        setModel(null);
     }
 
@@ -845,12 +845,12 @@ public class TreeView extends JTree implements DragGestureListener,
     /**
      * Ensures that the
      */
-    public void eventOccured(StratmasEvent event) {
+    public void eventOccured(ApproxsimEvent event) {
         if (event.isRemoved()) {
             if (getParent() != null) {
                 getParent().remove(this);
             }
-            ((StratmasObject) event.getSource()).removeEventListener(this);
+            ((ApproxsimObject) event.getSource()).removeEventListener(this);
         } else if (event.isReplaced()) {
             throw new AssertionError("Replace behavior not implemented");
         }
@@ -882,7 +882,7 @@ class TreeViewCellRenderer extends DefaultTreeCellRenderer {
     public java.awt.Component getTreeCellRendererComponent(JTree tree,
             Object value, boolean sel, boolean expanded, boolean leaf, int row,
             boolean hasFocus) {
-        StratmasObjectAdapter val = (StratmasObjectAdapter) value;
+        ApproxsimObjectAdapter val = (ApproxsimObjectAdapter) value;
 
         this.hasFocus = hasFocus;
 
@@ -897,7 +897,7 @@ class TreeViewCellRenderer extends DefaultTreeCellRenderer {
             setForeground(getTextNonSelectionColor());
         }
 
-        StratmasClient.Icon icon = val.getIcon();
+        ApproxsimClient.Icon icon = val.getIcon();
         if (icon != null) {
             icon = icon.getScaledInstance(treeView.getPreferedIconSize());
             setIcon(icon);

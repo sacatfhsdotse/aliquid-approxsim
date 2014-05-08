@@ -1,41 +1,41 @@
-// $Id: StratmasIntegerParameter.java,v 1.4 2006/04/10 09:45:55 dah Exp $
+// $Id: ApproxsimIntegerParameter.java,v 1.4 2006/04/10 09:45:55 dah Exp $
 /*
- * @(#)StratmasIntegerParameter.java
+ * @(#)ApproxsimIntegerParameter.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
-import StratmasClient.object.primitive.Reference;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.StratmasInteger;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.communication.Subscription;
-import StratmasClient.communication.StratmasObjectSubscription;
+import ApproxsimClient.object.primitive.Reference;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.object.ApproxsimInteger;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimObjectFactory;
+import ApproxsimClient.communication.Subscription;
+import ApproxsimClient.communication.ApproxsimObjectSubscription;
 
 /**
- * A parameter subclass usable for parameters backed by StratmasIntegers
+ * A parameter subclass usable for parameters backed by ApproxsimIntegers
  * 
  * @version 1, $Date: 2006/04/10 09:45:55 $
  * @author Daniel Ahlin
  */
 
-public class StratmasIntegerParameter extends LongParameter implements
-        StratmasObjectParameter, SimulationEvaluatorTargetFactory {
+public class ApproxsimIntegerParameter extends LongParameter implements
+        ApproxsimObjectParameter, SimulationEvaluatorTargetFactory {
     /**
-     * The StratmasObject backing this parameter.
+     * The ApproxsimObject backing this parameter.
      */
-    StratmasObject stratmasObject;
+    ApproxsimObject approxsimObject;
 
     /**
-     * Creates a new StratmasIntegerParameter with the specified name.
+     * Creates a new ApproxsimIntegerParameter with the specified name.
      * 
      * @param object the object being adapted.
      */
-    public StratmasIntegerParameter(StratmasInteger object) {
+    public ApproxsimIntegerParameter(ApproxsimInteger object) {
         super(object.getReference().toString());
-        setStratmasObject(object);
+        setApproxsimObject(object);
     }
 
     /**
@@ -48,58 +48,58 @@ public class StratmasIntegerParameter extends LongParameter implements
              * the subscription is updated.
              */
             Subscription createSubscription() {
-//                     return new GenralSubscription((StratmasObject) getStratmasObject().clone(), 
-//                                                    getStratmasObject().getReference());
-                return new StratmasObjectSubscription(
-                        StratmasObjectFactory.cloneObject(getStratmasObject()),
-                        getStratmasObject().getReference());
+//                     return new GenralSubscription((ApproxsimObject) getApproxsimObject().clone(), 
+//                                                    getApproxsimObject().getReference());
+                return new ApproxsimObjectSubscription(
+                        ApproxsimObjectFactory.cloneObject(getApproxsimObject()),
+                        getApproxsimObject().getReference());
             }
 
             /**
              * Creates the ParameterInstance acting as evaluation in the Evaluations created by the SimulationEvaluator.
              */
             public ParameterInstance createEvaluation() {
-                return getParameterInstance(((StratmasObjectSubscription) getSubscription())
+                return getParameterInstance(((ApproxsimObjectSubscription) getSubscription())
                         .object());
             }
         };
     }
 
     /**
-     * Returns the reference of the StratmasObject backing this parameter.
+     * Returns the reference of the ApproxsimObject backing this parameter.
      */
     public Reference getReference() {
-        return getStratmasObject().getReference();
+        return getApproxsimObject().getReference();
     }
 
     /**
-     * Returns the StratmasObject backing this parameter.
+     * Returns the ApproxsimObject backing this parameter.
      */
-    public StratmasObject getStratmasObject() {
-        return this.stratmasObject;
+    public ApproxsimObject getApproxsimObject() {
+        return this.approxsimObject;
     }
 
     /**
-     * Sets the StratmasObject backing this parameter.
+     * Sets the ApproxsimObject backing this parameter.
      * 
      * @param object the new object
      */
-    public void setStratmasObject(StratmasObject object) {
+    public void setApproxsimObject(ApproxsimObject object) {
         if (object != null) {
-            object.addEventListener(new StratmasEventListener() {
-                public void eventOccured(StratmasEvent event) {
+            object.addEventListener(new ApproxsimEventListener() {
+                public void eventOccured(ApproxsimEvent event) {
                     if (event.isRemoved()) {
-                        ((StratmasObject) event.getSource())
+                        ((ApproxsimObject) event.getSource())
                                 .removeEventListener(this);
-                        setStratmasObject(null);
+                        setApproxsimObject(null);
                     } else if (event.isReplaced()) {
-                        setStratmasObject((StratmasObject) event.getArgument());
+                        setApproxsimObject((ApproxsimObject) event.getArgument());
                     }
                 }
             });
         }
 
-        this.stratmasObject = object;
+        this.approxsimObject = object;
     }
 
     /**
@@ -120,8 +120,8 @@ public class StratmasIntegerParameter extends LongParameter implements
             }
         }
 
-        StratmasInteger neighbour = (StratmasInteger) StratmasObjectFactory
-                .cloneObject((StratmasInteger) instance.getValue());
+        ApproxsimInteger neighbour = (ApproxsimInteger) ApproxsimObjectFactory
+                .cloneObject((ApproxsimInteger) instance.getValue());
         long newValue = (long) (neighbour.getValue() + gradient);
         newValue = newValue > 0 ? newValue : 0;
 
@@ -136,6 +136,6 @@ public class StratmasIntegerParameter extends LongParameter implements
      * @param instance the instance
      */
     long getLong(ParameterInstance instance) {
-        return ((StratmasInteger) instance.getValue()).getValue();
+        return ((ApproxsimInteger) instance.getValue()).getValue();
     }
 }

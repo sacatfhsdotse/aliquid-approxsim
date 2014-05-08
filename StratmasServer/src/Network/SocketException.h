@@ -1,5 +1,5 @@
-#ifndef _STRATMASSOCKETEXCEPTION_H
-#define _STRATMASSOCKETEXCEPTION_H
+#ifndef _APPROXSIMSOCKETEXCEPTION_H
+#define _APPROXSIMSOCKETEXCEPTION_H
 
 
 #include <string>
@@ -60,4 +60,4 @@ public:
      inline ConnectionClosedException() : SocketException("Connection closed") {}
 };
 
-#endif   // _STRATMASSOCKETEXCEPTION_H
+#endif   // _APPROXSIMSOCKETEXCEPTION_H

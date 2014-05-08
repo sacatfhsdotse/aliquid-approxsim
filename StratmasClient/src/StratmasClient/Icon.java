@@ -3,9 +3,9 @@
  * @(#)Icon.java
  */
 
-package StratmasClient;
+package ApproxsimClient;
 
-import StratmasClient.object.StratmasObject;
+import ApproxsimClient.object.ApproxsimObject;
 
 import javax.swing.ImageIcon;
 
@@ -17,7 +17,7 @@ import java.awt.Dimension;
 import java.util.WeakHashMap;
 
 /**
- * A Icon used for StratmasObjects in StratmasClient.
+ * A Icon used for ApproxsimObjects in ApproxsimClient.
  * 
  * @version 1, $Date: 2006/03/22 14:30:41 $
  * @author Daniel Ahlin
@@ -52,11 +52,11 @@ public class Icon extends ImageIcon {
     }
 
     /**
-     * Returns an Icon for the StratmasObject
+     * Returns an Icon for the ApproxsimObject
      * 
      * @param obj the object to get the icon for.
      */
-    public static Icon getIcon(StratmasObject obj) {
+    public static Icon getIcon(ApproxsimObject obj) {
         return IconFactory.getIcon(obj);
     }
 

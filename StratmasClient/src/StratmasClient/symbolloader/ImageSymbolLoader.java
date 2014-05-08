@@ -3,9 +3,9 @@
  * technically, uses javax.imageio.
  */
 
-package StratmasClient.symbolloader;
+package ApproxsimClient.symbolloader;
 
-import StratmasClient.Debug;
+import ApproxsimClient.Debug;
 import java.awt.*;
 import java.awt.image.*;
 import java.io.*;

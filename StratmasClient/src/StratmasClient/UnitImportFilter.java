@@ -3,7 +3,7 @@
  * @(#) UnitImportFilter.java
  */
 
-package StratmasClient;
+package ApproxsimClient;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -16,16 +16,16 @@ import java.util.Iterator;
 
 import java.text.ParseException;
 
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.object.StratmasSimple;
-import StratmasClient.object.SymbolIDCode;
-import StratmasClient.object.primitive.Reference;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimObjectFactory;
+import ApproxsimClient.object.ApproxsimSimple;
+import ApproxsimClient.object.SymbolIDCode;
+import ApproxsimClient.object.primitive.Reference;
 
-import StratmasClient.object.type.Type;
-import StratmasClient.object.type.TypeFactory;
+import ApproxsimClient.object.type.Type;
+import ApproxsimClient.object.type.TypeFactory;
 
-import StratmasClient.object.type.Declaration;
+import ApproxsimClient.object.type.Declaration;
 
 /**
  * UnitImportFilter uses information from a table to add sensible variables.
@@ -265,11 +265,11 @@ public class UnitImportFilter {
      * @param unit the unit being completed
      * @return vector with errors
      */
-    public Vector apply(StratmasObject unit) {
+    public Vector apply(ApproxsimObject unit) {
         Vector warnings = new Vector();
 
         // Get symbolIDCode
-        StratmasObject candidate = unit.getChild("symbolIDCode");
+        ApproxsimObject candidate = unit.getChild("symbolIDCode");
         if (candidate == null || !(candidate instanceof SymbolIDCode)) {
             warnings.add("No symbolIDCode in " + unit.getIdentifier());
             return warnings;
@@ -309,7 +309,7 @@ public class UnitImportFilter {
      * @param lineIndex the values to apply to unit.
      * @param warnings to add warnings to.
      */
-    public void applyLine(StratmasObject unit, int lineIndex,
+    public void applyLine(ApproxsimObject unit, int lineIndex,
             Vector<String> warnings) {
         String[] line = outTable[lineIndex];
 
@@ -320,7 +320,7 @@ public class UnitImportFilter {
             }
             boolean doAdd = false;
 
-            StratmasObject child = outTableTargets[j].resolve(unit);
+            ApproxsimObject child = outTableTargets[j].resolve(unit);
 
             if (child == null) {
                 Declaration declaration = unit.getType()
@@ -330,14 +330,14 @@ public class UnitImportFilter {
                             + "\" no such element in "
                             + unit.getType().getName());
                 } else {
-                    child = StratmasObjectFactory.create(declaration.getType());
+                    child = ApproxsimObjectFactory.create(declaration.getType());
                     doAdd = true;
                 }
             }
 
-            if (child instanceof StratmasSimple) {
+            if (child instanceof ApproxsimSimple) {
                 try {
-                    ((StratmasSimple) child).valueFromString(line[j]);
+                    ((ApproxsimSimple) child).valueFromString(line[j]);
                 } catch (ParseException e) {
                     warnings.add("" + e.getErrorOffset() + ": "
                             + e.getMessage());
@@ -355,7 +355,7 @@ public class UnitImportFilter {
                             + child.getIdentifier());
                     doAdd = false;
                 } else {
-                    StratmasObject newChild = StratmasObjectFactory
+                    ApproxsimObject newChild = ApproxsimObjectFactory
                             .create(requestedType);
                     newChild.setIdentifier(child.getIdentifier());
                     unit.add(newChild);

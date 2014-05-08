@@ -3,7 +3,7 @@
  * @(#)JoglLibExtractor.java
  */
 
-package StratmasClient;
+package ApproxsimClient;
 
 import java.io.IOException;
 import java.io.File;
@@ -136,7 +136,7 @@ public class JoglLibExtractor {
         // Tries making a temporary directory, gives up after a hundred tries.
         java.util.Random random = new java.util.Random();
         for (int i = 0; i < 100; i++) {
-            tempdir = new File(tmpdir + "/StratmasClientLibs"
+            tempdir = new File(tmpdir + "/ApproxsimClientLibs"
                     + random.nextInt(Integer.MAX_VALUE) + ".tmp");
             if (tempdir.mkdirs()) {
                 tempdir.deleteOnExit();

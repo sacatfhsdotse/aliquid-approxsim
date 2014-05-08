@@ -1,4 +1,4 @@
-package StratmasClient.substrate;
+package ApproxsimClient.substrate;
 
 import java.lang.RuntimeException;
 import java.awt.Color;
@@ -7,7 +7,7 @@ import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.BorderFactory;
-import StratmasClient.Debug;
+import ApproxsimClient.Debug;
 
 /**
  * This is the color map used in the substrate editor.

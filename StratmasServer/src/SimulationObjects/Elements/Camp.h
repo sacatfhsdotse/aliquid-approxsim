@@ -1,5 +1,5 @@
-#ifndef STRATMAS_CAMP_H
-#define STRATMAS_CAMP_H
+#ifndef APPROXSIM_CAMP_H
+#define APPROXSIM_CAMP_H
 
 // Own
 #include "Element.h"
@@ -59,4 +59,4 @@ public:
      inline void addPopulation(double pop, int f = 0) { mPopulation[f] += pop; }
 };
 
-#endif   // STRATMAS_CAMP_H
+#endif   // APPROXSIM_CAMP_H

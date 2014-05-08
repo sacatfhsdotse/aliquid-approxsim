@@ -3,15 +3,15 @@
  * @(#)ParsedPrimitive.java
  */
 
-package StratmasClient.TaclanV2;
+package ApproxsimClient.TaclanV2;
 
 import java.text.ParseException;
 
-import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasSimple;
-import StratmasClient.object.type.TypeInformation;
-import StratmasClient.object.type.Declaration;
+import ApproxsimClient.object.ApproxsimObjectFactory;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimSimple;
+import ApproxsimClient.object.type.TypeInformation;
+import ApproxsimClient.object.type.Declaration;
 
 /**
  * An object representing a declaration of a primitive type in the Taclan V2 language. As a parsed construct it contains artefacts of the
@@ -56,14 +56,14 @@ public abstract class ParsedPrimitive extends ParsedDeclaration {
     public abstract String valueToString();
 
     /**
-     * Returns the StratmasObject equivalent this declaration.
+     * Returns the ApproxsimObject equivalent this declaration.
      * 
      * @param declaration the declaration to use.
      */
-    public StratmasObject getStratmasObject(Declaration declaration)
+    public ApproxsimObject getApproxsimObject(Declaration declaration)
             throws SemanticException {
         try {
-            StratmasSimple res = (StratmasSimple) StratmasObjectFactory
+            ApproxsimSimple res = (ApproxsimSimple) ApproxsimObjectFactory
                     .defaultCreate(declaration);
             res.valueFromString(valueToString());
             return res;

@@ -3,7 +3,7 @@
  * enumerated? This drops the explicit string representation, instead converting to/from string when necessary.
  */
 
-package StratmasClient.symbolloader;
+package ApproxsimClient.symbolloader;
 
 import java.io.*;
 import java.util.Arrays;

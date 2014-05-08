@@ -1,9 +1,9 @@
-package StratmasClient.communication;
+package ApproxsimClient.communication;
 
 import java.lang.StringBuffer;
-import StratmasClient.Client;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasList;
+import ApproxsimClient.Client;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimList;
 
 /**
  * Class representing the initialization message. The initialization message is the message that a client sends to a server in order to
@@ -12,9 +12,9 @@ import StratmasClient.object.StratmasList;
  * @version 1, $Date: 2007/01/31 12:55:14 $
  * @author Per Alexius
  */
-public class InitializationMessage extends StratmasMessage {
+public class InitializationMessage extends ApproxsimMessage {
     /** The simulation */
-    private StratmasObject mSimulation;
+    private ApproxsimObject mSimulation;
     /** The client **/
     private Client client;
 
@@ -23,9 +23,9 @@ public class InitializationMessage extends StratmasMessage {
      * 
      * @param s The simulation object.
      */
-    public InitializationMessage(StratmasObject s) {
+    public InitializationMessage(ApproxsimObject s) {
         mSimulation = s;
-        if (mSimulation instanceof StratmasList) {
+        if (mSimulation instanceof ApproxsimList) {
             throw new AssertionError(
                     "Tried to create InitializationMessage with list of simulations.");
         }
@@ -36,10 +36,10 @@ public class InitializationMessage extends StratmasMessage {
      * 
      * @param s The simulation object.
      */
-    public InitializationMessage(StratmasObject s, Client client) {
+    public InitializationMessage(ApproxsimObject s, Client client) {
         mSimulation = s;
         this.client = client;
-        if (mSimulation instanceof StratmasList) {
+        if (mSimulation instanceof ApproxsimList) {
             throw new AssertionError(
                     "Tried to create InitializationMessage with list of simulations.");
         }
@@ -64,7 +64,7 @@ public class InitializationMessage extends StratmasMessage {
         b.append(NL).append("<simulation xsi:type=\"sp:")
                 .append(mSimulation.getType().getName());
         b.append("\" identifier=\"");
-        b.append(StratmasClient.communication.XMLHandler
+        b.append(ApproxsimClient.communication.XMLHandler
                 .encodeSpecialCharacters(mSimulation.getIdentifier()));
         b.append("\">");
         mSimulation.bodyXML(b);

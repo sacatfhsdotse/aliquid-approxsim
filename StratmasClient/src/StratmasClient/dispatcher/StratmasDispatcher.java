@@ -1,17 +1,17 @@
-// $Id: StratmasDispatcher.java,v 1.5 2006/03/27 13:36:48 dah Exp $
+// $Id: ApproxsimDispatcher.java,v 1.5 2006/03/27 13:36:48 dah Exp $
 
 /*
- * @(#).StratmasDispatcher.java
+ * @(#).ApproxsimDispatcher.java
  */
 
-package StratmasClient.dispatcher;
+package ApproxsimClient.dispatcher;
 
-import StratmasClient.communication.StratmasSocket;
-import StratmasClient.communication.ConnectMessage;
-import StratmasClient.LSJarXSDResolver;
-import StratmasClient.StratmasConstants;
+import ApproxsimClient.communication.ApproxsimSocket;
+import ApproxsimClient.communication.ConnectMessage;
+import ApproxsimClient.LSJarXSDResolver;
+import ApproxsimClient.ApproxsimConstants;
 
-import StratmasClient.Debug;
+import ApproxsimClient.Debug;
 
 import java.util.Vector;
 import java.util.Enumeration;
@@ -39,12 +39,12 @@ import org.w3c.dom.ls.LSException;
 import org.w3c.dom.ls.LSResourceResolver;
 
 /**
- * StratmasDispatcher represents information about a dispatcher server
+ * ApproxsimDispatcher represents information about a dispatcher server
  * 
  * @version 1, $Date: 2006/03/27 13:36:48 $
  * @author Daniel Ahlin
  */
-public class StratmasDispatcher {
+public class ApproxsimDispatcher {
     /**
      * The hostname of the dispatcher.
      */
@@ -81,7 +81,7 @@ public class StratmasDispatcher {
      * @param hostname the hostname of the server.
      * @param port the port on which the server is listening.
      */
-    public StratmasDispatcher(String hostname, int port) {
+    public ApproxsimDispatcher(String hostname, int port) {
         this.hostname = hostname;
         this.port = port;
     }
@@ -103,7 +103,7 @@ public class StratmasDispatcher {
     /**
      * Returns an instance of a default dispatcher
      */
-    public static StratmasDispatcher getDefaultDispatcher() {
+    public static ApproxsimDispatcher getDefaultDispatcher() {
         String dispatcherString = System.getProperty("DISPATCHER");
         if (dispatcherString != null && dispatcherString != "") {
             String[] parts = dispatcherString.split(":");
@@ -111,7 +111,7 @@ public class StratmasDispatcher {
             if (parts.length == 2 && parts[1].matches("\\A\\p{Digit}+\\z")) {
                 port = Integer.parseInt(parts[1]);
             }
-            return new StratmasDispatcher(parts[0], port);
+            return new ApproxsimDispatcher(parts[0], port);
         }
 
         return null;
@@ -122,14 +122,14 @@ public class StratmasDispatcher {
      * 
      * @param retries max number of times to trie to allocate.
      */
-    public StratmasSocket allocateServer(int retries) {
+    public ApproxsimSocket allocateServer(int retries) {
         Random random = new Random();
         LSInput parserInput = domImplementationLS.createLSInput();
 
         for (int i = 0; i < retries; i++) {
             Vector prospects = new Vector();
             for (Enumeration e = getServers().elements(); e.hasMoreElements();) {
-                StratmasServer server = (StratmasServer) e.nextElement();
+                ApproxsimServer server = (ApproxsimServer) e.nextElement();
                 if (!server.isBusy()) {
                     prospects.add(server);
                 }
@@ -138,17 +138,17 @@ public class StratmasDispatcher {
             if (prospects.size() != 0) {
                 // Randomly pick one:
                 int index = random.nextInt(prospects.size());
-                StratmasServer prospect = (StratmasServer) prospects.get(index);
+                ApproxsimServer prospect = (ApproxsimServer) prospects.get(index);
                 Debug.err.println(i + ": Trying " + prospect.toString());
                 // Try to become active client.
-                StratmasSocket socket = null;
+                ApproxsimSocket socket = null;
                 try {
-                    socket = new StratmasSocket();
+                    socket = new ApproxsimSocket();
                     socket.connect(prospect.getHost(), prospect.getPort());
                     ConnectMessage message = new ConnectMessage();
                     socket.sendMessage(message.toXML());
                     parserInput.setStringData(socket.recvMessage());
-                    Document reply = createStratmasParser().parse(parserInput);
+                    Document reply = createApproxsimParser().parse(parserInput);
                     NodeList list = reply.getDocumentElement()
                             .getElementsByTagName("active");
                     if (list.getLength() != 1) {
@@ -182,9 +182,9 @@ public class StratmasDispatcher {
     }
 
     /**
-     * Creates a parser for communication with a StratmasServer.
+     * Creates a parser for communication with a ApproxsimServer.
      */
-    public LSParser createStratmasParser() {
+    public LSParser createApproxsimParser() {
         LSParser parser = domImplementationLS
                 .createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS,
                                 "http://www.w3.org/2001/XMLSchema");
@@ -206,7 +206,7 @@ public class StratmasDispatcher {
 
         parser.getDomConfig()
                 .setParameter("schema-location",
-                              StratmasConstants.STRATMAS_PROTOCOL_SCHEMA);
+                              ApproxsimConstants.APPROXSIM_PROTOCOL_SCHEMA);
         parser.getDomConfig().setParameter("validate", Boolean.TRUE);
         parser.getDomConfig().setParameter("namespaces", Boolean.TRUE);
 
@@ -309,9 +309,9 @@ public class StratmasDispatcher {
                 parserInput.setByteStream(channel.socket().getInputStream());
                 Document reply = createDispatcherParser().parse(parserInput);
                 NodeList servers = reply.getDocumentElement()
-                        .getElementsByTagName("stratmasServer");
+                        .getElementsByTagName("approxsimServer");
                 for (int i = 0; i < servers.getLength(); i++) {
-                    res.add(StratmasServer.fromDOMElement((Element) servers
+                    res.add(ApproxsimServer.fromDOMElement((Element) servers
                             .item(i)));
                 }
             } catch (org.w3c.dom.ls.LSException e) {

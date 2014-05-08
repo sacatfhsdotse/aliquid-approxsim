@@ -3,28 +3,28 @@
  * @(#)ProcessVariableParameter.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
 import java.util.Vector;
 import java.util.Enumeration;
 
-import StratmasClient.ProcessVariableDescription;
-import StratmasClient.object.StratmasObject;
+import ApproxsimClient.ProcessVariableDescription;
+import ApproxsimClient.object.ApproxsimObject;
 
-import StratmasClient.object.Shape;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.StratmasConstants;
+import ApproxsimClient.object.Shape;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.ApproxsimConstants;
 
-import StratmasClient.communication.ServerException;
-import StratmasClient.communication.RegionData;
-import StratmasClient.communication.StratmasMessage;
-import StratmasClient.communication.Subscription;
-import StratmasClient.communication.RegionSubscription;
-import StratmasClient.communication.StratmasMessageEvent;
-import StratmasClient.communication.ServerCapabilitiesMessage;
-import StratmasClient.communication.DefaultStratmasMessageListener;
+import ApproxsimClient.communication.ServerException;
+import ApproxsimClient.communication.RegionData;
+import ApproxsimClient.communication.ApproxsimMessage;
+import ApproxsimClient.communication.Subscription;
+import ApproxsimClient.communication.RegionSubscription;
+import ApproxsimClient.communication.ApproxsimMessageEvent;
+import ApproxsimClient.communication.ServerCapabilitiesMessage;
+import ApproxsimClient.communication.DefaultApproxsimMessageListener;
 
-import StratmasClient.filter.TypeFilter;
+import ApproxsimClient.filter.TypeFilter;
 
 import javax.swing.JMenu;
 import javax.swing.JPopupMenu;
@@ -173,16 +173,16 @@ public class ProcessVariableParameter extends DoubleParameter implements
      * @param session the session to ask for capabilities.
      */
     void setProcessVariables(ServerSession session) throws ServerException {
-        StratmasMessage message = new ServerCapabilitiesMessage();
+        ApproxsimMessage message = new ServerCapabilitiesMessage();
 
-        message.addEventListener(new DefaultStratmasMessageListener() {
+        message.addEventListener(new DefaultApproxsimMessageListener() {
             /**
              * Called when the XMLHandler has processed the data in the answer message received from the server.
              * 
              * @param e The event that occured.
              * @param reply the reply, if any, else null
              */
-            public void messageHandled(StratmasMessageEvent e, Object reply) {
+            public void messageHandled(ApproxsimMessageEvent e, Object reply) {
                 if (reply instanceof Vector) {
                     setProcessVariables((Vector) reply);
                 }
@@ -211,7 +211,7 @@ public class ProcessVariableParameter extends DoubleParameter implements
                         .nextElement();
                 if (pvd.hasFactions()) {
                     JMenu menu = new JMenu(pvd.getName());
-                    menu.add(new AbstractAction(StratmasConstants.factionAll) {
+                    menu.add(new AbstractAction(ApproxsimConstants.factionAll) {
                         /**
 							 * 
 							 */
@@ -219,12 +219,12 @@ public class ProcessVariableParameter extends DoubleParameter implements
 
                         public void actionPerformed(ActionEvent event) {
                             setProcessVariable(pvd.getName());
-                            setFaction(StratmasConstants.factionAll);
+                            setFaction(ApproxsimConstants.factionAll);
                         }
                     });
                     for (Enumeration f = factions.elements(); f
                             .hasMoreElements();) {
-                        final StratmasObject obj = (StratmasObject) f
+                        final ApproxsimObject obj = (ApproxsimObject) f
                                 .nextElement();
                         menu.add(new AbstractAction(obj.getIdentifier()) {
                             /**
@@ -247,7 +247,7 @@ public class ProcessVariableParameter extends DoubleParameter implements
 
                         public void actionPerformed(ActionEvent event) {
                             setProcessVariable(pvd.getName());
-                            setFaction(StratmasConstants.factionAll);
+                            setFaction(ApproxsimConstants.factionAll);
                         }
                     });
                 }
@@ -282,10 +282,10 @@ public class ProcessVariableParameter extends DoubleParameter implements
                 .hasMoreElements();) {
             ProcessVariableDescription pvd = (ProcessVariableDescription) e
                     .nextElement();
-            entries.add(new Entry(pvd.getName(), StratmasConstants.factionAll));
+            entries.add(new Entry(pvd.getName(), ApproxsimConstants.factionAll));
             if (pvd.hasFactions()) {
                 for (Enumeration f = factions.elements(); f.hasMoreElements();) {
-                    StratmasObject obj = (StratmasObject) f.nextElement();
+                    ApproxsimObject obj = (ApproxsimObject) f.nextElement();
                     entries.add(new Entry(pvd.getName(), obj.getIdentifier()));
                 }
             }

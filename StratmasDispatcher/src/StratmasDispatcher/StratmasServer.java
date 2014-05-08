@@ -1,10 +1,10 @@
-//         $Id: StratmasServer.java,v 1.8 2006/09/05 14:38:48 dah Exp $
+//         $Id: ApproxsimServer.java,v 1.8 2006/09/05 14:38:48 dah Exp $
 
 /*
- * @(#)StratmasServer.java
+ * @(#)ApproxsimServer.java
  */
 
-package StratmasDispatcher;
+package ApproxsimDispatcher;
 
 import java.util.Vector;
 import java.util.Enumeration;
@@ -14,13 +14,13 @@ import  org.w3c.dom.NodeList;
 import  org.w3c.dom.Document;
 
 /**
- * The information associated with a Stratmas server.
+ * The information associated with a Approxsim server.
  *
  * @version 1, $Date: 2006/09/05 14:38:48 $
  * @author  Daniel Ahlin
 */
 
-public class StratmasServer
+public class ApproxsimServer
 {
     /**
      * The host where the server is running.
@@ -60,12 +60,12 @@ public class StratmasServer
     boolean hasActiveClient = false;
 
     /**
-     * Creates a new StratmasServer record.
+     * Creates a new ApproxsimServer record.
      *
      * @param host the host where the server is running.
      * @param port the port on which the server is listening.
      */
-    public StratmasServer(String host, int port)
+    public ApproxsimServer(String host, int port)
     {
         this.host = host;
         this.port = port;
@@ -81,8 +81,8 @@ public class StratmasServer
      */
     public boolean equals(Object o)
     {
-        if (o instanceof StratmasServer) {
-            StratmasServer so = (StratmasServer) o;
+        if (o instanceof ApproxsimServer) {
+            ApproxsimServer so = (ApproxsimServer) o;
             return getHost().equals(so.getHost()) &&
                 getPort() == so.getPort();
         } else {
@@ -208,7 +208,7 @@ public class StratmasServer
      */
     public Element toDOMElement(Document document)
     {
-        Element element = document.createElement("stratmasServer");
+        Element element = document.createElement("approxsimServer");
         Element hostElement = document.createElement("host");
         hostElement.appendChild(document.createTextNode(getHost()));
         Element portElement = document.createElement("port");
@@ -240,13 +240,13 @@ public class StratmasServer
      *
      * @param element the element representing the server.
      */
-    public static StratmasServer fromDOMElement(Element element)
+    public static ApproxsimServer fromDOMElement(Element element)
     {
         String host = element.getElementsByTagName("host").item(0).getFirstChild().getNodeValue();
         int port = Integer.parseInt(element.getElementsByTagName("port").item(0).getFirstChild().getNodeValue());
         boolean hasActive = (Boolean.valueOf(element.getElementsByTagName("port").item(0).getFirstChild().getNodeValue())).booleanValue();
         
-        StratmasServer res = new StratmasServer(host, port);
+        ApproxsimServer res = new ApproxsimServer(host, port);
         if (res != null) {
             res.setHasActiveClient(hasActive);
         }

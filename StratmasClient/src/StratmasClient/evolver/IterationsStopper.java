@@ -3,7 +3,7 @@
  * @(#)IterationsStopper.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
 /**
  * A stopper encapsulates the stop criterion for evolvers and some evaluators.

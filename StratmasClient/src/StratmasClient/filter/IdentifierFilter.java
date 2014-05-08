@@ -3,18 +3,18 @@
  * @(#)Identifierfilter.java
  */
 
-package StratmasClient.filter;
+package ApproxsimClient.filter;
 
-import StratmasClient.object.StratmasObject;
+import ApproxsimClient.object.ApproxsimObject;
 
 /**
- * Identifierfilter filters out StratmasObjects accordning to provided rules.
+ * Identifierfilter filters out ApproxsimObjects accordning to provided rules.
  * 
  * @version 1, $Date: 2006/03/22 14:30:50 $
  * @author Daniel Ahlin
  */
 
-public class IdentifierFilter extends StratmasObjectFilter {
+public class IdentifierFilter extends ApproxsimObjectFilter {
     /**
      * The Identifier the filter should filter for.
      */
@@ -47,11 +47,11 @@ public class IdentifierFilter extends StratmasObjectFilter {
     }
 
     /**
-     * Returns true if the provided StratmasObject passes the filter.
+     * Returns true if the provided ApproxsimObject passes the filter.
      * 
      * @param sObj the object to test
      */
-    public boolean pass(StratmasObject sObj) {
+    public boolean pass(ApproxsimObject sObj) {
         return applyInverted(sObj.getIdentifier().equals(getIdentifier()));
     }
 }

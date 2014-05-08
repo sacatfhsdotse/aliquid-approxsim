@@ -1,5 +1,5 @@
-#ifndef _STRATMAS_REFERENCE_H
-#define _STRATMAS_REFERENCE_H
+#ifndef _APPROXSIM_REFERENCE_H
+#define _APPROXSIM_REFERENCE_H
 
 // System
 #include <iosfwd>
@@ -24,7 +24,7 @@ XERCES_CPP_NAMESPACE_USE
 
 /**
  * \brief A Reference is used to point out an object somewhere in the
- * Stratmas object hierarchy.
+ * Approxsim object hierarchy.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/05/24 12:32:11 $
@@ -216,4 +216,4 @@ struct hashReferenceP {
      }
 };
 
-#endif   // _STRATMAS_REFERENCE_H
+#endif   // _APPROXSIM_REFERENCE_H

@@ -3,25 +3,25 @@
  * @(#)SimulationEvaluator.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
-import StratmasClient.object.StratmasObject;
-import StratmasClient.Debug;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.Debug;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
 
-import StratmasClient.communication.ServerException;
+import ApproxsimClient.communication.ServerException;
 import java.util.Vector;
 import java.util.Enumeration;
 
 /**
- * An implementation of evaluator that runs a stratmas simulation to get the evaluation measure.
+ * An implementation of evaluator that runs a approxsim simulation to get the evaluation measure.
  * 
  * @version 1, $Date: 2006/03/22 14:30:50 $
  * @author Daniel Ahlin
  */
 public class SimulationEvaluator extends DefaultEvaluator implements
-        StratmasEventListener {
+        ApproxsimEventListener {
     /**
      * Vector containing Evaluations that are results of measured timesteps passed before this evaluator finished.
      */
@@ -35,7 +35,7 @@ public class SimulationEvaluator extends DefaultEvaluator implements
     /**
      * The simulation to simulate
      */
-    StratmasObject simulation = null;
+    ApproxsimObject simulation = null;
 
     /**
      * The target of this evaluator, i. e its performance measure.
@@ -50,7 +50,7 @@ public class SimulationEvaluator extends DefaultEvaluator implements
      * @param simulation the simulation to run
      */
     public SimulationEvaluator(ServerSession session,
-            SimulationEvaluatorTarget target, StratmasObject simulation) {
+            SimulationEvaluatorTarget target, ApproxsimObject simulation) {
         super();
         this.target = target;
         this.session = session;
@@ -66,7 +66,7 @@ public class SimulationEvaluator extends DefaultEvaluator implements
     public Evaluation evaluate(ParameterInstanceSet set)
             throws EvaluatorException {
         // Check all parameters in set:
-        // 1. Find out if they are backed by StratmasObjects.
+        // 1. Find out if they are backed by ApproxsimObjects.
         // 2. Check resolvability of all references.
         // FIXME: Note that 2 have to be removed or changed when the
         // sampler should be able to actually add objects (and not just
@@ -74,17 +74,17 @@ public class SimulationEvaluator extends DefaultEvaluator implements
         for (Enumeration e = set.getParameterInstances(); e.hasMoreElements();) {
             ParameterInstance parameterInstance = (ParameterInstance) e
                     .nextElement();
-            if (!(parameterInstance.getParameter() instanceof StratmasObjectParameter)) {
+            if (!(parameterInstance.getParameter() instanceof ApproxsimObjectParameter)) {
                 String errorMessage = getClass()
                         + " is unable to evaluate parameters of type: "
                         + parameterInstance.getParameter().getClass();
                 fireError(errorMessage);
                 throw new EvaluatorException(this, errorMessage);
-            } else if (((StratmasObjectParameter) parameterInstance
+            } else if (((ApproxsimObjectParameter) parameterInstance
                     .getParameter()).getReference().resolve(getSimulation()) == null) {
                 String errorMessage = getClass()
                         + ": "
-                        + ((StratmasObjectParameter) parameterInstance
+                        + ((ApproxsimObjectParameter) parameterInstance
                                 .getParameter()).getReference()
                         + " does not exist in the simulation.";
                 fireError(errorMessage);
@@ -99,9 +99,9 @@ public class SimulationEvaluator extends DefaultEvaluator implements
                 ParameterInstance parameterInstance = (ParameterInstance) e
                         .nextElement();
                 getSession()
-                        .updateObject(((StratmasObjectParameter) parameterInstance
+                        .updateObject(((ApproxsimObjectParameter) parameterInstance
                                               .getParameter()).getReference(),
-                                      (StratmasObject) parameterInstance
+                                      (ApproxsimObject) parameterInstance
                                               .getValue());
             }
 
@@ -145,7 +145,7 @@ public class SimulationEvaluator extends DefaultEvaluator implements
      * 
      * @param simulation the simulation to use.
      */
-    void setSimulation(StratmasObject simulation) {
+    void setSimulation(ApproxsimObject simulation) {
         if (getSimulation() != null) {
             getSimulation().removeEventListener(this);
         }
@@ -160,7 +160,7 @@ public class SimulationEvaluator extends DefaultEvaluator implements
     /**
      * Returns the simulation to simulate.
      */
-    StratmasObject getSimulation() {
+    ApproxsimObject getSimulation() {
         return this.simulation;
     }
 
@@ -169,7 +169,7 @@ public class SimulationEvaluator extends DefaultEvaluator implements
      * 
      * @param event the event.
      */
-    public void eventOccured(StratmasEvent event) {
+    public void eventOccured(ApproxsimEvent event) {
         if (event.isRemoved() || event.isReplaced()) {
             setSimulation(null);
         }

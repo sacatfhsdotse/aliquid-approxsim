@@ -1,5 +1,5 @@
-#ifndef _STRATMAS_PRESENCEOBJECT_H
-#define _STRATMAS_PRESENCEOBJECT_H
+#ifndef _APPROXSIM_PRESENCEOBJECT_H
+#define _APPROXSIM_PRESENCEOBJECT_H
 
 // System
 #include <vector>
@@ -118,4 +118,4 @@ struct lessPresenceObjectPointer {
      }
 };
 
-#endif   // _STRATMAS_PRESENCEOBJECT_H
+#endif   // _APPROXSIM_PRESENCEOBJECT_H

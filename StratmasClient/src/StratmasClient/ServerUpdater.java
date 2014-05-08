@@ -1,31 +1,31 @@
-package StratmasClient;
+package ApproxsimClient;
 
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Vector;
-import StratmasClient.communication.ServerConnection;
-import StratmasClient.communication.TSQueue;
-import StratmasClient.communication.UpdateMessage;
-import StratmasClient.communication.Update;
-import StratmasClient.object.type.Declaration;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.Composite;
-import StratmasClient.object.Polygon;
-import StratmasClient.object.StratmasList;
-import StratmasClient.object.type.TypeFactory;
+import ApproxsimClient.communication.ServerConnection;
+import ApproxsimClient.communication.TSQueue;
+import ApproxsimClient.communication.UpdateMessage;
+import ApproxsimClient.communication.Update;
+import ApproxsimClient.object.type.Declaration;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.Composite;
+import ApproxsimClient.object.Polygon;
+import ApproxsimClient.object.ApproxsimList;
+import ApproxsimClient.object.type.TypeFactory;
 
 /**
  * A class that handles the transfer of updates from the Client to the server (during a simulation). An update should be performed whenever
- * a StratmasObject is modified during a simulation by anything except the server, in order to synchronize the server's and the client's
- * views of the simulation. The ServerUpdater listens to all ValueType descendants in the provided tree of StratmasObjects and performs
+ * a ApproxsimObject is modified during a simulation by anything except the server, in order to synchronize the server's and the client's
+ * views of the simulation. The ServerUpdater listens to all ValueType descendants in the provided tree of ApproxsimObjects and performs
  * updates whenever an update triggering event occurs.
  * 
  * @version 1, $Date: 2006/10/03 14:56:41 $
  * @author Per Alexius
  */
-public class ServerUpdater implements StratmasEventListener {
+public class ServerUpdater implements ApproxsimEventListener {
     /** The UpdateHandler to use for sending updates. */
     private UpdateHandler mUH;
 
@@ -37,13 +37,13 @@ public class ServerUpdater implements StratmasEventListener {
      * 
      * @param obj The provided object.
      */
-    private void listenTo(StratmasObject obj) {
+    private void listenTo(ApproxsimObject obj) {
         obj.addEventListener(this);
         mListenedObjects.add(obj);
         if (!obj.getType().canSubstitute("ValueType")
-                || obj instanceof StratmasList) {
+                || obj instanceof ApproxsimList) {
             for (Enumeration en = obj.children(); en.hasMoreElements();) {
-                listenTo((StratmasObject) en.nextElement());
+                listenTo((ApproxsimObject) en.nextElement());
             }
         }
     }
@@ -53,23 +53,23 @@ public class ServerUpdater implements StratmasEventListener {
      * 
      * @param obj The provided object.
      */
-    private void stopListenTo(StratmasObject obj) {
+    private void stopListenTo(ApproxsimObject obj) {
         obj.removeEventListener(this);
         mListenedObjects.remove(obj);
         for (Enumeration en = obj.children(); en.hasMoreElements();) {
-            stopListenTo((StratmasObject) en.nextElement());
+            stopListenTo((ApproxsimObject) en.nextElement());
         }
     }
 
     /**
-     * Constructs a ServerUpdater for the StratmasObjects in the tree rooted at the provided StratamsObject.
+     * Constructs a ServerUpdater for the ApproxsimObjects in the tree rooted at the provided StratamsObject.
      * 
      * @param sc The ServerConnection to use for sending updates.
-     * @param root The root of the tree of StratmasObjects to handle updates for.
+     * @param root The root of the tree of ApproxsimObjects to handle updates for.
      * @param controller The Controller object. Only needed in order to be able to disconnect if an update failed. This should be handled
      *            differently when the Controller class is rewritten.
      */
-    public ServerUpdater(ServerConnection sc, StratmasObject root,
+    public ServerUpdater(ServerConnection sc, ApproxsimObject root,
             Controller controller) {
         mUH = new UpdateHandler(sc, controller);
         listenTo(root);
@@ -81,7 +81,7 @@ public class ServerUpdater implements StratmasEventListener {
      */
     public void inactivate() {
         for (Iterator it = mListenedObjects.iterator(); it.hasNext();) {
-            ((StratmasObject) it.next()).removeEventListener(this);
+            ((ApproxsimObject) it.next()).removeEventListener(this);
         }
         mListenedObjects.removeAllElements();
         mUH.kill();
@@ -93,7 +93,7 @@ public class ServerUpdater implements StratmasEventListener {
      * @param o The object added, removed or updated or the object to replace an old object with..
      * @param type The type of update (add, remove, replace or update).
      */
-    private void sendUpdate(StratmasObject o, String type) {
+    private void sendUpdate(ApproxsimObject o, String type) {
         mUH.enqueueUpdate(o, type);
     }
 
@@ -103,17 +103,17 @@ public class ServerUpdater implements StratmasEventListener {
      * 
      * @param e The event that occured.
      */
-    public void eventOccured(StratmasEvent e) {
-        StratmasObject obj = (StratmasObject) e.getSource();
+    public void eventOccured(ApproxsimEvent e) {
+        ApproxsimObject obj = (ApproxsimObject) e.getSource();
         boolean serverUpdate = e.getInitiator() instanceof org.w3c.dom.Element;
-        // Debug.err.println("event " + e + ", " + ((StratmasObject)e.getSource()).getIdentifier());
+        // Debug.err.println("event " + e + ", " + ((ApproxsimObject)e.getSource()).getIdentifier());
         // We should update the server if the initiator isn't a dom
         // element (e.g. the server) and the event is a valueChanged
         // event or a childChanged event sent from a non-list and if
         // the source is a ValueType descendant.
         if (!serverUpdate
                 && (e.isValueChanged() || e.isChildChanged()
-                        && !(obj instanceof StratmasList))
+                        && !(obj instanceof ApproxsimList))
                 && obj.getType()
                         .canSubstitute(TypeFactory.getType("ValueType"))) {
             // Wait until we have closed polygons before we send any updates.
@@ -124,14 +124,14 @@ public class ServerUpdater implements StratmasEventListener {
             }
             sendUpdate(obj, UpdateMessage.MODIFY);
         } else if (e.isObjectAdded()) {
-            StratmasObject added = (StratmasObject) e.getArgument();
+            ApproxsimObject added = (ApproxsimObject) e.getArgument();
             listenTo(added);
             if (!serverUpdate) {
                 sendUpdate(added, UpdateMessage.ADD);
             }
         } else if (e.isReplaced()) {
-            stopListenTo((StratmasObject) e.getSource());
-            StratmasObject newObj = (StratmasObject) e.getArgument();
+            stopListenTo((ApproxsimObject) e.getSource());
+            ApproxsimObject newObj = (ApproxsimObject) e.getArgument();
             listenTo(newObj);
             if (!serverUpdate
                     && newObj.getType()
@@ -139,7 +139,7 @@ public class ServerUpdater implements StratmasEventListener {
                 sendUpdate(newObj, UpdateMessage.REPLACE);
             }
         } else if (e.isRemoved()) {
-            StratmasObject removed = (StratmasObject) e.getSource();
+            ApproxsimObject removed = (ApproxsimObject) e.getSource();
             stopListenTo(removed);
             if (!serverUpdate) {
                 // Don't have to send updates for removed required elements.
@@ -203,7 +203,7 @@ class UpdateHandler implements Runnable {
      * @param o The object added, removed or updated or the object to replace an old object with..
      * @param type The type of update (add, remove, replace or update).
      */
-    public void enqueueUpdate(StratmasObject o, String type) {
+    public void enqueueUpdate(ApproxsimObject o, String type) {
         mQueue.enqueue(new Update(o, type));
     }
 
@@ -241,9 +241,9 @@ class UpdateHandler implements Runnable {
                 // locking the client in "continous_step"
                 // mode. Should be handled differently when the
                 // Controller class is rewritten.
-                msg.addEventListener(new StratmasClient.communication.DefaultStratmasMessageListener() {
+                msg.addEventListener(new ApproxsimClient.communication.DefaultApproxsimMessageListener() {
                     public void errorOccurred(
-                            StratmasClient.communication.StratmasMessageEvent e) {
+                            ApproxsimClient.communication.ApproxsimMessageEvent e) {
                         mController.updateSimulationMode("disconnect");
                     }
                 });

@@ -1,18 +1,18 @@
-package StratmasClient.timeline;
+package ApproxsimClient.timeline;
 
 import java.util.Vector;
 import java.util.Enumeration;
 
-import StratmasClient.Client;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasTimestamp;
-import StratmasClient.object.StratmasDuration;
-import StratmasClient.object.primitive.Timestamp;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.filter.TypeFilter;
-import StratmasClient.filter.CombinedORFilter;
+import ApproxsimClient.Client;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimTimestamp;
+import ApproxsimClient.object.ApproxsimDuration;
+import ApproxsimClient.object.primitive.Timestamp;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.filter.TypeFilter;
+import ApproxsimClient.filter.CombinedORFilter;
 
 /**
  * Timeline is primarily used to select the times for the simulation data to be delivered and visualized on the client. Besides the timeline
@@ -20,7 +20,7 @@ import StratmasClient.filter.CombinedORFilter;
  * 
  * @author Amir Filipovic
  */
-public class Timeline implements StratmasEventListener, ActivityAdapterListener {
+public class Timeline implements ApproxsimEventListener, ActivityAdapterListener {
     /**
      * Length of the minimum time step in miliseconds.
      */
@@ -64,11 +64,11 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
     /**
      * Reference to the currently used simulation timestep.
      */
-    private StratmasDuration simulationTimestep;
+    private ApproxsimDuration simulationTimestep;
     /**
      * Reference to the start time of the simulation.
      */
-    private StratmasTimestamp simulationStartTimestamp;
+    private ApproxsimTimestamp simulationStartTimestamp;
     /**
      * The panel of the timeline.
      */
@@ -80,7 +80,7 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
      * @param dt length of the time step in miliseconds.
      * @param startTimestamp simulation start time.
      */
-    public Timeline(StratmasDuration dt, StratmasTimestamp startTimestamp) {
+    public Timeline(ApproxsimDuration dt, ApproxsimTimestamp startTimestamp) {
         // get length of the time step
         simulationTimestep = dt;
         simulationTimestep.addEventListener(this);
@@ -109,7 +109,7 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
     }
 
     /**
-     * Sets reference to the stratmas client.
+     * Sets reference to the approxsim client.
      */
     public void setClient(Client client) {
         this.client = client;
@@ -118,7 +118,7 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
     }
 
     /**
-     * Returns the reference to the stratmas client.
+     * Returns the reference to the approxsim client.
      */
     public Client getClient() {
         return client;
@@ -363,7 +363,7 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
      * @param dt time step.
      * @param start_time simulation start time.
      */
-    public void reset(StratmasDuration dt, StratmasTimestamp start_time) {
+    public void reset(ApproxsimDuration dt, ApproxsimTimestamp start_time) {
         // time step
         simulationTimestep.removeEventListener(this);
         simulationTimestep = dt;
@@ -425,7 +425,7 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
     /**
      * Updates the timeline.
      */
-    public synchronized void eventOccured(StratmasEvent e) {
+    public synchronized void eventOccured(ApproxsimEvent e) {
         // update the current time on the timeline
         if (e.isSubscriptionHandled()) {
             long msecs = ((Timestamp) e.getArgument()).getMilliSecs();
@@ -451,8 +451,8 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
             }
         }
         // add new activity to the timeline or listener to a new element
-        else if (e.isObjectAdded() && e.getArgument() instanceof StratmasObject) {
-            StratmasObject arg = (StratmasObject) e.getArgument();
+        else if (e.isObjectAdded() && e.getArgument() instanceof ApproxsimObject) {
+            ApproxsimObject arg = (ApproxsimObject) e.getArgument();
             if (arg.getType().canSubstitute("Element")) {
                 importActivities(arg);
             } else if (arg.getType().canSubstitute("Activity")) {
@@ -572,7 +572,7 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
      * 
      * @param node the root of the subtree.
      */
-    private void addListenerTo(StratmasObject node) {
+    private void addListenerTo(ApproxsimObject node) {
         // create filter for elements and activities
         CombinedORFilter combFilter = new CombinedORFilter();
         combFilter.addFilter(new TypeFilter(TypeFactory.getType("Activity"),
@@ -581,7 +581,7 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
                 true));
         Enumeration eaList = combFilter.filterTree(node);
         for (; eaList.hasMoreElements();) {
-            StratmasObject candidate = (StratmasObject) eaList.nextElement();
+            ApproxsimObject candidate = (ApproxsimObject) eaList.nextElement();
             // listen to this element
             candidate.addEventListener(this);
         }
@@ -590,7 +590,7 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
     /**
      * Adds the activities to the timeline.
      */
-    public void importActivities(StratmasObject node) {
+    public void importActivities(ApproxsimObject node) {
         // add listeners to all the elements
         addListenerTo(node);
         // add all activities
@@ -598,7 +598,7 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
                 true);
         Enumeration acts = filter.filterTree(node);
         for (; acts.hasMoreElements();) {
-            StratmasObject scom = (StratmasObject) acts.nextElement();
+            ApproxsimObject scom = (ApproxsimObject) acts.nextElement();
             if (scom.getType().canSubstitute("Activity")
                     && scom.getChild("start") != null) {
                 ActivityAdapter adapter = new ActivityAdapter(scom);
@@ -616,7 +616,7 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
     /**
      * Adds an activity to the timeline.
      */
-    public void addActivity(StratmasObject activity) {
+    public void addActivity(ApproxsimObject activity) {
         if (!this.contains(activity) && activity.getChild("start") != null) {
             ActivityAdapter adapter = new ActivityAdapter(activity);
             adapter.addActivityAdapterListener(this);
@@ -629,7 +629,7 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
     /**
      * Removes an activity from the timeline.
      */
-    public void removeActivity(StratmasObject activity) {
+    public void removeActivity(ApproxsimObject activity) {
         for (int i = 0; i < activityAdapters.size(); i++) {
             if (activityAdapters.get(i).getActivity().equals(activity)) {
                 ActivityAdapter adapter = activityAdapters.remove(i);
@@ -644,7 +644,7 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
     /**
      * Checks if an activity is already contained in the timeline.
      */
-    public boolean contains(StratmasObject activity) {
+    public boolean contains(ApproxsimObject activity) {
         for (Enumeration<ActivityAdapter> e = activityAdapters.elements(); e
                 .hasMoreElements();) {
             if (e.nextElement().getActivity().equals(activity)) {

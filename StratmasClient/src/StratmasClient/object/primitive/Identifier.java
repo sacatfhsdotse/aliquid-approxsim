@@ -3,7 +3,7 @@
  * @(#)Identifier.java
  */
 
-package StratmasClient.object.primitive;
+package ApproxsimClient.object.primitive;
 
 import org.w3c.dom.Element;
 

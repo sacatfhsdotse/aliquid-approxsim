@@ -3,26 +3,26 @@
  * @(#)SymbolIDCode.java
  */
 
-package StratmasClient.object;
+package ApproxsimClient.object;
 
 import java.text.ParseException;
 
-import StratmasClient.object.primitive.Identifier;
-import StratmasClient.object.primitive.Timestamp;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.object.type.Declaration;
-import StratmasClient.object.type.Type;
+import ApproxsimClient.object.primitive.Identifier;
+import ApproxsimClient.object.primitive.Timestamp;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.object.type.Declaration;
+import ApproxsimClient.object.type.Type;
 
 import org.w3c.dom.Element;
 
 /**
- * SymbolIDCode is a Stratmas symbolIDCode class
+ * SymbolIDCode is a Approxsim symbolIDCode class
  * 
  * @version 1, $Date: 2006/05/16 09:10:48 $
  * @author Per Alexius
  */
 
-public class SymbolIDCode extends StratmasSimple {
+public class SymbolIDCode extends ApproxsimSimple {
     /**
      * The string containing the SymbolIDCode.
      */
@@ -85,8 +85,8 @@ public class SymbolIDCode extends StratmasSimple {
             // HACK if there is a parent of this symbolcode, update its
             // icon.
             if (getParent() != null
-                    && getParent() instanceof StratmasObjectImpl) {
-                ((StratmasObjectDynImpl) getParent()).createIcon();
+                    && getParent() instanceof ApproxsimObjectImpl) {
+                ((ApproxsimObjectDynImpl) getParent()).createIcon();
             }
 
             fireValueChanged(initiator);
@@ -120,11 +120,11 @@ public class SymbolIDCode extends StratmasSimple {
     }
 
     /**
-     * Returns a StratmasVectorConstructor suitable for constructing objects of this type.
+     * Returns a ApproxsimVectorConstructor suitable for constructing objects of this type.
      * 
      * @param declaration the declaration for which the object is created.
      */
-    protected static StratmasVectorConstructor getVectorConstructor(
+    protected static ApproxsimVectorConstructor getVectorConstructor(
             Declaration declaration) {
         return new SymbolIDCodeVectorConstructor(declaration);
     }
@@ -134,7 +134,7 @@ public class SymbolIDCode extends StratmasSimple {
      * 
      * @param n The dom element from which the object is created.
      */
-    protected static StratmasObject domCreate(Element n) {
+    protected static ApproxsimObject domCreate(Element n) {
         try {
             return new SymbolIDCode(Identifier.getIdentifier(n),
                     TypeFactory.getType(n), XMLHelper.getString(XMLHelper
@@ -153,7 +153,7 @@ public class SymbolIDCode extends StratmasSimple {
      * 
      * @param declaration The declaration for which the object is created.
      */
-    protected static StratmasObject defaultCreate(Declaration declaration) {
+    protected static ApproxsimObject defaultCreate(Declaration declaration) {
         try {
             return new SymbolIDCode(declaration, "---------------");
         } catch (ParseException e) {
@@ -190,11 +190,11 @@ public class SymbolIDCode extends StratmasSimple {
     }
 
     /**
-     * Returns a StratmasGUIConstructor suitable for constructing objects of this type.
+     * Returns a ApproxsimGUIConstructor suitable for constructing objects of this type.
      * 
      * @param declaration the declaration for which the GUI is created.
      */
-    protected static StratmasGUIConstructor getGUIConstructor(
+    protected static ApproxsimGUIConstructor getGUIConstructor(
             Declaration declaration) {
         return new SymbolIDCodeGUIConstructor(declaration);
     }
@@ -224,7 +224,7 @@ public class SymbolIDCode extends StratmasSimple {
  * @version 1, $Date: 2006/05/16 09:10:48 $
  * @author Per Alexius
  */
-class SymbolIDCodeVectorConstructor extends StratmasVectorConstructor {
+class SymbolIDCodeVectorConstructor extends ApproxsimVectorConstructor {
     /**
      * Creates a new SymbolIDCodeVectorConstructor using the supplied declaration.
      * 
@@ -235,13 +235,13 @@ class SymbolIDCodeVectorConstructor extends StratmasVectorConstructor {
     }
 
     /**
-     * Returns the StratmasObject this component was created to provide.
+     * Returns the ApproxsimObject this component was created to provide.
      * 
      * @param parts the parts to use in constructing the object.
      */
-    public StratmasObject getStratmasObject(java.util.Vector parts) {
+    public ApproxsimObject getApproxsimObject(java.util.Vector parts) {
         SymbolIDCode ret = null;
-        String symbolIDCode = ((StratmasString) parts.get(0)).valueToString();
+        String symbolIDCode = ((ApproxsimString) parts.get(0)).valueToString();
         try {
             ret = new SymbolIDCode(this.getDeclaration(), symbolIDCode);
         } catch (ParseException e) {}
@@ -255,7 +255,7 @@ class SymbolIDCodeVectorConstructor extends StratmasVectorConstructor {
  * @version 1, $Date: 2006/05/16 09:10:48 $
  * @author Daniel Ahlin
  */
-class SymbolIDCodeGUIConstructor extends StratmasGUIConstructor {
+class SymbolIDCodeGUIConstructor extends ApproxsimGUIConstructor {
     /**
 	 * 
 	 */
@@ -281,12 +281,12 @@ class SymbolIDCodeGUIConstructor extends StratmasGUIConstructor {
     }
 
     /**
-     * Tries to create the StratmasObject from the values in the GUI.
+     * Tries to create the ApproxsimObject from the values in the GUI.
      */
-    protected void createStratmasObject() {
+    protected void createApproxsimObject() {
         if (field.getText().length() == 15) {
             try {
-                setStratmasObject(new SymbolIDCode(this.declaration,
+                setApproxsimObject(new SymbolIDCode(this.declaration,
                         field.getText()));
             } catch (ParseException e) {}
         } else {}

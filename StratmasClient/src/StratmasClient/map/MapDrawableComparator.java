@@ -1,13 +1,13 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import java.util.Comparator;
 
-import StratmasClient.map.adapter.MapDrawableAdapter;
-import StratmasClient.map.adapter.MapElementAdapter;
-import StratmasClient.map.adapter.MapShapeAdapter;
-import StratmasClient.map.adapter.MapLineAdapter;
-import StratmasClient.map.adapter.MapPointAdapter;
-import StratmasClient.object.type.Type;
+import ApproxsimClient.map.adapter.MapDrawableAdapter;
+import ApproxsimClient.map.adapter.MapElementAdapter;
+import ApproxsimClient.map.adapter.MapShapeAdapter;
+import ApproxsimClient.map.adapter.MapLineAdapter;
+import ApproxsimClient.map.adapter.MapPointAdapter;
+import ApproxsimClient.object.type.Type;
 
 /**
  * MapDrawableComparator is used to compare adapters drawn in the map.
@@ -18,7 +18,7 @@ public class MapDrawableComparator implements Comparator<MapDrawableAdapter> {
      * Returns -1, 0, 1 if d1 is less than, equal to or greater than d2. Order as follows (most significant discriminator to least
      * significant): Selection: {@code unSelected < Selected} Type: {@code Shape < Line < Point < Population <
      *  AgencyTeam < MilitaryUnit < Activity} Hiearchy: {@code child < parent} Identifier: {@code d1.getIdentifier.toString()
-     *  .compare(d2.getStratmasObject().getIdentifier().toString())} Note that the type discriminator takes inheritance into account,
+     *  .compare(d2.getApproxsimObject().getIdentifier().toString())} Note that the type discriminator takes inheritance into account,
      * meaning that any derived type of Population, AgencyTeam, MilitaryUnit, Activity and Shape is treated as above.
      * 
      * @param d1 the first object to be compared.
@@ -52,12 +52,12 @@ public class MapDrawableComparator implements Comparator<MapDrawableAdapter> {
             MapElementAdapter a2 = (MapElementAdapter) d2;
             if (a1.isSelected() ^ a2.isSelected()) {
                 return a1.isSelected() ? 1 : -1;
-            } else if (a1.getStratmasObject().getType()
-                    .canSubstitute(a2.getStratmasObject().getType())
-                    || a2.getStratmasObject().getType()
-                            .canSubstitute(a1.getStratmasObject().getType())) {
-                Type t1 = a1.getStratmasObject().getType();
-                Type t2 = a2.getStratmasObject().getType();
+            } else if (a1.getApproxsimObject().getType()
+                    .canSubstitute(a2.getApproxsimObject().getType())
+                    || a2.getApproxsimObject().getType()
+                            .canSubstitute(a1.getApproxsimObject().getType())) {
+                Type t1 = a1.getApproxsimObject().getType();
+                Type t2 = a2.getApproxsimObject().getType();
                 if (t1.canSubstitute("Activity")) {
                     if (t2.canSubstitute("Activity")) {
                         return 0;
@@ -80,15 +80,15 @@ public class MapDrawableComparator implements Comparator<MapDrawableAdapter> {
                 } else {
                     return -1;
                 }
-            } else if (a1.getStratmasObject()
-                    .isAncestor(a2.getStratmasObject())) {
+            } else if (a1.getApproxsimObject()
+                    .isAncestor(a2.getApproxsimObject())) {
                 return 1;
-            } else if (a2.getStratmasObject()
-                    .isAncestor(a1.getStratmasObject())) {
+            } else if (a2.getApproxsimObject()
+                    .isAncestor(a1.getApproxsimObject())) {
                 return -1;
             } else {
-                return a1.getStratmasObject().getIdentifier()
-                        .compareTo(a2.getStratmasObject().getIdentifier());
+                return a1.getApproxsimObject().getIdentifier()
+                        .compareTo(a2.getApproxsimObject().getIdentifier());
             }
         }
     }

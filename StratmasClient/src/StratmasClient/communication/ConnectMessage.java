@@ -1,4 +1,4 @@
-package StratmasClient.communication;
+package ApproxsimClient.communication;
 
 import java.lang.StringBuffer;
 
@@ -9,7 +9,7 @@ import java.lang.StringBuffer;
  * @version 1, $Date: 2006/03/22 14:30:49 $
  * @author Per Alexius
  */
-public class ConnectMessage extends StratmasMessage {
+public class ConnectMessage extends ApproxsimMessage {
     /**
      * Returns a string representation of the type of this message.
      * 

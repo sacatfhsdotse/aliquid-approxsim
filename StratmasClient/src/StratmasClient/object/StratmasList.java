@@ -1,61 +1,61 @@
-// $Id: StratmasList.java,v 1.7 2006/07/31 10:18:44 alexius Exp $
+// $Id: ApproxsimList.java,v 1.7 2006/07/31 10:18:44 alexius Exp $
 /*
- * @(#)StratmasList.java
+ * @(#)ApproxsimList.java
  */
 
-package StratmasClient.object;
+package ApproxsimClient.object;
 
 import java.util.Enumeration;
 import java.util.Vector;
 import java.util.Iterator;
 
-import StratmasClient.ActionGroup;
+import ApproxsimClient.ActionGroup;
 
-import StratmasClient.object.type.Type;
-import StratmasClient.object.type.Declaration;
-import StratmasClient.object.primitive.Identifier;
+import ApproxsimClient.object.type.Type;
+import ApproxsimClient.object.type.Declaration;
+import ApproxsimClient.object.primitive.Identifier;
 
 /**
- * StratmasList is an helper class to deal with non singular declarations with the same tag.
+ * ApproxsimList is an helper class to deal with non singular declarations with the same tag.
  * 
  * @version 1, $Date: 2006/07/31 10:18:44 $
  * @author Daniel Ahlin
  */
 
-public class StratmasList extends DefaultComplex {
+public class ApproxsimList extends DefaultComplex {
     /**
      * A declaration to use for this list if it does not have a parent.
      */
     Declaration declaration = null;
 
     /**
-     * Creates a new StratmasList, taking elements from provided vector.
+     * Creates a new ApproxsimList, taking elements from provided vector.
      * 
      * @param identifier the identifier for the object.
      * @param type the type of the object.
      * @param elements The elements of this list
      */
-    protected StratmasList(String identifier, Type type, Vector elements) {
+    protected ApproxsimList(String identifier, Type type, Vector elements) {
         super(identifier, type, elements);
     }
 
     /**
-     * Creates a new (empty) StratmasList.
+     * Creates a new (empty) ApproxsimList.
      * 
      * @param declaration the declaration describing this list.
      * @param parts the initial parts of this list.
      */
-    protected StratmasList(Declaration declaration, Vector parts) {
+    protected ApproxsimList(Declaration declaration, Vector parts) {
         super(declaration, parts);
         this.declaration = declaration;
     }
 
     /**
-     * Creates a new (empty) StratmasList.
+     * Creates a new (empty) ApproxsimList.
      * 
      * @param declaration the declaration describing this list.
      */
-    protected StratmasList(Declaration declaration) {
+    protected ApproxsimList(Declaration declaration) {
         this(declaration, new Vector());
     }
 
@@ -64,10 +64,10 @@ public class StratmasList extends DefaultComplex {
      * 
      * @param parent the new parent of this object.
      */
-    protected void setParent(StratmasObject parent) {
+    protected void setParent(ApproxsimObject parent) {
         super.setParent(parent);
         if (getParent() != null) {
-            this.declaration = ((StratmasObject) getParent()).getType()
+            this.declaration = ((ApproxsimObject) getParent()).getType()
                     .getSubElement(getTag());
         }
     }
@@ -102,29 +102,29 @@ public class StratmasList extends DefaultComplex {
      */
     public StringBuffer bodyXML(StringBuffer b) {
         for (Iterator it = parts.iterator(); it.hasNext();) {
-            ((StratmasObject) it.next()).toXML(b);
+            ((ApproxsimObject) it.next()).toXML(b);
         }
         return b;
     }
 
     /**
-     * Returns a StratmasGUIConstructor suitable for constructing objects of this type.
+     * Returns a ApproxsimGUIConstructor suitable for constructing objects of this type.
      * 
      * @param declaration the declaration for which the GUI is created.
      */
-    protected static StratmasGUIConstructor getGUIConstructor(
+    protected static ApproxsimGUIConstructor getGUIConstructor(
             Declaration declaration) {
-        return new StratmasListGUIConstructor(declaration);
+        return new ApproxsimListGUIConstructor(declaration);
     }
 
     /**
-     * Returns a StratmasVectorConstructor suitable for constructing objects of this type.
+     * Returns a ApproxsimVectorConstructor suitable for constructing objects of this type.
      * 
      * @param declaration The declaration for which the object is created.
      */
-    protected static StratmasVectorConstructor getVectorConstructor(
+    protected static ApproxsimVectorConstructor getVectorConstructor(
             Declaration declaration) {
-        return new StratmasListVectorConstructor(declaration);
+        return new ApproxsimListVectorConstructor(declaration);
     }
 
     /**
@@ -139,7 +139,7 @@ public class StratmasList extends DefaultComplex {
         if (!isLeaf()) {
             for (Enumeration cs = children(); cs.hasMoreElements();) {
                 buf.append("\n");
-                ((StratmasObject) cs.nextElement())
+                ((ApproxsimObject) cs.nextElement())
                         .toTaclanV2StringBuffer(buf, indent
                                 + TACLANV2_INDENTATION);
             }
@@ -157,9 +157,9 @@ public class StratmasList extends DefaultComplex {
      * <p>
      * author Per Alexius
      * 
-     * @param part the StratmasObject to add.
+     * @param part the ApproxsimObject to add.
      */
-    public void addWithUniqueIdentifier(StratmasObject part) {
+    public void addWithUniqueIdentifier(ApproxsimObject part) {
         int num = 1;
         String baseId = part.getIdentifier();
         while (getChild(part.getIdentifier()) != null) {
@@ -170,11 +170,11 @@ public class StratmasList extends DefaultComplex {
     }
 
     /**
-     * Called when a (direct) child of this has changed. The default behaviour for StratmasList is to pass the event upwards in the tree.
+     * Called when a (direct) child of this has changed. The default behaviour for ApproxsimList is to pass the event upwards in the tree.
      * 
      * @param child the child that changed
      */
-    public void childChanged(StratmasObject child, Object initiator) {
+    public void childChanged(ApproxsimObject child, Object initiator) {
         if (getParent() != null) {
             getParent().childChanged(this, initiator);
         }
@@ -192,9 +192,9 @@ public class StratmasList extends DefaultComplex {
     protected Object clone() {
         Vector elements = new Vector();
         for (Enumeration en = children(); en.hasMoreElements();) {
-            elements.add(((StratmasObject) en.nextElement()).clone());
+            elements.add(((ApproxsimObject) en.nextElement()).clone());
         }
-        return new StratmasList(identifier, type, elements);
+        return new ApproxsimList(identifier, type, elements);
     }
 
     /**
@@ -213,7 +213,7 @@ public class StratmasList extends DefaultComplex {
      */
     public void childIdentifierChange(String oldIdentifier, String newIdentifier) {
         // Should be synchronized in some way!!!
-        StratmasObject o = partsHash.remove(oldIdentifier);
+        ApproxsimObject o = partsHash.remove(oldIdentifier);
         if (o != null) {
             partsHash.put(newIdentifier, o);
         }
@@ -236,7 +236,7 @@ public class StratmasList extends DefaultComplex {
 //                 Type type = (Type) e.nextElement();
 //                 if (!type.isAbstract()) {
 //                     // "Unlist" the declaration.
-//                     final StratmasList self = this;
+//                     final ApproxsimList self = this;
 //                     final Declaration declaration;
 //                     if (getDeclaration() != null) {
 //                         declaration = (Declaration) getDeclaration().clone(type);
@@ -249,18 +249,18 @@ public class StratmasList extends DefaultComplex {
 //                                                       1, 1, false);
 //                     }
 
-//                     res.add(new StratmasAbstractAction("Add " + declaration.getType().getName(), true)
+//                     res.add(new ApproxsimAbstractAction("Add " + declaration.getType().getName(), true)
 //                         {
 //                             public void actionPerformed(ActionEvent e)
 //                             {
-//                                 StratmasObject newObject = StratmasObjectFactory.defaultCreate(declaration);
+//                                 ApproxsimObject newObject = ApproxsimObjectFactory.defaultCreate(declaration);
 //                                 if (newObject != null) {
 //                                     addWithUniqueIdentifier(newObject);
 //                                 } else {
-//                                     StratmasGUIConstructorDialog dialog = 
-//                                         StratmasGUIConstructor.buildDialog(StratmasObjectFactory.guiCreate(declaration), false);
+//                                     ApproxsimGUIConstructorDialog dialog = 
+//                                         ApproxsimGUIConstructor.buildDialog(ApproxsimObjectFactory.guiCreate(declaration), false);
 //                                     dialog.setVisible(true);
-//                                     newObject = dialog.getStratmasObject();
+//                                     newObject = dialog.getApproxsimObject();
 //                                     if (newObject != null) {
 //                                         addWithUniqueIdentifier(newObject);
 //                                     }
@@ -290,7 +290,7 @@ public class StratmasList extends DefaultComplex {
      * 
      * @param object the object to check for validity.
      */
-    public boolean canAdd(StratmasObject object) {
+    public boolean canAdd(ApproxsimObject object) {
         if (object.getType().canSubstitute(getType())) {
             Declaration declaration = getDeclaration();
             if (declaration != null) {
@@ -310,27 +310,27 @@ public class StratmasList extends DefaultComplex {
 }
 
 /**
- * StratmasListVectorConstructor constructs a StratmasList using a vector.
+ * ApproxsimListVectorConstructor constructs a ApproxsimList using a vector.
  * 
  * @version 1, $Date: 2006/07/31 10:18:44 $
  * @author Per Alexius
  */
-class StratmasListVectorConstructor extends StratmasVectorConstructor {
+class ApproxsimListVectorConstructor extends ApproxsimVectorConstructor {
     /**
      * Creates a new object using specifications in declaration.
      * 
      * @param declaration the declaration to use.
      */
-    public StratmasListVectorConstructor(Declaration declaration) {
+    public ApproxsimListVectorConstructor(Declaration declaration) {
         super(declaration);
     }
 
     /**
-     * Returns the StratmasObject this component was created to provide.
+     * Returns the ApproxsimObject this component was created to provide.
      * 
      * @param parts the parts to use in constructing the object.
      */
-    public StratmasObject getStratmasObject(Vector parts) {
-        return new StratmasList(this.getDeclaration(), parts);
+    public ApproxsimObject getApproxsimObject(Vector parts) {
+        return new ApproxsimList(this.getDeclaration(), parts);
     }
 }

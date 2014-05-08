@@ -1,4 +1,4 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -22,15 +22,15 @@ import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUtessellator;
 import javax.media.opengl.glu.GLUtessellatorCallbackAdapter;
 
-import StratmasClient.Configuration;
-import StratmasClient.object.Shape;
-import StratmasClient.object.SimpleShape;
-import StratmasClient.object.Polygon;
-import StratmasClient.object.Line;
-import StratmasClient.BoundingBox;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.proj.MGRSConversion;
+import ApproxsimClient.Configuration;
+import ApproxsimClient.object.Shape;
+import ApproxsimClient.object.SimpleShape;
+import ApproxsimClient.object.Polygon;
+import ApproxsimClient.object.Line;
+import ApproxsimClient.BoundingBox;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.proj.MGRSConversion;
 
 /**
  * Position/navigation window.
@@ -48,7 +48,7 @@ import StratmasClient.proj.MGRSConversion;
  * @author Amir Filipovic
  */
 public class PositionMap implements GLEventListener, ActionListener,
-        MouseListener, MouseMotionListener, StratmasEventListener {
+        MouseListener, MouseMotionListener, ApproxsimEventListener {
     /**
      * Bounding box of the displayed region.
      */
@@ -600,7 +600,7 @@ public class PositionMap implements GLEventListener, ActionListener,
     /**
      * Updates the map when the region has been changed.
      */
-    public void eventOccured(StratmasEvent se) {
+    public void eventOccured(ApproxsimEvent se) {
         // region updated
         if (se.isRegionUpdated()) {
             // projected bounds of the updated region

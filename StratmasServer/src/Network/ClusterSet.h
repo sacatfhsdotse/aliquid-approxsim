@@ -2,8 +2,8 @@
  *  Cluster.h - Identifies clusters in the data. Each cluster is an ellipse in
  *  general position.
  */
-#ifndef STRATMAS_CLUSTERSET
-#define STRATMAS_CLUSTERSET
+#ifndef APPROXSIM_CLUSTERSET
+#define APPROXSIM_CLUSTERSET
 
 
 // Forward Declarations
@@ -14,7 +14,7 @@ class Ellipse;
  * cluster is an ellipse in general position.
  *
  * This class is almost identical to its counterpart in older
- * versions of Stratmas. Some name changes have been made in order
+ * versions of Approxsim. Some name changes have been made in order
  * to match naming conventions in other source code files.
  *
  * \author   Loren Cobb - Modified by Per Alexius
@@ -33,4 +33,4 @@ public:
      void   MakeSigmaBoxes(double k);
 };
 
-#endif   // STRATMAS_CLUSTERSET
+#endif   // APPROXSIM_CLUSTERSET

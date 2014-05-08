@@ -3,16 +3,16 @@
  * @(#)DefaultComplex.java
  */
 
-package StratmasClient.object;
+package ApproxsimClient.object;
 
-import StratmasClient.object.type.Type;
-import StratmasClient.object.type.Declaration;
-import StratmasClient.object.type.TypeFactory;
+import ApproxsimClient.object.type.Type;
+import ApproxsimClient.object.type.Declaration;
+import ApproxsimClient.object.type.TypeFactory;
 
-import StratmasClient.object.primitive.Timestamp;
-import StratmasClient.object.primitive.Identifier;
-import StratmasClient.ActionGroup;
-import StratmasClient.Debug;
+import ApproxsimClient.object.primitive.Timestamp;
+import ApproxsimClient.object.primitive.Identifier;
+import ApproxsimClient.ActionGroup;
+import ApproxsimClient.Debug;
 
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -24,22 +24,22 @@ import java.awt.event.ActionEvent;
 import org.w3c.dom.Element;
 
 /**
- * DefaultComplex is the common origin of the objects handled by the StratmasClient.
+ * DefaultComplex is the common origin of the objects handled by the ApproxsimClient.
  * 
  * @version 1, $Date: 2006/10/03 14:32:02 $
  * @author Daniel Ahlin
  */
 
-class DefaultComplex extends StratmasObjectDynImpl {
+class DefaultComplex extends ApproxsimObjectDynImpl {
     /**
      * The children of the node. Note that the order has significance.
      */
-    Vector<StratmasObject> parts = new Vector<StratmasObject>();
+    Vector<ApproxsimObject> parts = new Vector<ApproxsimObject>();
 
     /**
      * The children of the node hashed on identifier.
      */
-    Hashtable<String, StratmasObject> partsHash = new Hashtable<String, StratmasObject>();
+    Hashtable<String, ApproxsimObject> partsHash = new Hashtable<String, ApproxsimObject>();
 
     /**
      * Creates a new DefaultComplex, taking subparts from provided vector.
@@ -49,7 +49,7 @@ class DefaultComplex extends StratmasObjectDynImpl {
      * @param parts the parts of this complex
      */
     protected DefaultComplex(String identifier, Type type,
-            Vector<StratmasObject> parts) {
+            Vector<ApproxsimObject> parts) {
         super(identifier, type);
         this.add(parts);
     }
@@ -93,7 +93,7 @@ class DefaultComplex extends StratmasObjectDynImpl {
      * @param parts the parts of this complex
      */
     protected DefaultComplex(Declaration declaration,
-            Vector<StratmasObject> parts) {
+            Vector<ApproxsimObject> parts) {
         super(declaration);
         this.add(parts);
     }
@@ -101,7 +101,7 @@ class DefaultComplex extends StratmasObjectDynImpl {
     /**
      * Returns the children of this object.
      */
-    public Enumeration<StratmasObject> children() {
+    public Enumeration<ApproxsimObject> children() {
         return this.parts.elements();
     }
 
@@ -130,7 +130,7 @@ class DefaultComplex extends StratmasObjectDynImpl {
     public StringBuffer bodyXML(StringBuffer b) {
         for (Iterator it = getType().getSubElements().iterator(); it.hasNext();) {
             Declaration dec = (Declaration) it.next();
-            StratmasObject child = getChild(dec.getName());
+            ApproxsimObject child = getChild(dec.getName());
             if (child != null) {
                 child.toXML(b);
             }
@@ -139,21 +139,21 @@ class DefaultComplex extends StratmasObjectDynImpl {
     }
 
     /**
-     * Returns a StratmasGUIConstructor suitable for constructing objects of this type.
+     * Returns a ApproxsimGUIConstructor suitable for constructing objects of this type.
      * 
      * @param declaration The declaration for which the GUI is created.
      */
-    protected static StratmasGUIConstructor getGUIConstructor(
+    protected static ApproxsimGUIConstructor getGUIConstructor(
             Declaration declaration) {
-        return new StratmasComplexGUIConstructor(declaration);
+        return new ApproxsimComplexGUIConstructor(declaration);
     }
 
     /**
-     * Returns a StratmasVectorConstructor suitable for constructing objects of this type.
+     * Returns a ApproxsimVectorConstructor suitable for constructing objects of this type.
      * 
      * @param declaration The declaration for which the object is created.
      */
-    protected static StratmasVectorConstructor getVectorConstructor(
+    protected static ApproxsimVectorConstructor getVectorConstructor(
             Declaration declaration) {
         return new DefaultComplexVectorConstructor(declaration);
     }
@@ -166,15 +166,15 @@ class DefaultComplex extends StratmasObjectDynImpl {
      * 
      * @param declaration The declaration for which the object is created.
      */
-    protected static StratmasObject defaultCreate(Declaration declaration) {
-        Vector<StratmasObject> newParts = new Vector<StratmasObject>();
+    protected static ApproxsimObject defaultCreate(Declaration declaration) {
+        Vector<ApproxsimObject> newParts = new Vector<ApproxsimObject>();
         for (Iterator it = declaration.getType().getSubElements().iterator(); it
                 .hasNext();) {
             Declaration dec = (Declaration) it.next();
             if (dec.isSingular()) {
-                newParts.add(StratmasObjectFactory.defaultCreate(dec));
+                newParts.add(ApproxsimObjectFactory.defaultCreate(dec));
             } else if (dec.isUnbounded()) {
-                newParts.add(new StratmasList(dec, new Vector()));
+                newParts.add(new ApproxsimList(dec, new Vector()));
             }
         }
         return new DefaultComplex(declaration, newParts);
@@ -187,30 +187,30 @@ class DefaultComplex extends StratmasObjectDynImpl {
      * 
      * @param n The dom element from which the object is created.
      */
-    protected static StratmasObject domCreate(Element n) {
+    protected static ApproxsimObject domCreate(Element n) {
         Type myType = TypeFactory.getType(n);
-        Vector<StratmasObject> newParts = new Vector<StratmasObject>();
+        Vector<ApproxsimObject> newParts = new Vector<ApproxsimObject>();
         for (Iterator it = myType.getSubElements().iterator(); it.hasNext();) {
             Declaration dec = (Declaration) it.next();
             if (dec.isUnbounded()) {
-                Vector<StratmasObject> listElems = new Vector<StratmasObject>();
+                Vector<ApproxsimObject> listElems = new Vector<ApproxsimObject>();
                 Vector elems = XMLHelper
                         .getChildElementsByTag(n, dec.getName());
                 for (Iterator it2 = elems.iterator(); it2.hasNext();) {
                     Element elem = (Element) it2.next();
-                    listElems.add(StratmasObjectFactory.domCreate(elem));
+                    listElems.add(ApproxsimObjectFactory.domCreate(elem));
                 }
                 // Create list
-                newParts.add(StratmasObjectFactory.createList(dec, listElems));
+                newParts.add(ApproxsimObjectFactory.createList(dec, listElems));
             } else {
                 Element elem = XMLHelper.getFirstChildByTag(n, dec.getName());
                 if (elem != null) {
-                    StratmasObjectFactory.domCreate(elem);
-                    newParts.add(StratmasObjectFactory.domCreate(elem));
+                    ApproxsimObjectFactory.domCreate(elem);
+                    newParts.add(ApproxsimObjectFactory.domCreate(elem));
                 }
             }
         }
-        return StratmasObjectFactory.create(Identifier.getIdentifier(n),
+        return ApproxsimObjectFactory.create(Identifier.getIdentifier(n),
                                             myType, newParts);
     }
 
@@ -219,26 +219,26 @@ class DefaultComplex extends StratmasObjectDynImpl {
      * 
      * @param id identifier of object to get
      */
-    public StratmasObject getChild(String id) {
+    public ApproxsimObject getChild(String id) {
         return partsHash.get(id);
     }
 
     /**
-     * Removes the specified StratmasObject. Sets initiator to null.
+     * Removes the specified ApproxsimObject. Sets initiator to null.
      * 
-     * @param child the StratmasObject to remove.
+     * @param child the ApproxsimObject to remove.
      */
-    public void remove(StratmasObject child) {
+    public void remove(ApproxsimObject child) {
         remove(child, null);
     }
 
     /**
-     * Removes the specified StratmasObject
+     * Removes the specified ApproxsimObject
      * 
-     * @param child the StratmasObject to remove.
+     * @param child the ApproxsimObject to remove.
      * @param initiator The initiator of the removal.
      */
-    public void remove(StratmasObject child, Object initiator) {
+    public void remove(ApproxsimObject child, Object initiator) {
         parts.remove(child);
         partsHash.remove(child.getIdentifier());
         child.fireRemoved(initiator);
@@ -259,9 +259,9 @@ class DefaultComplex extends StratmasObjectDynImpl {
      * <p>
      * author Per Alexius
      * 
-     * @param part The StratmasObject to add.
+     * @param part The ApproxsimObject to add.
      */
-    public void orderPreservingAdd(StratmasObject part) {
+    public void orderPreservingAdd(ApproxsimObject part) {
         orderPreservingAdd(part, null);
     }
 
@@ -271,9 +271,9 @@ class DefaultComplex extends StratmasObjectDynImpl {
      * <p>
      * author Per Alexius
      * 
-     * @param part The StratmasObject to add.
+     * @param part The ApproxsimObject to add.
      */
-    public void orderPreservingAdd(StratmasObject part, Object initiator) {
+    public void orderPreservingAdd(ApproxsimObject part, Object initiator) {
         silentOrderPreservingAdd(part);
         fireObjectAdded(part, initiator);
     }
@@ -284,11 +284,11 @@ class DefaultComplex extends StratmasObjectDynImpl {
      * <p>
      * author Per Alexius
      * 
-     * @param part The StratmasObject to add.
+     * @param part The ApproxsimObject to add.
      */
-    private void silentOrderPreservingAdd(StratmasObject part) {
+    private void silentOrderPreservingAdd(ApproxsimObject part) {
         if (!Identifier.isAnonymous(part.getIdentifier())) {
-            StratmasObject prevPart = getChild(part.getIdentifier());
+            ApproxsimObject prevPart = getChild(part.getIdentifier());
             if (prevPart != null) {
                 // Remove previous part.
                 this.remove(prevPart);
@@ -300,7 +300,7 @@ class DefaultComplex extends StratmasObjectDynImpl {
             Vector subDecs = getType().getSubElements();
 
             // Get the name objName of element i in the parts
-            // vector. Go through subelements of this StratmasComplex'
+            // vector. Go through subelements of this ApproxsimComplex'
             // Type. If objName matches the part's name then we know i
             // is the index where to insert the new part. If objName
             // matches the name of the subelement we grab the next
@@ -308,7 +308,7 @@ class DefaultComplex extends StratmasObjectDynImpl {
             // index is found when the outer loop exits we know we
             // should add the new part to the end of the parts vector.
             for (int i = 0; i < parts.size() && indexOfNewElement == -1; i++) {
-                StratmasObject obj = parts.elementAt(i);
+                ApproxsimObject obj = parts.elementAt(i);
                 String objName = obj.getIdentifier();
                 for (int j = currentIndex; j < subDecs.size(); j++) {
                     String decName = ((Declaration) subDecs.elementAt(j))
@@ -342,10 +342,10 @@ class DefaultComplex extends StratmasObjectDynImpl {
      * <p>
      * author Daniel Ahlin
      * 
-     * @param part the StratmasObject to add.
+     * @param part the ApproxsimObject to add.
      * @param initiator The initiator of the add.
      */
-    public void add(StratmasObject part, Object initiator) {
+    public void add(ApproxsimObject part, Object initiator) {
         orderPreservingAdd(part, initiator);
     }
 
@@ -356,13 +356,13 @@ class DefaultComplex extends StratmasObjectDynImpl {
      */
     public void fireRemoved(Object initiator) {
         // Notify listeners about my own removal.
-        StratmasEvent event = StratmasEvent.getRemoved(this, initiator);
+        ApproxsimEvent event = ApproxsimEvent.getRemoved(this, initiator);
         for (int i = getEventListenerList().size() - 1; i >= 0; i--) {
             getEventListenerList().get(i).eventOccured(event);
         }
 
         // The children must be removed too.
-        for (Enumeration<StratmasObject> en = children(); en.hasMoreElements();) {
+        for (Enumeration<ApproxsimObject> en = children(); en.hasMoreElements();) {
             en.nextElement().fireRemoved(initiator);
         }
     }
@@ -376,9 +376,9 @@ class DefaultComplex extends StratmasObjectDynImpl {
      * @return A clone of this object.
      */
     protected Object clone() {
-        Vector<StratmasObject> elements = new Vector<StratmasObject>();
-        for (Enumeration<StratmasObject> en = children(); en.hasMoreElements();) {
-            elements.add((StratmasObject) en.nextElement().clone());
+        Vector<ApproxsimObject> elements = new Vector<ApproxsimObject>();
+        for (Enumeration<ApproxsimObject> en = children(); en.hasMoreElements();) {
+            elements.add((ApproxsimObject) en.nextElement().clone());
         }
         return new DefaultComplex(identifier, type, elements);
     }
@@ -398,7 +398,7 @@ class DefaultComplex extends StratmasObjectDynImpl {
             String type = elem.getAttribute("xsi:type");
             String id = Identifier.getIdentifier(elem);
             if (type.equals("sp:UpdateScope")) {
-                StratmasObject obj = getChild(id);
+                ApproxsimObject obj = getChild(id);
                 if (obj != null) {
                     obj.update(elem, t);
                 } else {
@@ -409,10 +409,10 @@ class DefaultComplex extends StratmasObjectDynImpl {
             } else if (type.equals("sp:UpdateAdd")) {
                 Element newObjElem = XMLHelper
                         .getFirstChildByTag(elem, "identifiable");
-                orderPreservingAdd(StratmasObjectFactory.domCreate(newObjElem),
+                orderPreservingAdd(ApproxsimObjectFactory.domCreate(newObjElem),
                                    elem);
             } else if (type.equals("sp:UpdateRemove")) {
-                StratmasObject obj = getChild(id);
+                ApproxsimObject obj = getChild(id);
                 if (obj != null) {
                     remove(obj, elem);
                 } else {
@@ -421,11 +421,11 @@ class DefaultComplex extends StratmasObjectDynImpl {
                             + getReference());
                 }
             } else if (type.equals("sp:UpdateReplace")) {
-                StratmasObject obj = getChild(id);
+                ApproxsimObject obj = getChild(id);
                 if (obj != null) {
                     Element newObjElem = XMLHelper
                             .getFirstChildByTag(elem, "newObject");
-                    obj.replace(StratmasObjectFactory.domCreate(newObjElem),
+                    obj.replace(ApproxsimObjectFactory.domCreate(newObjElem),
                                 elem);
                 } else {
                     Debug.err.println("No removeable child "
@@ -433,7 +433,7 @@ class DefaultComplex extends StratmasObjectDynImpl {
                             + getReference());
                 }
             } else if (type.equals("sp:UpdateModify")) {
-                StratmasObject obj = getChild(id);
+                ApproxsimObject obj = getChild(id);
                 if (obj != null) {
                     obj.update(XMLHelper.getFirstChildByTag(elem, "newValue"),
                                t);
@@ -453,7 +453,7 @@ class DefaultComplex extends StratmasObjectDynImpl {
 //     {
 //         Vector res = super.getActions();
 //         // Ugly hack
-//         if (! (this instanceof StratmasList)) {
+//         if (! (this instanceof ApproxsimList)) {
 //             final DefaultComplex self = this;        
 //             // Offer to add attributes that are not present.        
 //             for (Enumeration e = getType().getSubElements().elements();
@@ -461,18 +461,18 @@ class DefaultComplex extends StratmasObjectDynImpl {
 //                 final Declaration declaration = (Declaration) e.nextElement();
 
 //                 if (!hasChild(declaration.getName())) {
-//                     res.add(new StratmasAbstractAction("Add " + declaration.getName(), true)  
+//                     res.add(new ApproxsimAbstractAction("Add " + declaration.getName(), true)  
 //                         {
 //                             public void actionPerformed(ActionEvent e)
 //                             {
-//                                 StratmasObject newObject = StratmasObjectFactory.defaultCreate(declaration);
+//                                 ApproxsimObject newObject = ApproxsimObjectFactory.defaultCreate(declaration);
 //                                 if (newObject != null) {
 //                                     add(newObject);
 //                                 } else {
-//                                     StratmasGUIConstructorDialog dialog = 
-//                                         StratmasGUIConstructor.buildDialog(StratmasObjectFactory.guiCreate(declaration), true);
+//                                     ApproxsimGUIConstructorDialog dialog = 
+//                                         ApproxsimGUIConstructor.buildDialog(ApproxsimObjectFactory.guiCreate(declaration), true);
 //                                     dialog.setVisible(true);
-//                                     newObject = dialog.getStratmasObject();
+//                                     newObject = dialog.getApproxsimObject();
 //                                     if (newObject != null) {
 //                                         add(newObject);
 //                                     }
@@ -490,7 +490,7 @@ class DefaultComplex extends StratmasObjectDynImpl {
      */
     public ActionGroup getActionGroup() {
         ActionGroup ag = super.getActionGroup();
-        if (!(this instanceof StratmasList)) {
+        if (!(this instanceof ApproxsimList)) {
             final DefaultComplex self = this;
 
             for (Enumeration e = getType().getSubElements().elements(); e
@@ -502,16 +502,16 @@ class DefaultComplex extends StratmasObjectDynImpl {
                         private static final long serialVersionUID = -7535608805159655813L;
 
                         public void actionPerformed(ActionEvent e) {
-                            StratmasObject newObject = StratmasObjectFactory
+                            ApproxsimObject newObject = ApproxsimObjectFactory
                                     .defaultCreate(dec);
                             if (newObject != null) {
                                 self.orderPreservingAdd(newObject);
                             } else {
-                                StratmasGUIConstructorDialog dialog = StratmasGUIConstructor
-                                        .buildDialog(StratmasObjectFactory
+                                ApproxsimGUIConstructorDialog dialog = ApproxsimGUIConstructor
+                                        .buildDialog(ApproxsimObjectFactory
                                                 .guiCreate(dec), true);
                                 dialog.setVisible(true);
-                                newObject = dialog.getStratmasObject();
+                                newObject = dialog.getApproxsimObject();
                                 if (newObject != null) {
                                     self.orderPreservingAdd(newObject);
                                 }
@@ -519,7 +519,7 @@ class DefaultComplex extends StratmasObjectDynImpl {
                         }
                     });
                 } else if (dec.isList()) {
-                    ag.add(getAddActionGroupForListDec((StratmasList) getChild(dec
+                    ag.add(getAddActionGroupForListDec((ApproxsimList) getChild(dec
                                                                .getName()), dec));
                 }
             }
@@ -531,14 +531,14 @@ class DefaultComplex extends StratmasObjectDynImpl {
      * Convenience method for creating the ActionGroup for adding elements to a list. Goes through the descendant types of the type of this
      * list and groups actions according to that.
      * 
-     * @param listToAddTo The StratmasList that the elements should be added to.
-     * @param declaration The Declaration of the StratmasList to create add actions for. May be the Declaration of the StratmasList to add
+     * @param listToAddTo The ApproxsimList that the elements should be added to.
+     * @param declaration The Declaration of the ApproxsimList to create add actions for. May be the Declaration of the ApproxsimList to add
      *            to or in recursive calls a Declaration with a type that is a descendant to the type of the list.
      * @return An ActionGroup with all the add actions that applies to this list grouped by type.
      */
     protected static ActionGroup getAddActionGroupForListDec(
-            StratmasList listToAddTo, Declaration declaration) {
-        final StratmasList fListToAddTo = listToAddTo;
+            ApproxsimList listToAddTo, Declaration declaration) {
+        final ApproxsimList fListToAddTo = listToAddTo;
         final Declaration fDec = declaration;
         ActionGroup ret;
         Type t = fDec.getType();
@@ -553,18 +553,18 @@ class DefaultComplex extends StratmasObjectDynImpl {
                 toCreate.setMaxOccurs(1);
                 toCreate.setUnbounded(false);
 
-                StratmasObject newObject = StratmasObjectFactory
+                ApproxsimObject newObject = ApproxsimObjectFactory
                         .defaultCreate(toCreate);
                 if (newObject != null) {
                     newObject.setIdentifier("new "
                             + newObject.getType().getName());
                     fListToAddTo.addWithUniqueIdentifier(newObject);
                 } else {
-                    StratmasGUIConstructorDialog dialog = StratmasGUIConstructor
-                            .buildDialog(StratmasObjectFactory
+                    ApproxsimGUIConstructorDialog dialog = ApproxsimGUIConstructor
+                            .buildDialog(ApproxsimObjectFactory
                                     .guiCreate(toCreate), true);
                     dialog.setVisible(true);
-                    newObject = dialog.getStratmasObject();
+                    newObject = dialog.getApproxsimObject();
                     if (newObject != null) {
                         fListToAddTo.addWithUniqueIdentifier(newObject);
                     }
@@ -595,7 +595,7 @@ class DefaultComplex extends StratmasObjectDynImpl {
      * @param newObj the object replacing oldObj
      * @param initiator the object causing the replacement.
      */
-    protected void replaceChild(StratmasObject oldObj, StratmasObject newObj,
+    protected void replaceChild(ApproxsimObject oldObj, ApproxsimObject newObj,
             Object initiator) {
         if (!oldObj.getType().canSubstitute(TypeFactory.getType("ValueType"))) {
             throw new AssertionError(
@@ -611,7 +611,7 @@ class DefaultComplex extends StratmasObjectDynImpl {
 
         // Must remove the children...
         for (Enumeration en = oldObj.children(); en.hasMoreElements();) {
-            ((StratmasObject) en.nextElement()).fireRemoved(initiator);
+            ((ApproxsimObject) en.nextElement()).fireRemoved(initiator);
         }
 
         // Add new element without generating an add-event.

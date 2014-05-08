@@ -1,23 +1,23 @@
-// $Id: StratmasObjectFilter.java,v 1.5 2006/03/22 14:30:50 dah Exp $
+// $Id: ApproxsimObjectFilter.java,v 1.5 2006/03/22 14:30:50 dah Exp $
 /*
- * @(#)StratmasObjectFilter.java
+ * @(#)ApproxsimObjectFilter.java
  */
 
-package StratmasClient.filter;
+package ApproxsimClient.filter;
 
-import StratmasClient.object.StratmasObject;
+import ApproxsimClient.object.ApproxsimObject;
 
 import java.util.Enumeration;
 import java.util.Vector;
 
 /**
- * StratmasObjectFilter filters out StratmasObjects accordning to provided rules.
+ * ApproxsimObjectFilter filters out ApproxsimObjects accordning to provided rules.
  * 
  * @version 1, $Date: 2006/03/22 14:30:50 $
  * @author Daniel Ahlin
  */
 
-public abstract class StratmasObjectFilter {
+public abstract class ApproxsimObjectFilter {
     /**
      * If the filter is inverted.
      */
@@ -26,22 +26,22 @@ public abstract class StratmasObjectFilter {
     /**
      * Creates a new filter with default rules (pass everything).
      */
-    public StratmasObjectFilter() {}
+    public ApproxsimObjectFilter() {}
 
     /**
-     * Returns true if the provided StratmasObject passes the filter.
+     * Returns true if the provided ApproxsimObject passes the filter.
      * 
      * @param sObj the object to test
      */
-    public abstract boolean pass(StratmasObject sObj);
+    public abstract boolean pass(ApproxsimObject sObj);
 
     /**
-     * Returns true if the target of the provided StratmasObjectAdapter passes the filter.
+     * Returns true if the target of the provided ApproxsimObjectAdapter passes the filter.
      * 
      * @param sObjAdapter the object to test
      */
-    public boolean pass(StratmasObjectAdapter sObjAdapter) {
-        return pass(sObjAdapter.getStratmasObject());
+    public boolean pass(ApproxsimObjectAdapter sObjAdapter) {
+        return pass(sObjAdapter.getApproxsimObject());
     }
 
     /**
@@ -49,7 +49,7 @@ public abstract class StratmasObjectFilter {
      * 
      * @param sObj the object to test
      */
-    public Enumeration filterTree(StratmasObject sObj) {
+    public Enumeration filterTree(ApproxsimObject sObj) {
         return filterTree(sObj, new Vector()).elements();
     }
 
@@ -71,10 +71,10 @@ public abstract class StratmasObjectFilter {
         Vector res = new Vector();
         for (; e.hasMoreElements();) {
             Object o = e.nextElement();
-            if (o instanceof StratmasObject && pass((StratmasObject) o)) {
+            if (o instanceof ApproxsimObject && pass((ApproxsimObject) o)) {
                 res.add(o);
-            } else if (o instanceof StratmasObjectAdapter
-                    && pass((StratmasObjectAdapter) o)) {
+            } else if (o instanceof ApproxsimObjectAdapter
+                    && pass((ApproxsimObjectAdapter) o)) {
                 res.add(o);
             }
         }
@@ -102,13 +102,13 @@ public abstract class StratmasObjectFilter {
      * @param sObj the object to test
      * @param vector vector to add results to
      */
-    public Vector filterTree(StratmasObject sObj, Vector vector) {
+    public Vector filterTree(ApproxsimObject sObj, Vector vector) {
         if (pass(sObj)) {
             vector.add(sObj);
         }
 
         for (Enumeration e = sObj.children(); e.hasMoreElements();) {
-            filterTree((StratmasObject) e.nextElement(), vector);
+            filterTree((ApproxsimObject) e.nextElement(), vector);
         }
 
         return vector;

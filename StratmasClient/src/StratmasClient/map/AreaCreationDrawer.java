@@ -1,4 +1,4 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import java.text.DecimalFormat;
 import java.nio.IntBuffer;
@@ -33,21 +33,21 @@ import javax.media.opengl.GL2ES2;
 import javax.media.opengl.GLAutoDrawable;
 import com.jogamp.common.nio.Buffers;
 
-import StratmasClient.object.StratmasObject;
-import StratmasClient.StratmasDialog;
-import StratmasClient.object.Line;
-import StratmasClient.object.Point;
-import StratmasClient.object.Circle;
-import StratmasClient.object.Polygon;
-import StratmasClient.object.Shape;
-import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.object.SimpleShape;
-import StratmasClient.BoundingBox;
-import StratmasClient.map.adapter.MapElementAdapter;
-import StratmasClient.map.adapter.MapDrawableAdapter;
-import StratmasClient.map.adapter.MapLineAdapter;
-import StratmasClient.map.adapter.MapPointAdapter;
-import StratmasClient.map.adapter.MapShapeAdapter;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.ApproxsimDialog;
+import ApproxsimClient.object.Line;
+import ApproxsimClient.object.Point;
+import ApproxsimClient.object.Circle;
+import ApproxsimClient.object.Polygon;
+import ApproxsimClient.object.Shape;
+import ApproxsimClient.object.ApproxsimObjectFactory;
+import ApproxsimClient.object.SimpleShape;
+import ApproxsimClient.BoundingBox;
+import ApproxsimClient.map.adapter.MapElementAdapter;
+import ApproxsimClient.map.adapter.MapDrawableAdapter;
+import ApproxsimClient.map.adapter.MapLineAdapter;
+import ApproxsimClient.map.adapter.MapPointAdapter;
+import ApproxsimClient.map.adapter.MapShapeAdapter;
 
 /**
  * This class is used for creating new area for military units, teams, agencies and activities. The created area can be polygonial or
@@ -139,9 +139,9 @@ public class AreaCreationDrawer extends BasicMapDrawer {
      */
     private boolean polygonCompleted = false;
     /**
-     * StratmasObject for which the area is created.
+     * ApproxsimObject for which the area is created.
      */
-    private StratmasObject sComp;
+    private ApproxsimObject sComp;
     /**
      * Path to the images.
      */
@@ -199,7 +199,7 @@ public class AreaCreationDrawer extends BasicMapDrawer {
      * @param sComp the object for which a new area is created.
      */
     public AreaCreationDrawer(BasicMap basicMap, Region region,
-            StratmasObject sComp) {
+            ApproxsimObject sComp) {
         super(basicMap, region);
         // get the object
         this.sComp = sComp;
@@ -268,13 +268,13 @@ public class AreaCreationDrawer extends BasicMapDrawer {
         if (e.getButton() == MouseEvent.BUTTON1) {
             // add new point to the polygon
             if (getCreatorMode() == POLYGONIAL && !isPolygonCompleted()) {
-                addPoint(StratmasObjectFactory.createPoint("p1", p.getLat(),
+                addPoint(ApproxsimObjectFactory.createPoint("p1", p.getLat(),
                                                            p.getLon()));
             }
             // update radius of the circle
 
             else if (getCreatorMode() == AreaCreationDrawer.CIRCLE) {
-                updateRadius(StratmasObjectFactory.createPoint("center",
+                updateRadius(ApproxsimObjectFactory.createPoint("center",
                                                                p.getLat(),
                                                                p.getLon()));
             }
@@ -289,7 +289,7 @@ public class AreaCreationDrawer extends BasicMapDrawer {
                     MapLineAdapter mlAdapter = (MapLineAdapter) mlAdapters
                             .firstElement();
                     Line line = (Line) mlAdapter.getObject();
-                    insertPoint(StratmasObjectFactory.createPoint("p1",
+                    insertPoint(ApproxsimObjectFactory.createPoint("p1",
                                                                   p.getLat(),
                                                                   p.getLon()),
                                 line);
@@ -360,7 +360,7 @@ public class AreaCreationDrawer extends BasicMapDrawer {
             }
             // change the radius of the circle
             else if (getCreatorMode() == AreaCreationDrawer.CIRCLE) {
-                updateRadius(StratmasObjectFactory.createPoint("center",
+                updateRadius(ApproxsimObjectFactory.createPoint("center",
                                                                p.getLat(),
                                                                p.getLon()));
                 // display the radius
@@ -828,7 +828,7 @@ public class AreaCreationDrawer extends BasicMapDrawer {
      * Adds a new MapDrawableAdapter to this map.
      */
     protected MapDrawableAdapter addMapDrawableAdapter(
-            StratmasObject mapDrawable) {
+            ApproxsimObject mapDrawable) {
         MapDrawableAdapter drawableAdapter = MapDrawableAdapter
                 .getMapDrawableAdapter(mapDrawable);
         int renderSelectionName = getNewRenderSelectionName(drawableAdapter
@@ -921,9 +921,9 @@ public class AreaCreationDrawer extends BasicMapDrawer {
      * Creates the initial polygonial shape.
      */
     private void initPolygon() {
-        StratmasObject location = sComp.getChild("location");
+        ApproxsimObject location = sComp.getChild("location");
         if (location != null && location.getType().getName().equals("Polygon")) {
-            Polygon pol = (Polygon) StratmasObjectFactory.cloneObject(sComp
+            Polygon pol = (Polygon) ApproxsimObjectFactory.cloneObject(sComp
                     .getChild("location"));
             Enumeration curves = pol.getCurves();
             for (; curves.hasMoreElements();) {
@@ -941,9 +941,9 @@ public class AreaCreationDrawer extends BasicMapDrawer {
      */
     private void initCircle() {
         // initialize the circle
-        StratmasObject location = sComp.getChild("location");
+        ApproxsimObject location = sComp.getChild("location");
         if (location != null && location.getType().getName().equals("Circle")) {
-            circle = (Circle) StratmasObjectFactory.cloneObject(sComp
+            circle = (Circle) ApproxsimObjectFactory.cloneObject(sComp
                     .getChild("location"));
             // set center of the circle
             Point center = getInitialCenter();
@@ -1021,7 +1021,7 @@ public class AreaCreationDrawer extends BasicMapDrawer {
         }
         // add new line to the polygonial
         if (lastPoint != null) {
-            Point p2 = StratmasObjectFactory.createPoint("p2", point.getLat(),
+            Point p2 = ApproxsimObjectFactory.createPoint("p2", point.getLat(),
                                                          point.getLon());
             addMapDrawableAdapter(p2);
             addLine(lastPoint, p2);
@@ -1041,7 +1041,7 @@ public class AreaCreationDrawer extends BasicMapDrawer {
      */
     private void addLine(Point p1, Point p2) {
         Vector lineAdapters = mapDrawableAdapters(MapLineAdapter.class);
-        Line line = StratmasObjectFactory.createLine(String
+        Line line = ApproxsimObjectFactory.createLine(String
                 .valueOf(lineAdapters.size()), p1, p2);
 
         addMapDrawableAdapter(line);
@@ -1055,7 +1055,7 @@ public class AreaCreationDrawer extends BasicMapDrawer {
         if (!isPolygonCompleted()) {
             Vector lineAdapters = mapDrawableAdapters(MapLineAdapter.class);
             if (lineAdapters.size() >= 2) {
-                Point p2 = StratmasObjectFactory.createPoint("p2", firstPoint
+                Point p2 = ApproxsimObjectFactory.createPoint("p2", firstPoint
                         .getLat(), firstPoint.getLon());
                 addMapDrawableAdapter(p2);
                 addLine(lastPoint, p2);
@@ -1104,16 +1104,16 @@ public class AreaCreationDrawer extends BasicMapDrawer {
                 Point p2 = point;
                 p2.setIdentifier("p2");
                 addMapDrawableAdapter(p2);
-                Line l1 = StratmasObjectFactory.createLine(String
+                Line l1 = ApproxsimObjectFactory.createLine(String
                         .valueOf(lineId), line.getStartPoint(), p2);
                 addMapDrawableAdapter(l1);
 
                 // create and add the second line
-                Point p1 = StratmasObjectFactory.createPoint("p1",
+                Point p1 = ApproxsimObjectFactory.createPoint("p1",
                                                              point.getLat(),
                                                              point.getLon());
                 addMapDrawableAdapter(p1);
-                Line l2 = StratmasObjectFactory.createLine(String
+                Line l2 = ApproxsimObjectFactory.createLine(String
                         .valueOf(lineId + 1), p1, line.getEndPoint());
                 addMapDrawableAdapter(l2);
 
@@ -1155,7 +1155,7 @@ public class AreaCreationDrawer extends BasicMapDrawer {
             BoundingBox box = location.getBoundingBox();
             double lonCenter = (box.getEastLon() + box.getWestLon()) / 2;
             double latCenter = (box.getNorthLat() + box.getSouthLat()) / 2;
-            center = StratmasObjectFactory.createPoint("center", latCenter,
+            center = ApproxsimObjectFactory.createPoint("center", latCenter,
                                                        lonCenter);
         }
         // compute the radius
@@ -1163,7 +1163,7 @@ public class AreaCreationDrawer extends BasicMapDrawer {
                                            point.getLat(), point.getLon());
         // update the shape
         if (circle == null) {
-            circle = StratmasObjectFactory
+            circle = ApproxsimObjectFactory
                     .createCircle("location", center.getLat(), center.getLon(),
                                   radius);
         } else {
@@ -1177,7 +1177,7 @@ public class AreaCreationDrawer extends BasicMapDrawer {
      * @return the temporary Circle.
      */
     private Circle getTemporaryCircle() {
-        return StratmasObjectFactory.createCircle("location",
+        return ApproxsimObjectFactory.createCircle("location",
                                                   getInitialCenter().getLat(),
                                                   getInitialCenter().getLon(),
                                                   0d);
@@ -1203,7 +1203,7 @@ public class AreaCreationDrawer extends BasicMapDrawer {
         }
         // set the center
         if (locBox != null) {
-            center = StratmasObjectFactory
+            center = ApproxsimObjectFactory
                     .createPoint("center",
                                  (locBox.getNorthLat() + locBox.getSouthLat()) / 2,
                                  (locBox.getEastLon() + locBox.getWestLon()) / 2);
@@ -1216,7 +1216,7 @@ public class AreaCreationDrawer extends BasicMapDrawer {
                 && center.getLat() <= bbox.getNorthLat()) {
             return center;
         } else {
-            return StratmasObjectFactory.createPoint("center", (bbox
+            return ApproxsimObjectFactory.createPoint("center", (bbox
                     .getNorthLat() + bbox.getSouthLat()) / 2, (bbox
                     .getEastLon() + bbox.getWestLon()) / 2);
         }
@@ -1340,7 +1340,7 @@ public class AreaCreationDrawer extends BasicMapDrawer {
                 lines.add(Integer.parseInt(line.getIdentifier()), line);
             }
             // create the polygonial shape
-            return StratmasObjectFactory.createPolygon("location", lines);
+            return ApproxsimObjectFactory.createPolygon("location", lines);
         }
         //
         return null;
@@ -1399,12 +1399,12 @@ public class AreaCreationDrawer extends BasicMapDrawer {
     }
 
     /**
-     * Updates the location of the StratmasObject.
+     * Updates the location of the ApproxsimObject.
      * 
      * @param sComp the updated element.
      * @return true if the element is updated with new shape.
      */
-    public boolean updateElementWithShape(StratmasObject sComp) {
+    public boolean updateElementWithShape(ApproxsimObject sComp) {
         Shape sShape = null;
 
         // get circular shape if it exists
@@ -1415,7 +1415,7 @@ public class AreaCreationDrawer extends BasicMapDrawer {
             if (pol != null) {
                 sShape = (isPolygonSimple(pol)) ? pol : null;
                 if (sShape == null) {
-                    int res = StratmasDialog
+                    int res = ApproxsimDialog
                             .showOptionDialog(null,
                                               "Not valid area. Exit anyway?",
                                               "Area definition!",
@@ -1430,7 +1430,7 @@ public class AreaCreationDrawer extends BasicMapDrawer {
         if (sShape != null) {
             // replace the old area
             if (sComp.hasChild("location")) {
-                StratmasObject location = (StratmasObject) sComp
+                ApproxsimObject location = (ApproxsimObject) sComp
                         .getChild("location");
                 location.replace(sShape, this);
             }
@@ -1440,7 +1440,7 @@ public class AreaCreationDrawer extends BasicMapDrawer {
             }
             return true;
         } else {
-            int res = StratmasDialog
+            int res = ApproxsimDialog
                     .showOptionDialog(null, "No area defined. Exit anyway?",
                                       "Area definition!",
                                       JOptionPane.YES_NO_OPTION,

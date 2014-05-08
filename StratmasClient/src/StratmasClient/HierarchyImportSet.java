@@ -1,23 +1,23 @@
-package StratmasClient;
+package ApproxsimClient;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.util.Enumeration;
 import java.util.Vector;
-import StratmasClient.treeview.HierarchyObjectAdapter;
+import ApproxsimClient.treeview.HierarchyObjectAdapter;
 
-import StratmasClient.object.Shape;
-import StratmasClient.object.type.TypeFactory;
+import ApproxsimClient.object.Shape;
+import ApproxsimClient.object.type.TypeFactory;
 
-import StratmasClient.object.StratmasList;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasObjectFactory;
+import ApproxsimClient.object.ApproxsimList;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimObjectFactory;
 
 /**
  * HierarchyImportSet is used to transfer objects that should keep their hierarchy to the simulation via drag and drop. It encapsulates a
  * hierarcy of objects where only the 'selected' ones that are not already imported will be imported but where the hierarchy is kept intact
- * for use in future imports. Also see {@link StratmasClient.treeview.HierarchyObjectAdapter}.
+ * for use in future imports. Also see {@link ApproxsimClient.treeview.HierarchyObjectAdapter}.
  * 
  * @version 1, $Date: 2006/05/22 12:14:51 $
  * @author Per Alexius
@@ -47,7 +47,7 @@ public class HierarchyImportSet implements Transferable {
      * 
      * @return The root of the objects that will be / are imported to the simulation.
      */
-    public StratmasObject getRoot() {
+    public ApproxsimObject getRoot() {
         return mRoot.getCopyForSim();
     }
 
@@ -72,14 +72,14 @@ public class HierarchyImportSet implements Transferable {
      * @param lon The longitude of the transfered objects.
      * @return true if the transfer was succesful - false otherwise.
      */
-    public boolean transferToSimulation(StratmasObject root, double lat,
+    public boolean transferToSimulation(ApproxsimObject root, double lat,
             double lon) {
-        StratmasObject simulation = (StratmasObject) root.children()
+        ApproxsimObject simulation = (ApproxsimObject) root.children()
                 .nextElement();
 
         // If root isn't a list create a temporary list.
         Enumeration en;
-        if (mRoot.getUserObject() instanceof StratmasList) {
+        if (mRoot.getUserObject() instanceof ApproxsimList) {
             en = mRoot.children();
         } else {
             Vector v = new Vector();
@@ -90,12 +90,12 @@ public class HierarchyImportSet implements Transferable {
             HierarchyObjectAdapter hoa = (HierarchyObjectAdapter) en
                     .nextElement();
             if (hoa.isSelected() && !hoa.isUsed()) {
-                StratmasObject scenario = (StratmasObject) simulation
+                ApproxsimObject scenario = (ApproxsimObject) simulation
                         .getChild("scenario");
-                StratmasObject unitList = (StratmasObject) scenario
+                ApproxsimObject unitList = (ApproxsimObject) scenario
                         .getChild("militaryUnits");
 
-                StratmasObject toAdd = hoa.getCopyForSim();
+                ApproxsimObject toAdd = hoa.getCopyForSim();
 
                 // Try to add the root object.
                 if (unitList.getChild(toAdd.getIdentifier()) == null) {
@@ -138,15 +138,15 @@ public class HierarchyImportSet implements Transferable {
             HierarchyObjectAdapter parentAdapter = (HierarchyObjectAdapter) obj
                     .getParent();
             if (parentAdapter != null) {
-                // Get the StratmasObject that belongs to the simulation
-                StratmasObject parent = (StratmasObject) parentAdapter
+                // Get the ApproxsimObject that belongs to the simulation
+                ApproxsimObject parent = (ApproxsimObject) parentAdapter
                         .getCopyForSim();
 
-                StratmasObject subunits = parent.getChild("subunits");
+                ApproxsimObject subunits = parent.getChild("subunits");
 
                 // If there were no subunits list - create one
                 if (subunits == null) {
-                    subunits = StratmasObjectFactory.createList(TypeFactory
+                    subunits = ApproxsimObjectFactory.createList(TypeFactory
                             .getType("MilitaryUnit").getSubElement("subunits"));
                     parent.add(subunits);
                 }
@@ -173,8 +173,8 @@ public class HierarchyImportSet implements Transferable {
      * @param lon The longitude
      * @return true if the transfer was succesful - false otherwise.
      */
-    private void setLocation(StratmasObject obj, double lat, double lon) {
-        StratmasObject location = obj.getChild("location");
+    private void setLocation(ApproxsimObject obj, double lat, double lon) {
+        ApproxsimObject location = obj.getChild("location");
         if (location != null) {
             if (location instanceof Shape) {
                 ((Shape) location).moveTo(lon, lat);
@@ -233,7 +233,7 @@ public class HierarchyImportSet implements Transferable {
         DataFlavor flavor = null;
         try {
             flavor = new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType
-                    + ";class=StratmasClient.HierarchyImportSet");
+                    + ";class=ApproxsimClient.HierarchyImportSet");
         } catch (ClassNotFoundException e) {
             System.err.println("Couldn't create HIERARCHYIMPORTSET_FLAVOR");
         }

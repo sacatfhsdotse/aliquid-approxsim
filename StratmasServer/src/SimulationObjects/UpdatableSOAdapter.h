@@ -1,5 +1,5 @@
-#ifndef STRATMAS_UPDATABLESOADAPTER
-#define STRATMAS_UPDATABLESOADAPTER
+#ifndef APPROXSIM_UPDATABLESOADAPTER
+#define APPROXSIM_UPDATABLESOADAPTER
 
 // Own
 #include "SimulationObject.h"
@@ -48,4 +48,4 @@ public:
      virtual void modify(const DataObject& d);
 };
 
-#endif   // STRATMAS_UPDATABLESOADAPTER
+#endif   // APPROXSIM_UPDATABLESOADAPTER

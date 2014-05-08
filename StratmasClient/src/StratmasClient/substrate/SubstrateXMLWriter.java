@@ -1,15 +1,15 @@
-package StratmasClient.substrate;
+package ApproxsimClient.substrate;
 
 import java.util.Enumeration;
 import java.util.Vector;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import StratmasClient.StratmasConstants;
-import StratmasClient.ProcessVariableDescription;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.Polygon;
-import StratmasClient.object.Circle;
-import StratmasClient.object.Line;
+import ApproxsimClient.ApproxsimConstants;
+import ApproxsimClient.ProcessVariableDescription;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.Polygon;
+import ApproxsimClient.object.Circle;
+import ApproxsimClient.object.Line;
 
 /**
  * This class is used to write XML files needed for SubstrateEditor.
@@ -27,10 +27,10 @@ public class SubstrateXMLWriter {
         writeLine(writer, "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
         writeLine(writer,
                   "<pvivaluesset xmlns:sp=\""
-                          .concat(StratmasConstants.stratmasNamespace)
+                          .concat(ApproxsimConstants.approxsimNamespace)
                           .concat("\" "));
         writeLine(writer,
-                  "xmlns:xsi=\"".concat(StratmasConstants.xmlnsNamespace)
+                  "xmlns:xsi=\"".concat(ApproxsimConstants.xmlnsNamespace)
                           .concat("\" "));
         writeLine(writer, "xsi:type=\"sp:ProcessVariableInitialValuesSet\">");
         for (int i = 0; i < values.size(); i++) {
@@ -89,14 +89,14 @@ public class SubstrateXMLWriter {
      * @param faction a faction.
      */
     private static void convertToXML(BufferedWriter writer,
-            StratmasObject faction) throws IOException {
+            ApproxsimObject faction) throws IOException {
         writeLine(writer,
                   "<faction xsi:type=\"sp:" + faction.getType().getName()
                           + "\" identifier=\"" + faction.getIdentifier()
                           + "\">");
         for (Enumeration e = faction.getChild("enemies").children(); e
                 .hasMoreElements();) {
-            StratmasObject enemy = (StratmasObject) e.nextElement();
+            ApproxsimObject enemy = (ApproxsimObject) e.nextElement();
             writeLine(writer, "<enemies xsi:type=\"sp:FactionReference\">");
             writeLine(writer, "<name>" + enemy.getIdentifier() + "</name>");
             recIdentifierToXML(writer, faction.getParent());
@@ -109,7 +109,7 @@ public class SubstrateXMLWriter {
      * Used to convert Reference to XML.
      */
     private static void recIdentifierToXML(BufferedWriter writer,
-            StratmasObject object) throws IOException {
+            ApproxsimObject object) throws IOException {
         writeLine(writer, "<scope>");
         writeLine(writer, "<name>" + object.getIdentifier() + "</name>");
         if (object.getParent() != null) {
@@ -224,7 +224,7 @@ public class SubstrateXMLWriter {
      * @param faction a faction.
      */
     private static void convertToXMLForServer(BufferedWriter writer,
-            StratmasObject faction) throws IOException {
+            ApproxsimObject faction) throws IOException {
         writeLine(writer,
                   "<faction xsi:type=\"sp:EthnicFactionReference\" identifier=\""
                           + faction.getIdentifier() + "\">");

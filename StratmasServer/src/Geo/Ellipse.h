@@ -11,7 +11,7 @@
  * weighted observations of two variables.
  *
  * This class is almost identical to its counterpart in older
- * versions of Stratmas. Some name changes have been made in order
+ * versions of Approxsim. Some name changes have been made in order
  * to match naming conventions in other source code files.
  *
  * \author    Loren Cobb - Modified by Per Alexius.

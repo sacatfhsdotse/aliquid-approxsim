@@ -3,15 +3,15 @@
  * @(#)Shape.java
  */
 
-package StratmasClient.object;
+package ApproxsimClient.object;
 
-import StratmasClient.map.Visualizer;
-import StratmasClient.map.Projection;
-import StratmasClient.object.type.Type;
-import StratmasClient.object.type.Declaration;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.ActionGroup;
-import StratmasClient.BoundingBox;
+import ApproxsimClient.map.Visualizer;
+import ApproxsimClient.map.Projection;
+import ApproxsimClient.object.type.Type;
+import ApproxsimClient.object.type.Declaration;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.ActionGroup;
+import ApproxsimClient.BoundingBox;
 
 import java.util.Vector;
 import java.awt.event.ActionEvent;
@@ -114,7 +114,7 @@ public abstract class Shape extends DefaultComplex {
      * 
      * @param declaration The declaration for which the object is created.
      */
-    protected static StratmasObject defaultCreate(Declaration declaration) {
+    protected static ApproxsimObject defaultCreate(Declaration declaration) {
         return Circle.defaultCreate(declaration.clone(TypeFactory
                 .getType("Circle")));
     }
@@ -124,8 +124,8 @@ public abstract class Shape extends DefaultComplex {
      */
     public Vector<Shape> getAncestralShapes() {
         Vector<Shape> res = new Vector<Shape>();
-        for (StratmasObject walker = this; walker.getParent() != null
-                && (walker.getParent() instanceof Shape || walker.getParent() instanceof StratmasList); walker = (StratmasObject) walker
+        for (ApproxsimObject walker = this; walker.getParent() != null
+                && (walker.getParent() instanceof Shape || walker.getParent() instanceof ApproxsimList); walker = (ApproxsimObject) walker
                 .getParent()) {
             if (walker.getParent() instanceof Shape) {
                 res.add((Shape) walker.getParent());
@@ -140,7 +140,7 @@ public abstract class Shape extends DefaultComplex {
      * 
      * @param child the child that changed
      */
-    public void childChanged(StratmasObject child, Object initiator) {
+    public void childChanged(ApproxsimObject child, Object initiator) {
         if (getParent() != null) {
             getParent().childChanged(this, initiator);
         }
@@ -149,13 +149,13 @@ public abstract class Shape extends DefaultComplex {
     }
 
     /**
-     * Returns a StratmasGUIConstructor suitable for constructing objects of this type.
+     * Returns a ApproxsimGUIConstructor suitable for constructing objects of this type.
      * 
      * @param declaration the declaration for which the GUI is created.
      */
-    protected static StratmasGUIConstructor getGUIConstructor(
+    protected static ApproxsimGUIConstructor getGUIConstructor(
             Declaration declaration) {
-        return new StratmasComplexGUIConstructor(declaration);
+        return new ApproxsimComplexGUIConstructor(declaration);
     }
 
 //     /**
@@ -167,11 +167,11 @@ public abstract class Shape extends DefaultComplex {
 //         res.addAll(super.getActions());
 
 //         final Shape self = this;
-//         for (StratmasObject walker = this; walker != null; 
+//         for (ApproxsimObject walker = this; walker != null; 
 //              walker = walker.getParent()) {
 //             if (walker.getIdentifier().equals("map")) {
-//                 StratmasAbstractAction showMapAction = 
-//                     new StratmasAbstractAction("Show in new Map", false)
+//                 ApproxsimAbstractAction showMapAction = 
+//                     new ApproxsimAbstractAction("Show in new Map", false)
 //                     {
 //                         public void actionPerformed(ActionEvent e)
 //                         {
@@ -194,7 +194,7 @@ public abstract class Shape extends DefaultComplex {
     public ActionGroup getActionGroup() {
         ActionGroup ag = super.getActionGroup();
         final Shape self = this;
-        for (StratmasObject walker = this; walker != null; walker = walker
+        for (ApproxsimObject walker = this; walker != null; walker = walker
                 .getParent()) {
             if (walker.getIdentifier().equals("map")) {
                 ActionGroup showMapAction = new ActionGroup("Show in new Map",

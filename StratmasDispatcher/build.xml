@@ -1,6 +1,6 @@
-<project name="StratmasDispatcher" default="dist" basedir=".">
+<project name="ApproxsimDispatcher" default="dist" basedir=".">
     <description>
-        Program to manage and allocate StratmasServers.
+        Program to manage and allocate ApproxsimServers.
     </description>
   <!-- set global properties for this build -->
   <property name="src" location="src"/>
@@ -43,7 +43,7 @@
     <copy todir="${build}/schemas" flatten="true">
       <fileset dir="${schemas}">
         <include name="dispatcherProtocol/*.xsd"/>
-        <include name="stratmasProtocol/*.xsd"/>
+        <include name="approxsimProtocol/*.xsd"/>
       </fileset>
     </copy>
   </target>
@@ -60,7 +60,7 @@
          basedir="${build}">
        <manifest>
           <attribute name="Main-Class" 
-           value="${ant.project.name}/StratmasDispatcher"/>
+           value="${ant.project.name}/ApproxsimDispatcher"/>
        </manifest>
     </jar>
   </target>
@@ -79,7 +79,7 @@
       windowtitle="${ant.project.name}">
       <link href="http://docs.oracle.com/javase/6/docs/api/"/>
       <packageset dir="${src}" defaultexcludes="yes">
-        <include name="StratmasDispatcher/**"/>
+        <include name="ApproxsimDispatcher/**"/>
       </packageset>
      </javadoc>
   </target>

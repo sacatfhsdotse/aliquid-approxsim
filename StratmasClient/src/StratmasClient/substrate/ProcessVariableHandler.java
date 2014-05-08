@@ -1,4 +1,4 @@
-package StratmasClient.substrate;
+package ApproxsimClient.substrate;
 
 import java.util.Vector;
 import java.awt.event.ActionListener;
@@ -7,8 +7,8 @@ import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.BorderFactory;
-import StratmasClient.Client;
-import StratmasClient.ProcessVariableDescription;
+import ApproxsimClient.Client;
+import ApproxsimClient.ProcessVariableDescription;
 
 /**
  * This class takes care of the process variables used with SubstrateEditor.

@@ -4,7 +4,7 @@
  * @(#)ClientMainFrame.java
  */
 
-package StratmasClient;
+package ApproxsimClient;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
@@ -62,21 +62,21 @@ import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 
-import StratmasClient.treeview.HierarchyImportTreeView;
-import StratmasClient.treeview.OrderImportTreeView;
-import StratmasClient.filter.TypeFilter;
-import StratmasClient.evolver.EvolverGUI;
-import StratmasClient.evolver.EvolverFrame;
-import StratmasClient.dispatcher.ServerView;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.object.StratmasList;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.object.primitive.Reference;
-import StratmasClient.map.Visualizer;
+import ApproxsimClient.treeview.HierarchyImportTreeView;
+import ApproxsimClient.treeview.OrderImportTreeView;
+import ApproxsimClient.filter.TypeFilter;
+import ApproxsimClient.evolver.EvolverGUI;
+import ApproxsimClient.evolver.EvolverFrame;
+import ApproxsimClient.dispatcher.ServerView;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimObjectFactory;
+import ApproxsimClient.object.ApproxsimList;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.object.primitive.Reference;
+import ApproxsimClient.map.Visualizer;
 
 /**
- * ClientMainFrame is JFrame adapted to use as the main window for the StratmasClient.
+ * ClientMainFrame is JFrame adapted to use as the main window for the ApproxsimClient.
  * 
  * @version 1, $Date: 2007/01/24 14:25:50 $
  * @author Daniel Ahlin
@@ -152,7 +152,7 @@ public class ClientMainFrame extends JFrame {
      * @param client the client to visualize.
      */
     public ClientMainFrame(Client client) {
-        super("Stratmas Client");
+        super("Approxsim Client");
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -179,7 +179,7 @@ public class ClientMainFrame extends JFrame {
         getContentPane().add(panel, BorderLayout.SOUTH);
 
         // find a suitable image for this application
-        setIconImage(new ImageIcon(getClass().getResource("icons/stratmas.png"))
+        setIconImage(new ImageIcon(getClass().getResource("icons/approxsim.png"))
                 .getImage());
 
         // update ...
@@ -346,7 +346,7 @@ public class ClientMainFrame extends JFrame {
     /**
      * Returns the root object of the client (or null if no such).
      */
-    public StratmasObject getRootObject() {
+    public ApproxsimObject getRootObject() {
         return getClient().getRootObject();
     }
 
@@ -471,14 +471,14 @@ public class ClientMainFrame extends JFrame {
                 final String filename = Client
                         .getFileNameFromDialog(".oli", JFileChooser.OPEN_DIALOG);
                 if (filename != null) {
-                    StratmasDialog
+                    ApproxsimDialog
                             .showProgressBarDialog(self,
                                                    "Importing an order library ...");
                     Thread thread = new Thread() {
                         public void run() {
-                            StratmasObject o = Client.importXMLFile(filename);
-                            StratmasList list = (o == null ? null
-                                    : (StratmasList) o
+                            ApproxsimObject o = Client.importXMLFile(filename);
+                            ApproxsimList list = (o == null ? null
+                                    : (ApproxsimList) o
                                             .getChild("identifiables"));
                             if (list != null) {
                                 final TypeFilter filter = new TypeFilter(
@@ -493,7 +493,7 @@ public class ClientMainFrame extends JFrame {
                                     }
                                 });
                             }
-                            StratmasDialog.quitProgressBarDialog();
+                            ApproxsimDialog.quitProgressBarDialog();
                         }
                     };
                     thread.start();
@@ -514,14 +514,14 @@ public class ClientMainFrame extends JFrame {
                 final String filename = Client
                         .getFileNameFromDialog(".uli", JFileChooser.OPEN_DIALOG);
                 if (filename != null) {
-                    StratmasDialog
+                    ApproxsimDialog
                             .showProgressBarDialog(self,
                                                    "Importing Military Units...");
                     Thread thread = new Thread() {
                         public void run() {
-                            StratmasObject o = Client.importXMLFile(filename);
-                            StratmasList list = (o == null ? null
-                                    : (StratmasList) o
+                            ApproxsimObject o = Client.importXMLFile(filename);
+                            ApproxsimList list = (o == null ? null
+                                    : (ApproxsimList) o
                                             .getChild("identifiables"));
                             if (list != null) {
                                 final TypeFilter filter = new TypeFilter(
@@ -535,7 +535,7 @@ public class ClientMainFrame extends JFrame {
                                         frame.setVisible(true);
                                     }
                                 });
-                                StratmasDialog.quitProgressBarDialog();
+                                ApproxsimDialog.quitProgressBarDialog();
                             }
                         }
                     };
@@ -555,10 +555,10 @@ public class ClientMainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 SwingUtilities.invokeLater(new Runnable() {
                     public void run() {
-                        StratmasObject simulationList = StratmasObjectFactory
+                        ApproxsimObject simulationList = ApproxsimObjectFactory
                                 .cloneObject(getClient().getRootObject());
                         EvolverFrame frame = new EvolverFrame(new EvolverGUI(
-                                (StratmasObject) simulationList.children()
+                                (ApproxsimObject) simulationList.children()
                                         .nextElement()));
                         frame.pack();
                         frame.setVisible(true);
@@ -566,7 +566,7 @@ public class ClientMainFrame extends JFrame {
                 });
             }
         };
-        evolverAction.setEnabled(getClient().getStratmasDispatcher() != null
+        evolverAction.setEnabled(getClient().getApproxsimDispatcher() != null
                 && getClient().getRootObject().getChildCount() > 0);
         menu.add(evolverAction);
 
@@ -589,13 +589,13 @@ public class ClientMainFrame extends JFrame {
 
             public void actionPerformed(ActionEvent e) {
                 JFrame frame = ServerView.getDefaultFrame(getClient()
-                        .getStratmasDispatcher());
+                        .getApproxsimDispatcher());
                 frame.pack();
                 frame.setVisible(true);
                 tabFrame(frame);
             }
         };
-        knownServers.setEnabled(getClient().getStratmasDispatcher() != null);
+        knownServers.setEnabled(getClient().getApproxsimDispatcher() != null);
         menu.add(knownServers);
 
         Action substrate = new AbstractAction("Edit in Substrate") {
@@ -631,17 +631,17 @@ public class ClientMainFrame extends JFrame {
                 getClient();
                 final String filePath = Client.getTemplateFilePath();
                 if (filePath != null) {
-                    StratmasDialog
+                    ApproxsimDialog
                             .showProgressBarDialog(self,
                                                    "Loading an empty scenario ...");
                     Thread thread = new Thread() {
                         public void run() {
-                            StratmasObject obj = Client
+                            ApproxsimObject obj = Client
                                     .getTemplateSimulation(filePath);
                             if (obj != null) {
                                 getClient().getRootObject().add(obj);
                             }
-                            StratmasDialog.quitProgressBarDialog();
+                            ApproxsimDialog.quitProgressBarDialog();
                         }
                     };
                     thread.start();
@@ -661,7 +661,7 @@ public class ClientMainFrame extends JFrame {
 
             public void actionPerformed(ActionEvent e) {
                 if (getClient().getRootObject().children().hasMoreElements()) {
-                    final StratmasObject object = (StratmasObject) getRootObject()
+                    final ApproxsimObject object = (ApproxsimObject) getRootObject()
                             .children().nextElement();
                     final String ext = "scn";
                     String filename = Client
@@ -669,7 +669,7 @@ public class ClientMainFrame extends JFrame {
                                                    JFileChooser.SAVE_DIALOG);
                     if (filename != null) {
                         final File file = new File(filename);
-                        StratmasDialog
+                        ApproxsimDialog
                                 .showProgressBarDialog(self,
                                                        "Saving a scenario ...");
                         Thread thread = new Thread() {
@@ -681,7 +681,7 @@ public class ClientMainFrame extends JFrame {
                                     Client.exportToXML(object, file.getPath()
                                             + ".scn");
                                 }
-                                StratmasDialog.quitProgressBarDialog();
+                                ApproxsimDialog.quitProgressBarDialog();
                             }
                         };
                         thread.start();
@@ -701,16 +701,16 @@ public class ClientMainFrame extends JFrame {
 
             public void actionPerformed(ActionEvent e) {
                 if (getClient().getRootObject().children().hasMoreElements()) {
-                    final StratmasObject object = (StratmasObject) getRootObject()
+                    final ApproxsimObject object = (ApproxsimObject) getRootObject()
                             .children().nextElement();
                     if (getFilename() != null) {
-                        StratmasDialog
+                        ApproxsimDialog
                                 .showProgressBarDialog(self,
                                                        "Saving scenario ...");
                         Thread thread = new Thread() {
                             public void run() {
                                 Client.exportToXML(object, getFilename());
-                                StratmasDialog.quitProgressBarDialog();
+                                ApproxsimDialog.quitProgressBarDialog();
                             }
                         };
                         thread.start();
@@ -732,19 +732,19 @@ public class ClientMainFrame extends JFrame {
                 final String filename = Client
                         .getFileNameFromDialog(".scn", JFileChooser.OPEN_DIALOG);
                 if (filename != null) {
-                    StratmasDialog
+                    ApproxsimDialog
                             .showProgressBarDialog(self,
                                                    "Loading a scenario ...");
                     Thread thread = new Thread() {
                         public void run() {
                             getClient();
-                            StratmasObject obj = Client
+                            ApproxsimObject obj = Client
                                     .importXMLSimulation(filename);
                             if (obj != null) {
                                 getClient().getRootObject().add(obj);
                                 setFilename(filename);
                             }
-                            StratmasDialog.quitProgressBarDialog();
+                            ApproxsimDialog.quitProgressBarDialog();
                         }
                     };
                     thread.start();
@@ -761,15 +761,15 @@ public class ClientMainFrame extends JFrame {
             private static final long serialVersionUID = -6817846233558993065L;
 
             public void actionPerformed(ActionEvent e) {
-                StratmasDialog.showProgressBarDialog(self,
+                ApproxsimDialog.showProgressBarDialog(self,
                                                      "Closing a scenario ...");
                 Thread thread = new Thread() {
                     public void run() {
                         Visualizer.remove();
-                        ((StratmasObject) getClient().getRootObject()
+                        ((ApproxsimObject) getClient().getRootObject()
                                 .children().nextElement()).remove();
                         self.getClient().getTimeline().remove();
-                        StratmasDialog.quitProgressBarDialog();
+                        ApproxsimDialog.quitProgressBarDialog();
                     }
                 };
                 thread.start();
@@ -788,13 +788,13 @@ public class ClientMainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 final String serverName = getClient().getServerName();
                 if (serverName != null) {
-                    StratmasDialog
+                    ApproxsimDialog
                             .showProgressBarDialog(self,
                                                    "Initializing - passive mode ...");
                     Thread thread = new Thread() {
                         public void run() {
                             getClient().getRootObjectFromServer();
-                            StratmasDialog.quitProgressBarDialog();
+                            ApproxsimDialog.quitProgressBarDialog();
                         }
                     };
                     thread.start();
@@ -1394,13 +1394,13 @@ class ImportSourceDialog extends JDialog {
         // the list of factions
         factionBox.setFont(factionBox.getFont().deriveFont(Font.PLAIN));
         try {
-            StratmasObject root = (StratmasObject) client.getRootObject()
+            ApproxsimObject root = (ApproxsimObject) client.getRootObject()
                     .children().nextElement();
-            StratmasObject scenario = root.getChild("scenario");
-            StratmasList facList = (StratmasList) scenario.getChild("factions");
-            for (Enumeration<StratmasObject> en = facList.children(); en
+            ApproxsimObject scenario = root.getChild("scenario");
+            ApproxsimList facList = (ApproxsimList) scenario.getChild("factions");
+            for (Enumeration<ApproxsimObject> en = facList.children(); en
                     .hasMoreElements();) {
-                factionBox.addItem((StratmasObject) en.nextElement());
+                factionBox.addItem((ApproxsimObject) en.nextElement());
             }
         } catch (NullPointerException exc) {
             Debug.err.println("No factions found when importing from IF2.");
@@ -1438,7 +1438,7 @@ class ImportSourceDialog extends JDialog {
             public void actionPerformed(ActionEvent event) {
                 final String filename = fileTextField.getText();
                 if (filename.length() > 0) {
-                    StratmasDialog
+                    ApproxsimDialog
                             .showProgressBarDialog(frame,
                                                    "Importing from IconFactory2 ...");
                     Thread thread = new Thread() {
@@ -1468,9 +1468,9 @@ class ImportSourceDialog extends JDialog {
     private void importUnitsAndSetDefaults(String filename) {
         final ImportSourceDialog self = this;
         IF2Importer importer = new IF2Importer(client.getRootObject());
-        Reference facRef = ((StratmasObject) factionBox.getSelectedItem())
+        Reference facRef = ((ApproxsimObject) factionBox.getSelectedItem())
                 .getReference();
-        StratmasObject so = importer.importFromFile(filename, facRef);
+        ApproxsimObject so = importer.importFromFile(filename, facRef);
         String tableFilename = tableTextField.getText();
         final TypeFilter filter = new TypeFilter(
                 TypeFactory.getType("MilitaryUnit"));
@@ -1496,9 +1496,9 @@ class ImportSourceDialog extends JDialog {
                     frame.setVisible(true);
                 }
             });
-            StratmasDialog.quitProgressBarDialog();
+            ApproxsimDialog.quitProgressBarDialog();
         } else {
-            StratmasDialog.quitProgressBarDialog();
+            ApproxsimDialog.quitProgressBarDialog();
             if (importer.errorOccurred()) {
                 JOptionPane.showMessageDialog((JFrame) null,
                                               importer.getErrorMessage(),
@@ -1515,14 +1515,14 @@ class ImportSourceDialog extends JDialog {
      * @param filter the actual UnitImportFilter.
      * @param typeFilter the filter used to separate military units from other nodes in the tree.
      */
-    private void applyFilterToSubtree(StratmasObject root,
+    private void applyFilterToSubtree(ApproxsimObject root,
             UnitImportFilter filter, TypeFilter typeFilter) {
-        if (typeFilter.pass(root) && !(root instanceof StratmasList)) {
+        if (typeFilter.pass(root) && !(root instanceof ApproxsimList)) {
             filter.apply(root);
         }
-        for (Enumeration<StratmasObject> e = root.children(); e
+        for (Enumeration<ApproxsimObject> e = root.children(); e
                 .hasMoreElements();) {
-            StratmasObject obj = (StratmasObject) e.nextElement();
+            ApproxsimObject obj = (ApproxsimObject) e.nextElement();
             applyFilterToSubtree(obj, filter, typeFilter);
         }
     }

@@ -1,5 +1,5 @@
-#ifndef STRATMAS_PVREGION_H
-#define STRATMAS_PVREGION_H
+#ifndef APPROXSIM_PVREGION_H
+#define APPROXSIM_PVREGION_H
 
 
 // System
@@ -132,4 +132,4 @@ public:
      const std::vector<PVInitValue*>& initValues() const { return mInitValues; }
 };
 
-#endif   // STRATMAS_PVREGION_H
+#endif   // APPROXSIM_PVREGION_H

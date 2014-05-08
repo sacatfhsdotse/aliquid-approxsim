@@ -3,7 +3,7 @@
  * @(#)ParameterInstance.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
 /**
  * Represents an instance of a parameter. E. g. if f(x, y, z) were sampled at (1, 2, 3) the corresponding ParameterInstances would be

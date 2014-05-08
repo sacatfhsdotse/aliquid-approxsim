@@ -1,14 +1,14 @@
-package StratmasClient.object;
+package ApproxsimClient.object;
 
-import StratmasClient.object.primitive.Timestamp;
+import ApproxsimClient.object.primitive.Timestamp;
 
 /**
- * A class representing different kinds of Stratmas specific events.
+ * A class representing different kinds of Approxsim specific events.
  * 
  * @version 1, $Date: 2006/03/31 16:55:51 $
  * @author Per Alexius
  */
-public class StratmasEvent extends java.util.EventObject {
+public class ApproxsimEvent extends java.util.EventObject {
     /**
 	 * 
 	 */
@@ -40,25 +40,25 @@ public class StratmasEvent extends java.util.EventObject {
     private Object mArgument = null;
 
     /**
-     * Creates a StratmasEvent.
+     * Creates a ApproxsimEvent.
      * 
      * @param source The source of the event.
      * @param message The message that defines which type of event this is.
      */
-    protected StratmasEvent(Object source, String message) {
+    protected ApproxsimEvent(Object source, String message) {
         super(source);
         this.message = message;
     }
 
     /**
-     * Creates a StratmasEvent.
+     * Creates a ApproxsimEvent.
      * 
      * @param source The source of the event.
      * @param message The message that defines which type of event this is.
      * @param initiator The initiator of the event.
      * @param arg An optional argument.
      */
-    protected StratmasEvent(Object source, String message, Object initiator,
+    protected ApproxsimEvent(Object source, String message, Object initiator,
             Object arg) {
         this(source, message);
         mInitiator = initiator;
@@ -70,7 +70,7 @@ public class StratmasEvent extends java.util.EventObject {
      * 
      * @return The message.
      */
-    public String getStratmasMessage() {
+    public String getApproxsimMessage() {
         return message;
     }
 
@@ -98,8 +98,8 @@ public class StratmasEvent extends java.util.EventObject {
      * @param source The source of the event.
      * @return The newly created event.
      */
-    public static StratmasEvent getGeneric(Object source) {
-        return new StratmasEvent(source, GENERIC);
+    public static ApproxsimEvent getGeneric(Object source) {
+        return new ApproxsimEvent(source, GENERIC);
     }
 
     /**
@@ -112,16 +112,16 @@ public class StratmasEvent extends java.util.EventObject {
     }
 
     /**
-     * Creates a new ObjectAdded event. This type of event is triggered by a StratmasObject when a child is added.
+     * Creates a new ObjectAdded event. This type of event is triggered by a ApproxsimObject when a child is added.
      * 
-     * @param source The source of the event, i.e. the StratmasObject to which the child was added.
-     * @param added The StratmasObject that was added.
+     * @param source The source of the event, i.e. the ApproxsimObject to which the child was added.
+     * @param added The ApproxsimObject that was added.
      * @param initiator The initiator of the event.
      * @return The newly created event.
      */
-    public static StratmasEvent getObjectAdded(Object source,
-            StratmasObject added, Object initiator) {
-        return new StratmasEvent(source, OBJECTADDED, initiator, added);
+    public static ApproxsimEvent getObjectAdded(Object source,
+            ApproxsimObject added, Object initiator) {
+        return new ApproxsimEvent(source, OBJECTADDED, initiator, added);
     }
 
     /**
@@ -143,14 +143,14 @@ public class StratmasEvent extends java.util.EventObject {
     }
 
     /**
-     * Creates a new ObjectRemoved event. This type of event is triggered by a StratmasObject when it is deleted.
+     * Creates a new ObjectRemoved event. This type of event is triggered by a ApproxsimObject when it is deleted.
      * 
-     * @param source The source of the event, i.e. the StratmasObject that was removed.
+     * @param source The source of the event, i.e. the ApproxsimObject that was removed.
      * @param initiator The initiator of the event.
      * @return The newly created event.
      */
-    public static StratmasEvent getRemoved(Object source, Object initiator) {
-        return new StratmasEvent(source, REMOVED, initiator, null);
+    public static ApproxsimEvent getRemoved(Object source, Object initiator) {
+        return new ApproxsimEvent(source, REMOVED, initiator, null);
     }
 
     /**
@@ -163,16 +163,16 @@ public class StratmasEvent extends java.util.EventObject {
     }
 
     /**
-     * Creates a new replaced event. This type of event is triggered by a StratmasObject when it is replaced by another object.
+     * Creates a new replaced event. This type of event is triggered by a ApproxsimObject when it is replaced by another object.
      * 
      * @param source The source of the event e.g. the object that was replaced.
      * @param initiator The initiator of the event.
      * @param newObject The object that has replaced the old object.
      * @return The newly created event.
      */
-    public static StratmasEvent getReplaced(Object source, Object initiator,
-            StratmasObject newObject) {
-        return new StratmasEvent(source, REPLACED, initiator, newObject);
+    public static ApproxsimEvent getReplaced(Object source, Object initiator,
+            ApproxsimObject newObject) {
+        return new ApproxsimEvent(source, REPLACED, initiator, newObject);
     }
 
     /**
@@ -185,17 +185,17 @@ public class StratmasEvent extends java.util.EventObject {
     }
 
     /**
-     * Creates a new ChildChanged event. This type of event is triggered by a StratmasComplex descendant when one of its children has
+     * Creates a new ChildChanged event. This type of event is triggered by a ApproxsimComplex descendant when one of its children has
      * changed.
      * 
-     * @param source The source of the event, i.e. the StratmasComplex descendant which child has changed.
+     * @param source The source of the event, i.e. the ApproxsimComplex descendant which child has changed.
      * @param initiator The initiator of the event.
      * @param changed The child that has changed.
      * @return The newly created event.
      */
-    public static StratmasEvent getChildChanged(Object source,
-            Object initiator, StratmasObject changed) {
-        return new StratmasEvent(source, CHILDCHANGED, initiator, changed);
+    public static ApproxsimEvent getChildChanged(Object source,
+            Object initiator, ApproxsimObject changed) {
+        return new ApproxsimEvent(source, CHILDCHANGED, initiator, changed);
     }
 
     /**
@@ -215,9 +215,9 @@ public class StratmasEvent extends java.util.EventObject {
      * @param time The simulation time for which the handled data is valid.
      * @return The newly created event.
      */
-    public static StratmasEvent getSubscriptionHandled(Object source,
+    public static ApproxsimEvent getSubscriptionHandled(Object source,
             Timestamp time) {
-        return new StratmasEvent(source, SUBSCRIPTIONHANDLED, null, time);
+        return new ApproxsimEvent(source, SUBSCRIPTIONHANDLED, null, time);
     }
 
     /**
@@ -230,14 +230,14 @@ public class StratmasEvent extends java.util.EventObject {
     }
 
     /**
-     * Creates a new ValueChanged event. This type of event is triggered by a StratmasSimple descendant when its value changes.
+     * Creates a new ValueChanged event. This type of event is triggered by a ApproxsimSimple descendant when its value changes.
      * 
-     * @param source The source of the event, i.e. the StratmasObject that has changed.
+     * @param source The source of the event, i.e. the ApproxsimObject that has changed.
      * @param initiator The initiator of the event.
      * @return The newly created event.
      */
-    public static StratmasEvent getValueChanged(Object source, Object initiator) {
-        return new StratmasEvent(source, VALUECHANGED, initiator, null);
+    public static ApproxsimEvent getValueChanged(Object source, Object initiator) {
+        return new ApproxsimEvent(source, VALUECHANGED, initiator, null);
     }
 
     /**
@@ -250,14 +250,14 @@ public class StratmasEvent extends java.util.EventObject {
     }
 
     /**
-     * Creates a new Selected event. This type of event is triggered when a StratmasObject is selected. Currently, selection of objects may
+     * Creates a new Selected event. This type of event is triggered when a ApproxsimObject is selected. Currently, selection of objects may
      * only be performed through the treeview.
      * 
-     * @param source The source of the event, i.e. the StratmasObject that was selected.
+     * @param source The source of the event, i.e. the ApproxsimObject that was selected.
      * @return The newly created event.
      */
-    public static StratmasEvent getSelected(Object source) {
-        return new StratmasEvent(source, SELECTED);
+    public static ApproxsimEvent getSelected(Object source) {
+        return new ApproxsimEvent(source, SELECTED);
     }
 
     /**
@@ -270,14 +270,14 @@ public class StratmasEvent extends java.util.EventObject {
     }
 
     /**
-     * Creates a new Unselected event. This type of event is triggered when a StratmasObject is unselected. Currently, unselection of
+     * Creates a new Unselected event. This type of event is triggered when a ApproxsimObject is unselected. Currently, unselection of
      * objects may only be performed through the treeview.
      * 
-     * @param source The source of the event, i.e. the StratmasObject that was unselected.
+     * @param source The source of the event, i.e. the ApproxsimObject that was unselected.
      * @return The newly created event.
      */
-    public static StratmasEvent getUnselected(Object source) {
-        return new StratmasEvent(source, UNSELECTED);
+    public static ApproxsimEvent getUnselected(Object source) {
+        return new ApproxsimEvent(source, UNSELECTED);
     }
 
     /**
@@ -295,8 +295,8 @@ public class StratmasEvent extends java.util.EventObject {
      * 
      * @param source the source of the event i.e., where the event is triggered.
      */
-    public static StratmasEvent getRegionUpdated(Object source) {
-        return new StratmasEvent(source, REGIONUPDATED);
+    public static ApproxsimEvent getRegionUpdated(Object source) {
+        return new ApproxsimEvent(source, REGIONUPDATED);
     }
 
     /**
@@ -313,8 +313,8 @@ public class StratmasEvent extends java.util.EventObject {
      * 
      * @param source the source of the event i.e., where the event is triggered.
      */
-    public static StratmasEvent getGridUpdated(Object source) {
-        return new StratmasEvent(source, GRIDUPDATED);
+    public static ApproxsimEvent getGridUpdated(Object source) {
+        return new ApproxsimEvent(source, GRIDUPDATED);
     }
 
     /**
@@ -331,8 +331,8 @@ public class StratmasEvent extends java.util.EventObject {
      * 
      * @param source the source of the event i.e., where the event is triggered.
      */
-    public static StratmasEvent getGraticulesUpdated(Object source) {
-        return new StratmasEvent(source, GRATICULESUPDATED);
+    public static ApproxsimEvent getGraticulesUpdated(Object source) {
+        return new ApproxsimEvent(source, GRATICULESUPDATED);
     }
 
     /**
@@ -349,8 +349,8 @@ public class StratmasEvent extends java.util.EventObject {
      * 
      * @param source the source of the event i.e., where the event is triggered.
      */
-    public static StratmasEvent getCoordSystemChanged(Object source) {
-        return new StratmasEvent(source, COORDSYSTEMCHANGED);
+    public static ApproxsimEvent getCoordSystemChanged(Object source) {
+        return new ApproxsimEvent(source, COORDSYSTEMCHANGED);
     }
 
     /**
@@ -363,16 +363,16 @@ public class StratmasEvent extends java.util.EventObject {
     }
 
     /**
-     * Creates a new identifierChanged event. This type of event is triggered by a StratmasObject when its identifier changes.
+     * Creates a new identifierChanged event. This type of event is triggered by a ApproxsimObject when its identifier changes.
      * 
      * @param source The source of the event e.g. the object which identifier was changed. Notice that by the time this event is triggered
      *            the identifier has already changed.
      * @param oldIdentifier The old identifier.
      * @return The newly created event.
      */
-    public static StratmasEvent getIdentifierChanged(Object source,
+    public static ApproxsimEvent getIdentifierChanged(Object source,
             String oldIdentifier) {
-        return new StratmasEvent(source, IDENTIFIERCHANGED, null, oldIdentifier);
+        return new ApproxsimEvent(source, IDENTIFIERCHANGED, null, oldIdentifier);
     }
 
     /**

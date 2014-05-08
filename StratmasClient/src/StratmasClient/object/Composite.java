@@ -3,7 +3,7 @@
  * @(#)Composite.java
  */
 
-package StratmasClient.object;
+package ApproxsimClient.object;
 
 import java.util.Vector;
 import java.util.Enumeration;
@@ -12,14 +12,14 @@ import java.util.HashSet;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import StratmasClient.BoundingBox;
+import ApproxsimClient.BoundingBox;
 
-import StratmasClient.object.type.Declaration;
-import StratmasClient.object.type.Type;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.map.Projection;
-import StratmasClient.object.primitive.Timestamp;
-import StratmasClient.object.primitive.Identifier;
+import ApproxsimClient.object.type.Declaration;
+import ApproxsimClient.object.type.Type;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.map.Projection;
+import ApproxsimClient.object.primitive.Timestamp;
+import ApproxsimClient.object.primitive.Identifier;
 
 /**
  * A composite defines a set of two dimensional shapes.
@@ -35,7 +35,7 @@ public class Composite extends Shape {
      * @param identifier the identifier of the shape.
      * @param shapes the subshapes of the shape.
      */
-    protected Composite(String identifier, Vector<StratmasObject> shapes) {
+    protected Composite(String identifier, Vector<ApproxsimObject> shapes) {
         super(identifier, TypeFactory.getType("Composite"));
         this.add(shapes);
     }
@@ -55,8 +55,8 @@ public class Composite extends Shape {
      */
     public Enumeration getParts() {
         // We know that Composite is expected to contain a
-        // StratmasList as its only direct child.
-        StratmasList shapes = (StratmasList) this.getChild("shapes");
+        // ApproxsimList as its only direct child.
+        ApproxsimList shapes = (ApproxsimList) this.getChild("shapes");
         return shapes.children();
     }
 
@@ -74,11 +74,11 @@ public class Composite extends Shape {
     }
 
     /**
-     * Returns a StratmasVectorConstructor suitable for constructing objects of this type.
+     * Returns a ApproxsimVectorConstructor suitable for constructing objects of this type.
      * 
      * @param declaration the declaration for which the object is created.
      */
-    protected static StratmasVectorConstructor getVectorConstructor(
+    protected static ApproxsimVectorConstructor getVectorConstructor(
             Declaration declaration) {
         return new CompositeVectorConstructor(declaration);
     }
@@ -90,7 +90,7 @@ public class Composite extends Shape {
      * 
      * @param declaration The declaration for which the object is created.
      */
-    protected static StratmasObject defaultCreate(Declaration declaration) {
+    protected static ApproxsimObject defaultCreate(Declaration declaration) {
         throw new AssertionError("No default constructor for Composite.");
     }
 
@@ -166,9 +166,9 @@ public class Composite extends Shape {
      * @return A clone of this object.
      */
     protected Object clone() {
-        Vector<StratmasObject> elements = new Vector<StratmasObject>();
+        Vector<ApproxsimObject> elements = new Vector<ApproxsimObject>();
         for (Enumeration en = children(); en.hasMoreElements();) {
-            elements.add((StratmasObject) ((StratmasObject) en.nextElement())
+            elements.add((ApproxsimObject) ((ApproxsimObject) en.nextElement())
                     .clone());
         }
         return new Composite(identifier, elements);
@@ -184,10 +184,10 @@ public class Composite extends Shape {
      */
     public void update(Element n, Timestamp t) {
         if (getType().equals(TypeFactory.getType(n))) {
-            // Get the StratmasList containing the child shapes.
-            StratmasList shapeList = (StratmasList) getChild("shapes");
+            // Get the ApproxsimList containing the child shapes.
+            ApproxsimList shapeList = (ApproxsimList) getChild("shapes");
             if (shapeList == null) {
-                throw new AssertionError("Composite without shape StratmasList");
+                throw new AssertionError("Composite without shape ApproxsimList");
             }
 
             HashSet<String> newIDs = new HashSet<String>();
@@ -212,13 +212,13 @@ public class Composite extends Shape {
                     Shape childShape = (Shape) shapeList.getChild(id);
                     if (childShape == null) {
                         // If not, we add the new child shape.
-                        shapeList.add(StratmasObjectFactory
+                        shapeList.add(ApproxsimObjectFactory
                                 .domCreate(shapeElem));
                     } else if (!childShape.getType().equals(typeOfNewChild)) {
                         // If we do, but it has a different Type than
                         // the new one, replace it with the new one.
                         shapeList.remove(childShape);
-                        shapeList.add(StratmasObjectFactory
+                        shapeList.add(ApproxsimObjectFactory
                                 .domCreate(shapeElem));
                     } else {
                         // Ok, it was just an update of the same
@@ -231,13 +231,13 @@ public class Composite extends Shape {
             // Remove all of our current child shapes that wasn't
             // mentioned in the update.
             for (Enumeration en = shapeList.children(); en.hasMoreElements();) {
-                StratmasObject o = (StratmasObject) en.nextElement();
+                ApproxsimObject o = (ApproxsimObject) en.nextElement();
                 if (newIDs.contains(o.getIdentifier())) {
                     shapeList.remove(o);
                 }
             }
         } else {
-            replace(StratmasObjectFactory.domCreate(n), n);
+            replace(ApproxsimObjectFactory.domCreate(n), n);
         }
     }
 
@@ -265,18 +265,18 @@ public class Composite extends Shape {
      * 
      * @param n The dom element from which the object is created.
      */
-    protected static StratmasObject domCreate(Element n) {
-        Vector<StratmasObject> shapes = new Vector<StratmasObject>();
+    protected static ApproxsimObject domCreate(Element n) {
+        Vector<ApproxsimObject> shapes = new Vector<ApproxsimObject>();
         for (Node child = n.getFirstChild(); child != null; child = child
                 .getNextSibling()) {
             if (child.getNodeType() == Node.ELEMENT_NODE
                     && child.getNodeName().equals("shapes")) {
-                shapes.add(StratmasObjectFactory.domCreate((Element) child));
+                shapes.add(ApproxsimObjectFactory.domCreate((Element) child));
             }
         }
-        StratmasList list = new StratmasList(new Declaration(
+        ApproxsimList list = new ApproxsimList(new Declaration(
                 TypeFactory.getType("Shape"), "shapes", 1, -1, true), shapes);
-        Vector<StratmasObject> listVec = new Vector<StratmasObject>();
+        Vector<ApproxsimObject> listVec = new Vector<ApproxsimObject>();
         listVec.add(list);
         return new Composite(Identifier.getIdentifier(n), listVec);
     }
@@ -293,7 +293,7 @@ public class Composite extends Shape {
  * @version 1, $Date: 2006/05/11 16:43:03 $
  * @author Daniel Ahlin
  */
-class CompositeVectorConstructor extends StratmasVectorConstructor {
+class CompositeVectorConstructor extends ApproxsimVectorConstructor {
     /**
      * Creates a new object using specifications in declaration.
      * 
@@ -304,11 +304,11 @@ class CompositeVectorConstructor extends StratmasVectorConstructor {
     }
 
     /**
-     * Returns the StratmasObject this component was created to provide.
+     * Returns the ApproxsimObject this component was created to provide.
      * 
      * @param parts the parts to use in constructing the object.
      */
-    public StratmasObject getStratmasObject(Vector parts) {
+    public ApproxsimObject getApproxsimObject(Vector parts) {
         return new Composite(this.getDeclaration(), parts);
     }
 }

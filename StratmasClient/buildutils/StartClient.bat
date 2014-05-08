@@ -1,6 +1,6 @@
-REM Batch file for starting the Stratmas client.
+REM Batch file for starting the Approxsim client.
 
 @echo off
 
 REM Start client
-java -Xmx300m -Djava.library.path=StratmasClient\lib\Windows-x86 -cp StratmasClient StratmasClient.Client -noJoglResolve %1
+java -Xmx300m -Djava.library.path=ApproxsimClient\lib\Windows-x86 -cp ApproxsimClient ApproxsimClient.Client -noJoglResolve %1

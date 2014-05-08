@@ -3,7 +3,7 @@
  * @(#)ParsedFloat.java
  */
 
-package StratmasClient.TaclanV2;
+package ApproxsimClient.TaclanV2;
 
 /**
  * An object representing the type float of the Taclan language. As such it contains artefacts of the language.

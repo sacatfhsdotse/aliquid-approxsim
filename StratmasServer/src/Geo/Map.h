@@ -1,5 +1,5 @@
-#ifndef _STRATMASMAP_H
-#define _STRATMASMAP_H
+#ifndef _APPROXSIMMAP_H
+#define _APPROXSIMMAP_H
 
 // System                                                                                           
 
@@ -109,4 +109,4 @@ public:
      const Shape *getRegionForPoint(const ProjCoord &p) const;
 };
 
-#endif   // _STRATMASMAP_H
+#endif   // _APPROXSIMMAP_H

@@ -1,5 +1,5 @@
-#ifndef STRATMAS_ACTION_H
-#define STRATMAS_ACTION_H
+#ifndef APPROXSIM_ACTION_H
+#define APPROXSIM_ACTION_H
 
 
 // System
@@ -119,4 +119,4 @@ public:
      }
 };
 
-#endif   // STRATMAS_ACTION_H
+#endif   // APPROXSIM_ACTION_H

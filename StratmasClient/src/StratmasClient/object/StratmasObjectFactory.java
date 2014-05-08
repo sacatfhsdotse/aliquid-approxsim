@@ -1,15 +1,15 @@
-// $Id: StratmasObjectFactory.java,v 1.11 2006/10/02 16:12:43 alexius Exp $
+// $Id: ApproxsimObjectFactory.java,v 1.11 2006/10/02 16:12:43 alexius Exp $
 /*
- * @(#)StratmasObjectFactory.java
+ * @(#)ApproxsimObjectFactory.java
  */
 
-package StratmasClient.object;
+package ApproxsimClient.object;
 
-import StratmasClient.object.type.Type;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.object.type.Declaration;
+import ApproxsimClient.object.type.Type;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.object.type.Declaration;
 
-import StratmasClient.StratmasConstants;
+import ApproxsimClient.ApproxsimConstants;
 
 import org.w3c.dom.Element;
 
@@ -17,13 +17,13 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 /**
- * StratmasObjectFactory is mapping of different sources of StratmasObjects to instances of the same.
+ * ApproxsimObjectFactory is mapping of different sources of ApproxsimObjects to instances of the same.
  * 
  * @version 1, $Date: 2006/10/02 16:12:43 $
  * @author Daniel Ahlin
  */
 
-public class StratmasObjectFactory {
+public class ApproxsimObjectFactory {
     /**
      * The table holding the string -> creator mapping.
      */
@@ -47,46 +47,46 @@ public class StratmasObjectFactory {
     /**
      * A class template for the creator objects.
      */
-    abstract static class StratmasObjectConstructor {
+    abstract static class ApproxsimObjectConstructor {
         /**
-         * Returns a StratmasGUIConstructor whose getStratmasObject will return the object.
+         * Returns a ApproxsimGUIConstructor whose getApproxsimObject will return the object.
          * 
          * @param declaration the declaration for which this object is created.
          */
-        public StratmasGUIConstructor guiCreate(Declaration declaration) {
+        public ApproxsimGUIConstructor guiCreate(Declaration declaration) {
             throw new AssertionError("GUI creation of "
                     + declaration.getType().getName()
                     + " is not implemented yet");
         }
 
         /**
-         * Returns a StratmasVectorConstructor whose getStratmasObject will return the object.
+         * Returns a ApproxsimVectorConstructor whose getApproxsimObject will return the object.
          * 
          * @param declaration the declaration for which this object is created.
          */
-        public StratmasVectorConstructor vectorCreate(Declaration declaration) {
+        public ApproxsimVectorConstructor vectorCreate(Declaration declaration) {
             throw new AssertionError("Vector creation of "
                     + declaration.getType().getName()
                     + " is not implemented yet");
         }
 
         /**
-         * Returns a StratmasObject built from the supplied DOM element.
+         * Returns a ApproxsimObject built from the supplied DOM element.
          * 
          * @param r The reference to the object to be created.
          * @param element the element to build the object from.
          */
-        public StratmasObject domCreate(Element element) {
+        public ApproxsimObject domCreate(Element element) {
             throw new AssertionError(
                     "Creation from XML Element not implemented yet.");
         }
 
         /**
-         * Returns a StratmasObject with default values.
+         * Returns a ApproxsimObject with default values.
          * 
          * @param declaration the declaration for which this object is created.
          */
-        public StratmasObject defaultCreate(Declaration declaration) {
+        public ApproxsimObject defaultCreate(Declaration declaration) {
             throw new AssertionError("Default creation of "
                     + declaration.getType().getName()
                     + " is not implemented yet");
@@ -102,394 +102,394 @@ public class StratmasObjectFactory {
         } else {
             stringMap = new Hashtable();
             substitutions = new Hashtable();
-            substitutions.put(StratmasConstants.stratmasNamespace + ":Root",
+            substitutions.put(ApproxsimConstants.approxsimNamespace + ":Root",
                               "DefaultComplex");
-            substitutions.put(StratmasConstants.stratmasNamespace
+            substitutions.put(ApproxsimConstants.approxsimNamespace
                     + ":Simulation", "DefaultComplex");
-            substitutions.put(StratmasConstants.stratmasNamespace
+            substitutions.put(ApproxsimConstants.approxsimNamespace
                     + ":TimeStepper", "DefaultComplex");
-            substitutions.put(StratmasConstants.stratmasNamespace
+            substitutions.put(ApproxsimConstants.approxsimNamespace
                     + ":GridPartitioner", "DefaultComplex");
-            substitutions.put(StratmasConstants.stratmasNamespace
+            substitutions.put(ApproxsimConstants.approxsimNamespace
                     + ":ModelParameters", "DefaultComplex");
-            substitutions.put(StratmasConstants.stratmasNamespace
+            substitutions.put(ApproxsimConstants.approxsimNamespace
                     + ":ParameterGroup", "DefaultComplex");
             substitutions
-                    .put(StratmasConstants.stratmasNamespace + ":Scenario",
+                    .put(ApproxsimConstants.approxsimNamespace + ":Scenario",
                          "DefaultComplex");
-            substitutions.put(StratmasConstants.stratmasNamespace + ":Region",
+            substitutions.put(ApproxsimConstants.approxsimNamespace + ":Region",
                               "DefaultComplex");
-            substitutions.put(StratmasConstants.stratmasNamespace + ":Disease",
+            substitutions.put(ApproxsimConstants.approxsimNamespace + ":Disease",
                               "DefaultComplex");
             substitutions
-                    .put(StratmasConstants.stratmasNamespace + ":Activity",
+                    .put(ApproxsimConstants.approxsimNamespace + ":Activity",
                          "DefaultComplex");
-            substitutions.put(StratmasConstants.stratmasNamespace + ":Shape",
+            substitutions.put(ApproxsimConstants.approxsimNamespace + ":Shape",
                               "DefaultComplex");
-            substitutions.put(StratmasConstants.stratmasNamespace + ":Element",
+            substitutions.put(ApproxsimConstants.approxsimNamespace + ":Element",
                               "DefaultComplex");
-            substitutions.put(StratmasConstants.stratmasNamespace
+            substitutions.put(ApproxsimConstants.approxsimNamespace
                     + ":PopulationGroup", "DefaultComplex");
-            substitutions.put(StratmasConstants.stratmasNamespace + ":Faction",
+            substitutions.put(ApproxsimConstants.approxsimNamespace + ":Faction",
                               "DefaultComplex");
-            substitutions.put(StratmasConstants.stratmasNamespace
+            substitutions.put(ApproxsimConstants.approxsimNamespace
                     + ":FactionRelation", "DefaultComplex");
-            substitutions.put(StratmasConstants.stratmasNamespace
+            substitutions.put(ApproxsimConstants.approxsimNamespace
                     + ":Equipment", "DefaultComplex");
-            substitutions.put(StratmasConstants.stratmasNamespace
+            substitutions.put(ApproxsimConstants.approxsimNamespace
                     + ":Distribution", "DefaultComplex");
-            substitutions.put(StratmasConstants.stratmasNamespace
-                    + ":StratmasCityDistribution", "DefaultComplex");
-            substitutions.put(StratmasConstants.stratmasNamespace
+            substitutions.put(ApproxsimConstants.approxsimNamespace
+                    + ":ApproxsimCityDistribution", "DefaultComplex");
+            substitutions.put(ApproxsimConstants.approxsimNamespace
                     + ":UniformDistribution", "DefaultComplex");
-            substitutions.put(StratmasConstants.stratmasNamespace
+            substitutions.put(ApproxsimConstants.approxsimNamespace
                     + ":NormalDistribution", "DefaultComplex");
-            substitutions.put(StratmasConstants.stratmasNamespace
-                    + ":NonNegativeInteger", StratmasConstants.xsdNamespace
+            substitutions.put(ApproxsimConstants.approxsimNamespace
+                    + ":NonNegativeInteger", ApproxsimConstants.xsdNamespace
                     + ":integer");
-            substitutions.put(StratmasConstants.stratmasNamespace + ":String",
-                              StratmasConstants.xsdNamespace + ":string");
-            substitutions.put(StratmasConstants.stratmasNamespace + ":Double",
-                              StratmasConstants.xsdNamespace + ":double");
-            substitutions.put(StratmasConstants.stratmasNamespace + ":Node",
+            substitutions.put(ApproxsimConstants.approxsimNamespace + ":String",
+                              ApproxsimConstants.xsdNamespace + ":string");
+            substitutions.put(ApproxsimConstants.approxsimNamespace + ":Double",
+                              ApproxsimConstants.xsdNamespace + ":double");
+            substitutions.put(ApproxsimConstants.approxsimNamespace + ":Node",
                               "DefaultComplex");
-            substitutions.put(StratmasConstants.stratmasNamespace + ":Edge",
+            substitutions.put(ApproxsimConstants.approxsimNamespace + ":Edge",
                               "DefaultComplex");
-            substitutions.put(StratmasConstants.stratmasNamespace + ":Graph",
+            substitutions.put(ApproxsimConstants.approxsimNamespace + ":Graph",
                               "DefaultComplex");
-            substitutions.put(StratmasConstants.stratmasNamespace + ":Effect",
+            substitutions.put(ApproxsimConstants.approxsimNamespace + ":Effect",
                     "DefaultComplex");
 
-            stringMap.put(StratmasConstants.xsdNamespace + ":string",
-                          new StratmasObjectConstructor() {
-                              public StratmasGUIConstructor guiCreate(
+            stringMap.put(ApproxsimConstants.xsdNamespace + ":string",
+                          new ApproxsimObjectConstructor() {
+                              public ApproxsimGUIConstructor guiCreate(
                                       Declaration declaration) {
-                                  return StratmasString
+                                  return ApproxsimString
                                           .getGUIConstructor(declaration);
                               }
 
-                              public StratmasObject domCreate(Element n) {
-                                  return StratmasString.domCreate(n);
+                              public ApproxsimObject domCreate(Element n) {
+                                  return ApproxsimString.domCreate(n);
                               }
 
-                              public StratmasObject defaultCreate(
+                              public ApproxsimObject defaultCreate(
                                       Declaration declaration) {
-                                  return StratmasString
+                                  return ApproxsimString
                                           .defaultCreate(declaration);
                               }
                           });
-            stringMap.put(StratmasConstants.stratmasNamespace + ":Point",
-                          new StratmasObjectConstructor() {
-                              public StratmasGUIConstructor guiCreate(
+            stringMap.put(ApproxsimConstants.approxsimNamespace + ":Point",
+                          new ApproxsimObjectConstructor() {
+                              public ApproxsimGUIConstructor guiCreate(
                                       Declaration declaration) {
                                   return Point.getGUIConstructor(declaration);
                               }
 
-                              public StratmasVectorConstructor vectorCreate(
+                              public ApproxsimVectorConstructor vectorCreate(
                                       Declaration declaration) {
                                   return Point
                                           .getVectorConstructor(declaration);
                               }
 
-                              public StratmasObject domCreate(Element n) {
+                              public ApproxsimObject domCreate(Element n) {
                                   return Point.domCreate(n);
                               }
 
-                              public StratmasObject defaultCreate(
+                              public ApproxsimObject defaultCreate(
                                       Declaration declaration) {
                                   return Point.defaultCreate(declaration);
                               }
                           });
-            stringMap.put(StratmasConstants.xsdNamespace + ":double",
-                          new StratmasObjectConstructor() {
-                              public StratmasGUIConstructor guiCreate(
+            stringMap.put(ApproxsimConstants.xsdNamespace + ":double",
+                          new ApproxsimObjectConstructor() {
+                              public ApproxsimGUIConstructor guiCreate(
                                       Declaration declaration) {
-                                  return StratmasDecimal
+                                  return ApproxsimDecimal
                                           .getGUIConstructor(declaration);
                               }
 
-                              public StratmasVectorConstructor vectorCreate(
+                              public ApproxsimVectorConstructor vectorCreate(
                                       Declaration declaration) {
-                                  return StratmasDecimal
+                                  return ApproxsimDecimal
                                           .getVectorConstructor(declaration);
                               }
 
-                              public StratmasObject domCreate(Element n) {
-                                  return StratmasDecimal.domCreate(n);
+                              public ApproxsimObject domCreate(Element n) {
+                                  return ApproxsimDecimal.domCreate(n);
                               }
 
-                              public StratmasObject defaultCreate(
+                              public ApproxsimObject defaultCreate(
                                       Declaration declaration) {
-                                  return StratmasDecimal
+                                  return ApproxsimDecimal
                                           .defaultCreate(declaration);
                               }
                           });
-            stringMap.put(StratmasConstants.xsdNamespace + ":integer",
-                          new StratmasObjectConstructor() {
-                              public StratmasGUIConstructor guiCreate(
+            stringMap.put(ApproxsimConstants.xsdNamespace + ":integer",
+                          new ApproxsimObjectConstructor() {
+                              public ApproxsimGUIConstructor guiCreate(
                                       Declaration declaration) {
-                                  return StratmasInteger
+                                  return ApproxsimInteger
                                           .getGUIConstructor(declaration);
                               }
 
-                              public StratmasObject domCreate(Element n) {
-                                  return StratmasInteger.domCreate(n);
+                              public ApproxsimObject domCreate(Element n) {
+                                  return ApproxsimInteger.domCreate(n);
                               }
 
-                              public StratmasObject defaultCreate(
+                              public ApproxsimObject defaultCreate(
                                       Declaration declaration) {
-                                  return StratmasInteger
+                                  return ApproxsimInteger
                                           .defaultCreate(declaration);
                               }
                           });
-            stringMap.put("DefaultComplex", new StratmasObjectConstructor() {
-                public StratmasGUIConstructor guiCreate(Declaration declaration) {
+            stringMap.put("DefaultComplex", new ApproxsimObjectConstructor() {
+                public ApproxsimGUIConstructor guiCreate(Declaration declaration) {
                     return DefaultComplex.getGUIConstructor(declaration);
                 }
 
-                public StratmasVectorConstructor vectorCreate(
+                public ApproxsimVectorConstructor vectorCreate(
                         Declaration declaration) {
                     return DefaultComplex.getVectorConstructor(declaration);
                 }
 
-                public StratmasObject domCreate(Element n) {
+                public ApproxsimObject domCreate(Element n) {
                     return DefaultComplex.domCreate(n);
                 }
 
-                public StratmasObject defaultCreate(Declaration declaration) {
+                public ApproxsimObject defaultCreate(Declaration declaration) {
                     return DefaultComplex.defaultCreate(declaration);
                 }
             });
-            stringMap.put(StratmasConstants.stratmasNamespace + ":Composite",
-                          new StratmasObjectConstructor() {
-                              public StratmasVectorConstructor vectorCreate(
+            stringMap.put(ApproxsimConstants.approxsimNamespace + ":Composite",
+                          new ApproxsimObjectConstructor() {
+                              public ApproxsimVectorConstructor vectorCreate(
                                       Declaration declaration) {
                                   return Composite
                                           .getVectorConstructor(declaration);
                               }
 
-                              public StratmasObject domCreate(Element n) {
+                              public ApproxsimObject domCreate(Element n) {
                                   return Composite.domCreate(n);
                               }
 
-                              public StratmasGUIConstructor guiCreate(
+                              public ApproxsimGUIConstructor guiCreate(
                                       Declaration declaration) {
                                   return Composite
                                           .getGUIConstructor(declaration);
                               }
 
-                              public StratmasObject defaultCreate(
+                              public ApproxsimObject defaultCreate(
                                       Declaration declaration) {
                                   return Composite.defaultCreate(declaration);
                               }
                           });
-            stringMap.put(StratmasConstants.stratmasNamespace + ":Polygon",
-                          new StratmasObjectConstructor() {
-                              public StratmasVectorConstructor vectorCreate(
+            stringMap.put(ApproxsimConstants.approxsimNamespace + ":Polygon",
+                          new ApproxsimObjectConstructor() {
+                              public ApproxsimVectorConstructor vectorCreate(
                                       Declaration declaration) {
                                   return Polygon
                                           .getVectorConstructor(declaration);
                               }
 
-                              public StratmasObject domCreate(Element n) {
+                              public ApproxsimObject domCreate(Element n) {
                                   return Polygon.domCreate(n);
                               }
 
-                              public StratmasGUIConstructor guiCreate(
+                              public ApproxsimGUIConstructor guiCreate(
                                       Declaration declaration) {
                                   return Polygon.getGUIConstructor(declaration);
                               }
 
-                              public StratmasObject defaultCreate(
+                              public ApproxsimObject defaultCreate(
                                       Declaration declaration) {
                                   return Polygon.defaultCreate(declaration);
                               }
                           });
-            stringMap.put(StratmasConstants.stratmasNamespace + ":Line",
-                          new StratmasObjectConstructor() {
-                              public StratmasVectorConstructor vectorCreate(
+            stringMap.put(ApproxsimConstants.approxsimNamespace + ":Line",
+                          new ApproxsimObjectConstructor() {
+                              public ApproxsimVectorConstructor vectorCreate(
                                       Declaration declaration) {
                                   return Line.getVectorConstructor(declaration);
                               }
 
-                              public StratmasGUIConstructor guiCreate(
+                              public ApproxsimGUIConstructor guiCreate(
                                       Declaration declaration) {
                                   return Line.getGUIConstructor(declaration);
                               }
 
-                              public StratmasObject domCreate(Element n) {
+                              public ApproxsimObject domCreate(Element n) {
                                   return Line.domCreate(n);
                               }
 
-                              public StratmasObject defaultCreate(
+                              public ApproxsimObject defaultCreate(
                                       Declaration declaration) {
                                   return Line.defaultCreate(declaration);
                               }
 
                           });
-            stringMap.put(StratmasConstants.stratmasNamespace + ":Circle",
-                          new StratmasObjectConstructor() {
-                              public StratmasVectorConstructor vectorCreate(
+            stringMap.put(ApproxsimConstants.approxsimNamespace + ":Circle",
+                          new ApproxsimObjectConstructor() {
+                              public ApproxsimVectorConstructor vectorCreate(
                                       Declaration declaration) {
                                   return Circle
                                           .getVectorConstructor(declaration);
                               }
 
-                              public StratmasObject domCreate(Element n) {
+                              public ApproxsimObject domCreate(Element n) {
                                   return Circle.domCreate(n);
                               }
 
-                              public StratmasGUIConstructor guiCreate(
+                              public ApproxsimGUIConstructor guiCreate(
                                       Declaration declaration) {
                                   return Circle.getGUIConstructor(declaration);
                               }
 
-                              public StratmasObject defaultCreate(
+                              public ApproxsimObject defaultCreate(
                                       Declaration declaration) {
                                   return Circle.defaultCreate(declaration);
                               }
                           });
-            stringMap.put(StratmasConstants.stratmasNamespace + ":Timestamp",
-                          new StratmasObjectConstructor() {
-                              public StratmasGUIConstructor guiCreate(
+            stringMap.put(ApproxsimConstants.approxsimNamespace + ":Timestamp",
+                          new ApproxsimObjectConstructor() {
+                              public ApproxsimGUIConstructor guiCreate(
                                       Declaration declaration) {
-                                  return StratmasTimestamp
+                                  return ApproxsimTimestamp
                                           .getGUIConstructor(declaration);
                               }
 
-                              public StratmasObject domCreate(Element n) {
-                                  return StratmasTimestamp.domCreate(n);
+                              public ApproxsimObject domCreate(Element n) {
+                                  return ApproxsimTimestamp.domCreate(n);
                               }
 
-                              public StratmasObject defaultCreate(
+                              public ApproxsimObject defaultCreate(
                                       Declaration declaration) {
-                                  return StratmasTimestamp
+                                  return ApproxsimTimestamp
                                           .defaultCreate(declaration);
                               }
                           });
-            stringMap.put(StratmasConstants.stratmasNamespace + ":Reference",
-                          new StratmasObjectConstructor() {
-                              public StratmasObject domCreate(Element n) {
-                                  return StratmasReference.domCreate(n);
+            stringMap.put(ApproxsimConstants.approxsimNamespace + ":Reference",
+                          new ApproxsimObjectConstructor() {
+                              public ApproxsimObject domCreate(Element n) {
+                                  return ApproxsimReference.domCreate(n);
                               }
 
-                              public StratmasGUIConstructor guiCreate(
+                              public ApproxsimGUIConstructor guiCreate(
                                       Declaration declaration) {
-                                  return StratmasReference
+                                  return ApproxsimReference
                                           .getGUIConstructor(declaration);
                               }
 
-                              public StratmasObject defaultCreate(
+                              public ApproxsimObject defaultCreate(
                                       Declaration declaration) {
-                                  return StratmasReference
+                                  return ApproxsimReference
                                           .defaultCreate(declaration);
                               }
                           });
-            stringMap.put(StratmasConstants.stratmasNamespace + ":Boolean",
-                          new StratmasObjectConstructor() {
-                              public StratmasObject domCreate(Element n) {
-                                  return StratmasBoolean.domCreate(n);
+            stringMap.put(ApproxsimConstants.approxsimNamespace + ":Boolean",
+                          new ApproxsimObjectConstructor() {
+                              public ApproxsimObject domCreate(Element n) {
+                                  return ApproxsimBoolean.domCreate(n);
                               }
 
-                              public StratmasGUIConstructor guiCreate(
+                              public ApproxsimGUIConstructor guiCreate(
                                       Declaration declaration) {
-                                  return StratmasBoolean
+                                  return ApproxsimBoolean
                                           .getGUIConstructor(declaration);
                               }
 
-                              public StratmasObject defaultCreate(
+                              public ApproxsimObject defaultCreate(
                                       Declaration declaration) {
-                                  return StratmasBoolean
+                                  return ApproxsimBoolean
                                           .defaultCreate(declaration);
                               }
                           });
             stringMap
-                    .put(StratmasConstants.stratmasNamespace + ":SymbolIDCode",
-                         new StratmasObjectConstructor() {
-                             public StratmasGUIConstructor guiCreate(
+                    .put(ApproxsimConstants.approxsimNamespace + ":SymbolIDCode",
+                         new ApproxsimObjectConstructor() {
+                             public ApproxsimGUIConstructor guiCreate(
                                      Declaration declaration) {
                                  return SymbolIDCode
                                          .getGUIConstructor(declaration);
                              }
 
-                             public StratmasVectorConstructor vectorCreate(
+                             public ApproxsimVectorConstructor vectorCreate(
                                      Declaration declaration) {
                                  return SymbolIDCode
                                          .getVectorConstructor(declaration);
                              }
 
-                             public StratmasObject domCreate(Element n) {
+                             public ApproxsimObject domCreate(Element n) {
                                  return SymbolIDCode.domCreate(n);
                              }
 
-                             public StratmasObject defaultCreate(
+                             public ApproxsimObject defaultCreate(
                                      Declaration declaration) {
                                  return SymbolIDCode.defaultCreate(declaration);
                              }
                          });
-            stringMap.put(StratmasConstants.stratmasNamespace + ":Duration",
-                          new StratmasObjectConstructor() {
-                              public StratmasVectorConstructor vectorCreate(
+            stringMap.put(ApproxsimConstants.approxsimNamespace + ":Duration",
+                          new ApproxsimObjectConstructor() {
+                              public ApproxsimVectorConstructor vectorCreate(
                                       Declaration declaration) {
-                                  return StratmasDuration
+                                  return ApproxsimDuration
                                           .getVectorConstructor(declaration);
                               }
 
-                              public StratmasObject domCreate(Element n) {
-                                  return StratmasDuration.domCreate(n);
+                              public ApproxsimObject domCreate(Element n) {
+                                  return ApproxsimDuration.domCreate(n);
                               }
 
-                              public StratmasGUIConstructor guiCreate(
+                              public ApproxsimGUIConstructor guiCreate(
                                       Declaration declaration) {
-                                  return StratmasDuration
+                                  return ApproxsimDuration
                                           .getGUIConstructor(declaration);
                               }
 
-                              public StratmasObject defaultCreate(
+                              public ApproxsimObject defaultCreate(
                                       Declaration declaration) {
-                                  return StratmasDuration
+                                  return ApproxsimDuration
                                           .defaultCreate(declaration);
                               }
                           });
-            stringMap.put(StratmasConstants.stratmasNamespace + ":Shape",
-                          new StratmasObjectConstructor() {
-                              public StratmasGUIConstructor guiCreate(
+            stringMap.put(ApproxsimConstants.approxsimNamespace + ":Shape",
+                          new ApproxsimObjectConstructor() {
+                              public ApproxsimGUIConstructor guiCreate(
                                       Declaration declaration) {
                                   return DefaultComplex
                                           .getGUIConstructor(declaration);
                               }
 
-                              public StratmasVectorConstructor vectorCreate(
+                              public ApproxsimVectorConstructor vectorCreate(
                                       Declaration declaration) {
                                   return DefaultComplex
                                           .getVectorConstructor(declaration);
                               }
 
-                              public StratmasObject defaultCreate(
+                              public ApproxsimObject defaultCreate(
                                       Declaration declaration) {
                                   return Shape.defaultCreate(declaration);
                               }
                           });
             stringMap
-                    .put(StratmasConstants.stratmasNamespace + ":Distribution",
-                         new StratmasObjectConstructor() {
-                             public StratmasGUIConstructor guiCreate(
+                    .put(ApproxsimConstants.approxsimNamespace + ":Distribution",
+                         new ApproxsimObjectConstructor() {
+                             public ApproxsimGUIConstructor guiCreate(
                                      Declaration declaration) {
                                  return DefaultComplex
                                          .getGUIConstructor(declaration);
                              }
 
-                             public StratmasVectorConstructor vectorCreate(
+                             public ApproxsimVectorConstructor vectorCreate(
                                      Declaration declaration) {
                                  return DefaultComplex
                                          .getVectorConstructor(declaration);
                              }
 
-                             public StratmasObject domCreate(Element n) {
+                             public ApproxsimObject domCreate(Element n) {
                                  return DefaultComplex.domCreate(n);
                              }
 
-                             public StratmasObject defaultCreate(
+                             public ApproxsimObject defaultCreate(
                                      Declaration declaration) {
                                  return DefaultComplex.defaultCreate(declaration.clone(TypeFactory
                                          .getType("UniformDistribution")));
@@ -503,12 +503,12 @@ public class StratmasObjectFactory {
      * 
      * @param type the type to get the constructor for.
      */
-    private static StratmasObjectConstructor getConstructor(Type type) {
+    private static ApproxsimObjectConstructor getConstructor(Type type) {
         createMappings();
         String typestr = type.getNamespace() + ":" + type.getName();
 
         // First, try to match directly against stringMap:
-        StratmasObjectConstructor constructor = (StratmasObjectConstructor) StratmasObjectFactory.stringMap
+        ApproxsimObjectConstructor constructor = (ApproxsimObjectConstructor) ApproxsimObjectFactory.stringMap
                 .get(typestr);
         if (constructor != null) {
             return constructor;
@@ -517,10 +517,10 @@ public class StratmasObjectFactory {
         // Next, try to match indirectly through substitution. This
         // method of resolving allows a maximum of one level of
         // indirection, which is intended.
-        String substitution = (String) StratmasObjectFactory.substitutions
+        String substitution = (String) ApproxsimObjectFactory.substitutions
                 .get(typestr);
         if (substitution != null) {
-            return (StratmasObjectConstructor) StratmasObjectFactory.stringMap
+            return (ApproxsimObjectConstructor) ApproxsimObjectFactory.stringMap
                     .get(substitution);
         }
 
@@ -536,15 +536,15 @@ public class StratmasObjectFactory {
     }
 
     /**
-     * Returns an instance of StratmasGUIConstructor
+     * Returns an instance of ApproxsimGUIConstructor
      * 
      * @param declaration the declaration to create an instance for.
      */
-    public static StratmasGUIConstructor guiCreate(Declaration declaration) {
+    public static ApproxsimGUIConstructor guiCreate(Declaration declaration) {
         if (declaration.isList()) {
-            return StratmasList.getGUIConstructor(declaration);
+            return ApproxsimList.getGUIConstructor(declaration);
         } else {
-            StratmasObjectConstructor con = StratmasObjectFactory
+            ApproxsimObjectConstructor con = ApproxsimObjectFactory
                     .getConstructor(declaration.getType());
             if (con != null) {
                 return con.guiCreate(declaration);
@@ -557,12 +557,12 @@ public class StratmasObjectFactory {
     }
 
     /**
-     * Returns an instance of StratmasVectorConstructor
+     * Returns an instance of ApproxsimVectorConstructor
      * 
      * @param declaration the declaration to create an instance for.
      */
-    public static StratmasVectorConstructor vectorCreate(Declaration declaration) {
-        StratmasObjectConstructor con = StratmasObjectFactory
+    public static ApproxsimVectorConstructor vectorCreate(Declaration declaration) {
+        ApproxsimObjectConstructor con = ApproxsimObjectFactory
                 .getConstructor(declaration.getType());
         if (con != null) {
             return con.vectorCreate(declaration);
@@ -574,14 +574,14 @@ public class StratmasObjectFactory {
     }
 
     /**
-     * Returns an instance of StratmasListVectorConstructor
+     * Returns an instance of ApproxsimListVectorConstructor
      * 
      * @param declaration the declaration to create an instance for.
      */
-    public static StratmasVectorConstructor vectorCreateList(
+    public static ApproxsimVectorConstructor vectorCreateList(
             Declaration declaration) {
         if (declaration.isList()) {
-            return StratmasList.getVectorConstructor(declaration);
+            return ApproxsimList.getVectorConstructor(declaration);
         } else {
             throw new AssertionError(
                     "Tried to call vectorCreateList() with a Declaration that is not a list.");
@@ -589,15 +589,15 @@ public class StratmasObjectFactory {
     }
 
     /**
-     * Returns a StratmasObject created from a DOM Element.
+     * Returns a ApproxsimObject created from a DOM Element.
      * <p>
      * author Per Alexius
      * 
-     * @param n The element to use to create a StratmasObject.
+     * @param n The element to use to create a ApproxsimObject.
      */
-    public static StratmasObject domCreate(Element n) {
+    public static ApproxsimObject domCreate(Element n) {
         Type t = XMLHelper.getType(n);
-        StratmasObjectConstructor con = StratmasObjectFactory.getConstructor(t);
+        ApproxsimObjectConstructor con = ApproxsimObjectFactory.getConstructor(t);
         if (con != null) {
             return register(con.domCreate(n));
         } else {
@@ -608,14 +608,14 @@ public class StratmasObjectFactory {
     }
 
     /**
-     * Returns a StratmasObject created with default values.
+     * Returns a ApproxsimObject created with default values.
      * <p>
      * author Per Alexius
      * 
      * @param declaration The declaration to create an instance for.
      */
-    public static StratmasObject defaultCreate(Declaration declaration) {
-        StratmasObjectConstructor con = StratmasObjectFactory
+    public static ApproxsimObject defaultCreate(Declaration declaration) {
+        ApproxsimObjectConstructor con = ApproxsimObjectFactory
                 .getConstructor(declaration.getType());
         if (con != null) {
             return register(con.defaultCreate(declaration));
@@ -627,12 +627,12 @@ public class StratmasObjectFactory {
     }
 
     /**
-     * Returns a StratmasObject of the specified type created with default values.
+     * Returns a ApproxsimObject of the specified type created with default values.
      * 
      * @param type the type to create an instance for.
      */
-    public static StratmasObject create(Type type) {
-        StratmasObjectConstructor constructor = StratmasObjectFactory
+    public static ApproxsimObject create(Type type) {
+        ApproxsimObjectConstructor constructor = ApproxsimObjectFactory
                 .getConstructor(type);
         if (constructor != null) {
             return register(constructor.defaultCreate(new Declaration(type)));
@@ -644,18 +644,18 @@ public class StratmasObjectFactory {
     }
 
     /**
-     * Returns a StratmasObject of the specified type created using StratmasObjects in the provided vector. It is currently not possible to
-     * create stratmasLists with this function.
+     * Returns a ApproxsimObject of the specified type created using ApproxsimObjects in the provided vector. It is currently not possible to
+     * create approxsimLists with this function.
      * 
      * @param type the declaration to create an instance for.
-     * @param v StratmasObjects to use when creating
+     * @param v ApproxsimObjects to use when creating
      */
-    public static StratmasObject create(Type type, Vector v) {
-        StratmasObjectConstructor constructor = StratmasObjectFactory
+    public static ApproxsimObject create(Type type, Vector v) {
+        ApproxsimObjectConstructor constructor = ApproxsimObjectFactory
                 .getConstructor(type);
         if (constructor != null) {
             return register(constructor.vectorCreate(new Declaration(type))
-                    .getStratmasObject(v));
+                    .getApproxsimObject(v));
         } else {
             // No match, too bad.
             throw new AssertionError("Unable to create instances of type: "
@@ -664,19 +664,19 @@ public class StratmasObjectFactory {
     }
 
     /**
-     * Returns a StratmasObject of the specified type created using StratmasObjects in the provided vector. It is currently not possible to
-     * create stratmasLists with this function.
+     * Returns a ApproxsimObject of the specified type created using ApproxsimObjects in the provided vector. It is currently not possible to
+     * create approxsimLists with this function.
      * 
      * @param type the declaration to create an instance for.
-     * @param v StratmasObjects to use when creating
+     * @param v ApproxsimObjects to use when creating
      */
-    public static StratmasObject create(String identifier, Type type, Vector v) {
-        StratmasObjectConstructor constructor = StratmasObjectFactory
+    public static ApproxsimObject create(String identifier, Type type, Vector v) {
+        ApproxsimObjectConstructor constructor = ApproxsimObjectFactory
                 .getConstructor(type);
         if (constructor != null) {
             return register(constructor.vectorCreate(new Declaration(type,
                                                              identifier))
-                    .getStratmasObject(v));
+                    .getApproxsimObject(v));
         } else {
             // No match, too bad.
             throw new AssertionError("Unable to create instances of type: "
@@ -719,9 +719,9 @@ public class StratmasObjectFactory {
      * @param type the type to use.
      * @param val the value.
      */
-    public static StratmasString createString(String identifier, Type type,
+    public static ApproxsimString createString(String identifier, Type type,
             String val) {
-        StratmasString res = new StratmasString(identifier, type, val);
+        ApproxsimString res = new ApproxsimString(identifier, type, val);
         register(res);
         return res;
     }
@@ -732,7 +732,7 @@ public class StratmasObjectFactory {
      * @param declaration declaration to use
      * @param val the value.
      */
-    public static StratmasString createString(Declaration declaration,
+    public static ApproxsimString createString(Declaration declaration,
             String val) {
         return createString(declaration.getName(), declaration.getType(), val);
     }
@@ -743,7 +743,7 @@ public class StratmasObjectFactory {
      * @param identifier the identifier to use.
      * @param val the value.
      */
-    public static StratmasString createString(String identifier, String val) {
+    public static ApproxsimString createString(String identifier, String val) {
         return createString(identifier, TypeFactory.getType("String"), val);
     }
 
@@ -754,10 +754,10 @@ public class StratmasObjectFactory {
      * @param type the type to use.
      * @param val the value.
      */
-    public static StratmasDecimal createDecimal(String identifier, Type type,
+    public static ApproxsimDecimal createDecimal(String identifier, Type type,
             double val) {
 
-        StratmasDecimal res = new StratmasDecimal(identifier, type, val);
+        ApproxsimDecimal res = new ApproxsimDecimal(identifier, type, val);
         register(res);
         return res;
     }
@@ -768,7 +768,7 @@ public class StratmasObjectFactory {
      * @param declaration declaration to use
      * @param val the value.
      */
-    public static StratmasDecimal createDecimal(Declaration declaration,
+    public static ApproxsimDecimal createDecimal(Declaration declaration,
             double val) {
         return createDecimal(declaration.getName(), declaration.getType(), val);
     }
@@ -779,7 +779,7 @@ public class StratmasObjectFactory {
      * @param identifier the identifier to use.
      * @param val the value.
      */
-    public static StratmasDecimal createDecimal(String identifier, double val) {
+    public static ApproxsimDecimal createDecimal(String identifier, double val) {
         return createDecimal(identifier, TypeFactory.getType("Double"), val);
     }
 
@@ -787,7 +787,7 @@ public class StratmasObjectFactory {
      * Creates a polygon with the specified identifier and lines.
      * 
      * @param identifier the identifier of the polygon.
-     * @param lines lines of the polygon, note that lines should not contain a StratmasList.
+     * @param lines lines of the polygon, note that lines should not contain a ApproxsimList.
      */
     public static Polygon createPolygon(String identifier, Vector lines) {
         Vector lists = new Vector();
@@ -809,30 +809,30 @@ public class StratmasObjectFactory {
     public static Circle createCircle(String identifier, double lat,
             double lon, double radius) {
         Circle res = new Circle(identifier,
-                StratmasObjectFactory.createPoint("center", lat, lon),
-                StratmasObjectFactory.createDecimal("radius", radius));
+                ApproxsimObjectFactory.createPoint("center", lat, lon),
+                ApproxsimObjectFactory.createDecimal("radius", radius));
         register(res);
         return res;
     }
 
     /**
-     * Creates a StratmasList of the specified declaration.
+     * Creates a ApproxsimList of the specified declaration.
      * 
      * @param declaration the declaration to use.
      * @param vector the children to add to the list.
      */
-    public static StratmasObject createList(Declaration declaration,
+    public static ApproxsimObject createList(Declaration declaration,
             Vector vector) {
-        return register(new StratmasList(declaration, vector));
+        return register(new ApproxsimList(declaration, vector));
     }
 
     /**
-     * Creates an empty StratmasList of the specified declaration.
+     * Creates an empty ApproxsimList of the specified declaration.
      * 
      * @param declaration the declaration to use.
      */
-    public static StratmasObject createList(Declaration declaration) {
-        return register(new StratmasList(declaration));
+    public static ApproxsimObject createList(Declaration declaration) {
+        return register(new ApproxsimList(declaration));
     }
 
     /**
@@ -840,8 +840,8 @@ public class StratmasObjectFactory {
      * 
      * @param object the object to clone.
      */
-    public static StratmasObject cloneObject(StratmasObject object) {
-        return register((StratmasObject) object.clone());
+    public static ApproxsimObject cloneObject(ApproxsimObject object) {
+        return register((ApproxsimObject) object.clone());
     }
 
     /**
@@ -850,13 +850,13 @@ public class StratmasObjectFactory {
      * @param object the object constructed
      * @return the provided object as a convinience
      */
-    protected static StratmasObject register(StratmasObject object) {
+    protected static ApproxsimObject register(ApproxsimObject object) {
         // Consider using a thread to do this.
         // Get a local reference to the listeners array.
         FactoryListener[] ref = factoryListeners;
         for (int i = 0; i < ref.length; i++) {
             if (ref[i] != null) {
-                ref[i].stratmasObjectCreated(object);
+                ref[i].approxsimObjectCreated(object);
             }
         }
 
@@ -864,23 +864,23 @@ public class StratmasObjectFactory {
     }
 
     /**
-     * This method is called by implementors of StratmasObject.setParent to enable notifications of additions to the tree.
+     * This method is called by implementors of ApproxsimObject.setParent to enable notifications of additions to the tree.
      * 
      * @param object the object constructed
      */
-    protected static void attached(StratmasObject object) {
+    protected static void attached(ApproxsimObject object) {
         // Consider using a thread to do this.
         // Get a local reference to the listeners array.
         FactoryListener[] ref = factoryListeners;
         for (int i = 0; i < ref.length; i++) {
             if (ref[i] != null) {
-                ref[i].stratmasObjectAttached(object);
+                ref[i].approxsimObjectAttached(object);
             }
         }
     }
 
     /**
-     * Registers the listener for notifications on StratmasObject-creation. Note that the implementation of this event class is geared
+     * Registers the listener for notifications on ApproxsimObject-creation. Note that the implementation of this event class is geared
      * towards long-term listeners, for transient listening, consider reimplementing the listener list.
      * 
      * @param listener listener to add
@@ -898,12 +898,12 @@ public class StratmasObjectFactory {
             System.arraycopy(factoryListeners, 0, newListeners, 0,
                              factoryListeners.length);
             newListeners[newListeners.length - 1] = listener;
-            StratmasObjectFactory.factoryListeners = newListeners;
+            ApproxsimObjectFactory.factoryListeners = newListeners;
         }
     }
 
     /**
-     * Removes the listener from listeners getting notifications on StratmasObject-creation.
+     * Removes the listener from listeners getting notifications on ApproxsimObject-creation.
      * 
      * @param listener listener to add
      */
@@ -928,7 +928,7 @@ public class StratmasObjectFactory {
                     }
                 }
 
-                StratmasObjectFactory.factoryListeners = newListeners;
+                ApproxsimObjectFactory.factoryListeners = newListeners;
             }
         }
     }

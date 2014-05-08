@@ -1,5 +1,5 @@
-#ifndef STRATMAS_ENVIRONMENT
-#define STRATMAS_ENVIRONMENT
+#ifndef APPROXSIM_ENVIRONMENT
+#define APPROXSIM_ENVIRONMENT
 
 // System
 #include <string>
@@ -24,7 +24,7 @@ namespace po = boost::program_options;
 class Environment {
 private:
      /// CVS will replace this string with the current version number.
-     static const std::string STRATMAS_VERSION;
+     static const std::string APPROXSIM_VERSION;
      /// Version string for versions with no version number.
      static const std::string DEFAULT_VERSION;
 
@@ -85,8 +85,8 @@ public:
      static const std::string DEFAULT_SCHEMA_NAMESPACE;
      /// The xsd namespace.
      static const std::string XSD_NAMESPACE;
-     /// The name of the main Stratmas schema file.
-     static const std::string STRATMAS_PROTOCOL_SCHEMA;
+     /// The name of the main Approxsim schema file.
+     static const std::string APPROXSIM_PROTOCOL_SCHEMA;
 
      // File operations.
      static std::string getNativePath(const std::string& path);
@@ -124,4 +124,4 @@ namespace std {
 
 #endif
 
-#endif   // STRATMAS_ENVIRONMENT
+#endif   // APPROXSIM_ENVIRONMENT

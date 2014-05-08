@@ -1,6 +1,6 @@
 // $Id: Client.java,v 1.194 2007/01/31 10:11:43 alexius Exp $
 
-package StratmasClient;
+package ApproxsimClient;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -44,54 +44,54 @@ import java.util.Vector;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import StratmasClient.communication.GridData;
-import StratmasClient.communication.RegionData;
-import StratmasClient.communication.ServerCapabilitiesMessage;
-import StratmasClient.communication.ServerConnection;
-import StratmasClient.communication.ServerException;
-import StratmasClient.communication.StratmasSocket;
-import StratmasClient.communication.SubscriptionCounter;
-import StratmasClient.communication.SubscriptionHandler;
-import StratmasClient.communication.Unsubscription;
-import StratmasClient.communication.XMLHandler;
-import StratmasClient.dispatcher.StratmasDispatcher;
+import ApproxsimClient.communication.GridData;
+import ApproxsimClient.communication.RegionData;
+import ApproxsimClient.communication.ServerCapabilitiesMessage;
+import ApproxsimClient.communication.ServerConnection;
+import ApproxsimClient.communication.ServerException;
+import ApproxsimClient.communication.ApproxsimSocket;
+import ApproxsimClient.communication.SubscriptionCounter;
+import ApproxsimClient.communication.SubscriptionHandler;
+import ApproxsimClient.communication.Unsubscription;
+import ApproxsimClient.communication.XMLHandler;
+import ApproxsimClient.dispatcher.ApproxsimDispatcher;
 
-import StratmasClient.filter.TypeFilter;
+import ApproxsimClient.filter.TypeFilter;
 
-import StratmasClient.map.Visualizer;
+import ApproxsimClient.map.Visualizer;
 
-import StratmasClient.substrate.SubstrateEditor;
-import StratmasClient.substrate.SelectShapeDialog;
+import ApproxsimClient.substrate.SubstrateEditor;
+import ApproxsimClient.substrate.SelectShapeDialog;
 
-import StratmasClient.object.Shape;
-import StratmasClient.object.StratmasDuration;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.StratmasGUIConstructor;
-import StratmasClient.object.StratmasGUIConstructorDialog;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.object.StratmasTimestamp;
+import ApproxsimClient.object.Shape;
+import ApproxsimClient.object.ApproxsimDuration;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.object.ApproxsimGUIConstructor;
+import ApproxsimClient.object.ApproxsimGUIConstructorDialog;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimObjectFactory;
+import ApproxsimClient.object.ApproxsimTimestamp;
 
-import StratmasClient.object.primitive.Duration;
-import StratmasClient.object.primitive.Timestamp;
+import ApproxsimClient.object.primitive.Duration;
+import ApproxsimClient.object.primitive.Timestamp;
 
-import StratmasClient.object.type.Declaration;
-import StratmasClient.object.type.TypeFactory;
+import ApproxsimClient.object.type.Declaration;
+import ApproxsimClient.object.type.TypeFactory;
 
-import StratmasClient.TaclanV2.TaclanV2Utils;
+import ApproxsimClient.TaclanV2.TaclanV2Utils;
 
-import StratmasClient.timeline.Timeline;
+import ApproxsimClient.timeline.Timeline;
 
-import StratmasClient.treeview.TreeView;
+import ApproxsimClient.treeview.TreeView;
 
 /**
- * STRATMAS client controls communication between the simulator, the xml parser and the STRATMAS map.
+ * APPROXSIM client controls communication between the simulator, the xml parser and the APPROXSIM map.
  * 
  * @version 1.0 $Date: 2007/01/31 10:11:43 $
  * @author Amir Filipovic, Daniel Ahlin, Per Alexius
  */
-public class Client implements StratmasEventListener {
+public class Client implements ApproxsimEventListener {
     /**
      * Default port to connect to.
      */
@@ -139,7 +139,7 @@ public class Client implements StratmasEventListener {
     /**
      * Root object
      */
-    private StratmasObject rootObject;
+    private ApproxsimObject rootObject;
     /**
      * Handles subscription to and export of pv to file for a certain region.
      */
@@ -159,7 +159,7 @@ public class Client implements StratmasEventListener {
     /**
      * Contains eventListeners listening to this object.
      */
-    private Hashtable<StratmasEventListener, StratmasEventListener> eventListeners = new Hashtable<StratmasEventListener, StratmasEventListener>();
+    private Hashtable<ApproxsimEventListener, ApproxsimEventListener> eventListeners = new Hashtable<ApproxsimEventListener, ApproxsimEventListener>();
     /**
      * If the client was started in batch mode.
      */
@@ -199,7 +199,7 @@ public class Client implements StratmasEventListener {
     /**
      * The dispatcher used to handle out servers.
      */
-    StratmasDispatcher stratmasDispatcher = null;
+    ApproxsimDispatcher approxsimDispatcher = null;
     /**
      * Currently running Client instance.
      */
@@ -214,7 +214,7 @@ public class Client implements StratmasEventListener {
     private ClientMainFrame clientMainFrame;
 
     /**
-     * Creates stratmas client.
+     * Creates approxsim client.
      * 
      * @param parameters the parameters to the client.
      */
@@ -234,7 +234,7 @@ public class Client implements StratmasEventListener {
         // Debug.err.println("Port: " + port);
 
         // create root list
-        this.rootObject = StratmasObjectFactory.createList(TypeFactory
+        this.rootObject = ApproxsimObjectFactory.createList(TypeFactory
                 .getType("Root").getSubElement("identifiables"));
         // set up listener
         rootObject.addEventListener(this);
@@ -244,7 +244,7 @@ public class Client implements StratmasEventListener {
         subscription_handler.start();
 
         // create xml handler.
-        xml_handler = new XMLHandler(this, "stratmasProtocol.xsd");
+        xml_handler = new XMLHandler(this, "approxsimProtocol.xsd");
         xml_handler.connect(subscription_handler);
         xml_handler.start();
 
@@ -255,13 +255,13 @@ public class Client implements StratmasEventListener {
 
         // passive client
         if (inBatchPassiveMode) {
-            StratmasDialog
+            ApproxsimDialog
                     .showProgressBarDialog(null,
                                            "Initializing - passive mode ...");
             Thread thread = new Thread() {
                 public void run() {
                     Client.client.getRootObjectFromServer();
-                    StratmasDialog.quitProgressBarDialog();
+                    ApproxsimDialog.quitProgressBarDialog();
                 }
             };
             thread.start();
@@ -274,7 +274,7 @@ public class Client implements StratmasEventListener {
     }
 
     /**
-     * Creates stratmas client.
+     * Creates approxsim client.
      */
     public Client() {
         this(new String[0]);
@@ -372,29 +372,29 @@ public class Client implements StratmasEventListener {
         setSubstrateEditorMode(true);
         Thread thread = new Thread() {
             public void run() {
-                StratmasDialog
+                ApproxsimDialog
                         .showProgressBarDialog(null,
                                                "Starting substrate editor ...");
-                StratmasObject obj = (self.fileName != null) ? importXMLSimulation(self.fileName)
+                ApproxsimObject obj = (self.fileName != null) ? importXMLSimulation(self.fileName)
                         : Client.getTemplateSimulation(filename);
                 if (obj != null) {
                     if (obj.getParent() != null) {
                         obj.remove();
                     }
                     self.getRootObject().add(obj);
-                    final Shape shape = (Shape) ((StratmasObject) self
+                    final Shape shape = (Shape) ((ApproxsimObject) self
                             .getRootObject().children().nextElement())
                             .getChild("scenario").getChild("map");
                     // create new editor
                     self.setSubstrateEditor(new SubstrateEditor(self, shape));
                 } else {
                     self.setSubstrateEditorMode(false);
-                    StratmasDialog.quitProgressBarDialog();
+                    ApproxsimDialog.quitProgressBarDialog();
                     return;
                 }
                 self.setActiveClient(true);
                 // quit the progress bar
-                StratmasDialog.quitProgressBarDialog();
+                ApproxsimDialog.quitProgressBarDialog();
             }
         };
         thread.start();
@@ -429,7 +429,7 @@ public class Client implements StratmasEventListener {
      * 
      * @param socket the (already connected) socket to use.
      */
-    public boolean establishServerConnection(StratmasSocket socket) {
+    public boolean establishServerConnection(ApproxsimSocket socket) {
         // new conection to the server
         server_connection = new ServerConnection(this, xml_handler, socket);
         server_connection.start();
@@ -493,7 +493,7 @@ public class Client implements StratmasEventListener {
         if (!establishServerConnection()) {
             return;
         } else if (isActiveClient) {
-            StratmasDialog.showErrorMessageDialog(null,
+            ApproxsimDialog.showErrorMessageDialog(null,
                                                   "There was no initialized Simulation on server "
                                                           + serverName,
                                                   "No Simulation Found");
@@ -507,9 +507,9 @@ public class Client implements StratmasEventListener {
 
         try {
             getServerConnection()
-                    .blockingSend(new StratmasClient.communication.GetGridMessage());
+                    .blockingSend(new ApproxsimClient.communication.GetGridMessage());
             getServerConnection()
-                    .blockingSend(new StratmasClient.communication.RegisterForUpdatesMessage(
+                    .blockingSend(new ApproxsimClient.communication.RegisterForUpdatesMessage(
                                           true));
         } catch (ServerException e) {
             Debug.err.println(e);
@@ -560,11 +560,11 @@ public class Client implements StratmasEventListener {
                 declaration.setMinOccurs(1);
                 declaration.setMaxOccurs(1);
                 declaration.setUnbounded(false);
-                StratmasGUIConstructorDialog deferedDialog = StratmasGUIConstructor
-                        .buildDialog(StratmasObjectFactory
+                ApproxsimGUIConstructorDialog deferedDialog = ApproxsimGUIConstructor
+                        .buildDialog(ApproxsimObjectFactory
                                 .guiCreate(declaration), false);
                 deferedDialog.setVisible(true);
-                StratmasObject sObj = deferedDialog.getStratmasObject();
+                ApproxsimObject sObj = deferedDialog.getApproxsimObject();
                 if (sObj != null) {
                     getRootObject().add(sObj);
                 }
@@ -595,16 +595,16 @@ public class Client implements StratmasEventListener {
      *
      */
     public void getRootObjectFromFile() {
-        StratmasDialog.showProgressBarDialog(null, "Loading a scenario ...");
+        ApproxsimDialog.showProgressBarDialog(null, "Loading a scenario ...");
         final Client self = this;
         Thread thread = new Thread() {
             public void run() {
-                StratmasObject rootObj = (self.fileName != null) ? importXMLSimulation(self.fileName)
+                ApproxsimObject rootObj = (self.fileName != null) ? importXMLSimulation(self.fileName)
                         : importXMLSimulation();
 
                 // if above did not succeed we return
                 if (rootObj == null) {
-                    StratmasDialog.quitProgressBarDialog();
+                    ApproxsimDialog.quitProgressBarDialog();
                     return;
                 }
 
@@ -614,7 +614,7 @@ public class Client implements StratmasEventListener {
 
                 getRootObject().add(rootObj);
                 setActiveClient(true);
-                StratmasDialog.quitProgressBarDialog();
+                ApproxsimDialog.quitProgressBarDialog();
             }
         };
         thread.start();
@@ -657,22 +657,22 @@ public class Client implements StratmasEventListener {
         clientMainFrame = new ClientMainFrame(getClient());
         final ClientMainFrame mainFrame = clientMainFrame;
         if (getRootObject() != null) {
-            getRootObject().addEventListener(new StratmasEventListener() {
-                public void eventOccured(StratmasEvent event) {
+            getRootObject().addEventListener(new ApproxsimEventListener() {
+                public void eventOccured(ApproxsimEvent event) {
                     if (event.isObjectAdded()) {
                         mainFrame.tabFrame(TreeView
-                                .getDefaultFrame((StratmasObject) event
+                                .getDefaultFrame((ApproxsimObject) event
                                         .getArgument()));
                     } else if (event.isRemoved()) {
-                        ((StratmasObject) event.getSource())
+                        ((ApproxsimObject) event.getSource())
                                 .removeEventListener(this);
                     } else if (event.isReplaced()) {
                         // UNTESTED - the replace code is untested 2005-09-22
                         Debug.err
                                 .println("FIXME - Replace behavior untested in Client");
-                        ((StratmasObject) event.getSource())
+                        ((ApproxsimObject) event.getSource())
                                 .removeEventListener(this);
-                        ((StratmasObject) event.getArgument())
+                        ((ApproxsimObject) event.getArgument())
                                 .addEventListener(this);
                     }
                 }
@@ -693,7 +693,7 @@ public class Client implements StratmasEventListener {
     /**
      * Called when a new simulation is added to this client.
      */
-    public void importSimulation(StratmasObject simulation) {
+    public void importSimulation(ApproxsimObject simulation) {
         // Cloning could be done here if needed.
         try {
             // initialize the map
@@ -706,12 +706,12 @@ public class Client implements StratmasEventListener {
                 controller = new Controller(this);
                 simulation.addEventListener(controller);
                 // add new frame for the controller and the timeline
-                final JFrame fframe = new JFrame(" Stratmas Time Control");
+                final JFrame fframe = new JFrame(" Approxsim Time Control");
                 final JPanel tpanel = getTimeline().getTimelinePanel();
                 final ControllerPanel cpanel = getController()
                         .getControllerPanel();
-                cpanel.addStratmasEventListener(new StratmasEventListener() {
-                    public void eventOccured(StratmasEvent e) {
+                cpanel.addApproxsimEventListener(new ApproxsimEventListener() {
+                    public void eventOccured(ApproxsimEvent e) {
                         fframe.dispose();
                     }
                 });
@@ -795,10 +795,10 @@ public class Client implements StratmasEventListener {
      * @param simulation the simulation to run in batchmode
      * @param runBatch HACK - whether to actually do batchmode, or just use it to initialize a server connection.
      */
-    protected void initBatchMode(StratmasObject simulation, boolean runBatch) {
+    protected void initBatchMode(ApproxsimObject simulation, boolean runBatch) {
         if (getController() != null && getTimeline() != null) {
             if (runBatch) {
-                Timestamp startTime = ((StratmasTimestamp) simulation
+                Timestamp startTime = ((ApproxsimTimestamp) simulation
                         .getChild("startTime")).getValue();
                 getTimeline().setUpTimeline(startTime.add(batchModeDuration)
                                                     .getMilliSecs());
@@ -812,7 +812,7 @@ public class Client implements StratmasEventListener {
             }
         } else {
             System.err.println("Unable to initialize batch mode.");
-            StratmasDialog
+            ApproxsimDialog
                     .showErrorMessageDialog((JFrame) null,
                                             "Unable to initialize batch mode. Exiting...",
                                             "Batch mode error");
@@ -825,12 +825,12 @@ public class Client implements StratmasEventListener {
      * 
      * @param simulation the simulation to act as timeline for.
      */
-    protected void initTimeline(StratmasObject simulation) {
+    protected void initTimeline(ApproxsimObject simulation) {
         // get dt
-        StratmasDuration dt_msecs = (StratmasDuration) simulation
+        ApproxsimDuration dt_msecs = (ApproxsimDuration) simulation
                 .getChild("timeStepper").getChild("dt");
         // get start time
-        StratmasTimestamp stime_msecs = (StratmasTimestamp) simulation
+        ApproxsimTimestamp stime_msecs = (ApproxsimTimestamp) simulation
                 .getChild("startTime");
         // create timeline
         timeline = new Timeline(dt_msecs, stime_msecs);
@@ -845,7 +845,7 @@ public class Client implements StratmasEventListener {
      * 
      * @param simulation the simulation to act as timeline for.
      */
-    protected void initMap(StratmasObject simulation) {
+    protected void initMap(ApproxsimObject simulation) {
         // get shape from parser
         // Preliminary Version :) /dah
         Shape map = (Shape) simulation.getChild("scenario").getChild("map");
@@ -884,7 +884,7 @@ public class Client implements StratmasEventListener {
         //
         if (mPVExporter != null) {
             mPVExporter.kill();
-            Shape map = (Shape) ((StratmasObject) (this.getRootObject()
+            Shape map = (Shape) ((ApproxsimObject) (this.getRootObject()
                     .children().nextElement())).getChild("scenario")
                     .getChild("map");
             mPVExporter = new StreamPVExporter(batchModeOutputWriter,
@@ -926,10 +926,10 @@ public class Client implements StratmasEventListener {
     }
 
     /**
-     * Returns the StratmasDispatcher to use.
+     * Returns the ApproxsimDispatcher to use.
      */
-    StratmasDispatcher getStratmasDispatcher() {
-        if (this.stratmasDispatcher == null) {
+    ApproxsimDispatcher getApproxsimDispatcher() {
+        if (this.approxsimDispatcher == null) {
             String dispatcherString = System.getProperty("DISPATCHER");
             if (dispatcherString != null && dispatcherString != "") {
                 String[] parts = dispatcherString.split(":");
@@ -937,11 +937,11 @@ public class Client implements StratmasEventListener {
                 if (parts.length == 2 && parts[1].matches("\\A\\p{Digit}+\\z")) {
                     port = Integer.parseInt(parts[1]);
                 }
-                this.stratmasDispatcher = new StratmasDispatcher(parts[0], port);
+                this.approxsimDispatcher = new ApproxsimDispatcher(parts[0], port);
             }
         }
 
-        return this.stratmasDispatcher;
+        return this.approxsimDispatcher;
     }
 
     /**
@@ -949,7 +949,7 @@ public class Client implements StratmasEventListener {
      */
     private void createGrid() {
         if (gridData != null) {
-            ((StratmasObject) (this.getRootObject().children().nextElement()))
+            ((ApproxsimObject) (this.getRootObject().children().nextElement()))
                     .getChild("scenario").getChild("map");
             visualizer.createGrid(gridData);
         } else {
@@ -971,7 +971,7 @@ public class Client implements StratmasEventListener {
      * Shows a gui that sets the name of the server to use.
      */
     public void setServerNameGUI() {
-        String value = StratmasDialog
+        String value = ApproxsimDialog
                 .showInputDialog(null, "Choose simulation server",
                                  previousServerName);
         previousServerName = (value == null || value.equals("")) ? previousServerName
@@ -1006,11 +1006,11 @@ public class Client implements StratmasEventListener {
      */
     public void resetTimeline() {
         if (getRootObject().getChildCount() > 0) {
-            StratmasObject simulation = (StratmasObject) getRootObject()
+            ApproxsimObject simulation = (ApproxsimObject) getRootObject()
                     .children().nextElement();
-            timeline.reset((StratmasDuration) simulation
+            timeline.reset((ApproxsimDuration) simulation
                                    .getChild("timeStepper").getChild("dt"),
-                           (StratmasTimestamp) simulation.getChild("startTime"));
+                           (ApproxsimTimestamp) simulation.getChild("startTime"));
             // add all activities to the timeline
             timeline.importActivities(simulation);
         }
@@ -1048,14 +1048,14 @@ public class Client implements StratmasEventListener {
      * 
      * @param sel the listener to add.
      */
-    public void addEventListener(StratmasEventListener sel) {
+    public void addEventListener(ApproxsimEventListener sel) {
         eventListeners.put(sel, sel);
     }
 
     /**
      * Removes an event listener.
      */
-    public void removeEventListener(StratmasEventListener sel) {
+    public void removeEventListener(ApproxsimEventListener sel) {
         eventListeners.remove(sel);
     }
 
@@ -1123,7 +1123,7 @@ public class Client implements StratmasEventListener {
                 final String message = fatal.get(i);
                 SwingUtilities.invokeLater(new Runnable() {
                     public void run() {
-                        StratmasDialog.showErrorMessageDialog(new JFrame(),
+                        ApproxsimDialog.showErrorMessageDialog(new JFrame(),
                                                               message,
                                                               "Fatal Error");
                     }
@@ -1139,7 +1139,7 @@ public class Client implements StratmasEventListener {
                 final String message = general.get(i);
                 SwingUtilities.invokeLater(new Runnable() {
                     public void run() {
-                        StratmasDialog.showErrorMessageDialog(new JFrame(),
+                        ApproxsimDialog.showErrorMessageDialog(new JFrame(),
                                                               message,
                                                               "General Error");
                     }
@@ -1154,7 +1154,7 @@ public class Client implements StratmasEventListener {
                 final String message = warning.get(i);
                 SwingUtilities.invokeLater(new Runnable() {
                     public void run() {
-                        StratmasDialog.showWarningMessageDialog(new JFrame(),
+                        ApproxsimDialog.showWarningMessageDialog(new JFrame(),
                                                                 message,
                                                                 "Warning");
                     }
@@ -1191,7 +1191,7 @@ public class Client implements StratmasEventListener {
             // get factions
             TypeFilter factionFilter = new TypeFilter(
                     TypeFactory.getType("EthnicFaction"));
-            Enumeration<StratmasObject> ethnicFactions = rootObject
+            Enumeration<ApproxsimObject> ethnicFactions = rootObject
                     .getFilteredChildren(factionFilter);
             // extract factions
             while (ethnicFactions.hasMoreElements()) {
@@ -1257,8 +1257,8 @@ public class Client implements StratmasEventListener {
      *
      */
     public void notifyHandledSubs(Timestamp t) {
-        StratmasEvent e = StratmasEvent.getSubscriptionHandled(this, t);
-        for (Enumeration<StratmasEventListener> en = eventListeners.elements(); en
+        ApproxsimEvent e = ApproxsimEvent.getSubscriptionHandled(this, t);
+        for (Enumeration<ApproxsimEventListener> en = eventListeners.elements(); en
                 .hasMoreElements();) {
             en.nextElement().eventOccured(e);
         }
@@ -1308,11 +1308,11 @@ public class Client implements StratmasEventListener {
     /**
      * Returns the list of factions.
      */
-    public Vector<StratmasObject> getFactions() {
-        Vector<StratmasObject> v = new Vector<StratmasObject>();
+    public Vector<ApproxsimObject> getFactions() {
+        Vector<ApproxsimObject> v = new Vector<ApproxsimObject>();
         TypeFilter factionFilter = new TypeFilter(
                 TypeFactory.getType("EthnicFaction"));
-        Enumeration<StratmasObject> ethnicFactions = rootObject
+        Enumeration<ApproxsimObject> ethnicFactions = rootObject
                 .getFilteredChildren(factionFilter);
         while (ethnicFactions.hasMoreElements()) {
             v.add(ethnicFactions.nextElement());
@@ -1324,7 +1324,7 @@ public class Client implements StratmasEventListener {
     /**
      * Returns the root object of this Client.
      */
-    public StratmasObject getRootObject() {
+    public ApproxsimObject getRootObject() {
         return this.rootObject;
     }
 
@@ -1340,7 +1340,7 @@ public class Client implements StratmasEventListener {
      */
     public static String getTemplateFilePath() {
         JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
-        StratmasClient.TaclanV2.Taclan2FileFilter filter = new StratmasClient.TaclanV2.Taclan2FileFilter() {
+        ApproxsimClient.TaclanV2.Taclan2FileFilter filter = new ApproxsimClient.TaclanV2.Taclan2FileFilter() {
             public boolean accept(File f) {
                 if (f.isDirectory()) {
                     return true;
@@ -1372,8 +1372,8 @@ public class Client implements StratmasEventListener {
      * @param filePath The path to the ESRI file to use as map.
      * @return The newly created simulation.
      */
-    public static StratmasObject getTemplateSimulation(String filePath) {
-        String xmlCode = StratmasConstants.xmlFileHeader
+    public static ApproxsimObject getTemplateSimulation(String filePath) {
+        String xmlCode = ApproxsimConstants.xmlFileHeader
                 + "<identifiables xsi:type=\"sp:CommonSimulation\" identifier=\"Empty Simulation\">"
                 + "<timeStepper xsi:type=\"sp:ConstantStepper\">"
                 + "<dt xsi:type=\"sp:Duration\">" + "<value>86400000</value>"
@@ -1407,9 +1407,9 @@ public class Client implements StratmasEventListener {
                 + "<insurgentStrengthFactor xsi:type=\"sp:Double\">"
                 + "<value>0.0375</value>" + "</insurgentStrengthFactor>"
                 + "</modelParameters>" + "</identifiables>"
-                + StratmasConstants.xmlFileFooter;
+                + ApproxsimConstants.xmlFileFooter;
         try {
-            StratmasObject sim = (StratmasObject) importXMLString(xmlCode)
+            ApproxsimObject sim = (ApproxsimObject) importXMLString(xmlCode)
                     .getChild("identifiables").children().nextElement();
             return sim;
         } catch (NullPointerException e) {
@@ -1423,16 +1423,16 @@ public class Client implements StratmasEventListener {
      * @param object the object to save.
      * @param filename the name of the file to save to
      */
-    static protected void exportToXML(StratmasObject object, String filename) {
+    static protected void exportToXML(ApproxsimObject object, String filename) {
         try {
             OutputStreamWriter writer = new OutputStreamWriter(
                     new FileOutputStream(filename));
-            writer.write(StratmasConstants.xmlFileHeader);
+            writer.write(ApproxsimConstants.xmlFileHeader);
             writer.write(object.toXML());
-            writer.write(StratmasConstants.xmlFileFooter);
+            writer.write(ApproxsimConstants.xmlFileFooter);
             writer.close();
         } catch (IOException e) {
-            StratmasDialog.showErrorMessageDialog(null,
+            ApproxsimDialog.showErrorMessageDialog(null,
                                                   "File error\n"
                                                           + e.getMessage(),
                                                   "File error");
@@ -1444,10 +1444,10 @@ public class Client implements StratmasEventListener {
      * 
      * @param object the object to save.
      */
-    static public void exportToFile(StratmasObject object) {
+    static public void exportToFile(ApproxsimObject object) {
         JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
-        StratmasClient.TaclanV2.Taclan2FileFilter t2filter = new StratmasClient.TaclanV2.Taclan2FileFilter();
-        StratmasClient.TaclanV2.Taclan2FileFilter xmlfilter = new StratmasClient.TaclanV2.Taclan2FileFilter() {
+        ApproxsimClient.TaclanV2.Taclan2FileFilter t2filter = new ApproxsimClient.TaclanV2.Taclan2FileFilter();
+        ApproxsimClient.TaclanV2.Taclan2FileFilter xmlfilter = new ApproxsimClient.TaclanV2.Taclan2FileFilter() {
             public boolean accept(File f) {
                 if (f.isDirectory()) {
                     return true;
@@ -1494,8 +1494,8 @@ public class Client implements StratmasEventListener {
      * 
      */
     static protected File getSelectedFile(JFileChooser chooser) {
-        StratmasClient.TaclanV2.Taclan2FileFilter t2filter = new StratmasClient.TaclanV2.Taclan2FileFilter();
-        StratmasClient.TaclanV2.Taclan2FileFilter xmlfilter = new StratmasClient.TaclanV2.Taclan2FileFilter() {
+        ApproxsimClient.TaclanV2.Taclan2FileFilter t2filter = new ApproxsimClient.TaclanV2.Taclan2FileFilter();
+        ApproxsimClient.TaclanV2.Taclan2FileFilter xmlfilter = new ApproxsimClient.TaclanV2.Taclan2FileFilter() {
             public boolean accept(File f) {
                 if (f.isDirectory()) {
                     return true;
@@ -1527,7 +1527,7 @@ public class Client implements StratmasEventListener {
      */
     protected void exportToFile() {
         if (getRootObject().children().hasMoreElements()) {
-            exportToFile((StratmasObject) getRootObject().children()
+            exportToFile((ApproxsimObject) getRootObject().children()
                     .nextElement());
         }
     }
@@ -1537,7 +1537,7 @@ public class Client implements StratmasEventListener {
      */
     protected void exportToTaclanV2() {
         if (getRootObject().children().hasMoreElements()) {
-            TaclanV2Utils.exportToTaclanV2((StratmasObject) getRootObject()
+            TaclanV2Utils.exportToTaclanV2((ApproxsimObject) getRootObject()
                     .children().nextElement());
         }
     }
@@ -1550,14 +1550,14 @@ public class Client implements StratmasEventListener {
     }
 
     /**
-     * Called when the StratmasObject that is the root of the TreeView framed is called.
+     * Called when the ApproxsimObject that is the root of the TreeView framed is called.
      * 
      * @param event the event causing the call.
      */
-    public void eventOccured(StratmasEvent event) {
+    public void eventOccured(ApproxsimEvent event) {
         if (event.getSource().equals(getRootObject())) {
             if (event.isObjectAdded() && !inSubstrateEditorMode()) {
-                StratmasObject sObj = (StratmasObject) event.getArgument();
+                ApproxsimObject sObj = (ApproxsimObject) event.getArgument();
                 importSimulation(sObj);
             }
         }
@@ -1590,7 +1590,7 @@ public class Client implements StratmasEventListener {
                         new FileOutputStream(chooser.getSelectedFile()
                                 .getPath())));
             } catch (IOException ex) {
-                StratmasDialog.showErrorMessageDialog(null, "File error:\n"
+                ApproxsimDialog.showErrorMessageDialog(null, "File error:\n"
                         + ex.getMessage(), "IO error");
             }
         }
@@ -1603,49 +1603,49 @@ public class Client implements StratmasEventListener {
      */
     public void createStreamPVExporter(OutputStreamWriter writer) {
         if (getClient().getSubscriptionHandler() == null) {
-            StratmasDialog.showErrorMessageDialog(null,
+            ApproxsimDialog.showErrorMessageDialog(null,
                                                   "No SubscriptionHandler",
                                                   "No SubscriptionHandler");
         } else if (!getClient().getRootObject().hasChildren()
-                || !((StratmasObject) getRootObject().children().nextElement())
+                || !((ApproxsimObject) getRootObject().children().nextElement())
                         .getType().canSubstitute("Simulation")) {
-            StratmasDialog.showErrorMessageDialog(null,
+            ApproxsimDialog.showErrorMessageDialog(null,
                                                   "No map to export PV's for",
                                                   "No map to export PV's for");
         } else {
             batchModeOutputWriter = writer;
             mPVExporter = new StreamPVExporter(batchModeOutputWriter,
                     getSubscriptionHandler(),
-                    (Shape) ((StratmasObject) getRootObject().children()
+                    (Shape) ((ApproxsimObject) getRootObject().children()
                             .nextElement()).getChild("scenario")
                             .getChild("map"));
         }
     }
 
     /**
-     * Gets a StratmasObject from the specified InputSource.
+     * Gets a ApproxsimObject from the specified InputSource.
      * 
      * @param source The source to read from.
-     * @return The StratmasObject from the source or null if something failed.
+     * @return The ApproxsimObject from the source or null if something failed.
      */
-    public static StratmasObject importXML(InputSource source) {
-        StratmasObject root = null;
+    public static ApproxsimObject importXML(InputSource source) {
+        ApproxsimObject root = null;
         try {
             root = XMLImporter.saxParse(source);
         } catch (IOException e) {
-            StratmasDialog.quitProgressBarDialog();
-            StratmasDialog.showErrorMessageDialog(null,
+            ApproxsimDialog.quitProgressBarDialog();
+            ApproxsimDialog.showErrorMessageDialog(null,
                                                   "File error\n"
                                                           + e.getMessage(),
                                                   "File error");
         } catch (ExceptionCollection e) {
-            StratmasDialog.quitProgressBarDialog();
+            ApproxsimDialog.quitProgressBarDialog();
             Vector<SAXException> v = e.getExceptions();
             for (int i = 0; i < v.size(); i++) {
                 String[] options = new String[2];
                 options[0] = (i == v.size() - 1 ? "Ok" : "View next");
                 options[1] = "Cancel";
-                if (StratmasDialog.showOptionDialog(null, v.elementAt(i)
+                if (ApproxsimDialog.showOptionDialog(null, v.elementAt(i)
                                                             .getMessage(),
                                                     "Error " + (i + 1) + " of "
                                                             + v.size(),
@@ -1660,13 +1660,13 @@ public class Client implements StratmasEventListener {
     }
 
     /**
-     * Convenience method that gets a StratmasObject from the specified xmlfile.
+     * Convenience method that gets a ApproxsimObject from the specified xmlfile.
      * 
      * @param filename the name of the file.
-     * @return the StratmasObject from the file or null if something failed.
+     * @return the ApproxsimObject from the file or null if something failed.
      */
-    public static StratmasObject importXMLFile(String filename) {
-        StratmasObject ret = null;
+    public static ApproxsimObject importXMLFile(String filename) {
+        ApproxsimObject ret = null;
         if (filename != null) {
             try {
                 InputSource source = new InputSource(new BufferedInputStream(
@@ -1679,8 +1679,8 @@ public class Client implements StratmasEventListener {
                 }
                 ret = importXML(source);
             } catch (FileNotFoundException e) {
-                StratmasDialog.quitProgressBarDialog();
-                StratmasDialog.showErrorMessageDialog(null, "File '" + filename
+                ApproxsimDialog.quitProgressBarDialog();
+                ApproxsimDialog.showErrorMessageDialog(null, "File '" + filename
                         + "' not found.", "File Not Found");
             }
         }
@@ -1688,13 +1688,13 @@ public class Client implements StratmasEventListener {
     }
 
     /**
-     * Convenience method that gets a StratmasObject from the specified xml string.
+     * Convenience method that gets a ApproxsimObject from the specified xml string.
      * 
      * @param xml a string containing xml.
-     * @return the StratmasObject from the string or null if something failed.
+     * @return the ApproxsimObject from the string or null if something failed.
      */
-    public static StratmasObject importXMLString(String xml) {
-        StratmasObject ret = null;
+    public static ApproxsimObject importXMLString(String xml) {
+        ApproxsimObject ret = null;
         if (xml != null) {
             ret = importXML(new InputSource(new StringReader(xml)));
         }
@@ -1707,13 +1707,13 @@ public class Client implements StratmasEventListener {
      * @param filename the name of the file to import.
      * @return the first Simulation descendant instance in the specified file or null if no simulation was found.
      */
-    public static StratmasObject importXMLSimulation(String filename) {
-        StratmasObject ret = null;
-        StratmasObject root = importXMLFile(filename);
+    public static ApproxsimObject importXMLSimulation(String filename) {
+        ApproxsimObject ret = null;
+        ApproxsimObject root = importXMLFile(filename);
         if (root != null) {
-            StratmasObject list = root.getChild("identifiables");
+            ApproxsimObject list = root.getChild("identifiables");
             if (list != null) {
-                StratmasObject sim = (StratmasObject) list.children()
+                ApproxsimObject sim = (ApproxsimObject) list.children()
                         .nextElement();
                 if (sim != null && sim.getType().canSubstitute("Simulation")) {
                     ret = sim;
@@ -1728,7 +1728,7 @@ public class Client implements StratmasEventListener {
      * 
      * @return The first Simulation descendant instance in the user chosen file or null if user aborted or no simulation was found.
      */
-    public static StratmasObject importXMLSimulation() {
+    public static ApproxsimObject importXMLSimulation() {
         String filename = getFileNameFromDialog(".scn",
                                                 JFileChooser.OPEN_DIALOG);
         return (filename == null ? null : importXMLSimulation(filename));
@@ -1816,7 +1816,7 @@ public class Client implements StratmasEventListener {
             args = newArgs;
         }
 
-//        System.setProperty("StratmasClientDebug", "");
+//        System.setProperty("ApproxsimClientDebug", "");
         // "Fix" for "Comparsion method violates its general contract" in MapDrawableComparator
         System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
 

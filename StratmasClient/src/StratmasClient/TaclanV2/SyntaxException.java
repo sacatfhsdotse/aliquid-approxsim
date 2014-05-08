@@ -3,7 +3,7 @@
  * @(#)SyntaxException.java
  */
 
-package StratmasClient.TaclanV2;
+package ApproxsimClient.TaclanV2;
 
 /**
  * An object representing a syntactic error in TaclanV2

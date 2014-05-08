@@ -1,6 +1,6 @@
 // $Id: LogStream.h,v 1.2 2006/07/25 14:52:00 dah Exp $
-#ifndef STRATMAS_LOGSTREAM_H
-#define STRATMAS_LOGSTREAM_H
+#ifndef APPROXSIM_LOGSTREAM_H
+#define APPROXSIM_LOGSTREAM_H
 
 // System
 #include <sstream>
@@ -212,5 +212,5 @@ public:
      }
 };
 
-#endif   // STRATMAS_LOGSTREAM_H
+#endif   // APPROXSIM_LOGSTREAM_H
 

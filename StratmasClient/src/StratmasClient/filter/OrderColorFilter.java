@@ -1,4 +1,4 @@
-package StratmasClient.filter;
+package ApproxsimClient.filter;
 
 import java.awt.Color;
 import java.awt.image.RGBImageFilter;

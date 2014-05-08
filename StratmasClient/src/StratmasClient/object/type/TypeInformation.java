@@ -3,9 +3,9 @@
  * @(#)TypeInformation.java
  */
 
-package StratmasClient.object.type;
+package ApproxsimClient.object.type;
 
-import StratmasClient.LSJarXSDResolver;
+import ApproxsimClient.LSJarXSDResolver;
 import java.util.Hashtable;
 import java.util.Enumeration;
 import org.w3c.dom.bootstrap.DOMImplementationRegistry;
@@ -43,7 +43,7 @@ public class TypeInformation {
     /**
      * The namespace.
      */
-    String namespace = StratmasClient.StratmasConstants.stratmasNamespace;
+    String namespace = ApproxsimClient.ApproxsimConstants.approxsimNamespace;
 
     /**
      * Creates a new TypeInformation object

@@ -1,62 +1,62 @@
-// $Id: StratmasSimple.java,v 1.3 2006/04/10 09:45:55 dah Exp $
+// $Id: ApproxsimSimple.java,v 1.3 2006/04/10 09:45:55 dah Exp $
 /*
- * @(#)StratmasSimple.java
+ * @(#)ApproxsimSimple.java
  */
 
-package StratmasClient.object;
+package ApproxsimClient.object;
 
-import StratmasClient.Icon;
+import ApproxsimClient.Icon;
 
-import StratmasClient.object.type.Type;
-import StratmasClient.object.type.Declaration;
-import StratmasClient.object.primitive.Identifier;
-import StratmasClient.object.primitive.Timestamp;
+import ApproxsimClient.object.type.Type;
+import ApproxsimClient.object.type.Declaration;
+import ApproxsimClient.object.primitive.Identifier;
+import ApproxsimClient.object.primitive.Timestamp;
 
 import java.text.ParseException;
 
 import org.w3c.dom.Element;
 
 /**
- * StratmasSimple is the common origin of the atomic objects handled by the StratmasClient.
+ * ApproxsimSimple is the common origin of the atomic objects handled by the ApproxsimClient.
  * 
  * @version 1, $Date: 2006/04/10 09:45:55 $
  * @author Daniel Ahlin
  */
-public abstract class StratmasSimple extends StratmasObjectImpl {
+public abstract class ApproxsimSimple extends ApproxsimObjectImpl {
     /**
      * The type of this object.
      */
     Type type;
 
     /**
-     * Creates a new StratmasSimple.
+     * Creates a new ApproxsimSimple.
      * 
      * @param identifier the identifier for the object.
      * @param type the type of the object.
      */
-    protected StratmasSimple(String identifier, Type type) {
+    protected ApproxsimSimple(String identifier, Type type) {
         super(identifier);
         this.type = type;
     }
 
     /**
-     * Creates a new StratmasSimple from a Declaration.
+     * Creates a new ApproxsimSimple from a Declaration.
      * 
      * @param declaration the declaration for this object.
      */
-    protected StratmasSimple(Declaration declaration) {
+    protected ApproxsimSimple(Declaration declaration) {
         this(declaration.getName(), declaration.getType());
     }
 
     /**
-     * Creates a new StratmasSimple from a Declaration and changes the Identifier to the specified Identifier.
+     * Creates a new ApproxsimSimple from a Declaration and changes the Identifier to the specified Identifier.
      * <p>
      * author Per Alexius
      * 
      * @param declaration The Declaration for this object.
      * @param identifier The Identifier to use as Identifier for this object.
      */
-    protected StratmasSimple(Declaration declaration, String identifier) {
+    protected ApproxsimSimple(Declaration declaration, String identifier) {
         this(declaration);
         setIdentifier(identifier);
     }
@@ -144,7 +144,7 @@ public abstract class StratmasSimple extends StratmasObjectImpl {
             getParent().childChanged(this, initiator);
         }
 
-        StratmasEvent event = StratmasEvent.getValueChanged(this,
+        ApproxsimEvent event = ApproxsimEvent.getValueChanged(this,
                                                             initiator);
         for (int i = getEventListenerList().size() - 1; i >= 0; i--) {
             getEventListenerList().get(i).eventOccured(event);

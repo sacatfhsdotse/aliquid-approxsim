@@ -4,11 +4,11 @@
  * @(#)TreeViewFrame.java
  */
 
-package StratmasClient.treeview;
+package ApproxsimClient.treeview;
 
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.StratmasEvent;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.object.ApproxsimEvent;
 import javax.swing.JMenuBar;
 import javax.swing.JToolBar;
 import javax.swing.JMenu;
@@ -25,7 +25,7 @@ import java.awt.BorderLayout;
  * @version 1, $Date: 2006/07/31 10:19:12 $
  * @author Daniel Ahlin
  */
-public class TreeViewFrame extends JFrame implements StratmasEventListener {
+public class TreeViewFrame extends JFrame implements ApproxsimEventListener {
     /**
 	 * 
 	 */
@@ -47,7 +47,7 @@ public class TreeViewFrame extends JFrame implements StratmasEventListener {
      * @param treeView the TreeView to visualize
      */
     public TreeViewFrame(TreeView treeView) {
-        super(((StratmasObjectAdapter) treeView.getModel()).getUserObject()
+        super(((ApproxsimObjectAdapter) treeView.getModel()).getUserObject()
                 .getIdentifier());
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.treeView = treeView;
@@ -61,18 +61,18 @@ public class TreeViewFrame extends JFrame implements StratmasEventListener {
     }
 
     /**
-     * Called when the StratmasObject that is the root of the TreeView framed is called.
+     * Called when the ApproxsimObject that is the root of the TreeView framed is called.
      * 
      * @param event the event causing the call.
      */
-    public void eventOccured(StratmasEvent event) {
+    public void eventOccured(ApproxsimEvent event) {
         if (event.isValueChanged() || event.isObjectAdded()) {
             updateMenu();
         } else if (event.isRemoved()) {
-            ((StratmasObject) event.getSource()).removeEventListener(this);
+            ((ApproxsimObject) event.getSource()).removeEventListener(this);
             dispose();
         } else if (event.isIdentifierChanged()) {
-            setTitle(((StratmasObject) event.getSource()).getIdentifier());
+            setTitle(((ApproxsimObject) event.getSource()).getIdentifier());
         } else if (event.isReplaced()) {
             throw new AssertionError("Replace behavior not implemented");
         }
@@ -82,8 +82,8 @@ public class TreeViewFrame extends JFrame implements StratmasEventListener {
     /**
      * Returns the root object of the TreeView this object frames.
      */
-    public StratmasObject getRootObject() {
-        return ((StratmasObjectAdapter) treeView.getModel()).getUserObject();
+    public ApproxsimObject getRootObject() {
+        return ((ApproxsimObjectAdapter) treeView.getModel()).getUserObject();
     }
 
     /**

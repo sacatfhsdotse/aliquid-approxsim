@@ -1,10 +1,10 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
-import StratmasClient.Client;
-import StratmasClient.object.Shape;
+import ApproxsimClient.Client;
+import ApproxsimClient.object.Shape;
 
 /**
- * Basic STRATMAS map controller.
+ * Basic APPROXSIM map controller.
  */
 public class BasicMap {
     /**

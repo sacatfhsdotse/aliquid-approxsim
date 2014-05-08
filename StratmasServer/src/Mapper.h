@@ -1,5 +1,5 @@
-#ifndef STRATMAS_MAPPER_H
-#define STRATMAS_MAPPER_H
+#ifndef APPROXSIM_MAPPER_H
+#define APPROXSIM_MAPPER_H
 
 // System
 #include <map>
@@ -103,4 +103,4 @@ public:
      }
 };
 
-#endif   // STRATMAS_MAPPER_H
+#endif   // APPROXSIM_MAPPER_H

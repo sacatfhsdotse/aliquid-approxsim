@@ -1,10 +1,10 @@
-// $Id: StratmasServer.java,v 1.6 2005/10/07 12:59:15 dah Exp $
+// $Id: ApproxsimServer.java,v 1.6 2005/10/07 12:59:15 dah Exp $
 
 /*
- * @(#).StratmasServer.java
+ * @(#).ApproxsimServer.java
  */
 
-package StratmasClient.dispatcher;
+package ApproxsimClient.dispatcher;
 
 import java.util.Vector;
 
@@ -12,12 +12,12 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 /**
- * StratmasServer represent information about a simulation server
+ * ApproxsimServer represent information about a simulation server
  * 
  * @version 1, $Date: 2005/10/07 12:59:15 $
  * @author Daniel Ahlin
  */
-public class StratmasServer {
+public class ApproxsimServer {
     /**
      * The hostname of the server.
      */
@@ -50,7 +50,7 @@ public class StratmasServer {
      * @param port the port on which the server is listening.
      * @param simulations the simulations running on this server.
      */
-    public StratmasServer(String host, int port, Vector simulations) {
+    public ApproxsimServer(String host, int port, Vector simulations) {
         this.host = host;
         this.port = port;
         this.simulations = simulations;
@@ -121,7 +121,7 @@ public class StratmasServer {
      * 
      * @param element the element representing the server.
      */
-    public static StratmasServer fromDOMElement(Element element) {
+    public static ApproxsimServer fromDOMElement(Element element) {
         String host = element.getElementsByTagName("host").item(0)
                 .getFirstChild().getNodeValue();
         int port = Integer.parseInt(element.getElementsByTagName("port")
@@ -141,7 +141,7 @@ public class StratmasServer {
             res.add(sims.item(i).getFirstChild().getNodeValue());
         }
 
-        StratmasServer server = new StratmasServer(host, port, res);
+        ApproxsimServer server = new ApproxsimServer(host, port, res);
         server.setHasActiveClient(active);
         server.setIsPending(isPending);
 

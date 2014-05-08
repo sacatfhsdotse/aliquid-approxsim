@@ -1,5 +1,5 @@
-#ifndef STRATMAS_COMBAT_GRID_H
-#define STRATMAS_COMBAT_GRID_H
+#ifndef APPROXSIM_COMBAT_GRID_H
+#define APPROXSIM_COMBAT_GRID_H
 
 
 // System
@@ -192,4 +192,4 @@ public:
 };
 
 
-#endif   // STRATMAS_COMBAT_GRID_H
+#endif   // APPROXSIM_COMBAT_GRID_H

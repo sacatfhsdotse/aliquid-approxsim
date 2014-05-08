@@ -1,5 +1,5 @@
-#ifndef STRATMAS_LOG4C_H
-#define STRATMAS_LOG4C_H
+#ifndef APPROXSIM_LOG4C_H
+#define APPROXSIM_LOG4C_H
 
 #include <string>
 #include <functional>
@@ -65,6 +65,6 @@ void run_n_log (log4cxx::LoggerPtr logger, std::function<void (std::ostream&)> p
 void run_n_log (log4cxx::LoggerPtr logger, std::function<void (std::ostream&)> p, char level);
 
 extern log4cxx::LoggerPtr agenciesLog, dataManagementLog, debugLog, geoLog, networkLog, 
-       pvLog, simulationObjectsLog, taclanLog, stratmasLog;
+       pvLog, simulationObjectsLog, taclanLog, approxsimLog;
 
-#endif /* STRATMAS_LOG4C_H */
+#endif /* APPROXSIM_LOG4C_H */

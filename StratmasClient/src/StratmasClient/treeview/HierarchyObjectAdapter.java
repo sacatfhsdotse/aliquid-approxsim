@@ -1,27 +1,27 @@
-package StratmasClient.treeview;
+package ApproxsimClient.treeview;
 
 import java.util.Enumeration;
 import java.util.Vector;
 
-import StratmasClient.object.StratmasList;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.filter.StratmasObjectFilter;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.object.type.Type;
+import ApproxsimClient.object.ApproxsimList;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimObjectFactory;
+import ApproxsimClient.filter.ApproxsimObjectFilter;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.object.type.Type;
 
 /**
  * HierarchyObject adapters are used to visualize an import in a HierarchyImportTree and to keep track of which of the imported objects that
  * are already in the simulation and also to where in the object hierarchy not yet imported objects should be imported.
  * <p>
- * A HierarchyObjectAdapter holds two StratmasObjects. One that was created by the HierarchyImporter and one that is / will be imported to
+ * A HierarchyObjectAdapter holds two ApproxsimObjects. One that was created by the HierarchyImporter and one that is / will be imported to
  * the simulation. The reason for having two copies is that the first one is used to save imformation about the hierarchy and the other to
  * keep track of to which parent an object should be added to when imported to the simulation.
  * 
  * @version 1, $Date: 2006/09/25 10:11:01 $
  * @author Per Alexius
  */
-public class HierarchyObjectAdapter extends StratmasObjectAdapter {
+public class HierarchyObjectAdapter extends ApproxsimObjectAdapter {
     /**
      * Marks if the object this adapter holds has been imported to the simulation.
      */
@@ -29,7 +29,7 @@ public class HierarchyObjectAdapter extends StratmasObjectAdapter {
     /**
      * Holds a reference to the object that is or will be imported to the simulation.
      */
-    private StratmasObject mCopyForSim;
+    private ApproxsimObject mCopyForSim;
 
     /**
      * Creates a new HierarchyObjectAdapter.
@@ -37,9 +37,9 @@ public class HierarchyObjectAdapter extends StratmasObjectAdapter {
      * @param obj the object to adapt.
      * @param filter The filter used to filter out objects.
      */
-    public HierarchyObjectAdapter(StratmasObject obj,
-            StratmasObjectFilter filter) {
-        if (!filter.pass(obj) && !(obj instanceof StratmasList)) {
+    public HierarchyObjectAdapter(ApproxsimObject obj,
+            ApproxsimObjectFilter filter) {
+        if (!filter.pass(obj) && !(obj instanceof ApproxsimList)) {
             throw new AssertionError("Object " + obj + " of type "
                     + obj.getType().getName()
                     + " does not pass through filter " + filter);
@@ -48,8 +48,8 @@ public class HierarchyObjectAdapter extends StratmasObjectAdapter {
         this.setUserObject(obj);
         this.filter = filter;
 
-        if (obj instanceof StratmasList) {
-            mCopyForSim = StratmasObjectFactory.cloneObject(obj);
+        if (obj instanceof ApproxsimList) {
+            mCopyForSim = ApproxsimObjectFactory.cloneObject(obj);
         } else {
             typeDependentInit(obj.getType());
         }
@@ -60,15 +60,15 @@ public class HierarchyObjectAdapter extends StratmasObjectAdapter {
      * Initializes the children of this object.
      */
     protected void createChildren() {
-        if (stratmasObject == null) {
+        if (approxsimObject == null) {
             this.children = new Vector();
         } else {
             this.children = new Vector();
-            for (Enumeration e = stratmasObject.children(); e.hasMoreElements();) {
-                StratmasObject sObj = (StratmasObject) e.nextElement();
-                if (sObj instanceof StratmasList) {
+            for (Enumeration e = approxsimObject.children(); e.hasMoreElements();) {
+                ApproxsimObject sObj = (ApproxsimObject) e.nextElement();
+                if (sObj instanceof ApproxsimList) {
                     for (Enumeration i = sObj.children(); i.hasMoreElements();) {
-                        StratmasObject objInList = (StratmasObject) i
+                        ApproxsimObject objInList = (ApproxsimObject) i
                                 .nextElement();
                         if (filter.pass(objInList)) {
                             silentAdd(new HierarchyObjectAdapter(objInList,
@@ -92,13 +92,13 @@ public class HierarchyObjectAdapter extends StratmasObjectAdapter {
      */
     private void typeDependentInit(Type t) {
         if (t.getName().equals("MilitaryUnit")) {
-            StratmasObject o = getUserObject();
-            mCopyForSim = StratmasObjectFactory.cloneObject(o);
+            ApproxsimObject o = getUserObject();
+            mCopyForSim = ApproxsimObjectFactory.cloneObject(o);
             // But we don't want the children and it's easier to
             // remove the list and add a new one instead of
             // removing all the elements in the list.
             mCopyForSim.getChild("subunits").remove();
-            mCopyForSim.add(StratmasObjectFactory.createList(TypeFactory
+            mCopyForSim.add(ApproxsimObjectFactory.createList(TypeFactory
                     .getType("MilitaryUnit").getSubElement("subunits")));
         }
     }
@@ -108,7 +108,7 @@ public class HierarchyObjectAdapter extends StratmasObjectAdapter {
      * 
      * @return The simulation copy of the adapted object.
      */
-    public StratmasObject getCopyForSim() {
+    public ApproxsimObject getCopyForSim() {
         return mCopyForSim;
     }
 
@@ -156,7 +156,7 @@ public class HierarchyObjectAdapter extends StratmasObjectAdapter {
      * 
      * @param child the child to add.
      */
-    protected void add(StratmasObject child, int index) {
+    protected void add(ApproxsimObject child, int index) {
         add(new HierarchyObjectAdapter(child, filter), index);
     }
 

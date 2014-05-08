@@ -1,5 +1,5 @@
-#ifndef STRATMAS_CHANGETRACKERADAPTER
-#define STRATMAS_CHANGETRACKERADAPTER
+#ifndef APPROXSIM_CHANGETRACKERADAPTER
+#define APPROXSIM_CHANGETRACKERADAPTER
 
 // System
 #include <map>
@@ -14,13 +14,13 @@ class DataObject;
 class ContainerDataObject;
 class Reference;
 class SimpleType;
-class StratmasBool;
-class StratmasDouble;
-class StratmasInt64_t;
-class StratmasReference;
-class StratmasShape;
-class StratmasString;
-class StratmasTime;
+class ApproxsimBool;
+class ApproxsimDouble;
+class ApproxsimInt64_t;
+class ApproxsimReference;
+class ApproxsimShape;
+class ApproxsimString;
+class ApproxsimTime;
 class SymbolIDCode;
 
 
@@ -51,7 +51,7 @@ public:
 
      /**
       * \brief Produces an XML representation of the changes in the
-      * object this adapter adapts according to the Stratmas xml
+      * object this adapter adapts according to the Approxsim xml
       * schema.
       *
       * \param o The ostream to write the XML representation to.
@@ -62,7 +62,7 @@ public:
 
      /**
       * \brief Produces an XML representation of the changes in the
-      * object this adapter adapts according to the Stratmas xml
+      * object this adapter adapts according to the Approxsim xml
       * schema. An indentation may be specified to increase
       * readability
       *
@@ -78,17 +78,17 @@ public:
 
 /**
  * \brief The BoolChangeTrackerAdapter keeps track of changes in
- * StratmasBool objects.
+ * ApproxsimBool objects.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/03/02 17:06:51 $
  */
 class BoolChangeTrackerAdapter : public ChangeTrackerAdapter {
 private:
-     StratmasBool& mObject;   ///< The adapted DataObject.
+     ApproxsimBool& mObject;   ///< The adapted DataObject.
      mutable bool mLast;      ///< The last value written.
 public:
-     BoolChangeTrackerAdapter(StratmasBool& v);
+     BoolChangeTrackerAdapter(ApproxsimBool& v);
      bool changed() const;
      std::ostream& toXML(std::ostream& o, std::string indent);
 };
@@ -97,17 +97,17 @@ public:
 
 /**
  * \brief The DoubleChangeTrackerAdapter keeps track of changes in
- * StratmasDouble objects.
+ * ApproxsimDouble objects.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/03/02 17:06:51 $
  */
 class DoubleChangeTrackerAdapter : public ChangeTrackerAdapter {
 private:
-     StratmasDouble& mObject;   ///< The adapted DataObject.
+     ApproxsimDouble& mObject;   ///< The adapted DataObject.
      mutable double mLast;      ///< The last value written.
 public:
-     DoubleChangeTrackerAdapter(StratmasDouble& v);
+     DoubleChangeTrackerAdapter(ApproxsimDouble& v);
      bool changed() const;
      std::ostream& toXML(std::ostream& o, std::string indent);
 };
@@ -116,17 +116,17 @@ public:
 
 /**
  * \brief The Int64_tChangeTrackerAdapter keeps track of changes in
- * StratmasInt64_t objects.
+ * ApproxsimInt64_t objects.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/03/02 17:06:51 $
  */
 class Int64_tChangeTrackerAdapter : public ChangeTrackerAdapter {
 private:
-     StratmasInt64_t& mObject;   ///< The adapted DataObject.
+     ApproxsimInt64_t& mObject;   ///< The adapted DataObject.
      mutable int64_t mLast;      ///< The last value written.
 public:
-     Int64_tChangeTrackerAdapter(StratmasInt64_t& v);
+     Int64_tChangeTrackerAdapter(ApproxsimInt64_t& v);
      bool changed() const;
      std::ostream& toXML(std::ostream& o, std::string indent);
 };
@@ -135,17 +135,17 @@ public:
 
 /**
  * \brief The ReferenceChangeTrackerAdapter keeps track of changes in
- * StratmasReference objects.
+ * ApproxsimReference objects.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/03/02 17:06:51 $
  */
 class ReferenceChangeTrackerAdapter : public ChangeTrackerAdapter {
 private:
-     StratmasReference& mObject;       ///< The adapted DataObject.
+     ApproxsimReference& mObject;       ///< The adapted DataObject.
      mutable const Reference* mLast;   ///< The last value written.
 public:
-     ReferenceChangeTrackerAdapter(StratmasReference& v);
+     ReferenceChangeTrackerAdapter(ApproxsimReference& v);
      bool changed() const;
      std::ostream& toXML(std::ostream& o, std::string indent);
 };
@@ -154,18 +154,18 @@ public:
 
 /**
  * \brief The ShapeChangeTrackerAdapter keeps track of changes in
- * StratmasShape objects.
+ * ApproxsimShape objects.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/03/02 17:06:51 $
  */
 class ShapeChangeTrackerAdapter : public ChangeTrackerAdapter {
 private:
-     StratmasShape& mObject;   ///< The adapted DataObject.
+     ApproxsimShape& mObject;   ///< The adapted DataObject.
      /// The change count of the last Shape written.
      mutable int mLast;
 public:
-     ShapeChangeTrackerAdapter(StratmasShape& v);
+     ShapeChangeTrackerAdapter(ApproxsimShape& v);
      bool changed() const;
      std::ostream& toXML(std::ostream& o, std::string indent);
 };
@@ -174,17 +174,17 @@ public:
 
 /**
  * \brief The StringChangeTrackerAdapter keeps track of changes in
- * StratmasString objects.
+ * ApproxsimString objects.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/03/02 17:06:51 $
  */
 class StringChangeTrackerAdapter : public ChangeTrackerAdapter {
 private:
-     StratmasString& mObject;     ///< The adapted DataObject.
+     ApproxsimString& mObject;     ///< The adapted DataObject.
      mutable std::string mLast;   ///< The last value written.
 public:
-     StringChangeTrackerAdapter(StratmasString& v);
+     StringChangeTrackerAdapter(ApproxsimString& v);
      bool changed() const;
      std::ostream& toXML(std::ostream& o, std::string indent);
 };
@@ -193,17 +193,17 @@ public:
 
 /**
  * \brief The TimeChangeTrackerAdapter keeps track of changes in
- * StratmasTime objects.
+ * ApproxsimTime objects.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/03/02 17:06:51 $
  */
 class TimeChangeTrackerAdapter : public ChangeTrackerAdapter {
 private:
-     StratmasTime& mObject;   ///< The adapted DataObject.
+     ApproxsimTime& mObject;   ///< The adapted DataObject.
      mutable Time mLast;      ///< The last value written.
 public:
-     TimeChangeTrackerAdapter(StratmasTime& v);
+     TimeChangeTrackerAdapter(ApproxsimTime& v);
      bool changed() const;
      std::ostream& toXML(std::ostream& o, std::string indent);
 };
@@ -212,7 +212,7 @@ public:
 
 /**
  * \brief The SymbolIDCodeChangeTrackerAdapter keeps track of changes
- * in StratmasSymbolIDCode objects.
+ * in ApproxsimSymbolIDCode objects.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/03/02 17:06:51 $
@@ -231,7 +231,7 @@ public:
 
 /**
  * \brief The ContainerChangeTrackerAdapter keeps track of changes in
- * StratmasContainer objects.
+ * ApproxsimContainer objects.
  *
  * ContainerChangeTrackerAdapter gets notified by the SOFactory when
  * SimulationObjects are created, deleted or replaced.
@@ -296,4 +296,4 @@ public:
      static ChangeTrackerAdapter* createChangeTrackerAdapter(const Reference& r, int64_t id);
 };
 
-#endif   // STRATMAS_CHANGETRACKERADAPTER
+#endif   // APPROXSIM_CHANGETRACKERADAPTER

@@ -1,5 +1,5 @@
-#ifndef STRATMAS_ERROR_H
-#define STRATMAS_ERROR_H
+#ifndef APPROXSIM_ERROR_H
+#define APPROXSIM_ERROR_H
 
 // System
 #include <sstream>
@@ -92,4 +92,4 @@ public:
 
 
 
-#endif   // STRATMAS_ERROR_H
+#endif   // APPROXSIM_ERROR_H

@@ -1,6 +1,6 @@
 // $Id: MemEntityResolver.h,v 1.1 2006/07/21 13:35:29 dah Exp $
-#ifndef STRATMAS_MEMENTITYRESOLVER_H
-#define STRATMAS_MEMENTITYRESOLVER_H
+#ifndef APPROXSIM_MEMENTITYRESOLVER_H
+#define APPROXSIM_MEMENTITYRESOLVER_H
 
 // System
 #include <string>
@@ -40,4 +40,4 @@ class MemEntityResolver : public XMLEntityResolver, public EntityResolver {
      virtual InputSource* resolve(const std::string& publicId);
 };
 
-#endif   // STRATMAS_MEMENTITYRESOLVER_H
+#endif   // APPROXSIM_MEMENTITYRESOLVER_H

@@ -10,7 +10,7 @@
 // TODO: find out if syslog is thread safe.
 
 // Statics
-std::string SyslogSink::sIdent("stratmas");
+std::string SyslogSink::sIdent("approxsim");
 bool SyslogSink::sSyslogOpened = false;
 
 /**

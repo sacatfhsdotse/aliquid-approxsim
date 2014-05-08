@@ -4,7 +4,7 @@
  * @(#)Taclan2FileFilter.java
  */
 
-package StratmasClient.TaclanV2;
+package ApproxsimClient.TaclanV2;
 
 import java.io.File;
 import javax.swing.filechooser.FileFilter;

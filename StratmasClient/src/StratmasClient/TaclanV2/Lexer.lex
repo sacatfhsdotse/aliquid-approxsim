@@ -1,7 +1,7 @@
 // $Id: Lexer.lex,v 1.6 2005/06/29 18:08:16 dah Exp $
 
-package StratmasClient.TaclanV2;
-import StratmasClient.TaclanV2.java_cup.runtime.Symbol;
+package ApproxsimClient.TaclanV2;
+import ApproxsimClient.TaclanV2.java_cup.runtime.Symbol;
 
 %%
 

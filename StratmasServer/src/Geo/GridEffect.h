@@ -1,5 +1,5 @@
-#ifndef STRATMAS_GRIDEFFECT_H
-#define STRATMAS_GRIDEFFECT_H
+#ifndef APPROXSIM_GRIDEFFECT_H
+#define APPROXSIM_GRIDEFFECT_H
 
 
 // Own
@@ -29,4 +29,4 @@ public:
      GridEffect(eAllPV pv, double s, EthnicFaction* f) : mPV(pv), mSeverity(s), mFaction(f) {}
 };
 
-#endif   // STRATMAS_GRIDEFFECT_H
+#endif   // APPROXSIM_GRIDEFFECT_H

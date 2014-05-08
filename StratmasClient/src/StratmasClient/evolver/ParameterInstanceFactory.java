@@ -3,7 +3,7 @@
  * @(#)ParameterInstancesFactory.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
 /**
  * Maps Objects to suitable ParameterInstance instances.

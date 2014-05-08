@@ -1,4 +1,4 @@
-package StratmasClient.proj;
+package ApproxsimClient.proj;
 
 /**
  * This class is used to handle the errors obtained in the coordinate conversion process.

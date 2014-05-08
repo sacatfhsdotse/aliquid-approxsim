@@ -1,6 +1,6 @@
-package StratmasClient;
+package ApproxsimClient;
 
-import StratmasClient.map.Projection;
+import ApproxsimClient.map.Projection;
 
 /**
  * This is bounding box for an area.

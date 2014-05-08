@@ -2,9 +2,9 @@
 /*
  * @(#)SimulationEvaluatorTarget.java
  */
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
-import StratmasClient.communication.Subscription;
+import ApproxsimClient.communication.Subscription;
 
 /**
  * Interface used to abstract away subscription- and Evaluation- details from SimulationEvaluator.

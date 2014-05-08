@@ -1,7 +1,7 @@
-package StratmasClient.object;
+package ApproxsimClient.object;
 
 import java.util.EventListener;
 
-public interface StratmasEventListener extends EventListener {
-    public void eventOccured(StratmasEvent event);
+public interface ApproxsimEventListener extends EventListener {
+    public void eventOccured(ApproxsimEvent event);
 }

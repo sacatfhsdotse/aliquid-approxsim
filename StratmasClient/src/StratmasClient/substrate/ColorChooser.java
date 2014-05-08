@@ -1,4 +1,4 @@
-package StratmasClient.substrate;
+package ApproxsimClient.substrate;
 
 import java.text.DecimalFormat;
 import java.awt.Color;
@@ -15,8 +15,8 @@ import javax.swing.JTextField;
 import javax.swing.JLayeredPane;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
-import StratmasClient.ProcessVariableDescription;
-import StratmasClient.StratmasDialog;
+import ApproxsimClient.ProcessVariableDescription;
+import ApproxsimClient.ApproxsimDialog;
 
 /**
  * This class is used to select a color from the color map and fill arbitrary shapes. Each color in the color map represents a different
@@ -139,7 +139,7 @@ public class ColorChooser extends JPanel {
                                     + " and "
                                     + self.convertToString(self.getColorMap()
                                             .getMaxValue()) + ".");
-                    StratmasDialog.showErrorMessageDialog(self, errStr,
+                    ApproxsimDialog.showErrorMessageDialog(self, errStr,
                                                           "Input error");
                     self.updateActualValue(self.getActualValue(), false);
                 }

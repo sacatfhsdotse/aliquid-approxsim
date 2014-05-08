@@ -1,4 +1,4 @@
-package StratmasClient.timeline;
+package ApproxsimClient.timeline;
 
 import java.text.SimpleDateFormat;
 import java.awt.BorderLayout;
@@ -7,8 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JPopupMenu;
 import javax.swing.ToolTipManager;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.filter.StratmasObjectFilter;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.filter.ApproxsimObjectFilter;
 
 /**
  * The panel for the timeline.
@@ -185,14 +185,14 @@ public class TimelinePanel extends JPanel {
     /**
      * Updates the activity table.
      */
-    public void updateActivityTable(StratmasObject node) {
+    public void updateActivityTable(ApproxsimObject node) {
         timelineActivityPanel.updateActivityTable(node);
     }
 
     /**
      * Updates the activity type filter.
      */
-    public void updateActivityTypeFilter(StratmasObjectFilter filter,
+    public void updateActivityTypeFilter(ApproxsimObjectFilter filter,
             int indicator) {
         timelineActivityPanel.updateActivityTypeFilter(filter, indicator);
     }
@@ -200,7 +200,7 @@ public class TimelinePanel extends JPanel {
     /**
      * Updates the activity time filter.
      */
-    public void updateActivityTimeFilter(StratmasObjectFilter filter,
+    public void updateActivityTimeFilter(ApproxsimObjectFilter filter,
             int indicator) {
         timelineActivityPanel.updateActivityTimeFilter(filter, indicator);
     }

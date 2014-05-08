@@ -1,13 +1,13 @@
-package StratmasClient.communication;
+package ApproxsimClient.communication;
 
 /**
  * Class representing the RegisterForUpdates message. The RegisterForUpdates message is the message that a client sends to a server in order
- * to register for updates of the StratmasObjects in a simulation.
+ * to register for updates of the ApproxsimObjects in a simulation.
  * 
  * @version 1, $Date: 2006/03/22 14:30:49 $
  * @author Per Alexius
  */
-public class RegisterForUpdatesMessage extends StratmasMessage {
+public class RegisterForUpdatesMessage extends ApproxsimMessage {
     private boolean mRegister;
 
     /**

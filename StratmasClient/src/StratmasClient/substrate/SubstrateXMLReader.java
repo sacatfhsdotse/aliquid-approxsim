@@ -1,4 +1,4 @@
-package StratmasClient.substrate;
+package ApproxsimClient.substrate;
 
 import java.util.Vector;
 import java.io.BufferedInputStream;
@@ -18,17 +18,17 @@ import org.w3c.dom.ls.LSException;
 import org.w3c.dom.ls.LSResourceResolver;
 import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 
-import StratmasClient.ProcessVariableDescription;
-import StratmasClient.StratmasDialog;
-import StratmasClient.LSJarXSDResolver;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.Shape;
-import StratmasClient.object.Circle;
-import StratmasClient.object.Polygon;
-import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.object.primitive.Reference;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.communication.XMLHandler;
+import ApproxsimClient.ProcessVariableDescription;
+import ApproxsimClient.ApproxsimDialog;
+import ApproxsimClient.LSJarXSDResolver;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.Shape;
+import ApproxsimClient.object.Circle;
+import ApproxsimClient.object.Polygon;
+import ApproxsimClient.object.ApproxsimObjectFactory;
+import ApproxsimClient.object.primitive.Reference;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.communication.XMLHandler;
 
 /**
  * This class is used to read XML files needed for SubstrateEditor.
@@ -96,14 +96,14 @@ public class SubstrateXMLReader {
                     new FileInputStream(filename)));
             return createParser().parse(parserInput);
         } catch (FileNotFoundException e) {
-            StratmasDialog.showErrorMessageDialog(null, "File '" + filename
+            ApproxsimDialog.showErrorMessageDialog(null, "File '" + filename
                     + "' not found.", "File Not Found");
         }
         // catch (IOException e) {
-        // StratmasDialog.showErrorMessageDialog(null, "Error while reading the input file", "IO Error");
+        // ApproxsimDialog.showErrorMessageDialog(null, "Error while reading the input file", "IO Error");
         // }
         catch (LSException e) {
-            StratmasDialog
+            ApproxsimDialog
                     .showErrorMessageDialog(null,
                                             "Error while parsing the input file",
                                             "Parsing Error");
@@ -200,7 +200,7 @@ public class SubstrateXMLReader {
         }
         // get faction
         Element elem = XMLHandler.getFirstChildByTag(element, "faction");
-        StratmasObject faction = (elem == null) ? null : getFaction(elem);
+        ApproxsimObject faction = (elem == null) ? null : getFaction(elem);
         // get shapes
         Vector orderedShapeList = getOrderedShapeList(XMLHandler
                 .getChildElementsByTag(element, "regions"));
@@ -236,14 +236,14 @@ public class SubstrateXMLReader {
     /**
      * Returns a faction from an Element.
      */
-    public StratmasObject getFaction(Element element) {
+    public ApproxsimObject getFaction(Element element) {
         String identifier = element.getAttribute("identifier");
-        StratmasObject faction = substrateEditor.getFactionHandler()
+        ApproxsimObject faction = substrateEditor.getFactionHandler()
                 .getFaction(identifier);
         if (faction != null) {
             return faction;
         } else {
-            StratmasObject newFaction = StratmasObjectFactory
+            ApproxsimObject newFaction = ApproxsimObjectFactory
                     .create(TypeFactory.getType(element));
             newFaction.setIdentifier(identifier);
             return newFaction;
@@ -294,9 +294,9 @@ public class SubstrateXMLReader {
         Element elem = XMLHandler.getFirstChildByTag(element, "shape");
         String type = getType(elem);
         if (type.equals("Circle")) {
-            return (Circle) StratmasObjectFactory.domCreate(elem);
+            return (Circle) ApproxsimObjectFactory.domCreate(elem);
         } else if (type.equals("Polygon")) {
-            return (Polygon) StratmasObjectFactory.domCreate(elem);
+            return (Polygon) ApproxsimObjectFactory.domCreate(elem);
         }
         return null;
     }

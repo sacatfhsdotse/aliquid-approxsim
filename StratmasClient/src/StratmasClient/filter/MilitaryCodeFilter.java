@@ -1,13 +1,13 @@
-package StratmasClient.filter;
+package ApproxsimClient.filter;
 
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.SymbolIDCode;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.SymbolIDCode;
 
 /**
  * Passes all objects of type "MilitaryUnit" which have the right code letter on the specified position in the code string.
  */
 
-public class MilitaryCodeFilter extends StratmasObjectFilter {
+public class MilitaryCodeFilter extends ApproxsimObjectFilter {
     // code letter
     private char letter;
     // position of the letter in the code
@@ -23,11 +23,11 @@ public class MilitaryCodeFilter extends StratmasObjectFilter {
     }
 
     /**
-     * Returns true if the provided StratmasObject passes the filter.
+     * Returns true if the provided ApproxsimObject passes the filter.
      * 
      * @param sObj the object to test
      */
-    public boolean pass(StratmasObject sObj) {
+    public boolean pass(ApproxsimObject sObj) {
         if (sObj.getType().getName().equals("MilitaryUnit")) {
             try {
                 SymbolIDCode code = (SymbolIDCode) sObj

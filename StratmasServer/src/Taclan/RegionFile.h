@@ -1,5 +1,5 @@
-#ifndef STRATMAS_REGIONFILE_H
-#define STRATMAS_REGIONFILE_H
+#ifndef APPROXSIM_REGIONFILE_H
+#define APPROXSIM_REGIONFILE_H
 
 // System
 #include <ostream>
@@ -97,4 +97,4 @@ public:
      }
 };
 
-#endif   // STRATMAS_REGIONFILE_H
+#endif   // APPROXSIM_REGIONFILE_H

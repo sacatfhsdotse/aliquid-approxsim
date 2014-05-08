@@ -1,4 +1,4 @@
-package StratmasClient.communication;
+package ApproxsimClient.communication;
 
 import java.lang.StringBuffer;
 
@@ -8,7 +8,7 @@ import java.lang.StringBuffer;
  * @version 1, $Date: 2006/03/22 14:30:49 $
  * @author Per Alexius
  */
-public class SetPropertyMessage extends StratmasMessage {
+public class SetPropertyMessage extends ApproxsimMessage {
     /** The name of the property. */
     private String mProperty;
     /** The value of the property. */

@@ -84,7 +84,7 @@ void Engine::notifyAllTimeListeners(const char* errMsg)
  */
 void Engine::run() {
      int msg;
-     LOG_FATAL(stratmasLog, "Engine running");
+     LOG_FATAL(approxsimLog, "Engine running");
      while (true) {
           try {
                msg = mQ.dequeue();
@@ -103,12 +103,12 @@ void Engine::run() {
                          s.start();
                          mSimulation->step();
                          s.stop();
-                         stratmasDebug("Step took " << s.secs() << " seconds");
+                         approxsimDebug("Step took " << s.secs() << " seconds");
                          Lock bufLock(mBuf.mutex());
                          s.start();
                          SOMapper::extract(mBuf);
                          s.stop();
-                         stratmasDebug("Extraction took " << s.secs() << " seconds");
+                         approxsimDebug("Extraction took " << s.secs() << " seconds");
                          bufLock.unlock();
 
                          // Notify all listeners listening for the
@@ -120,7 +120,7 @@ void Engine::run() {
                               mTimeListeners.erase(mTimeListeners.begin());
                          }
                          lock.unlock();
-//                         stratmasDebug("Simulation time after timestep: " << tt - mBuf.simulationData().mStartTime);
+//                         approxsimDebug("Simulation time after timestep: " << tt - mBuf.simulationData().mStartTime);
                     }
 
                     mBuf.engineIdle(true);
@@ -155,7 +155,7 @@ void Engine::run() {
                     endSimulation();
                     break;
                default:
-                    LOG_ERROR(stratmasLog, "Unknown");
+                    LOG_ERROR(approxsimLog, "Unknown");
                     break;
                }
                // Everything is ok.
@@ -239,13 +239,13 @@ UniqueTime Engine::registerInterestInTime(Time t, TSQueue<EngineStatusObject>* q
      UniqueTime ut(t);
      if (mBuf.simTime() >= t) {
           q->enqueue(EngineStatusObject());
-          stratmasDebug("Time " << t << " has already past");
+          approxsimDebug("Time " << t << " has already past");
      }
      else {
           Lock lock(mutex());
           mTimeListeners[ut] = q;
           lock.unlock();
-//          stratmasDebug("Registering interest in time " << ut.time() - mBuf.simulationData().mStartTime);
+//          approxsimDebug("Registering interest in time " << ut.time() - mBuf.simulationData().mStartTime);
      }
      return ut;
 }

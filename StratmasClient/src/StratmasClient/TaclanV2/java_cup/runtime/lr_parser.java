@@ -1,8 +1,8 @@
-package StratmasClient.TaclanV2.java_cup.runtime;
+package ApproxsimClient.TaclanV2.java_cup.runtime;
 
 import java.util.Stack;
-import StratmasClient.TaclanV2.SemanticException;
-import StratmasClient.TaclanV2.SyntaxException;
+import ApproxsimClient.TaclanV2.SemanticException;
+import ApproxsimClient.TaclanV2.SyntaxException;
 
 /**
  * This class implements a skeleton table driven LR parser. In general, LR parsers are a form of bottom up shift-reduce parsers.
@@ -75,9 +75,9 @@ import StratmasClient.TaclanV2.SyntaxException;
  * report_fatal_error("Couldn't repair and continue parse", null);
  * </dl>
  * 
- * @see StratmasClient.TaclanV2.java_cup.runtime.Symbol
- * @see StratmasClient.TaclanV2.java_cup.runtime.Symbol
- * @see StratmasClient.TaclanV2.java_cup.runtime.virtual_parse_stack
+ * @see ApproxsimClient.TaclanV2.java_cup.runtime.Symbol
+ * @see ApproxsimClient.TaclanV2.java_cup.runtime.Symbol
+ * @see ApproxsimClient.TaclanV2.java_cup.runtime.virtual_parse_stack
  * @version last updated: 7/3/96
  * @author Frank Flannery
  */
@@ -138,7 +138,7 @@ public abstract class lr_parser {
      * either shifts, reduces, or errors. Shifts are encoded as positive values (one greater than the state shifted to). Reduces are encoded
      * as negative values (one less than the production reduced by). Error entries are denoted by zero.
      * 
-     * @see StratmasClient.TaclanV2.java_cup.runtime.lr_parser#get_action
+     * @see ApproxsimClient.TaclanV2.java_cup.runtime.lr_parser#get_action
      */
     public abstract short[][] action_table();
 
@@ -151,7 +151,7 @@ public abstract class lr_parser {
      * (corresponding to the RHS of the matched production) is popped off the stack. The new top of stack indicates a state. This table is
      * then indexed by that state and the LHS of the reducing production to indicate where to "shift" to.
      * 
-     * @see StratmasClient.TaclanV2.java_cup.runtime.lr_parser#get_reduce
+     * @see ApproxsimClient.TaclanV2.java_cup.runtime.lr_parser#get_reduce
      */
     public abstract short[][] reduce_table();
 

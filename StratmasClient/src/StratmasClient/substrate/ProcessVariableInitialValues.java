@@ -1,4 +1,4 @@
-package StratmasClient.substrate;
+package ApproxsimClient.substrate;
 
 import java.util.Hashtable;
 import java.util.Vector;
@@ -6,8 +6,8 @@ import java.util.Enumeration;
 import java.util.Comparator;
 import java.util.Collections;
 
-import StratmasClient.ProcessVariableDescription;
-import StratmasClient.object.StratmasObject;
+import ApproxsimClient.ProcessVariableDescription;
+import ApproxsimClient.object.ApproxsimObject;
 
 /**
  * The initial values for a process variable and a faction.
@@ -20,7 +20,7 @@ class ProcessVariableInitialValues {
     /**
      * The faction.
      */
-    private StratmasObject faction;
+    private ApproxsimObject faction;
     /**
      * The ordered list of ShapeValuePair objects.
      */
@@ -45,7 +45,7 @@ class ProcessVariableInitialValues {
      * @param shapeValues a key-value list where keys are Shape objects and values are lists of ShapeValuePair objects.
      */
     public ProcessVariableInitialValues(
-            ProcessVariableDescription processVariable, StratmasObject faction,
+            ProcessVariableDescription processVariable, ApproxsimObject faction,
             Hashtable shapeValues) {
         this.processVariable = processVariable;
         this.faction = faction;
@@ -71,7 +71,7 @@ class ProcessVariableInitialValues {
      * @param shapeList a sorted list of ShapeValuePair objects.
      */
     public ProcessVariableInitialValues(
-            ProcessVariableDescription processVariable, StratmasObject faction,
+            ProcessVariableDescription processVariable, ApproxsimObject faction,
             Vector<ShapeValuePair> shapeList) {
         this.processVariable = processVariable;
         this.faction = faction;
@@ -79,7 +79,7 @@ class ProcessVariableInitialValues {
     }
 
     public ProcessVariableInitialValues(
-            ProcessVariableDescription processVariable, StratmasObject faction) {
+            ProcessVariableDescription processVariable, ApproxsimObject faction) {
         this.processVariable = processVariable;
         this.faction = faction;
     }
@@ -94,7 +94,7 @@ class ProcessVariableInitialValues {
     /**
      * Returns the faction.
      */
-    public StratmasObject getFaction() {
+    public ApproxsimObject getFaction() {
         return faction;
     }
 

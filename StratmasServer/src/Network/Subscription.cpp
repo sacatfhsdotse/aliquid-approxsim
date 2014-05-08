@@ -37,7 +37,7 @@ Subscription::Subscription(DOMElement *n, Buffer &buf) : mBuf(buf)
 {
      if (!n) {
           Error e(Error::eWarning);
-          e << "Invalid Stratmas message. Null element node in"
+          e << "Invalid Approxsim message. Null element node in"
             << "Subscription::Subscription()";
           throw e;
      }
@@ -57,7 +57,7 @@ Subscription::Subscription(DOMElement *n, Buffer &buf) : mBuf(buf)
  * \param buf The Buffer from which data should be fetched.
  * \param id The id of the Session holding this Subscription.
  */
-StratmasObjectSubscription::StratmasObjectSubscription(DOMElement* n, Buffer& buf, int64_t id)
+ApproxsimObjectSubscription::ApproxsimObjectSubscription(DOMElement* n, Buffer& buf, int64_t id)
      : Subscription(n, buf), mData(0)
 {
      DOMElement* elem = XMLHelper::getFirstChildByTag(*n, "reference");
@@ -68,7 +68,7 @@ StratmasObjectSubscription::StratmasObjectSubscription(DOMElement* n, Buffer& bu
 /**
  * \brief Destructor.
  */
-StratmasObjectSubscription::~StratmasObjectSubscription()
+ApproxsimObjectSubscription::~ApproxsimObjectSubscription()
 {
      if (mData) { delete mData; }
 }
@@ -79,12 +79,12 @@ StratmasObjectSubscription::~StratmasObjectSubscription()
  *
  * \param o The stream to write to.
  */
-void StratmasObjectSubscription::getSubscribedData(std::ostream &o)
+void ApproxsimObjectSubscription::getSubscribedData(std::ostream &o)
 {
-     stratmasDebug("In SOSub:");
+     approxsimDebug("In SOSub:");
      if (mData->changed()) {
-          stratmasDebug("    Changed == true");
-          o << "<subscribedData xsi:type=\"sp:SubscribedStratmasObjectData\" id=\"" << mId << "\">" << endl;
+          approxsimDebug("    Changed == true");
+          o << "<subscribedData xsi:type=\"sp:SubscribedApproxsimObjectData\" id=\"" << mId << "\">" << endl;
           mData->toXML(o);
           o << "</subscribedData>" << endl;
      }
@@ -125,7 +125,7 @@ LayerSubscription::LayerSubscription(DOMElement* n, Buffer& buf, bool sbe)
           mLength = mBuf.grid().active();
           mIndex = 0;
      }
-     stratmasDebug("Created LayerSubscription for layer '" << mLayer << "', faction: '" << *mFaction << "'");
+     approxsimDebug("Created LayerSubscription for layer '" << mLayer << "', faction: '" << *mFaction << "'");
 }
 
 /**
@@ -181,7 +181,7 @@ RegionSubscription::RegionSubscription(DOMElement *n, Buffer &buf)
      // Notice that the area must be in projection space for cells() to work properly
      area->toProj(*Projection::mCurrent);
      area->cells(mBuf.grid(), mPositions);
-     stratmasDebug("Created RegionSubscription with id: '" << mId << "' and " << mPositions.size() << " cells");
+     approxsimDebug("Created RegionSubscription with id: '" << mId << "' and " << mPositions.size() << " cells");
      for (list<GridPos>::iterator it = mPositions.begin(); it != mPositions.end(); it++) {
           mRegion->addMember(mBuf.grid().cell(*it));
      }

@@ -1,4 +1,4 @@
-package StratmasClient.communication;
+package ApproxsimClient.communication;
 
 import java.lang.StringBuffer;
 import java.util.Iterator;
@@ -10,7 +10,7 @@ import java.util.Vector;
  * @version 1, $Date: 2006/05/15 12:24:33 $
  * @author Per Alexius
  */
-public class UpdateMessage extends StratmasMessage {
+public class UpdateMessage extends ApproxsimMessage {
     /** Constant for defining add message. */
     public static final String ADD = "ServerUpdateAdd";
 
@@ -23,11 +23,11 @@ public class UpdateMessage extends StratmasMessage {
     /** Constant for defining update message. */
     public static final String MODIFY = "ServerUpdateModify";
 
-    /** Contains all StratmasObejcts to be updated. */
+    /** Contains all ApproxsimObejcts to be updated. */
     private Vector mUpdates = new Vector();
 
     /**
-     * Adds an updated StratmasObejct to this message.
+     * Adds an updated ApproxsimObejct to this message.
      * 
      * @param u The update object
      */

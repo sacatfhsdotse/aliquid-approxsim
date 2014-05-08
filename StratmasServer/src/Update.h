@@ -1,5 +1,5 @@
-#ifndef STRATMAS_UPDATE_H
-#define STRATMAS_UPDATE_H
+#ifndef APPROXSIM_UPDATE_H
+#define APPROXSIM_UPDATE_H
 
 // Xerces
 #include <xercesc/util/XercesDefs.hpp>
@@ -100,4 +100,4 @@ public:
 };
 
 
-#endif   // STRATMAS_UPDATE_H
+#endif   // APPROXSIM_UPDATE_H

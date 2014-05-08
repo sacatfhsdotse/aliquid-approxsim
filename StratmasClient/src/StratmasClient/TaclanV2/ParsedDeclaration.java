@@ -3,14 +3,14 @@
  * @(#)ParsedDeclaration.java
  */
 
-package StratmasClient.TaclanV2;
+package ApproxsimClient.TaclanV2;
 
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasObjectFactory;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimObjectFactory;
 
-import StratmasClient.object.type.TypeInformation;
-import StratmasClient.object.type.Declaration;
-import StratmasClient.object.type.Type;
+import ApproxsimClient.object.type.TypeInformation;
+import ApproxsimClient.object.type.Declaration;
+import ApproxsimClient.object.type.Type;
 
 import java.util.Vector;
 
@@ -182,11 +182,11 @@ public class ParsedDeclaration extends ParsedObject {
     }
 
     /**
-     * Returns the StratmasObject equivalent this declaration.
+     * Returns the ApproxsimObject equivalent this declaration.
      * 
      * @param declaration the declaration to use.
      */
-    public StratmasObject getStratmasObject(Declaration declaration)
+    public ApproxsimObject getApproxsimObject(Declaration declaration)
             throws SemanticException {
         // The actual Type of this type:
         Type actualType = declaration.getType().getTypeInformation()
@@ -194,9 +194,9 @@ public class ParsedDeclaration extends ParsedObject {
         // Create the declaration that actually reflects this type:
         Declaration nDecl = declaration.clone(actualType);
         try {
-            return StratmasObjectFactory.vectorCreate(nDecl)
-                    .getStratmasObject(this.getDeclarations()
-                                               .getStratmasObjects(actualType));
+            return ApproxsimObjectFactory.vectorCreate(nDecl)
+                    .getApproxsimObject(this.getDeclarations()
+                                               .getApproxsimObjects(actualType));
         } catch (MissingDeclarationException e) {
             e.setScopeIfMissing(this);
             throw e;

@@ -3,23 +3,23 @@
  * @(#)ServerSession.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.primitive.Reference;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.primitive.Reference;
 
-import StratmasClient.dispatcher.StratmasDispatcher;
+import ApproxsimClient.dispatcher.ApproxsimDispatcher;
 
-import StratmasClient.communication.StratmasSocket;
-import StratmasClient.communication.ServerException;
-import StratmasClient.communication.ServerConnection;
-import StratmasClient.communication.StratmasMessage;
-import StratmasClient.communication.DisconnectMessage;
-import StratmasClient.communication.StepMessage;
-import StratmasClient.communication.XMLHandler;
-import StratmasClient.communication.SubscriptionHandler;
-import StratmasClient.communication.Subscription;
-import StratmasClient.communication.InitializationMessage;
+import ApproxsimClient.communication.ApproxsimSocket;
+import ApproxsimClient.communication.ServerException;
+import ApproxsimClient.communication.ServerConnection;
+import ApproxsimClient.communication.ApproxsimMessage;
+import ApproxsimClient.communication.DisconnectMessage;
+import ApproxsimClient.communication.StepMessage;
+import ApproxsimClient.communication.XMLHandler;
+import ApproxsimClient.communication.SubscriptionHandler;
+import ApproxsimClient.communication.Subscription;
+import ApproxsimClient.communication.InitializationMessage;
 
 /**
  * Implements a default version of ServerSession for convenience.
@@ -34,11 +34,11 @@ public class DefaultServerSession implements ServerSession {
     ServerConnection connection;
 
     /**
-     * Constructs a DefaultServerConnection given a StratmasSocket.
+     * Constructs a DefaultServerConnection given a ApproxsimSocket.
      * 
      * @param socket the socket to the server. It is expected that the socket is "active".
      */
-    DefaultServerSession(StratmasSocket socket) {
+    DefaultServerSession(ApproxsimSocket socket) {
         this.connection = new ServerConnection(socket);
         open();
     }
@@ -55,12 +55,12 @@ public class DefaultServerSession implements ServerSession {
     }
 
     /**
-     * Initializes the session with the provided StratmasObject as root.
+     * Initializes the session with the provided ApproxsimObject as root.
      * 
      * @param root the object to use as root
      * @throws ServerException on communication error.
      */
-    public void initialize(StratmasObject root) throws ServerException {
+    public void initialize(ApproxsimObject root) throws ServerException {
         send(new InitializationMessage(root));
     }
 
@@ -119,8 +119,8 @@ public class DefaultServerSession implements ServerSession {
      * @throws ServerException on communication error.
      */
     public void updateObject(final Reference reference,
-            final StratmasObject object) throws ServerException {
-        send(new StratmasMessage() {
+            final ApproxsimObject object) throws ServerException {
+        send(new ApproxsimMessage() {
             /**
              * Returns a string representation of the type of this message.
              * 
@@ -160,7 +160,7 @@ public class DefaultServerSession implements ServerSession {
      * @param message the message to send.
      * @throws ServerException on communication error.
      */
-    public void send(StratmasMessage message) throws ServerException {
+    public void send(ApproxsimMessage message) throws ServerException {
         getConnection().blockingSend(message);
     }
 
@@ -176,10 +176,10 @@ public class DefaultServerSession implements ServerSession {
      * Returns a new session using the default dispatcher, or returns null if none availiable.
      */
     public static ServerSession allocateSession() {
-        StratmasDispatcher dispatcher = StratmasDispatcher
+        ApproxsimDispatcher dispatcher = ApproxsimDispatcher
                 .getDefaultDispatcher();
         if (dispatcher != null) {
-            StratmasSocket socket = dispatcher.allocateServer(10);
+            ApproxsimSocket socket = dispatcher.allocateServer(10);
             if (socket != null) {
                 return new DefaultServerSession(socket);
             }

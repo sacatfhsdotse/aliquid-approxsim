@@ -1,5 +1,5 @@
-#ifndef STRATMAS_FACTION_H
-#define STRATMAS_FACTION_H
+#ifndef APPROXSIM_FACTION_H
+#define APPROXSIM_FACTION_H
 
 // System
 //#include <ext/hash_map>
@@ -25,7 +25,7 @@ typedef std::map<const Reference*, Faction*> RefFactionMap;
 
 /**
  * \brief The Faction class is the abstract base class for the
- * Stratmas server representation of differennt types of Factions.
+ * Approxsim server representation of differennt types of Factions.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/07/05 14:49:43 $
@@ -100,7 +100,7 @@ public:
 
 
 /**
- * \brief The EthnicFaction class contains the Stratmas server
+ * \brief The EthnicFaction class contains the Approxsim server
  * representation of an EthnicFaction.
  *
  * \author   Per Alexius
@@ -181,7 +181,7 @@ public:
 
 
 /**
- * \brief The MilitaryFaction class contains the Stratmas server
+ * \brief The MilitaryFaction class contains the Approxsim server
  * representation of a MilitaryFaction.
  *
  * \author   Per Alexius
@@ -197,4 +197,4 @@ public:
      MilitaryFaction(const DataObject& d) : Faction(d) {}
 };     
 
-#endif   // STRATMAS_FACTION_H
+#endif   // APPROXSIM_FACTION_H

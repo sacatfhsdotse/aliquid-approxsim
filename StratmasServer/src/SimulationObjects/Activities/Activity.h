@@ -1,5 +1,5 @@
-#ifndef STRATMAS_ACTIVITY_H
-#define STRATMAS_ACTIVITY_H
+#ifndef APPROXSIM_ACTIVITY_H
+#define APPROXSIM_ACTIVITY_H
 
 
 // System
@@ -501,4 +501,4 @@ public:
      double combatFactor() const { return 1.0; }
 };
 
-#endif  // STRATMAS_ACTIVITY_H
+#endif  // APPROXSIM_ACTIVITY_H

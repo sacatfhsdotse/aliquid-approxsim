@@ -3,7 +3,7 @@
  * @(#)GLPlotterMouseListener.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
 import javax.swing.event.MouseInputAdapter;
 import java.awt.event.MouseEvent;

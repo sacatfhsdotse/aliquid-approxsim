@@ -1,4 +1,4 @@
-package StratmasClient.map.graph;
+package ApproxsimClient.map.graph;
 
 import java.awt.Font;
 import java.awt.Color;
@@ -16,7 +16,7 @@ import javax.swing.AbstractAction;
 import javax.swing.SpringLayout;
 import javax.swing.BorderFactory;
 
-import StratmasClient.timeline.SpringUtilities;
+import ApproxsimClient.timeline.SpringUtilities;
 
 /**
  * This class is used to create various GUI objects used in ProcessVariableXYGraph.

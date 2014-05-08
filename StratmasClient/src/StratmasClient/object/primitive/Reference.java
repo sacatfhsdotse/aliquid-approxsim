@@ -3,11 +3,11 @@
  * @(#)Reference.java
  */
 
-package StratmasClient.object.primitive;
+package ApproxsimClient.object.primitive;
 
-import StratmasClient.Debug;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.XMLHelper;
+import ApproxsimClient.Debug;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.XMLHelper;
 
 import java.util.Vector;
 import org.w3c.dom.Element;
@@ -84,12 +84,12 @@ public class Reference {
      * 
      * @param scope the scope in which this reference is to be resolved or null if unable to resolve.
      */
-    public StratmasObject resolve(StratmasObject scope) {
+    public ApproxsimObject resolve(ApproxsimObject scope) {
         // Searching upward for matching scope.
-        for (StratmasObject currentScope = scope; currentScope != null; currentScope = currentScope
+        for (ApproxsimObject currentScope = scope; currentScope != null; currentScope = currentScope
                 .getParent()) {
             // Try to resolv in this scope.
-            StratmasObject candidate = currentScope
+            ApproxsimObject candidate = currentScope
                     .getChild(identifiers[identifiers.length - 1]);
 
             if (candidate == null
@@ -120,16 +120,16 @@ public class Reference {
      * 
      * @param scope the scope in which this reference is to be resolved or null if unable to resolv.
      */
-    public StratmasObject debugResolve(StratmasObject scope) {
+    public ApproxsimObject debugResolve(ApproxsimObject scope) {
         // Searching upward for matching scope.
         Debug.err.println("debugResolv: Resolving " + this.toTaclanV2());
         Debug.err.println("debugResolv: Beginning upward search looking for "
                 + Identifier.toTaclanV2(identifiers[identifiers.length - 1]));
-        for (StratmasObject currentScope = scope; currentScope != null; currentScope = currentScope
+        for (ApproxsimObject currentScope = scope; currentScope != null; currentScope = currentScope
                 .getParent()) {
             Debug.err.println("debugResolv: " + currentScope.getIdentifier());
             // Try to resolv in this scope.
-            StratmasObject candidate = currentScope
+            ApproxsimObject candidate = currentScope
                     .getChild(identifiers[identifiers.length - 1]);
 
             Debug.err.println("debugResolv: candidate = " + candidate);

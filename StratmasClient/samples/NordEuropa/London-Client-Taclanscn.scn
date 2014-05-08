@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?><root xmlns:sp="http://pdc.kth.se/stratmasNamespace" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xi="http://www.w3.org/2001/XInclude" xsi:type="sp:Root">
+<?xml version="1.0" encoding="ISO-8859-1"?><root xmlns:sp="http://pdc.kth.se/approxsimNamespace" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xi="http://www.w3.org/2001/XInclude" xsi:type="sp:Root">
 <identifiables xsi:type="sp:CommonSimulation" identifier="Untraditional-NO-Terror-Actors-423 London Scenario">
 <timeStepper xsi:type="sp:ConstantStepper">
 <dt xsi:type="sp:Duration">
@@ -10168,7 +10168,7 @@
 <center xsi:type="sp:Point">
 <lat>51.5</lat>
 <lon>-0.05</lon></center></location>
-<deployment xsi:type="sp:StratmasCityDistribution">
+<deployment xsi:type="sp:ApproxsimCityDistribution">
 <sigmaMeters xsi:type="sp:Double">
 <value>8000.0</value></sigmaMeters></deployment>
 <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Citizens">
@@ -10196,7 +10196,7 @@
 <center xsi:type="sp:Point">
 <lat>51.5</lat>
 <lon>-0.05</lon></center></location>
-<deployment xsi:type="sp:StratmasCityDistribution">
+<deployment xsi:type="sp:ApproxsimCityDistribution">
 <sigmaMeters xsi:type="sp:Double">
 <value>8000.0</value></sigmaMeters></deployment>
 <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Suburbs">

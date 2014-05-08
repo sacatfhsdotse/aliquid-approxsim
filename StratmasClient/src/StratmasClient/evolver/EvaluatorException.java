@@ -3,7 +3,7 @@
  * @(#)EvaluatorException.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
 /**
  * An object representing any error in a evaluation run.

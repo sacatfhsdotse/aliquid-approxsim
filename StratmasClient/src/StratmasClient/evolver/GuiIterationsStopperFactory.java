@@ -3,7 +3,7 @@
  * @(#)GuiIterationsStopperFactory.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
 import javax.swing.JSpinner;
 import javax.swing.JPanel;

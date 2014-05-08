@@ -1,4 +1,4 @@
-package StratmasClient;
+package ApproxsimClient;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -14,16 +14,16 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
-import StratmasClient.communication.XMLHandler;
-import StratmasClient.object.type.Declaration;
+import ApproxsimClient.communication.XMLHandler;
+import ApproxsimClient.object.type.Declaration;
 
-import StratmasClient.object.primitive.Reference;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasList;
-import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.object.StratmasReference;
-import StratmasClient.object.SymbolIDCode;
-import StratmasClient.object.type.TypeFactory;
+import ApproxsimClient.object.primitive.Reference;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimList;
+import ApproxsimClient.object.ApproxsimObjectFactory;
+import ApproxsimClient.object.ApproxsimReference;
+import ApproxsimClient.object.SymbolIDCode;
+import ApproxsimClient.object.type.TypeFactory;
 
 /**
  * A class that handles import of IconFactory2 projects.
@@ -35,7 +35,7 @@ public class IF2Importer {
     /**
      * The root object to fetch factions from.
      */
-    private StratmasObject mRootObject;
+    private ApproxsimObject mRootObject;
 
     /**
      * The faction reference to use for affiliation attribute of imported units.
@@ -60,12 +60,12 @@ public class IF2Importer {
     /**
      * Default constructor.
      */
-    public IF2Importer(StratmasObject root) {
-        if (!(root instanceof StratmasObject)) {
+    public IF2Importer(ApproxsimObject root) {
+        if (!(root instanceof ApproxsimObject)) {
             throw new AssertionError(
                     "Not a Complex root object in IF2Importer.");
         }
-        mRootObject = (StratmasObject) root.children().nextElement();
+        mRootObject = (ApproxsimObject) root.children().nextElement();
         try {
             // Turned off for now since IconFactory2 exports broken documents.
             mParser.setFeature("http://xml.org/sax/features/validation", false);
@@ -82,11 +82,11 @@ public class IF2Importer {
      * faction and initializes the remaining attributes with their default values.
      * 
      * @param fileName The name of the file to import from. '
-     * @return A StratmasObject representing the unit (hierarchy) imported or null if the file did not contain any importable objects.
+     * @return A ApproxsimObject representing the unit (hierarchy) imported or null if the file did not contain any importable objects.
      */
-    public StratmasObject importFromFile(String fileName) {
+    public ApproxsimObject importFromFile(String fileName) {
         new Vector();
-        StratmasObject ret = null;
+        ApproxsimObject ret = null;
         try {
             // InputSource inputSource = new InputSource(new BufferedReader(new FileReader(fileName)));
             InputSource inputSource = new InputSource(new BufferedReader(
@@ -121,11 +121,11 @@ public class IF2Importer {
      * 
      * @param fileName The name of the file to import from.
      * @param faction The affiliation faction.
-     * @return A StratmasObject representing the unit (hierarchy) imported or null if the file did not contain any importable objects.
+     * @return A ApproxsimObject representing the unit (hierarchy) imported or null if the file did not contain any importable objects.
      */
-    public StratmasObject importFromFile(String fileName, Reference faction) {
+    public ApproxsimObject importFromFile(String fileName, Reference faction) {
         new Vector();
-        StratmasObject ret = null;
+        ApproxsimObject ret = null;
         sFaction = faction;
         try {
             // InputSource inputSource = new InputSource(new BufferedReader(new FileReader(fileName)));
@@ -157,14 +157,14 @@ public class IF2Importer {
     }
 
     /**
-     * Creates a StratmasObject representing the unit described in a DOMElement (originating from a parsed IF2 project).
+     * Creates a ApproxsimObject representing the unit described in a DOMElement (originating from a parsed IF2 project).
      * 
      * @param symbol A DOMElement containing data about the symbol.
      * @return The unit created from the DOMElement.
      */
-    protected StratmasObject handleSymbol(Element symbol) {
+    protected ApproxsimObject handleSymbol(Element symbol) {
         String id = new String();
-        Vector<StratmasObject> subunits = new Vector<StratmasObject>();
+        Vector<ApproxsimObject> subunits = new Vector<ApproxsimObject>();
         String symbolIDCode = XMLHandler.getString(symbol, "symid");
 
         // Assure uppercase.
@@ -176,7 +176,7 @@ public class IF2Importer {
         }
 
         // Pad string with '-' if it's shorter than 15 chars since
-        // IF2 may save symbol id codes that way and Stratmas
+        // IF2 may save symbol id codes that way and Approxsim
         // doesn't like it.
         if (symbolIDCode.length() < 15) {
             String dashes = "---------------";
@@ -205,7 +205,7 @@ public class IF2Importer {
                     .getNextSibling()) {
                 if (child.getNodeType() == Node.ELEMENT_NODE
                         && child.getNodeName().equals("Symbol")) {
-                    StratmasObject unit = handleSymbol((Element) child);
+                    ApproxsimObject unit = handleSymbol((Element) child);
                     if (unit == null) {
                         return null;
                     } else {
@@ -226,22 +226,22 @@ public class IF2Importer {
      * @param subunits The subunits of the object to be created.
      * @return The unit created.
      */
-    public StratmasObject createDefaultImportedUnit(String id, String symCode,
-            Vector<StratmasObject> subunits) {
+    public ApproxsimObject createDefaultImportedUnit(String id, String symCode,
+            Vector<ApproxsimObject> subunits) {
         // Create new default unit.
         Declaration unitDec = new Declaration(
                 TypeFactory.getType("MilitaryUnit"), "", 1, 1, false);
-        StratmasObject unit = (StratmasObject) StratmasObjectFactory
+        ApproxsimObject unit = (ApproxsimObject) ApproxsimObjectFactory
                 .defaultCreate(unitDec);
 
         if (sFaction == null) {
-            StratmasObject scenario = (StratmasObject) mRootObject
+            ApproxsimObject scenario = (ApproxsimObject) mRootObject
                     .getChild("scenario");
             if (scenario == null) {
                 setErrorMessage("No scenario in root object");
                 return null;
             }
-            StratmasList facList = (StratmasList) scenario.getChild("factions");
+            ApproxsimList facList = (ApproxsimList) scenario.getChild("factions");
             if (facList == null) {
                 setErrorMessage("No faction list in scenario object");
                 return null;
@@ -249,7 +249,7 @@ public class IF2Importer {
             Vector<String> facs = new Vector<String>();
             for (java.util.Enumeration en = facList.children(); en
                     .hasMoreElements();) {
-                facs.add(((StratmasObject) en.nextElement()).getIdentifier());
+                facs.add(((ApproxsimObject) en.nextElement()).getIdentifier());
             }
 
             if (facs.isEmpty()) {
@@ -257,7 +257,7 @@ public class IF2Importer {
                 return null;
             } else {
                 Object[] values = facs.toArray();
-                StratmasDialog.quitProgressBarDialog();
+                ApproxsimDialog.quitProgressBarDialog();
                 Object selectedValue = JOptionPane
                         .showInputDialog(null,
                                          "Choose the affiliation faction for the imported units ",
@@ -268,7 +268,7 @@ public class IF2Importer {
                 if (selectedValue == null) {
                     return null;
                 } else {
-                    StratmasObject chosen = facList
+                    ApproxsimObject chosen = facList
                             .getChild((String) selectedValue);
                     if (chosen == null) {
                         setErrorMessage("Null value chosen in dialog");
@@ -280,7 +280,7 @@ public class IF2Importer {
             }
         }
 
-        StratmasReference affiliation = (StratmasReference) unit
+        ApproxsimReference affiliation = (ApproxsimReference) unit
                 .getChild("affiliation");
         affiliation.setValue(sFaction, null);
 
@@ -294,9 +294,9 @@ public class IF2Importer {
             // ignored no as well.
         }
         if (subunits != null && !subunits.isEmpty()) {
-            StratmasObject subunitsList = unit.getChild("subunits");
+            ApproxsimObject subunitsList = unit.getChild("subunits");
             if (subunitsList == null) {
-                unit.add(StratmasObjectFactory
+                unit.add(ApproxsimObjectFactory
                         .createList(TypeFactory.getType("MilitaryUnit")
                                 .getSubElement("subunits"), subunits));
             } else {

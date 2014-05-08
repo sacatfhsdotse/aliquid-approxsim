@@ -1,5 +1,5 @@
-#ifndef _STRATMAS_SOMAPPER_H
-#define _STRATMAS_SOMAPPER_H
+#ifndef _APPROXSIM_SOMAPPER_H
+#define _APPROXSIM_SOMAPPER_H
 
 // System
 #ifdef OS_WIN32
@@ -81,4 +81,4 @@ public:
      friend std::ostream& operator << (std::ostream& o, const SOMapper& m);
 };
 
-#endif   // _STRATMAS_SOMAPPER_H
+#endif   // _APPROXSIM_SOMAPPER_H

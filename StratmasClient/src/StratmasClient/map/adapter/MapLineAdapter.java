@@ -1,8 +1,8 @@
-package StratmasClient.map.adapter;
+package ApproxsimClient.map.adapter;
 
 import java.awt.Color;
-import StratmasClient.object.Line;
-import StratmasClient.map.Projection;
+import ApproxsimClient.object.Line;
+import ApproxsimClient.map.Projection;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;

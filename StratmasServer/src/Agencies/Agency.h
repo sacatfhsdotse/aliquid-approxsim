@@ -1,5 +1,5 @@
-#ifndef STRATMAS_AGENCY_H
-#define STRATMAS_AGENCY_H
+#ifndef APPROXSIM_AGENCY_H
+#define APPROXSIM_AGENCY_H
 
 
 // System
@@ -20,7 +20,7 @@ class Reference;
 
 /**
  * \brief Abstract class containing the basic functionality for a
- * Stratmas Agency.
+ * Approxsim Agency.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/10/02 16:01:25 $
@@ -221,4 +221,4 @@ public:
 };
 
 
-#endif   // STRATMAS_AGENCY_H
+#endif   // APPROXSIM_AGENCY_H

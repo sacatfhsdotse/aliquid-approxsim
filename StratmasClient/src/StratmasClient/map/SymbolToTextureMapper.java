@@ -3,10 +3,10 @@
  * @(#)SymbolToTextureMapper.java
  */
 
-package StratmasClient.map;
+package ApproxsimClient.map;
 
-import StratmasClient.Debug;
-import StratmasClient.Icon;
+import ApproxsimClient.Debug;
+import ApproxsimClient.Icon;
 
 import java.util.Hashtable;
 

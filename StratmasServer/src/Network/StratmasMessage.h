@@ -1,5 +1,5 @@
-#ifndef STRATMAS_MESSAGE_H
-#define STRATMAS_MESSAGE_H
+#ifndef APPROXSIM_MESSAGE_H
+#define APPROXSIM_MESSAGE_H
 
 // System
 #include <iosfwd>
@@ -17,21 +17,21 @@ class Server;
 class Subscription;
 
 /**
- * \brief Abstract base class for all types of StratmasMessage.
+ * \brief Abstract base class for all types of ApproxsimMessage.
  *
  * This class also contains some helpers for creating XML
- * representations of StratmasMessages.
+ * representations of ApproxsimMessages.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/03/06 14:23:12 $
  */
-class StratmasMessage {
+class ApproxsimMessage {
 protected:
      virtual void openMessage(std::ostream &o, const std::string &type) const;
      virtual void closeMessage(std::ostream &o) const;
 public:
      /// Destructor.
-     virtual ~StratmasMessage() {}
+     virtual ~ApproxsimMessage() {}
 
      /**
       * \brief Produces the XML representation of a message. Must be
@@ -50,7 +50,7 @@ public:
  * \author   Per Alexius
  * \date     $Date: 2006/03/06 14:23:12 $
  */
-class ConnectResponseMessage : public StratmasMessage {
+class ConnectResponseMessage : public ApproxsimMessage {
 private:
      /// True if this message is sent to an active client.
      bool mActive;
@@ -73,7 +73,7 @@ public:
  * \author   Per Alexius
  * \date     $Date: 2006/03/06 14:23:12 $
  */
-class ServerCapabilitiesResponseMessage : public StratmasMessage {
+class ServerCapabilitiesResponseMessage : public ApproxsimMessage {
 private:
 
 public:
@@ -90,7 +90,7 @@ public:
  * \author   Per Alexius
  * \date     $Date: 2006/03/06 14:23:12 $
  */
-class GetGridResponseMessage : public StratmasMessage {
+class GetGridResponseMessage : public ApproxsimMessage {
 private:
      /// The Buffer to fetch data from.
      const Buffer &mBuf;
@@ -119,7 +119,7 @@ public:
  * \author   Per Alexius
  * \date     $Date: 2006/03/06 14:23:12 $
  */
-class StatusMessage : public StratmasMessage {
+class StatusMessage : public ApproxsimMessage {
 private:
      /// String holding the type of message this message is a response to.
      const std::string mType;
@@ -156,7 +156,7 @@ public:
  * \author   Per Alexius
  * \date     $Date: 2006/03/06 14:23:12 $
  */
-class UpdateMessage : public StratmasMessage {
+class UpdateMessage : public ApproxsimMessage {
 private:
      Buffer& mBuf;   ///< The Buffer to fetch data from.
      ChangeTrackerAdapter& mChangeTracker;   ///< The ChangeTracker.
@@ -216,7 +216,7 @@ public:
  * \author   Per Alexius
  * \date     $Date: 2006/03/06 14:23:12 $
  */
-class ProgressQueryResponseMessage : public StratmasMessage {
+class ProgressQueryResponseMessage : public ApproxsimMessage {
 private:
      Buffer &mBuf;   ///< The Buffer from which data should be fetched.
 public:
@@ -241,7 +241,7 @@ public:
  * \author   Per Alexius
  * \date     $Date: 2006/03/06 14:23:12 $
  */
-class LoadQueryResponseMessage : public StratmasMessage {
+class LoadQueryResponseMessage : public ApproxsimMessage {
 private:
      /// The Server from which information should be fetched.
      const Server& mServer;
@@ -256,4 +256,4 @@ public:
      void toXML(std::ostream &o) const;
 };
 
-#endif   // STRATMAS_MESSAGE_H
+#endif   // APPROXSIM_MESSAGE_H

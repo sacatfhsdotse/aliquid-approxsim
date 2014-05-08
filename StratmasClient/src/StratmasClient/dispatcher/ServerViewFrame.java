@@ -4,7 +4,7 @@
  * @(#)ServerViewFrame.java
  */
 
-package StratmasClient.dispatcher;
+package ApproxsimClient.dispatcher;
 
 import javax.swing.JMenuBar;
 import javax.swing.JToolBar;

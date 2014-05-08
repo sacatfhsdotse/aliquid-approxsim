@@ -1,4 +1,4 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import javax.swing.JMenuItem;
 import java.awt.dnd.DnDConstants;
@@ -11,8 +11,8 @@ import java.awt.Cursor;
 import java.awt.Toolkit;
 import java.awt.Image;
 import java.awt.Dimension;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.Icon;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.Icon;
 
 /**
  * This class enables drag action in DnD.
@@ -26,7 +26,7 @@ public class DraggableJMenuItem extends JMenuItem implements
     /**
      * The object associated with the item.
      */
-    private StratmasObject object;
+    private ApproxsimObject object;
     /**
      * Used for the drag action.
      */
@@ -41,7 +41,7 @@ public class DraggableJMenuItem extends JMenuItem implements
      * 
      * @param object the object associated with the dragging action.
      */
-    public DraggableJMenuItem(StratmasObject object) {
+    public DraggableJMenuItem(ApproxsimObject object) {
         super(object.getReference().getIdentifier().trim());
         this.object = object;
         source = new DragSource();

@@ -3,7 +3,7 @@
  * @(#)TypeAttribute.java
  */
 
-package StratmasClient.object.type;
+package ApproxsimClient.object.type;
 
 /**
  * An object representing an attribute in the Taclan type language.

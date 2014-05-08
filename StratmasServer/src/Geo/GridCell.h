@@ -1,5 +1,5 @@
-#ifndef STRATMAS_GRIDCELL_H
-#define STRATMAS_GRIDCELL_H
+#ifndef APPROXSIM_GRIDCELL_H
+#define APPROXSIM_GRIDCELL_H
 
 // System
 #include <vector>
@@ -362,5 +362,5 @@ void GridCell::handleRoundOffErrorsFraction(double* data, int size)
 }
 
 
-#endif   // STRATMAS_GRIDCELL_H
+#endif   // APPROXSIM_GRIDCELL_H
 

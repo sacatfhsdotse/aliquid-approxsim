@@ -1,4 +1,4 @@
-package StratmasClient.communication;
+package ApproxsimClient.communication;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
@@ -7,12 +7,12 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Vector;
 import org.apache.xerces.impl.dv.util.Base64;
-import StratmasClient.Debug;
-import StratmasClient.object.primitive.Reference;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.ProcessVariableDescription;
-import StratmasClient.object.primitive.Timestamp;
+import ApproxsimClient.Debug;
+import ApproxsimClient.object.primitive.Reference;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.ProcessVariableDescription;
+import ApproxsimClient.object.primitive.Timestamp;
 
 /**
  * A class that represents a layer of data for a certain number of cells in the grid. A layer is simply the value for a processvariable and
@@ -59,11 +59,11 @@ public class LayerData {
         return mTimestamp;
     }
 
-    public void addListener(StratmasEventListener listener) {
+    public void addListener(ApproxsimEventListener listener) {
         mListeners.add(listener);
     }
 
-    public void removeListerner(StratmasEventListener listener) {
+    public void removeListerner(ApproxsimEventListener listener) {
         mListeners.remove(listener);
     }
 
@@ -87,9 +87,9 @@ public class LayerData {
             System.err.println(e.getMessage());
         }
 
-        StratmasEvent event = StratmasEvent.getGeneric(this);
+        ApproxsimEvent event = ApproxsimEvent.getGeneric(this);
         for (Iterator it = mListeners.iterator(); it.hasNext();) {
-            ((StratmasEventListener) it.next()).eventOccured(event);
+            ((ApproxsimEventListener) it.next()).eventOccured(event);
         }
     }
 }

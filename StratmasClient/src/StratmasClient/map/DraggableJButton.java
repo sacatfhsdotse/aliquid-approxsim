@@ -1,4 +1,4 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import javax.swing.JButton;
 import javax.swing.ImageIcon;

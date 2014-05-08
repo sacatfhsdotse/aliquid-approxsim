@@ -3,7 +3,7 @@
  * @(#)LSJarXSDResolver.java
  */
 
-package StratmasDispatcher;
+package ApproxsimDispatcher;
 
 import org.w3c.dom.ls.LSInput;
 import org.w3c.dom.ls.LSResourceResolver;

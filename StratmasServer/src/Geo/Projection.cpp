@@ -88,7 +88,7 @@ void Projection::projToCoord(const double inX, const double inY, double &outLng,
     double z = 0.5 * rho / mR;
 
     if ( z > 1.0 ) {
-//        stratmasDebug("z > 1.0 in Proj2Coord for coord x: " << inX << ", y: " << inY);
+//        approxsimDebug("z > 1.0 in Proj2Coord for coord x: " << inX << ", y: " << inY);
         return;
     }
 

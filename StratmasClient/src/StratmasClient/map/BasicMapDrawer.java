@@ -1,4 +1,4 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -34,19 +34,19 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-import StratmasClient.BoundingBox;
-import StratmasClient.Configuration;
-import StratmasClient.Debug;
-import StratmasClient.map.adapter.MapDrawableAdapter;
-import StratmasClient.map.adapter.GraphNodeAdapter;
-import StratmasClient.map.adapter.MapDrawableAdapterListener;
-import StratmasClient.object.Shape;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.StratmasList;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.primitive.Reference;
-import StratmasClient.proj.MGRSConversion;
+import ApproxsimClient.BoundingBox;
+import ApproxsimClient.Configuration;
+import ApproxsimClient.Debug;
+import ApproxsimClient.map.adapter.MapDrawableAdapter;
+import ApproxsimClient.map.adapter.GraphNodeAdapter;
+import ApproxsimClient.map.adapter.MapDrawableAdapterListener;
+import ApproxsimClient.object.Shape;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.object.ApproxsimList;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.primitive.Reference;
+import ApproxsimClient.proj.MGRSConversion;
 
 import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.util.gl2.GLUT;
@@ -204,7 +204,7 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener,
     /**
      * The hashtable mapping renderSelectionNames to MapDrawableAdapters.
      */
-    protected Hashtable<Integer, StratmasEventListener> renderSelectionNames = new Hashtable<Integer, StratmasEventListener>();
+    protected Hashtable<Integer, ApproxsimEventListener> renderSelectionNames = new Hashtable<Integer, ApproxsimEventListener>();
     /**
      * The counter assigning new renderSelectionNames
      */
@@ -241,7 +241,7 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener,
     /**
      * Hashtable containing all mapDrawableAdapters that are used by this Map.
      */
-    protected Hashtable<StratmasObject, MapDrawableAdapter> mapDrawableAdapters = new Hashtable<StratmasObject, MapDrawableAdapter>();
+    protected Hashtable<ApproxsimObject, MapDrawableAdapter> mapDrawableAdapters = new Hashtable<ApproxsimObject, MapDrawableAdapter>();
     /**
      * Comparator used to sort mapDrawableAdapters before drawing.
      */
@@ -438,7 +438,7 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener,
      * 
      * @param object the object that is added.
      */
-    public void mapDrawableAdapterChildAdded(StratmasObject object) {
+    public void mapDrawableAdapterChildAdded(ApproxsimObject object) {
         addMapDrawable(object);
     }
 
@@ -724,7 +724,7 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener,
         renderSelectionNames.clear();
         // remove all adapters
         mapDrawableAdapterRecompilation.removeAllElements();
-        for (Enumeration<StratmasObject> e = mapDrawableAdapters.keys(); e
+        for (Enumeration<ApproxsimObject> e = mapDrawableAdapters.keys(); e
                 .hasMoreElements();) {
             removeMapDrawableAdapter(mapDrawableAdapters.get(e.nextElement()));
         }
@@ -1023,16 +1023,16 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener,
      * 
      * @param mapDrawable the mapDrawable that is added.
      */
-    public void addMapDrawable(StratmasObject mapDrawable) {
-        for (Enumeration<StratmasObject> ee = mapDrawable.children(); ee
+    public void addMapDrawable(ApproxsimObject mapDrawable) {
+        for (Enumeration<ApproxsimObject> ee = mapDrawable.children(); ee
                 .hasMoreElements();) {
-            StratmasObject candidate = ee.nextElement();
+            ApproxsimObject candidate = ee.nextElement();
             if (candidate.getType().canSubstitute("Element")
                     || candidate.getType().canSubstitute("Activity")) {
-                if (candidate instanceof StratmasList) {
+                if (candidate instanceof ApproxsimList) {
                     // Add any current elements and add a listener
                     // that imports any consequent ones.
-                    for (Enumeration<StratmasObject> le = candidate.children(); le
+                    for (Enumeration<ApproxsimObject> le = candidate.children(); le
                             .hasMoreElements();) {
                         addMapDrawable(le.nextElement());
                     }
@@ -1042,21 +1042,21 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener,
                 // add listeners to the list of the activities
                 if (mapDrawable.getType().canSubstitute("Element")
                         && candidate.getType().canSubstitute("Activity")) {
-                    candidate.addEventListener(new StratmasEventListener() {
-                        public void eventOccured(StratmasEvent subEvent) {
+                    candidate.addEventListener(new ApproxsimEventListener() {
+                        public void eventOccured(ApproxsimEvent subEvent) {
                             if (subEvent.isObjectAdded()) {
-                                addMapDrawable((StratmasObject) subEvent
+                                addMapDrawable((ApproxsimObject) subEvent
                                         .getArgument());
                             } else if (subEvent.isRemoved()) {
-                                ((StratmasObject) subEvent.getSource())
+                                ((ApproxsimObject) subEvent.getSource())
                                         .removeEventListener(this);
                             } else if (subEvent.isReplaced()) {
                                 // UNTESTED - the replace code is untested 2005-09-22
                                 Debug.err
                                         .println("FIXME - Replace behavior untested in MapDrawer");
-                                ((StratmasObject) subEvent.getSource())
+                                ((ApproxsimObject) subEvent.getSource())
                                         .removeEventListener(this);
-                                ((StratmasObject) subEvent.getArgument())
+                                ((ApproxsimObject) subEvent.getArgument())
                                         .addEventListener(this);
                             }
                         }
@@ -1066,13 +1066,13 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener,
         }
 
         if (mapDrawable.getType().canSubstitute("Graph")) {
-            for (Enumeration<StratmasObject> ee = mapDrawable.children(); ee
+            for (Enumeration<ApproxsimObject> ee = mapDrawable.children(); ee
                     .hasMoreElements();) {
-                StratmasObject candidate = ee.nextElement();
-                if (candidate instanceof StratmasList) {
-                    for (Enumeration<StratmasObject> le = candidate.children(); le
+                ApproxsimObject candidate = ee.nextElement();
+                if (candidate instanceof ApproxsimList) {
+                    for (Enumeration<ApproxsimObject> le = candidate.children(); le
                             .hasMoreElements();) {
-                        StratmasObject candidate2 = le.nextElement();
+                        ApproxsimObject candidate2 = le.nextElement();
                         if (candidate2.getType().canSubstitute("Node")
                                 || candidate2.getType().canSubstitute("Edge")) {
                             addMapDrawableAdapter(candidate2);
@@ -1094,7 +1094,7 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener,
      * Adds a new MapDrawableAdapter to this map.
      */
     protected MapDrawableAdapter addMapDrawableAdapter(
-            StratmasObject mapDrawable) {
+            ApproxsimObject mapDrawable) {
         MapDrawableAdapter drawableAdapter = MapDrawableAdapter
                 .getMapDrawableAdapter(mapDrawable);
         int renderSelectionName = getNewRenderSelectionName(drawableAdapter

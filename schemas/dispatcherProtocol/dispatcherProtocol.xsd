@@ -16,7 +16,7 @@
     <xsd:complexContent> 
       <xsd:extension base="DispatcherRequest">
         <xsd:sequence>   
-                <xsd:element name="stratmasServer" type="StratmasServer"/>        
+                <xsd:element name="approxsimServer" type="ApproxsimServer"/>        
         </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent> 
@@ -26,7 +26,7 @@
     <xsd:complexContent> 
       <xsd:extension base="DispatcherRequest">
         <xsd:sequence>   
-                <xsd:element name="stratmasServer" type="StratmasServer"/>
+                <xsd:element name="approxsimServer" type="ApproxsimServer"/>
         </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent> 
@@ -46,13 +46,13 @@
     <xsd:complexContent> 
       <xsd:extension base="DispatcherReply">
         <xsd:sequence>
-          <xsd:element name="stratmasServer" type="StratmasServer" minOccurs="0" maxOccurs="unbounded"/>
+          <xsd:element name="approxsimServer" type="ApproxsimServer" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent> 
   </xsd:complexType>
 
-  <xsd:complexType name="StratmasServer">
+  <xsd:complexType name="ApproxsimServer">
       <xsd:sequence>
         <xsd:element name="host">
           <xsd:simpleType>

@@ -1,24 +1,24 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import java.util.Vector;
 import java.util.Enumeration;
 import java.text.DecimalFormat;
 
-import StratmasClient.BoundingBox;
-import StratmasClient.Configuration;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.primitive.Reference;
-import StratmasClient.ProcessVariableDescription;
-import StratmasClient.object.primitive.Timestamp;
-import StratmasClient.object.Line;
-import StratmasClient.object.Shape;
-import StratmasClient.object.SimpleShape;
-import StratmasClient.object.Point;
-import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.communication.GridData;
-import StratmasClient.communication.LayerData;
-import StratmasClient.proj.MGRSConversion;
+import ApproxsimClient.BoundingBox;
+import ApproxsimClient.Configuration;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.primitive.Reference;
+import ApproxsimClient.ProcessVariableDescription;
+import ApproxsimClient.object.primitive.Timestamp;
+import ApproxsimClient.object.Line;
+import ApproxsimClient.object.Shape;
+import ApproxsimClient.object.SimpleShape;
+import ApproxsimClient.object.Point;
+import ApproxsimClient.object.ApproxsimObjectFactory;
+import ApproxsimClient.communication.GridData;
+import ApproxsimClient.communication.LayerData;
+import ApproxsimClient.proj.MGRSConversion;
 
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GL2;
@@ -29,7 +29,7 @@ import javax.media.opengl.GL2;
  * @version 1.0
  * @author Amir Filipovic
  */
-public class GridLayer implements StratmasEventListener {
+public class GridLayer implements ApproxsimEventListener {
     /**
      * The number of Render Selection names needed by this adapter.
      */
@@ -65,7 +65,7 @@ public class GridLayer implements StratmasEventListener {
     /**
      * The list of listeners.
      */
-    private Vector<StratmasEventListener> listeners = new Vector<StratmasEventListener>();
+    private Vector<ApproxsimEventListener> listeners = new Vector<ApproxsimEventListener>();
     /**
      * The actual timestamp of the grid values.
      */
@@ -176,7 +176,7 @@ public class GridLayer implements StratmasEventListener {
      * 
      * @param e the event causing the changes.
      */
-    public synchronized void eventOccured(StratmasEvent e) {
+    public synchronized void eventOccured(ApproxsimEvent e) {
         // update the grid values
         if (e.getSource() instanceof LayerData) {
             // indicates that the data values are valid
@@ -190,7 +190,7 @@ public class GridLayer implements StratmasEventListener {
             // update the color map with the new values
             color_map.updateGridData(cellValues);
             // notify all listeners
-            notifyListeners(StratmasEvent.getGridUpdated(this));
+            notifyListeners(ApproxsimEvent.getGridUpdated(this));
         }
         // update the grid
         else if (e.isRegionUpdated()) {
@@ -200,7 +200,7 @@ public class GridLayer implements StratmasEventListener {
                 // update the color map with the new values
                 color_map.updateGridData(cellValues);
                 // notify all listeners
-                notifyListeners(StratmasEvent.getGridUpdated(this));
+                notifyListeners(ApproxsimEvent.getGridUpdated(this));
             }
         }
     }
@@ -293,20 +293,20 @@ public class GridLayer implements StratmasEventListener {
     }
 
     /**
-     * Adds stratmas listener to the list of listeners.
+     * Adds approxsim listener to the list of listeners.
      * 
-     * @param listener the stratmas listener.
+     * @param listener the approxsim listener.
      */
-    public void addListener(StratmasEventListener listener) {
+    public void addListener(ApproxsimEventListener listener) {
         listeners.add(listener);
     }
 
     /**
-     * Notifies all listeners that a stratmas event has occured.
+     * Notifies all listeners that a approxsim event has occured.
      * 
-     * @param se the stratmas event.
+     * @param se the approxsim event.
      */
-    public void notifyListeners(StratmasEvent se) {
+    public void notifyListeners(ApproxsimEvent se) {
         for (int i = 0; i < listeners.size(); i++) {
             listeners.get(i).eventOccured(se);
         }
@@ -405,33 +405,33 @@ public class GridLayer implements StratmasEventListener {
         int col_nr = gridData.getCols();
         int row = cell.cellPos / col_nr;
         int col = cell.cellPos % col_nr;
-        Point upper_left = StratmasObjectFactory
+        Point upper_left = ApproxsimObjectFactory
                 .createPoint("A", pos[2 * (row * (col_nr + 1) + col)],
                              pos[2 * (row * (col_nr + 1) + col) + 1]);
-        Point lower_left = StratmasObjectFactory
+        Point lower_left = ApproxsimObjectFactory
                 .createPoint("B", pos[2 * ((row + 1) * (col_nr + 1) + col)],
                              pos[2 * ((row + 1) * (col_nr + 1) + col) + 1]);
-        Point upper_right = StratmasObjectFactory
+        Point upper_right = ApproxsimObjectFactory
                 .createPoint("C", pos[2 * (row * (col_nr + 1) + col + 1)],
                              pos[2 * (row * (col_nr + 1) + col + 1) + 1]);
-        Point lower_right = StratmasObjectFactory
+        Point lower_right = ApproxsimObjectFactory
                 .createPoint("D",
                              pos[2 * ((row + 1) * (col_nr + 1) + col + 1)],
                              pos[2 * ((row + 1) * (col_nr + 1) + col + 1) + 1]);
 
         // create lines
         Vector<Line> lines = new Vector<Line>();
-        lines.add(StratmasObjectFactory
-                .createLine("0", upper_left, (Point) StratmasObjectFactory
+        lines.add(ApproxsimObjectFactory
+                .createLine("0", upper_left, (Point) ApproxsimObjectFactory
                         .cloneObject(upper_right)));
-        lines.add(StratmasObjectFactory
-                .createLine("1", upper_right, (Point) StratmasObjectFactory
+        lines.add(ApproxsimObjectFactory
+                .createLine("1", upper_right, (Point) ApproxsimObjectFactory
                         .cloneObject(lower_right)));
-        lines.add(StratmasObjectFactory
-                .createLine("2", lower_right, (Point) StratmasObjectFactory
+        lines.add(ApproxsimObjectFactory
+                .createLine("2", lower_right, (Point) ApproxsimObjectFactory
                         .cloneObject(lower_left)));
-        lines.add(StratmasObjectFactory
-                .createLine("3", lower_left, (Point) StratmasObjectFactory
+        lines.add(ApproxsimObjectFactory
+                .createLine("3", lower_left, (Point) ApproxsimObjectFactory
                         .cloneObject(upper_left)));
         // create the identifier for the shape
         double lon = (upper_right.getLon() + lower_left.getLon()) / 2;
@@ -450,7 +450,7 @@ public class GridLayer implements StratmasEventListener {
                     + MapConstants.DEGREE_SYMBOL);
         }
         // return the polygonial shape
-        return StratmasObjectFactory.createPolygon(id, lines);
+        return ApproxsimObjectFactory.createPolygon(id, lines);
     }
 
     /**
@@ -466,7 +466,7 @@ public class GridLayer implements StratmasEventListener {
         double lonCenter = (box.getEastLon() + box.getWestLon()) / 2;
         double latCenter = (box.getSouthLat() + box.getNorthLat()) / 2;
         // get the circle
-        return StratmasObjectFactory.createCircle(s.getIdentifier(), latCenter,
+        return ApproxsimObjectFactory.createCircle(s.getIdentifier(), latCenter,
                                                   lonCenter, 0.000001d);
     }
 

@@ -3,22 +3,22 @@
  * @(#)ElementAdapter.java
  */
 
-package StratmasClient.map.adapter;
+package ApproxsimClient.map.adapter;
 
 import java.util.Enumeration;
-import StratmasClient.Debug;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasBoolean;
-import StratmasClient.object.StratmasList;
-import StratmasClient.map.Projection;
+import ApproxsimClient.Debug;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimBoolean;
+import ApproxsimClient.object.ApproxsimList;
+import ApproxsimClient.map.Projection;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 
 /**
- * ElementAdapter adapts StratmasObjects descendants of Elements for viewing on a map window.
+ * ElementAdapter adapts ApproxsimObjects descendants of Elements for viewing on a map window.
  * 
  * @version 1, $Date: 2006/09/04 18:57:30 $
  * @author Daniel Ahlin
@@ -34,7 +34,7 @@ public class ElementAdapter extends MapElementAdapter {
      * 
      * @param element the Element to adapt.
      */
-    protected ElementAdapter(StratmasObject element) {
+    protected ElementAdapter(ApproxsimObject element) {
         this(element, 0);
     }
 
@@ -44,32 +44,32 @@ public class ElementAdapter extends MapElementAdapter {
      * @param element the Element to adapt.
      * @param renderSelectionName the integer to use as the base for names in RENDER_SELECTION
      */
-    protected ElementAdapter(StratmasObject element, int renderSelectionName) {
+    protected ElementAdapter(ApproxsimObject element, int renderSelectionName) {
         super(element, renderSelectionName);
 
         // Set a listener on any lists that may generate new Elements.
-        for (Enumeration<StratmasObject> e = element.children(); e
+        for (Enumeration<ApproxsimObject> e = element.children(); e
                 .hasMoreElements();) {
-            StratmasObject candidate = e.nextElement();
+            ApproxsimObject candidate = e.nextElement();
             if (candidate.getType().canSubstitute("Element")) {
-                if (candidate instanceof StratmasList) {
+                if (candidate instanceof ApproxsimList) {
                     // Add any current elements and add a listener
                     // that imports any consequent ones.
-                    candidate.addEventListener(new StratmasEventListener() {
-                        public void eventOccured(StratmasEvent subEvent) {
+                    candidate.addEventListener(new ApproxsimEventListener() {
+                        public void eventOccured(ApproxsimEvent subEvent) {
                             if (subEvent.isObjectAdded()) {
-                                fireAdapterChildAdded((StratmasObject) subEvent
+                                fireAdapterChildAdded((ApproxsimObject) subEvent
                                         .getArgument());
                             } else if (subEvent.isRemoved()) {
-                                ((StratmasObject) subEvent.getSource())
+                                ((ApproxsimObject) subEvent.getSource())
                                         .removeEventListener(this);
                             } else if (subEvent.isReplaced()) {
                                 // UNTESTED - the replace code is untested 2005-09-22
                                 Debug.err
                                         .println("FIXME - Replace behavior untested in ElementAdapter1");
-                                ((StratmasObject) subEvent.getSource())
+                                ((ApproxsimObject) subEvent.getSource())
                                         .removeEventListener(this);
-                                ((StratmasObject) subEvent.getArgument())
+                                ((ApproxsimObject) subEvent.getArgument())
                                         .addEventListener(this);
                             }
 
@@ -81,15 +81,15 @@ public class ElementAdapter extends MapElementAdapter {
 
         // Add an adapter to listen to deployement changes.
         element.getChild("deployment")
-                .addEventListener(new StratmasEventListener() {
-                    public void eventOccured(StratmasEvent event) {
+                .addEventListener(new ApproxsimEventListener() {
+                    public void eventOccured(ApproxsimEvent event) {
                         if (event.isRemoved()) {
-                            ((StratmasObject) event.getSource())
+                            ((ApproxsimObject) event.getSource())
                                     .removeEventListener(this);
                         } else if (event.isReplaced()) {
-                            ((StratmasObject) event.getSource())
+                            ((ApproxsimObject) event.getSource())
                                     .removeEventListener(this);
-                            ((StratmasObject) event.getArgument())
+                            ((ApproxsimObject) event.getArgument())
                                     .addEventListener(this);
                             displayListUpdated = false;
                             isLocationUpdated = false;
@@ -139,37 +139,37 @@ public class ElementAdapter extends MapElementAdapter {
      * 
      * @param event the event causing the call.
      */
-    public void eventOccured(StratmasEvent event) {
+    public void eventOccured(ApproxsimEvent event) {
         super.eventOccured(event);
         //
         if (event.isObjectAdded()
-                && ((StratmasObject) event.getArgument()).getType()
+                && ((ApproxsimObject) event.getArgument()).getType()
                         .canSubstitute("Element")) {
-            if (event.getArgument() instanceof StratmasList) {
+            if (event.getArgument() instanceof ApproxsimList) {
                 // A list which may generate new Elements has been added. Will have to listen to that.
-                ((StratmasObject) event.getArgument())
-                        .addEventListener(new StratmasEventListener() {
-                            public void eventOccured(StratmasEvent subEvent) {
+                ((ApproxsimObject) event.getArgument())
+                        .addEventListener(new ApproxsimEventListener() {
+                            public void eventOccured(ApproxsimEvent subEvent) {
                                 if (subEvent.isObjectAdded()) {
-                                    fireAdapterChildAdded((StratmasObject) subEvent
+                                    fireAdapterChildAdded((ApproxsimObject) subEvent
                                             .getArgument());
                                 } else if (subEvent.isRemoved()) {
-                                    ((StratmasObject) subEvent.getSource())
+                                    ((ApproxsimObject) subEvent.getSource())
                                             .removeEventListener(this);
                                 } else if (subEvent.isReplaced()) {
                                     // UNTESTED - the replace code is untested 2005-09-22
                                     Debug.err
                                             .println("FIXME - Replace behavior untested in ElementAdapter2");
-                                    ((StratmasObject) subEvent.getSource())
+                                    ((ApproxsimObject) subEvent.getSource())
                                             .removeEventListener(this);
-                                    ((StratmasObject) subEvent.getArgument())
+                                    ((ApproxsimObject) subEvent.getArgument())
                                             .addEventListener(this);
                                 }
                             }
                         });
             } else {
                 // Ordinary Element added.
-                fireAdapterChildAdded((StratmasObject) event.getArgument());
+                fireAdapterChildAdded((ApproxsimObject) event.getArgument());
             }
         }
     }
@@ -179,10 +179,10 @@ public class ElementAdapter extends MapElementAdapter {
      * 
      * @param event the event causing the change.
      */
-    protected void childChanged(StratmasEvent event) {
+    protected void childChanged(ApproxsimEvent event) {
         super.childChanged(event);
         //
-        StratmasObject child = (StratmasObject) event.getArgument();
+        ApproxsimObject child = (ApproxsimObject) event.getArgument();
         if (child.getIdentifier().equals("present")) {
             displayListUpdated = false;
             fireAdapterUpdated();
@@ -213,7 +213,7 @@ public class ElementAdapter extends MapElementAdapter {
      * Returns true if the element adapted is present, else false.
      */
     protected boolean isPresent() {
-        return ((StratmasBoolean) getStratmasObject().getChild("present"))
+        return ((ApproxsimBoolean) getApproxsimObject().getChild("present"))
                 .getValue();
     }
 

@@ -3,13 +3,13 @@
  * @(#)ServerSession.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.primitive.Reference;
-import StratmasClient.communication.Subscription;
-import StratmasClient.communication.ServerException;
-import StratmasClient.communication.StratmasMessage;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.primitive.Reference;
+import ApproxsimClient.communication.Subscription;
+import ApproxsimClient.communication.ServerException;
+import ApproxsimClient.communication.ApproxsimMessage;
 
 /**
  * Defines the calls the SimulationEvolver exepects to make to a server.
@@ -27,12 +27,12 @@ public interface ServerSession {
             throws ServerException;
 
     /**
-     * Initializes the session with the provided StratmasObject as root.
+     * Initializes the session with the provided ApproxsimObject as root.
      * 
      * @param root the object to use as root
      * @throws ServerException on communication error.
      */
-    public void initialize(StratmasObject root) throws ServerException;
+    public void initialize(ApproxsimObject root) throws ServerException;
 
     /**
      * Closes the session. Note that it is an error to call any function after the session has been close()'ed.
@@ -62,7 +62,7 @@ public interface ServerSession {
      * @param object the update to update with.
      * @throws ServerException on communication error.
      */
-    public void updateObject(Reference reference, StratmasObject object)
+    public void updateObject(Reference reference, ApproxsimObject object)
             throws ServerException;
 
     /**
@@ -71,5 +71,5 @@ public interface ServerSession {
      * @param message the message to send.
      * @throws ServerException on communication error.
      */
-    public void send(StratmasMessage message) throws ServerException;
+    public void send(ApproxsimMessage message) throws ServerException;
 }

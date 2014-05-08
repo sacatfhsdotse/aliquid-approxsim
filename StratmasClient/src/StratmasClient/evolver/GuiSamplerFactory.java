@@ -3,7 +3,7 @@
  * @(#)GuiSamplerFactory.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
 import javax.swing.AbstractAction;
 import javax.swing.JRadioButton;

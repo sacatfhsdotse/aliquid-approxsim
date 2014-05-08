@@ -1,21 +1,21 @@
-package StratmasClient.map.adapter;
+package ApproxsimClient.map.adapter;
 
 import java.awt.Color;
 import java.util.Enumeration;
 import java.util.Vector;
 import java.util.Hashtable;
-import StratmasClient.object.Point;
-import StratmasClient.object.Line;
-import StratmasClient.object.Polygon;
-import StratmasClient.object.Circle;
-import StratmasClient.object.Shape;
-import StratmasClient.object.SimpleShape;
-import StratmasClient.object.Composite;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.map.Projection;
-import StratmasClient.substrate.SubstrateEditor;
-import StratmasClient.substrate.ShapeValuePair;
+import ApproxsimClient.object.Point;
+import ApproxsimClient.object.Line;
+import ApproxsimClient.object.Polygon;
+import ApproxsimClient.object.Circle;
+import ApproxsimClient.object.Shape;
+import ApproxsimClient.object.SimpleShape;
+import ApproxsimClient.object.Composite;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.map.Projection;
+import ApproxsimClient.substrate.SubstrateEditor;
+import ApproxsimClient.substrate.ShapeValuePair;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
@@ -681,13 +681,13 @@ public class MapShapeAdapter extends MapDrawableAdapter {
      * 
      * @param event the event causing the call.
      */
-    public void eventOccured(StratmasEvent event) {
+    public void eventOccured(ApproxsimEvent event) {
         if (event.isChildChanged()) {
             childChanged(event);
         } else if (event.isValueChanged()) {
             valueChanged(event);
         } else if (event.isRemoved()) {
-            StratmasObject source = (StratmasObject) event.getSource();
+            ApproxsimObject source = (ApproxsimObject) event.getSource();
             if (source.equals(getObject())) {
                 getObject().removeEventListener(this);
                 fireAdapterRemoved();

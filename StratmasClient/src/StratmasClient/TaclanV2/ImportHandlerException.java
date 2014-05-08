@@ -3,7 +3,7 @@
  * @(#)ImportHandlerException.java
  */
 
-package StratmasClient.TaclanV2;
+package ApproxsimClient.TaclanV2;
 
 /**
  * An object representing and error in a handler when importing something into Taclan

@@ -1,4 +1,4 @@
-package StratmasClient.treeview;
+package ApproxsimClient.treeview;
 
 import java.util.Enumeration;
 import java.util.Vector;
@@ -6,19 +6,19 @@ import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.Point;
-import StratmasClient.Icon;
-import StratmasClient.IconFactory;
-import StratmasClient.Configuration;
-import StratmasClient.filter.StratmasObjectFilter;
-import StratmasClient.proj.MGRSConversion;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.Point;
+import ApproxsimClient.Icon;
+import ApproxsimClient.IconFactory;
+import ApproxsimClient.Configuration;
+import ApproxsimClient.filter.ApproxsimObjectFilter;
+import ApproxsimClient.proj.MGRSConversion;
 
 /**
  * PointAdapter adapts Points for viewing in the tree.
  */
-public class PointAdapter extends StratmasObjectAdapter {
+public class PointAdapter extends ApproxsimObjectAdapter {
 
     /**
      * Creates a new PontAdapter.
@@ -30,23 +30,23 @@ public class PointAdapter extends StratmasObjectAdapter {
     /**
      * Creates a new PointAdapter.
      * 
-     * @param stratmasObject the object to adapt.
+     * @param approxsimObject the object to adapt.
      */
-    public PointAdapter(StratmasObject stratmasObject) {
-        this.setUserObject(stratmasObject);
-        Configuration.addStratmasListener(this);
+    public PointAdapter(ApproxsimObject approxsimObject) {
+        this.setUserObject(approxsimObject);
+        Configuration.addApproxsimListener(this);
     }
 
     /**
      * Creates a new PointAdapter.
      * 
-     * @param stratmasObject the object to adapt.
+     * @param approxsimObject the object to adapt.
      */
-    public PointAdapter(StratmasObject stratmasObject,
-            StratmasObjectFilter filter) {
-        this.setUserObject(stratmasObject);
+    public PointAdapter(ApproxsimObject approxsimObject,
+            ApproxsimObjectFilter filter) {
+        this.setUserObject(approxsimObject);
         this.filter = filter;
-        Configuration.addStratmasListener(this);
+        Configuration.addApproxsimListener(this);
     }
 
     /**
@@ -56,48 +56,48 @@ public class PointAdapter extends StratmasObjectAdapter {
         this.children = new Vector();
 
         if (Configuration.getCoordinateSystem() == Configuration.GEODETIC) {
-            silentAdd(new PointCoordinateAdapter(getStratmasObject(), "lat"),
+            silentAdd(new PointCoordinateAdapter(getApproxsimObject(), "lat"),
                       children.size());
-            silentAdd(new PointCoordinateAdapter(getStratmasObject(), "lon"),
+            silentAdd(new PointCoordinateAdapter(getApproxsimObject(), "lon"),
                       children.size());
         }
     }
 
     /**
-     * Called when the StratmasObject this adapter adapts changes.
+     * Called when the ApproxsimObject this adapter adapts changes.
      * 
      * @param event the event causing the call.
      */
-    public void eventOccured(StratmasEvent event) {
+    public void eventOccured(ApproxsimEvent event) {
         if (event.isValueChanged()) {
             sendTreeNodesChangedEvent();
         } else if (event.isRemoved()) {
             if (getUserObject() != null) {
                 getUserObject().removeEventListener(this);
             }
-            Configuration.removeStratmasListener(this);
+            Configuration.removeApproxsimListener(this);
             sendTreeNodeRemovedEvent();
             if (getParent() != null) {
                 parent.remove(this);
             }
-            stratmasObject = null;
+            approxsimObject = null;
         } else if (event.isObjectAdded()) {
-            StratmasObject newObj = (StratmasObject) event.getArgument();
+            ApproxsimObject newObj = (ApproxsimObject) event.getArgument();
             add(newObj);
         } else if (event.isChildChanged()) {
             sendTreeNodesChangedEvent();
         } else if (event.isReplaced()) {
             getUserObject().removeEventListener(this);
-            StratmasObjectAdapter parent = (StratmasObjectAdapter) getParent();
+            ApproxsimObjectAdapter parent = (ApproxsimObjectAdapter) getParent();
             if (parent != null) {
                 sendTreeNodeRemovedEvent();
                 parent.remove(this);
-                parent.add((StratmasObject) event.getArgument());
+                parent.add((ApproxsimObject) event.getArgument());
             } else {
-                StratmasObject o = (StratmasObject) event.getArgument();
+                ApproxsimObject o = (ApproxsimObject) event.getArgument();
                 setUserObject(o);
                 for (Enumeration en = o.children(); en.hasMoreElements();) {
-                    add((StratmasObject) en.nextElement());
+                    add((ApproxsimObject) en.nextElement());
                 }
                 sendTreeNodesChangedEvent();
             }
@@ -105,23 +105,23 @@ public class PointAdapter extends StratmasObjectAdapter {
             // MGRS coordinates
             if (Configuration.getCoordinateSystem() == Configuration.MGRS) {
                 while (!getChildren().isEmpty()) {
-                    StratmasObjectAdapter soa = (StratmasObjectAdapter) getChildren()
+                    ApproxsimObjectAdapter soa = (ApproxsimObjectAdapter) getChildren()
                             .get(0);
                     // FIXME THIS SHOULD NOT BE A REMOVE EVENT!!!
-                    soa.eventOccured(StratmasEvent.getRemoved(soa, null));
+                    soa.eventOccured(ApproxsimEvent.getRemoved(soa, null));
                 }
                 sendTreeNodesChangedEvent();
             }
             // geodetic (lat, lon) coordinates
             else if (Configuration.getCoordinateSystem() == Configuration.GEODETIC) {
-                silentAdd(new PointCoordinateAdapter(getStratmasObject(), "lat"),
+                silentAdd(new PointCoordinateAdapter(getApproxsimObject(), "lat"),
                           children.size());
-                silentAdd(new PointCoordinateAdapter(getStratmasObject(), "lon"),
+                silentAdd(new PointCoordinateAdapter(getApproxsimObject(), "lon"),
                           children.size());
                 sort();
                 for (Enumeration e = getChildren().elements(); e
                         .hasMoreElements();) {
-                    sendTreeNodeAddedEvent((StratmasObjectAdapter) e
+                    sendTreeNodeAddedEvent((ApproxsimObjectAdapter) e
                             .nextElement());
                 }
                 sendTreeNodesChangedEvent();
@@ -152,12 +152,12 @@ public class PointAdapter extends StratmasObjectAdapter {
      * Returns the string the invokation of the editor should hold for this value.
      */
     public String getTextTag() {
-        if (stratmasObject == null) {
+        if (approxsimObject == null) {
             return null;
         } else {
-            String text = getStratmasObject().getIdentifier();
+            String text = getApproxsimObject().getIdentifier();
             if (Configuration.getCoordinateSystem() == Configuration.MGRS) {
-                String value = ((Point) getStratmasObject()).getMGRSValue();
+                String value = ((Point) getApproxsimObject()).getMGRSValue();
                 return text + " : " + value;
             } else {
                 return text;
@@ -169,10 +169,10 @@ public class PointAdapter extends StratmasObjectAdapter {
      * Returns the Icon the invokation of the editor should hold for this value.
      */
     public Icon getIcon() {
-        if (getStratmasObject() == null) {
+        if (getApproxsimObject() == null) {
             return null;
         } else if (Configuration.getCoordinateSystem() == Configuration.GEODETIC) {
-            return getStratmasObject().getIcon();
+            return getApproxsimObject().getIcon();
         } else {
             return IconFactory.getLeafIcon();
         }
@@ -182,14 +182,14 @@ public class PointAdapter extends StratmasObjectAdapter {
      * Returns the string the invokation of the editor should hold for this value.
      */
     public String toEditableString() {
-        if (stratmasObject != null) {
+        if (approxsimObject != null) {
             return "";
         }
 
         if (Configuration.getCoordinateSystem() == Configuration.GEODETIC) {
-            return getStratmasObject().getIdentifier();
+            return getApproxsimObject().getIdentifier();
         } else {
-            return ((Point) getStratmasObject()).getMGRSValue();
+            return ((Point) getApproxsimObject()).getMGRSValue();
         }
     }
 
@@ -211,9 +211,9 @@ public class PointAdapter extends StratmasObjectAdapter {
 /**
  * Placeholder for synthetic children of point.
  */
-class PointCoordinateAdapter extends StratmasObjectAdapter {
+class PointCoordinateAdapter extends ApproxsimObjectAdapter {
     /**
-     * A vector containing child StratmasObjectAdapters Always empy for this class.
+     * A vector containing child ApproxsimObjectAdapters Always empy for this class.
      */
     static Vector noChildren = new Vector();
 
@@ -223,13 +223,13 @@ class PointCoordinateAdapter extends StratmasObjectAdapter {
     String tag;
 
     /**
-     * Creates a new StratmasObjectAdapter.
+     * Creates a new ApproxsimObjectAdapter.
      * 
-     * @param stratmasObject the object to adapt.
+     * @param approxsimObject the object to adapt.
      * @param tag whether this is lat or lon.
      */
-    PointCoordinateAdapter(StratmasObject stratmasObject, String tag) {
-        super(stratmasObject);
+    PointCoordinateAdapter(ApproxsimObject approxsimObject, String tag) {
+        super(approxsimObject);
         if (tag != "lat" && tag != "lon") {
             throw new AssertionError(getClass().getName()
                     + " can only have tag \"lat\"  or \"lon\"");
@@ -262,17 +262,17 @@ class PointCoordinateAdapter extends StratmasObjectAdapter {
      * Tries to update the target of this adapter with the provided object.
      */
     public void update(Object o) {
-        if (stratmasObject == null) {
+        if (approxsimObject == null) {
             return;
         } else {
             if (o instanceof String) {
                 try {
                     double val = Double.parseDouble((String) o);
-                    getStratmasObject();
+                    getApproxsimObject();
                     if (tag == "lat") {
-                        ((Point) getStratmasObject()).setLat(val, this);
+                        ((Point) getApproxsimObject()).setLat(val, this);
                     } else { // (tag == "lon")
-                        ((Point) getStratmasObject()).setLon(val, this);
+                        ((Point) getApproxsimObject()).setLon(val, this);
                     }
                 } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog((JFrame) null,
@@ -293,12 +293,12 @@ class PointCoordinateAdapter extends StratmasObjectAdapter {
      * Returns the string the invokation of the editor should hold for this value.
      */
     public String toEditableString() {
-        if (getStratmasObject() == null) {
+        if (getApproxsimObject() == null) {
             return "";
         } else if (tag == "lat") {
-            return Double.toString(((Point) getStratmasObject()).getLat());
+            return Double.toString(((Point) getApproxsimObject()).getLat());
         } else { // (tag == "lon")
-            return Double.toString(((Point) getStratmasObject()).getLon());
+            return Double.toString(((Point) getApproxsimObject()).getLon());
         }
     }
 
@@ -307,7 +307,7 @@ class PointCoordinateAdapter extends StratmasObjectAdapter {
      */
     public boolean equals(Object o) {
         if (o instanceof PointCoordinateAdapter) {
-            return stratmasObject == ((StratmasObjectAdapter) o).stratmasObject
+            return approxsimObject == ((ApproxsimObjectAdapter) o).approxsimObject
                     && this.tag == ((PointCoordinateAdapter) o).tag;
         }
         return false;
@@ -317,16 +317,16 @@ class PointCoordinateAdapter extends StratmasObjectAdapter {
      * Returns the string the invokation of the editor should hold for this value.
      */
     public String getTextTag() {
-        if (getStratmasObject() != null) {
+        if (getApproxsimObject() != null) {
             if (tag == "lat") {
                 return tag
                         + " "
-                        + Double.toString(((Point) getStratmasObject())
+                        + Double.toString(((Point) getApproxsimObject())
                                 .getLat());
             } else { // (tag == "lon")
                 return tag
                         + " "
-                        + Double.toString(((Point) getStratmasObject())
+                        + Double.toString(((Point) getApproxsimObject())
                                 .getLon());
             }
         } else {

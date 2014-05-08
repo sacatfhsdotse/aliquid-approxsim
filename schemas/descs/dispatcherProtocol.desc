@@ -7,11 +7,11 @@ The schema describing the communication between:
 abstract DispatcherRequest
 
 RegistrationRequest < DispatcherRequest {
-  stratmasServer: StratmasServer
+  approxsimServer: ApproxsimServer
 }
 
 DeRegistrationRequest < DispatcherRequest {
-  statmasServer: StratmasServer
+  statmasServer: ApproxsimServer
 }
 
 ListRequest < DispatcherRequest {}
@@ -20,10 +20,10 @@ ListRequest < DispatcherRequest {}
 abstract DispatcherReply
 
 ListReply < DispatcherReply {
-  stratmasServer*: StratmasServer
+  approxsimServer*: ApproxsimServer
 }
 
-StratmasServer {
+ApproxsimServer {
   host: string (length=1+)
   port: int
   hasActiveClient: bool

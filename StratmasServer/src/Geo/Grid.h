@@ -1,5 +1,5 @@
-#ifndef STRATMAS_GRID_H
-#define STRATMAS_GRID_H
+#ifndef APPROXSIM_GRID_H
+#define APPROXSIM_GRID_H
 
 // System
 #include <list>
@@ -264,4 +264,4 @@ public:
      GridCell *getCellForNearestCamp(LatLng p, double& dist);
 };
 
-#endif    // STRATMAS_GRID_H
+#endif    // APPROXSIM_GRID_H

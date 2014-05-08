@@ -1,4 +1,4 @@
-package StratmasClient.map.graph;
+package ApproxsimClient.map.graph;
 
 import java.util.Hashtable;
 import java.awt.Color;

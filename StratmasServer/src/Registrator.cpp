@@ -8,7 +8,7 @@
 
 // Own
 #include "debugheader.h"
-#include "StratmasSocket.h"
+#include "ApproxsimSocket.h"
 #include "SocketException.h"
 #include "Registrator.h"
 #include "Environment.h"
@@ -50,12 +50,12 @@ bool Registrator::registerServerOnce() {
           "<dispatcherRequest " 
           "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
           "xsi:type=\"RegistrationRequest\">"
-          "<stratmasServer>"
+          "<approxsimServer>"
           "<host>" << host << "</host>"
           "<port>" << port << "</port>" 
           "<hasActiveClient>false</hasActiveClient>"
           "<isPending>true</isPending>"
-          "</stratmasServer>"
+          "</approxsimServer>"
           "</dispatcherRequest>";
      try {
           DispatcherSocket socket(dispatcherHost, dispatcherPort);
@@ -83,7 +83,7 @@ bool Registrator::registerServer(int tries)
 }
 
 /**
- * \brief Sends a stratmas message.
+ * \brief Sends a approxsim message.
  *
  * \param msg The message to send.
  * \return True if all is ok.

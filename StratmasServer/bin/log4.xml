@@ -2,7 +2,7 @@
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd" >
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 	<appender name="file" class="org.apache.log4j.FileAppender" >
-       <param name="File" value="${stratmas.install}logs/log" />
+       <param name="File" value="${approxsim.install}logs/log" />
        <param name="Append" value="true" />
    		<param name="Threshold" value="info"/> 
        <layout class="org.apache.log4j.PatternLayout">
@@ -13,7 +13,7 @@
        </layout>
     </appender>
     <appender name="file-error" class="org.apache.log4j.FileAppender" >
-       <param name="File" value="${stratmas.install}logs/error" />
+       <param name="File" value="${approxsim.install}logs/error" />
        <param name="Threshold" value="error"/> 
        <param name="Append" value="true" />
        <layout class="org.apache.log4j.PatternLayout">
@@ -21,56 +21,56 @@
        </layout>
     </appender>
     <appender name="file-network" class="org.apache.log4j.FileAppender" >
-       <param name="File" value="${stratmas.install}logs/network" />
+       <param name="File" value="${approxsim.install}logs/network" />
        <param name="Append" value="false" />
        <layout class="org.apache.log4j.PatternLayout">
            <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] %x - %m%n"/>
        </layout>
     </appender>
     <appender name="file-taclan" class="org.apache.log4j.FileAppender" >
-       <param name="File" value="${stratmas.install}logs/taclan" />
+       <param name="File" value="${approxsim.install}logs/taclan" />
        <param name="Append" value="false" />
        <layout class="org.apache.log4j.PatternLayout">
            <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] - %m%n"/>
        </layout>
     </appender>
     <appender name="file-agencies" class="org.apache.log4j.FileAppender" >
-       <param name="File" value="${stratmas.install}logs/agencies" />
+       <param name="File" value="${approxsim.install}logs/agencies" />
        <param name="Append" value="false" />
        <layout class="org.apache.log4j.PatternLayout">
            <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] - %m%n"/>
        </layout>
     </appender>
     <appender name="file-dataManagement" class="org.apache.log4j.FileAppender" >
-       <param name="File" value="${stratmas.install}logs/dataManagement" />
+       <param name="File" value="${approxsim.install}logs/dataManagement" />
        <param name="Append" value="false" />
        <layout class="org.apache.log4j.PatternLayout">
            <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] - %m%n"/>
        </layout>
     </appender>
     <appender name="file-geo" class="org.apache.log4j.FileAppender" >
-       <param name="File" value="${stratmas.install}logs/geo" />
+       <param name="File" value="${approxsim.install}logs/geo" />
        <param name="Append" value="false" />
        <layout class="org.apache.log4j.PatternLayout">
            <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] - %m%n"/>
        </layout>
     </appender>
     <appender name="file-pv" class="org.apache.log4j.FileAppender" >
-       <param name="File" value="${stratmas.install}logs/pv" />
+       <param name="File" value="${approxsim.install}logs/pv" />
        <param name="Append" value="false" />
        <layout class="org.apache.log4j.PatternLayout">
            <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] - %m%n"/>
        </layout>
     </appender>
     <appender name="file-simulationObjects" class="org.apache.log4j.FileAppender" >
-       <param name="File" value="${stratmas.install}logs/simulation" />
+       <param name="File" value="${approxsim.install}logs/simulation" />
        <param name="Append" value="false" />
        <layout class="org.apache.log4j.PatternLayout">
            <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] - %m%n"/>
        </layout>
     </appender>
     <appender name="file-debug" class="org.apache.log4j.FileAppender" >
-       <param name="File" value="${stratmas.install}logs/oldDebug" />
+       <param name="File" value="${approxsim.install}logs/oldDebug" />
        <param name="Append" value="false" />
        <layout class="org.apache.log4j.PatternLayout">
            <param name="ConversionPattern" value="[%5.10p] %d{[yyyy-MM-dd] [HH:mm:ss,SSS]} [%10.10t] - %m%n"/>
@@ -94,41 +94,41 @@
 		<appender-ref ref="file-error" />
 		<appender-ref ref="stdout" />
 	</root>
-	<logger name="stratmas" additivity="false">
+	<logger name="approxsim" additivity="false">
 		<level value="info"/>
 		<appender-ref ref="file" />
 		<appender-ref ref="file-error" />
 		<appender-ref ref="stdout" />
 	</logger>
-	<logger name="stratmas.network">
+	<logger name="approxsim.network">
 		<level value="debug"/>
 		<appender-ref ref="file-network" />
 	</logger>
-	<logger name="stratmas.taclan">
+	<logger name="approxsim.taclan">
 		<level value="debug"/>
 		<appender-ref ref="file-taclan" />
 	</logger>
-	<logger name="stratmas.agencies">
+	<logger name="approxsim.agencies">
 		<level value="debug"/>
 		<appender-ref ref="file-agencies" />
 	</logger>
-	<logger name="stratmas.dataManagement">
+	<logger name="approxsim.dataManagement">
 		<level value="debug"/>
 		<appender-ref ref="file-dataManagement" />
 	</logger>
-	<logger name="stratmas.geo">
+	<logger name="approxsim.geo">
 		<level value="debug"/>
 		<appender-ref ref="file-geo" />
 	</logger>
-	<logger name="stratmas.pv">
+	<logger name="approxsim.pv">
 		<level value="debug"/>
 		<appender-ref ref="file-pv" />
 	</logger>
-	<logger name="stratmas.simulationObjects">
+	<logger name="approxsim.simulationObjects">
 		<level value="debug"/>
 		<appender-ref ref="file-simulationObjects" />
 	</logger>
-	<logger name="stratmas.debug"> <!-- remove when all old debug has been moved to new logging system -->
+	<logger name="approxsim.debug"> <!-- remove when all old debug has been moved to new logging system -->
 		<level value="trace"/>
 		<appender-ref ref="file-debug" />
 	</logger>

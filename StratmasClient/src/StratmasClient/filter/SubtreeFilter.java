@@ -1,29 +1,29 @@
-package StratmasClient.filter;
+package ApproxsimClient.filter;
 
-import StratmasClient.object.StratmasObject;
+import ApproxsimClient.object.ApproxsimObject;
 
 /**
  * This filter passes all the elements in the actual subtree.
  */
-public class SubtreeFilter extends StratmasObjectFilter {
+public class SubtreeFilter extends ApproxsimObjectFilter {
     /**
      * Root of the subtree.
      */
-    private StratmasObject root;
+    private ApproxsimObject root;
 
     /**
      * Create the filter.
      */
-    public SubtreeFilter(StratmasObject root) {
+    public SubtreeFilter(ApproxsimObject root) {
         this.root = root;
     }
 
     /**
-     * Returns true if root is the ancestor of the provided StratmasObject.
+     * Returns true if root is the ancestor of the provided ApproxsimObject.
      * 
      * @param sObj the object to test
      */
-    public boolean pass(StratmasObject sObj) {
+    public boolean pass(ApproxsimObject sObj) {
         return sObj.equals(root) || sObj.isAncestor(root);
     }
 

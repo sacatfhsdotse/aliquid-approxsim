@@ -1,5 +1,5 @@
-#ifndef STRATMAS_ACCESSRIGHTHANDLER
-#define STRATMAS_ACCESSRIGHTHANDLER
+#ifndef APPROXSIM_ACCESSRIGHTHANDLER
+#define APPROXSIM_ACCESSRIGHTHANDLER
 
 
 // System
@@ -28,4 +28,4 @@ public:
      static bool changeable(const Reference& ref);
 };
 
-#endif   // STRATMAS_ACCESSRIGHTHANDLER
+#endif   // APPROXSIM_ACCESSRIGHTHANDLER

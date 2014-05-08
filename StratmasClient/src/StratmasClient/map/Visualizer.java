@@ -1,4 +1,4 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import java.util.Vector;
 import java.util.Hashtable;
@@ -7,15 +7,15 @@ import java.util.Collections;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.Color;
-import StratmasClient.Client;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.Shape;
-import StratmasClient.ProcessVariableDescription;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.communication.GridData;
-import StratmasClient.communication.RegionData;
-import StratmasClient.map.graph.ProcessVariableXYGraph;
-import StratmasClient.timeline.Timeline;
+import ApproxsimClient.Client;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.object.Shape;
+import ApproxsimClient.ProcessVariableDescription;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.communication.GridData;
+import ApproxsimClient.communication.RegionData;
+import ApproxsimClient.map.graph.ProcessVariableXYGraph;
+import ApproxsimClient.timeline.Timeline;
 
 /**
  * This class containes all the maps as well as the control windows for controlling these maps.
@@ -77,8 +77,8 @@ public class Visualizer {
      */
     public Visualizer(Client client, Shape shape) {
         this(client);
-        StratMap stratmap = new StratMap(client, shape, "Stratmas Map No 1");
-        stratmaps.put("Stratmas Map No 1", stratmap);
+        StratMap stratmap = new StratMap(client, shape, "Approxsim Map No 1");
+        stratmaps.put("Approxsim Map No 1", stratmap);
         // set the map to listen to the client
         client.addEventListener(stratmap.getMapDrawer());
         // initialize the grid of graphs
@@ -95,7 +95,7 @@ public class Visualizer {
      */
     public static void createNewStratMap(Shape shape) {
         int nr = stratmaps.size() + 1;
-        StratMap stratmap = new StratMap(client, shape, "Stratmas Map No " + nr);
+        StratMap stratmap = new StratMap(client, shape, "Approxsim Map No " + nr);
         // if grid exists
         if (gridData != null) {
             // create grid layer
@@ -105,7 +105,7 @@ public class Visualizer {
             // update the map with factions
             stratmap.getPVPanel().addFactions(client.getFactions());
         }
-        stratmaps.put("Stratmas Map No " + nr, stratmap);
+        stratmaps.put("Approxsim Map No " + nr, stratmap);
         // set the map to listen to the client
         client.addEventListener(stratmap.getMapDrawer());
     }
@@ -151,7 +151,7 @@ public class Visualizer {
      * 
      * @param faction a faction.
      */
-    public void importFaction(StratmasObject faction) {
+    public void importFaction(ApproxsimObject faction) {
         for (Enumeration<String> e = stratmaps.keys(); e.hasMoreElements();) {
             stratmaps.get(e.nextElement()).getPVPanel().addFaction(faction);
         }
@@ -388,7 +388,7 @@ public class Visualizer {
      * @param listener the object which listens to the RegionData object.
      */
     public static RegionData addListenerToRegionData(Shape region,
-            StratmasEventListener listener) {
+            ApproxsimEventListener listener) {
         // check if the region subscription exists
         RegionData regionData = subscribedRegions.get(region);
 
@@ -411,7 +411,7 @@ public class Visualizer {
      * @param listener the listener which is to be removed from the RegionData object.
      */
     public static void removeListenerFromRegionData(RegionData regionData,
-            StratmasEventListener listener) {
+            ApproxsimEventListener listener) {
         regionData.removeListener(listener);
         if (!regionData.subscriptionExists()) {
             subscribedRegions.remove(regionData.getRegion());

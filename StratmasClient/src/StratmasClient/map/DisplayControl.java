@@ -1,4 +1,4 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,18 +14,18 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 
-import StratmasClient.Client;
-import StratmasClient.Debug;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.filter.PopulationFilter;
-import StratmasClient.filter.TypeFilter;
-import StratmasClient.filter.ActivityFilter;
-import StratmasClient.filter.CombinedORFilter;
-import StratmasClient.filter.MilitaryCodeFilter;
-import StratmasClient.filter.StratmasObjectFilter;
+import ApproxsimClient.Client;
+import ApproxsimClient.Debug;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.filter.PopulationFilter;
+import ApproxsimClient.filter.TypeFilter;
+import ApproxsimClient.filter.ActivityFilter;
+import ApproxsimClient.filter.CombinedORFilter;
+import ApproxsimClient.filter.MilitaryCodeFilter;
+import ApproxsimClient.filter.ApproxsimObjectFilter;
 
 /**
- * This class implements variety of panels used to control display of stratmas elements and other objects on the map.
+ * This class implements variety of panels used to control display of approxsim elements and other objects on the map.
  * 
  * @version 1.0
  * @author Amir Filipovic
@@ -42,19 +42,19 @@ public class DisplayControl {
     /**
      * The filter for the elements of type MilitaryUnit.
      */
-    private StratmasObjectFilter military_filter;
+    private ApproxsimObjectFilter military_filter;
     /**
      * The filter for the elements of type Agency.
      */
-    private StratmasObjectFilter agency_filter;
+    private ApproxsimObjectFilter agency_filter;
     /**
      * The filter for the elements of type Population.
      */
-    private StratmasObjectFilter population_filter;
+    private ApproxsimObjectFilter population_filter;
     /**
      * The filter for the elements of type Activity.
      */
-    private StratmasObjectFilter activity_filter;
+    private ApproxsimObjectFilter activity_filter;
 
     /**
      * Creates the DisplayControl.
@@ -68,8 +68,8 @@ public class DisplayControl {
      * Tools reference for disabeling
      */
     private List<JButton> toolsButtons = new ArrayList<JButton>();
-    private StratmasObjectFilter road_filter;
-    private StratmasObjectFilter other_filter;
+    private ApproxsimObjectFilter road_filter;
+    private ApproxsimObjectFilter other_filter;
 
     /**
      * Creates the panel for controling size of the symbols displayed in the map.
@@ -1127,7 +1127,7 @@ public class DisplayControl {
      * 
      * @param filter the miltary units filter update.
      */
-    public void setMilitaryUnitFilter(StratmasObjectFilter filter) {
+    public void setMilitaryUnitFilter(ApproxsimObjectFilter filter) {
         military_filter = filter;
         updateFilter();
     }
@@ -1137,7 +1137,7 @@ public class DisplayControl {
      * 
      * @param filter the agency filter update.
      */
-    public void setAgencyFilter(StratmasObjectFilter filter) {
+    public void setAgencyFilter(ApproxsimObjectFilter filter) {
         agency_filter = filter;
         updateFilter();
     }
@@ -1147,17 +1147,17 @@ public class DisplayControl {
      * 
      * @param filter the population filter update.
      */
-    public void setPopulationFilter(StratmasObjectFilter filter) {
+    public void setPopulationFilter(ApproxsimObjectFilter filter) {
         population_filter = filter;
         updateFilter();
     }
 
-    public void setRoadsFilter(StratmasObjectFilter filter) {
+    public void setRoadsFilter(ApproxsimObjectFilter filter) {
         road_filter = filter;
         updateFilter();
     }
 
-    public void setOtherFilter(StratmasObjectFilter filter) {
+    public void setOtherFilter(ApproxsimObjectFilter filter) {
         other_filter = filter;
         updateFilter();
     }

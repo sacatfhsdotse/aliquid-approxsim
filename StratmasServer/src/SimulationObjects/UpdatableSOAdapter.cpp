@@ -15,19 +15,19 @@ void UpdatableSOAdapter::update(const Update& u)
 {
      switch (u.getType()) {
      case Update::eAdd:
-          stratmasDebug("Adding object " << u.getReference());
+          approxsimDebug("Adding object " << u.getReference());
           addObject(*u.getObject(), u.getInitiator());
           break;
      case Update::eRemove:
-          stratmasDebug("Removing object " << u.getReference());
+          approxsimDebug("Removing object " << u.getReference());
           removeObject(u.getReference(), u.getInitiator());
           break;
      case Update::eReplace:
-          stratmasDebug("Replacing object " << u.getReference());
+          approxsimDebug("Replacing object " << u.getReference());
           replaceObject(*u.getObject(), u.getInitiator());
           break;
      case Update::eModify:
-          stratmasDebug("Modifying object " << u.getReference());
+          approxsimDebug("Modifying object " << u.getReference());
           modify(*u.getObject());
           break;
      default:

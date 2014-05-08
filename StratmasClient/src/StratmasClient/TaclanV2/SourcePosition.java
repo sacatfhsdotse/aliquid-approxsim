@@ -4,7 +4,7 @@
  * @(#)SourcePosition.java
  */
 
-package StratmasClient.TaclanV2;
+package ApproxsimClient.TaclanV2;
 
 /**
  * An object representing the location of a lexical symbol in a parsed source. Mainly used to construct meaningful error-messages.
@@ -22,12 +22,12 @@ public class SourcePosition {
     /**
      * The symbol starting this Sourceposition
      */
-    StratmasClient.TaclanV2.java_cup.runtime.Symbol start;
+    ApproxsimClient.TaclanV2.java_cup.runtime.Symbol start;
 
     /**
      * The symbol ending this Sourceposition
      */
-    StratmasClient.TaclanV2.java_cup.runtime.Symbol end;
+    ApproxsimClient.TaclanV2.java_cup.runtime.Symbol end;
 
     /**
      * Creates a new sourceposition using a start- and end-symbol
@@ -37,8 +37,8 @@ public class SourcePosition {
      * @param endToken the symbol starting this lexical element.
      */
     public SourcePosition(String source,
-            StratmasClient.TaclanV2.java_cup.runtime.Symbol startToken,
-            StratmasClient.TaclanV2.java_cup.runtime.Symbol endToken) {
+            ApproxsimClient.TaclanV2.java_cup.runtime.Symbol startToken,
+            ApproxsimClient.TaclanV2.java_cup.runtime.Symbol endToken) {
         this.source = source;
         this.start = startToken;
         this.end = endToken;
@@ -51,7 +51,7 @@ public class SourcePosition {
      * @param startToken the symbol starting this lexical element.
      */
     public SourcePosition(String source,
-            StratmasClient.TaclanV2.java_cup.runtime.Symbol startToken) {
+            ApproxsimClient.TaclanV2.java_cup.runtime.Symbol startToken) {
         this(source, startToken, startToken);
     }
 

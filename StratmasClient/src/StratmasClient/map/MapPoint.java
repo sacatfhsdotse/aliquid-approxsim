@@ -1,7 +1,7 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
-import StratmasClient.map.Projection;
-import StratmasClient.proj.MGRSConversion;
+import ApproxsimClient.map.Projection;
+import ApproxsimClient.proj.MGRSConversion;
 
 /**
  * Represents a point for use in the map.

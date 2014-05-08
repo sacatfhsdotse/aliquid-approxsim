@@ -1,48 +1,48 @@
-// $Id: StratmasString.java,v 1.3 2006/04/10 09:45:55 dah Exp $
+// $Id: ApproxsimString.java,v 1.3 2006/04/10 09:45:55 dah Exp $
 /*
- * @(#)StratmasString.java
+ * @(#)ApproxsimString.java
  */
 
-package StratmasClient.object;
+package ApproxsimClient.object;
 
-import StratmasClient.object.type.Type;
-import StratmasClient.object.type.Declaration;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.object.primitive.Identifier;
+import ApproxsimClient.object.type.Type;
+import ApproxsimClient.object.type.Declaration;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.object.primitive.Identifier;
 import org.w3c.dom.Element;
 
 /**
- * StratmasString is a Stratmas adapter for strings.
+ * ApproxsimString is a Approxsim adapter for strings.
  * 
  * @version 1, $Date: 2006/04/10 09:45:55 $
  * @author Daniel Ahlin
  */
 
-public class StratmasString extends StratmasSimple {
+public class ApproxsimString extends ApproxsimSimple {
     /**
      * The actual string this object represents.
      */
     String value;
 
     /**
-     * Creates a new StratmasString.
+     * Creates a new ApproxsimString.
      * 
      * @param identifier the identifier for the object.
      * @param type the type of the object.
      * @param value the value of the string.
      */
-    protected StratmasString(String identifier, Type type, String value) {
+    protected ApproxsimString(String identifier, Type type, String value) {
         super(identifier, type);
         this.value = value;
     }
 
     /**
-     * Creates a new StratmasString from a Declaration.
+     * Creates a new ApproxsimString from a Declaration.
      * 
      * @param declaration the declaration for this object.
      * @param value the value of the string.
      */
-    protected StratmasString(Declaration declaration, String value) {
+    protected ApproxsimString(Declaration declaration, String value) {
         super(declaration);
         this.value = value;
     }
@@ -55,7 +55,7 @@ public class StratmasString extends StratmasSimple {
     }
 
     /**
-     * Returns the the value of this StratmasString
+     * Returns the the value of this ApproxsimString
      */
     public String getValue() {
         return this.value;
@@ -84,36 +84,36 @@ public class StratmasString extends StratmasSimple {
     }
 
     /**
-     * Returns a StratmasGUIConstructor suitable for constructing objects of this type.
+     * Returns a ApproxsimGUIConstructor suitable for constructing objects of this type.
      * 
      * @param declaration the declaration for which the GUI is created.
      */
-    protected static StratmasGUIConstructor getGUIConstructor(
+    protected static ApproxsimGUIConstructor getGUIConstructor(
             Declaration declaration) {
-        return new StratmasStringGUIConstructor(declaration);
+        return new ApproxsimStringGUIConstructor(declaration);
     }
 
     /**
-     * Creates a StratmasString from a DOM element.
+     * Creates a ApproxsimString from a DOM element.
      * <p>
      * author Per Alexius
      * 
      * @param n The dom element from which the object is created.
      */
-    protected static StratmasObject domCreate(Element n) {
-        return new StratmasString(Identifier.getIdentifier(n),
+    protected static ApproxsimObject domCreate(Element n) {
+        return new ApproxsimString(Identifier.getIdentifier(n),
                 TypeFactory.getType("String"), XMLHelper.getString(n, "value"));
     }
 
     /**
-     * Creates a StratmasString from the specified Declaration.
+     * Creates a ApproxsimString from the specified Declaration.
      * <p>
      * author Per Alexius
      * 
      * @param declaration The declaration for which the object is created.
      */
-    protected static StratmasObject defaultCreate(Declaration declaration) {
-        return new StratmasString(declaration, "");
+    protected static ApproxsimObject defaultCreate(Declaration declaration) {
+        return new ApproxsimString(declaration, "");
     }
 
     /**
@@ -144,17 +144,17 @@ public class StratmasString extends StratmasSimple {
      * @return A clone of this object.
      */
     protected Object clone() {
-        return new StratmasString(identifier, type, value);
+        return new ApproxsimString(identifier, type, value);
     }
 }
 
 /**
- * StratmasStringGUIConstructor creates GUIs for creating StratmasString objects.
+ * ApproxsimStringGUIConstructor creates GUIs for creating ApproxsimString objects.
  * 
  * @version 1, $Date: 2006/04/10 09:45:55 $
  * @author Daniel Ahlin
  */
-class StratmasStringGUIConstructor extends StratmasGUIConstructor {
+class ApproxsimStringGUIConstructor extends ApproxsimGUIConstructor {
     /**
 	 * 
 	 */
@@ -162,11 +162,11 @@ class StratmasStringGUIConstructor extends StratmasGUIConstructor {
     javax.swing.JTextField field;
 
     /**
-     * Creates a new StratmasStringGUIConstructor using the supplied declaration.
+     * Creates a new ApproxsimStringGUIConstructor using the supplied declaration.
      * 
      * @param declaration the declaration to use.
      */
-    public StratmasStringGUIConstructor(Declaration declaration) {
+    public ApproxsimStringGUIConstructor(Declaration declaration) {
         super(declaration);
     }
 
@@ -180,9 +180,9 @@ class StratmasStringGUIConstructor extends StratmasGUIConstructor {
     }
 
     /**
-     * Tries to create the StratmasObject from the values in the GUI.
+     * Tries to create the ApproxsimObject from the values in the GUI.
      */
-    protected void createStratmasObject() {
-        setStratmasObject(new StratmasString(this.declaration, field.getText()));
+    protected void createApproxsimObject() {
+        setApproxsimObject(new ApproxsimString(this.declaration, field.getText()));
     }
 }

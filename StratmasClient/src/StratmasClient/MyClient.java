@@ -1,4 +1,4 @@
-package StratmasClient;
+package ApproxsimClient;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -6,10 +6,10 @@ import java.io.PrintWriter;
 import java.util.Hashtable;
 import java.util.Vector;
 
-import StratmasClient.object.StratmasObject;
+import ApproxsimClient.object.ApproxsimObject;
 
 public class MyClient extends Client {
-    private StratmasObject mObj = null;
+    private ApproxsimObject mObj = null;
 
     public MyClient(String foo) {
         super(foo);
@@ -26,11 +26,11 @@ public class MyClient extends Client {
         }
     }
 
-    public void set(StratmasObject o) {
+    public void set(ApproxsimObject o) {
         mObj = o;
     }
 
-    public void setGrid(StratmasClient.communication.GridData gd) {}
+    public void setGrid(ApproxsimClient.communication.GridData gd) {}
 
     void tell() {
         if (mObj != null) {

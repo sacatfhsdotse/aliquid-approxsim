@@ -1,17 +1,17 @@
-package StratmasClient.communication;
+package ApproxsimClient.communication;
 
 import java.util.Vector;
 import java.util.Hashtable;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
-import StratmasClient.Client;
-import StratmasClient.Debug;
+import ApproxsimClient.Client;
+import ApproxsimClient.Debug;
 import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Class representing a connection to a stratmas server.
+ * Class representing a connection to a approxsim server.
  * 
  * @version 1, $Date: 2006/05/15 12:23:46 $
  * @author Per Alexius
@@ -28,8 +28,8 @@ public class ServerConnection implements Runnable {
     private boolean mQuitRuthless = false;
     private boolean mAlive = false;
     private XMLHandler mXMLHandler;
-    private StratmasSocket mSocket = null;
-    private PriorityQueue<StratmasMessage> mPQ = new PriorityQueue<StratmasMessage>();
+    private ApproxsimSocket mSocket = null;
+    private PriorityQueue<ApproxsimMessage> mPQ = new PriorityQueue<ApproxsimMessage>();
     private Client mClient;
     private int messTreshold = 2;
     private Hashtable mPrioHash = new Hashtable();
@@ -48,7 +48,7 @@ public class ServerConnection implements Runnable {
         mHost = host;
         mPort = port;
         mXMLHandler = xh;
-        mSocket = new StratmasSocket();
+        mSocket = new ApproxsimSocket();
         mSocket.id(id);
         mClient = client;
 
@@ -61,7 +61,7 @@ public class ServerConnection implements Runnable {
         mPrioHash.put("UpdateMessage", new Integer(sTopPrio));
     }
 
-    public ServerConnection(Client client, XMLHandler xh, StratmasSocket socket) {
+    public ServerConnection(Client client, XMLHandler xh, ApproxsimSocket socket) {
         mHost = socket.getHost();
         mPort = socket.getPort();
         mXMLHandler = xh;
@@ -83,7 +83,7 @@ public class ServerConnection implements Runnable {
     /**
      * Creates a ServerConnection operating independent of any Client. Using a default XMLHandler.
      */
-    public ServerConnection(StratmasSocket socket) {
+    public ServerConnection(ApproxsimSocket socket) {
         this(null, new XMLHandler(), socket);
     }
 
@@ -98,7 +98,7 @@ public class ServerConnection implements Runnable {
      * 
      * @param msg The message to be sent.
      */
-    public void send(StratmasMessage msg) {
+    public void send(ApproxsimMessage msg) {
         Integer prio = (Integer) mPrioHash.get(msg.getTypeAsString());
         mPQ.enqueue(msg, prio == null ? sDefaultPrio : prio.intValue());
     }
@@ -111,13 +111,13 @@ public class ServerConnection implements Runnable {
      * 
      * @param msg The message to be sent.
      */
-    public void blockingSend(StratmasMessage msg) throws ServerException {
+    public void blockingSend(ApproxsimMessage msg) throws ServerException {
         Integer prio = (Integer) mPrioHash.get(msg.getTypeAsString());
-        class Blocker extends DefaultStratmasMessageListener {
+        class Blocker extends DefaultApproxsimMessageListener {
             Object block = new Object();
             ServerException error = null;
 
-            public void messageHandled(StratmasMessageEvent e, Object reply) {
+            public void messageHandled(ApproxsimMessageEvent e, Object reply) {
                 Debug.err.println(e.getMessage().getTypeAsString()
                         + " SC handled");
                 synchronized (getBlock()) {
@@ -125,7 +125,7 @@ public class ServerConnection implements Runnable {
                 }
             }
 
-            public void errorOccurred(StratmasMessageEvent e) {
+            public void errorOccurred(ApproxsimMessageEvent e) {
                 Debug.err.println(e.getMessage().getTypeAsString()
                         + " SC error");
                 this.error = new ServerException("Error sending "
@@ -247,18 +247,18 @@ public class ServerConnection implements Runnable {
     }
 
     /**
-     * Private mehod for sending a StratmasMessage, receiving the response and forward it to the XMLHandler. Used internally in order to
+     * Private mehod for sending a ApproxsimMessage, receiving the response and forward it to the XMLHandler. Used internally in order to
      * handle firing of events.
      * 
      * @param msg The message to be sent.
      */
-    private void sendRecvHandle(StratmasMessage msg) throws IOException {
+    private void sendRecvHandle(ApproxsimMessage msg) throws IOException {
         try {
             // For time step slider
 //                while (msg instanceof StepMessage &&
 //                       (System.currentTimeMillis() - timeForLastSentTimestep) < tsdf.getWaitTimeMs()) {
 //                     send(msg);
-//                     msg = (StratmasMessage)mPQ.blockingDequeue();
+//                     msg = (ApproxsimMessage)mPQ.blockingDequeue();
 //                     if (msg == null) {
 //                          mPQ.clear();
 //                          disconnect();
@@ -290,14 +290,14 @@ public class ServerConnection implements Runnable {
     }
 
     /**
-     * Opens a connection to a stratmas server, sends the connect message and blocks on the queue where messages to be sent will be
+     * Opens a connection to a approxsim server, sends the connect message and blocks on the queue where messages to be sent will be
      * enqueued. If null is enqueued - send a disconnect message or quit ruthless (depending on wheter disconnect or kill has been called).
      */
     public void run() {
         // For time step slider
 //          tsdf = TimeSliderDebugFrame.openTimeSliderDebugFrame();
 
-        StratmasMessage msg;
+        ApproxsimMessage msg;
         try {
             // Init
             connect();
@@ -347,7 +347,7 @@ public class ServerConnection implements Runnable {
             sendErrorMessage("general", "IOException", "Unknown");
         } finally {
             while (!mPQ.empty()) {
-                StratmasMessage m = mPQ.dequeue();
+                ApproxsimMessage m = mPQ.dequeue();
                 if (m != null) m.fireErrorOccurred();
             }
         }
@@ -377,7 +377,7 @@ public class ServerConnection implements Runnable {
     }
 
     // Temporary
-    public StratmasSocket socket() {
+    public ApproxsimSocket socket() {
         return mSocket;
     }
 

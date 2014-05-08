@@ -3,7 +3,7 @@
  * @(#)Duration.java
  */
 
-package StratmasClient.object.primitive;
+package ApproxsimClient.object.primitive;
 
 import java.text.ParseException;
 import java.util.regex.Pattern;

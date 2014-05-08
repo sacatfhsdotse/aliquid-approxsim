@@ -1,5 +1,5 @@
-#ifndef STRATMAS_SUBSCRIPTION_H
-#define STRATMAS_SUBSCRIPTION_H
+#ifndef APPROXSIM_SUBSCRIPTION_H
+#define APPROXSIM_SUBSCRIPTION_H
 
 // System
 #include <iosfwd>
@@ -29,7 +29,7 @@ using namespace XERCES_CPP_NAMESPACE;
  * All Subscriptions must implement the 'getSubscribedData()' method
  * that fetches data from the Buffer mBuf and produces an XML
  * representation of that data in accordance to the
- * stratmasProtocol.xsd schema.
+ * approxsimProtocol.xsd schema.
  *
  * \author   Per Alexius
  * \date     $Date: 2006/07/05 14:49:47 $
@@ -71,14 +71,14 @@ public:
  * \author   Per Alexius
  * \date     $Date: 2006/07/05 14:49:47 $
  */
-class StratmasObjectSubscription : public Subscription {
+class ApproxsimObjectSubscription : public Subscription {
 private:
      /// The ChangeTrackerAdapter for the subscribed object.
      ChangeTrackerAdapter* mData;
 
 public:
-     StratmasObjectSubscription(DOMElement* n, Buffer& buf, int64_t id);
-     ~StratmasObjectSubscription();
+     ApproxsimObjectSubscription(DOMElement* n, Buffer& buf, int64_t id);
+     ~ApproxsimObjectSubscription();
      void getSubscribedData(std::ostream& o);
 };
 
@@ -140,4 +140,4 @@ public:
 };
 
 
-#endif   // STRATMAS_SUBSCRIPTION_H
+#endif   // APPROXSIM_SUBSCRIPTION_H

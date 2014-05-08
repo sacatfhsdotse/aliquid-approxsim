@@ -1,29 +1,29 @@
-// $Id: StratmasObjectParameter.java,v 1.3 2006/03/22 14:30:50 dah Exp $
+// $Id: ApproxsimObjectParameter.java,v 1.3 2006/03/22 14:30:50 dah Exp $
 /*
- * @(#)StratmasObjectParameter.java
+ * @(#)ApproxsimObjectParameter.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
-import StratmasClient.object.primitive.Reference;
-import StratmasClient.object.StratmasObject;
+import ApproxsimClient.object.primitive.Reference;
+import ApproxsimClient.object.ApproxsimObject;
 
-import StratmasClient.filter.StratmasObjectAdapter;
+import ApproxsimClient.filter.ApproxsimObjectAdapter;
 
 /**
- * Represents a interface for parameters backed by StratmasObjects.
+ * Represents a interface for parameters backed by ApproxsimObjects.
  * 
  * @version 1, $Date: 2006/03/22 14:30:50 $
  * @author Daniel Ahlin
  */
-public interface StratmasObjectParameter extends StratmasObjectAdapter {
+public interface ApproxsimObjectParameter extends ApproxsimObjectAdapter {
     /**
-     * Returns the reference of the StratmasObject backing this parameter.
+     * Returns the reference of the ApproxsimObject backing this parameter.
      */
     public Reference getReference();
 
     /**
-     * Returns the StratmasObject backing this parameter.
+     * Returns the ApproxsimObject backing this parameter.
      */
-    public StratmasObject getStratmasObject();
+    public ApproxsimObject getApproxsimObject();
 }

@@ -1,5 +1,5 @@
-#ifndef STRATMAS_SIMULATIONOBJECT
-#define STRATMAS_SIMULATIONOBJECT
+#ifndef APPROXSIM_SIMULATIONOBJECT
+#define APPROXSIM_SIMULATIONOBJECT
 
 // Own
 #include "Referencable.h"
@@ -48,4 +48,4 @@ public:
      virtual void reset(const DataObject& d) = 0;
 };
 
-#endif   // STRATMAS_SIMULATIONOBJECT
+#endif   // APPROXSIM_SIMULATIONOBJECT

@@ -98,11 +98,11 @@ void PropertyHandler::setProperty(string property, string value)
           mValidateXML = stringToBool(value);
      }
      else {
-          stratmasDebug("Unknown propery '" << property << "'");
+          approxsimDebug("Unknown propery '" << property << "'");
           set = false;
      }
 
      if (set) {
-          stratmasDebug("Property '" << property << "' set to " << value);
+          approxsimDebug("Property '" << property << "' set to " << value);
      }
 }

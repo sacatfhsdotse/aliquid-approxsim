@@ -3,14 +3,14 @@
  * @(#)IconFactory.java
  */
 
-package StratmasClient;
+package ApproxsimClient;
 
-import StratmasClient.object.type.Type;
-import StratmasClient.symbolloader.SymbolLoader;
-import StratmasClient.object.SymbolIDCode;
-import StratmasClient.object.StratmasList;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.filter.OrderColorFilter;
+import ApproxsimClient.object.type.Type;
+import ApproxsimClient.symbolloader.SymbolLoader;
+import ApproxsimClient.object.SymbolIDCode;
+import ApproxsimClient.object.ApproxsimList;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.filter.OrderColorFilter;
 
 import java.awt.Color;
 import java.awt.Toolkit;
@@ -22,7 +22,7 @@ import java.util.Hashtable;
 import java.lang.ref.WeakReference;
 
 /**
- * IconFactory is a mapping of different StratmasObjects to appropriate Icons.
+ * IconFactory is a mapping of different ApproxsimObjects to appropriate Icons.
  * 
  * @version 1, $Date: 2006/10/02 16:11:55 $
  * @author Daniel Ahlin
@@ -59,9 +59,9 @@ public class IconFactory {
     /**
      * Returns an icon representing the provided object.
      * 
-     * @param object the StratmasObject to get the icon for.
+     * @param object the ApproxsimObject to get the icon for.
      */
-    public static Icon getIcon(StratmasObject object) {
+    public static Icon getIcon(ApproxsimObject object) {
         Icon res = null;
 
         // Try symbolLoader first:
@@ -75,11 +75,11 @@ public class IconFactory {
         if (res != null) {
             // set color on orders
             if (object.getType().canSubstitute("Activity")) {
-                StratmasObject mu = null;
+                ApproxsimObject mu = null;
                 if (object.getType().canSubstitute("Order")) {
-                    StratmasObject aList = object.getParent();
+                    ApproxsimObject aList = object.getParent();
                     mu = (aList != null) ? aList.getParent() : null;
-                } else if (object instanceof StratmasList) {
+                } else if (object instanceof ApproxsimList) {
                     mu = object.getParent();
                 }
                 if (mu != null) {
@@ -144,10 +144,10 @@ public class IconFactory {
                          new Icon(IconFactory.class
                                  .getResource("icons/customagencyteam.png")));
             typeMapping
-                    .put("StratmasCityDistribution",
+                    .put("ApproxsimCityDistribution",
                          new Icon(
                                  IconFactory.class
-                                         .getResource("icons/stratmascitydistribution.png")));
+                                         .getResource("icons/approxsimcitydistribution.png")));
             typeMapping
                     .put("UniformDistribution",
                          new Icon(IconFactory.class
@@ -168,7 +168,7 @@ public class IconFactory {
                     .put("NormalDistribution",
                          new Icon(
                                  IconFactory.class
-                                         .getResource("icons/stratmascitydistribution.png")));
+                                         .getResource("icons/approxsimcitydistribution.png")));
             typeMapping.put("TimeStepper",
                             new Icon(IconFactory.class
                                     .getResource("icons/timestepper.png")));
@@ -207,9 +207,9 @@ public class IconFactory {
     /**
      * Returns an app6a icon representing the provided object (or null if no such found)..
      * 
-     * @param object the StratmasObject to get the icon for.
+     * @param object the ApproxsimObject to get the icon for.
      */
-    public static Icon useSymbolLoader(StratmasObject object) {
+    public static Icon useSymbolLoader(ApproxsimObject object) {
         if (object.getChild("symbolIDCode") != null) {
             String symbolString = ((SymbolIDCode) object
                     .getChild("symbolIDCode")).valueToString();

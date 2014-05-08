@@ -3,9 +3,9 @@
  * @(#)MissingDeclarationException.java
  */
 
-package StratmasClient.TaclanV2;
+package ApproxsimClient.TaclanV2;
 
-import StratmasClient.object.type.Declaration;
+import ApproxsimClient.object.type.Declaration;
 
 public class MissingDeclarationException extends SemanticException {
     /**

@@ -12,8 +12,8 @@
 #include "Session.h"
 #include "Simulation.h"   // Only for timeStep(). Should perhaps be removed...
 #include "SocketException.h"
-#include "StratmasMessage.h"
-#include "StratmasSocket.h"
+#include "ApproxsimMessage.h"
+#include "ApproxsimSocket.h"
 #include "Subscription.h"
 #include "XMLHandler.h"
 #include "stdint.h"
@@ -36,7 +36,7 @@ using namespace std;
  * \param isActive Indicates if this client is active ro not.
  * \param s A pointer to the Socket to use for communication.
  */
-Session::Session(Server &parent, Engine &e, Buffer &b, bool isActive, StratmasSocket *s)
+Session::Session(Server &parent, Engine &e, Buffer &b, bool isActive, ApproxsimSocket *s)
      : mServer(parent),
        mEng(e),
        mBuf(b),
@@ -46,7 +46,7 @@ Session::Session(Server &parent, Engine &e, Buffer &b, bool isActive, StratmasSo
        mSocket(s),
        mXMLHandler(new XMLHandler(b,
                                   Environment::DEFAULT_SCHEMA_NAMESPACE,
-                                  Environment::STRATMAS_PROTOCOL_SCHEMA,
+                                  Environment::APPROXSIM_PROTOCOL_SCHEMA,
                                   mId)),
        mBufferResetCount(mBuf.resetCount()),
        mChangeTracker(new ContainerChangeTrackerAdapter(Reference::get(Reference::root(), "identifiables"), mId)),
@@ -87,13 +87,13 @@ void Session::closeSession()
 }
  
 /**
- * \brief Takes a StratmasMessage, handles it and produces a
+ * \brief Takes a ApproxsimMessage, handles it and produces a
  * response.
  *
  * \param xml The message to handle.
  * \param response The message to send as response.
  */
-void Session::handleStratmasMessage(const std::string &xml, std::string &response)
+void Session::handleApproxsimMessage(const std::string &xml, std::string &response)
 {
      ostringstream ost;
      ost.precision(24);
@@ -343,10 +343,10 @@ void Session::start()
           std::string response;
           StopWatch s;
           while (!mDisconnect) {
-               mSocket->recvStratmasMessage(xml);
+               mSocket->recvApproxsimMessage(xml);
                s.start();
-               handleStratmasMessage(xml, response);
-               mSocket->sendStratmasMessage(response);
+               handleApproxsimMessage(xml, response);
+               mSocket->sendApproxsimMessage(response);
                s.stop();
                totSecs      += s.secs();
                totRecvBytes += xml.length();
@@ -371,7 +371,7 @@ void Session::start()
            closeSession();
      }
      catch (...) {
-           LOG_WARN(networkLog, "Exception was caught when receiving or sending a StratmasMessage" );
+           LOG_WARN(networkLog, "Exception was caught when receiving or sending a ApproxsimMessage" );
            closeSession();
      }
 
@@ -402,7 +402,7 @@ void *Session::staticStart(Session *instance)
  *
  * \param s A pointer to the socket to use for communication.
  */
-bool Session::setSocket(StratmasSocket *s)
+bool Session::setSocket(ApproxsimSocket *s)
 {
      bool ret;
      Lock lock(mutex());

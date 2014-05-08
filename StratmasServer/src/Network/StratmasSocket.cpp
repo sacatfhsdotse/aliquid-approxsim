@@ -5,7 +5,7 @@
 #include "debugheader.h"
 #include "GoodStuff.h"
 #include "SocketException.h"
-#include "StratmasSocket.h"
+#include "ApproxsimSocket.h"
 
 
 using namespace std;
@@ -22,7 +22,7 @@ bool bigEndian = (!(*(char*)&one));
  * \param host The host to connect to.
  * \param port The port to connect to.
  */
-StratmasSocket::StratmasSocket(std::string host, int port)
+ApproxsimSocket::ApproxsimSocket(std::string host, int port)
      : Socket(), mId(-1), mLength(0), mReceivedHeader(false)
 {
      if (!Socket::create()) {
@@ -35,12 +35,12 @@ StratmasSocket::StratmasSocket(std::string host, int port)
 }
 
 /**
- * \brief Sends a stratmas message.
+ * \brief Sends a approxsim message.
  *
  * \param msg The message to send.
  * \return True if all is ok.
  */
-bool StratmasSocket::sendStratmasMessage(const std::string msg) const
+bool ApproxsimSocket::sendApproxsimMessage(const std::string msg) const
 {
      int64_t len = msg.size();
      int64_t id  = mId;
@@ -60,11 +60,11 @@ bool StratmasSocket::sendStratmasMessage(const std::string msg) const
 }
 
 /**
- * \brief Receives a StratmasHeader.
+ * \brief Receives a ApproxsimHeader.
  *
- * \return The id contained in the StratmasHeader.
+ * \return The id contained in the ApproxsimHeader.
  */
-int64_t StratmasSocket::recvStratmasHeader()
+int64_t ApproxsimSocket::recvApproxsimHeader()
 {
      int status = 0;
      status = recvf(&mLength, 8);
@@ -95,21 +95,21 @@ int64_t StratmasSocket::recvStratmasHeader()
 }
 
 /**
- * \brief Receives a StratmasMessage.
+ * \brief Receives a ApproxsimMessage.
  *
  * \return The number of bytes in the received message.
  */
-int StratmasSocket::recvStratmasMessage(std::string &outMsg)
+int ApproxsimSocket::recvApproxsimMessage(std::string &outMsg)
 {
      int status = 0;
 
      if (!mReceivedHeader) {
-          recvStratmasHeader();
+          recvApproxsimHeader();
      }
 
      char *buf  = new char[mLength + 1];
      if (!buf) {
-          throw SocketException("To large message or invalid StratmasMessageHeader.");
+          throw SocketException("To large message or invalid ApproxsimMessageHeader.");
      }
      status = recvf(buf, mLength);
      if (status < 0) {

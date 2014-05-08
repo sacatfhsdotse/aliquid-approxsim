@@ -1,11 +1,11 @@
-#ifndef _STRATMASCONSTANTS_H
-#define _STRATMASCONSTANTS_H
+#ifndef _APPROXSIMCONSTANTS_H
+#define _APPROXSIMCONSTANTS_H
 
 /**
- *   \file StratmasConstants.h
+ *   \file ApproxsimConstants.h
  *
  *   \brief This file contains some constants that are used by the
- *   Stratmas simulation.
+ *   Approxsim simulation.
  */
 
 const double kMinPopulation  = 0.5;       ///<   Minimum population a cell must have for the simulation to update it.
@@ -63,4 +63,4 @@ const double kFractionMovingRefugees             =  0.40 ;
  */
 const double kFoodPPPDKg = 1.0;
 
-#endif   // _STRATMASCONSTANTS_H
+#endif   // _APPROXSIMCONSTANTS_H

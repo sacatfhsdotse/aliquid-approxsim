@@ -3,19 +3,19 @@
  * @(#)MilitaryUnitAdapter.java
  */
 
-package StratmasClient.map.adapter;
+package ApproxsimClient.map.adapter;
 
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.SymbolIDCode;
-import StratmasClient.object.StratmasInteger;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.SymbolIDCode;
+import ApproxsimClient.object.ApproxsimInteger;
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLUtessellatorCallbackAdapter;
 import javax.media.opengl.glu.GLUtessellatorCallback;
 
 /**
- * MilitaryUnitAdapter adapts StratmasObjects descendants of MilitaryUnit for viewing on a map window.
+ * MilitaryUnitAdapter adapts ApproxsimObjects descendants of MilitaryUnit for viewing on a map window.
  * 
  * @version 1, $Date: 2006/04/18 13:01:16 $
  * @author Daniel Ahlin
@@ -27,7 +27,7 @@ public class MilitaryUnitAdapter extends ElementAdapter {
      * 
      * @param element the Element to adapt.
      */
-    protected MilitaryUnitAdapter(StratmasObject element) {
+    protected MilitaryUnitAdapter(ApproxsimObject element) {
         super(element);
     }
 
@@ -37,7 +37,7 @@ public class MilitaryUnitAdapter extends ElementAdapter {
      * @param element the Element to adapt.
      * @param renderSelectionName the integer to use as the base for names in RENDER_SELECTION
      */
-    protected MilitaryUnitAdapter(StratmasObject element,
+    protected MilitaryUnitAdapter(ApproxsimObject element,
             int renderSelectionName) {
         super(element, renderSelectionName);
     }
@@ -48,10 +48,10 @@ public class MilitaryUnitAdapter extends ElementAdapter {
      * 
      * @param event the event causing the change.
      */
-    protected void childChanged(StratmasEvent event) {
+    protected void childChanged(ApproxsimEvent event) {
         super.childChanged(event);
 
-        StratmasObject child = (StratmasObject) event.getArgument();
+        ApproxsimObject child = (ApproxsimObject) event.getArgument();
         if (child.getIdentifier().equals("personnel")) {
             isLocationUpdated = false;
             fireAdapterUpdated();
@@ -72,9 +72,9 @@ public class MilitaryUnitAdapter extends ElementAdapter {
             GLAutoDrawable gld) {
         final GL2 gl = (GL2) gld.getGL();
 
-        SymbolIDCode idCode = (SymbolIDCode) getStratmasObject()
+        SymbolIDCode idCode = (SymbolIDCode) getApproxsimObject()
                 .getChild("symbolIDCode");
-        ((StratmasInteger) getStratmasObject().getChild("personnel"))
+        ((ApproxsimInteger) getApproxsimObject().getChild("personnel"))
                 .getValue();
 
         getLocationColor(idCode);

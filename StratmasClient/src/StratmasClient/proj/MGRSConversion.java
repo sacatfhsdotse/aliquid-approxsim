@@ -1,4 +1,4 @@
-package StratmasClient.proj;
+package ApproxsimClient.proj;
 
 /**
  * This class implements the conversion between geodetic values (latitude and longitude) and MGRS coordinates.

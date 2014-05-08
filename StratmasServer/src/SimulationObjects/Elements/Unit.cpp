@@ -427,14 +427,14 @@ Order* Unit::setOrder(Time simTime)
                     else {
                          mCurrentOrder = setAllocatedOrder(new DefendOrder());
                     }
-                     //stratmasDebug("== Setting order for unit " << ref().name() << " to " << (mMoving ? "attack" : "defend"));
+                     //approxsimDebug("== Setting order for unit " << ref().name() << " to " << (mMoving ? "attack" : "defend"));
                }
           }
           else {
                if (!untouchable()) {
                     mCurrentOrder = setAllocatedOrder(createRetreatOrder());
                }
-               //stratmasDebug("== Setting order for unit " << ref().name() << " to retreat");
+               //approxsimDebug("== Setting order for unit " << ref().name() << " to retreat");
           }
      }
      else if (mSearchWithoutFind) {
@@ -453,12 +453,12 @@ Order* Unit::setOrder(Time simTime)
                          e << (*it)->ref() << " that is not an order";
                          throw e;
                     }
-                    //stratmasDebug("== Setting order for unit " << ref().name() << " to " << mCurrentOrder->ref().name());
+                    //approxsimDebug("== Setting order for unit " << ref().name() << " to " << mCurrentOrder->ref().name());
                     break;
                }
           }
            if (!mCurrentOrder) {
-                //stratmasDebug("== Setting order for unit " << ref().name() << " to NULL");
+                //approxsimDebug("== Setting order for unit " << ref().name() << " to NULL");
            }
           setModifiedStrength();
      }
@@ -466,7 +466,7 @@ Order* Unit::setOrder(Time simTime)
           setModifiedStrength();
      }
      
-//     stratmasDebug("mCurrentOrder for " << ref().name() << " is " << (mCurrentOrder ? typeid(*mCurrentOrder).name() : "null"));
+//     approxsimDebug("mCurrentOrder for " << ref().name() << " is " << (mCurrentOrder ? typeid(*mCurrentOrder).name() : "null"));
      return mCurrentOrder;
 }
 
@@ -496,11 +496,11 @@ void Unit::setModifiedStrength()
           // Combat factor at end of timestep if we continue to increase above 1.
           double cv2 = cv1 + k * dt;
           double trg = 1;
-//          stratmasDebug(ref().name() << ": cv1 " << cv1 << ", cv2 " << cv2);
+//          approxsimDebug(ref().name() << ": cv1 " << cv1 << ", cv2 " << cv2);
           if (cv2 > trg) {
                // The unit will reach target combat factor before the timestep is over.
                double tf = (trg - cv1) / k;  // Number of hours to reach target combat factor.
-//               stratmasDebug("tf: " << tf);
+//               approxsimDebug("tf: " << tf);
                factor = (trg * dt   -   tf * (trg - cv1) / 2) / dt;
           }
           else {
@@ -513,7 +513,7 @@ void Unit::setModifiedStrength()
           
 //           // Reduce combat value based on how 'prepared' we are.
 //           factor = (timeToGainCV * (1 - orderFactor) / 2 + 24 - timeToGainCV) / 24;
-//          stratmasDebug("factor: " << factor);
+//          approxsimDebug("factor: " << factor);
      }
      else if (criticalInsurgentSituation()) {
           factor = 1;
@@ -540,7 +540,7 @@ void Unit::setUpSearchAndDestroy(Time simTime)
      // of ambushers per km2 and thus gamma = -log(1-0.4)/(1000)
      const double kGamma = -log(1 - 0.4) * 0.001;
      double km2PerCell = mGrid->cellAreaKm2();
-//     stratmasDebug("--------------------" << ref().name() << " searches...");
+//     approxsimDebug("--------------------" << ref().name() << " searches...");
      bool foundAnyone = false;
      for (std::map<Unit*, EnemyRecord>::iterator it = mAmbushExposure.begin(); it != mAmbushExposure.end(); it++) {
           list<GridPos> l;
@@ -549,10 +549,10 @@ void Unit::setUpSearchAndDestroy(Time simTime)
           double ambushersPerKm2 = ambusher.personnel() / (static_cast<double>(l.size()) * km2PerCell);
           double prob = 1 - exp(-personnel() * ambushersPerKm2 * kGamma);
           double r = RandomUniform();
-//            stratmasDebug("   #ambushers per km2: " << ambushersPerKm2);
-//            stratmasDebug("   Is " << r << " less than " << prob);
+//            approxsimDebug("   #ambushers per km2: " << ambushersPerKm2);
+//            approxsimDebug("   Is " << r << " less than " << prob);
           if (r < prob) {
-//               stratmasDebug("   " << ref().name() << " finds " << it->first->ref().name());
+//               approxsimDebug("   " << ref().name() << " finds " << it->first->ref().name());
                it->first->mCurrentOrder = it->first->setAllocatedOrder(new DefendOrder());
                foundAnyone = true;
           }
@@ -618,7 +618,7 @@ Order* Unit::createRetreatOrder()
                     center().lng() + 50 / kKmPerDegreeLat * cos(angle) * mSqueeze);
 
      Order* o = new RetreatOrder(Circle(newGoal, 10000));
-     stratmasDebug(ref().name() << " retreating towards " << o->location()->cenCoord());
+     approxsimDebug(ref().name() << " retreating towards " << o->location()->cenCoord());
      return o;
 }
 
@@ -640,14 +640,14 @@ void Unit::exposeForAttack(double modStr, Unit& attacker)
      double frac = attacker.strength() / mCurrentEnemyStrengthSum;
      double myStr = modifiedStrength() * attackDefendFactor() * frac;
      double damage;
-//      stratmasDebug(ref().name() << ", str: " << myStr << " exposed by " << attacker.ref().name()
+//      approxsimDebug(ref().name() << ", str: " << myStr << " exposed by " << attacker.ref().name()
 //             << ", str: " << modStr << " (" << frac*100 << "% of tot. enemy)");
 
      if (defender()) {
           double quote = (myStr != 0 ? modStr / myStr : 6.0);
           double fx = 0.025 * quote + 0.025;
 //           double percent = fx * 100;
-//             stratmasDebug("  " << ref().name() << " = defender,  quote: " << quote << " gives loss of "
+//             approxsimDebug("  " << ref().name() << " = defender,  quote: " << quote << " gives loss of "
 //                   << percent << "% (" << percent * frac << "% of total)");
           damage = fx * static_cast<double>(mPersonnel) * frac;
      }
@@ -655,12 +655,12 @@ void Unit::exposeForAttack(double modStr, Unit& attacker)
           double quote = (modStr != 0 ? myStr / modStr : 6.0);
           double fx = -0.025 * quote + 0.15;
 //           double percent = fx * 100;
-//             stratmasDebug("  " << ref().name() << " = attacker,  quote: " << quote << " gives loss of "
+//             approxsimDebug("  " << ref().name() << " = attacker,  quote: " << quote << " gives loss of "
 //                  << percent << "% (" << percent * frac << "% of total)");
           damage = max(0.0, fx * static_cast<double>(mPersonnel) * frac);
      }
      mEnemyRecords[&attacker].addDamage(damage * Simulation::fractionOfDay());
-//     stratmasDebug("   " << attacker.ref().name() << " exposes " << ref().name() << " for " << damage << " damage");
+//     approxsimDebug("   " << attacker.ref().name() << " exposes " << ref().name() << " for " << damage << " damage");
 }
 
 /**
@@ -748,7 +748,7 @@ void Unit::recover()
           else {
                mPersonnel += Round(recovered);
           }
-//          stratmasDebug(ref().name() << " recovers " << recovered << " persons");
+//          approxsimDebug(ref().name() << " recovers " << recovered << " persons");
      }
 }
 
@@ -898,7 +898,7 @@ void Unit::setup(Time simTime)
      for (std::map<Unit*, EnemyRecord>::iterator it = mEnemyRecords.begin(); it != mEnemyRecords.end(); it++) {
           mCurrentEnemyStrengthSum += it->first->strength();
      }
-//     stratmasDebug(ref().name() << "'s tot enemy  " << mCurrentEnemyStrengthSum);
+//     approxsimDebug(ref().name() << "'s tot enemy  " << mCurrentEnemyStrengthSum);
 }
 
 
@@ -1049,7 +1049,7 @@ void Unit::registerCombat(CombatGrid& cg)
           for (sit = er.cells().begin(); sit != er.cells().end(); sit++) {
                cg.add(*sit, unitLayer, frac);
                cg.add(*sit, cg.casualtySumLayer(), frac);
-//               stratmasDebug(ref().name() << " damage " << frac << " in cell " << *sit);
+//               approxsimDebug(ref().name() << " damage " << frac << " in cell " << *sit);
           }
      }
 
@@ -1059,7 +1059,7 @@ void Unit::registerCombat(CombatGrid& cg)
           for (sit = er.cells().begin(); sit != er.cells().end(); sit++) {
                cg.add(*sit, unitLayer, frac);
                cg.add(*sit, cg.casualtySumLayer(), frac);
-//               stratmasDebug(ref().name() << " ambush " << frac << " in cell " << *sit);
+//               approxsimDebug(ref().name() << " ambush " << frac << " in cell " << *sit);
           }
      }
 
@@ -1108,7 +1108,7 @@ double Unit::registerInsurgentImpact(int cell, double impact)
 void Unit::registerEnemy(const PresenceObject& p)
 {
 //      if (mEnemyRecords.find(&p.unit()) == mEnemyRecords.end()) {
-//            stratmasDebug("======== Registering " << p.unit().ref().name() << " as enemy of " << ref().name());
+//            approxsimDebug("======== Registering " << p.unit().ref().name() << " as enemy of " << ref().name());
 //      }
      EnemyRecord& er = mEnemyRecords[&p.unit()];
      er.addCell(p.cell());
@@ -1141,12 +1141,12 @@ void Unit::registerPotentialAmbush(PresenceObject& victim, double myFraction)
                // there will be guaranteed ambush in all cells with
                // enough personnel.
                double r = (o->oneAmbush() ? -1 : RandomUniform());
-//               stratmasDebug("cell: " << victim.cell() << ", random: " << r << ", persons: " << persons);
+//               approxsimDebug("cell: " << victim.cell() << ", random: " << r << ", persons: " << persons);
                double km2PerCell = mGrid->cellAreaKm2();
                // The probability for 1000 persons to perform an
                // ambush in a cell with area 100 km2 should be 1.
                if (persons > kMinAmbushPerKm2 * km2PerCell && r < persons / 10 / km2PerCell) {
-//                     stratmasDebug("Registering " << victim.unit().ref().name() <<
+//                     approxsimDebug("Registering " << victim.unit().ref().name() <<
 //                           " as ambushee of " << ref().name() << " in cell " << victim.cell());
                     // Insert new ambush record and add the victim to it.
                     AmbushRecord ar;
@@ -1218,10 +1218,10 @@ bool Unit::isSpotted()
      const GridCell* c = mGrid->cell(center());
      bool spotted = false;
      for (std::map<Unit*, double>::iterator it = mSpotters.begin(); it != mSpotters.end(); it++) {
-          stratmasDebug("blue: " << it->first->personnel() << ", fraction: " << it->second << ", pop: " << c->pvfGet(ePopulation));
-          stratmasDebug("   p = " << (1 - exp(-it->first->personnel() * it->second  / c->pvfGet(ePopulation) * kGamma)));
+          approxsimDebug("blue: " << it->first->personnel() << ", fraction: " << it->second << ", pop: " << c->pvfGet(ePopulation));
+          approxsimDebug("   p = " << (1 - exp(-it->first->personnel() * it->second  / c->pvfGet(ePopulation) * kGamma)));
           if (c && RandomUniform() < (1 - exp(-it->first->personnel() * it->second / c->pvfGet(ePopulation) * kGamma))) {
-               stratmasDebug("====== " << ref().name() << " spotted by " << it->first->ref().name());
+               approxsimDebug("====== " << ref().name() << " spotted by " << it->first->ref().name());
                kill(*it->first);
                spotted = true;
                break;

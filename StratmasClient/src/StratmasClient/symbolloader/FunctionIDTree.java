@@ -9,7 +9,7 @@
  * name Joined together from all words after the first 11 fields, with spaces in between.
  */
 
-package StratmasClient.symbolloader;
+package ApproxsimClient.symbolloader;
 
 import java.io.*;
 import java.util.*;

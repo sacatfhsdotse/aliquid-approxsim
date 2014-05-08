@@ -3,17 +3,17 @@
  * @(#)Circle.java
  */
 
-package StratmasClient.object;
+package ApproxsimClient.object;
 
 import java.util.Vector;
 
-import StratmasClient.BoundingBox;
+import ApproxsimClient.BoundingBox;
 
-import StratmasClient.object.type.Declaration;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.object.primitive.Identifier;
-import StratmasClient.object.primitive.Timestamp;
-import StratmasClient.map.Projection;
+import ApproxsimClient.object.type.Declaration;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.object.primitive.Identifier;
+import ApproxsimClient.object.primitive.Timestamp;
+import ApproxsimClient.map.Projection;
 
 import org.w3c.dom.Element;
 
@@ -33,7 +33,7 @@ public class Circle extends SimpleShape {
     /**
      * The radius of the circle.
      */
-    StratmasDecimal radius;
+    ApproxsimDecimal radius;
 
     /**
      * Creates an identified Circle.
@@ -42,7 +42,7 @@ public class Circle extends SimpleShape {
      * @param position the position of the circle.
      * @param radius the radius of the circle.
      */
-    protected Circle(String identifier, Point position, StratmasDecimal radius) {
+    protected Circle(String identifier, Point position, ApproxsimDecimal radius) {
         super(identifier, TypeFactory.getType("Circle"));
         this.position = position;
         this.radius = radius;
@@ -58,7 +58,7 @@ public class Circle extends SimpleShape {
      * @param radius the end-point of the line.
      */
     protected Circle(Declaration declaration, Point position,
-            StratmasDecimal radius) {
+            ApproxsimDecimal radius) {
         this(declaration.getName(), position, radius);
     }
 
@@ -123,12 +123,12 @@ public class Circle extends SimpleShape {
             double angle = ((double) i) * angleStep;
             double lat2 = centerLat + latDistance * Math.sin(angle);
             double lon2 = centerLon + lonDistance * Math.cos(angle);
-            lines.add(StratmasObjectFactory.createLine(Integer.toString(i),
-                                                       StratmasObjectFactory
+            lines.add(ApproxsimObjectFactory.createLine(Integer.toString(i),
+                                                       ApproxsimObjectFactory
                                                                .createPoint("p1",
                                                                             lat1,
                                                                             lon1),
-                                                       StratmasObjectFactory
+                                                       ApproxsimObjectFactory
                                                                .createPoint("p2",
                                                                             lat2,
                                                                             lon2)));
@@ -136,18 +136,18 @@ public class Circle extends SimpleShape {
             lon1 = lon2;
         }
         // Tie polygon together
-        lines.add(StratmasObjectFactory.createLine(Integer.toString(partitions),
-                                                   StratmasObjectFactory
+        lines.add(ApproxsimObjectFactory.createLine(Integer.toString(partitions),
+                                                   ApproxsimObjectFactory
                                                            .createPoint("p1",
                                                                         lat1,
                                                                         lon1),
-                                                   StratmasObjectFactory
+                                                   ApproxsimObjectFactory
                                                            .createPoint("p2",
                                                                         startLat,
                                                                         startLon)));
 
-        Vector<StratmasList> v = new Vector<StratmasList>();
-        v.add(new StratmasList("curves", TypeFactory.getType("Line"), lines));
+        Vector<ApproxsimList> v = new Vector<ApproxsimList>();
+        v.add(new ApproxsimList("curves", TypeFactory.getType("Line"), lines));
         return new Polygon("Approximation of " + getIdentifier(), v);
     }
 
@@ -197,11 +197,11 @@ public class Circle extends SimpleShape {
     }
 
     /**
-     * Returns a StratmasVectorConstructor suitable for constructing objects of this type.
+     * Returns a ApproxsimVectorConstructor suitable for constructing objects of this type.
      * 
      * @param declaration the declaration for which the object is created.
      */
-    protected static StratmasVectorConstructor getVectorConstructor(
+    protected static ApproxsimVectorConstructor getVectorConstructor(
             Declaration declaration) {
         return new CircleVectorConstructor(declaration);
     }
@@ -213,16 +213,16 @@ public class Circle extends SimpleShape {
      * 
      * @param declaration The declaration for which the object is created.
      */
-    protected static StratmasObject defaultCreate(Declaration declaration) {
-        Vector<StratmasObject> newParts = new Vector<StratmasObject>();
+    protected static ApproxsimObject defaultCreate(Declaration declaration) {
+        Vector<ApproxsimObject> newParts = new Vector<ApproxsimObject>();
         for (java.util.Iterator it = declaration.getType().getSubElements()
                 .iterator(); it.hasNext();) {
             Declaration dec = (Declaration) it.next();
             if (dec.isSingular()) {
-                newParts.add(StratmasObjectFactory.defaultCreate(dec));
+                newParts.add(ApproxsimObjectFactory.defaultCreate(dec));
             }
         }
-        return getVectorConstructor(declaration).getStratmasObject(newParts);
+        return getVectorConstructor(declaration).getApproxsimObject(newParts);
     }
 
     /**
@@ -232,11 +232,11 @@ public class Circle extends SimpleShape {
      * 
      * @param n The dom element from which the object is created.
      */
-    protected static StratmasObject domCreate(Element n) {
+    protected static ApproxsimObject domCreate(Element n) {
         return new Circle(Identifier.getIdentifier(n),
-                (Point) StratmasObjectFactory.domCreate(XMLHelper
+                (Point) ApproxsimObjectFactory.domCreate(XMLHelper
                         .getFirstChildByTag(n, "center")),
-                (StratmasDecimal) StratmasObjectFactory.domCreate(XMLHelper
+                (ApproxsimDecimal) ApproxsimObjectFactory.domCreate(XMLHelper
                         .getFirstChildByTag(n, "radius")));
     }
 
@@ -250,7 +250,7 @@ public class Circle extends SimpleShape {
      */
     protected Object clone() {
         return new Circle(identifier, (Point) getCenter().clone(),
-                (StratmasDecimal) radius.clone());
+                (ApproxsimDecimal) radius.clone());
     }
 
     /**
@@ -266,7 +266,7 @@ public class Circle extends SimpleShape {
             position.update(XMLHelper.getFirstChildByTag(n, "center"), t);
             radius.update(XMLHelper.getFirstChildByTag(n, "radius"), t);
         } else {
-            replace(StratmasObjectFactory.domCreate(n), n);
+            replace(ApproxsimObjectFactory.domCreate(n), n);
         }
     }
 }
@@ -277,7 +277,7 @@ public class Circle extends SimpleShape {
  * @version 1, $Date: 2006/05/11 16:43:03 $
  * @author Daniel Ahlin
  */
-class CircleVectorConstructor extends StratmasVectorConstructor {
+class CircleVectorConstructor extends ApproxsimVectorConstructor {
     /**
      * Creates a new CircleVectorConstructor using the supplied declaration.
      * 
@@ -288,16 +288,16 @@ class CircleVectorConstructor extends StratmasVectorConstructor {
     }
 
     /**
-     * Returns the StratmasObject this component was created to provide.
+     * Returns the ApproxsimObject this component was created to provide.
      * 
      * @param parts the parts to use in constructing the object.
      */
-    public StratmasObject getStratmasObject(Vector<StratmasObject> parts) {
-        StratmasObject position = parts.get(0);
-        StratmasObject radius = parts.get(1);
+    public ApproxsimObject getApproxsimObject(Vector<ApproxsimObject> parts) {
+        ApproxsimObject position = parts.get(0);
+        ApproxsimObject radius = parts.get(1);
 
         if (!position.getIdentifier().equals("center")) {
-            StratmasObject temp = position;
+            ApproxsimObject temp = position;
             position = radius;
             radius = temp;
         }
@@ -308,6 +308,6 @@ class CircleVectorConstructor extends StratmasVectorConstructor {
         }
 
         return new Circle(this.getDeclaration(), (Point) position,
-                ((StratmasDecimal) radius));
+                ((ApproxsimDecimal) radius));
     }
 }

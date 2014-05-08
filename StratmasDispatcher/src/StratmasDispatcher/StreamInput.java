@@ -3,7 +3,7 @@
  * @(#)StreamInput.java
  */
 
-package StratmasDispatcher;
+package ApproxsimDispatcher;
 
 import org.w3c.dom.ls.LSInput;
 import org.apache.xerces.xni.parser.XMLInputSource;

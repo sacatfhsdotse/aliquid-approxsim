@@ -1,6 +1,6 @@
 // $Id: RenderSelection.java,v 1.5 2006/04/18 13:01:16 dah Exp $
 
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import java.util.Hashtable;
 import java.util.Vector;

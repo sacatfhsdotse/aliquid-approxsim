@@ -3,7 +3,7 @@
  * @(#)TaclanV2Utils.java
  */
 
-package StratmasClient.TaclanV2;
+package ApproxsimClient.TaclanV2;
 
 import javax.swing.JFileChooser;
 
@@ -14,12 +14,12 @@ import java.io.UnsupportedEncodingException;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 
-import StratmasClient.object.StratmasList;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.type.Declaration;
-import StratmasClient.object.type.TypeFactory;
+import ApproxsimClient.object.ApproxsimList;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.type.Declaration;
+import ApproxsimClient.object.type.TypeFactory;
 
-import StratmasClient.StratmasDialog;
+import ApproxsimClient.ApproxsimDialog;
 
 /**
  * Util functions for handling TaclanV2 files.
@@ -33,46 +33,46 @@ public class TaclanV2Utils {
      * 
      * @param filename the name of the file to import
      */
-    public static StratmasObject importTaclanV2Simulation(String filename) {
+    public static ApproxsimObject importTaclanV2Simulation(String filename) {
         try {
-            // Try to parse the file. Expect to get a StratmasList
+            // Try to parse the file. Expect to get a ApproxsimList
             // containing exactly one "Simulation"-type object.
 
-            StratmasClient.TaclanV2.Parser parser = null;
+            ApproxsimClient.TaclanV2.Parser parser = null;
             try {
-                parser = StratmasClient.TaclanV2.Parser.getParser(filename,
+                parser = ApproxsimClient.TaclanV2.Parser.getParser(filename,
                                                                   "UTF-8");
             } catch (UnsupportedEncodingException e) {
                 // Ok, try default encoding instead.
-                parser = StratmasClient.TaclanV2.Parser.getParser(filename);
+                parser = ApproxsimClient.TaclanV2.Parser.getParser(filename);
             }
             parser.doParse();
             parser.typeCheck(TypeFactory.getType("Root")
                                      .getSubElement("simulation"), TypeFactory
                                      .getTypeInformation());
-            StratmasObject top = parser.getStratmasList(TypeFactory
+            ApproxsimObject top = parser.getApproxsimList(TypeFactory
                     .getType("Root").getSubElement("simulation"));
 
             if (!top.isLeaf()) {
-                return (StratmasObject) top.children().nextElement();
+                return (ApproxsimObject) top.children().nextElement();
             } else {
-                StratmasDialog.showErrorMessageDialog(null, filename
+                ApproxsimDialog.showErrorMessageDialog(null, filename
                         + " is empty.", "Empty file");
                 return null;
             }
 
         } catch (SyntaxException e) {
-            StratmasDialog.showErrorMessageDialog(null,
+            ApproxsimDialog.showErrorMessageDialog(null,
                                                   "Syntax error(s) found:\n"
                                                           + e.getMessage(),
                                                   "Syntax error(s) found");
         } catch (SemanticException e) {
-            StratmasDialog.showErrorMessageDialog(null,
+            ApproxsimDialog.showErrorMessageDialog(null,
                                                   "Semantic error(s) found\n"
                                                           + e.getMessage(),
                                                   "Semantic error(s) found");
         } catch (IOException e) {
-            StratmasDialog.showErrorMessageDialog(null,
+            ApproxsimDialog.showErrorMessageDialog(null,
                                                   "File error\n"
                                                           + e.getMessage(),
                                                   "File error");
@@ -85,9 +85,9 @@ public class TaclanV2Utils {
     /**
      * Imports a TaclanV2 file specified by the user using a JFileChooser
      */
-    public static StratmasObject importTaclanV2Simulation() {
+    public static ApproxsimObject importTaclanV2Simulation() {
         JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
-        StratmasClient.TaclanV2.Taclan2FileFilter filter = new StratmasClient.TaclanV2.Taclan2FileFilter();
+        ApproxsimClient.TaclanV2.Taclan2FileFilter filter = new ApproxsimClient.TaclanV2.Taclan2FileFilter();
         chooser.setFileFilter(filter);
         if (chooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION) {
             return null;
@@ -101,7 +101,7 @@ public class TaclanV2Utils {
      */
     public static String getTaclanV2File() {
         JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
-        StratmasClient.TaclanV2.Taclan2FileFilter filter = new StratmasClient.TaclanV2.Taclan2FileFilter();
+        ApproxsimClient.TaclanV2.Taclan2FileFilter filter = new ApproxsimClient.TaclanV2.Taclan2FileFilter();
         chooser.setFileFilter(filter);
         if (chooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION) {
             return null;
@@ -115,7 +115,7 @@ public class TaclanV2Utils {
      */
     public static String getScenarioFile() {
         JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
-        StratmasClient.TaclanV2.Taclan2FileFilter filter = new StratmasClient.TaclanV2.Taclan2FileFilter();
+        ApproxsimClient.TaclanV2.Taclan2FileFilter filter = new ApproxsimClient.TaclanV2.Taclan2FileFilter();
         chooser.setFileFilter(filter);
         if (chooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION) {
             return null;
@@ -127,10 +127,10 @@ public class TaclanV2Utils {
     /**
      * Imports an ESRIFile
      */
-    public static StratmasList importESRIFile() {
+    public static ApproxsimList importESRIFile() {
 
         JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
-        StratmasClient.TaclanV2.Taclan2FileFilter filter = new StratmasClient.TaclanV2.Taclan2FileFilter() {
+        ApproxsimClient.TaclanV2.Taclan2FileFilter filter = new ApproxsimClient.TaclanV2.Taclan2FileFilter() {
             public boolean accept(File f) {
                 if (f.isDirectory()) {
                     return true;
@@ -153,22 +153,22 @@ public class TaclanV2Utils {
             String taclanCode = "import \""
                     + chooser.getSelectedFile().getPath() + "\"";
             try {
-                // Try to parse the String. Expect to get a StratmasList
+                // Try to parse the String. Expect to get a ApproxsimList
                 // containing the shapes in the import.
 
-                StratmasClient.TaclanV2.Parser parser = null;
-                parser = StratmasClient.TaclanV2.Parser.getParser(chooser
+                ApproxsimClient.TaclanV2.Parser parser = null;
+                parser = ApproxsimClient.TaclanV2.Parser.getParser(chooser
                         .getSelectedFile().getPath(), new StringReader(
                         taclanCode));
 
                 parser.doParse();
-                StratmasList top = parser.getStratmasList(TypeFactory
+                ApproxsimList top = parser.getApproxsimList(TypeFactory
                         .getType("Composite").getSubElement("shapes"));
 
                 if (!top.isLeaf()) {
                     return top;
                 } else {
-                    StratmasDialog
+                    ApproxsimDialog
                             .showErrorMessageDialog(null,
                                                     "Empty ESRI file.",
                                                     "No supported shapes found in "
@@ -178,7 +178,7 @@ public class TaclanV2Utils {
                     return null;
                 }
             } catch (SemanticException e) {
-                StratmasDialog
+                ApproxsimDialog
                         .showErrorMessageDialog(null,
                                                 "Error imoporting ESRI file:\n"
                                                         + chooser
@@ -187,7 +187,7 @@ public class TaclanV2Utils {
                                                 "Error imoporting ESRI file");
                 return null;
             } catch (SyntaxException e) {
-                StratmasDialog
+                ApproxsimDialog
                         .showErrorMessageDialog(null,
                                                 "Error imoporting ESRI file:\n"
                                                         + chooser
@@ -205,36 +205,36 @@ public class TaclanV2Utils {
     /**
      * Imports an ESRIFile
      */
-    public static StratmasList importESRIFile(String filename) {
+    public static ApproxsimList importESRIFile(String filename) {
         String taclanCode = "import \"" + filename + "\"";
         try {
-            // Try to parse the String. Expect to get a StratmasList
+            // Try to parse the String. Expect to get a ApproxsimList
             // containing the shapes in the import.
 
-            StratmasClient.TaclanV2.Parser parser = null;
-            parser = StratmasClient.TaclanV2.Parser
+            ApproxsimClient.TaclanV2.Parser parser = null;
+            parser = ApproxsimClient.TaclanV2.Parser
                     .getParser(filename, new StringReader(taclanCode));
 
             parser.doParse();
-            StratmasList top = parser.getStratmasList(TypeFactory
+            ApproxsimList top = parser.getApproxsimList(TypeFactory
                     .getType("Composite").getSubElement("shapes"));
 
             if (!top.isLeaf()) {
                 return top;
             } else {
-                StratmasDialog.showErrorMessageDialog(null, "Empty ESRI file.",
+                ApproxsimDialog.showErrorMessageDialog(null, "Empty ESRI file.",
                                                       "No supported shapes found in "
                                                               + filename);
                 return null;
             }
         } catch (SemanticException e) {
-            StratmasDialog.showErrorMessageDialog(null,
+            ApproxsimDialog.showErrorMessageDialog(null,
                                                   "Error imoporting ESRI file:\n"
                                                           + filename,
                                                   "Error imoporting ESRI file");
             return null;
         } catch (SyntaxException e) {
-            StratmasDialog.showErrorMessageDialog(null,
+            ApproxsimDialog.showErrorMessageDialog(null,
                                                   "Error imoporting ESRI file:\n"
                                                           + filename,
                                                   "Error imoporting ESRI file");
@@ -245,54 +245,54 @@ public class TaclanV2Utils {
     /**
      * Imports a Taclanfile
      */
-    public static StratmasList importTaclanV2File() {
+    public static ApproxsimList importTaclanV2File() {
         JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
-        StratmasClient.TaclanV2.Taclan2FileFilter filter = new StratmasClient.TaclanV2.Taclan2FileFilter();
+        ApproxsimClient.TaclanV2.Taclan2FileFilter filter = new ApproxsimClient.TaclanV2.Taclan2FileFilter();
         chooser.setFileFilter(filter);
         if (chooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION) {
             return null;
         } else {
             try {
                 String filename = chooser.getSelectedFile().getPath();
-                // Try to parse the file. Expect to get a StratmasList
+                // Try to parse the file. Expect to get a ApproxsimList
                 // containing exactly one "Simulation"-type object.
 
-                StratmasClient.TaclanV2.Parser parser = null;
+                ApproxsimClient.TaclanV2.Parser parser = null;
                 try {
-                    parser = StratmasClient.TaclanV2.Parser.getParser(filename,
+                    parser = ApproxsimClient.TaclanV2.Parser.getParser(filename,
                                                                       "UTF-8");
                 } catch (UnsupportedEncodingException e) {
                     // Ok, try default encoding instead.
-                    parser = StratmasClient.TaclanV2.Parser.getParser(filename);
+                    parser = ApproxsimClient.TaclanV2.Parser.getParser(filename);
                 }
                 parser.doParse();
-                StratmasList top = parser.getStratmasList(new Declaration(
+                ApproxsimList top = parser.getApproxsimList(new Declaration(
                         TypeFactory.getType("Identifiable"), filename, 0, 0,
                         true));
 
                 if (!top.isLeaf()) {
                     return top;
                 } else {
-                    StratmasDialog.showErrorMessageDialog(null, filename
+                    ApproxsimDialog.showErrorMessageDialog(null, filename
                             + " is empty.", "Empty file");
                     return null;
                 }
 
             } catch (SyntaxException e) {
-                StratmasDialog.showErrorMessageDialog(null,
+                ApproxsimDialog.showErrorMessageDialog(null,
                                                       "Syntax error(s) found:\n"
                                                               + e.getMessage(),
                                                       "Syntax error(s) found");
                 return null;
             } catch (SemanticException e) {
-                StratmasDialog
+                ApproxsimDialog
                         .showErrorMessageDialog(null,
                                                 "Semantic error(s) found\n"
                                                         + e.getMessage(),
                                                 "Semantic error(s) found");
                 return null;
             } catch (IOException e) {
-                StratmasDialog.showErrorMessageDialog(null,
+                ApproxsimDialog.showErrorMessageDialog(null,
                                                       "File error\n"
                                                               + e.getMessage(),
                                                       "File error");
@@ -304,45 +304,45 @@ public class TaclanV2Utils {
     /**
      * Imports a Taclanfile
      */
-    public static StratmasList importTaclanV2File(String filename) {
+    public static ApproxsimList importTaclanV2File(String filename) {
         try {
-            // Try to parse the file. Expect to get a StratmasList
+            // Try to parse the file. Expect to get a ApproxsimList
             // containing exactly one "Simulation"-type object.
 
-            StratmasClient.TaclanV2.Parser parser = null;
+            ApproxsimClient.TaclanV2.Parser parser = null;
             try {
-                parser = StratmasClient.TaclanV2.Parser.getParser(filename,
+                parser = ApproxsimClient.TaclanV2.Parser.getParser(filename,
                                                                   "UTF-8");
             } catch (UnsupportedEncodingException e) {
                 // Ok, try default encoding instead.
-                parser = StratmasClient.TaclanV2.Parser.getParser(filename);
+                parser = ApproxsimClient.TaclanV2.Parser.getParser(filename);
             }
             parser.doParse();
-            StratmasList top = parser.getStratmasList(new Declaration(
+            ApproxsimList top = parser.getApproxsimList(new Declaration(
                     TypeFactory.getType("Identifiable"), filename, 0, 0, true));
 
             if (!top.isLeaf()) {
                 return top;
             } else {
-                StratmasDialog.showErrorMessageDialog(null, filename
+                ApproxsimDialog.showErrorMessageDialog(null, filename
                         + " is empty.", "Empty file");
                 return null;
             }
 
         } catch (SyntaxException e) {
-            StratmasDialog.showErrorMessageDialog(null,
+            ApproxsimDialog.showErrorMessageDialog(null,
                                                   "Syntax error(s) found:\n"
                                                           + e.getMessage(),
                                                   "Syntax error(s) found");
             return null;
         } catch (SemanticException e) {
-            StratmasDialog.showErrorMessageDialog(null,
+            ApproxsimDialog.showErrorMessageDialog(null,
                                                   "Semantic error(s) found\n"
                                                           + e.getMessage(),
                                                   "Semantic error(s) found");
             return null;
         } catch (IOException e) {
-            StratmasDialog.showErrorMessageDialog(null,
+            ApproxsimDialog.showErrorMessageDialog(null,
                                                   "File error\n"
                                                           + e.getMessage(),
                                                   "File error");
@@ -353,9 +353,9 @@ public class TaclanV2Utils {
     /**
      * Creates a template (very empty) taclanv2 simulation
      */
-    public static StratmasObject createTemplateSimulation() {
+    public static ApproxsimObject createTemplateSimulation() {
         JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
-        StratmasClient.TaclanV2.Taclan2FileFilter filter = new StratmasClient.TaclanV2.Taclan2FileFilter() {
+        ApproxsimClient.TaclanV2.Taclan2FileFilter filter = new ApproxsimClient.TaclanV2.Taclan2FileFilter() {
             public boolean accept(File f) {
                 if (f.isDirectory()) {
                     return true;
@@ -388,20 +388,20 @@ public class TaclanV2Utils {
 
             System.out.println("OK3");
             try {
-                // Try to parse the String. Expect to get a StratmasList
+                // Try to parse the String. Expect to get a ApproxsimList
                 // containing a simulation import.
 
-                StratmasClient.TaclanV2.Parser parser = null;
+                ApproxsimClient.TaclanV2.Parser parser = null;
 
-                parser = StratmasClient.TaclanV2.Parser
+                parser = ApproxsimClient.TaclanV2.Parser
                         .getParser("template", new StringReader(taclanCode));
                 parser.doParse();
-                StratmasObject top = parser.getStratmasList(TypeFactory
+                ApproxsimObject top = parser.getApproxsimList(TypeFactory
                         .getType("Root").getSubElement("simulation"));
 
-                return (StratmasObject) top.children().nextElement();
+                return (ApproxsimObject) top.children().nextElement();
             } catch (SemanticException e) {
-                StratmasDialog
+                ApproxsimDialog
                         .showErrorMessageDialog(null,
                                                 "Error imoporting ESRI file:\n"
                                                         + chooser
@@ -410,7 +410,7 @@ public class TaclanV2Utils {
                                                 "Error imoporting ESRI file");
                 return null;
             } catch (SyntaxException e) {
-                StratmasDialog
+                ApproxsimDialog
                         .showErrorMessageDialog(null,
                                                 "Error imoporting ESRI file:\n"
                                                         + chooser
@@ -427,7 +427,7 @@ public class TaclanV2Utils {
     /**
      * Returns a template (very empty) taclanv2 simulation
      */
-    public static StratmasObject oldGetTemplateSimulation(String filePath) {
+    public static ApproxsimObject oldGetTemplateSimulation(String filePath) {
         String taclanCode = "CommonSimulation 'simulation' { \n"
                 + "timeStepper = ConstantStepper { dt = 86400000 } \n"
                 + "gridPartitioner = SquarePartitioner { cellSizeMeters = 10000.0 } \n"
@@ -440,26 +440,26 @@ public class TaclanV2Utils {
                 + "HDI = 0.0 unemployment = 0.0 }" + "startTime = 0 }";
 
         try {
-            // Try to parse the String. Expect to get a StratmasList
+            // Try to parse the String. Expect to get a ApproxsimList
             // containing a simulation import.
 
-            StratmasClient.TaclanV2.Parser parser = null;
+            ApproxsimClient.TaclanV2.Parser parser = null;
 
-            parser = StratmasClient.TaclanV2.Parser
+            parser = ApproxsimClient.TaclanV2.Parser
                     .getParser("template", new StringReader(taclanCode));
             parser.doParse();
-            StratmasObject top = parser.getStratmasList(TypeFactory
+            ApproxsimObject top = parser.getApproxsimList(TypeFactory
                     .getType("Root").getSubElement("simulation"));
 
-            return (StratmasObject) top.children().nextElement();
+            return (ApproxsimObject) top.children().nextElement();
         } catch (SemanticException e) {
-            StratmasDialog.showErrorMessageDialog(null,
+            ApproxsimDialog.showErrorMessageDialog(null,
                                                   "Error imoporting ESRI file:\n"
                                                           + filePath,
                                                   "Error imoporting ESRI file");
             return null;
         } catch (SyntaxException e) {
-            StratmasDialog.showErrorMessageDialog(null,
+            ApproxsimDialog.showErrorMessageDialog(null,
                                                   "Error imoporting ESRI file:\n"
                                                           + filePath,
                                                   "Error imoporting ESRI file");
@@ -472,13 +472,13 @@ public class TaclanV2Utils {
      * 
      * @param taclanCode the code to import.
      */
-    public static StratmasObject importTaclanV2String(String taclanCode) {
+    public static ApproxsimObject importTaclanV2String(String taclanCode) {
         try {
             // Try to parse the String.
-            StratmasClient.TaclanV2.Parser parser = StratmasClient.TaclanV2.Parser
+            ApproxsimClient.TaclanV2.Parser parser = ApproxsimClient.TaclanV2.Parser
                     .getParser("template", new StringReader(taclanCode));
             parser.doParse();
-            StratmasObject top = parser.getStratmasList(new Declaration(
+            ApproxsimObject top = parser.getApproxsimList(new Declaration(
                     TypeFactory.getType("Identifiable"), "", 0, 0, true));
             if (!top.isLeaf()) {
                 return top;
@@ -498,14 +498,14 @@ public class TaclanV2Utils {
      * @param object the object to save.
      * @param filename the name of the file to save to
      */
-    public static void exportToTaclanV2(StratmasObject object, String filename) {
+    public static void exportToTaclanV2(ApproxsimObject object, String filename) {
         try {
             OutputStreamWriter writer = new OutputStreamWriter(
                     new FileOutputStream(filename));
             writer.write(object.toTaclanV2());
             writer.close();
         } catch (IOException e) {
-            StratmasDialog.showErrorMessageDialog(null,
+            ApproxsimDialog.showErrorMessageDialog(null,
                                                   "File error\n"
                                                           + e.getMessage(),
                                                   "File error");
@@ -517,9 +517,9 @@ public class TaclanV2Utils {
      * 
      * @param object the object to save.
      */
-    public static void exportToTaclanV2(StratmasObject object) {
+    public static void exportToTaclanV2(ApproxsimObject object) {
         JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
-        chooser.addChoosableFileFilter(new StratmasClient.TaclanV2.Taclan2FileFilter());
+        chooser.addChoosableFileFilter(new ApproxsimClient.TaclanV2.Taclan2FileFilter());
         if (chooser.showSaveDialog(null) != JFileChooser.APPROVE_OPTION) {} else {
             exportToTaclanV2(object, chooser.getSelectedFile().getPath());
         }
@@ -530,7 +530,7 @@ public class TaclanV2Utils {
      */
     public static String getESRIFile() {
         JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
-        StratmasClient.TaclanV2.Taclan2FileFilter filter = new StratmasClient.TaclanV2.Taclan2FileFilter() {
+        ApproxsimClient.TaclanV2.Taclan2FileFilter filter = new ApproxsimClient.TaclanV2.Taclan2FileFilter() {
             public boolean accept(File f) {
                 if (f.isDirectory()) {
                     return true;

@@ -1,4 +1,4 @@
-package StratmasClient.map.graph;
+package ApproxsimClient.map.graph;
 
 import java.util.Vector;
 import java.util.Hashtable;
@@ -30,14 +30,14 @@ import java.io.OutputStream;
 import java.io.FileOutputStream;
 import java.io.File;
 
-import StratmasClient.Client;
-import StratmasClient.FileExtensionFilter;
-import StratmasClient.ProcessVariableDescription;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.communication.RegionData;
-import StratmasClient.timeline.Timeline;
-import StratmasClient.map.Visualizer;
+import ApproxsimClient.Client;
+import ApproxsimClient.FileExtensionFilter;
+import ApproxsimClient.ProcessVariableDescription;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.communication.RegionData;
+import ApproxsimClient.timeline.Timeline;
+import ApproxsimClient.map.Visualizer;
 
 /**
  * This is implementation of a graph for a process variable over a time interval. One or all factions can be displayed in the same graph.
@@ -47,7 +47,7 @@ import StratmasClient.map.Visualizer;
  * @author Amir Filipovic
  */
 public class ProcessVariableXYGraph extends JPanel implements
-        StratmasEventListener {
+        ApproxsimEventListener {
     /**
 	 * 
 	 */
@@ -55,7 +55,7 @@ public class ProcessVariableXYGraph extends JPanel implements
     /**
      * The actual frame.
      */
-    final JFrame frame = new JFrame("Stratmas Graph");
+    final JFrame frame = new JFrame("Approxsim Graph");
     /**
      * The initial width of the frame.
      */
@@ -394,7 +394,7 @@ public class ProcessVariableXYGraph extends JPanel implements
     /**
      * Updates the graph.
      */
-    public void eventOccured(StratmasEvent e) {
+    public void eventOccured(ApproxsimEvent e) {
         if (e.getSource() instanceof RegionData) {
             // get actual time
             long actTime = ((RegionData) e.getSource()).getTimestamp()

@@ -3,7 +3,7 @@
  * @(#)Metric.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
 /**
  * Represents the capabilities of a metric as used in the evolver

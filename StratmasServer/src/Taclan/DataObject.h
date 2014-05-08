@@ -1,5 +1,5 @@
-#ifndef STRATMAS_DATAOBJECT_H
-#define STRATMAS_DATAOBJECT_H
+#ifndef APPROXSIM_DATAOBJECT_H
+#define APPROXSIM_DATAOBJECT_H
 
 // System
 #include <iosfwd>
@@ -29,7 +29,7 @@ namespace XERCES_CPP_NAMESPACE {
  * DataObjects. A DataObject is the kind of object that is used to
  * store the data that is communicated with the client.
  *
- * DataObjects are created according to the Stratmas xml schema. They
+ * DataObjects are created according to the Approxsim xml schema. They
  * are then used to create the corresponding SimulationObjects
  *
  * \author   Per Alexius
@@ -182,4 +182,4 @@ public:
 };
 
 
-#endif   // STRATMAS_DATAOBJECT_H
+#endif   // APPROXSIM_DATAOBJECT_H

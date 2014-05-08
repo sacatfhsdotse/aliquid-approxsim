@@ -3,22 +3,22 @@
  * @(#)StreamPVExporter.java
  */
 
-package StratmasClient;
+package ApproxsimClient;
 
 import java.io.OutputStreamWriter;
 import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Enumeration;
 
-import StratmasClient.object.primitive.Reference;
-import StratmasClient.object.Shape;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.primitive.Timestamp;
+import ApproxsimClient.object.primitive.Reference;
+import ApproxsimClient.object.Shape;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.object.primitive.Timestamp;
 
-import StratmasClient.communication.RegionData;
-import StratmasClient.communication.Subscription;
-import StratmasClient.communication.SubscriptionHandler;
+import ApproxsimClient.communication.RegionData;
+import ApproxsimClient.communication.Subscription;
+import ApproxsimClient.communication.SubscriptionHandler;
 
 /**
  * Subscribes to the aggreagate of all process variables in a region and prints them to a stream.
@@ -27,7 +27,7 @@ import StratmasClient.communication.SubscriptionHandler;
  * @author Daniel Ahlin
  */
 
-public class StreamPVExporter implements StratmasEventListener {
+public class StreamPVExporter implements ApproxsimEventListener {
     /**
      * The field delimiter.
      */
@@ -66,7 +66,7 @@ public class StreamPVExporter implements StratmasEventListener {
      * Unsubscribes to the subscription held by this object.
      */
     public void kill() {
-        mSH.regSubscription(new StratmasClient.communication.Unsubscription(
+        mSH.regSubscription(new ApproxsimClient.communication.Unsubscription(
                 mSubscription));
     }
 
@@ -75,7 +75,7 @@ public class StreamPVExporter implements StratmasEventListener {
      * 
      * @param event the event.
      */
-    public synchronized void eventOccured(StratmasEvent event) {
+    public synchronized void eventOccured(ApproxsimEvent event) {
         if (event.getSource() instanceof RegionData) {
             writeValues(((RegionData) event.getSource()).getTimestamp(),
                         ((RegionData) event.getSource()).getPV());

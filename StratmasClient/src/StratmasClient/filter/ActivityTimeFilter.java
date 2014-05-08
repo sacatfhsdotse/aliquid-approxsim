@@ -1,16 +1,16 @@
-package StratmasClient.filter;
+package ApproxsimClient.filter;
 
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasTimestamp;
-import StratmasClient.object.primitive.Timestamp;
-import StratmasClient.timeline.Timeline;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimTimestamp;
+import ApproxsimClient.object.primitive.Timestamp;
+import ApproxsimClient.timeline.Timeline;
 
 /**
  * ActivityTimeFilter passes objects of <code>Activity</code> type depending on theirs occurence in time.
  * 
  * @author Amir Filipovic
  */
-public class ActivityTimeFilter extends StratmasObjectFilter {
+public class ActivityTimeFilter extends ApproxsimObjectFilter {
     /**
      * Indicator for past activities.
      */
@@ -46,11 +46,11 @@ public class ActivityTimeFilter extends StratmasObjectFilter {
     }
 
     /**
-     * Returns true if the provided StratmasObject passes the filter.
+     * Returns true if the provided ApproxsimObject passes the filter.
      * 
      * @param sObj the object to test
      */
-    public boolean pass(StratmasObject sObj) {
+    public boolean pass(ApproxsimObject sObj) {
         // only activities can pass
         if (sObj.getType().canSubstitute("Activity")) {
             // all activities can pass
@@ -61,11 +61,11 @@ public class ActivityTimeFilter extends StratmasObjectFilter {
                 long activityStartTime = -1;
                 long activityEndTime = -1;
                 if (sObj.getChild("start") != null) {
-                    activityStartTime = ((Timestamp) ((StratmasTimestamp) sObj
+                    activityStartTime = ((Timestamp) ((ApproxsimTimestamp) sObj
                             .getChild("start")).getValue()).getMilliSecs();
                 }
                 if (sObj.getChild("end") != null) {
-                    activityEndTime = ((Timestamp) ((StratmasTimestamp) sObj
+                    activityEndTime = ((Timestamp) ((ApproxsimTimestamp) sObj
                             .getChild("end")).getValue()).getMilliSecs();
                 }
                 // activities no longer active pass

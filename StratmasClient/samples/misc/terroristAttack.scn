@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<root xmlns:sp="http://pdc.kth.se/stratmasNamespace"
+<root xmlns:sp="http://pdc.kth.se/approxsimNamespace"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xmlns:xi="http://www.w3.org/2001/XInclude"
       xsi:type="sp:Root">
@@ -101,7 +101,7 @@
             <lat>31</lat><lon>43</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -168,7 +168,7 @@
             <lat>31</lat><lon>42</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -235,7 +235,7 @@
             <lat>31</lat><lon>43</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -302,7 +302,7 @@
             <lat>33</lat><lon>41</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -369,7 +369,7 @@
             <lat>32</lat><lon>42</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>

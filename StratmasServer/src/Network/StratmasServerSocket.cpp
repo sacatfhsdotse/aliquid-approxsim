@@ -1,5 +1,5 @@
 // Own
-#include "StratmasServerSocket.h"
+#include "ApproxsimServerSocket.h"
 #include "SocketException.h"
 
 
@@ -7,7 +7,7 @@
  * \brief Creates a socket that will listen to connections on the
  * specified port and hostname.
  */
-StratmasServerSocket::StratmasServerSocket(const char *host, int port) : Socket()
+ApproxsimServerSocket::ApproxsimServerSocket(const char *host, int port) : Socket()
 {
      if (!Socket::create()) {
           throw SocketException("Could not create server socket.");

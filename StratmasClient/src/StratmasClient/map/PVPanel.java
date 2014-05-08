@@ -1,4 +1,4 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import java.util.Enumeration;
 import java.util.Vector;
@@ -14,16 +14,16 @@ import javax.swing.BoxLayout;
 import javax.swing.BorderFactory;
 import javax.swing.SwingUtilities;
 
-import StratmasClient.Client;
-import StratmasClient.ProcessVariableDescription;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.primitive.Reference;
-import StratmasClient.communication.LayerSubscription;
-import StratmasClient.communication.LayerData;
-import StratmasClient.communication.Unsubscription;
-import StratmasClient.communication.SubscriptionHandler;
+import ApproxsimClient.Client;
+import ApproxsimClient.ProcessVariableDescription;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.primitive.Reference;
+import ApproxsimClient.communication.LayerSubscription;
+import ApproxsimClient.communication.LayerData;
+import ApproxsimClient.communication.Unsubscription;
+import ApproxsimClient.communication.SubscriptionHandler;
 
 /**
  * This panel contains two <code>JComboBox</code> lists: the process variables and the factions for the actual simulation. The selected
@@ -34,7 +34,7 @@ import StratmasClient.communication.SubscriptionHandler;
  * @see <code>MapDrawer</code>
  */
 public class PVPanel extends JPanel implements ActionListener,
-        StratmasEventListener {
+        ApproxsimEventListener {
     /**
 	 * 
 	 */
@@ -207,11 +207,11 @@ public class PVPanel extends JPanel implements ActionListener,
             fac_combo.setForeground(Color.RED);
             waiting = true;
             // if a faction is selected
-            if (fac_combo.getSelectedItem() instanceof StratmasObject) {
+            if (fac_combo.getSelectedItem() instanceof ApproxsimObject) {
                 // send new subscription
                 subscribePVLayer((ProcessVariableDescription) pv_combo
                                          .getSelectedItem(),
-                                 ((StratmasObject) fac_combo.getSelectedItem())
+                                 ((ApproxsimObject) fac_combo.getSelectedItem())
                                          .getReference());
             }
             // if "All" is selected
@@ -228,7 +228,7 @@ public class PVPanel extends JPanel implements ActionListener,
      * Checks if the layer values has been drawn on the map and updates color of the chosen variables. Red color indicates that the selected
      * values has not been displayed on the map yet.
      */
-    public void eventOccured(StratmasEvent e) {
+    public void eventOccured(ApproxsimEvent e) {
         // if the panel is waiting for event and if the event is the right one
         if (waiting && e.getSource() instanceof GridLayer && e.isGridUpdated()) {
             // get the process variable and the faction which have been displayed on the map
@@ -239,7 +239,7 @@ public class PVPanel extends JPanel implements ActionListener,
             if (pvd.equals((ProcessVariableDescription) pv_combo
                     .getSelectedItem())
                     && ((fac_ref == null && fac_combo.getSelectedIndex() == 0) || (fac_ref != null && fac_ref
-                            .equals(((StratmasObject) fac_combo
+                            .equals(((ApproxsimObject) fac_combo
                                     .getSelectedItem()).getReference())))) {
                 // indicate that the map has been updated
                 pv_combo.setForeground(valid_foreground);
@@ -343,7 +343,7 @@ public class PVPanel extends JPanel implements ActionListener,
     /**
      * Adds faction to the list.
      */
-    public void addFaction(StratmasObject faction) {
+    public void addFaction(ApproxsimObject faction) {
         setEnabled(true);
         fac_combo.addItem(faction);
     }
@@ -374,9 +374,9 @@ public class PVPanel extends JPanel implements ActionListener,
     /**
      * Returns actual faction.
      */
-    public StratmasObject getSelectedFaction() {
-        if (fac_combo.getSelectedItem() instanceof StratmasObject) {
-            return (StratmasObject) fac_combo.getSelectedItem();
+    public ApproxsimObject getSelectedFaction() {
+        if (fac_combo.getSelectedItem() instanceof ApproxsimObject) {
+            return (ApproxsimObject) fac_combo.getSelectedItem();
         } else {
             return null;
         }

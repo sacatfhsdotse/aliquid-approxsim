@@ -10,13 +10,13 @@
 #include "Server.h"
 #include "Session.h"
 #include "SocketException.h"
-#include "StratmasSocket.h"
-#include "StratmasServerSocket.h"
+#include "ApproxsimSocket.h"
+#include "ApproxsimServerSocket.h"
 #include "LogStream.h"
 #include "Log4C.h"
 
 // Temporary
-#include "StratmasMessage.h"
+#include "ApproxsimMessage.h"
 #include "XMLHandler.h"
 
 //void *keyboardListener(void *data);
@@ -53,14 +53,14 @@ Server::Server(int port, const std::string &host,
          (host.empty() ? "any" : host) << ", port = " << port );
 
      try {
-          mSocket = new StratmasServerSocket(host.empty() ? 0 : host.c_str(), 
+          mSocket = new ApproxsimServerSocket(host.empty() ? 0 : host.c_str(), 
                                              port);
      } catch (SocketException e) {
-          LOG_ERROR(networkLog, "Error when creating StratmasServerSocket - " 
+          LOG_ERROR(networkLog, "Error when creating ApproxsimServerSocket - " 
                << e.description() );
           exit(1);
      } catch (...) {
-          LOG_ERROR(networkLog, "Error when creating StratmasServerSocket - " );
+          LOG_ERROR(networkLog, "Error when creating ApproxsimServerSocket - " );
           exit(1);
      }     
 }
@@ -88,11 +88,11 @@ void Server::start()
 
      // Loop through requests
      while (true) {
-          StratmasSocket *sock = 0;
+          ApproxsimSocket *sock = 0;
 
           // Accept request
           try {
-              sock = new StratmasSocket();
+              sock = new ApproxsimSocket();
               if (!mSocket->accept(*sock)) {
                    LOG_WARN(networkLog, "Error while accepting connection. Ignoring..." 
                         );
@@ -132,7 +132,7 @@ void Server::notifyClosure(int64_t id)
 /**
  * \brief Main function of the dispatcher thread.
  *
- * The dispatcher waits for a StratmasSocket (containing data about
+ * The dispatcher waits for a ApproxsimSocket (containing data about
  * a connection) to be enqueued by the Server main thread. When this
  * happens, the dispatcher creates a thread for handling the
  * connection and gives that thread access to the correct Session
@@ -148,7 +148,7 @@ void *Server::dispatcherThreadMain(Server *data) {
 
      int64_t          id;
      Session          *sess;
-     StratmasSocket   *sock;
+     ApproxsimSocket   *sock;
 
      while (true) {
           sock = server.mConQ.dequeue();
@@ -157,16 +157,16 @@ void *Server::dispatcherThreadMain(Server *data) {
                continue;
           }
           try {
-               id = sock->recvStratmasHeader();
+               id = sock->recvApproxsimHeader();
                if (id != 0) {
                     LOG_INFO(networkLog, "Connection accepted from " << sock->address() );
                }
           } catch (SocketException e) {
-               LOG_WARN(networkLog, "Error when receiving StratmasHeader: '" << e.description() << "'" );
+               LOG_WARN(networkLog, "Error when receiving ApproxsimHeader: '" << e.description() << "'" );
                delete sock;
                continue;
           } catch (...) {
-               LOG_WARN(networkLog, "Error when receiving StratmasHeader: " );
+               LOG_WARN(networkLog, "Error when receiving ApproxsimHeader: " );
                delete sock;
                continue;
           }
@@ -225,15 +225,15 @@ void *Server::dispatcherThreadMain(Server *data) {
  * Used for LoadQueryMessages.
  *
  * \param server The server object.
- * \param sock The StratmasSocket that the temporary session uses.
+ * \param sock The ApproxsimSocket that the temporary session uses.
  */
-void Server::handleTemporarySession(Server& server, StratmasSocket& sock)
+void Server::handleTemporarySession(Server& server, ApproxsimSocket& sock)
 {
      std::string xml;
-     sock.recvStratmasMessage(xml);
+     sock.recvApproxsimMessage(xml);
      XMLHandler xmlh(*server.mBuf,
                      Environment::DEFAULT_SCHEMA_NAMESPACE,
-                     Environment::STRATMAS_PROTOCOL_SCHEMA,
+                     Environment::APPROXSIM_PROTOCOL_SCHEMA,
                      -1);
      ostringstream ost;
      ost.precision(24);
@@ -265,7 +265,7 @@ void Server::handleTemporarySession(Server& server, StratmasSocket& sock)
           }
           msg.toXML(ost);
      }
-     sock.sendStratmasMessage(ost.str());
+     sock.sendApproxsimMessage(ost.str());
 }
 
 // void *keyboardListener(void *data) {

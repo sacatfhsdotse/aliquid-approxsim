@@ -1,4 +1,4 @@
-package StratmasClient.communication;
+package ApproxsimClient.communication;
 
 import java.lang.StringBuffer;
 
@@ -9,7 +9,7 @@ import java.lang.StringBuffer;
  * @version 1, $Date: 2006/03/22 14:30:49 $
  * @author Per Alexius
  */
-public class StepMessage extends StratmasMessage {
+public class StepMessage extends ApproxsimMessage {
     /** True if the step(s) should be executed detached. */
     private boolean mDetached;
     /** Number of timesteps */

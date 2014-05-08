@@ -1,5 +1,5 @@
-#ifndef STRATMAS_GRAPH_H
-#define STRATMAS_GRAPH_H
+#ifndef APPROXSIM_GRAPH_H
+#define APPROXSIM_GRAPH_H
 
 
 #include <map>
@@ -99,6 +99,6 @@ public:
 
 NavigationPlan pathfind(LatLng start, LatLng end);
 
-#endif   // STRATMAS_GRAPH_H
+#endif   // APPROXSIM_GRAPH_H
 
 // vim: ts=4 sw=4 expandtab:

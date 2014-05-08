@@ -3,7 +3,7 @@
  * @(#)Evaluation.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
 /**
  * An evaluation of a ParameterInstanceSet

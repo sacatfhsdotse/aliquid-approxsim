@@ -1,4 +1,4 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -18,10 +18,10 @@ import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLProfile;
 import com.jogamp.opengl.util.gl2.GLUT;
 
-import StratmasClient.ProcessVariableDescription;
+import ApproxsimClient.ProcessVariableDescription;
 
 /**
- * Color map scale used for visualizing of STRATMAS simulator results on the map.
+ * Color map scale used for visualizing of APPROXSIM simulator results on the map.
  * <p>
  * The color scale can be created from the predefined colors or the user defined ones. Number of colors chosen to define the color scale can
  * vary between 2 and 256. When the colors are chosen, a lookup table of 256 shades is created. Bellow the color map scale, the numerical

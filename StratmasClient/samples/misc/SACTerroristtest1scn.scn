@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?><root xmlns:sp="http://pdc.kth.se/stratmasNamespace" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xi="http://www.w3.org/2001/XInclude" xsi:type="sp:Root">
+<?xml version="1.0" encoding="ISO-8859-1"?><root xmlns:sp="http://pdc.kth.se/approxsimNamespace" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xi="http://www.w3.org/2001/XInclude" xsi:type="sp:Root">
 <identifiables xsi:type="sp:CommonSimulation" identifier="IRAQ 2005">
 <timeStepper xsi:type="sp:ConstantStepper">
 <dt xsi:type="sp:Duration">
@@ -83,7 +83,7 @@
 <center xsi:type="sp:Point">
 <lat>31.0</lat>
 <lon>43.0</lon></center></location>
-<deployment xsi:type="sp:StratmasCityDistribution">
+<deployment xsi:type="sp:ApproxsimCityDistribution">
 <sigmaMeters xsi:type="sp:Double">
 <value>8000.0</value></sigmaMeters></deployment>
 <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Shia">
@@ -107,7 +107,7 @@
 <center xsi:type="sp:Point">
 <lat>31.0</lat>
 <lon>42.0</lon></center></location>
-<deployment xsi:type="sp:StratmasCityDistribution">
+<deployment xsi:type="sp:ApproxsimCityDistribution">
 <sigmaMeters xsi:type="sp:Double">
 <value>8000.0</value></sigmaMeters></deployment>
 <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Shia">
@@ -131,7 +131,7 @@
 <center xsi:type="sp:Point">
 <lat>31.0</lat>
 <lon>43.0</lon></center></location>
-<deployment xsi:type="sp:StratmasCityDistribution">
+<deployment xsi:type="sp:ApproxsimCityDistribution">
 <sigmaMeters xsi:type="sp:Double">
 <value>8000.0</value></sigmaMeters></deployment>
 <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Shia">
@@ -155,7 +155,7 @@
 <center xsi:type="sp:Point">
 <lat>33.0</lat>
 <lon>41.0</lon></center></location>
-<deployment xsi:type="sp:StratmasCityDistribution">
+<deployment xsi:type="sp:ApproxsimCityDistribution">
 <sigmaMeters xsi:type="sp:Double">
 <value>8000.0</value></sigmaMeters></deployment>
 <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Shia">
@@ -179,7 +179,7 @@
 <center xsi:type="sp:Point">
 <lat>32.0</lat>
 <lon>42.0</lon></center></location>
-<deployment xsi:type="sp:StratmasCityDistribution">
+<deployment xsi:type="sp:ApproxsimCityDistribution">
 <sigmaMeters xsi:type="sp:Double">
 <value>8000.0</value></sigmaMeters></deployment>
 <ethnicGroups xsi:type="sp:PopulationGroup" identifier="Shia">

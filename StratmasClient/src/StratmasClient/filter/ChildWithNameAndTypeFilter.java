@@ -1,16 +1,16 @@
-package StratmasClient.filter;
+package ApproxsimClient.filter;
 
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.type.Type;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.type.Type;
 
 /**
- * ChildWithNameAndTypefilter filters out StratmasObjects that have a child with a specified name that is of a specified type.
+ * ChildWithNameAndTypefilter filters out ApproxsimObjects that have a child with a specified name that is of a specified type.
  * 
  * @version 1, $Date: 2006/03/22 14:30:50 $
  * @author Per Alexius
  */
 
-public class ChildWithNameAndTypeFilter extends StratmasObjectFilter {
+public class ChildWithNameAndTypeFilter extends ApproxsimObjectFilter {
     private String mName;
     private Type mType;
 
@@ -27,12 +27,12 @@ public class ChildWithNameAndTypeFilter extends StratmasObjectFilter {
     }
 
     /**
-     * Returns true if the provided StratmasObject passes the filter.
+     * Returns true if the provided ApproxsimObject passes the filter.
      * 
      * @param sObj the object to test
      */
-    public boolean pass(StratmasObject sObj) {
-        StratmasObject child = sObj.getChild(mName);
+    public boolean pass(ApproxsimObject sObj) {
+        ApproxsimObject child = sObj.getChild(mName);
         if (child == null) {
             return false;
         } else {

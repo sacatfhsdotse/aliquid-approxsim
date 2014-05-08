@@ -3,18 +3,18 @@
  * @(#)DefaultComplexVectorConstructor
  */
 
-package StratmasClient.object;
+package ApproxsimClient.object;
 
-import StratmasClient.object.type.Declaration;
+import ApproxsimClient.object.type.Declaration;
 import java.util.Vector;
 
 /**
- * DefaultComplexVectorConstructor constructs a StratmasComplex using a vector.
+ * DefaultComplexVectorConstructor constructs a ApproxsimComplex using a vector.
  * 
  * @version 1, $Date: 2006/03/22 14:30:51 $
  * @author Daniel Ahlin
  */
-public class DefaultComplexVectorConstructor extends StratmasVectorConstructor {
+public class DefaultComplexVectorConstructor extends ApproxsimVectorConstructor {
     /**
      * Creates a new object using specifications in declaration.
      * 
@@ -25,11 +25,11 @@ public class DefaultComplexVectorConstructor extends StratmasVectorConstructor {
     }
 
     /**
-     * Returns the StratmasObject this component was created to provide.
+     * Returns the ApproxsimObject this component was created to provide.
      * 
      * @param parts the parts to use in constructing the object.
      */
-    public StratmasObject getStratmasObject(Vector parts) {
+    public ApproxsimObject getApproxsimObject(Vector parts) {
         return new DefaultComplex(this.getDeclaration(), parts);
     }
 }

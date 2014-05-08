@@ -3,10 +3,10 @@
  * @(#)EvolverGUI.java
  */
 
-package StratmasClient.evolver;
+package ApproxsimClient.evolver;
 
-import StratmasClient.object.StratmasObject;
-import StratmasClient.Debug;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.Debug;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
@@ -81,7 +81,7 @@ public class EvolverGUI extends JTabbedPane {
     /**
      * Creates a new EvolverGUI using the provided object as the root of the tree being evolved.
      */
-    public EvolverGUI(StratmasObject object) {
+    public EvolverGUI(ApproxsimObject object) {
         super();
         this.actionMap = createActionMap(null);
         setEvolver(null);
@@ -165,7 +165,7 @@ public class EvolverGUI extends JTabbedPane {
      * 
      * @param root the root to use.
      */
-    protected void createConfigurationTab(StratmasObject root) {
+    protected void createConfigurationTab(ApproxsimObject root) {
         final GuiEvolverFactory factory = new GuiEvolverFactory(root);
         addTab("Configuration", null, new JScrollPane(factory),
                "Configuration of the Evolver.");
@@ -436,19 +436,19 @@ public class EvolverGUI extends JTabbedPane {
                 tabFocusDelayTimer.cancel();
                 boolean dropAccepted = false;
                 try {
-                    if (dtde.isDataFlavorSupported(StratmasObject.STRATMAS_OBJECT_FLAVOR)) {
+                    if (dtde.isDataFlavorSupported(ApproxsimObject.APPROXSIM_OBJECT_FLAVOR)) {
                         dtde.acceptDrop(DnDConstants.ACTION_LINK);
                         dropAccepted = true;
                         Object obj = dtde
                                 .getTransferable()
-                                .getTransferData(StratmasObject.STRATMAS_OBJECT_FLAVOR);
+                                .getTransferData(ApproxsimObject.APPROXSIM_OBJECT_FLAVOR);
                         // Apple's dnd implementation sucks... We must call the
                         // getTransferData method for the string flavor in order
                         // to get a valid callback.
                         dtde.getTransferable()
                                 .getTransferData(DataFlavor.stringFlavor);
                         //
-                        if (obj instanceof StratmasObject) {
+                        if (obj instanceof ApproxsimObject) {
                             dtde.dropComplete(true);
                         } else {
                             dtde.dropComplete(false);

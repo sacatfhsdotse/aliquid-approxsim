@@ -1,10 +1,10 @@
-//         $Id: StratmasDispatcher.java,v 1.9 2006/08/29 16:25:55 dah Exp $
+//         $Id: ApproxsimDispatcher.java,v 1.9 2006/08/29 16:25:55 dah Exp $
 
 /*
- * @(#)StratmasDispatcher.java
+ * @(#)ApproxsimDispatcher.java
  */
 
-package StratmasDispatcher;
+package ApproxsimDispatcher;
 
 import java.util.Enumeration;
 import java.util.Vector;
@@ -24,13 +24,13 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Document;
 
 /**
- * StratmasDispatcher is a minimalistic server maintaining a list of
- * availiable StratmasServers.
+ * ApproxsimDispatcher is a minimalistic server maintaining a list of
+ * availiable ApproxsimServers.
  *
  * @version 1, $Date: 2006/08/29 16:25:55 $
  * @author  Daniel Ahlin
 */
-public class StratmasDispatcher implements Runnable
+public class ApproxsimDispatcher implements Runnable
 {
     /**
      * The default port on which to listen.
@@ -48,24 +48,24 @@ public class StratmasDispatcher implements Runnable
     Vector servers;
 
     /**
-     * Creates a new StratmasDispatcher, listening on a specified
+     * Creates a new ApproxsimDispatcher, listening on a specified
      * port.
      *
      * @param port the port on which to listen.
      */
-    public StratmasDispatcher(int port)
+    public ApproxsimDispatcher(int port)
     {
         this.port = port;
         this.servers = new Vector();
     }
 
     /** 
-     * Creates a new StratmasDispatcher, listening on the default
+     * Creates a new ApproxsimDispatcher, listening on the default
      * port.
      */
-    public StratmasDispatcher()
+    public ApproxsimDispatcher()
     {
-        this(StratmasDispatcher.DEFAULT_PORT);
+        this(ApproxsimDispatcher.DEFAULT_PORT);
     }
 
     /**
@@ -73,7 +73,7 @@ public class StratmasDispatcher implements Runnable
      *
      * @param server the server to watch.
      */
-    public void registerServer(StratmasServer server)
+    public void registerServer(ApproxsimServer server)
     {
         synchronized(servers) {
             // Remove any previous registrations of this server. This
@@ -82,7 +82,7 @@ public class StratmasDispatcher implements Runnable
             int i = getServers().indexOf(server);
             if (i >= 0) {
                 log("Removing stale registration of " + server.toString() + " from pool.");
-                StratmasServer oldServer = (StratmasServer) getServers().get(i);
+                ApproxsimServer oldServer = (ApproxsimServer) getServers().get(i);
                 log("Adding " + server.toString() + " to pool.");
                 getServers().setElementAt(server, i);
                 // FIXME: This is a ugly way of stopping the monitor thread...
@@ -99,7 +99,7 @@ public class StratmasDispatcher implements Runnable
      *
      * @param server the server to remove.
      */
-    public void removeServer(StratmasServer server)
+    public void removeServer(ApproxsimServer server)
     {
         log("Evicting " + server.toString() + " from pool.");
         synchronized(servers) {
@@ -125,7 +125,7 @@ public class StratmasDispatcher implements Runnable
                             Vector bad = new Vector();
                             for (Enumeration e = getServers().elements(); 
                                  e.hasMoreElements();) {
-                                StratmasServer server = (StratmasServer) e.nextElement();
+                                ApproxsimServer server = (ApproxsimServer) e.nextElement();
                                 if (server.isBad()) {
                                     bad.add(server);
                                 }
@@ -133,7 +133,7 @@ public class StratmasDispatcher implements Runnable
 
                             for (Enumeration e = bad.elements(); 
                                  e.hasMoreElements();) {
-                                StratmasServer server = (StratmasServer) e.nextElement();
+                                ApproxsimServer server = (ApproxsimServer) e.nextElement();
                                 removeServer(server);
                             }
                             
@@ -194,7 +194,7 @@ public class StratmasDispatcher implements Runnable
     public void addServersToElement(Element element)
     {
         for (Enumeration e = getServers().elements(); e.hasMoreElements();) {
-            StratmasServer server = (StratmasServer) e.nextElement();
+            ApproxsimServer server = (ApproxsimServer) e.nextElement();
             if (server.isGood() && ! server.isPending()) {
                 element.appendChild(server.toDOMElement(element.getOwnerDocument()));
             }
@@ -238,7 +238,7 @@ public class StratmasDispatcher implements Runnable
 
         // Process args:
         String portstr = (String) options.remove("-p");
-        int port = StratmasDispatcher.DEFAULT_PORT;
+        int port = ApproxsimDispatcher.DEFAULT_PORT;
         if (portstr != null) {
             try {
                 port = Integer.parseInt(portstr);
@@ -256,7 +256,7 @@ public class StratmasDispatcher implements Runnable
             System.exit(1);
         }
 
-        StratmasDispatcher dispatcher = new StratmasDispatcher(port);
+        ApproxsimDispatcher dispatcher = new ApproxsimDispatcher(port);
         dispatcher.run();
     }
 }

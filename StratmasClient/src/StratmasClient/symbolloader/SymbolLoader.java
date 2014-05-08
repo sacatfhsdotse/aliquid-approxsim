@@ -3,7 +3,7 @@
  * BufferedImage, or null.
  */
 
-package StratmasClient.symbolloader;
+package ApproxsimClient.symbolloader;
 
 import java.awt.*;
 import java.awt.image.*;

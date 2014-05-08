@@ -1,4 +1,4 @@
-package StratmasClient.substrate;
+package ApproxsimClient.substrate;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -21,8 +21,8 @@ import javax.swing.BoxLayout;
 import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
 
-import StratmasClient.Client;
-import StratmasClient.StratmasDialog;
+import ApproxsimClient.Client;
+import ApproxsimClient.ApproxsimDialog;
 
 /**
  * The dialog used to import process variables for SubstrateEditor.
@@ -119,8 +119,8 @@ class ImportPVDialog extends JDialog {
             }
         });
         // name of the file
-        // pvFileTextField.setText("C:\\Projects\\Stratmas\\development\\StratmasClient\\samples\\processVariables.prv");
-        // pvFileTextField.setText("/afs/nada.kth.se/home/ass/amfi/PDC_part/STRATMAS/client/development/StratmasClient/samples/processVariables.prv");
+        // pvFileTextField.setText("C:\\Projects\\Approxsim\\development\\ApproxsimClient\\samples\\processVariables.prv");
+        // pvFileTextField.setText("/afs/nada.kth.se/home/ass/amfi/PDC_part/APPROXSIM/client/development/ApproxsimClient/samples/processVariables.prv");
         // choose the file
         choiceButton.addActionListener(new AbstractAction() {
             /**
@@ -193,7 +193,7 @@ class ImportPVDialog extends JDialog {
                 final String pvSourceName = (serverNameTextField.isEnabled()) ? serverNameTextField
                         .getText() : pvFileTextField.getText();
                 if (pvSourceName.length() > 0) {
-                    StratmasDialog
+                    ApproxsimDialog
                             .showProgressBarDialog(null,
                                                    "Importing process variables ...");
                     SwingUtilities.invokeLater(new Runnable() {
@@ -235,7 +235,7 @@ class ImportPVDialog extends JDialog {
                     if (success) {
                         substrateEditor.importProcessVariablesFromClient();
                     }
-                    StratmasDialog.quitProgressBarDialog();
+                    ApproxsimDialog.quitProgressBarDialog();
                 }
             };
             worker.start();
@@ -246,7 +246,7 @@ class ImportPVDialog extends JDialog {
                 public void run() {
                     substrateEditor
                             .importProcessVariablesFromFile(pvSourceName);
-                    StratmasDialog.quitProgressBarDialog();
+                    ApproxsimDialog.quitProgressBarDialog();
                 }
             };
             worker.start();

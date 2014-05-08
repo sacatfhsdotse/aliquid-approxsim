@@ -1,4 +1,4 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -7,12 +7,12 @@ import java.awt.event.ActionListener;
 import java.awt.*;
 import javax.swing.*;
 
-import StratmasClient.Client;
-import StratmasClient.object.Shape;
-import StratmasClient.communication.GridData;
+import ApproxsimClient.Client;
+import ApproxsimClient.object.Shape;
+import ApproxsimClient.communication.GridData;
 
 /**
- * STRATMAS map controller. <br>
+ * APPROXSIM map controller. <br>
  * This class contains references to the main map as well as the panel components which controls display of the map.
  * 
  * @version 1.0
@@ -69,7 +69,7 @@ public class StratMap extends BasicMap {
     private String map_title;
 
     /**
-     * Create STRATMAS map controler.
+     * Create APPROXSIM map controler.
      * 
      * @param client reference to the client.
      * @param shape shapes defining geographical region.
@@ -289,7 +289,7 @@ public class StratMap extends BasicMap {
     public void show() {
         final StratMap self = this;
         // create and set up the window
-        frame.setTitle("Stratmas Map Control for " + map_title);
+        frame.setTitle("Approxsim Map Control for " + map_title);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         // add listener to the frame

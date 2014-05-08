@@ -330,7 +330,7 @@ void CustomPVModification::createEffects() {
      if (!targetFaction) {
           Error e;
           e << "Tried to create effects in Activity but couldn't map the Reference '" << *mTarget;
-          e << "' to any ethnic faction.\nStratmas does not yet support other targets for Activities";
+          e << "' to any ethnic faction.\nApproxsim does not yet support other targets for Activities";
           throw e;
      }
 

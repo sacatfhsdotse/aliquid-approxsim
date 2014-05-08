@@ -1,4 +1,4 @@
-package StratmasClient.map.adapter;
+package ApproxsimClient.map.adapter;
 
 import java.nio.DoubleBuffer;
 import java.nio.IntBuffer;
@@ -13,23 +13,23 @@ import javax.media.opengl.glu.GLUtessellator;
 import javax.media.opengl.glu.GLUtessellatorCallback;
 import javax.media.opengl.glu.GLUtessellatorCallbackAdapter;
 
-import StratmasClient.BoundingBox;
-import StratmasClient.Debug;
-import StratmasClient.map.Projection;
-import StratmasClient.map.SymbolToTextureMapper;
-import StratmasClient.object.Circle;
-import StratmasClient.object.Line;
-import StratmasClient.object.Shape;
-import StratmasClient.object.SimpleShape;
-import StratmasClient.object.StratmasDecimal;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.SymbolIDCode;
+import ApproxsimClient.BoundingBox;
+import ApproxsimClient.Debug;
+import ApproxsimClient.map.Projection;
+import ApproxsimClient.map.SymbolToTextureMapper;
+import ApproxsimClient.object.Circle;
+import ApproxsimClient.object.Line;
+import ApproxsimClient.object.Shape;
+import ApproxsimClient.object.SimpleShape;
+import ApproxsimClient.object.ApproxsimDecimal;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.SymbolIDCode;
 
 import com.jogamp.common.nio.Buffers;
 
 /**
- * MapElementAdapter adapts StratmasObjects descendants of Element and Activity for viewing on a map window.
+ * MapElementAdapter adapts ApproxsimObjects descendants of Element and Activity for viewing on a map window.
  * 
  * @version 1,
  * @author Daniel Ahlin
@@ -139,7 +139,7 @@ public class MapElementAdapter extends MapDrawableAdapter {
      * 
      * @param mapElement the object to adapt.
      */
-    protected MapElementAdapter(StratmasObject mapElement) {
+    protected MapElementAdapter(ApproxsimObject mapElement) {
         super(mapElement);
     }
 
@@ -149,7 +149,7 @@ public class MapElementAdapter extends MapDrawableAdapter {
      * @param mapElement the object to adapt.
      * @param renderSelectionName the integer to use as the base for names in RENDER_SELECTION
      */
-    protected MapElementAdapter(StratmasObject mapElement,
+    protected MapElementAdapter(ApproxsimObject mapElement,
             int renderSelectionName) {
         super(mapElement);
         setRenderSelectionName(renderSelectionName);
@@ -376,7 +376,7 @@ public class MapElementAdapter extends MapDrawableAdapter {
             gl.glStencilFunc(GL2.GL_ALWAYS, 1, 1);
             gl.glStencilOp(GL2.GL_REPLACE, GL2.GL_REPLACE, GL2.GL_REPLACE);
 
-            Shape shape = (Shape) getStratmasObject().getChild("location");
+            Shape shape = (Shape) getApproxsimObject().getChild("location");
 
             if (shape != null) {
                 for (Enumeration<SimpleShape> se = shape
@@ -448,7 +448,7 @@ public class MapElementAdapter extends MapDrawableAdapter {
             }
         }
         if (getDrawLocationOutline()) {
-            for (Enumeration se = ((Shape) getStratmasObject()
+            for (Enumeration se = ((Shape) getApproxsimObject()
                     .getChild("location")).constructSimpleShapes().elements(); se
                     .hasMoreElements();) {
                 SimpleShape simpleShape = (SimpleShape) se.nextElement();
@@ -521,19 +521,19 @@ public class MapElementAdapter extends MapDrawableAdapter {
         double[] color = getLocationColor();
         proj.projToXY(getLonLat());
 
-        StratmasObject distribution = getObject().getChild("deployment");
+        ApproxsimObject distribution = getObject().getChild("deployment");
         if (distribution == null) {
             gl.glColor4d(color[0], color[1], color[2],
                          0.2d * getLocationOpacity());
             gl.glRectdv(min, 0, max, 0);
         } else if (distribution.getType().canSubstitute("NormalDistribution")
                 || distribution.getType()
-                        .canSubstitute("StratmasCityDistribution")) {
+                        .canSubstitute("ApproxsimCityDistribution")) {
 
-            StratmasObject std = distribution.getChild("sigmaMeters");
+            ApproxsimObject std = distribution.getChild("sigmaMeters");
             double sigmaMeters;
-            if (std != null && std instanceof StratmasDecimal) {
-                sigmaMeters = ((StratmasDecimal) std).getValue();
+            if (std != null && std instanceof ApproxsimDecimal) {
+                sigmaMeters = ((ApproxsimDecimal) std).getValue();
             } else {
                 // Nice default.
                 sigmaMeters = 20000;
@@ -728,7 +728,7 @@ public class MapElementAdapter extends MapDrawableAdapter {
     }
 
     /**
-     * Returns the tessellator callback to use for this StratmasElementAdapter
+     * Returns the tessellator callback to use for this ApproxsimElementAdapter
      * 
      * @param gld the glDrawable context to use.
      */
@@ -811,7 +811,7 @@ public class MapElementAdapter extends MapDrawableAdapter {
      * @return [lon, lat]
      */
     protected double[] getLonLat() {
-        StratmasObject walker = stComp;
+        ApproxsimObject walker = stComp;
         while (walker != null && walker.getChild("location") == null) {
             walker = walker.getParent();
         }
@@ -835,7 +835,7 @@ public class MapElementAdapter extends MapDrawableAdapter {
      * Returns the latitiude of the center of the position of the object this adapter adapts.
      */
     protected double getLat() {
-        StratmasObject walker = stComp;
+        ApproxsimObject walker = stComp;
         while (walker != null && walker.getChild("location") == null) {
             walker = walker.getParent();
         }
@@ -856,7 +856,7 @@ public class MapElementAdapter extends MapDrawableAdapter {
      * Returns the longitude of the center of the position of the object this adapter adapts.
      */
     protected double getLon() {
-        StratmasObject walker = stComp;
+        ApproxsimObject walker = stComp;
         while (walker != null && walker.getChild("location") == null) {
             walker = walker.getParent();
         }
@@ -970,7 +970,7 @@ public class MapElementAdapter extends MapDrawableAdapter {
      * 
      * @param event the event causing the call.
      */
-    public void eventOccured(StratmasEvent event) {
+    public void eventOccured(ApproxsimEvent event) {
         if (event.isChildChanged()) {
             childChanged(event);
         } else if (event.isRemoved()) {
@@ -990,8 +990,8 @@ public class MapElementAdapter extends MapDrawableAdapter {
      * 
      * @param event the event causing the change.
      */
-    protected void childChanged(StratmasEvent event) {
-        StratmasObject child = (StratmasObject) event.getArgument();
+    protected void childChanged(ApproxsimEvent event) {
+        ApproxsimObject child = (ApproxsimObject) event.getArgument();
         if (child.getIdentifier().equals("location")) {
             displayListUpdated = false;
             isLocationUpdated = false;
@@ -1060,7 +1060,7 @@ public class MapElementAdapter extends MapDrawableAdapter {
      * Returns a color used to draw the location of an adapted object
      */
     public double[] getLocationColor() {
-        StratmasObject code = getObject().getChild("symbolIDCode");
+        ApproxsimObject code = getObject().getChild("symbolIDCode");
         if (code != null && code instanceof SymbolIDCode) {
             return getLocationColor((SymbolIDCode) code);
         } else {

@@ -3,7 +3,7 @@
  * @(#)Duration.java
  */
 
-package StratmasClient;
+package ApproxsimClient;
 
 import org.w3c.dom.ls.LSInput;
 import org.w3c.dom.ls.LSResourceResolver;
@@ -118,7 +118,7 @@ public class LSJarXSDResolver implements LSResourceResolver, XMLEntityResolver {
     public static StreamInput getStreamInput(
             XMLResourceIdentifier resourceIdentifier) {
         InputStream stream = LSJarXSDResolver.class
-                .getResourceAsStream(StratmasConstants.JAR_SCHEMA_LOCATION
+                .getResourceAsStream(ApproxsimConstants.JAR_SCHEMA_LOCATION
                         + resourceIdentifier.getLiteralSystemId());
         if (stream != null) {
             return new StreamInput(stream,
@@ -135,7 +135,7 @@ public class LSJarXSDResolver implements LSResourceResolver, XMLEntityResolver {
      */
     public static StreamInput getStreamInput(String systemId) {
         InputStream stream = LSJarXSDResolver.class
-                .getResourceAsStream(StratmasConstants.JAR_SCHEMA_LOCATION
+                .getResourceAsStream(ApproxsimConstants.JAR_SCHEMA_LOCATION
                         + systemId);
         if (stream != null) {
             return new StreamInput(stream, systemId);

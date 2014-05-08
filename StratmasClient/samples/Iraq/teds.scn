@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<root xmlns:sp="http://pdc.kth.se/stratmasNamespace"
+<root xmlns:sp="http://pdc.kth.se/approxsimNamespace"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xmlns:xi="http://www.w3.org/2001/XInclude"
       xsi:type="sp:Root">
@@ -6247,7 +6247,7 @@
             <lat>30.95</lat><lon>46.8667</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -6296,7 +6296,7 @@
             <lat>30.9558</lat><lon>46.8478</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -6345,7 +6345,7 @@
             <lat>36.8411</lat><lon>44.3082</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -6394,7 +6394,7 @@
             <lat>35.8899</lat><lon>44.5883</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -6443,7 +6443,7 @@
             <lat>33.7406</lat><lon>45.5356</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -6492,7 +6492,7 @@
             <lat>35.2506</lat><lon>43.2816</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -6541,7 +6541,7 @@
             <lat>34.9675</lat><lon>43.5469</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -6590,7 +6590,7 @@
             <lat>35.0119</lat><lon>43.5642</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -6639,7 +6639,7 @@
             <lat>34.7925</lat><lon>42.7133</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -6688,7 +6688,7 @@
             <lat>34.8167</lat><lon>43.5833</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -6737,7 +6737,7 @@
             <lat>35.0264</lat><lon>43.5647</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -6786,7 +6786,7 @@
             <lat>35.0247</lat><lon>42.7833</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -6835,7 +6835,7 @@
             <lat>35.5397</lat><lon>43.2244</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -6884,7 +6884,7 @@
             <lat>35.6159</lat><lon>43.2819</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -6933,7 +6933,7 @@
             <lat>35.5914</lat><lon>43.2411</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -6982,7 +6982,7 @@
             <lat>35.4839</lat><lon>43.265</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -7031,7 +7031,7 @@
             <lat>35.4986</lat><lon>43.2739</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -7080,7 +7080,7 @@
             <lat>35.4989</lat><lon>43.2333</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -7129,7 +7129,7 @@
             <lat>35.5472</lat><lon>43.2678</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -7178,7 +7178,7 @@
             <lat>35.5172</lat><lon>43.2281</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -7227,7 +7227,7 @@
             <lat>35.4586</lat><lon>43.2572</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -7276,7 +7276,7 @@
             <lat>35.4264</lat><lon>43.295</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -7325,7 +7325,7 @@
             <lat>35.4194</lat><lon>43.1108</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -7374,7 +7374,7 @@
             <lat>32.6833</lat><lon>44.2</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -7423,7 +7423,7 @@
             <lat>32.7603</lat><lon>44.2406</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -7472,7 +7472,7 @@
             <lat>32.6267</lat><lon>44.1931</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -7521,7 +7521,7 @@
             <lat>32.5722</lat><lon>44.2514</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -7570,7 +7570,7 @@
             <lat>32.7286</lat><lon>44.1908</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -7619,7 +7619,7 @@
             <lat>32.5558</lat><lon>44.2881</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -7668,7 +7668,7 @@
             <lat>32.5667</lat><lon>44.2</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -7717,7 +7717,7 @@
             <lat>32.5764</lat><lon>44.1878</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -7766,7 +7766,7 @@
             <lat>32.6833</lat><lon>44.2667</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -7815,7 +7815,7 @@
             <lat>32.6147</lat><lon>44.2439</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -7864,7 +7864,7 @@
             <lat>32.6031</lat><lon>44.1906</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -7913,7 +7913,7 @@
             <lat>32.65</lat><lon>44.2</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -7962,7 +7962,7 @@
             <lat>32.6794</lat><lon>44.205</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -8011,7 +8011,7 @@
             <lat>34.8839</lat><lon>43.8816</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -8060,7 +8060,7 @@
             <lat>34.7686</lat><lon>43.6433</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -8109,7 +8109,7 @@
             <lat>34.6111</lat><lon>43.7033</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -8158,7 +8158,7 @@
             <lat>34.635</lat><lon>43.7203</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -8207,7 +8207,7 @@
             <lat>34.8336</lat><lon>44.035</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -8256,7 +8256,7 @@
             <lat>34.8672</lat><lon>43.8256</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -8305,7 +8305,7 @@
             <lat>31.9475</lat><lon>44.8417</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -8354,7 +8354,7 @@
             <lat>32.0333</lat><lon>44.7667</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -8403,7 +8403,7 @@
             <lat>32.1583</lat><lon>45</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -8452,7 +8452,7 @@
             <lat>35.8644</lat><lon>45.1061</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -8501,7 +8501,7 @@
             <lat>36.02</lat><lon>44.8367</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -8550,7 +8550,7 @@
             <lat>36.0672</lat><lon>45.0444</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -8599,7 +8599,7 @@
             <lat>30.0342</lat><lon>47.9294</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -8648,7 +8648,7 @@
             <lat>33.0381</lat><lon>40.2844</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -8697,7 +8697,7 @@
             <lat>34.6914</lat><lon>44.9608</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -8746,7 +8746,7 @@
             <lat>32.2289</lat><lon>44.3678</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -8795,7 +8795,7 @@
             <lat>32.4481</lat><lon>44.3022</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -8844,7 +8844,7 @@
             <lat>33.5917</lat><lon>42.6172</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -8893,7 +8893,7 @@
             <lat>33.8525</lat><lon>42.5475</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -8942,7 +8942,7 @@
             <lat>31.4667</lat><lon>46.9333</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -8991,7 +8991,7 @@
             <lat>33.0822</lat><lon>44.2528</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -9040,7 +9040,7 @@
             <lat>35.6167</lat><lon>45.95</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -9089,7 +9089,7 @@
             <lat>34.6447</lat><lon>43.7</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -9138,7 +9138,7 @@
             <lat>34.35</lat><lon>41.5</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -9187,7 +9187,7 @@
             <lat>35.8525</lat><lon>42.09</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -9236,7 +9236,7 @@
             <lat>35.6672</lat><lon>42.0294</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -9285,7 +9285,7 @@
             <lat>36.15</lat><lon>41.7</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -9334,7 +9334,7 @@
             <lat>36.0417</lat><lon>41.7333</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -9383,7 +9383,7 @@
             <lat>36.1083</lat><lon>41.8722</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -9432,7 +9432,7 @@
             <lat>35.9256</lat><lon>41.5522</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -9481,7 +9481,7 @@
             <lat>31.6747</lat><lon>47.2781</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -9530,7 +9530,7 @@
             <lat>32.5667</lat><lon>46.2833</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -9579,7 +9579,7 @@
             <lat>34.07</lat><lon>44.8614</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -9628,7 +9628,7 @@
             <lat>32.525</lat><lon>44.55</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -9677,7 +9677,7 @@
             <lat>32.6697</lat><lon>44.5036</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -9726,7 +9726,7 @@
             <lat>32.75</lat><lon>44.6167</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -9775,7 +9775,7 @@
             <lat>33.4222</lat><lon>44.0522</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -9824,7 +9824,7 @@
             <lat>33.4844</lat><lon>44.0483</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -9873,7 +9873,7 @@
             <lat>33.3333</lat><lon>43.75</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -9922,7 +9922,7 @@
             <lat>33.4167</lat><lon>43.6167</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -9971,7 +9971,7 @@
             <lat>33.45</lat><lon>43.9833</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -10020,7 +10020,7 @@
             <lat>33.4</lat><lon>43.6167</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -10069,7 +10069,7 @@
             <lat>33.39</lat><lon>43.9786</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -10118,7 +10118,7 @@
             <lat>33.4</lat><lon>43.9</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -10167,7 +10167,7 @@
             <lat>33.45</lat><lon>43.7833</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -10216,7 +10216,7 @@
             <lat>33.4333</lat><lon>43.8333</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -10265,7 +10265,7 @@
             <lat>33.4167</lat><lon>43.95</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -10314,7 +10314,7 @@
             <lat>36.2553</lat><lon>44.8856</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -10363,7 +10363,7 @@
             <lat>35.2989</lat><lon>46.0361</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -10412,7 +10412,7 @@
             <lat>32.4608</lat><lon>46.685</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -10461,7 +10461,7 @@
             <lat>35.7567</lat><lon>44.135</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -10510,7 +10510,7 @@
             <lat>31</lat><lon>47</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -10559,7 +10559,7 @@
             <lat>32.6481</lat><lon>44.1078</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -10608,7 +10608,7 @@
             <lat>32.5686</lat><lon>44.1419</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -10657,7 +10657,7 @@
             <lat>32.35</lat><lon>44.0167</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -10706,7 +10706,7 @@
             <lat>32.6903</lat><lon>44.0081</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -10755,7 +10755,7 @@
             <lat>32.5847</lat><lon>44.1492</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -10804,7 +10804,7 @@
             <lat>32.6839</lat><lon>43.8986</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -10853,7 +10853,7 @@
             <lat>32.665</lat><lon>44.1864</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -10902,7 +10902,7 @@
             <lat>32.6764</lat><lon>43.9481</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -10951,7 +10951,7 @@
             <lat>32.6872</lat><lon>44.1083</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -11000,7 +11000,7 @@
             <lat>34.2167</lat><lon>43.8667</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -11049,7 +11049,7 @@
             <lat>34.2667</lat><lon>43.8167</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -11098,7 +11098,7 @@
             <lat>34.4464</lat><lon>43.7881</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -11147,7 +11147,7 @@
             <lat>34.25</lat><lon>43.8167</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -11196,7 +11196,7 @@
             <lat>34.3675</lat><lon>43.7428</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -11245,7 +11245,7 @@
             <lat>33.4833</lat><lon>43.1833</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -11294,7 +11294,7 @@
             <lat>33.4167</lat><lon>43.4833</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -11343,7 +11343,7 @@
             <lat>33.5167</lat><lon>43.1167</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -11392,7 +11392,7 @@
             <lat>33.4833</lat><lon>43.0333</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -11441,7 +11441,7 @@
             <lat>33.4333</lat><lon>43.55</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -11490,7 +11490,7 @@
             <lat>33.5167</lat><lon>43.1333</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -11539,7 +11539,7 @@
             <lat>33.5167</lat><lon>43.1</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -11588,7 +11588,7 @@
             <lat>33.45</lat><lon>43.3833</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -11637,7 +11637,7 @@
             <lat>33.45</lat><lon>43.3333</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -11686,7 +11686,7 @@
             <lat>33.2667</lat><lon>42.8833</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -11735,7 +11735,7 @@
             <lat>34.45</lat><lon>43.7833</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -11784,7 +11784,7 @@
             <lat>37.0372</lat><lon>43.3417</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -11833,7 +11833,7 @@
             <lat>35.1103</lat><lon>45.6861</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -11882,7 +11882,7 @@
             <lat>32.0833</lat><lon>45.2667</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -11931,7 +11931,7 @@
             <lat>32.0667</lat><lon>45.25</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -11980,7 +11980,7 @@
             <lat>35.5711</lat><lon>42.7322</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -12029,7 +12029,7 @@
             <lat>31.95</lat><lon>44.1</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -12078,7 +12078,7 @@
             <lat>30.8136</lat><lon>43.6717</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -12127,7 +12127,7 @@
             <lat>32.0333</lat><lon>44.0667</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -12176,7 +12176,7 @@
             <lat>32.2167</lat><lon>44.2667</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -12225,7 +12225,7 @@
             <lat>31.8167</lat><lon>44.1833</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -12274,7 +12274,7 @@
             <lat>31.6</lat><lon>44.45</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -12323,7 +12323,7 @@
             <lat>32.0322</lat><lon>43.9114</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -12372,7 +12372,7 @@
             <lat>30.45</lat><lon>43.7667</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -12421,7 +12421,7 @@
             <lat>30.7333</lat><lon>42.9833</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -12470,7 +12470,7 @@
             <lat>31.4675</lat><lon>45.2911</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -12519,7 +12519,7 @@
             <lat>31.6686</lat><lon>45.1819</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -12568,7 +12568,7 @@
             <lat>32.6603</lat><lon>44.4011</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -12617,7 +12617,7 @@
             <lat>31.5822</lat><lon>44.6456</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -12666,7 +12666,7 @@
             <lat>31.7367</lat><lon>44.6028</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -12715,7 +12715,7 @@
             <lat>31.1061</lat><lon>45.8858</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -12764,7 +12764,7 @@
             <lat>31.1675</lat><lon>46.6006</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -12813,7 +12813,7 @@
             <lat>31.3</lat><lon>46.25</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -12862,7 +12862,7 @@
             <lat>32.7786</lat><lon>44.29</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -12911,7 +12911,7 @@
             <lat>35.6747</lat><lon>44.0711</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -12960,7 +12960,7 @@
             <lat>36.7333</lat><lon>43.0933</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -13009,7 +13009,7 @@
             <lat>35.3</lat><lon>43.9167</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -13058,7 +13058,7 @@
             <lat>36.9047</lat><lon>43.1286</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -13107,7 +13107,7 @@
             <lat>31.0158</lat><lon>47.4306</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -13156,7 +13156,7 @@
             <lat>33.6367</lat><lon>42.8225</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -13205,7 +13205,7 @@
             <lat>31.3211</lat><lon>45.2192</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -13254,7 +13254,7 @@
             <lat>35.9037</lat><lon>45.4121</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -13303,7 +13303,7 @@
             <lat>31.9169</lat><lon>45.9572</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -13352,7 +13352,7 @@
             <lat>31.85</lat><lon>46.0833</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -13401,7 +13401,7 @@
             <lat>31.5333</lat><lon>46.1167</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -13450,7 +13450,7 @@
             <lat>35.3017</lat><lon>44.3267</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -13499,7 +13499,7 @@
             <lat>33.5658</lat><lon>44.5419</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -13548,7 +13548,7 @@
             <lat>33.7814</lat><lon>44.4994</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -13597,7 +13597,7 @@
             <lat>33.5528</lat><lon>44.3725</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -13646,7 +13646,7 @@
             <lat>32.6667</lat><lon>44</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -13695,7 +13695,7 @@
             <lat>32.67</lat><lon>44.1614</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -13744,7 +13744,7 @@
             <lat>31.1992</lat><lon>45.5419</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -13793,7 +13793,7 @@
             <lat>36.0825</lat><lon>44.6294</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -13842,7 +13842,7 @@
             <lat>33.7025</lat><lon>45.0797</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -13891,7 +13891,7 @@
             <lat>30.9528</lat><lon>47.2725</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -13940,7 +13940,7 @@
             <lat>34.8428</lat><lon>45.2102</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -13989,7 +13989,7 @@
             <lat>35.5857</lat><lon>45.3887</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -14038,7 +14038,7 @@
             <lat>35.3128</lat><lon>45.39</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -14087,7 +14087,7 @@
             <lat>35.5531</lat><lon>45.3539</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -14136,7 +14136,7 @@
             <lat>32.3078</lat><lon>44.6789</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -14185,7 +14185,7 @@
             <lat>30.8794</lat><lon>46.5719</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -14234,7 +14234,7 @@
             <lat>30.9697</lat><lon>46.7228</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -14283,7 +14283,7 @@
             <lat>36.3967</lat><lon>44.3383</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -14332,7 +14332,7 @@
             <lat>32.75</lat><lon>45.1667</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -14381,7 +14381,7 @@
             <lat>36.2708</lat><lon>43.3769</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -14430,7 +14430,7 @@
             <lat>34.1397</lat><lon>42.3781</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -14479,7 +14479,7 @@
             <lat>35.2875</lat><lon>45.1758</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -14528,7 +14528,7 @@
             <lat>35.7503</lat><lon>44.8994</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -14577,7 +14577,7 @@
             <lat>33.3819</lat><lon>43.5772</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -14626,7 +14626,7 @@
             <lat>31.6794</lat><lon>46.9678</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -14675,7 +14675,7 @@
             <lat>33.0558</lat><lon>44.3619</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -14724,7 +14724,7 @@
             <lat>34.6</lat><lon>43.68</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -14773,7 +14773,7 @@
             <lat>31.7472</lat><lon>47.1117</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -14822,7 +14822,7 @@
             <lat>31.8192</lat><lon>47.4342</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -14871,7 +14871,7 @@
             <lat>31.8</lat><lon>44.5</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -14920,7 +14920,7 @@
             <lat>31.7</lat><lon>44.4667</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -14969,7 +14969,7 @@
             <lat>31.4972</lat><lon>46.3833</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -15018,7 +15018,7 @@
             <lat>30.9797</lat><lon>47.3972</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -15067,7 +15067,7 @@
             <lat>30.9803</lat><lon>47.3161</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -15116,7 +15116,7 @@
             <lat>31.5261</lat><lon>45.2064</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -15165,7 +15165,7 @@
             <lat>37.2323</lat><lon>42.8471</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -15214,7 +15214,7 @@
             <lat>35.8764</lat><lon>43.8092</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -15263,7 +15263,7 @@
             <lat>32.0764</lat><lon>44.4419</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -15312,7 +15312,7 @@
             <lat>31.9631</lat><lon>44.5978</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -15361,7 +15361,7 @@
             <lat>34.3475</lat><lon>45.3883</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -15410,7 +15410,7 @@
             <lat>34.8831</lat><lon>44.6219</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -15459,7 +15459,7 @@
             <lat>32.9256</lat><lon>44.7758</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -15508,7 +15508,7 @@
             <lat>32.9083</lat><lon>45.0667</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -15557,7 +15557,7 @@
             <lat>31.5158</lat><lon>47.3081</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -15606,7 +15606,7 @@
             <lat>30.3892</lat><lon>47.7081</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -15655,7 +15655,7 @@
             <lat>35.8003</lat><lon>43.2897</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -15704,7 +15704,7 @@
             <lat>36.1631</lat><lon>43.2589</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -15753,7 +15753,7 @@
             <lat>36.5286</lat><lon>42.7542</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -15802,7 +15802,7 @@
             <lat>35.9931</lat><lon>43.2206</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -15851,7 +15851,7 @@
             <lat>33.4069</lat><lon>43.6503</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -15900,7 +15900,7 @@
             <lat>33.5833</lat><lon>43.9333</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -15949,7 +15949,7 @@
             <lat>35.1778</lat><lon>45.9861</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -15998,7 +15998,7 @@
             <lat>32.5333</lat><lon>45.4167</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -16047,7 +16047,7 @@
             <lat>33.75</lat><lon>44.6411</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -16096,7 +16096,7 @@
             <lat>34.9333</lat><lon>43.4833</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -16145,7 +16145,7 @@
             <lat>34.3667</lat><lon>41.1167</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -16194,7 +16194,7 @@
             <lat>34.2</lat><lon>43.8667</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -16243,7 +16243,7 @@
             <lat>36.15</lat><lon>43.7667</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -16292,7 +16292,7 @@
             <lat>37.0933</lat><lon>43.4872</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -16341,7 +16341,7 @@
             <lat>33.4075</lat><lon>44.1339</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -16390,7 +16390,7 @@
             <lat>33.4494</lat><lon>44.0822</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -16439,7 +16439,7 @@
             <lat>33.3961</lat><lon>44.2372</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -16488,7 +16488,7 @@
             <lat>33.3725</lat><lon>44.1267</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -16537,7 +16537,7 @@
             <lat>30.8903</lat><lon>46.4597</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -16586,7 +16586,7 @@
             <lat>36.9221</lat><lon>44.6023</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -16635,7 +16635,7 @@
             <lat>36.6081</lat><lon>44.5219</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -16684,7 +16684,7 @@
             <lat>32.1667</lat><lon>46.05</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -16733,7 +16733,7 @@
             <lat>34.0164</lat><lon>44.1464</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -16782,7 +16782,7 @@
             <lat>36.4894</lat><lon>43.1192</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -16831,7 +16831,7 @@
             <lat>31.575</lat><lon>47.1581</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -16880,7 +16880,7 @@
             <lat>31.8306</lat><lon>44.95</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -16929,7 +16929,7 @@
             <lat>35.5333</lat><lon>44.8333</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -16978,7 +16978,7 @@
             <lat>35.3272</lat><lon>43.7744</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -17027,7 +17027,7 @@
             <lat>31.7167</lat><lon>46.1083</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -17076,7 +17076,7 @@
             <lat>30.8206</lat><lon>47.5958</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -17125,7 +17125,7 @@
             <lat>31.3128</lat><lon>45.2861</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -17174,7 +17174,7 @@
             <lat>36.7592</lat><lon>42.9283</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -17223,7 +17223,7 @@
             <lat>37.0597</lat><lon>42.6131</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -17272,7 +17272,7 @@
             <lat>30.4722</lat><lon>47.9819</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -17321,7 +17321,7 @@
             <lat>35.25</lat><lon>45.55</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -17370,7 +17370,7 @@
             <lat>34.6333</lat><lon>45.2833</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -17419,7 +17419,7 @@
             <lat>32.3672</lat><lon>44.6575</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -17468,7 +17468,7 @@
             <lat>33.2883</lat><lon>43.97</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -17517,7 +17517,7 @@
             <lat>30.4511</lat><lon>47.985</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -17566,7 +17566,7 @@
             <lat>36.3167</lat><lon>41.8667</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -17615,7 +17615,7 @@
             <lat>32.4944</lat><lon>44.2</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -17664,7 +17664,7 @@
             <lat>33.9786</lat><lon>44.9369</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -17713,7 +17713,7 @@
             <lat>33.8556</lat><lon>44.5219</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -17762,7 +17762,7 @@
             <lat>36.8658</lat><lon>42.9997</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -17811,7 +17811,7 @@
             <lat>33.3561</lat><lon>43.7828</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -17860,7 +17860,7 @@
             <lat>32.8728</lat><lon>44.2181</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -17909,7 +17909,7 @@
             <lat>32.7147</lat><lon>44.2803</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -17958,7 +17958,7 @@
             <lat>31.4167</lat><lon>46.1667</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -18007,7 +18007,7 @@
             <lat>37.1442</lat><lon>42.6872</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -18056,7 +18056,7 @@
             <lat>35.7764</lat><lon>43.5775</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -18105,7 +18105,7 @@
             <lat>32.0317</lat><lon>44.3931</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -18154,7 +18154,7 @@
             <lat>30.1125</lat><lon>47.7156</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -18203,7 +18203,7 @@
             <lat>32.5</lat><lon>45.8333</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -18252,7 +18252,7 @@
             <lat>33.4167</lat><lon>43.3</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -18301,7 +18301,7 @@
             <lat>31.9878</lat><lon>44.9256</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -18350,7 +18350,7 @@
             <lat>31.8453</lat><lon>47.1753</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -18399,7 +18399,7 @@
             <lat>31.0333</lat><lon>46.2667</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -18448,7 +18448,7 @@
             <lat>32.4825</lat><lon>44.4314</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -18497,7 +18497,7 @@
             <lat>32.5983</lat><lon>44.0239</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -18546,7 +18546,7 @@
             <lat>31.9833</lat><lon>44.3333</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -18595,7 +18595,7 @@
             <lat>35.5617</lat><lon>45.4408</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -18644,7 +18644,7 @@
             <lat>30.4942</lat><lon>47.8192</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -18693,7 +18693,7 @@
             <lat>35.4681</lat><lon>44.3922</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -18742,7 +18742,7 @@
             <lat>30.5867</lat><lon>47.7619</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -18791,7 +18791,7 @@
             <lat>36.19</lat><lon>44.0089</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -18840,7 +18840,7 @@
             <lat>33.3767</lat><lon>44.3372</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -18889,7 +18889,7 @@
             <lat>36.335</lat><lon>43.1189</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>
@@ -18938,7 +18938,7 @@
             <lat>33.3386</lat><lon>44.3939</lon>
           </center>
         </location>
-        <deployment xsi:type="sp:StratmasCityDistribution">
+        <deployment xsi:type="sp:ApproxsimCityDistribution">
           <sigmaMeters xsi:type="sp:Double">
             <value>8000</value>
           </sigmaMeters>

@@ -1,5 +1,5 @@
-#ifndef STRATMAS_SOFACTORYLISTENER
-#define STRATMAS_SOFACTORYLISTENER
+#ifndef APPROXSIM_SOFACTORYLISTENER
+#define APPROXSIM_SOFACTORYLISTENER
 
 
 // System
@@ -49,4 +49,4 @@ public:
      virtual void objectRemoved(const Reference& ref, int64_t initiator) = 0;
 };
 
-#endif   // STRATMAS_SOFACTORYLISTENER
+#endif   // APPROXSIM_SOFACTORYLISTENER

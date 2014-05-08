@@ -1,26 +1,26 @@
-package StratmasClient.communication;
+package ApproxsimClient.communication;
 
 import java.lang.StringBuffer;
 import org.w3c.dom.Element;
-import StratmasClient.Debug;
-import StratmasClient.object.primitive.Reference;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.primitive.Timestamp;
+import ApproxsimClient.Debug;
+import ApproxsimClient.object.primitive.Reference;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.primitive.Timestamp;
 
 /**
- * This class represents the type of subscription that should be used in order to obtain updates of a StratmasObject from the server.
+ * This class represents the type of subscription that should be used in order to obtain updates of a ApproxsimObject from the server.
  * 
  * @version 1, $Date: 2006/03/22 14:30:50 $
  * @author Per Alexius
  */
-public class StratmasObjectSubscription extends Subscription implements
-        StratmasEventListener {
-    /** The StratmasObject this subscription refers to. */
-    private StratmasObject mObject = null;
+public class ApproxsimObjectSubscription extends Subscription implements
+        ApproxsimEventListener {
+    /** The ApproxsimObject this subscription refers to. */
+    private ApproxsimObject mObject = null;
 
-    /** The StratmasObject this subscription refers to. */
+    /** The ApproxsimObject this subscription refers to. */
     private Reference mReference = null;
 
     /**
@@ -29,12 +29,12 @@ public class StratmasObjectSubscription extends Subscription implements
     private SubscriptionHandler mSH = null;
 
     /**
-     * Constructor used by StratmasObjects when issuing a subscription to themselves.
+     * Constructor used by ApproxsimObjects when issuing a subscription to themselves.
      * 
-     * @param obj The StratmasObject this subscription refers to.
+     * @param obj The ApproxsimObject this subscription refers to.
      * @param ref The Reference to where in the simulation tree the object refered to by this
      */
-    public StratmasObjectSubscription(StratmasObject obj, Reference ref) {
+    public ApproxsimObjectSubscription(ApproxsimObject obj, Reference ref) {
         mObject = obj;
         mObject.addEventListener(this);
         mReference = ref;
@@ -55,17 +55,17 @@ public class StratmasObjectSubscription extends Subscription implements
     }
 
     /**
-     * Accessor for the StratmasObject this subscription refers to.
+     * Accessor for the ApproxsimObject this subscription refers to.
      * 
-     * @return The StratmasObject this subscription refers to.
+     * @return The ApproxsimObject this subscription refers to.
      */
-    public StratmasObject object() {
+    public ApproxsimObject object() {
         return mObject;
     }
 
     /**
      * Sets the subscription handler of this class. Called by the SubscriptionHandler when the subscription is registered so that the
-     * subscription may unsubscribe to itself in case the StratmasObject refered to is removed.
+     * subscription may unsubscribe to itself in case the ApproxsimObject refered to is removed.
      * 
      * @param handler The SubscriptionHandler.
      */
@@ -94,16 +94,16 @@ public class StratmasObjectSubscription extends Subscription implements
      * 
      * @param event The event.
      */
-    public void eventOccured(StratmasEvent event) {
+    public void eventOccured(ApproxsimEvent event) {
         if (event.isRemoved()) {
             annihilate();
         } else if (event.isReplaced()) {
             Debug.err.print("Replacing " + mObject.getType().getName());
             mObject.removeEventListener(this);
-            mObject = (StratmasObject) event.getArgument();
+            mObject = (ApproxsimObject) event.getArgument();
             mObject.addEventListener(this);
             Debug.err.println(" with " + mObject.getType().getName()
-                    + " in StratmasObjectSubscription");
+                    + " in ApproxsimObjectSubscription");
         }
     }
 
@@ -113,7 +113,7 @@ public class StratmasObjectSubscription extends Subscription implements
      * @return A string representation of the type of this object.
      */
     public String getTypeAsString() {
-        return "StratmasObjectSubscription";
+        return "ApproxsimObjectSubscription";
     }
 
     /**

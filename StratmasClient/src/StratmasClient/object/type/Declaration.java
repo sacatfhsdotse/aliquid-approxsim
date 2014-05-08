@@ -3,7 +3,7 @@
  * @(#)Declaration.java
  */
 
-package StratmasClient.object.type;
+package ApproxsimClient.object.type;
 
 import org.apache.xerces.xs.*;
 

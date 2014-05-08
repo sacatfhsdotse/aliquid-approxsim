@@ -1,5 +1,5 @@
-#ifndef STRATMAS_GRIDPOS_H
-#define STRATMAS_GRIDPOS_H
+#ifndef APPROXSIM_GRIDPOS_H
+#define APPROXSIM_GRIDPOS_H
 
 #include <iostream>
 
@@ -27,4 +27,4 @@ public:
      }
 };
 
-#endif   // STRATMAS_GRIDPOS_H
+#endif   // APPROXSIM_GRIDPOS_H

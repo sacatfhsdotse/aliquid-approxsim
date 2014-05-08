@@ -3,7 +3,7 @@
  * @(#)Debug.java
  */
 
-package StratmasClient;
+package ApproxsimClient;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -35,13 +35,13 @@ public class Debug {
      * Are we in debugMode or not?.
      */
     public static boolean isInDebugMode = System
-            .getProperty("StratmasClientDebug") != null;
+            .getProperty("ApproxsimClientDebug") != null;
 
     /**
      * The debug output stream.
      */
-    public static PrintStream err = System.getProperty("StratmasClientDebug") != null ? getSystemErr(System
-            .getProperty("StratmasClientDebug")) : getNullStream();
+    public static PrintStream err = System.getProperty("ApproxsimClientDebug") != null ? getSystemErr(System
+            .getProperty("ApproxsimClientDebug")) : getNullStream();
 
     /**
      * Vector containing debugActions.
@@ -102,7 +102,7 @@ public class Debug {
                 }
 
                 /**
-                 * This method finds frames in the stacktrace belonging to a method that belongs to a class that belongs to StratmasClient
+                 * This method finds frames in the stacktrace belonging to a method that belongs to a class that belongs to ApproxsimClient
                  * or a package beneath that package. (Ignoring this class). If all of these packages matches regex return true, else false.
                  * If no such frame is found return true.
                  */

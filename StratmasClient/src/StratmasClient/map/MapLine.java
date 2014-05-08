@@ -1,6 +1,6 @@
-package StratmasClient.map;
+package ApproxsimClient.map;
 
-import StratmasClient.map.Projection;
+import ApproxsimClient.map.Projection;
 
 /**
  * Represents a ordinary (straight) line.

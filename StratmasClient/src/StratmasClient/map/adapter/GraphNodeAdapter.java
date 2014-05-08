@@ -3,7 +3,7 @@
  * @(#)GraphAdapter.java
  */
 
-package StratmasClient.map.adapter;
+package ApproxsimClient.map.adapter;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.DoubleBuffer;
@@ -13,18 +13,18 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLUtessellatorCallback;
 import javax.media.opengl.glu.GLUtessellatorCallbackAdapter;
 
-import StratmasClient.Debug;
-import StratmasClient.map.Projection;
-import StratmasClient.object.Point;
-import StratmasClient.object.StratmasEvent;
-import StratmasClient.object.StratmasEventListener;
-import StratmasClient.object.StratmasObject;
+import ApproxsimClient.Debug;
+import ApproxsimClient.map.Projection;
+import ApproxsimClient.object.Point;
+import ApproxsimClient.object.ApproxsimEvent;
+import ApproxsimClient.object.ApproxsimEventListener;
+import ApproxsimClient.object.ApproxsimObject;
 
 import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.util.gl2.GLUT;
 
 /**
- * GraphAdapter adapts StratmasObjects descendants of Graph for viewing on a map window.
+ * GraphAdapter adapts ApproxsimObjects descendants of Graph for viewing on a map window.
  * 
  * @version 1, $Date: 2014-04-08 $
  * @author Exuvo
@@ -44,7 +44,7 @@ public class GraphNodeAdapter extends MapElementAdapter {
      * 
      * @param element the Element to adapt.
      */
-    protected GraphNodeAdapter(StratmasObject element) {
+    protected GraphNodeAdapter(ApproxsimObject element) {
         this(element, 0);
     }
 
@@ -54,7 +54,7 @@ public class GraphNodeAdapter extends MapElementAdapter {
      * @param element the Element to adapt.
      * @param renderSelectionName the integer to use as the base for names in RENDER_SELECTION
      */
-    protected GraphNodeAdapter(StratmasObject element, int renderSelectionName) {
+    protected GraphNodeAdapter(ApproxsimObject element, int renderSelectionName) {
         super(element, renderSelectionName);
         horizontalSymbolSize *= 0.8;
         verticalSymbolSize *= 0.8;
@@ -209,7 +209,7 @@ public class GraphNodeAdapter extends MapElementAdapter {
     }
 
     protected double[] getLonLat() {
-        StratmasObject walker = getObject();
+        ApproxsimObject walker = getObject();
         while (walker != null && walker.getChild("point") == null) {
             walker = walker.getParent();
         }
@@ -268,8 +268,8 @@ public class GraphNodeAdapter extends MapElementAdapter {
      * 
      * @param event the event causing the change.
      */
-    protected void childChanged(StratmasEvent event) {
-        StratmasObject child = (StratmasObject) event.getArgument();
+    protected void childChanged(ApproxsimEvent event) {
+        ApproxsimObject child = (ApproxsimObject) event.getArgument();
         if (child.getIdentifier().equals("point")) {
             displayListUpdated = false;
             isLocationUpdated = false;

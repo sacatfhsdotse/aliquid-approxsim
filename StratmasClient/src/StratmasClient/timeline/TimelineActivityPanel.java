@@ -1,4 +1,4 @@
-package StratmasClient.timeline;
+package ApproxsimClient.timeline;
 
 import java.nio.IntBuffer;
 import java.util.EventListener;
@@ -37,16 +37,16 @@ import java.awt.dnd.DragSourceAdapter;
 import java.awt.dnd.DragSource;
 import java.awt.dnd.DnDConstants;
 
-import StratmasClient.*;
-import StratmasClient.object.*;
-import StratmasClient.object.type.TypeFactory;
-import StratmasClient.map.RenderSelection;
-import StratmasClient.map.DraggedElement;
-import StratmasClient.filter.CombinedORFilter;
-import StratmasClient.filter.StratmasObjectFilter;
-import StratmasClient.filter.TypeFilter;
-import StratmasClient.treeview.TreeView;
-import StratmasClient.treeview.TreeViewFrame;
+import ApproxsimClient.*;
+import ApproxsimClient.object.*;
+import ApproxsimClient.object.type.TypeFactory;
+import ApproxsimClient.map.RenderSelection;
+import ApproxsimClient.map.DraggedElement;
+import ApproxsimClient.filter.CombinedORFilter;
+import ApproxsimClient.filter.ApproxsimObjectFilter;
+import ApproxsimClient.filter.TypeFilter;
+import ApproxsimClient.treeview.TreeView;
+import ApproxsimClient.treeview.TreeViewFrame;
 
 /**
  * This panel displays the activities in the timeline. Each activity is represented with it's identifier, the start and end times, the
@@ -71,7 +71,7 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements
     /**
      * The list of currently drawn activities
      */
-    private Hashtable<StratmasObject, ActivityAdapter> drawnActivities = new Hashtable<StratmasObject, ActivityAdapter>();
+    private Hashtable<ApproxsimObject, ActivityAdapter> drawnActivities = new Hashtable<ApproxsimObject, ActivityAdapter>();
     /**
      * Indicates if the list of drawn activities has to be updated.
      */
@@ -93,9 +93,9 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements
      */
     private int active_render_selection_name;
     /**
-     * The filter indicating which StratmasObjects that are dragable (as in drag-and-drop).
+     * The filter indicating which ApproxsimObjects that are dragable (as in drag-and-drop).
      */
-    private StratmasObjectFilter drag_filter;
+    private ApproxsimObjectFilter drag_filter;
     /**
      * The result of the latest render selection.
      */
@@ -475,7 +475,7 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements
      * 
      * @param root the ancestor of all resources.
      */
-    public void updateActivityTable(StratmasObject root) {
+    public void updateActivityTable(ApproxsimObject root) {
         activityTable.updateResources(root);
     }
 
@@ -517,7 +517,7 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements
     /**
      * Updates the filter of the activities with respect to time.
      */
-    public void updateActivityTimeFilter(StratmasObjectFilter filter,
+    public void updateActivityTimeFilter(ApproxsimObjectFilter filter,
             int indicator) {
         if (indicator == TimelineConstants.ADD) {
             activityTimeFilter.add(filter);
@@ -531,7 +531,7 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements
     /**
      * Updates the filter of the activities with respect to resource.
      */
-    public void updateActivityTypeFilter(StratmasObjectFilter filter,
+    public void updateActivityTypeFilter(ApproxsimObjectFilter filter,
             int indicator) {
         if (indicator == TimelineConstants.ADD) {
             activityTypeFilter.add(filter);
@@ -762,7 +762,7 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements
             gl.glVertex2d(xmin, ymax - y2);
             gl.glEnd();
             // draw the activity
-            StratmasObject activity = activityTable.getActivity(i);
+            ApproxsimObject activity = activityTable.getActivity(i);
             if (activity != null) {
                 gl.glCallList(drawnActivities.get(activity)
                         .getActivityDisplayList());
@@ -810,7 +810,7 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements
         if (e.getButton() == MouseEvent.BUTTON1) {
             // show the information for the chosen activity
             if (e.getClickCount() == 2 && !elementsUnderCursor().isEmpty()) {
-                StratmasObject activity = getActivityUnderCursor();
+                ApproxsimObject activity = getActivityUnderCursor();
                 // if an activity is found
                 if (activity != null) {
                     final TreeViewFrame frame = TreeView
@@ -966,16 +966,16 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements
         // dragging enabled only for active client
         if (!passive) {
             // get the selected element
-            StratmasObject selectedActivity = getActivityUnderCursor();
+            ApproxsimObject selectedActivity = getActivityUnderCursor();
             // check if the activity can be dragged
             boolean draggable = false;
             if (selectedActivity != null && drag_filter.pass(selectedActivity)) {
-                boolean startOk = ((StratmasTimestamp) selectedActivity
+                boolean startOk = ((ApproxsimTimestamp) selectedActivity
                         .getChild("start")).getValue().getMilliSecs() >= timeline
                         .getCurrentTime();
-                boolean endOk = (StratmasTimestamp) selectedActivity
+                boolean endOk = (ApproxsimTimestamp) selectedActivity
                         .getChild("end") == null
-                        || ((StratmasTimestamp) selectedActivity
+                        || ((ApproxsimTimestamp) selectedActivity
                                 .getChild("end")).getValue().getMilliSecs() >= timeline
                                 .getCurrentTime();
                 draggable = startOk && endOk;
@@ -1027,7 +1027,7 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements
     /**
      * Returns the activity if it's left arrow is currently under the mouse cursor. If there's no such activity null is returned.
      */
-    public StratmasObject getLeftArrowUnderCursor() {
+    public ApproxsimObject getLeftArrowUnderCursor() {
         for (Enumeration<Integer> e = elementsUnderCursor().keys(); e
                 .hasMoreElements();) {
             Integer key = e.nextElement();
@@ -1035,7 +1035,7 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements
                     .get(key);
             int renderSelectionName = key.intValue();
             if (adapter.isLeftArrowRenderSelectionName(renderSelectionName)) {
-                return adapter.getStratmasObject();
+                return adapter.getApproxsimObject();
             }
         }
         return null;
@@ -1044,7 +1044,7 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements
     /**
      * Returns the activity if it's right arrow is currently under the mouse cursor. If there's no such activity null is returned.
      */
-    public StratmasObject getRightArrowUnderCursor() {
+    public ApproxsimObject getRightArrowUnderCursor() {
         for (Enumeration<Integer> e = elementsUnderCursor().keys(); e
                 .hasMoreElements();) {
             Integer key = e.nextElement();
@@ -1052,7 +1052,7 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements
                     .get(key);
             int renderSelectionName = key.intValue();
             if (adapter.isRightArrowRenderSelectionName(renderSelectionName)) {
-                return adapter.getStratmasObject();
+                return adapter.getApproxsimObject();
             }
         }
         return null;
@@ -1061,7 +1061,7 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements
     /**
      * Returns the activity if it's symbol is currently under the mouse cursor. If there's no such activity null is returned.
      */
-    public StratmasObject getActivityUnderCursor() {
+    public ApproxsimObject getActivityUnderCursor() {
         for (Enumeration<Integer> e = elementsUnderCursor().keys(); e
                 .hasMoreElements();) {
             Integer key = e.nextElement();
@@ -1069,7 +1069,7 @@ public class TimelineActivityPanel extends TimelineCanvasPanel implements
                     .get(key);
             int renderSelectionName = key.intValue();
             if (adapter.isRenderSelectionName(renderSelectionName)) {
-                return adapter.getStratmasObject();
+                return adapter.getApproxsimObject();
             }
         }
         return null;

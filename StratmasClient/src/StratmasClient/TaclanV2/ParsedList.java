@@ -3,15 +3,15 @@
  * @(#)ParsedList.java
  */
 
-package StratmasClient.TaclanV2;
+package ApproxsimClient.TaclanV2;
 
 import java.util.Vector;
 import java.util.Enumeration;
 
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.StratmasObjectFactory;
-import StratmasClient.object.type.TypeInformation;
-import StratmasClient.object.type.Declaration;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.ApproxsimObjectFactory;
+import ApproxsimClient.object.type.TypeInformation;
+import ApproxsimClient.object.type.Declaration;
 
 /**
  * An object representing a declaration of list of declarations in the Taclan V2 language The members of the list are required to have some
@@ -107,36 +107,36 @@ public class ParsedList extends ParsedDeclaration {
     }
 
     /**
-     * Returns the StratmasObject equivalent to this declaration.
+     * Returns the ApproxsimObject equivalent to this declaration.
      * 
      * @param declaration the declaration to use.
      */
-    public StratmasObject getStratmasObject(Declaration declaration)
+    public ApproxsimObject getApproxsimObject(Declaration declaration)
             throws SemanticException {
         Vector result = new Vector();
         for (Enumeration ps = getDeclarations().getParts().elements(); ps
                 .hasMoreElements();) {
             ParsedDeclaration p = (ParsedDeclaration) ps.nextElement();
-            StratmasObject sObj = p.getStratmasObject(declaration);
+            ApproxsimObject sObj = p.getApproxsimObject(declaration);
             sObj.setIdentifier(p.getIdentifier().getIdentifier());
             result.add(sObj);
         }
 
-        return StratmasObjectFactory.createList(declaration, result);
+        return ApproxsimObjectFactory.createList(declaration, result);
     }
 
 //     /**
-//      * Returns the StratmasObject equivalent to this declaration.
+//      * Returns the ApproxsimObject equivalent to this declaration.
 //      *
 //      * @param declaration the declaration to use.
 //      */
-//     public Vector getStratmasObjects(Declaration declaration) throws SemanticException
+//     public Vector getApproxsimObjects(Declaration declaration) throws SemanticException
 //     {
 //         Vector result = new Vector();
 //         for (Enumeration ps = getDeclarations().getParts().elements(); 
 //              ps.hasMoreElements();) {
 //             ParsedDeclaration p = (ParsedDeclaration) ps.nextElement();
-//             StratmasObject pres = p.getStratmasObject(declaration); 
+//             ApproxsimObject pres = p.getApproxsimObject(declaration); 
 //             pres.setIdentifier(p.getIdentifier().getIdentifier());
 //             result.add(pres);
 //         }

@@ -3,9 +3,9 @@
  * @(#)TypeSelector.java
  */
 
-package StratmasClient;
+package ApproxsimClient;
 
-import StratmasClient.object.type.Type;
+import ApproxsimClient.object.type.Type;
 import javax.swing.JComboBox;
 import java.util.Vector;
 import java.util.Enumeration;

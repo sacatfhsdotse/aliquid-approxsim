@@ -1,6 +1,6 @@
-package StratmasClient.substrate;
+package ApproxsimClient.substrate;
 
-import StratmasClient.object.Shape;
+import ApproxsimClient.object.Shape;
 
 /**
  * This class is used to represent shapes with their values.

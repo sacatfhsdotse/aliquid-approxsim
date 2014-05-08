@@ -1,11 +1,11 @@
-package StratmasClient.filter;
+package ApproxsimClient.filter;
 
 import java.util.Enumeration;
 import java.util.Vector;
-import StratmasClient.object.StratmasObject;
+import ApproxsimClient.object.ApproxsimObject;
 
 /**
- * CombinedORFilter filters out StratmasObjects accordning OR rules.
+ * CombinedORFilter filters out ApproxsimObjects accordning OR rules.
  */
 
 public class CombinedORFilter extends CombinedFilter {
@@ -26,15 +26,15 @@ public class CombinedORFilter extends CombinedFilter {
     }
 
     /**
-     * Returns true if the provided StratmasObject passes the filter.
+     * Returns true if the provided ApproxsimObject passes the filter.
      * 
      * @param sObj the object to test
      */
-    public boolean pass(StratmasObject sObj) {
+    public boolean pass(ApproxsimObject sObj) {
         boolean res = false;
 
         for (Enumeration e = getFilters(); e.hasMoreElements();) {
-            if (((StratmasObjectFilter) e.nextElement()).pass(sObj)) {
+            if (((ApproxsimObjectFilter) e.nextElement()).pass(sObj)) {
                 res = true;
                 break;
             }

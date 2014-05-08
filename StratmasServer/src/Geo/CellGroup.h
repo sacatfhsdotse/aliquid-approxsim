@@ -1,5 +1,5 @@
-#ifndef STRATMAS_CELLGROUP_H
-#define STRATMAS_CELLGROUP_H
+#ifndef APPROXSIM_CELLGROUP_H
+#define APPROXSIM_CELLGROUP_H
 
 
 // System
@@ -148,4 +148,4 @@ public:
      friend std::ostream& operator << (std::ostream& o, const CellGroup& c);
 };
 
-#endif   // STRATMAS_CELLGROUP_H
+#endif   // APPROXSIM_CELLGROUP_H

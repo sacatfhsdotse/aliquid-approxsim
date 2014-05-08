@@ -1,6 +1,6 @@
-<project name="StratmasClient" default="dist" basedir=".">
+<project name="ApproxsimClient" default="dist" basedir=".">
   <description>
-    Program to manage and allocate StratmasServers.
+    Program to manage and allocate ApproxsimServers.
   </description>
   <!-- set global properties for this build -->
   <property name="src" location="src"/>
@@ -53,13 +53,13 @@
 
   <!-- Default java settings for sample runs-->
   <presetdef name="joglClient">
-    <jogljava classname="StratmasClient.Client">
+    <jogljava classname="ApproxsimClient.Client">
       <!-- Comment to disable Client debug options, if value is
            unempty it will be interpreted as a regexp and only classes
            in matching packages will produce output (note that this
            may be relatively expensive). See Debug.java for more
            information. -->
-      <sysproperty key="StratmasClientDebug" value=""/>
+      <sysproperty key="ApproxsimClientDebug" value=""/>
       <!-- Uncomment to use non standard portnumber -->
       <!-- <sysproperty key="PORT" value="28444"/> -->
       <!-- Uncomment to use dispatcher-->
@@ -76,17 +76,17 @@
   </target>
 
   <target name="checkGenerateParser">
-    <uptodate srcfile="${src}/StratmasClient/TaclanV2/Parser.cup"
-              targetfile="${src}/StratmasClient/TaclanV2/Parser.java"
+    <uptodate srcfile="${src}/ApproxsimClient/TaclanV2/Parser.cup"
+              targetfile="${src}/ApproxsimClient/TaclanV2/Parser.java"
               property="generateParser.uptodate"/>
-    <uptodate srcfile="${src}/StratmasClient/TaclanV2/Parser.cup"
-              targetfile="${src}/StratmasClient/TaclanV2/Sym.java"
+    <uptodate srcfile="${src}/ApproxsimClient/TaclanV2/Parser.cup"
+              targetfile="${src}/ApproxsimClient/TaclanV2/Sym.java"
               property="generateParser.uptodate"/>
   </target>
 
   <target name="checkGenerateLexer">
-    <uptodate srcfile="${src}/StratmasClient/TaclanV2/Lexer.lex"
-              targetfile="${src}/StratmasClient/TaclanV2/Lexer.java"
+    <uptodate srcfile="${src}/ApproxsimClient/TaclanV2/Lexer.lex"
+              targetfile="${src}/ApproxsimClient/TaclanV2/Lexer.java"
               property="generateLexer.uptodate"/>
   </target>
 
@@ -97,24 +97,24 @@
           unless="generateParser.uptodate">
     <!-- Generate parser files -->
     <java jar="${externaljars}/JCup.jar"
-          dir="${src}/StratmasClient/TaclanV2/"
+          dir="${src}/ApproxsimClient/TaclanV2/"
           fork="true">
-      <arg line="-package StratmasClient.TaclanV2 -parser Parser -symbols"/>
+      <arg line="-package ApproxsimClient.TaclanV2 -parser Parser -symbols"/>
       <arg line="Sym -expect 0 Parser.cup"/>
     </java>
     <!-- Unfortunatelly the JCup version currently used does not allow
          setting the package name of the runtime, we fix this by replace.
     -->
-    <replace file="${src}/StratmasClient/TaclanV2/Parser.java">
+    <replace file="${src}/ApproxsimClient/TaclanV2/Parser.java">
       <!-- The first replace ensures that correct references to
            java_cup.runtime will not be replaced by the second
            replace which is doing the actual work -->
       <replacefilter
-          token="StratmasClient.TaclanV2.java_cup.runtime"
+          token="ApproxsimClient.TaclanV2.java_cup.runtime"
           value="java_cup.runtime"/>
       <replacefilter
           token="java_cup.runtime"
-          value="StratmasClient.TaclanV2.java_cup.runtime"/>
+          value="ApproxsimClient.TaclanV2.java_cup.runtime"/>
       <replacefilter
           token="throws java.lang.Exception"
           value="throws SemanticException, SyntaxException"/>
@@ -129,23 +129,23 @@
           unless="generateLexer.uptodate">
     <!-- Generate lexer files. -->
     <java jar="${externaljars}/JFlex.jar"
-          dir="${src}/StratmasClient/TaclanV2/"
+          dir="${src}/ApproxsimClient/TaclanV2/"
           fork="true">
       <arg value="Lexer.lex"/>
     </java>
     <!-- Unfortunatelly the JCup version currently used does not allow
          setting the package name of the runtime, we fix this by
          replace. -->
-    <replace file="${src}/StratmasClient/TaclanV2/Lexer.java">
+    <replace file="${src}/ApproxsimClient/TaclanV2/Lexer.java">
       <!-- The first replace ensures that correct references to
            java_cup.runtime will not be replaced by the second replace
            which is doing the actual work -->
       <replacefilter
-          token="StratmasClient.TaclanV2.java_cup.runtime"
+          token="ApproxsimClient.TaclanV2.java_cup.runtime"
           value="java_cup.runtime"/>
       <replacefilter
           token="java_cup.runtime"
-          value="StratmasClient.TaclanV2.java_cup.runtime"/>
+          value="ApproxsimClient.TaclanV2.java_cup.runtime"/>
     </replace>
   </target>
 
@@ -181,7 +181,7 @@
     <copy todir="${build}/schemas" flatten="true">
       <fileset dir="${schemas}">
           <include name="dispatcherProtocol/*.xsd"/>
-          <include name="stratmasProtocol/*.xsd"/>
+          <include name="approxsimProtocol/*.xsd"/>
       </fileset>
     </copy>
 
@@ -298,7 +298,7 @@
          index="true">
       <manifest>
         <attribute name="Main-Class"
-                   value="StratmasClient/Client"/>
+                   value="ApproxsimClient/Client"/>
       </manifest>
     </jar>
   </target>
@@ -309,8 +309,8 @@
       No install prefix specified.
     </fail>
 
-    <mkdir dir="${installPrefix}/StratmasClient"/>
-    <unjar dest="${installPrefix}/StratmasClient"
+    <mkdir dir="${installPrefix}/ApproxsimClient"/>
+    <unjar dest="${installPrefix}/ApproxsimClient"
            src="${dist}/${ant.project.name}-${DSTAMP}.jar">
     </unjar>
     <mkdir dir="${installPrefix}/samples"/>
@@ -408,11 +408,11 @@
 
   <!-- Special classes test targets -->
   <target name="CommTest" depends="compile">
-    <jogljava classname="StratmasClient.CommTest">
+    <jogljava classname="ApproxsimClient.CommTest">
     </jogljava>
   </target>
   <target name="XMLImporter" depends="compile">
-    <jogljava classname="StratmasClient.XMLImporter">
+    <jogljava classname="ApproxsimClient.XMLImporter">
       <arg value="${basedir}/instance2.xml"/>
     </jogljava>
   </target>
@@ -429,11 +429,11 @@
       <link href="http://docs.oracle.com/javase/6/docs/api/"/>
       <packageset dir="${src}" defaultexcludes="yes">
         <include name="**"/>
-        <exclude name="StratmasClient/treeview2/**"/>
-        <exclude name="StratmasClient/filter/PathFilter.java"/>
-        <exclude name="StratmasClient/filter/ReferenceFilter.java"/>
-        <exclude name="StratmasClient/filter/IdentifierRegexFilter.java"/>
-        <exclude name="StratmasClient/evolver/PointComponentParameter.java"/>
+        <exclude name="ApproxsimClient/treeview2/**"/>
+        <exclude name="ApproxsimClient/filter/PathFilter.java"/>
+        <exclude name="ApproxsimClient/filter/ReferenceFilter.java"/>
+        <exclude name="ApproxsimClient/filter/IdentifierRegexFilter.java"/>
+        <exclude name="ApproxsimClient/evolver/PointComponentParameter.java"/>
       </packageset>
     </javadoc>
   </target>
@@ -444,9 +444,9 @@
     <!-- Delete the ${build} and ${dist} directory trees -->
     <delete dir="${build}"/>
     <delete dir="${dist}"/>
-    <delete file="${src}/StratmasClient/TaclanV2/Parser.java"/>
-    <delete file="${src}/StratmasClient/TaclanV2/Lexer.java"/>
-    <delete file="${src}/StratmasClient/TaclanV2/Sym.java"/>
+    <delete file="${src}/ApproxsimClient/TaclanV2/Parser.java"/>
+    <delete file="${src}/ApproxsimClient/TaclanV2/Lexer.java"/>
+    <delete file="${src}/ApproxsimClient/TaclanV2/Sym.java"/>
   </target>
 
   <!-- Make "ant foo.scn" work -->

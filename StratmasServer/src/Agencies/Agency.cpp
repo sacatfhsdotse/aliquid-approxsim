@@ -16,7 +16,7 @@
 #include "ProcessVariables.h"
 #include "random2.h"
 #include "SOFactory.h"
-#include "StratmasConstants.h"
+#include "ApproxsimConstants.h"
 #include "Type.h"
 #include "LogStream.h"
 
@@ -109,7 +109,7 @@ void Agency::aggregateCapacity()
 int Agency::cluster(int inNumClusters, std::vector<LatLng>& outCenters)
 {
      // Perform the clustering:
-//     stratmasDebug("Clustering for " << type << "Agency");
+//     approxsimDebug("Clustering for " << type << "Agency");
      ClusterSet zones(inNumClusters);
      int outNumClusters = zones.FitToData(mGrid.active(), mVindex, mGrid.cellCenterCoordsX(),
                                           mGrid.cellCenterCoordsY(), mVw);
@@ -119,15 +119,15 @@ int Agency::cluster(int inNumClusters, std::vector<LatLng>& outCenters)
           outCenters[i] = LatLng(e.my, e.mx);
      }
 /*
-     stratmasDebug("got " << outNumClusters << " clusters";
+     approxsimDebug("got " << outNumClusters << " clusters";
      if (outNumClusters > 0) {
-          stratmasDebug(" with centerpoints at:");
+          approxsimDebug(" with centerpoints at:");
           for (int i = 0; i < outNumClusters; i++) {
-               stratmasDebug(outCenters[i].lat() << ", " << outCenters[i].lng());
+               approxsimDebug(outCenters[i].lat() << ", " << outCenters[i].lng());
           }
      }
      else {
-          stratmasDebug(endl;
+          approxsimDebug(endl;
      }
 */     
      return outNumClusters;
@@ -171,7 +171,7 @@ void Agency::orderTeamsToClusters(int nTeams, int firstTeam)
                          team.setGoal(clusters[j]);   // Set team goal to cluster center
 //                     }
 //                     else {
-//                          stratmasDebug("team " << team.ref().name() << " can't go to " << clusters[j]);
+//                          approxsimDebug("team " << team.ref().name() << " can't go to " << clusters[j]);
 //                     }
                }
           }
@@ -467,7 +467,7 @@ void ShelterAgency::act(Time now)
 //                          team.setGoal(clusters[i - mOperationalTeams]);
 //                          team.setStartTime(now + Time(Poisson(static_cast<double>(mResponseDays))));
 // //                    team.setStartTime(now);
-// //                     stratmasDebug("=============== Start time for " << mType << "Agency team " << i
+// //                     approxsimDebug("=============== Start time for " << mType << "Agency team " << i
 // //                          << " is " << team.startTime());
 //                          team.setCapacity(mCapacityPPD / mNumTeams);
 //                     }
@@ -481,7 +481,7 @@ void ShelterAgency::act(Time now)
 //                     team.setGoal(team.location().cenCoord());
 //                     team.setStartTime(now + Time(Poisson(static_cast<double>(mResponseDays))));
 //                     team.setStartTime(now);
-//                      stratmasDebug("=============== Start time for " << mType << "Agency team " << i
+//                      approxsimDebug("=============== Start time for " << mType << "Agency team " << i
 //                           << " is " << team.startTime());
 //                     team.setCapacity(mCapacityPPD / mNumTeams);
 //                     mOperationalTeams++;

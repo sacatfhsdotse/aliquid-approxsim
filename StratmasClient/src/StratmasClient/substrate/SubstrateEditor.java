@@ -1,4 +1,4 @@
-package StratmasClient.substrate;
+package ApproxsimClient.substrate;
 
 import java.io.BufferedWriter;
 import java.io.StringWriter;
@@ -22,14 +22,14 @@ import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.JOptionPane;
 import javax.swing.BorderFactory;
-import StratmasClient.Client;
-import StratmasClient.ProcessVariableDescription;
-import StratmasClient.object.Shape;
-import StratmasClient.object.StratmasObject;
-import StratmasClient.object.primitive.Reference;
-import StratmasClient.map.BasicMap;
-import StratmasClient.map.adapter.MapDrawableAdapter;
-import StratmasClient.map.adapter.MapShapeAdapter;
+import ApproxsimClient.Client;
+import ApproxsimClient.ProcessVariableDescription;
+import ApproxsimClient.object.Shape;
+import ApproxsimClient.object.ApproxsimObject;
+import ApproxsimClient.object.primitive.Reference;
+import ApproxsimClient.map.BasicMap;
+import ApproxsimClient.map.adapter.MapDrawableAdapter;
+import ApproxsimClient.map.adapter.MapShapeAdapter;
 
 /**
  * This class implements the substrate editor.
@@ -308,7 +308,7 @@ public class SubstrateEditor {
             if (facTable.containsKey(factions.get(i))) {
                 Hashtable vals = (Hashtable) facTable.get(factions.get(i));
                 for (Enumeration e = shapeValues.keys(); e.hasMoreElements();) {
-                    StratmasObject shape = (StratmasObject) e.nextElement();
+                    ApproxsimObject shape = (ApproxsimObject) e.nextElement();
                     if (vals.containsKey(shape)) {
                         Vector savedPairValues = (Vector) vals.get(shape);
                         Vector newPairValues = (Vector) shapeValues.get(shape);
@@ -339,7 +339,7 @@ public class SubstrateEditor {
      * @param modifiedAdapters list of modified shape adapters.
      */
     private void updateInitProcessVariables(ProcessVariableDescription pv,
-            StratmasObject faction, Vector modifiedAdapters) {
+            ApproxsimObject faction, Vector modifiedAdapters) {
         Hashtable facTable = (initProcessVariables.containsKey(pv)) ? (Hashtable) initProcessVariables
                 .get(pv) : new Hashtable();
         facTable.put(faction, createShapeValuePairList(modifiedAdapters));
@@ -400,7 +400,7 @@ public class SubstrateEditor {
                     .get(actualProcessVariable);
             if (!actualProcessVariable.hasFactions()) {
                 sValues = hTable;
-            } else if (actualFaction instanceof StratmasObject
+            } else if (actualFaction instanceof ApproxsimObject
                     && hTable.containsKey(actualFaction)) {
                 sValues = (Hashtable) hTable.get(actualFaction);
             }
@@ -486,8 +486,8 @@ public class SubstrateEditor {
             // save the shape values
             if (faction == null) {
                 updateInitProcessVariables(pvd, modifiedAdapters);
-            } else if (faction instanceof StratmasObject) {
-                updateInitProcessVariables(pvd, (StratmasObject) faction,
+            } else if (faction instanceof ApproxsimObject) {
+                updateInitProcessVariables(pvd, (ApproxsimObject) faction,
                                            modifiedAdapters);
             } else {
                 updateEachFaction(pvd, modifiedAdapters);
@@ -566,7 +566,7 @@ public class SubstrateEditor {
      * 
      * @param faction the faction.
      */
-    protected void removeFactionValues(StratmasObject faction) {
+    protected void removeFactionValues(ApproxsimObject faction) {
         if (!faction.equals(actualFaction)) {
             for (Enumeration e = initProcessVariables.elements(); e
                     .hasMoreElements();) {
@@ -590,7 +590,7 @@ public class SubstrateEditor {
             if (pvd.hasFactions()) {
                 Hashtable facTable = (Hashtable) initProcessVariables.get(pvd);
                 for (Enumeration ee = facTable.keys(); ee.hasMoreElements();) {
-                    StratmasObject faction = (StratmasObject) ee.nextElement();
+                    ApproxsimObject faction = (ApproxsimObject) ee.nextElement();
                     pvValues.add(new ProcessVariableInitialValues(pvd, faction,
                             (Hashtable) facTable.get(faction)));
                 }
@@ -614,7 +614,7 @@ public class SubstrateEditor {
             if (pvd.hasFactions()) {
                 Hashtable facTable = (Hashtable) initProcessVariables.get(pvd);
                 for (Enumeration ee = facTable.keys(); ee.hasMoreElements();) {
-                    StratmasObject faction = (StratmasObject) ee.nextElement();
+                    ApproxsimObject faction = (ApproxsimObject) ee.nextElement();
                     pvValues.add(new ProcessVariableInitialValues(pvd, faction,
                             (Hashtable) facTable.get(faction)));
                 }
@@ -716,7 +716,7 @@ public class SubstrateEditor {
      * Adds a shape and the assigned value to the list of initialized shapes.
      */
     protected void addShapeValuePair(ProcessVariableDescription pv,
-            StratmasObject faction, ShapeValuePair svpair) {
+            ApproxsimObject faction, ShapeValuePair svpair) {
         Hashtable values = (initProcessVariables.containsKey(pv)) ? (Hashtable) initProcessVariables
                 .get(pv) : new Hashtable();
         Hashtable facTable = (values.containsKey(faction)) ? (Hashtable) values

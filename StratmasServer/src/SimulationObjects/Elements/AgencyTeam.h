@@ -1,5 +1,5 @@
-#ifndef STRATMAS_AGENCYTEAM_H
-#define STRATMAS_AGENCYTEAM_H
+#ifndef APPROXSIM_AGENCYTEAM_H
+#define APPROXSIM_AGENCYTEAM_H
 
 //System
 #include <iosfwd>
@@ -71,7 +71,7 @@ protected:
      /**
       * \brief Flag indicating the behavior of the team.
       *
-      * A 'true' value means that the team behaves as in old Stratmas,
+      * A 'true' value means that the team behaves as in old Approxsim,
       * i.e jumps around to the places where the clustering algorithm
       * detects clusters of 'problem cells'. A 'false' value means
       * that the team will stand still on the initial location given
@@ -337,7 +337,7 @@ public:
  * modifiable process variables in the area it occupies. The
  * functionality is very similar to the CustomPVModification.
  *
- * This type of team was not present in old Stratmas. It was
+ * This type of team was not present in old Approxsim. It was
  * introduced to meet requirements that arose before the Demo06
  * exercise during the autumn 2006.
  *
@@ -381,4 +381,4 @@ public:
      void act(Time now);
 };
 
-#endif   // STRATMAS_AGENCYTEAM_H
+#endif   // APPROXSIM_AGENCYTEAM_H

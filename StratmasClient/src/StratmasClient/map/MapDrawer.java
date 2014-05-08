@@ -25,6 +25,7 @@ import javax.media.opengl.GL2;
 import javax.media.opengl.GL2ES2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.swing.JMenu;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 
 import StratmasClient.BoundingBox;
@@ -396,6 +397,10 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
                                 ((StratmasReference) newlyCreatedObjectToBePlaced.getChild("target")).
                                 valueFromString("nodes:"+potentialNode.getIdentifier(), this);
                                 addMapDrawable(newlyCreatedObjectToBePlaced);
+                                newlyCreatedObjectToBePlaced = null;
+                            }else{
+                                JOptionPane.showMessageDialog(null, "it is invalid to connect nodes of different graphs", "User stupidity error",
+                                                              JOptionPane.PLAIN_MESSAGE);
                                 newlyCreatedObjectToBePlaced = null;
                             }
                         } catch (ParseException e1) {

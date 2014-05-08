@@ -901,7 +901,7 @@
     <xsd:complexContent>
       <xsd:extension base="sp:ComplexType">
         <xsd:sequence>
-          <xsd:element name="continuous" type="xsd:boolean"/>
+          <xsd:element name="continuous" type="sp:Boolean"/>
           <xsd:element name="radius" type="sp:Double"/>
         </xsd:sequence>
       </xsd:extension>

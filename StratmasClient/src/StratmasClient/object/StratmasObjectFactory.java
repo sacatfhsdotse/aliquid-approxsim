@@ -157,6 +157,8 @@ public class StratmasObjectFactory {
                               "DefaultComplex");
             substitutions.put(StratmasConstants.stratmasNamespace + ":Graph",
                               "DefaultComplex");
+            substitutions.put(StratmasConstants.stratmasNamespace + ":Effect",
+                    "DefaultComplex");
 
             stringMap.put(StratmasConstants.xsdNamespace + ":string",
                           new StratmasObjectConstructor() {

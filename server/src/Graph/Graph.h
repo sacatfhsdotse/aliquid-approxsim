@@ -14,7 +14,14 @@ struct PathData {
     double travelSpeed;
 };
 
+struct Effect {
+    double radius;
+    bool continuous;
+};
+
 struct EffectData {
+    double power;
+    Effect connected, disconnected;
 };
 
 /**

@@ -26,6 +26,7 @@ void Graph<T>::print(std::ostream& o, string indent) {
     o << indent << "  ]" << endl << indent << "}";
 }
 template void Graph<PathData>::print(std::ostream& o, string indent);
+template void Graph<EffectData>::print(std::ostream& o, string indent);
 
 template<class T>
 Graph<T>* Graph<T>::getGraph(string identifier) {
@@ -110,18 +111,21 @@ Node<T>::Node() {
 
 }
 template Node<PathData>::Node();
+template Node<EffectData>::Node();
 
 template<class T>
 void Node<T>::print(std::ostream& o) {
     o << "Node: {" << pos.lat() << ", " << pos.lng() << "}";
 }
 template void Node<PathData>::print(std::ostream& o);
+template void Node<EffectData>::print(std::ostream& o);
 
 template<class T>
 Edge<T>::Edge() {
 
 }
 template Edge<PathData>::Edge();
+template Edge<EffectData>::Edge();
 
 template<class T>
 void Edge<T>::print(std::ostream& o) {
@@ -130,4 +134,5 @@ void Edge<T>::print(std::ostream& o) {
       << ", con:" << isConnected << "}";
 }
 template void Edge<PathData>::print(std::ostream& o);
+template void Edge<EffectData>::print(std::ostream& o);
 // vim: ts=4 sw=4 expandtab:

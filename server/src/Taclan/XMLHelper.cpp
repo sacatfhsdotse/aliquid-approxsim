@@ -435,6 +435,15 @@ double XMLHelper::getDouble(const DOMElement &n, const char *tag)
      return res;
 }
 
+Effect XMLHelper::getEffect(const DOMElement &n, const char *tag)
+{
+    DOMElement* elem = getFirstChildByTag(n, tag);
+    Effect e;
+    e.continuous = getElementBoolValue(*elem, "continuous");
+    e.radius = getElementDoubleValue(*elem, "radius");
+    return e;
+}
+
 /**
  * \brief Finds the first subelement of the provided DOMElement that
  * has a tag that matches the specified tag and returns a int
@@ -792,8 +801,15 @@ PathData getContent<PathData>(const DOMElement* n)
 }
 template<>
 EffectData getContent<EffectData>(const DOMElement* n)
-{
-     return EffectData{};
+{ 
+     EffectData data;
+     data.connected = XMLHelper::getEffect(*n, "connected");
+     data.disconnected = XMLHelper::getEffect(*n, "disconnected");
+
+     auto power = XMLHelper::getFirstChildByTag(*n, "power");
+     if (power != nullptr)
+          data.power = XMLHelper::getDouble(*power, "value");
+     return data;
 }
 
 template<class T> std::string getIdentifier(const DOMElement& n)
@@ -861,6 +877,7 @@ Graph<T> *XMLHelper::getGraph(const DOMElement &n, const Reference& scope)
      return new Graph<T>(getIdentifier<T>(n), nodes.size(), graphNodes, 2*edges.size(), graphEdges);
 }
 template Graph<PathData> *XMLHelper::getGraph(const DOMElement&, const Reference&);
+template Graph<EffectData> *XMLHelper::getGraph(const DOMElement&, const Reference&);
 
 /**
  * \brief Finds the first subelement of the provided DOMElement that

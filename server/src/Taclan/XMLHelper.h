@@ -62,6 +62,7 @@ public:
 
      static bool         getBool(const DOMElement &n, const char *tag);
      static double       getDouble(const DOMElement &n, const char *tag);
+     static Effect       getEffect(const DOMElement &n, const char *tag);
      static int          getInt(const DOMElement &n, const char *tag);
      static int64_t      getLongInt(const DOMElement &n, const char *tag);
      static Shape*       getShape(const DOMElement &n, const char *tag, const Reference& scope);

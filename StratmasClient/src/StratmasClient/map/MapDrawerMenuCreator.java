@@ -236,7 +236,13 @@ class MapDrawerMenuCreator {
             JMenuItem item = new JMenuItem("Connect node");
             item.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
+                    StratmasObject orig = v.get(0);
+                    StratmasObject edge = StratmasObjectFactory.create(orig.getType().getTypeInformation().getType("PathEdge"));
+                    edge.setIdentifier("fiiiisk");
+                    ((StratmasReference) edge.getChild("origin")).valueFromString("nodes:"+orig.getIdentifier(), this);
                     // TODO implement
+                    orig.getParent().add(edge);
+                    drawer.placeObject(edge);
                 }
             });
             submenu.add(item);

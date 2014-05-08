@@ -4,6 +4,7 @@
 
 #include <map>
 #include <string>
+#include <memory>
 #include <list>
 #include <LatLng.h>
 #include <iostream>
@@ -51,8 +52,8 @@ struct Node
 template<class T>
 struct Edge
 {
-    Node<T>* origin;
-    Node<T>* target;
+    std::shared_ptr<Node<T>> origin;
+    std::shared_ptr<Node<T>> target;
     bool isConnected;
     T content;
 
@@ -87,18 +88,16 @@ private:
         static std::map<string, Graph<T>*> savedGraphs;
         return savedGraphs;
     }
-    int numNodes;
-    Node<T>* nodes;
-    int numEdges;
-    Edge<T>* edges;
+    std::vector<std::shared_ptr<Node<T>>> nodes;
+    std::vector<std::shared_ptr<Edge<T>>> edges;
 public:
-    Graph(std::string identifier, int numNodes, Node<T>* nodes, int numEdges, Edge<T>* edges):
-        numNodes(numNodes), nodes(nodes), numEdges(numEdges), edges(edges)
+    Graph(std::string identifier,
+        std::vector<std::shared_ptr<Node<T>>> nodes,
+        std::vector<std::shared_ptr<Edge<T>>> edges)
+        : nodes(nodes), edges(edges)
     {
         getSavedGraphs()[identifier] = this;
     }
-
-    ~Graph() {delete edges; delete nodes;}
 
     void print(std::ostream& o, std::string indent="");
 

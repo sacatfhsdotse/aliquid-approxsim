@@ -839,42 +839,40 @@ Graph<T> *XMLHelper::getGraph(const DOMElement &n, const Reference& scope)
                         getDouble(*point, "lon"));
      };
 
-     Node<T>* graphNodes = new Node<T>[nodes.size()];
-     std::map<std::string, Node<T>*> identMap;
-     int i = 0;
+     std::vector<std::shared_ptr<Node<T>>> graphNodes;
+     std::map<std::string, std::shared_ptr<Node<T>>> identMap;
      for (auto node : nodes) {
-          graphNodes[i].pos = getLatLng(getFirstChildByTag(*node, "point"));
-          graphNodes[i].content = getContent<T>(node);
-          identMap[getStringAttribute(*node, "identifier")] = &graphNodes[i];
-          i++;
+          shared_ptr<Node<T>> n(new Node<T>());
+          n->pos = getLatLng(getFirstChildByTag(*node, "point"));
+          n->content = getContent<T>(node);
+          identMap[getStringAttribute(*node, "identifier")] = n;
+          graphNodes.push_back(n);
      }
 
      vector<DOMElement*> edges;
      getChildElementsByTag(n, "edges", edges);
 
-     auto findPointer = [&identMap] (const DOMElement* edge, std::string name) -> Node<T>* {
+     auto findPointer = [&identMap] (const DOMElement* edge, std::string name) -> std::shared_ptr<Node<T>> {
           std::string tmp;
           getString(*getFirstChildByTag(*edge, name), "name", tmp);
           return identMap[tmp];
      };
 
-     Edge<T>* graphEdges = new Edge<T>[2*edges.size()];
-     i = 0;
+     std::vector<std::shared_ptr<Edge<T>>> graphEdges;
      for (auto edge : edges) {
-          graphEdges[i].origin = findPointer(edge, "origin");
-          graphEdges[i].target = findPointer(edge, "target");
-          graphEdges[i].isConnected = getBool(*getFirstChildByTag(*edge, "isConnected"), "value");
-          graphEdges[i].content = getContent<T>(edge);
+          shared_ptr<Edge<T>> e(new Edge<T>());
+          e->origin = findPointer(edge, "origin");
+          e->target = findPointer(edge, "target");
+          e->isConnected = getBool(*getFirstChildByTag(*edge, "isConnected"), "value");
+          e->content = getContent<T>(edge);
+          graphEdges.push_back(e);
 
-          graphEdges[i+edges.size()].origin = graphEdges[i].target;
-          graphEdges[i+edges.size()].target = graphEdges[i].origin;
-          graphEdges[i+edges.size()].isConnected = graphEdges[i].isConnected;
-          graphEdges[i+edges.size()].content = graphEdges[i].content;
-
-          i++;
+          e.reset(new Edge<T>(*e));
+          swap(e->origin, e->target);
+          graphEdges.push_back(e);
      }
 
-     return new Graph<T>(getIdentifier<T>(n), nodes.size(), graphNodes, 2*edges.size(), graphEdges);
+     return new Graph<T>(getIdentifier<T>(n), graphNodes, graphEdges);
 }
 template Graph<PathData> *XMLHelper::getGraph(const DOMElement&, const Reference&);
 template Graph<EffectData> *XMLHelper::getGraph(const DOMElement&, const Reference&);

@@ -6,21 +6,22 @@
 #include <map>
 using std::vector;
 using std::string;
+using std::shared_ptr;
 
 template<class T>
 void Graph<T>::print(std::ostream& o, string indent) {
     o << endl;
     o << indent << "graph: {" << endl << indent << "  nodes: [" << endl;
-    for (int i = 0; i < numNodes; i++) {
+    for (auto node : nodes) {
         o << indent << "    ";
-        nodes[i].print(o);
+        node->print(o);
         o << endl;
     }
     o << indent << "  ]," << endl;
     o << indent << "  edges: [" << endl;
-    for(int i = 0; i < numEdges; i++){
+    for (auto e : edges) {
         o << indent << "    ";
-        edges[i].print(o);
+        e->print(o);
         o << endl;
     }
     o << indent << "  ]" << endl << indent << "}";
@@ -50,17 +51,18 @@ NavigationPlan pathfind(LatLng start, LatLng end) {
     // from start to everywhere, and from everywhere to end.
     typedef std::tuple<Node*, double, Edge*> Tup;
     std::map<Node*, std::vector<Tup>> adj;
-    for (int i = 0; i < gr.numEdges; i++) {
-        Edge& e = gr.edges[i];
-        if (!e.isConnected) {
+    for (auto e : gr.edges) {
+        if (!e->isConnected) {
             continue;
         }
-        adj[e.origin].emplace_back(e.target, weight(*e.origin, *e.target, e.content.travelSpeed), &e);
+        adj[e->origin.get()].emplace_back(
+            e->target.get(),
+            weight(*e->origin, *e->target, e->content.travelSpeed),
+            e.get());
     }
-    for (int i = 0; i < gr.numNodes; i++) {
-        Node* node = &gr.nodes[i];
-        adj[startNode].emplace_back(node, weight(*startNode, *node, 1), nullptr);
-        adj[node].emplace_back(endNode, weight(*node, *endNode, 1), nullptr);
+    for (auto node : gr.nodes) {
+        adj[startNode].emplace_back(node.get(), weight(*startNode, *node, 1), nullptr);
+        adj[node.get()].emplace_back(endNode, weight(*node, *endNode, 1), nullptr);
     }
     adj[startNode].emplace_back(endNode, weight(*startNode, *endNode, 1), nullptr);
 

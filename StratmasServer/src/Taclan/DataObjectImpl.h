@@ -3,6 +3,7 @@
 
 // System
 #include <map>
+#include <memory>
 
 // Own
 #include "DataObject.h"

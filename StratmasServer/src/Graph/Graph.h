@@ -11,7 +11,7 @@
 using namespace std;
 
 struct PathData {
-	double travelSpeed;
+    double travelSpeed;
 };
 
 struct EffectData {
@@ -26,13 +26,13 @@ struct EffectData {
 template<class T>
 struct Node
 {
-	LatLng pos;
-	T content;
+    LatLng pos;
+    T content;
 
-	Node(LatLng p, T content): pos(p), content(content){}
-	Node();
+    Node(LatLng p, T content): pos(p), content(content){}
+    Node();
 
-	void print(std::ostream& o);
+    void print(std::ostream& o);
 };
 
 /**
@@ -44,16 +44,16 @@ struct Node
 template<class T>
 struct Edge
 {
-	Node<T>* origin;
-	Node<T>* target;
-	bool isConnected;
-	T content;
+    Node<T>* origin;
+    Node<T>* target;
+    bool isConnected;
+    T content;
 
-	Edge(Node<T>* o, Node<T>* t, bool con, T content):
-		origin(o), target(t), isConnected(con), content(content){}
-	Edge();
+    Edge(Node<T>* o, Node<T>* t, bool con, T content):
+        origin(o), target(t), isConnected(con), content(content){}
+    Edge();
 
-	void print(std::ostream& o);
+    void print(std::ostream& o);
 };
 
 /**
@@ -63,13 +63,7 @@ struct Edge
  * \date     $Date: 
  */
 struct NavigationPlan {
-	/// no  chour that this should be a list and not an array or vector TODO: decide
-	std::list<Edge<PathData>*> path;
-	/// point on the map, wher the path starts, tupicaly inbetween two nodes on an edge.
-	LatLng on;
-	/// point on the map, where the path ends, tupicaly inbetween two nodes on an edge.
-	LatLng off;
-
+    std::list<Edge<PathData>*> path;
 };
 
 /**
@@ -82,23 +76,25 @@ template<class T>
 class Graph
 {
 private:
-	static std::map<std::string, Graph<T>*>& getSavedGraphs();
-protected:
-	int numNodes;
-	Node<T>* nodes;
-	int numEdges;
-	Edge<T>* edges;
+    static std::map<std::string, Graph<T>*>& getSavedGraphs();
+    int numNodes;
+    Node<T>* nodes;
+    int numEdges;
+    Edge<T>* edges;
 public:
-	Graph(std::string identifier, int numNodes, Node<T>* nodes, int numEdges, Edge<T>* edges):
-		numNodes(numNodes), nodes(nodes), numEdges(numEdges), edges(edges){
-			getSavedGraphs()[identifier] = this;
-		}
+    Graph(std::string identifier, int numNodes, Node<T>* nodes, int numEdges, Edge<T>* edges):
+        numNodes(numNodes), nodes(nodes), numEdges(numEdges), edges(edges)
+    {
+        getSavedGraphs()[identifier] = this;
+    }
 
-	~Graph() {delete edges; delete nodes;}
+    ~Graph() {delete edges; delete nodes;}
 
-	void print(std::ostream& o, std::string indent="");
+    void print(std::ostream& o, std::string indent="");
 
-	static Graph<T>* getGraph(std::string identifier);
+    static Graph<T>* getGraph(std::string identifier);
+
+    friend NavigationPlan pathfind(LatLng start, LatLng end);
 };
 
 NavigationPlan pathfind(LatLng start, LatLng end);

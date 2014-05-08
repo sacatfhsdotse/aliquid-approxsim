@@ -822,7 +822,19 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener,
      * leftmost and rightmost x coordinates on the map when the scale is smallest.
      */
     public double getMinRange() {
-        return 1000.0;
+        /*
+         * Editor's note:
+         * This is not what the function is supposed to do, 
+         * and neither is it what it does. When I got here, 
+         * it simply returned the fixed range of 1000. I added
+         * the 'min' check to support smaller maps.
+         * 
+         * According to documentation, this minimum range is actually
+         * supposed to be the width of a single cell. I was unable to 
+         * locate this variable in the small amount of time I alloted 
+         * to fixing this function.
+         */
+        return Math.min(1000.0, getMaxRange()/1000.0);
     }
 
     /**

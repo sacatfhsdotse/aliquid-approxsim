@@ -795,6 +795,16 @@ EffectData getContent<EffectData>(const DOMElement* n)
 {
      return EffectData{};
 }
+
+template<class T> std::string getIdentifier(const DOMElement& n)
+{
+     return XMLHelper::getStringAttribute(n, "identifier");
+}
+template<> std::string getIdentifier<PathData>(const DOMElement& n)
+{
+     return "";
+}
+
 /**
  * \brief Gets a Graph representation of the provided DOMElement.
  *
@@ -842,7 +852,7 @@ Graph<T> *XMLHelper::getGraph(const DOMElement &n, const Reference& scope)
           i++;
      }
 
-     return new Graph<T>(nodes.size(), graphNodes, edges.size(), graphEdges);
+     return new Graph<T>(getIdentifier<T>(n), nodes.size(), graphNodes, edges.size(), graphEdges);
 }
 template Graph<PathData> *XMLHelper::getGraph(const DOMElement&, const Reference&);
 

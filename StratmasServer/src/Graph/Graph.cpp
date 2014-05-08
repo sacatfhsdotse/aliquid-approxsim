@@ -20,8 +20,19 @@ void Graph<T>::print(std::ostream& o, std::string indent){
 }
 template void Graph<PathData>::print(std::ostream& o, std::string indent);
 
-template<>
-NavigationPlan Graph<PathData>::getPath(LatLng start, LatLng end){
+template<class T>
+Graph<T>* Graph<T>::getGraph(std::string identifier) {
+	return Graph<T>::getSavedGraphs()[identifier];
+}
+
+template<class T>
+std::map<std::string, Graph<T>*>& Graph<T>::getSavedGraphs() {
+	static std::map<std::string, Graph<T>*> savedGraphs;
+	return savedGraphs;
+}
+
+NavigationPlan pathfind(LatLng start, LatLng end){
+	Graph<PathData>* graph = Graph<PathData>::getGraph("");
 	//TODO: 
 	// Simon titta hit!
 	// vett inte om du föredrar arrays eller std::vector

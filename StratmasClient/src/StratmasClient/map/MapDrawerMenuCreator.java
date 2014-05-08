@@ -4,19 +4,13 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.Point;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DragGestureEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
-import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.ArrayList;
+import java.text.ParseException;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.List;
 import java.util.Vector;
 
 import javax.swing.AbstractAction;
@@ -45,6 +39,7 @@ import StratmasClient.map.adapter.MapShapeAdapter;
 import StratmasClient.object.Shape;
 import StratmasClient.object.StratmasObject;
 import StratmasClient.object.StratmasObjectFactory;
+import StratmasClient.object.StratmasReference;
 import StratmasClient.object.primitive.Reference;
 import StratmasClient.object.type.TypeFactory;
 import StratmasClient.proj.MGRSConversion;
@@ -238,11 +233,21 @@ class MapDrawerMenuCreator {
                 public void actionPerformed(ActionEvent event) {
                     StratmasObject orig = v.get(0);
                     StratmasObject edge = StratmasObjectFactory.create(orig.getType().getTypeInformation().getType("PathEdge"));
-                    edge.setIdentifier("fiiiisk");
-                    ((StratmasReference) edge.getChild("origin")).valueFromString("nodes:"+orig.getIdentifier(), this);
-                    // TODO implement
-                    orig.getParent().add(edge);
-                    drawer.placeObject(edge);
+                    edge.setIdentifier("new edge");
+                    while(orig.getParent().getChild(edge.getIdentifier()) != null){
+                        int a = 0;
+                        try{
+                            a =Integer.parseInt(edge.getIdentifier().replace("new edge", ""));
+                        }catch (NumberFormatException ignore){};
+                        edge.setIdentifier("new edge" + (a + 1));
+                    }
+                    try {
+                        ((StratmasReference) edge.getChild("origin")).valueFromString("nodes:"+orig.getIdentifier(), this);
+                        orig.getParent().add(edge);
+                        drawer.placeObject(edge);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
             submenu.add(item);

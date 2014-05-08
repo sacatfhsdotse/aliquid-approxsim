@@ -16,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.io.UnsupportedEncodingException;
 import java.nio.DoubleBuffer;
 import java.nio.IntBuffer;
+import java.text.ParseException;
 import java.util.Enumeration;
 import java.util.TimerTask;
 import java.util.Vector;
@@ -47,6 +48,7 @@ import StratmasClient.object.StratmasEvent;
 import StratmasClient.object.StratmasEventListener;
 import StratmasClient.object.StratmasList;
 import StratmasClient.object.StratmasObject;
+import StratmasClient.object.StratmasReference;
 import StratmasClient.object.type.Type;
 import StratmasClient.object.type.TypeFactory;
 import StratmasClient.treeview.TreeView;
@@ -380,15 +382,29 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
         else if (e.getButton() == MouseEvent.BUTTON1) {
             if(newlyCreatedObjectToBePlaced != null){
                 if(newlyCreatedObjectToBePlaced.getType().canSubstitute("Edge")){
+                    final Vector<StratmasObject> v = (new TypeFilter(TypeFactory.getType("Node"),
+                                                                     true)).filter(mapElementsUnderCursor());
+                    if(v.size() > 0){
+                        try {
+                            ((StratmasReference) newlyCreatedObjectToBePlaced.getChild("target")).
+                            valueFromString("nodes:"+v.get(0).getIdentifier(), this);
+                            addMapDrawable(newlyCreatedObjectToBePlaced);
+                            newlyCreatedObjectToBePlaced = null;
+                        } catch (ParseException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
+                    }
                     
                 }else if(newlyCreatedObjectToBePlaced.getType().canSubstitute("Node")){
                     Point p2 = (Point) newlyCreatedObjectToBePlaced.getChild("point");
                     p2.setLatLon(p.lat, p.lon, this);
+                    addMapDrawable(newlyCreatedObjectToBePlaced);
+                    newlyCreatedObjectToBePlaced = null;
                 }
                 
 //                orig.getParent().add(clone);
-                addMapDrawable(newlyCreatedObjectToBePlaced);
-                newlyCreatedObjectToBePlaced = null;
+               
             }
             
             // show information of the pointed element

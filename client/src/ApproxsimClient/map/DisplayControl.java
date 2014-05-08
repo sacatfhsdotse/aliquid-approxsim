@@ -733,7 +733,7 @@ public class DisplayControl {
         other.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
                 CombinedORFilter filter = new CombinedORFilter();
-                if (roads.isSelected()) {
+                if (other.isSelected()) {
                     TypeFilter type_filter = new TypeFilter(TypeFactory
                             .getType("EffectEdge"));
                     ((CombinedORFilter) filter).add(type_filter);

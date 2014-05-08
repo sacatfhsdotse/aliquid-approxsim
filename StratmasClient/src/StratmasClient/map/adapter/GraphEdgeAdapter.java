@@ -109,8 +109,6 @@ public class GraphEdgeAdapter extends MapElementAdapter {
         double nLen = Math.sqrt(n[0]*n[0] + n[1]*n[1]);
         n[0] *= lineWidth/2/nLen; // TODO multiply with some sort of scale?
         n[1] *= lineWidth/2/nLen;
-
-        horizontalSymbolSize
         
         gl.glBegin(GL2.GL_POLYGON);
         gl.glLineWidth(lineWidth);

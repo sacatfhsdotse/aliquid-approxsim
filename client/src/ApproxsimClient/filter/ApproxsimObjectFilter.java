@@ -92,8 +92,9 @@ public abstract class ApproxsimObjectFilter {
     /**
      * Sets the inverted flag of this filter. (Inverting meaning that all replies from pass will be inverted.)
      */
-    public void setInverted(boolean inverted) {
+    public ApproxsimObjectFilter setInverted(boolean inverted) {
         this.inverted = inverted;
+        return this;
     }
 
     /**

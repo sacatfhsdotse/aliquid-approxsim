@@ -34,9 +34,11 @@ import ApproxsimClient.BoundingBox;
 import ApproxsimClient.Client;
 import ApproxsimClient.Configuration;
 import ApproxsimClient.filter.ApproxsimObjectFilter;
+import ApproxsimClient.filter.CombinedFilter;
 import ApproxsimClient.filter.TypeFilter;
 import ApproxsimClient.map.adapter.MapElementAdapter;
 import ApproxsimClient.map.adapter.MapShapeAdapter;
+import ApproxsimClient.object.Point;
 import ApproxsimClient.object.Shape;
 import ApproxsimClient.object.ApproxsimObject;
 import ApproxsimClient.object.ApproxsimObjectFactory;
@@ -67,6 +69,13 @@ class MapDrawerMenuCreator {
      * Reference to the client.
      */
     private Client client;
+    
+    public ApproxsimObjectFilter getNotGraphsFilter() {
+        CombinedFilter notGraphs = new CombinedFilter();
+        notGraphs.add(new TypeFilter(TypeFactory.getType("Edge"), true).setInverted(true));
+        notGraphs.add(new TypeFilter(TypeFactory.getType("Node"), true).setInverted(true));
+        return notGraphs;
+    }
 
     /**
      * Creates a MapDrawerMenuCreator.
@@ -92,8 +101,8 @@ class MapDrawerMenuCreator {
      */
     protected JMenu getMenuForAOR() {
         JMenu submenu = null;
-        Vector adVec = drawer
-                .mapDrawableAdaptersUnderCursor(MapElementAdapter.class);
+        Vector adVec = getNotGraphsFilter().filter(drawer
+                .mapDrawableAdaptersUnderCursor(MapElementAdapter.class));
         if (!adVec.isEmpty()) {
             submenu = new JMenu("Define area for :");
             for (Enumeration en = adVec.elements(); en.hasMoreElements();) {
@@ -405,7 +414,8 @@ class MapDrawerMenuCreator {
                 item.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent event) {
                         Shape loc = (Shape) so.getChild("location");
-                        if (loc != null) {
+                        Point point = (Point) so.getChild("point");
+                        if (loc != null || point != null) {
                             final JDialog dialog = self
                                     .getElementPositionDialog(so);
                             dialog.setSize(new Dimension(250, 200));
@@ -447,9 +457,18 @@ class MapDrawerMenuCreator {
         final JDialog dialog = new JDialog(new JFrame(), "Current Position");
 
         Shape loc = (Shape) so.getChild("location");
-        BoundingBox box = loc.getBoundingBox();
-        double lat = (box.getNorthLat() + box.getSouthLat()) / 2;
-        double lon = (box.getWestLon() + box.getEastLon()) / 2;
+        Point point = (Point) so.getChild("point");
+        
+        double lat, lon;
+        if(loc != null){
+            BoundingBox box = loc.getBoundingBox();
+            lat = (box.getNorthLat() + box.getSouthLat()) / 2;
+            lon = (box.getWestLon() + box.getEastLon()) / 2;
+        } else {
+            lat = point.getLat();
+            lon = point.getLon();
+        }
+        
         // information panel
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new GridLayout(2, 1, 3, 3));

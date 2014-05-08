@@ -1070,6 +1070,25 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener,
                     .hasMoreElements();) {
                 ApproxsimObject candidate = ee.nextElement();
                 if (candidate instanceof ApproxsimList) {
+                    candidate.addEventListener(new ApproxsimEventListener() {
+                        public void eventOccured(ApproxsimEvent subEvent) {
+                            if (subEvent.isObjectAdded()) {
+                                addMapDrawable((ApproxsimObject) subEvent
+                                        .getArgument());
+                            } else if (subEvent.isRemoved()) {
+                                ((ApproxsimObject) subEvent.getSource())
+                                        .removeEventListener(this);
+                            } else if (subEvent.isReplaced()) {
+                                // UNTESTED - the replace code is untested 2005-09-22
+                                Debug.err
+                                        .println("FIXME - Replace behavior untested in MapDrawer");
+                                ((ApproxsimObject) subEvent.getSource())
+                                        .removeEventListener(this);
+                                ((ApproxsimObject) subEvent.getArgument())
+                                        .addEventListener(this);
+                            }
+                        }
+                    });
                     for (Enumeration<ApproxsimObject> le = candidate.children(); le
                             .hasMoreElements();) {
                         ApproxsimObject candidate2 = le.nextElement();
@@ -1081,6 +1100,8 @@ public abstract class BasicMapDrawer extends JPanel implements GLEventListener,
                 } else {
                     if (candidate.getType().canSubstitute("Node")
                             || candidate.getType().canSubstitute("Edge")) {
+                        System.err.println("i think Nodes and Edges should be a"
+                                + " ApproxsimList, but continuing anyway");
                         addMapDrawableAdapter(candidate);
                     }
                 }

@@ -73,7 +73,27 @@ public:
       */
      inline double lng() const { return mLng; }
 
+     /**
+      * \brief Returns the square of the distance between this point and
+      * the point p.
+      *
+      * \param p The point to measure the distance to.
+      * \return The square of the distance between this point and the point
+      * p in meters.
+      */
      inline double squDistanceTo(const LatLng &p) const;
+
+     /**
+      * \brief Returns the distance between this point and the point p.
+      */
+     inline double distanceTo(const LatLng &p) const { return sqrt(squDistanceTo(p)); }
+
+     /**
+      * \brief Returns the projection of this point using the current
+      * Projection.
+      *
+      * \return The projection of this point using the current Projection.
+      */
      inline ProjCoord toCoord() const;
 
      /**
@@ -97,26 +117,13 @@ public:
      friend inline std::ostream &operator << (std::ostream &o, const LatLng &p);
 };
 
-/**
- * \brief Returns the square of the distance between this point and
- * the point p.
- *
- * \param p The point to measure the distance to.
- * \return The square of the distance between this point and the point
- * p in meters.
- */
-inline double LatLng::squDistanceTo(const LatLng &p) const {
+inline double LatLng::squDistanceTo(const LatLng &p) const
+{
      double dx = (mLng - p.mLng) * cos(mLat * kDeg2Rad );
      double dy = (mLat - p.mLat);
      return ((dx * dx) + (dy * dy)) * kMetersPerDegreeLat2;
 }
 
-/**
- * \brief Returns the projection of this point using the current
- * Projection.
- *
- * \return The projection of this point using the current Projection.
- */
 inline ProjCoord LatLng::toCoord() const
 {
      return Projection::mCurrent->coordToProj(*this); 

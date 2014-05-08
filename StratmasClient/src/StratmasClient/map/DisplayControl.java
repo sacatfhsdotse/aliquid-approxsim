@@ -726,11 +726,11 @@ public class DisplayControl {
                 self.setRoadsFilter(filter);
             }
         });
-        roads.doClick();
         panel.add(roads);
+        roads.doClick();
 
         final JCheckBox other = new JCheckBox("Other");
-        roads.addItemListener(new ItemListener() {
+        other.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
                 CombinedORFilter filter = new CombinedORFilter();
                 if (roads.isSelected()) {
@@ -744,8 +744,8 @@ public class DisplayControl {
                 self.setOtherFilter(filter);
             }
         });
-        other.doClick();
         panel.add(other);
+        other.doClick();
 
         panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
                 .createTitledBorder("Infrastructure"), BorderFactory

@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.security.InvalidParameterException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
@@ -232,7 +233,15 @@ class MapDrawerMenuCreator {
             item.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
                     StratmasObject orig = v.get(0);
-                    StratmasObject edge = StratmasObjectFactory.create(orig.getType().getTypeInformation().getType("PathEdge"));
+                    StratmasObject edge;
+                    if(orig.getType().canSubstitute("PathNode")){
+                        edge = StratmasObjectFactory.create(orig.getType().getTypeInformation().getType("PathEdge"));
+                    }else if(orig.getType().canSubstitute("EffectNode")){
+                        edge = StratmasObjectFactory.create(orig.getType().getTypeInformation().getType("EffectEdge"));
+                    }else{
+                        throw new InvalidParameterException();
+                    }
+                    
                     StratmasObject edges = orig.getParent().getParent().getChild("edges");
                     
                     edge.setIdentifier("new edge");

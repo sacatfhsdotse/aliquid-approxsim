@@ -389,10 +389,15 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
                                                                      true)).filter(mapElementsUnderCursor());
                     if(v.size() > 0){
                         try {
-                            ((StratmasReference) newlyCreatedObjectToBePlaced.getChild("target")).
-                            valueFromString("nodes:"+v.get(0).getIdentifier(), this);
-                            addMapDrawable(newlyCreatedObjectToBePlaced);
-                            newlyCreatedObjectToBePlaced = null;
+                            StratmasObject potentialNode = v.get(0);
+                            if(((StratmasReference) newlyCreatedObjectToBePlaced.getChild("origin")).
+                                    getValue().resolve(newlyCreatedObjectToBePlaced).
+                                    getParent() == potentialNode.getParent()){ // In the same graph
+                                ((StratmasReference) newlyCreatedObjectToBePlaced.getChild("target")).
+                                valueFromString("nodes:"+potentialNode.getIdentifier(), this);
+                                addMapDrawable(newlyCreatedObjectToBePlaced);
+                                newlyCreatedObjectToBePlaced = null;
+                            }
                         } catch (ParseException e1) {
                             // TODO Auto-generated catch block
                             e1.printStackTrace();

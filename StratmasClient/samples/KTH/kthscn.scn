@@ -340,33 +340,13 @@
 					<value>0.0</value>
 				</mortalityRate>
 			</disease>
-			<populationCenters identifier="Studenter" xsi:type="sp:Population">
-				<present xsi:type="sp:Boolean">
-					<value>true</value>
-				</present>
-				<location xsi:type="sp:Circle">
-					<radius xsi:type="sp:Double">
-						<value>500.0</value>
-					</radius>
-					<center xsi:type="sp:Point">
-						<lat>59.35</lat>
-						<lon>18.07</lon>
-					</center>
-				</location>
-				<deployment xsi:type="sp:UniformDistribution"/>
-				<ethnicGroups identifier="Svennar" xsi:type="sp:PopulationGroup">
-					<inhabitants xsi:type="sp:Double">
-						<value>20000.0</value>
-					</inhabitants>
-				</ethnicGroups>
-			</populationCenters>
 			<militaryUnits identifier="Osquarulda" xsi:type="sp:MilitaryUnit">
 				<present xsi:type="sp:Boolean">
 					<value>true</value>
 				</present>
 				<activities identifier="Till Maskin" xsi:type="sp:GoToOrder">
 					<active xsi:type="sp:Boolean">
-						<value>true</value>
+						<value>false</value>
 					</active>
 					<start xsi:type="sp:Timestamp">
 						<value>2014-04-28T00:00:00.000Z</value>
@@ -430,7 +410,7 @@
 					<value>1.0</value>
 				</defenseFactor>
 				<maxVelocity xsi:type="sp:Double">
-					<value>0.1</value>
+					<value>1.0E-4</value>
 				</maxVelocity>
 				<deployTime xsi:type="sp:Timestamp">
 					<value>2014-01-01T00:00:00.000Z</value>
@@ -711,6 +691,9 @@
 		<startTime xsi:type="sp:Timestamp">
 			<value>2014-04-28T00:00:00.000Z</value>
 		</startTime>
+		<randomSeed xsi:type="sp:NonNegativeInteger">
+			<value>1399544222</value>
+		</randomSeed>
 		<modelParameters xsi:type="sp:ModelParameters">
 			<fractionPotentialInsurgents xsi:type="sp:Double">
 				<value>0.03</value>

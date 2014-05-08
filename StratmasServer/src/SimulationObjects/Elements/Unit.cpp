@@ -758,40 +758,44 @@ void Unit::recover()
  */
 void Unit::move()
 {
-     // TODO add graph-pathfinding here.
-     double distanceKm;
-     double speedKm;
-     double portion;
+     double toTravelKm = mVelocity * Simulation::timestep().hoursd();
 
-     LatLng goal = mGoal->cenCoord();
-        
-     if (mVelocity > 0.0) {
+     auto travelTowards = [&toTravelKm, this](LatLng goal) -> bool {
           double vx = (goal.lng() - center().lng()) * mSqueeze;
           double vy =  goal.lat() - center().lat();
           if ((vx != 0.0) || (vy != 0.0)) {
-               // We're moving
                mMoving = true;
-
-               // Calculate distance to goal:
-               distanceKm = sqrt( vx*vx + vy*vy ) * kKmPerDegreeLat;
-                        
-               // Calculate speed in kilometers per timestep
-               speedKm = mVelocity * Simulation::timestep().hoursd();
-                        
-//               debug ("distance to goal: " << distanceKm << ", current speed: " << mVelocity << " km/h");
-               if (distanceKm > speedKm) {
-                    portion = speedKm / distanceKm;
-                    vx *= portion;
-                    vy *= portion;
-                    mLocation->move(vx / mSqueeze, vy);
+               double distanceKm = sqrt( vx*vx + vy*vy ) * kKmPerDegreeLat;
+               if (distanceKm > toTravelKm) {
+                    mLocation->move(vx * toTravelKm / distanceKm / mSqueeze, vy * toTravelKm / distanceKm);
+                    toTravelKm = 0;
+                    mSqueeze = cos(center().lat() * kDeg2Rad);
+                    return false;
+               } else {
+                    mLocation->move(vx * mSqueeze, vy);
+                    toTravelKm -= distanceKm;
+                    mSqueeze = cos(center().lat() * kDeg2Rad);
+                    return true;
                }
-               else {
+          }
+     };
+
+     while (toTravelKm > 0) {
+          if (mNavPlan.path.size() == 0) {
+               if (travelTowards(mGoal->cenCoord())) {
                     setLocation(*mGoal);
                     mVelocity = 0;
-                    vx = 0;
-                    vy = 0;
                }
-               mSqueeze = cos(center().lat() * kDeg2Rad);
+
+          } else if (mOnGraph) {
+               if (travelTowards(mNavPlan.path.front()->target->pos)) {
+                    mNavPlan.path.pop_front();
+               }
+
+          } else {
+               if (travelTowards(mNavPlan.path.front()->origin->pos)) {
+                    mOnGraph = true;
+               }
           }
      }
 }
@@ -943,6 +947,8 @@ void Unit::setGoal(const Shape& goal)
           delete mGoal;
      }
      mGoal = goal.clone();
+     mOnGraph = false;
+     mNavPlan = pathfind(mLocation->cenCoord(), goal.cenCoord());
 }
 
 /**

@@ -12,6 +12,7 @@
 // Own
 #include "Element.h"
 #include "Time2.h"
+#include "Graph.h"
 
 
 // Forward Declarations
@@ -25,7 +26,6 @@ class PresenceObject;
 class PresenceObjectAllocator;
 class Reference;
 class Shape;
-class NavigationPlan;
 
 
 /**
@@ -203,6 +203,8 @@ private:
      bool             mDeparted;     ///< Indicates if this unit has departed.
      bool             mMoving;       ///< Indicates if this unit is currently moving.
      Shape*           mGoal;         ///< The current goal of this unit.
+     bool             mOnGraph;      ///< Whether the unit has reached the graph during the current pathfinding.
+     NavigationPlan   mNavPlan;
 
      /// Maps a unit to the EnemyRecord for that unit.
      std::map<Unit*, EnemyRecord> mEnemyRecords;

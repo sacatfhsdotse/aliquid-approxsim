@@ -185,11 +185,11 @@ public class DisplayControl {
                 .getInvariantSymbolSize());
         invariantSymbolSizeCheckBox.setFont(invariantSymbolSizeCheckBox
                 .getFont().deriveFont(Font.PLAIN));
-        invariantSymbolSizeCheckBox.doClick();
         JPanel symbolPrefPanel = new JPanel();
         symbolPrefPanel.setLayout(new GridLayout(2, 1));
         symbolPrefPanel.add(symbolMagnifierCheckBox);
         symbolPrefPanel.add(invariantSymbolSizeCheckBox);
+        invariantSymbolSizeCheckBox.doClick();
 
         return symbolPrefPanel;
     }

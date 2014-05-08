@@ -842,17 +842,23 @@ Graph<T> *XMLHelper::getGraph(const DOMElement &n, const Reference& scope)
           return identMap[tmp];
      };
 
-     Edge<T>* graphEdges = new Edge<T>[edges.size()];
+     Edge<T>* graphEdges = new Edge<T>[2*edges.size()];
      i = 0;
      for (auto edge : edges) {
           graphEdges[i].origin = findPointer(edge, "origin");
           graphEdges[i].target = findPointer(edge, "target");
           graphEdges[i].isConnected = getBool(*getFirstChildByTag(*edge, "isConnected"), "value");
           graphEdges[i].content = getContent<T>(edge);
+
+          graphEdges[i+edges.size()].origin = graphEdges[i].target;
+          graphEdges[i+edges.size()].target = graphEdges[i].origin;
+          graphEdges[i+edges.size()].isConnected = graphEdges[i].isConnected;
+          graphEdges[i+edges.size()].content = graphEdges[i].content;
+
           i++;
      }
 
-     return new Graph<T>(getIdentifier<T>(n), nodes.size(), graphNodes, edges.size(), graphEdges);
+     return new Graph<T>(getIdentifier<T>(n), nodes.size(), graphNodes, 2*edges.size(), graphEdges);
 }
 template Graph<PathData> *XMLHelper::getGraph(const DOMElement&, const Reference&);
 

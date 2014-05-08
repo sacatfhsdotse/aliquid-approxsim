@@ -13,21 +13,21 @@ import StratmasClient.object.StratmasEventListener;
 
 /**
  * The list of military units used as resources for the activities in the table.
- *
+ * 
  * @author Amir Filipovic
  */
-public class ActivityTableComboBox extends JComboBox implements StratmasEventListener{
+public class ActivityTableComboBox extends JComboBox implements
+        StratmasEventListener {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = -976031962278506052L;
-	/**
-     * The list of the military units. The StratmasObject identifiers are used as keys while
-     * the values are Vector objects containing the military units. Vector is used
-     * as the value because of possible multiple occurance of the identifiers.
+    private static final long serialVersionUID = -976031962278506052L;
+    /**
+     * The list of the military units. The StratmasObject identifiers are used as keys while the values are Vector objects containing the
+     * military units. Vector is used as the value because of possible multiple occurance of the identifiers.
      */
     private Hashtable<String, Vector<StratmasObject>> resources = new Hashtable<String, Vector<StratmasObject>>();
-    
+
     /**
      * Creates new combo box.
      */
@@ -36,33 +36,32 @@ public class ActivityTableComboBox extends JComboBox implements StratmasEventLis
         this.setBackground(Color.WHITE);
         this.setFont(this.getFont().deriveFont(Font.PLAIN));
     }
-    
+
     /**
      * Updates the list.
      */
     public synchronized void eventOccured(StratmasEvent e) {
-        StratmasObject so = (StratmasObject)e.getSource();
+        StratmasObject so = (StratmasObject) e.getSource();
         if (e.isIdentifierChanged()) {
-            removeResource(so, (String)e.getArgument());
+            removeResource(so, (String) e.getArgument());
             addResource(so);
-        }
-        else if (e.isRemoved()) {
-            removeResource(so, so.getIdentifier());  
-        }
-        else if (e.isObjectAdded()) {
+        } else if (e.isRemoved()) {
+            removeResource(so, so.getIdentifier());
+        } else if (e.isObjectAdded()) {
             addResource(so);
         }
     }
-    
+
     /**
      * Adds a military unit to the combo box.
-     *
+     * 
      * @param resource a military unit.
      */
     public void addResource(StratmasObject resource) {
         // a resource with the similar identifier already exists in the list
         if (resources.containsKey(resource.getIdentifier())) {
-            Vector<StratmasObject> resVec = resources.get(resource.getIdentifier());
+            Vector<StratmasObject> resVec = resources.get(resource
+                    .getIdentifier());
             if (!resVec.contains(resource)) {
                 resVec.add(resource);
             }
@@ -74,23 +73,25 @@ public class ActivityTableComboBox extends JComboBox implements StratmasEventLis
             resources.put(resource.getIdentifier(), refVec);
             // update the combo box
             int i = 1;
-            while (i < getItemCount() && resource.getIdentifier().compareTo((String)getItemAt(i)) > 0) {
+            while (i < getItemCount()
+                    && resource.getIdentifier()
+                            .compareTo((String) getItemAt(i)) > 0) {
                 i++;
             }
             if (i < getItemCount()) {
-                ((DefaultComboBoxModel)this.getModel()).insertElementAt(resource.getIdentifier(), i);
-            }
-            else {
+                ((DefaultComboBoxModel) this.getModel())
+                        .insertElementAt(resource.getIdentifier(), i);
+            } else {
                 this.addItem(resource.getIdentifier());
             }
         }
         // listen to the resource
         resource.addEventListener(this);
-    } 
+    }
 
     /**
      * Removes a military unit from the combo box.
-     *
+     * 
      * @param resource a military unit.
      * @param identifier the key of the resource in the list.
      */
@@ -107,15 +108,15 @@ public class ActivityTableComboBox extends JComboBox implements StratmasEventLis
             // remove the listener
             resource.removeEventListener(this);
         }
-    } 
-    
+    }
+
     /**
      * Returns the resources with the given identifier.
      */
     public Vector getResources(String id) {
         return resources.get(id);
-    } 
-    
+    }
+
     /**
      * Returns true if the list contains the resource.
      */
@@ -128,5 +129,5 @@ public class ActivityTableComboBox extends JComboBox implements StratmasEventLis
         }
         return false;
     }
-    
+
 }

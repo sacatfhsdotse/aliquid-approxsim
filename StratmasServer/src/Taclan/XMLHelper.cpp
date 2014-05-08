@@ -4,6 +4,8 @@
 #include <iostream>
 #include <list>
 #include <ctime>
+#include <algorithm>
+#include <cstring>
 
 // Xerces-c
 #include <xercesc/dom/DOMElement.hpp>
@@ -20,6 +22,9 @@
 #include "StrX.h"
 #include "XMLHelper.h"
 #include "Log4C.h"
+#include "Graph.h"
+#include "Log4C.h"
+#include "LogStream.h"
 
 
 using namespace std;
@@ -49,7 +54,7 @@ static const char *nodeTypeToStringMap[] = {
  */
 string XMLHelper::nodeTypeToString(int i)
 {
-     return (i > 0 && i <=12 ? nodeTypeToStringMap[i] : "Unknown node type");
+     return (i > 0 && i <= 12 ? nodeTypeToStringMap[i] : "Unknown node type");
 }
 
 /**
@@ -262,6 +267,8 @@ template<class T> ostream& XMLHelper::base64Print(const T* const toEncode,
      }
      return o;
 }
+template ostream& XMLHelper::base64Print(const double* const, int, bool, ostream& o);
+template ostream& XMLHelper::base64Print(const int* const, int, bool, ostream& o);
 
 
 /**
@@ -723,7 +730,7 @@ Shape *XMLHelper::getShape(const DOMElement &n, const Reference& scope)
           // line at the end of the polygon.
           Line* line = firstLine;
           aList->vertex = new gpc_vertex[aList->num_vertices];
-          for(int i = 0; i < aList->num_vertices; i++) {
+          for (int i = 0; i < aList->num_vertices; i++) {
                identifiers.push_back(line->identifier());
                aList->vertex[i].x = line->p1().x();
                aList->vertex[i].y = line->p1().y();
@@ -764,6 +771,80 @@ Shape *XMLHelper::getShape(const DOMElement &n, const Reference& scope)
      }
      return res;
 }
+
+struct stringEdge {
+     std::string origin;
+     std::string target;
+     bool isConnected;
+     double travelSpeed;
+     stringEdge(std::string o, std::string t, bool con, double trav):
+          origin(o), target(t), isConnected(con), travelSpeed(trav) {}
+};
+
+template<class T> T getContent(const DOMElement* n);
+template<>
+PathData getContent<PathData>(const DOMElement* n)
+{
+     auto travelSpeed = XMLHelper::getFirstChildByTag(*n, "travelSpeed");
+     if (travelSpeed == nullptr)
+          return PathData {0};
+     return PathData {XMLHelper::getDouble(*travelSpeed, "value")};
+}
+template<>
+EffectData getContent<EffectData>(const DOMElement* n)
+{
+     return EffectData{};
+}
+/**
+ * \brief Gets a Graph representation of the provided DOMElement.
+ *
+ * \param n The parent DOMElement.
+ * \param scope The Reference to the scope this shape should live in.
+ * \return The Shape representation of the element's content.
+ */
+template<class T>
+Graph<T> *XMLHelper::getGraph(const DOMElement &n, const Reference& scope)
+{
+     vector<DOMElement*> nodes;
+     getChildElementsByTag(n, "nodes", nodes);
+
+     auto getLatLng = [](DOMElement* point) -> LatLng {
+          return LatLng(getDouble(*point, "lat"),
+                        getDouble(*point, "lon"));
+     };
+
+     Node<T>* graphNodes = new Node<T>[nodes.size()];
+     std::map<std::string, Node<T>*> identMap;
+     int i = 0;
+     for (auto node : nodes) {
+          graphNodes[i].pos = getLatLng(getFirstChildByTag(*node, "point"));
+          graphNodes[i].content = getContent<T>(node);
+          identMap[getStringAttribute(*node, "identifier")] = &graphNodes[i];
+          i++;
+     }
+
+     vector<DOMElement*> edges;
+     getChildElementsByTag(n, "edges", edges);
+
+     auto findPointer = [&identMap] (const DOMElement* edge, std::string name) -> Node<T>* {
+          std::string tmp;
+          getString(*getFirstChildByTag(*edge, name), "name", tmp);
+          return identMap[tmp];
+     };
+
+     Edge<T>* graphEdges = new Edge<T>[edges.size()];
+     i = 0;
+     for (auto edge : edges) {
+          graphEdges[i].origin = findPointer(edge, "origin");
+          graphEdges[i].target = findPointer(edge, "target");
+          graphEdges[i].isConnected = getBool(*getFirstChildByTag(*edge, "isConnected"), "value");
+          graphEdges[i].content = getContent<T>(edge);
+          i++;
+     }
+
+     return new Graph<T>(nodes.size(), graphNodes, edges.size(), graphEdges);
+}
+template Graph<PathData> *XMLHelper::getGraph(const DOMElement&, const Reference&);
 
 /**
  * \brief Finds the first subelement of the provided DOMElement that

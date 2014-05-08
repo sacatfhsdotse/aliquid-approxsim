@@ -14,28 +14,30 @@ public class ActivityTableCellRenderer extends DefaultTableCellRenderer {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = -504755902114378189L;
+    private static final long serialVersionUID = -504755902114378189L;
 
-	/**
-     * Returns the default table cell renderer. 
-     *
+    /**
+     * Returns the default table cell renderer.
+     * 
      * @param table the JTable.
      * @param value the value to assign to the cell at [row, column].
      * @param isSelected true if cell is selected.
      * @param hasFocus true if cell has focus.
      * @param row the row of the cell to render.
-     * @param column the column of the cell to render. 
-     *
+     * @param column the column of the cell to render.
      * @return the deafult table cell renderer.
      */
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, 
-                                                   boolean hasFocus, int row, int column) {
+    public Component getTableCellRendererComponent(JTable table, Object value,
+            boolean isSelected, boolean hasFocus, int row, int column) {
         DefaultTableCellRenderer defaultRenderer = new DefaultTableCellRenderer();
-        Component renderer = defaultRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        Component renderer = defaultRenderer
+                .getTableCellRendererComponent(table, value, isSelected,
+                                               hasFocus, row, column);
         ((JLabel) renderer).setOpaque(true);
         // color each other row with different color
         if (!isSelected) {
-            Color backgroundColor = (row % 2 == 0)? TimelineConstants.LIGHT : TimelineConstants.LIGHTER;
+            Color backgroundColor = (row % 2 == 0) ? TimelineConstants.LIGHT
+                    : TimelineConstants.LIGHTER;
             renderer.setBackground(backgroundColor);
         }
         return renderer;

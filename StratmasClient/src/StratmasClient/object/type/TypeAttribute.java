@@ -1,4 +1,4 @@
-//         $Id: TypeAttribute.java,v 1.1 2006/03/22 14:30:52 dah Exp $
+// $Id: TypeAttribute.java,v 1.1 2006/03/22 14:30:52 dah Exp $
 /*
  * @(#)TypeAttribute.java
  */
@@ -6,15 +6,13 @@
 package StratmasClient.object.type;
 
 /**
- * An object representing an attribute in the Taclan type 
- * language.
- *
+ * An object representing an attribute in the Taclan type language.
+ * 
  * @version 1, $Date: 2006/03/22 14:30:52 $
- * @author  Daniel Ahlin
-*/
+ * @author Daniel Ahlin
+ */
 
-public class TypeAttribute
-{
+public class TypeAttribute {
     /**
      * The type of this declaration.
      */
@@ -27,32 +25,26 @@ public class TypeAttribute
 
     /**
      * Creates a new declaration.
-     *
+     * 
      * @param type the type of the declaration.
      * @param name the name of the declaration.
      */
-    public TypeAttribute(Type type, String name)
-    {
+    public TypeAttribute(Type type, String name) {
         this.type = type;
         this.name = name;
     }
 
-
-
     /**
      * Returns a string representation of this object.
      */
-    public String toString() 
-    {
+    public String toString() {
         return type.getName() + "\t\t" + getName() + " (Attribute)";
     }
 
-    /** 
+    /**
      * Returns the name of this declaration.
      */
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 }
-

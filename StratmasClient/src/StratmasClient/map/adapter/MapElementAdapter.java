@@ -29,17 +29,16 @@ import StratmasClient.object.SymbolIDCode;
 import com.jogamp.common.nio.Buffers;
 
 /**
- * MapElementAdapter adapts StratmasObjects descendants of Element and Activity for
- * viewing on a map window.
- *
- * @version 1, 
- * @author  Daniel Ahlin
-*/
-public class MapElementAdapter extends MapDrawableAdapter{
+ * MapElementAdapter adapts StratmasObjects descendants of Element and Activity for viewing on a map window.
+ * 
+ * @version 1,
+ * @author Daniel Ahlin
+ */
+public class MapElementAdapter extends MapDrawableAdapter {
     /**
      * The color of the selection marking.
      */
-    static final double[] SELECTION_COLOR = {1.0d, 0.0d, 0.0d, 1.0d};
+    static final double[] SELECTION_COLOR = { 1.0d, 0.0d, 0.0d, 1.0d };
     /**
      * The position of the location displaylist in the displayListsBuf buffer.
      */
@@ -67,7 +66,8 @@ public class MapElementAdapter extends MapDrawableAdapter{
     /**
      * All displayLists used by the mapElementAdapter except the total displaylist.
      */
-    IntBuffer displayListsBuf = Buffers.newDirectIntBuffer(USED_DISPLAY_LISTS - 1);
+    IntBuffer displayListsBuf = Buffers
+            .newDirectIntBuffer(USED_DISPLAY_LISTS - 1);
     /**
      * The number of Render Selection names needed by this adapter.
      */
@@ -76,11 +76,11 @@ public class MapElementAdapter extends MapDrawableAdapter{
      * Whether location is updated since last redraw.
      */
     boolean isLocationUpdated = false;
-     /**
+    /**
      * Whether symbol is updated since last redraw.
      */
     boolean isSymbolUpdated = false;
-     /**
+    /**
      * Whether selection marker is updated since last redraw.
      */
     boolean isSelectionMarkerUpdated = false;
@@ -121,11 +121,11 @@ public class MapElementAdapter extends MapDrawableAdapter{
      */
     boolean drawLocation = false;
     /**
-     * Whether to draw location  as an outline.
+     * Whether to draw location as an outline.
      */
     boolean drawLocationOutline = false;
     /**
-     * Wheter symbol size should be drawn in constant size.
+     * Whether symbol size should be drawn in constant size.
      */
     boolean invariantSymbolSize = false;
 
@@ -133,46 +133,43 @@ public class MapElementAdapter extends MapDrawableAdapter{
      * Location opacity
      */
     double locationOpacity = 1.0d;
-    
+
     /**
      * Creates a new MapElementAdapter.
-     *
+     * 
      * @param mapElement the object to adapt.
      */
-    protected MapElementAdapter(StratmasObject mapElement)
-    {
+    protected MapElementAdapter(StratmasObject mapElement) {
         super(mapElement);
     }
 
     /**
      * Creates a new MapElementAdapter.
-     *
+     * 
      * @param mapElement the object to adapt.
      * @param renderSelectionName the integer to use as the base for names in RENDER_SELECTION
      */
-    protected MapElementAdapter(StratmasObject mapElement, int renderSelectionName)
-    {
+    protected MapElementAdapter(StratmasObject mapElement,
+            int renderSelectionName) {
         super(mapElement);
         setRenderSelectionName(renderSelectionName);
     }
-    
+
     /**
      * Updates (recreates) the displayList that draws the entire object.
-     *
+     * 
      * @param proj the projection that maps lat and long into GL coordinates.
      * @param gld the gl drawable targeted.
      */
-    protected void updateDisplayList(Projection proj, GLAutoDrawable gld)
-    {
+    protected void updateDisplayList(Projection proj, GLAutoDrawable gld) {
         GL2 gl = (GL2) gld.getGL();
-         this.displayList = 
-             (gl.glIsList(this.displayList)) ?
-             this.displayList : gl.glGenLists(1);
-        
+        this.displayList = (gl.glIsList(this.displayList)) ? this.displayList
+                : gl.glGenLists(1);
+
         gl.glNewList(getDisplayList(), GL2.GL_COMPILE);
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
-        // Pushes the name for RenderSelection mode.        
+        // Pushes the name for RenderSelection mode.
         gl.glPushName(getRenderSelectionName());
         // Set render position for consequent calls
         double projectedPosition[] = proj.projToXY(getLonLat());
@@ -185,40 +182,42 @@ public class MapElementAdapter extends MapDrawableAdapter{
         gl.glEndList();
         displayListUpdated = true;
     }
-    
+
     /**
-     * Updates (recreates) the displayList that draws the symbol of the object
-     * this adapter represents.
-     *
+     * Updates (recreates) the displayList that draws the symbol of the object this adapter represents.
+     * 
      * @param proj the projection that maps lat and long into GL coordinates.
      * @param gld the gl drawable targeted.
      */
-    protected void updateSymbolDisplayList(Projection proj, GLAutoDrawable gld)
-    {
+    protected void updateSymbolDisplayList(Projection proj, GLAutoDrawable gld) {
         GL2 gl = (GL2) gld.getGL();
-         displayListsBuf.put(SYMBOL_POS, 
-                            (gl.glIsList(displayListsBuf.get(SYMBOL_POS)) ?
-                             displayListsBuf.get(SYMBOL_POS) : gl.glGenLists(1)));
+        displayListsBuf
+                .put(SYMBOL_POS,
+                     (gl.glIsList(displayListsBuf.get(SYMBOL_POS)) ? displayListsBuf
+                             .get(SYMBOL_POS) : gl.glGenLists(1)));
 
         // Get texture from texture mapper. This is done outside the
         // list in case the mapper needs to create a newtexture
         // definition. (Which should not get compiled.)
-        int texture = SymbolToTextureMapper.getTexture(getObject().getIcon(), gld);
+        int texture = SymbolToTextureMapper.getTexture(getObject().getIcon(),
+                                                       gld);
 
         // Start list
         gl.glNewList(displayListsBuf.get(SYMBOL_POS), GL2.GL_COMPILE);
-        // Enable textures.        
+        // Enable textures.
         gl.glEnable(GL2.GL_TEXTURE_2D);
         gl.glBindTexture(GL2.GL_TEXTURE_2D, texture);
-        gl.glTexParameterf(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_S, GL2.GL_CLAMP);
-        gl.glTexParameterf(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_T, GL2.GL_CLAMP);
-         gl.glTexParameterf(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER, 
+        gl.glTexParameterf(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_S,
+                           GL2.GL_CLAMP);
+        gl.glTexParameterf(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_T,
+                           GL2.GL_CLAMP);
+        gl.glTexParameterf(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER,
                            SymbolToTextureMapper.textureMagFilter);
-         gl.glTexParameterf(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER, 
+        gl.glTexParameterf(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER,
                            SymbolToTextureMapper.textureMinFilter);
-        gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, 
+        gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE,
                      SymbolToTextureMapper.textureMode);
-        
+
         // Pushes the name for RenderSelection mode.
         gl.glPushName(getRenderSelectionName() + 1 + SYMBOL_POS);
 
@@ -227,22 +226,22 @@ public class MapElementAdapter extends MapDrawableAdapter{
             gl.glMatrixMode(GL2.GL_PROJECTION);
             DoubleBuffer buf = Buffers.newDirectDoubleBuffer(16);
             gl.glGetDoublev(GL2.GL_PROJECTION_MATRIX, buf);
-            scale = getSymbolScale()*0.000004d/buf.get(0);
+            scale = getSymbolScale() * 0.000004d / buf.get(0);
         }
 
-         gl.glMatrixMode(GL2.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
         gl.glScaled(scale, scale, 1.0d);
         gl.glBegin(GL2.GL_QUADS);
         gl.glColor4d(1.0d, 1.0d, 1.0d, getSymbolOpacity());
         gl.glTexCoord2f(0, 0);
-         gl.glVertex2d(-horizontalSymbolSize/2, -verticalSymbolSize/2);
-         gl.glTexCoord2f(0, 1);
-         gl.glVertex2d(-horizontalSymbolSize/2, verticalSymbolSize/2);
-         gl.glTexCoord2f(1, 1);
-         gl.glVertex2d(horizontalSymbolSize/2, verticalSymbolSize/2);
-         gl.glTexCoord2f(1, 0);
-         gl.glVertex2d(horizontalSymbolSize/2, -verticalSymbolSize/2);
+        gl.glVertex2d(-horizontalSymbolSize / 2, -verticalSymbolSize / 2);
+        gl.glTexCoord2f(0, 1);
+        gl.glVertex2d(-horizontalSymbolSize / 2, verticalSymbolSize / 2);
+        gl.glTexCoord2f(1, 1);
+        gl.glVertex2d(horizontalSymbolSize / 2, verticalSymbolSize / 2);
+        gl.glTexCoord2f(1, 0);
+        gl.glVertex2d(horizontalSymbolSize / 2, -verticalSymbolSize / 2);
         gl.glEnd();
         gl.glPopName();
         gl.glPopMatrix();
@@ -254,25 +253,24 @@ public class MapElementAdapter extends MapDrawableAdapter{
     /**
      * Returns the displayList used to draw the symbol.
      */
-    public int getSymbolDisplayList()
-    {
+    public int getSymbolDisplayList() {
         return displayListsBuf.get(SYMBOL_POS);
     }
 
     /**
-     * Updates (recreates) the displayList that draws the selection
-     * frame if the mapElement this adapter represents is selected.
-     *
+     * Updates (recreates) the displayList that draws the selection frame if the mapElement this adapter represents is selected.
+     * 
      * @param proj the projection that maps lat and long into GL coordinates.
      * @param gld the gl drawable targeted.
      */
-    protected void updateSelectionMarkerDisplayList(Projection proj, GLAutoDrawable gld)
-    {
-         GL2 gl = (GL2) gld.getGL();
-         displayListsBuf.put(SELECTION_MARKER_POS, 
-                            (gl.glIsList(displayListsBuf.get(SELECTION_MARKER_POS))) ?
-                            displayListsBuf.get(SELECTION_MARKER_POS) : gl.glGenLists(1));
-                         
+    protected void updateSelectionMarkerDisplayList(Projection proj,
+            GLAutoDrawable gld) {
+        GL2 gl = (GL2) gld.getGL();
+        displayListsBuf
+                .put(SELECTION_MARKER_POS,
+                     (gl.glIsList(displayListsBuf.get(SELECTION_MARKER_POS))) ? displayListsBuf
+                             .get(SELECTION_MARKER_POS) : gl.glGenLists(1));
+
         gl.glNewList(displayListsBuf.get(SELECTION_MARKER_POS), GL2.GL_COMPILE);
         // Pushes the name for RenderSelection mode.
         gl.glPushName(getRenderSelectionName() + 1 + SELECTION_MARKER_POS);
@@ -281,33 +279,37 @@ public class MapElementAdapter extends MapDrawableAdapter{
             gl.glPushMatrix();
             gl.glScaled(getSymbolScale(), getSymbolScale(), getSymbolScale());
             gl.glBegin(GL2.GL_LINE_LOOP);
-            gl.glColor4dv(SELECTION_COLOR, 0); 
-            gl.glVertex2d(-(horizontalSymbolSize/2 + 1), -(verticalSymbolSize/2 + 1));
-            gl.glVertex2d(-(horizontalSymbolSize/2 + 1), (verticalSymbolSize/2 + 1));
-            gl.glVertex2d((horizontalSymbolSize/2 + 1), (verticalSymbolSize/2 + 1));
-            gl.glVertex2d((horizontalSymbolSize/2 + 1), -(verticalSymbolSize/2 + 1));
+            gl.glColor4dv(SELECTION_COLOR, 0);
+            gl.glVertex2d(-(horizontalSymbolSize / 2 + 1),
+                          -(verticalSymbolSize / 2 + 1));
+            gl.glVertex2d(-(horizontalSymbolSize / 2 + 1),
+                          (verticalSymbolSize / 2 + 1));
+            gl.glVertex2d((horizontalSymbolSize / 2 + 1),
+                          (verticalSymbolSize / 2 + 1));
+            gl.glVertex2d((horizontalSymbolSize / 2 + 1),
+                          -(verticalSymbolSize / 2 + 1));
             gl.glEnd();
             gl.glPopMatrix();
         }
         gl.glPopName();
         gl.glEndList();
-         isSelectionMarkerUpdated = true;
+        isSelectionMarkerUpdated = true;
     }
 
     /**
-     * Updates (recreates) the displayList that draws the outline
-     * frame if the mapElement this adapter represents is outlined.
-     *
+     * Updates (recreates) the displayList that draws the outline frame if the mapElement this adapter represents is outlined.
+     * 
      * @param proj the projection that maps lat and long into GL coordinates.
      * @param gld the gl drawable targeted.
      */
-    protected void updateOutlineMarkerDisplayList(Projection proj, GLAutoDrawable gld)
-    {
-         GL2 gl = (GL2) gld.getGL();
-         displayListsBuf.put(OUTLINE_MARKER_POS, 
-                            (gl.glIsList(displayListsBuf.get(OUTLINE_MARKER_POS))) ?
-                            displayListsBuf.get(OUTLINE_MARKER_POS) : gl.glGenLists(1));
-                            
+    protected void updateOutlineMarkerDisplayList(Projection proj,
+            GLAutoDrawable gld) {
+        GL2 gl = (GL2) gld.getGL();
+        displayListsBuf
+                .put(OUTLINE_MARKER_POS,
+                     (gl.glIsList(displayListsBuf.get(OUTLINE_MARKER_POS))) ? displayListsBuf
+                             .get(OUTLINE_MARKER_POS) : gl.glGenLists(1));
+
         gl.glNewList(displayListsBuf.get(OUTLINE_MARKER_POS), GL2.GL_COMPILE);
         // Pushes the name for RenderSelection mode.
         gl.glPushName(getRenderSelectionName() + 1 + OUTLINE_MARKER_POS);
@@ -316,41 +318,44 @@ public class MapElementAdapter extends MapDrawableAdapter{
             gl.glPushMatrix();
             gl.glScaled(getSymbolScale(), getSymbolScale(), getSymbolScale());
             gl.glEnable(GL2.GL_LINE_STIPPLE);
-            gl.glPushAttrib (GL2.GL_LINE_BIT);
-            gl.glLineStipple(3, (short)0xAAAA);
+            gl.glPushAttrib(GL2.GL_LINE_BIT);
+            gl.glLineStipple(3, (short) 0xAAAA);
             gl.glBegin(GL2.GL_LINE_LOOP);
-            gl.glColor3d(0.0, 0.0, 0.0); 
-            gl.glVertex2d(-(horizontalSymbolSize/2 + 1), -(verticalSymbolSize/2 + 1));
-            gl.glVertex2d(-(horizontalSymbolSize/2 + 1), (verticalSymbolSize/2 + 1));
-            gl.glVertex2d((horizontalSymbolSize/2 + 1), (verticalSymbolSize/2 + 1));
-            gl.glVertex2d((horizontalSymbolSize/2 + 1), -(verticalSymbolSize/2 + 1));
+            gl.glColor3d(0.0, 0.0, 0.0);
+            gl.glVertex2d(-(horizontalSymbolSize / 2 + 1),
+                          -(verticalSymbolSize / 2 + 1));
+            gl.glVertex2d(-(horizontalSymbolSize / 2 + 1),
+                          (verticalSymbolSize / 2 + 1));
+            gl.glVertex2d((horizontalSymbolSize / 2 + 1),
+                          (verticalSymbolSize / 2 + 1));
+            gl.glVertex2d((horizontalSymbolSize / 2 + 1),
+                          -(verticalSymbolSize / 2 + 1));
             gl.glEnd();
-            gl.glPopAttrib ();
+            gl.glPopAttrib();
             gl.glPopMatrix();
         }
         gl.glPopName();
         gl.glEndList();
-         isOutlineMarkerUpdated = true;
+        isOutlineMarkerUpdated = true;
     }
 
     /**
-     * Updates (recreates) the displayList that draws the location
-     * of the object this adapter represents is selected.
+     * Updates (recreates) the displayList that draws the location of the object this adapter represents is selected.
      * 
      * @param proj the projection that maps lat and long into GL coordinates.
      * @param gld the gl drawable targeted.
      */
-    protected void updateLocationDisplayList(Projection proj, GLAutoDrawable gld)
-    {
-         final GL2 gl = (GL2) gld.getGL();
-         final GLU glu = new GLU();
-         displayListsBuf.put(LOCATION_POS,
-                            (gl.glIsList(displayListsBuf.get(LOCATION_POS))) ?
-                            displayListsBuf.get(LOCATION_POS) : gl.glGenLists(1));
-        
+    protected void updateLocationDisplayList(Projection proj, GLAutoDrawable gld) {
+        final GL2 gl = (GL2) gld.getGL();
+        final GLU glu = new GLU();
+        displayListsBuf
+                .put(LOCATION_POS,
+                     (gl.glIsList(displayListsBuf.get(LOCATION_POS))) ? displayListsBuf
+                             .get(LOCATION_POS) : gl.glGenLists(1));
+
         gl.glNewList(displayListsBuf.get(LOCATION_POS), GL2.GL_COMPILE);
-        // Pushes the name for RenderSelection mode.       
-        //gl.glPushName(getRenderSelectionName() + 1 + LOCATION_POS);
+        // Pushes the name for RenderSelection mode.
+        // gl.glPushName(getRenderSelectionName() + 1 + LOCATION_POS);
         // Hack to avoid location in picking.
         gl.glPopName();
         // Shape in absolute coordinates for now
@@ -358,25 +363,26 @@ public class MapElementAdapter extends MapDrawableAdapter{
         gl.glPushMatrix();
         // Use the same quadric and tess for all operations.
         GLUquadric quadric = null;
-        GLUtessellator tess = null; 
-        
+        GLUtessellator tess = null;
+
         double projectedPosition[] = proj.projToXY(getLonLat());
         gl.glTranslated(-projectedPosition[0], -projectedPosition[1], 0);
-        
+
         if (getDrawLocation()) {
             // Prepare stencil
             gl.glClearStencil(0);
             gl.glClear(GL2.GL_STENCIL_BUFFER_BIT);
             gl.glEnable(GL2.GL_STENCIL_TEST);
-            gl.glStencilFunc(GL2.GL_ALWAYS, 1, 1);                    
+            gl.glStencilFunc(GL2.GL_ALWAYS, 1, 1);
             gl.glStencilOp(GL2.GL_REPLACE, GL2.GL_REPLACE, GL2.GL_REPLACE);
- 
+
             Shape shape = (Shape) getStratmasObject().getChild("location");
 
             if (shape != null) {
-                for (Enumeration<SimpleShape> se = shape.constructSimpleShapes().elements(); 
-                     se.hasMoreElements();) {
-                    SimpleShape simpleShape = se.nextElement();        
+                for (Enumeration<SimpleShape> se = shape
+                        .constructSimpleShapes().elements(); se
+                        .hasMoreElements();) {
+                    SimpleShape simpleShape = se.nextElement();
                     if (simpleShape instanceof Circle) {
                         if (quadric == null) {
                             quadric = glu.gluNewQuadric();
@@ -384,18 +390,19 @@ public class MapElementAdapter extends MapDrawableAdapter{
                         Circle circle = (Circle) simpleShape;
                         // Get center
                         double centerLat = circle.getCenter().getLat();
-                        double centerLon = circle.getCenter().getLon();        
+                        double centerLon = circle.getCenter().getLon();
                         // The radius in degrees
                         double latDistance = circle.getRadius() / 111000;
-                        double[] centerPoint = proj.projToXY(centerLon, centerLat);
-                        double[] periferPoint = 
-                            proj.projToXY(centerLon, 
-                                          centerLat + 
-                                          (centerLat < 0 ? -1 : 1) * latDistance);
+                        double[] centerPoint = proj.projToXY(centerLon,
+                                                             centerLat);
+                        double[] periferPoint = proj
+                                .projToXY(centerLon, centerLat
+                                        + (centerLat < 0 ? -1 : 1)
+                                        * latDistance);
                         double projXDist = periferPoint[0] - centerPoint[0];
                         double projYDist = periferPoint[1] - centerPoint[1];
-                        double radius = Math.sqrt(projXDist*projXDist + 
-                                                  projYDist*projYDist);
+                        double radius = Math.sqrt(projXDist * projXDist
+                                + projYDist * projYDist);
                         gl.glTranslated(centerPoint[0], centerPoint[1], 0.0d);
                         glu.gluQuadricDrawStyle(quadric, GLU.GLU_FILL);
                         gl.glColor4d(1.0d, 1.0d, 1.0d, 0.0d);
@@ -406,14 +413,14 @@ public class MapElementAdapter extends MapDrawableAdapter{
                             tess = getLocationTessellator(gld);
                         }
                         GLU.gluBeginPolygon(tess);
-                        for (Enumeration le = simpleShape.getPolygon(100.0).getCurves();
-                             le.hasMoreElements();) {
+                        for (Enumeration le = simpleShape.getPolygon(100.0)
+                                .getCurves(); le.hasMoreElements();) {
                             Line line = (Line) le.nextElement();
 
                             double[] p1 = proj.projToXY(line.getStartPoint());
                             double[] p2 = proj.projToXY(line.getEndPoint());
-                            double[] v1 = {p1[0], p1[1], 0};
-                            double[] v2 = {p2[0], p2[1], 0};
+                            double[] v1 = { p1[0], p1[1], 0 };
+                            double[] v2 = { p2[0], p2[1], 0 };
                             GLU.gluTessVertex(tess, v1, 0, v1);
                             GLU.gluTessVertex(tess, v2, 0, v2);
                         }
@@ -426,26 +433,28 @@ public class MapElementAdapter extends MapDrawableAdapter{
                 gl.glStencilFunc(GL2.GL_EQUAL, 1, 1);
                 gl.glStencilOp(GL2.GL_KEEP, GL2.GL_KEEP, GL2.GL_KEEP);
                 BoundingBox boundingBox = shape.getBoundingBox();
-                double[] max = proj.projToXY(boundingBox.getEastLon(), 
+                double[] max = proj.projToXY(boundingBox.getEastLon(),
                                              boundingBox.getNorthLat());
-                double[] min = proj.projToXY(boundingBox.getWestLon(), 
+                double[] min = proj.projToXY(boundingBox.getWestLon(),
                                              boundingBox.getSouthLat());
                 // FIXME: temporary fix for render selection not
                 // seeming to care about stencil buffer.
-                //                  gl.glPopName();
-                //                  gl.glPopName();
+                // gl.glPopName();
+                // gl.glPopName();
                 drawDistribution(gl, glu, min, max, proj);
-                //gl.glPushName(getRenderSelectionName());
-                //gl.glPushName(getRenderSelectionName() + 1 + LOCATION_POS);
+                // gl.glPushName(getRenderSelectionName());
+                // gl.glPushName(getRenderSelectionName() + 1 + LOCATION_POS);
                 gl.glDisable(GL2.GL_STENCIL_TEST);
             }
         }
-        if(getDrawLocationOutline()) {
-            for (Enumeration se = ((Shape) getStratmasObject().getChild("location")).constructSimpleShapes().elements(); 
-                 se.hasMoreElements();) {
+        if (getDrawLocationOutline()) {
+            for (Enumeration se = ((Shape) getStratmasObject()
+                    .getChild("location")).constructSimpleShapes().elements(); se
+                    .hasMoreElements();) {
                 SimpleShape simpleShape = (SimpleShape) se.nextElement();
                 double[] outlineColor = getOutlineColor();
-                gl.glColor4d(outlineColor[0], outlineColor[1], outlineColor[2], getSymbolOpacity());
+                gl.glColor4d(outlineColor[0], outlineColor[1], outlineColor[2],
+                             getSymbolOpacity());
                 gl.glLineWidth(1.0f);
                 if (simpleShape instanceof Circle) {
                     if (quadric == null) {
@@ -454,26 +463,24 @@ public class MapElementAdapter extends MapDrawableAdapter{
                     Circle circle = (Circle) simpleShape;
                     // Get center
                     double centerLat = circle.getCenter().getLat();
-                    double centerLon = circle.getCenter().getLon();        
+                    double centerLon = circle.getCenter().getLon();
                     // The radius in degrees
                     double latDistance = circle.getRadius() / 111000;
                     double[] centerPoint = proj.projToXY(centerLon, centerLat);
-                    double[] periferPoint = 
-                        proj.projToXY(centerLon, 
-                                      centerLat + 
-                                      (centerLat < 0 ? -1 : 1) * latDistance);
+                    double[] periferPoint = proj.projToXY(centerLon, centerLat
+                            + (centerLat < 0 ? -1 : 1) * latDistance);
                     double projXDist = periferPoint[0] - centerPoint[0];
                     double projYDist = periferPoint[1] - centerPoint[1];
-                    double radius = Math.sqrt(projXDist*projXDist + 
-                                              projYDist*projYDist);
+                    double radius = Math.sqrt(projXDist * projXDist + projYDist
+                            * projYDist);
                     gl.glTranslated(centerPoint[0], centerPoint[1], 0.0d);
                     glu.gluQuadricDrawStyle(quadric, GLU.GLU_SILHOUETTE);
                     glu.gluDisk(quadric, 0.0d, radius, 20, 20);
                     gl.glTranslated(-centerPoint[0], -centerPoint[1], 0.0d);
                 } else {
                     gl.glBegin(GL2.GL_LINES);
-                    for (Enumeration le = simpleShape.getPolygon(100.0).getCurves();
-                     le.hasMoreElements();) {
+                    for (Enumeration le = simpleShape.getPolygon(100.0)
+                            .getCurves(); le.hasMoreElements();) {
                         Line line = (Line) le.nextElement();
                         gl.glVertex2dv(proj.projToXY(line.getStartPoint()), 0);
                         gl.glVertex2dv(proj.projToXY(line.getEndPoint()), 0);
@@ -491,7 +498,7 @@ public class MapElementAdapter extends MapDrawableAdapter{
             GLU.gluDeleteTess(tess);
         }
 
-        //gl.glPopName();
+        // gl.glPopName();
         gl.glPushName(getRenderSelectionName());
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPopMatrix();
@@ -500,28 +507,28 @@ public class MapElementAdapter extends MapDrawableAdapter{
     }
 
     /**
-     * Temporary distribution drawing
-     * FIX: alpha
-     *
+     * Temporary distribution drawing FIX: alpha
+     * 
      * @param gl the gl context
      * @param glu the glu context
      * @param min the minimum point of the bounding box.
      * @param max the maximum point of the bounding box.
      * @param proj the projection to use.
      */
-    void drawDistribution(GL gl2, GLU glu, double[] min, double[] max, 
-                          Projection proj)
-    {
+    void drawDistribution(GL gl2, GLU glu, double[] min, double[] max,
+            Projection proj) {
         GL2 gl = (GL2) gl2;
         double[] color = getLocationColor();
         proj.projToXY(getLonLat());
 
         StratmasObject distribution = getObject().getChild("deployment");
         if (distribution == null) {
-            gl.glColor4d(color[0], color[1], color[2], 0.2d * getLocationOpacity());  
+            gl.glColor4d(color[0], color[1], color[2],
+                         0.2d * getLocationOpacity());
             gl.glRectdv(min, 0, max, 0);
-        } else if (distribution.getType().canSubstitute("NormalDistribution") ||
-                   distribution.getType().canSubstitute("StratmasCityDistribution")) {            
+        } else if (distribution.getType().canSubstitute("NormalDistribution")
+                || distribution.getType()
+                        .canSubstitute("StratmasCityDistribution")) {
 
             StratmasObject std = distribution.getChild("sigmaMeters");
             double sigmaMeters;
@@ -537,19 +544,18 @@ public class MapElementAdapter extends MapDrawableAdapter{
             double centerLon = getLon();
             double centerLat = getLat();
             double[] centerPoint = proj.projToXY(centerLon, centerLat);
-            double[] periferPoint = 
-                proj.projToXY(centerLon, 
-                              centerLat + 
-                              (centerLat < 0 ? -1 : 1) * latSigma);
+            double[] periferPoint = proj.projToXY(centerLon, centerLat
+                    + (centerLat < 0 ? -1 : 1) * latSigma);
             double projXDist = periferPoint[0] - centerPoint[0];
             double projYDist = periferPoint[1] - centerPoint[1];
 
             // Sigma in screen coordinates
-            double sigma = Math.sqrt(projXDist*projXDist + 
-                                     projYDist*projYDist);
+            double sigma = Math.sqrt(projXDist * projXDist + projYDist
+                    * projYDist);
 
             // Color with alpha field.
-            double[] adjustedColor = new double[] {color[0], color[1], color[2], 0.0d};
+            double[] adjustedColor = new double[] { color[0], color[1],
+                    color[2], 0.0d };
 
             int xtiles = 25;
             int ytiles = 25;
@@ -562,7 +568,7 @@ public class MapElementAdapter extends MapDrawableAdapter{
             double[] upperRow = new double[(xtiles + 1) * 3];
 
             double x = 0;
-            for (int j = 0; j < lowerRow.length; j+=3) {
+            for (int j = 0; j < lowerRow.length; j += 3) {
                 lowerRow[j] = x;
                 lowerRow[j + 1] = 0.0d;
                 // This function modifies lowerRow[j + 2]
@@ -585,9 +591,9 @@ public class MapElementAdapter extends MapDrawableAdapter{
             gl.glBegin(GL2.GL_TRIANGLE_STRIP);
             for (int i = 0; i < ytiles; i++) {
                 if (i % 2 == 0) {
-                     for (int j = 0; j < lowerRow.length; j += 3) {                        
+                    for (int j = 0; j < lowerRow.length; j += 3) {
                         // Use values in lower row
-                        adjustedColor[3] = alphaScale*lowerRow[j + 2];
+                        adjustedColor[3] = alphaScale * lowerRow[j + 2];
                         gl.glColor4dv(adjustedColor, 0);
                         gl.glVertex2dv(lowerRow, j);
                         // Then recalculate them for use as upper row
@@ -596,28 +602,28 @@ public class MapElementAdapter extends MapDrawableAdapter{
                         lowerRow[j + 1] = upperRow[j + 1] + dy;
                         // This function modifies lowerRow[j + 2]
                         normalF(lowerRow, j, sigma, xspan, yspan);
-                        
+
                         // Use values in upper row, these values will
                         // be lower row next iteration.
-                        adjustedColor[3] = alphaScale*upperRow[j + 2];
+                        adjustedColor[3] = alphaScale * upperRow[j + 2];
                         gl.glColor4dv(adjustedColor, 0);
                         gl.glVertex2dv(upperRow, j);
                     }
                 } else {
                     for (int j = lowerRow.length - 3; j >= 0; j -= 3) {
                         // See comments in i%2 == 0 case
-                        adjustedColor[3] = alphaScale*lowerRow[j + 2];
+                        adjustedColor[3] = alphaScale * lowerRow[j + 2];
                         gl.glColor4dv(adjustedColor, 0);
                         gl.glVertex2dv(lowerRow, j);
                         lowerRow[j + 1] = upperRow[j + 1] + dy;
                         // This function modifies lowerRow[j + 2]
                         normalF(lowerRow, j, sigma, xspan, yspan);
 
-                        adjustedColor[3] = alphaScale*upperRow[j + 2];
+                        adjustedColor[3] = alphaScale * upperRow[j + 2];
                         gl.glColor4dv(adjustedColor, 0);
                         gl.glVertex2dv(upperRow, j);
                     }
-                    
+
                 }
                 // Swith upper and lower row.
                 double[] temp = upperRow;
@@ -627,9 +633,11 @@ public class MapElementAdapter extends MapDrawableAdapter{
             gl.glEnd();
             gl.glTranslated(-min[0], -min[1], 0);
 
-        } else if (distribution.getType().canSubstitute("UniformDistribution") || 
-                   distribution.getType().canSubstitute("RandomUniformDistribution")) {
-            gl.glColor4d(color[0], color[1], color[2], 0.5d * getLocationOpacity());  
+        } else if (distribution.getType().canSubstitute("UniformDistribution")
+                || distribution.getType()
+                        .canSubstitute("RandomUniformDistribution")) {
+            gl.glColor4d(color[0], color[1], color[2],
+                         0.5d * getLocationOpacity());
             gl.glRectdv(min, 0, max, 0);
         } else {
             // Unknown distribution
@@ -638,16 +646,14 @@ public class MapElementAdapter extends MapDrawableAdapter{
     }
 
     /**
-     * TODO
-     * span is the length of the diagonal of the box.
-     * x is the x component of the point.
+     * TODO span is the length of the diagonal of the box. x is the x component of the point.
      */
-    public void normalF(double[] values, int i, double sigma, double xspan, double yspan) 
-    {
-        double x = (values[i] - xspan/2);///xspan;
-        double y = (values[i + 1] - yspan/2);///yspan;
+    public void normalF(double[] values, int i, double sigma, double xspan,
+            double yspan) {
+        double x = (values[i] - xspan / 2);// /xspan;
+        double y = (values[i + 1] - yspan / 2);// /yspan;
 
-        values[i + 2] = normalDist(sigma, Math.sqrt(x*x + y*y));
+        values[i + 2] = normalDist(sigma, Math.sqrt(x * x + y * y));
     }
 
     /**
@@ -656,128 +662,118 @@ public class MapElementAdapter extends MapDrawableAdapter{
      * @param sigma the sigma.
      * @param distance distance from origo.
      */
-    public double normalDist(double sigma, double distance)
-    {
-        double res = //(1.0d/sigma*sqrt2pi) * 
-            Math.exp(-(distance * distance)/(2*sigma*sigma));
+    public double normalDist(double sigma, double distance) {
+        double res = // (1.0d/sigma*sqrt2pi) *
+        Math.exp(-(distance * distance) / (2 * sigma * sigma));
         return res;
     }
 
     /**
      * Sets whether to draw location or not.
-     *
+     * 
      * @param flag true if locatione should be drawn.
      */
-    public void setDrawLocation(boolean flag)
-    {
+    public void setDrawLocation(boolean flag) {
         if (getDrawLocation() != flag) {
             this.drawLocation = flag;
             isLocationUpdated = false;
             fireAdapterUpdated();
-        }        
+        }
     }
-    
+
     /**
      * Sets whether to draw location outline.
-     *
+     * 
      * @param flag true if location outline should be drawn.
      */
-    public void setDrawLocationOutline(boolean flag)
-    {
+    public void setDrawLocationOutline(boolean flag) {
         if (getDrawLocationOutline() != flag) {
             this.drawLocationOutline = flag;
             isLocationUpdated = false;
             fireAdapterUpdated();
         }
     }
-    
+
     /**
      * Return true if location outline is drawn.
      */
-    public boolean getDrawLocationOutline()
-    {
+    public boolean getDrawLocationOutline() {
         return this.drawLocationOutline;
     }
 
     /**
      * Return true if location is drawn.
      */
-    public boolean getDrawLocation()
-    {
+    public boolean getDrawLocation() {
         return this.drawLocation;
     }
-    
+
     /**
-     * Returns the tessellator to use for drawing the location of this
-     * MapElementAdapter.
-     *
+     * Returns the tessellator to use for drawing the location of this MapElementAdapter.
+     * 
      * @param gld the glDrawable context to use.
      */
-    protected GLUtessellator getLocationTessellator(GLAutoDrawable gld)
-    {
+    protected GLUtessellator getLocationTessellator(GLAutoDrawable gld) {
         GLUtessellator tess = GLU.gluNewTess();
         GLUtessellatorCallback adapter = getLocationTessellatorCallback(gld);
         GLU.gluTessProperty(tess, GLU.GLU_TESS_BOUNDARY_ONLY, GLU.GLU_FALSE);
-        GLU.gluTessProperty(tess, GLU.GLU_TESS_WINDING_RULE, GLU.GLU_TESS_WINDING_ODD);
+        GLU.gluTessProperty(tess, GLU.GLU_TESS_WINDING_RULE,
+                            GLU.GLU_TESS_WINDING_ODD);
         GLU.gluTessCallback(tess, GLU.GLU_TESS_BEGIN, adapter);
         GLU.gluTessCallback(tess, GLU.GLU_TESS_VERTEX, adapter);
         GLU.gluTessCallback(tess, GLU.GLU_TESS_END, adapter);
         GLU.gluTessCallback(tess, GLU.GLU_TESS_ERROR, adapter);
-        
+
         return tess;
     }
 
     /**
      * Returns the tessellator callback to use for this StratmasElementAdapter
-     *
+     * 
      * @param gld the glDrawable context to use.
      */
-    protected GLUtessellatorCallback getLocationTessellatorCallback(GLAutoDrawable gld)
-    {
+    protected GLUtessellatorCallback getLocationTessellatorCallback(
+            GLAutoDrawable gld) {
         final GL2 gl = (GL2) gld.getGL();
 
-        return new GLUtessellatorCallbackAdapter() 
-            {
-                public void vertex(Object data) 
-                {
-                    double[] p = (double[]) data;
-                    gl.glColor4d(0.2d, 0.2d, 0.2d, 0.2);
-                    gl.glVertex2dv(p, 0);
-                }
-                public void begin(int type)
-                {
-                    gl.glBegin(type);
-                }
-                public void end() 
-                {
-                    gl.glEnd();
-                }
-            };
+        return new GLUtessellatorCallbackAdapter() {
+            public void vertex(Object data) {
+                double[] p = (double[]) data;
+                gl.glColor4d(0.2d, 0.2d, 0.2d, 0.2);
+                gl.glVertex2dv(p, 0);
+            }
+
+            public void begin(int type) {
+                gl.glBegin(type);
+            }
+
+            public void end() {
+                gl.glEnd();
+            }
+        };
     }
 
     /**
      * Invalidates all lists (useful for GL switches)
      */
-    public void invalidateAllLists()
-    {
+    public void invalidateAllLists() {
         this.isSymbolUpdated = false;
         this.isSelectionMarkerUpdated = false;
         this.isOutlineMarkerUpdated = false;
         this.isLocationUpdated = false;
         this.displayListUpdated = false;
-        
+
         fireAdapterUpdated();
     }
 
     /**
      * Invalidates all lists (useful for GL switches)
      */
-    public void invalidateSymbolList()
-    {
+    public void invalidateSymbolList() {
         this.isSymbolUpdated = false;
         fireAdapterUpdated();
     }
-    
+
     /**
      * Returns the number of renderSelectionNames needed for this adapter.
      */
@@ -787,12 +783,11 @@ public class MapElementAdapter extends MapDrawableAdapter{
 
     /**
      * Redraws recompiles display lists.
-     *
+     * 
      * @param proj the projection that maps lat and long into GL coordinates.
      * @param gld the drawable to use.
      */
-    public void reCompile(Projection proj, GLAutoDrawable gld)
-    {
+    public void reCompile(Projection proj, GLAutoDrawable gld) {
         if (!isSymbolUpdated) {
             updateSymbolDisplayList(proj, gld);
         }
@@ -807,46 +802,49 @@ public class MapElementAdapter extends MapDrawableAdapter{
         }
         if (!displayListUpdated) {
             updateDisplayList(proj, gld);
-        }        
+        }
     }
 
     /**
-     * Returns the longitude and latitude of the center of the
-     * position of the object this adapter adapts, or NaN, NaN if no 
-     *
+     * Returns the longitude and latitude of the center of the position of the object this adapter adapts, or NaN, NaN if no
+     * 
      * @return [lon, lat]
      */
-    protected double[] getLonLat()
-    {
+    protected double[] getLonLat() {
         StratmasObject walker = stComp;
         while (walker != null && walker.getChild("location") == null) {
             walker = walker.getParent();
         }
-        
+
         if (walker != null) {
-            BoundingBox box = ((Shape) walker.getChild("location")).getBoundingBox();
-            return  new double[] {box.getWestLon() + (box.getEastLon() - box.getWestLon()) / 2,
-                                  box.getSouthLat() + (box.getNorthLat() - box.getSouthLat()) / 2};
+            BoundingBox box = ((Shape) walker.getChild("location"))
+                    .getBoundingBox();
+            return new double[] {
+                    box.getWestLon() + (box.getEastLon() - box.getWestLon())
+                            / 2,
+                    box.getSouthLat() + (box.getNorthLat() - box.getSouthLat())
+                            / 2 };
         } else {
             Debug.err.println("Should not be here!");
-            return new double[] {0.0d, 0.0d};
+            return new double[] { 0.0d, 0.0d };
         }
 
     }
-    
+
     /**
      * Returns the latitiude of the center of the position of the object this adapter adapts.
      */
-    protected double getLat()
-    {
+    protected double getLat() {
         StratmasObject walker = stComp;
         while (walker != null && walker.getChild("location") == null) {
             walker = walker.getParent();
         }
 
         if (walker != null) {
-            BoundingBox box = ((Shape) walker.getChild("location")).getBoundingBox();
-            return  box.getSouthLat() + (box.getNorthLat() - box.getSouthLat()) / 2;
+            BoundingBox box = ((Shape) walker.getChild("location"))
+                    .getBoundingBox();
+            return box.getSouthLat() + (box.getNorthLat() - box.getSouthLat())
+                    / 2;
         } else {
             Debug.err.println("Should not be here!");
             return 0.0d;
@@ -857,29 +855,27 @@ public class MapElementAdapter extends MapDrawableAdapter{
     /**
      * Returns the longitude of the center of the position of the object this adapter adapts.
      */
-    protected double getLon()
-    {
+    protected double getLon() {
         StratmasObject walker = stComp;
         while (walker != null && walker.getChild("location") == null) {
             walker = walker.getParent();
-        } 
+        }
         if (walker != null) {
-            BoundingBox box = ((Shape) walker.getChild("location")).getBoundingBox();
-            return  box.getWestLon() + (box.getEastLon() - box.getWestLon()) / 2;
+            BoundingBox box = ((Shape) walker.getChild("location"))
+                    .getBoundingBox();
+            return box.getWestLon() + (box.getEastLon() - box.getWestLon()) / 2;
         } else {
             Debug.err.println("Should not be here!");
             return 0.0d;
         }
     }
-    
+
     /**
-     * Sets the symbol opacity of this MapElementAdapter to the specified value
-     * (between 0.0 and 1.0 inclusive);
-     *
+     * Sets the symbol opacity of this MapElementAdapter to the specified value (between 0.0 and 1.0 inclusive);
+     * 
      * @param symbolOpacity the new opacity.
      */
-    public void setSymbolOpacity(double symbolOpacity)
-    {
+    public void setSymbolOpacity(double symbolOpacity) {
         if (this.symbolOpacity != symbolOpacity) {
             this.symbolOpacity = symbolOpacity;
             isSymbolUpdated = false;
@@ -891,43 +887,35 @@ public class MapElementAdapter extends MapDrawableAdapter{
     /**
      * Returns the symbol opacity of this MapElementAdapter.
      */
-    public double getSymbolOpacity()
-    {
+    public double getSymbolOpacity() {
         return this.symbolOpacity;
-    } 
-    
+    }
 
     /**
      * 
      */
-    public boolean getInvariantSymbolSize()
-    {
+    public boolean getInvariantSymbolSize() {
         return this.invariantSymbolSize;
     }
 
     /**
-     * Sets whether symbol-size should be invariant with regard to map
-     * scale.
-     *
+     * Sets whether symbol-size should be invariant with regard to map scale.
+     * 
      * @param flag true if symbol size should be invariant
      */
-    public void setInvariantSymbolSize(boolean flag)
-    {
+    public void setInvariantSymbolSize(boolean flag) {
         if (this.invariantSymbolSize != flag) {
             this.invariantSymbolSize = flag;
             invalidateSymbolList();
         }
     }
 
-
     /**
-     * Sets the location opacity of this MapElementAdapter to the specified value
-     * (between 0.0 and 1.0 inclusive);
-     *
+     * Sets the location opacity of this MapElementAdapter to the specified value (between 0.0 and 1.0 inclusive);
+     * 
      * @param locationOpacity the new opacity.
      */
-    public void setLocationOpacity(double locationOpacity)
-    {
+    public void setLocationOpacity(double locationOpacity) {
         if (this.locationOpacity != locationOpacity) {
             this.locationOpacity = locationOpacity;
             isLocationUpdated = false;
@@ -938,19 +926,16 @@ public class MapElementAdapter extends MapDrawableAdapter{
     /**
      * Returns the location opacity of this MapElementAdapter.
      */
-    public double getLocationOpacity()
-    {
+    public double getLocationOpacity() {
         return this.locationOpacity;
     }
 
     /**
-     * Sets the symbol scale of this MapElementAdapter to the specified value
-     * (between 0.0 and 1.0 inclusive);
-     *
+     * Sets the symbol scale of this MapElementAdapter to the specified value (between 0.0 and 1.0 inclusive);
+     * 
      * @param symbolScale the new opacity.
      */
-    public void setSymbolScale(double symbolScale)
-    {
+    public void setSymbolScale(double symbolScale) {
         if (this.symbolScale != symbolScale) {
             this.symbolScale = symbolScale;
             isSymbolUpdated = false;
@@ -962,34 +947,30 @@ public class MapElementAdapter extends MapDrawableAdapter{
     /**
      * Returns the symbol scale of this MapElementAdapter.
      */
-    public double getSymbolScale()
-    {
+    public double getSymbolScale() {
         return this.symbolScale;
     }
 
     /**
      * Returns the symbol horizontal size of this MapElementAdapter.
      */
-    public double getHorizontalSymbolSize()
-    {
+    public double getHorizontalSymbolSize() {
         return this.horizontalSymbolSize;
     }
 
     /**
      * Returns the symbol vertical size of this MapElementAdapter.
      */
-    public double getVerticalSymbolSize()
-    {
+    public double getVerticalSymbolSize() {
         return this.verticalSymbolSize;
     }
 
     /**
      * Called when the object this adapter adapts changes.
-     *
+     * 
      * @param event the event causing the call.
      */
-    public void eventOccured(StratmasEvent event)
-    {
+    public void eventOccured(StratmasEvent event) {
         if (event.isChildChanged()) {
             childChanged(event);
         } else if (event.isRemoved()) {
@@ -1001,16 +982,15 @@ public class MapElementAdapter extends MapDrawableAdapter{
             setSelected(false);
         } else if (event.isReplaced()) {
             throw new AssertionError("Replace behavior not implemented");
-        } 
+        }
     }
 
     /**
      * Updates this adapter when one of the adapted objects children changes.
-     *
+     * 
      * @param event the event causing the change.
      */
-    protected void childChanged(StratmasEvent event)
-    {
+    protected void childChanged(StratmasEvent event) {
         StratmasObject child = (StratmasObject) event.getArgument();
         if (child.getIdentifier().equals("location")) {
             displayListUpdated = false;
@@ -1020,14 +1000,12 @@ public class MapElementAdapter extends MapDrawableAdapter{
     }
 
     /**
-     * Make adapter changes caused by selection state changes. This is
-     * protected for a reason, DO NOT USE THIS to set the selection
-     * status of the object adapted.
-     *
+     * Make adapter changes caused by selection state changes. This is protected for a reason, DO NOT USE THIS to set the selection status
+     * of the object adapted.
+     * 
      * @param selected true if it's selected.
      */
-    protected void setSelected(boolean selected) 
-    {
+    protected void setSelected(boolean selected) {
         if (this.selected != selected) {
             this.selected = selected;
             isSelectionMarkerUpdated = false;
@@ -1035,14 +1013,13 @@ public class MapElementAdapter extends MapDrawableAdapter{
             fireAdapterUpdated();
         }
     }
-    
+
     /**
      * Make adapter changes caused by outline state changes.
-     *
+     * 
      * @param outlined true if it's outlined.
      */
-    public void setOutlined(boolean outlined) 
-    {
+    public void setOutlined(boolean outlined) {
         if (this.outlined != outlined) {
             this.outlined = outlined;
             isOutlineMarkerUpdated = false;
@@ -1050,25 +1027,21 @@ public class MapElementAdapter extends MapDrawableAdapter{
             fireAdapterUpdated();
         }
     }
-      
+
     /**
-     * Returns true if the object adapted is currently selected,
-     * otherwise false.
+     * Returns true if the object adapted is currently selected, otherwise false.
      */
-    public boolean isSelected() 
-    {
+    public boolean isSelected() {
         return selected;
     }
-    
+
     /**
-     * Returns true if the object adapted is currently outlined,
-     * otherwise false.
+     * Returns true if the object adapted is currently outlined, otherwise false.
      */
-    public boolean isOutlined() 
-    {
+    public boolean isOutlined() {
         return outlined;
     }
-    
+
     /**
      * Indicates that the symbol has to be updated.
      */
@@ -1086,27 +1059,25 @@ public class MapElementAdapter extends MapDrawableAdapter{
     /**
      * Returns a color used to draw the location of an adapted object
      */
-    public double[] getLocationColor()
-    {
+    public double[] getLocationColor() {
         StratmasObject code = getObject().getChild("symbolIDCode");
         if (code != null && code instanceof SymbolIDCode) {
             return getLocationColor((SymbolIDCode) code);
         } else {
             // Default
-            return new double[] {25.0/255.0, 25.0/255.0, 25.0/255.0};
+            return new double[] { 25.0 / 255.0, 25.0 / 255.0, 25.0 / 255.0 };
         }
     }
-    
+
     /**
-     * Returns the correct color for each App6A affiliation 
+     * Returns the correct color for each App6A affiliation
+     * 
      * @param code the symbolIdCode
      */
-    public static double[] getLocationColor(SymbolIDCode code)
-    {
+    public static double[] getLocationColor(SymbolIDCode code) {
         String affString = null;
 
-        if (code == null || 
-            code.valueToString().length() < 2) {
+        if (code == null || code.valueToString().length() < 2) {
             affString = "-";
         } else {
             affString = code.valueToString().substring(1, 2);
@@ -1114,20 +1085,20 @@ public class MapElementAdapter extends MapDrawableAdapter{
 
         if (affString.equals("A") || affString.equals("F")) {
             // Friend / Assumed Friend
-            return new double[] {128.0/255.0, 224.0/255.0, 255.0/255.0};
+            return new double[] { 128.0 / 255.0, 224.0 / 255.0, 255.0 / 255.0 };
         } else if (affString.equals("U") || affString.equals("P")) {
             // Unknown / Pending
-            return new double[] {255.0/255.0, 255.0/255.0, 128.0/255.0};
-        } else if (affString.equals("S") || affString.equals("H") ||
-                   affString.equals("J") || affString.equals("K")) {
+            return new double[] { 255.0 / 255.0, 255.0 / 255.0, 128.0 / 255.0 };
+        } else if (affString.equals("S") || affString.equals("H")
+                || affString.equals("J") || affString.equals("K")) {
             // Suspect / Hostile / Joker / Faker
-            return new double[] {255.0/255.0, 128.0/255.0, 128.0/255.0};
+            return new double[] { 255.0 / 255.0, 128.0 / 255.0, 128.0 / 255.0 };
         } else if (affString.equals("N")) {
             // Neutral
-            return new double[] {170.0/255.0, 255.0/255.0, 170.0/255.0};
+            return new double[] { 170.0 / 255.0, 255.0 / 255.0, 170.0 / 255.0 };
         } else {
             // None specified (not specified in the standard either, make it light gray)
-            return new double[] {40.0/255.0, 40.0/255.0, 40.0/255.0};
+            return new double[] { 40.0 / 255.0, 40.0 / 255.0, 40.0 / 255.0 };
         }
     }
- }
+}

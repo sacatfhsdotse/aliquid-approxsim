@@ -39,18 +39,17 @@ import StratmasClient.map.adapter.MapPointAdapter;
 import StratmasClient.map.adapter.MapLineAdapter;
 
 /**
- * This class is used to display shapes for regions and population centers as well as to create new shapes. 
- * Further on, all the shapes can be initialized by filling a shape with a color which represents a certain 
- * value. The colors are chosen by using ColorChooser. 
- *
+ * This class is used to display shapes for regions and population centers as well as to create new shapes. Further on, all the shapes can
+ * be initialized by filling a shape with a color which represents a certain value. The colors are chosen by using ColorChooser.
+ * 
  * @author Amir Filipovic
  */
 public class SubstrateMapDrawer extends BasicMapDrawer {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = -8288422281564603856L;
-	/**
+    private static final long serialVersionUID = -8288422281564603856L;
+    /**
      * Indicates undefined mode.
      */
     public static int SET_UNDEFINED_MODE = 0;
@@ -125,7 +124,7 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
     /**
      * Indicates if the drawer is in panning mode.
      */
-    private boolean panningMode = false; 
+    private boolean panningMode = false;
     /**
      * Reference to the resource editor.
      */
@@ -135,11 +134,11 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
      */
     private Shape highlightedShape;
     /**
-     * The list of highlighted SimpleShape objects. 
+     * The list of highlighted SimpleShape objects.
      */
     private Vector<MapShapeAdapter> highlightedShapes = new Vector<MapShapeAdapter>();
     /**
-     * The list of shape adapters where each shape the adapter represents is assigned a value. 
+     * The list of shape adapters where each shape the adapter represents is assigned a value.
      */
     private Hashtable<MapDrawableAdapter, ShapeValuePair> shapeValues = new Hashtable<MapDrawableAdapter, ShapeValuePair>();
     /**
@@ -147,8 +146,8 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
      */
     private Stack<ShapeValuePair> createdShapeAreas = new Stack<ShapeValuePair>();
     /**
-     * Used to compare the adapters. It's modified from the comparator used in the superclass
-     * such that it also compares shapes depending if those are highlighted or not. 
+     * Used to compare the adapters. It's modified from the comparator used in the superclass such that it also compares shapes depending if
+     * those are highlighted or not.
      */
     private Comparator<MapDrawableAdapter> shapeAdaptedComparator;
     /**
@@ -167,97 +166,102 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
      * Display lists for lines that are drawn.
      */
     protected IntBuffer drawnLinesListBuf = Buffers.newDirectIntBuffer(0);
-    
+
     /**
      * Creates new drawer.
-     *
+     * 
      * @param basicMap reference to the basic map.
      * @param region the displayed region.
      * @param substrateEditor reference to the substrate editor.
      */
-    public SubstrateMapDrawer(BasicMap basicMap, Region region, SubstrateEditor substrateEditor) {
+    public SubstrateMapDrawer(BasicMap basicMap, Region region,
+            SubstrateEditor substrateEditor) {
         super(basicMap, region);
-        this.substrateEditor = substrateEditor; 
-        
-        // modify the comparator 
+        this.substrateEditor = substrateEditor;
+
+        // modify the comparator
         shapeAdaptedComparator = new Comparator<MapDrawableAdapter>() {
-                public int compare(MapDrawableAdapter o1, MapDrawableAdapter o2) {
-                    MapDrawableAdapter d1 = o1;
-                    MapDrawableAdapter d2 = o2;
-                    if (d1 instanceof MapShapeAdapter && d2 instanceof MapShapeAdapter) {
-                        if (((MapShapeAdapter)d1).isHighlighted()) {
-                            return 1;
-                        }
-                        else {
-                            return -1;
-                        }
+            public int compare(MapDrawableAdapter o1, MapDrawableAdapter o2) {
+                MapDrawableAdapter d1 = o1;
+                MapDrawableAdapter d2 = o2;
+                if (d1 instanceof MapShapeAdapter
+                        && d2 instanceof MapShapeAdapter) {
+                    if (((MapShapeAdapter) d1).isHighlighted()) {
+                        return 1;
+                    } else {
+                        return -1;
                     }
-                    else {
-                        return mapDrawableAdapterComparator.compare(d1, d2);
-                    }
+                } else {
+                    return mapDrawableAdapterComparator.compare(d1, d2);
                 }
-            };
-        
+            }
+        };
+
         // set zoom & scale
         setZoomAndScale(new ZoomAndScale(this, JSlider.HORIZONTAL));
 
         JPopupMenu.setDefaultLightWeightPopupEnabled(false);
     }
-    
+
     /**
      * Initialization of the drawing area. Part of GLEventListener interface.
-     *
+     * 
      * @param gld needed for OpenGL.
      */
     public void init(GLAutoDrawable gld) {
         super.init(gld);
         initializeShapeValues();
     }
-    
+
     /**
      * Drawing elements on the map. Part of GLEventListener interface.
-     *
+     * 
      * @param gld needed for OpenGL.
      */
     public void display(GLAutoDrawable gld) {
         super.display(gld);
         updateRenderSelection(gld);
     }
-    
+
     /**
      * Updates the render selection array.
-     *
+     * 
      * @param gld the drawable.
      */
     protected void updateRenderSelection(GLAutoDrawable gld) {
         GL2 gl = (GL2) gld.getGL();
-        
+
         IntBuffer renderSelectionBuffer;
         int renderSelectionBufferAllocationSize = 2048;
-        
+
         int hits = -1;
-        
+
         do {
-            renderSelectionBuffer = Buffers.newDirectIntBuffer(renderSelectionBufferAllocationSize);
-            gl.glSelectBuffer(renderSelectionBuffer.capacity(), renderSelectionBuffer);
-            
+            renderSelectionBuffer = Buffers
+                    .newDirectIntBuffer(renderSelectionBufferAllocationSize);
+            gl.glSelectBuffer(renderSelectionBuffer.capacity(),
+                              renderSelectionBuffer);
+
             // enable render selection
             gl.glRenderMode(GL2.GL_SELECT);
-            
+
             // init names
             gl.glInitNames();
-            
+
             // set the selection area
             gl.glMatrixMode(GL2.GL_PROJECTION);
             gl.glPushMatrix();
             gl.glLoadIdentity();
-            glu.gluOrtho2D(renderSelectionX - renderSelectionDeltaX / 2, renderSelectionX + renderSelectionDeltaX / 2, 
-                           renderSelectionY - renderSelectionDeltaY / 2, renderSelectionY + renderSelectionDeltaY / 2);
-            
+            glu.gluOrtho2D(renderSelectionX - renderSelectionDeltaX / 2,
+                           renderSelectionX + renderSelectionDeltaX / 2,
+                           renderSelectionY - renderSelectionDeltaY / 2,
+                           renderSelectionY + renderSelectionDeltaY / 2);
+
             // draw shapes
             updateDrawnMapDrawablesList();
-            gl.glCallLists(drawnMapDrawablesListBuf.capacity(), GL2ES2.GL_INT, drawnMapDrawablesListBuf);
-            
+            gl.glCallLists(drawnMapDrawablesListBuf.capacity(), GL2ES2.GL_INT,
+                           drawnMapDrawablesListBuf);
+
             // draw the actual shape
             if (shapeMaker != null && shapeMaker.getShapeAdapter() != null) {
                 gl.glCallList(shapeMaker.getShapeAdapter().getDisplayList());
@@ -267,22 +271,23 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
             gl.glMatrixMode(GL2.GL_PROJECTION);
             gl.glPopMatrix();
             gl.glFlush();
-            
+
             // end render selection mode
-            hits = ((GL2)gld.getGL()).glRenderMode(GL2.GL_RENDER);
-            
+            hits = ((GL2) gld.getGL()).glRenderMode(GL2.GL_RENDER);
+
             if (hits < 0) {
                 // too small selectionBuffer, try double size
                 renderSelectionBufferAllocationSize = renderSelectionBufferAllocationSize * 2;
             }
         } while (hits < 0);
-        
-        this.latestRenderSelection = new RenderSelection(hits, renderSelectionBuffer, renderSelectionNames);
+
+        this.latestRenderSelection = new RenderSelection(hits,
+                renderSelectionBuffer, renderSelectionNames);
     }
 
     /**
      * Sets selection area for subsequent renderSelection calls.
-     *
+     * 
      * @param x horizontal component of center in screen coordinates.
      * @param y vertical component of center in screen coordinates.
      * @param deltaX tolerance of horizontal component of center in screen coordinates.
@@ -290,53 +295,55 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
      */
     protected void setRenderSelectionArea(int x, int y, int deltaX, int deltaY) {
         MapPoint p = convertToLonLat(x, y);
-        this.renderSelectionX = p.getProjectedPoint(this.getProjection()).getX();
-        this.renderSelectionY = p.getProjectedPoint(this.getProjection()).getY();
+        this.renderSelectionX = p.getProjectedPoint(this.getProjection())
+                .getX();
+        this.renderSelectionY = p.getProjectedPoint(this.getProjection())
+                .getY();
         this.renderSelectionDeltaY = convertScreenDistanceToProjectedDistance(deltaY);
         this.renderSelectionDeltaX = convertScreenDistanceToProjectedDistance(deltaX);
-        
+
         this.renderSelectionMouseX = x;
         this.renderSelectionMouseY = y;
     }
 
     /**
      * Sets selection area for subsequent renderSelection calls.
-     *
+     * 
      * @param x horizontal component of center in screen coordinates.
      * @param y vertical component of center in screen coordinates.
      */
     protected void setRenderSelectionArea(int x, int y) {
         setRenderSelectionArea(x, y, 1, 1);
     }
-    
+
     /**
      * Returns the render selection object.
      */
     public RenderSelection getRenderSelection() {
         return latestRenderSelection;
     }
-    
+
     /**
-     * Returns the text field which displays coordinates of the location currently pointed by the mouse pointer. 
+     * Returns the text field which displays coordinates of the location currently pointed by the mouse pointer.
      */
     public JTextField getCurrentLocationTextField() {
         return info_field;
     }
-    
+
     /**
-     * Returns the text field which displays the region currently pointed by the mouse pointer. 
+     * Returns the text field which displays the region currently pointed by the mouse pointer.
      */
     public JTextField getCurrentRegionTextField() {
         return regionTextField;
     }
-    
+
     /**
-     * Returns the canvas where all the elements are drawn. 
+     * Returns the canvas where all the elements are drawn.
      */
     public GLCanvas getGLCanvas() {
         return glc;
     }
-    
+
     /**
      * Returns the controller for zooming and scaling.
      */
@@ -350,54 +357,54 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
     public void setPanningMode(boolean panningMode) {
         this.panningMode = panningMode;
     }
-    
+
     /**
      * Returns the mode for the panning.
      */
     public boolean getPanningMode() {
         return panningMode;
     }
-    
+
     /**
      * Returns the shape values.
      */
     public Hashtable<MapDrawableAdapter, ShapeValuePair> getShapeValues() {
-        return shapeValues; 
+        return shapeValues;
     }
-    
+
     /**
      * Returns sorted list of ShapeValuePair objects.
      */
     public Stack<ShapeValuePair> getCreatedShapeAreas() {
         return createdShapeAreas;
     }
-    
+
     /**
      * Returns key-value pairs of the created shapes and the corresponding values.
      */
     public Hashtable<Shape, ShapeValuePair> getCreatedShapeValues() {
         Hashtable<Shape, ShapeValuePair> sAreas = new Hashtable<Shape, ShapeValuePair>();
         for (int i = 0; i < createdShapeAreas.size(); i++) {
-            ShapeValuePair svp =  createdShapeAreas.get(i);
+            ShapeValuePair svp = createdShapeAreas.get(i);
             sAreas.put(svp.getShape(), svp);
         }
         return sAreas;
     }
-    
+
     /**
      * Sets the mode for the drawer.
      */
     public void setSubstrateMode(int substrateMode) {
         this.substrateMode = substrateMode;
     }
-    
+
     /**
      * Returns the mode for the drawer.
      */
     public int getSubstrateMode() {
         return substrateMode;
     }
-    
+
     /**
      * Sets the shape maker.
      */
@@ -405,7 +412,7 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
         resetShapeMaker();
         this.shapeMaker = shapeMaker;
     }
-    
+
     /**
      * Returns the shape maker.
      */
@@ -415,54 +422,55 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
 
     /**
      * Sets the scaled orthographic bounds.
-     *
+     * 
      * @param sbox bounding box of the scaled orthographic bounds.
      */
     public void setScaledBoundingBox(BoundingBox sbox) {
-        orts_box = (BoundingBox)sbox.clone();
-        
+        orts_box = (BoundingBox) sbox.clone();
+
         // projection will change, so we need to update symbols if they are invariant.
-        for (Enumeration<MapDrawableAdapter> e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
+        for (Enumeration<MapDrawableAdapter> e = mapDrawableAdapters.elements(); e
+                .hasMoreElements();) {
             MapDrawableAdapter mda = e.nextElement();
             if (mda instanceof MapPointAdapter) {
-                ((MapPointAdapter)mda).invalidateSymbolList();
+                ((MapPointAdapter) mda).invalidateSymbolList();
             }
         }
         update();
     }
-    
+
     /**
      * Creates new MapPointAdapter and adds it to the list of adapters.
      */
     protected MapPointAdapter addMapPointAdapter(Point point) {
-        MapPointAdapter adapter = (MapPointAdapter)addMapDrawableAdapter(point);
+        MapPointAdapter adapter = (MapPointAdapter) addMapDrawableAdapter(point);
         adapter.setInvariantSymbolSize(true);
         return adapter;
     }
-    
+
     /**
      * Removes a MapPointAdapter from the list of adapters.
      */
     protected void removeMapPointAdapter(MapPointAdapter adapter) {
         removeMapDrawableAdapter(adapter);
     }
-    
+
     /**
      * Creates new MapLineAdapter and adds it to the list of adapters.
      */
     protected MapLineAdapter addMapLineAdapter(Line line) {
-        MapLineAdapter adapter = (MapLineAdapter)addMapDrawableAdapter(line);
+        MapLineAdapter adapter = (MapLineAdapter) addMapDrawableAdapter(line);
         adapter.setLineColor(substrateEditor.getActualColor());
         return adapter;
     }
-    
+
     /**
      * Removes a MapLineAdapter from the list of adapters.
      */
     protected void removeMapLineAdapter(MapLineAdapter adapter) {
         removeMapDrawableAdapter(adapter);
     }
-    
+
     /**
      * Indicates if the list of adapters has to be updated.
      */
@@ -479,7 +487,7 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
             svp.getShape().remove();
         }
     }
-    
+
     /**
      * Part of MouseListener interface.
      */
@@ -487,7 +495,7 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
         // update the current position
         MapPoint p = updateCurrentPosition((int) e.getX(), (int) e.getY());
 
-        //left mouse button
+        // left mouse button
         if (e.getButton() == MouseEvent.BUTTON1) {
             // set color to the selected region
             if (substrateMode == SET_AREA_VALUE_MODE) {
@@ -495,17 +503,21 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
             }
             // add new point to the polygon
             else if (substrateMode == CREATE_POLYGON_MODE) {
-                if (!((PolygonMaker)shapeMaker).isPolygonCompleted()) {
-                    ((PolygonMaker)shapeMaker).addPoint(StratmasObjectFactory.createPoint("p1", p.getLat(), p.getLon()));
+                if (!((PolygonMaker) shapeMaker).isPolygonCompleted()) {
+                    ((PolygonMaker) shapeMaker).addPoint(StratmasObjectFactory
+                            .createPoint("p1", p.getLat(), p.getLon()));
                 }
             }
-             // insert new point into the polygon
+            // insert new point into the polygon
             else if (substrateMode == INSERT_POINT_MODE) {
                 Vector<Object> mlAdapters = mapDrawableAdaptersUnderCursor(MapLineAdapter.class);
                 if (!mlAdapters.isEmpty()) {
-                    MapLineAdapter mlAdapter = (MapLineAdapter)mlAdapters.firstElement();
-                    Point newPoint = StratmasObjectFactory.createPoint("p1", p.getLat(), p.getLon());
-                    ((PolygonMaker)shapeMaker).insertPoint(newPoint, mlAdapter);
+                    MapLineAdapter mlAdapter = (MapLineAdapter) mlAdapters
+                            .firstElement();
+                    Point newPoint = StratmasObjectFactory.createPoint("p1", p
+                            .getLat(), p.getLon());
+                    ((PolygonMaker) shapeMaker)
+                            .insertPoint(newPoint, mlAdapter);
                 }
             }
             // move the area
@@ -531,33 +543,35 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
             }
             // complete the polygon by adding the last line
             else if (substrateMode == CREATE_POLYGON_MODE) {
-                ((PolygonMaker)shapeMaker).addLastLine();
-                ((PolygonMaker)shapeMaker).createMapShapeAdapter(substrateEditor.getActualColor());
+                ((PolygonMaker) shapeMaker).addLastLine();
+                ((PolygonMaker) shapeMaker)
+                        .createMapShapeAdapter(substrateEditor.getActualColor());
             }
         }
         // redraw
         update();
     }
-    
+
     /**
      * Indicates that the mouse cursor is exited the map. Part of MouseListener interface.
-     *
+     * 
      * @param e event created by exiting the map.
      */
     public void mouseExited(MouseEvent e) {
         mouse_on = false;
         // display current position
-        displayCurrentPosition(new MapPoint(0,0));
+        displayCurrentPosition(new MapPoint(0, 0));
         // display pointed region
         displayPointedRegion("");
-        // reset the highlighted shapes 
+        // reset the highlighted shapes
         while (!highlightedShapes.isEmpty()) {
-            highlightedShapes.remove(0).setShapeLineColor(MapShapeAdapter.DEFAULT_LINE_COLOR);
+            highlightedShapes.remove(0)
+                    .setShapeLineColor(MapShapeAdapter.DEFAULT_LINE_COLOR);
         }
         // redraw
         update();
     }
-    
+
     /**
      * Part of MouseListener interface.
      */
@@ -566,17 +580,20 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
         MapPoint p = updateCurrentPosition((int) e.getX(), (int) e.getY());
 
         // set center of the circle
-        if (substrateMode == CREATE_CIRCLE_MODE && !((CircleMaker)shapeMaker).isCircleCreated()) {
-            ((CircleMaker)shapeMaker).createCircle(p.getLon(), p.getLat(), 0);
+        if (substrateMode == CREATE_CIRCLE_MODE
+                && !((CircleMaker) shapeMaker).isCircleCreated()) {
+            ((CircleMaker) shapeMaker).createCircle(p.getLon(), p.getLat(), 0);
             shapeMaker.createMapShapeAdapter(substrateEditor.getActualColor());
         }
         // create new rectangular area
-        else if (substrateMode == CREATE_RECTANGLE_MODE && !((RectangleMaker)shapeMaker).isRectangleCreated()) {
-            ((RectangleMaker)shapeMaker).createRectangle(p.getLon(), p.getLat());
+        else if (substrateMode == CREATE_RECTANGLE_MODE
+                && !((RectangleMaker) shapeMaker).isRectangleCreated()) {
+            ((RectangleMaker) shapeMaker).createRectangle(p.getLon(),
+                                                          p.getLat());
             shapeMaker.createMapShapeAdapter(substrateEditor.getActualColor());
         }
-    }        
-    
+    }
+
     /**
      * Used to pan the map when panningMode is enabled. Part of MouseMotionListener interface.
      */
@@ -584,27 +601,32 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
         // move the map
         if (getPanningMode()) {
             MapPoint p = convertToLonLat((int) e.getX(), (int) e.getY());
-            double dx = p.getProjectedPoint(getProjection()).getX() - current_pos.getProjectedPoint(getProjection()).getX();
-            double dy = p.getProjectedPoint(getProjection()).getY() - current_pos.getProjectedPoint(getProjection()).getY();
+            double dx = p.getProjectedPoint(getProjection()).getX()
+                    - current_pos.getProjectedPoint(getProjection()).getX();
+            double dy = p.getProjectedPoint(getProjection()).getY()
+                    - current_pos.getProjectedPoint(getProjection()).getY();
             setXYCenter(ort_xc - dx, ort_yc - dy);
-        }
-        else {
+        } else {
             // update the current position
             MapPoint p = updateCurrentPosition((int) e.getX(), (int) e.getY());
             // set radius of the circle
             if (substrateMode == CREATE_CIRCLE_MODE) {
-                ((CircleMaker)shapeMaker).setRadius(p.getLon(), p.getLat());
+                ((CircleMaker) shapeMaker).setRadius(p.getLon(), p.getLat());
             }
-            // set steering point of the rectangle 
+            // set steering point of the rectangle
             else if (substrateMode == CREATE_RECTANGLE_MODE) {
-                ((RectangleMaker)shapeMaker).setSteerPoint(p.getLon(), p.getLat()); 
+                ((RectangleMaker) shapeMaker).setSteerPoint(p.getLon(),
+                                                            p.getLat());
             }
             // move the polygon point
             else if (substrateMode == MOVE_POINT_MODE) {
                 Vector<Object> mpAdapters = mapDrawableAdaptersUnderCursor(MapPointAdapter.class);
                 if (!mpAdapters.isEmpty()) {
-                    Point mPoint = (Point)((MapPointAdapter)mpAdapters.firstElement()).getObject();
-                    ((PolygonMaker)shapeMaker).movePolygonPoint(mPoint, p.getLon(), p.getLat());
+                    Point mPoint = (Point) ((MapPointAdapter) mpAdapters
+                            .firstElement()).getObject();
+                    ((PolygonMaker) shapeMaker).movePolygonPoint(mPoint,
+                                                                 p.getLon(),
+                                                                 p.getLat());
                 }
             }
             // move the area
@@ -614,26 +636,26 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
                 }
             }
         }
-        // redraw        
+        // redraw
         update();
     }
-    
+
     /**
-     * Upadates the curent position on the map. Part of MouseMotionListener interface. 
-     *
+     * Upadates the curent position on the map. Part of MouseMotionListener interface.
+     * 
      * @param e event created by changing the position of the mouse cursor on the map.
      */
     public void mouseMoved(MouseEvent e) {
         // update the current position
         updateCurrentPosition((int) e.getX(), (int) e.getY());
-        
+
         // set the region currently under the mouse cursor
         boolean highlightedShapeChanged = setPointedRegion();
-        
-        if (highlightedShapeChanged){ 
+
+        if (highlightedShapeChanged) {
             // display the region under the mouse cursor
             displayHighlightedRegion();
-            
+
             if (substrateMode == SET_AREA_VALUE_MODE) {
                 // highlight the region under the mouse cursor
                 highlightPointedRegion();
@@ -642,7 +664,7 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
         // redraw
         update();
     }
-    
+
     /**
      * Updates the current position pointed by the mouse cursor.
      */
@@ -650,21 +672,22 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
         // set the render selection area
         setRenderSelectionArea(x, y);
         if (substrateMode == INSERT_POINT_MODE) {
-            setRenderSelectionArea(x, y, 5, 5); 
+            setRenderSelectionArea(x, y, 5, 5);
         }
-        
+
         // convert the current position to lon/lat
         current_pos = convertToLonLat(x, y);
-        
+
         // display current position
         displayCurrentPosition(current_pos);
-        
+
         // necessary for multi-screen enviroment
-        mouse_on = (x >= view_x && x <= view_x + view_width && y >= view_y && y <= view_y + view_height)? true : false;
-        
+        mouse_on = (x >= view_x && x <= view_x + view_width && y >= view_y && y <= view_y
+                + view_height) ? true : false;
+
         return current_pos;
     }
-    
+
     /**
      * Adds the actual shape to the list of created shapes
      */
@@ -672,19 +695,26 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
         if (shapeMaker != null && shapeMaker.getShapeAdapter() != null) {
             if (!shapeMaker.isShapeSimple()) {
                 showShapeErrorDialog();
-            }
-            else {
-                Shape actualShape = (Shape)shapeMaker.getShapeAdapter().getObject();
-                createdShapeAreas.push(new ShapeValuePair(actualShape, substrateEditor.getActualValue(), false));
+            } else {
+                Shape actualShape = (Shape) shapeMaker.getShapeAdapter()
+                        .getObject();
+                createdShapeAreas.push(new ShapeValuePair(actualShape,
+                        substrateEditor.getActualValue(), false));
                 // check intersection with the regions
-                for (Enumeration<MapDrawableAdapter> e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
+                for (Enumeration<MapDrawableAdapter> e = mapDrawableAdapters
+                        .elements(); e.hasMoreElements();) {
                     MapDrawableAdapter adapter = e.nextElement();
                     // check if it is MapShapeAdapter
                     if (adapter instanceof MapShapeAdapter) {
-                        Shape shape = (Shape)adapter.getObject();
+                        Shape shape = (Shape) adapter.getObject();
                         // check if the shape intersects with the actual one
-                        if (shape.getBoundingBox().intersects(getProjection(), actualShape.getBoundingBox())) {
-                            ((MapShapeAdapter)adapter).addIntersectingShape(actualShape, substrateEditor.getActualColor());
+                        if (shape.getBoundingBox()
+                                .intersects(getProjection(),
+                                            actualShape.getBoundingBox())) {
+                            ((MapShapeAdapter) adapter)
+                                    .addIntersectingShape(actualShape,
+                                                          substrateEditor
+                                                                  .getActualColor());
                         }
                     }
                 }
@@ -693,43 +723,46 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
             update();
         }
     }
-    
+
     /**
      * Returns the list of shapes which "intersect" the given shape. Two shapes "intersect" when their bounding boxes intersect.
      */
     public Vector<Shape> getIntersectingShapes(Shape sh) {
         Vector<Shape> intShapes = new Vector<Shape>();
-        for (Enumeration<MapDrawableAdapter> e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
+        for (Enumeration<MapDrawableAdapter> e = mapDrawableAdapters.elements(); e
+                .hasMoreElements();) {
             MapDrawableAdapter adapter = e.nextElement();
             // check if it is MapShapeAdapter
             if (adapter instanceof MapShapeAdapter) {
-                Shape shape = (Shape)adapter.getObject();
+                Shape shape = (Shape) adapter.getObject();
                 // check if the shape intersects with the actual one
-                if (shape.getBoundingBox().intersects(getProjection(), sh.getBoundingBox())) {
+                if (shape.getBoundingBox().intersects(getProjection(),
+                                                      sh.getBoundingBox())) {
                     intShapes.add(shape);
                 }
             }
         }
         return intShapes;
     }
-    
+
     /**
-     * Displays the dialog when the created shape is not valid. 
+     * Displays the dialog when the created shape is not valid.
      */
     private void showShapeErrorDialog() {
-        StratmasDialog.showErrorMessageDialog(null, "Not valid area!", "Area definition!");
+        StratmasDialog.showErrorMessageDialog(null, "Not valid area!",
+                                              "Area definition!");
     }
 
     /**
-     * Updates color of the shape which is under creation. 
+     * Updates color of the shape which is under creation.
      */
-     public void updateShapeUnderCreation(Color color) {
-         if (shapeMaker != null) {
-             shapeMaker.updateShapeColor(color);
-             update();
-         }
-     }
-    
+    public void updateShapeUnderCreation(Color color) {
+        if (shapeMaker != null) {
+            shapeMaker.updateShapeColor(color);
+            update();
+        }
+    }
+
     /**
      * Resets the actual shape creator.
      */
@@ -738,9 +771,9 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
             shapeMaker.clearAll();
         }
     }
-    
+
     /**
-     * Removes the shape creator. 
+     * Removes the shape creator.
      */
     public void removeShapeMaker() {
         resetShapeMaker();
@@ -749,90 +782,92 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
 
     /**
      * Updates the region under the mouse cursor.
-     *
+     * 
      * @return true if the region has changed, false otherwise.
      */
-    private boolean  setPointedRegion() {
-        Vector<Object> adVec = mapDrawableAdaptersUnderCursor(MapShapeAdapter.class, SimpleShape.class);
+    private boolean setPointedRegion() {
+        Vector<Object> adVec = mapDrawableAdaptersUnderCursor(MapShapeAdapter.class,
+                                                              SimpleShape.class);
         if (!adVec.isEmpty()) {
             // no shape highlighted
             if (highlightedShape == null) {
-                highlightedShape = (Shape)((MapShapeAdapter)adVec.firstElement()).getObject();
+                highlightedShape = (Shape) ((MapShapeAdapter) adVec
+                        .firstElement()).getObject();
                 return true;
             }
             // check if the highlighted shape is in the list
             for (int i = 0; i < adVec.size(); i++) {
-                Shape shape = (Shape)((MapShapeAdapter)adVec.get(i)).getObject();
-                if (shape.equals(highlightedShape) && shape.isAncestor(highlightedShape)) {
+                Shape shape = (Shape) ((MapShapeAdapter) adVec.get(i))
+                        .getObject();
+                if (shape.equals(highlightedShape)
+                        && shape.isAncestor(highlightedShape)) {
                     return false;
                 }
             }
             // the highlighted shape is changed
-            highlightedShape = (Shape)((MapShapeAdapter)adVec.firstElement()).getObject();
+            highlightedShape = (Shape) ((MapShapeAdapter) adVec.firstElement())
+                    .getObject();
             return true;
-        }
-        else {
+        } else {
             // no shape is under the mouse cursor
             if (highlightedShape != null) {
                 highlightedShape = null;
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
         }
     }
-    
+
     /**
      * Displays the region(s) currently pointed by the mouse pointer.
      */
     protected void displayHighlightedRegion() {
         if (highlightedShape == null) {
-            displayPointedRegion(""); 
-        }
-        else {
+            displayPointedRegion("");
+        } else {
             displayPointedRegion(getShapeName(highlightedShape));
         }
     }
-    
+
     /**
-     * Highlights the shape under the mouse cursor. The color of the highlighted shape is
-     * chosen with ColorChooser.
+     * Highlights the shape under the mouse cursor. The color of the highlighted shape is chosen with ColorChooser.
      */
     protected void highlightPointedRegion() {
         Vector<MapShapeAdapter> prevHighlighted = highlightedShapes;
         highlightedShapes = new Vector<MapShapeAdapter>();
         if (highlightedShape != null) {
             Vector<MapDrawableAdapter> adVec = new Vector<MapDrawableAdapter>();
-            MapDrawableAdapter mda = getMapDrawableAdapter(highlightedShape.getReference());
+            MapDrawableAdapter mda = getMapDrawableAdapter(highlightedShape
+                    .getReference());
             // find shapes to highlight
             if (mda != null) {
                 adVec.add(mda);
-            }
-            else {
+            } else {
                 adVec = getChildrenShapeAdapters(highlightedShape);
             }
             // highlight the shapes
             for (int i = 0; i < adVec.size(); i++) {
-                MapShapeAdapter msa = (MapShapeAdapter)adVec.get(i);
+                MapShapeAdapter msa = (MapShapeAdapter) adVec.get(i);
                 if (prevHighlighted.contains(msa)) {
                     prevHighlighted.remove(msa);
-                }
-                else {
-                    if (substrateMode == SET_AREA_VALUE_MODE) { 
+                } else {
+                    if (substrateMode == SET_AREA_VALUE_MODE) {
                         // set the color of the region borders
                         msa.setShapeLineColor(substrateEditor.getActualColor());
                     }
                     // set the width of the region borders
-                    msa.setShapeLineWidth(2 * MapShapeAdapter.DEFAULT_LINE_WIDTH); 
+                    msa.setShapeLineWidth(2 * MapShapeAdapter.DEFAULT_LINE_WIDTH);
                 }
                 highlightedShapes.add(msa);
             }
         }
         // reset the shapes which are not under the cursor
         for (int i = 0; i < prevHighlighted.size(); i++) {
-            prevHighlighted.get(i).setShapeLineColor(MapShapeAdapter.DEFAULT_LINE_COLOR);
-            prevHighlighted.get(i).setShapeLineWidth(MapShapeAdapter.DEFAULT_LINE_WIDTH);
+            prevHighlighted.get(i)
+                    .setShapeLineColor(MapShapeAdapter.DEFAULT_LINE_COLOR);
+            prevHighlighted.get(i)
+                    .setShapeLineWidth(MapShapeAdapter.DEFAULT_LINE_WIDTH);
         }
         update();
     }
@@ -846,38 +881,43 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
             MapShapeAdapter msa = highlightedShapes.get(i);
             msa.setShapeAreaColor(color);
             // update the list of values for the shapes
-            shapeValues.put(msa, new ShapeValuePair((Shape)msa.getObject(), substrateEditor.getActualValue(), true));   
+            shapeValues.put(msa, new ShapeValuePair((Shape) msa.getObject(),
+                    substrateEditor.getActualValue(), true));
         }
         update();
     }
-    
+
     /**
      * Fills the actual shape with a color.
      */
     public void setActualColorToCreatedShape() {
         if (shapeMaker != null && shapeMaker.getShapeAdapter() != null) {
-            shapeMaker.getShapeAdapter().setShapeAreaColor(substrateEditor.getActualColor());
+            shapeMaker.getShapeAdapter()
+                    .setShapeAreaColor(substrateEditor.getActualColor());
             update();
         }
     }
-    
+
     /**
      * Updates colors of the regions which are assigned values.
      */
     public void updateColoredRegions() {
-        for (Enumeration<MapDrawableAdapter> e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
+        for (Enumeration<MapDrawableAdapter> e = mapDrawableAdapters.elements(); e
+                .hasMoreElements();) {
             MapDrawableAdapter mda = e.nextElement();
             if (mda instanceof MapShapeAdapter) {
-                MapShapeAdapter msa = (MapShapeAdapter)mda;
+                MapShapeAdapter msa = (MapShapeAdapter) mda;
                 if (shapeValues.get(msa) != null) {
                     double value = shapeValues.get(msa).getValue();
-                    msa.setShapeAreaBackground(substrateEditor.getMappingColor(value));
+                    msa.setShapeAreaBackground(substrateEditor
+                            .getMappingColor(value));
+                } else {
+                    msa.setShapeAreaBackground(substrateEditor
+                            .getInitialColor());
                 }
-                else {
-                    msa.setShapeAreaBackground(substrateEditor.getInitialColor());
-                }
-                msa.updateIntersectingShapes(getCreatedShapeValues(), substrateEditor);
-             }
+                msa.updateIntersectingShapes(getCreatedShapeValues(),
+                                             substrateEditor);
+            }
         }
         update();
     }
@@ -888,63 +928,69 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
     public void initializeShapeValues() {
         createdShapeAreas.removeAllElements();
         shapeValues.clear();
-        for (Enumeration<MapDrawableAdapter> e = mapDrawableAdapters.elements(); e.hasMoreElements();) {
+        for (Enumeration<MapDrawableAdapter> e = mapDrawableAdapters.elements(); e
+                .hasMoreElements();) {
             MapDrawableAdapter adapter = e.nextElement();
             if (adapter instanceof MapShapeAdapter) {
-                ((MapShapeAdapter)adapter).setShapeAreaColor(substrateEditor.getInitialColor());
+                ((MapShapeAdapter) adapter).setShapeAreaColor(substrateEditor
+                        .getInitialColor());
             }
         }
     }
-    
+
     /**
-     * Resets the shape values. 
-     *
-     * @param sValues the key-value pairs where the keys are Shape objects and the values are 
-     *                lists of ShapeValuePair objects. 
+     * Resets the shape values.
+     * 
+     * @param sValues the key-value pairs where the keys are Shape objects and the values are lists of ShapeValuePair objects.
      */
     public void resetShapeValues(Hashtable sValues) {
         initializeShapeValues();
         // add new shape values
         for (Enumeration e = sValues.keys(); e.hasMoreElements();) {
-            Shape shape = (Shape)e.nextElement();
+            Shape shape = (Shape) e.nextElement();
             MapDrawableAdapter mda = getMapDrawableAdapter(shape.getReference());
             if (mda != null) {
-                Vector svPairs = (Vector)sValues.get(shape);
+                Vector svPairs = (Vector) sValues.get(shape);
                 int startIndex = 0;
                 // check if the first value is overall shape value
-                ShapeValuePair svp = (ShapeValuePair)svPairs.firstElement();
+                ShapeValuePair svp = (ShapeValuePair) svPairs.firstElement();
                 if (svp.getShape().equals(mda.getObject())) {
                     shapeValues.put(mda, svp);
-                    ((MapShapeAdapter)mda).setShapeAreaColor(substrateEditor.getMappingColor(svp.getValue()));
-                    startIndex = 1; 
+                    ((MapShapeAdapter) mda).setShapeAreaColor(substrateEditor
+                            .getMappingColor(svp.getValue()));
+                    startIndex = 1;
                 }
                 // get the values for the intersections
                 for (int i = startIndex; i < svPairs.size(); i++) {
-                    svp = (ShapeValuePair)svPairs.get(i);
+                    svp = (ShapeValuePair) svPairs.get(i);
                     createdShapeAreas.push(svp);
-                    ((MapShapeAdapter)mda).addIntersectingShape(svp.getShape(), 
-                                                                substrateEditor.getMappingColor(svp.getValue()));
+                    ((MapShapeAdapter) mda)
+                            .addIntersectingShape(svp.getShape(),
+                                                  substrateEditor
+                                                          .getMappingColor(svp
+                                                                  .getValue()));
                 }
             }
         }
         update();
     }
-    
+
     /**
-     * Returns a vector with the MapElementAdapters of the type specified by the input
-     * arguments presently drawn under the cursor.
-     *
+     * Returns a vector with the MapElementAdapters of the type specified by the input arguments presently drawn under the cursor.
+     * 
      * @param adapterClass the class of the output elements.
      * @param objectClass the class of the elements adapted by the output adapters.
-     *
-     * @return the list of elements.  
+     * @return the list of elements.
      */
-    public Vector<Object> mapDrawableAdaptersUnderCursor(Class<MapShapeAdapter> adapterClass,  Class<SimpleShape> objectClass) {
+    public Vector<Object> mapDrawableAdaptersUnderCursor(
+            Class<MapShapeAdapter> adapterClass, Class<SimpleShape> objectClass) {
         Vector<Object> res = new Vector<Object>();
-        for(Enumeration e = latestRenderSelection.getTopSelectionObjects().elements(); e.hasMoreElements();) {
+        for (Enumeration e = latestRenderSelection.getTopSelectionObjects()
+                .elements(); e.hasMoreElements();) {
             Object o = e.nextElement();
             if (adapterClass.isInstance(o)) {
-                if (objectClass.isInstance(((MapDrawableAdapter)o).getObject())) {
+                if (objectClass
+                        .isInstance(((MapDrawableAdapter) o).getObject())) {
                     res.add(o);
                 }
             }
@@ -953,16 +999,15 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
     }
 
     /**
-     * Returns a vector with the MapElementAdapters of the type specified by the input
-     * argument presently drawn under the cursor.
-     *
+     * Returns a vector with the MapElementAdapters of the type specified by the input argument presently drawn under the cursor.
+     * 
      * @param specifiedClass the class of the output elements.
-     *
-     * @return the list of elements.  
+     * @return the list of elements.
      */
     public Vector<Object> mapDrawableAdaptersUnderCursor(Class specifiedClass) {
         Vector<Object> res = new Vector<Object>();
-        for(Enumeration e = latestRenderSelection.getTopSelectionObjects().elements(); e.hasMoreElements();) {
+        for (Enumeration e = latestRenderSelection.getTopSelectionObjects()
+                .elements(); e.hasMoreElements();) {
             Object o = e.nextElement();
             if (specifiedClass.isInstance(o)) {
                 res.add(o);
@@ -972,23 +1017,24 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
     }
 
     /**
-     * Returns a vector with all MapDrawableAdapters presently _drawn_ under the cursor. 
-     * NB the objects has to be rendered to be returned by this function.
-     *
+     * Returns a vector with all MapDrawableAdapters presently _drawn_ under the cursor. NB the objects has to be rendered to be returned by
+     * this function.
+     * 
      * @return MapDrawables currently under the cursor on the map.
      */
     public Vector<Object> mapDrawableAdaptersUnderCursor() {
         Vector<Object> res = new Vector<Object>();
-        for(Enumeration e = latestRenderSelection.getTopSelectionObjects().elements(); e.hasMoreElements();) {
+        for (Enumeration e = latestRenderSelection.getTopSelectionObjects()
+                .elements(); e.hasMoreElements();) {
             Object o = e.nextElement();
             if (o instanceof MapDrawableAdapter) {
-                
+
                 res.add(o);
             }
         }
         return res;
     }
-    
+
     /**
      * Draws the shapes in the map.
      */
@@ -998,12 +1044,12 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
 
         // draw graticules
-        //gl.glCallList(graticuleDisplayList);
-                
+        // gl.glCallList(graticuleDisplayList);
+
         // update shapes
         Vector toUpdate = mapDrawableAdapterRecompilation;
         this.mapDrawableAdapterRecompilation = new Vector();
-        for(Enumeration e = toUpdate.elements(); e.hasMoreElements();) {
+        for (Enumeration e = toUpdate.elements(); e.hasMoreElements();) {
             MapDrawableAdapter adapter = (MapDrawableAdapter) e.nextElement();
             int oldDisplayList = adapter.getDisplayList();
             adapter.reCompile(basicMap.getProjection(), glc);
@@ -1016,50 +1062,60 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
 
         // update actual shape
         if (shapeMaker != null && shapeMaker.getShapeAdapter() != null) {
-            shapeMaker.getShapeAdapter().reCompile(basicMap.getProjection(), glc);
+            shapeMaker.getShapeAdapter().reCompile(basicMap.getProjection(),
+                                                   glc);
         }
-        
+
         // draw shape areas
-        gl.glCallLists(drawnShapeAreasListBuf.capacity(), GL2ES2.GL_INT, drawnShapeAreasListBuf);
+        gl.glCallLists(drawnShapeAreasListBuf.capacity(), GL2ES2.GL_INT,
+                       drawnShapeAreasListBuf);
         if (shapeMaker != null && shapeMaker.getShapeAdapter() != null) {
-            gl.glCallList(shapeMaker.getShapeAdapter().getShapeAreaDisplayList());
+            gl.glCallList(shapeMaker.getShapeAdapter()
+                    .getShapeAreaDisplayList());
         }
-        
+
         // draw lines of the shapes
-        gl.glCallLists(drawnShapeLinesListBuf.capacity(), GL2ES2.GL_INT, drawnShapeLinesListBuf);
+        gl.glCallLists(drawnShapeLinesListBuf.capacity(), GL2ES2.GL_INT,
+                       drawnShapeLinesListBuf);
         if (shapeMaker != null && shapeMaker.getShapeAdapter() != null) {
-            gl.glCallList(shapeMaker.getShapeAdapter().getShapeLinesDisplayList());
+            gl.glCallList(shapeMaker.getShapeAdapter()
+                    .getShapeLinesDisplayList());
         }
-        
+
         // draw lines
-        gl.glCallLists(drawnLinesListBuf.capacity(), GL2ES2.GL_INT, drawnLinesListBuf);
-        
+        gl.glCallLists(drawnLinesListBuf.capacity(), GL2ES2.GL_INT,
+                       drawnLinesListBuf);
+
         // definition of new area for the element
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
         // line color
-        float[] cColor = substrateEditor.getActualColor().getRGBColorComponents(null);
+        float[] cColor = substrateEditor.getActualColor()
+                .getRGBColorComponents(null);
         gl.glColor3f(cColor[0], cColor[1], cColor[2]);
         // width of the shape line
         gl.glLineWidth(2.0f);
         Projection proj = getProjection();
-        if (substrateMode == CREATE_POLYGON_MODE && ((PolygonMaker)shapeMaker).getLastPoint() != null) {
-            // draw last line when defining new polygonial 
+        if (substrateMode == CREATE_POLYGON_MODE
+                && ((PolygonMaker) shapeMaker).getLastPoint() != null) {
+            // draw last line when defining new polygonial
             gl.glBegin(GL2.GL_LINES);
             MapPoint p2 = current_pos.getProjectedPoint(proj);
-            gl.glVertex2dv(proj.projToXY(((PolygonMaker)shapeMaker).getLastPoint()), 0);
+            gl.glVertex2dv(proj.projToXY(((PolygonMaker) shapeMaker)
+                    .getLastPoint()), 0);
             gl.glVertex2d(p2.getX(), p2.getY());
             gl.glEnd();
         }
         gl.glPopMatrix();
 
         // draw points
-        gl.glCallLists(drawnPointsListBuf.capacity(), GL2ES2.GL_INT, drawnPointsListBuf);
-        
+        gl.glCallLists(drawnPointsListBuf.capacity(), GL2ES2.GL_INT,
+                       drawnPointsListBuf);
+
         // draw graticules
         gl.glCallList(graticuleDisplayList);
     }
-    
+
     /**
      * Update the list representing which drawables should be drawn.
      */
@@ -1067,16 +1123,17 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
         if (!isDrawnMapDrawablesListUpdated()) {
             // get all mapDrawableAdapters that should be drawn
             Vector<MapDrawableAdapter> drawableList = new Vector<MapDrawableAdapter>();
-            Vector<MapDrawableAdapter> shapeList    = new Vector<MapDrawableAdapter>();
-            Vector<MapDrawableAdapter> lineList     = new Vector<MapDrawableAdapter>();
-            Vector<MapDrawableAdapter> pointList    = new Vector<MapDrawableAdapter>();
-            for (Enumeration<MapDrawableAdapter> e = mapDrawableAdapters.elements(); e.hasMoreElements(); ) {
+            Vector<MapDrawableAdapter> shapeList = new Vector<MapDrawableAdapter>();
+            Vector<MapDrawableAdapter> lineList = new Vector<MapDrawableAdapter>();
+            Vector<MapDrawableAdapter> pointList = new Vector<MapDrawableAdapter>();
+            for (Enumeration<MapDrawableAdapter> e = mapDrawableAdapters
+                    .elements(); e.hasMoreElements();) {
                 drawableList.add(e.nextElement());
             }
-            
+
             // sort the elements
             java.util.Collections.sort(drawableList, shapeAdaptedComparator);
-            
+
             // update the list of display lists for drawables
             int[] drawableDisplayLists = new int[drawableList.size()];
             for (int i = 0; i < drawableDisplayLists.length; i++) {
@@ -1084,15 +1141,14 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
                 drawableDisplayLists[i] = mda.getDisplayList();
                 if (mda instanceof MapShapeAdapter) {
                     shapeList.add(mda);
-                }
-                else if (mda instanceof MapLineAdapter) {
+                } else if (mda instanceof MapLineAdapter) {
                     lineList.add(mda);
-                }
-                else if (mda instanceof MapPointAdapter) {
+                } else if (mda instanceof MapPointAdapter) {
                     pointList.add(mda);
                 }
             }
-            drawnMapDrawablesListBuf = Buffers.newDirectIntBuffer(drawableDisplayLists.length);
+            drawnMapDrawablesListBuf = Buffers
+                    .newDirectIntBuffer(drawableDisplayLists.length);
             drawnMapDrawablesListBuf.put(drawableDisplayLists);
             drawnMapDrawablesListBuf.rewind();
 
@@ -1104,8 +1160,10 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
                 shapeAreasDisplayLists[i] = msa.getShapeAreaDisplayList();
                 shapeLinesDisplayLists[i] = msa.getShapeLinesDisplayList();
             }
-            drawnShapeLinesListBuf = Buffers.newDirectIntBuffer(shapeLinesDisplayLists.length);
-            drawnShapeAreasListBuf = Buffers.newDirectIntBuffer(shapeAreasDisplayLists.length);
+            drawnShapeLinesListBuf = Buffers
+                    .newDirectIntBuffer(shapeLinesDisplayLists.length);
+            drawnShapeAreasListBuf = Buffers
+                    .newDirectIntBuffer(shapeAreasDisplayLists.length);
             drawnShapeLinesListBuf.put(shapeLinesDisplayLists);
             drawnShapeAreasListBuf.put(shapeAreasDisplayLists);
             drawnShapeLinesListBuf.rewind();
@@ -1117,35 +1175,37 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
                 MapLineAdapter mla = (MapLineAdapter) lineList.get(i);
                 linesDisplayLists[i] = mla.getDisplayList();
             }
-            drawnLinesListBuf = Buffers.newDirectIntBuffer(linesDisplayLists.length);
+            drawnLinesListBuf = Buffers
+                    .newDirectIntBuffer(linesDisplayLists.length);
             drawnLinesListBuf.put(linesDisplayLists);
             drawnLinesListBuf.rewind();
-            
+
             // update the list of display lists for points
             int[] pointsDisplayLists = new int[pointList.size()];
             for (int i = 0; i < pointsDisplayLists.length; i++) {
                 MapPointAdapter mpa = (MapPointAdapter) pointList.get(i);
                 pointsDisplayLists[i] = mpa.getDisplayList();
             }
-            drawnPointsListBuf = Buffers.newDirectIntBuffer(pointsDisplayLists.length);
+            drawnPointsListBuf = Buffers
+                    .newDirectIntBuffer(pointsDisplayLists.length);
             drawnPointsListBuf.put(pointsDisplayLists);
             drawnPointsListBuf.rewind();
-            
+
             isDrawnMapDrawablesListUpdated = true;
         }
     }
-    
+
     /**
-     * Returns all the shape adapters such that the given StratmasObjects is ancestor of the
-     * adapted shapes.
-     *
+     * Returns all the shape adapters such that the given StratmasObjects is ancestor of the adapted shapes.
+     * 
      * @param so the actual StratmasObject.
-     *
      * @return the list of shape adapters.
      */
-    protected Vector<MapDrawableAdapter> getChildrenShapeAdapters(StratmasObject so) {
+    protected Vector<MapDrawableAdapter> getChildrenShapeAdapters(
+            StratmasObject so) {
         Vector<MapDrawableAdapter> childrenAdapters = new Vector<MapDrawableAdapter>();
-        for (Enumeration<MapDrawableAdapter> e = mapDrawableAdapters.elements(); e.hasMoreElements(); ) {
+        for (Enumeration<MapDrawableAdapter> e = mapDrawableAdapters.elements(); e
+                .hasMoreElements();) {
             MapDrawableAdapter mda = e.nextElement();
             if (mda instanceof MapShapeAdapter) {
                 StratmasObject sObj = mda.getObject();
@@ -1156,10 +1216,10 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
         }
         return childrenAdapters;
     }
-    
+
     /**
-     * Returns the ancestor shape of the given object. 
-     *
+     * Returns the ancestor shape of the given object.
+     * 
      * @param so the actual object.
      */
     private Shape getParentShape(StratmasObject so) {
@@ -1167,9 +1227,9 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
         while (walker != null && !(walker instanceof Shape)) {
             walker = walker.getParent();
         }
-        return (walker != null)? (Shape)walker : null;
+        return (walker != null) ? (Shape) walker : null;
     }
-    
+
     /**
      * Returns the name of the given shape.
      */
@@ -1181,29 +1241,28 @@ public class SubstrateMapDrawer extends BasicMapDrawer {
         StratmasObject walker = shape.getParent();
         while (walker != null && !walker.getIdentifier().equals("map")) {
             if (!(walker instanceof StratmasList)) {
-                shapeName = walker.getIdentifier().concat(" - ").concat(shapeName);
+                shapeName = walker.getIdentifier().concat(" - ")
+                        .concat(shapeName);
             }
             walker = walker.getParent();
         }
         if (walker != null) {
             return shapeName;
-        } 
-        else {
+        } else {
             return shape.getIdentifier();
         }
     }
-    
+
     /**
      * Returns true if the shape is ESRI shape.
      */
     public boolean isEsri(Shape shape) {
         MapDrawableAdapter adapter = getMapDrawableAdapter(shape.getReference());
-        return (adapter != null)? true : false;
+        return (adapter != null) ? true : false;
     }
-    
-    public void dispose(GLAutoDrawable glad){
-      //TODO implement
+
+    public void dispose(GLAutoDrawable glad) {
+        // TODO implement
     }
 
 }
-

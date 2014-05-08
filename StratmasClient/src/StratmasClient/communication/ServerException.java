@@ -1,4 +1,4 @@
-//         $Id: ServerException.java,v 1.1 2005/10/28 18:47:52 dah Exp $
+// $Id: ServerException.java,v 1.1 2005/10/28 18:47:52 dah Exp $
 /*
  * @(#)ServerException.java
  */
@@ -7,44 +7,41 @@ package StratmasClient.communication;
 
 /**
  * An object representing any error in a client-server exchange
- *
+ * 
  * @version 1, $Date: 2005/10/28 18:47:52 $
- * @author  Daniel Ahlin
-*/
+ * @author Daniel Ahlin
+ */
 
-public class ServerException extends Exception
-{
+public class ServerException extends Exception {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = -7053742856137679342L;
-	/**
+    private static final long serialVersionUID = -7053742856137679342L;
+    /**
      * A string describing the exception.
      */
     String description;
 
     /**
      * Creates a new ServerException.
+     * 
      * @param description a string describing the exception.
      */
-    public ServerException(String description)
-    {
+    public ServerException(String description) {
         this.description = description;
     }
 
     /**
      * Returns a message detailing the cause of the exception.
      */
-    public String getMessage()
-    {
+    public String getMessage() {
         return description;
     }
 
     /**
      * Returns a string representation of this object.
      */
-    public String toString()
-    {
+    public String toString() {
         return getMessage();
     }
 }

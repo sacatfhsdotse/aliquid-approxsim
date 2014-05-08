@@ -1,0 +1,63 @@
+CommonScenario < sp.Scenario {
+  ...
+  path: sp.UndirGraph
+  graphs*: sp.DirGraph
+}
+
+# Alt 1
+NodeReference < sp.Reference <target: string fixed="Node"> {}
+
+UndirGraph < sp.ComplexType {
+  nodes+: sp.Node //May not be a directednode
+  edges+: sp.TwoDirEdge
+}
+
+DirGraph < sp.ComplexType {
+  nodes+: sp.Node
+  nodeConnected?: sp.Effect // These could also be on the nodes/edges, thus enabling specific events for each specific node
+  nodeDisconnected?: sp.Effect
+  edgeConnected?: sp.Effect
+  edgeDisconnected?: sp.Effect
+}
+
+Effect < sp.ComplexType {
+  continuos: bool //not sure if this is a good idea, but it might allow for both triggered effects and continuous
+  //TODO: represent the changes that can be applied in a useful way
+}
+
+Node < sp.ComplexType {
+  # Is a source in a Graph, but merely another Node in a PathGraph
+  point: sp.Point
+}
+
+TwoDirEdge < sp.OneDirEdge {
+  origin: sp.NodeReference
+}
+
+OneDirEdge < sp.ComplexType {
+  target: sp.NodeReference
+  connected: boolean
+}
+
+DirectedNode < sp.Node {
+  # Is connected to source if one or more parents are connected or a source themselves
+  parent+: sp.OneDirEdge
+}
+
+-------------------------------------------------
+
+Can support redundancy. In its simplest form there is no concept of things "running out" or there not being enough for the entire graph.
+Changes spread instantaneously.
+Adding support for drainage is non-trivial as nodes might be connected to multiple sources and spread isn't obvious.
+-------------------------------------------------
+
+Each node could potentially drain from its parent, in which case change would probably spread at one edge per server tick.
+Each node would have a need per time which would be reported to its parent nodes (along with the sum of reported needs to that node)
+The effect would probably be two-state, enough/connected and not enough/not connected.
+-------------------------------------------------
+
+An effect graph might also be twodir, in which case the existance of a path to a source node means it is connected.
+This model could be extended/changed to have an entire connected graph be "powered" if the sum total of "power" provided is positive (where sources have positive "power" and other nodes have negative "power").
+-------------------------------------------------
+
+It could also be a directed graph where each edge has a power-drain on it. A node is connected if a powersurge can reach from a source node. (basically bfs where each edge has a length and the path has a maximum length).

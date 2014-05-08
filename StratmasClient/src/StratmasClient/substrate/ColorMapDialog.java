@@ -30,11 +30,11 @@ import StratmasClient.ProcessVariableDescription;
  * ColorMapDialog is used to set color map options for a process variable in SubstrateEditor.
  */
 public class ColorMapDialog extends JDialog implements ActionListener {
-   /**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 2552288079896338217L;
-/**
+    private static final long serialVersionUID = 2552288079896338217L;
+    /**
      * Instance of the actual dialog.
      */
     private static ColorMapDialog dialog;
@@ -74,33 +74,35 @@ public class ColorMapDialog extends JDialog implements ActionListener {
      * The color map panel.
      */
     private ColorChooser colorChooser;
-     
+
     /**
      * Sets up and shows the dialog.
-     *
+     * 
      * @param processVariable actual process variable.
      * @param frameComp actual frame for the dialog.
      * @param colorChooser the color map panel.
      */
-    public static void showDialog(ProcessVariableDescription processVariable, Component frameComp, ColorChooser colorChooser) {
+    public static void showDialog(ProcessVariableDescription processVariable,
+            Component frameComp, ColorChooser colorChooser) {
         Frame frame = JOptionPane.getFrameForComponent(frameComp);
         dialog = new ColorMapDialog(processVariable, frame, colorChooser);
         dialog.setVisible(true);
     }
-    
+
     /**
      * Creates color map dialog.
-     *
+     * 
      * @param processVariable actual process variable.
      * @param frameComp actual frame for the dialog.
      * @param colorChooser the color map panel.
-     *
      */
-    private ColorMapDialog(ProcessVariableDescription processVariable, Frame frame, ColorChooser colorChooser) {
-        super(frame, new String("Color Map Values for " + processVariable.getName()), true);
+    private ColorMapDialog(ProcessVariableDescription processVariable,
+            Frame frame, ColorChooser colorChooser) {
+        super(frame, new String("Color Map Values for "
+                + processVariable.getName()), true);
         this.processVariable = processVariable;
         this.colorChooser = colorChooser;
-        
+
         // radio buttons
         JPanel scalePanel = new JPanel();
         scalePanel.setLayout(new GridLayout(2, 1, 3, 3));
@@ -118,13 +120,14 @@ public class ColorMapDialog extends JDialog implements ActionListener {
         logButton.setFont(logButton.getFont().deriveFont(Font.PLAIN));
         logButton.addActionListener(this);
         scalePanel.add(logButton);
-        scalePanel.setBorder(BorderFactory. createCompoundBorder(BorderFactory.createTitledBorder("Set Color Map Scale"),
-                                                                 BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-        
+        scalePanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                .createTitledBorder("Set Color Map Scale"), BorderFactory
+                .createEmptyBorder(5, 5, 5, 5)));
+
         ButtonGroup scaleButtons = new ButtonGroup();
         scaleButtons.add(linButton);
         scaleButtons.add(logButton);
-        
+
         // minimum and maximum text fields
         JPanel minmaxPanel = new JPanel();
         minmaxPanel.setLayout(new GridLayout(2, 2, 3, 3));
@@ -142,9 +145,10 @@ public class ColorMapDialog extends JDialog implements ActionListener {
         maxTextField.setText((new Double(processVariable.getMax())).toString());
         maxTextField.selectAll();
         minmaxPanel.add(maxTextField);
-        minmaxPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Set Minimum & Maximum"),
-                                                                 BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-        
+        minmaxPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                .createTitledBorder("Set Minimum & Maximum"), BorderFactory
+                .createEmptyBorder(5, 5, 5, 5)));
+
         // combo box
         JPanel comboPanel = new JPanel();
         colorMapBox = new JComboBox(ColorMap.COLOR_MAPS);
@@ -153,9 +157,10 @@ public class ColorMapDialog extends JDialog implements ActionListener {
         colorMapBox.setSelectedIndex(index);
         colorMapBox.addActionListener(this);
         comboPanel.add(colorMapBox);
-        comboPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Set Color Map"),
-                                                                BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-        
+        comboPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                .createTitledBorder("Set Color Map"), BorderFactory
+                .createEmptyBorder(5, 5, 5, 5)));
+
         // create and initialize the buttons
         cancelButton = new JButton("Cancel");
         cancelButton.setFont(cancelButton.getFont().deriveFont(Font.PLAIN));
@@ -189,10 +194,10 @@ public class ColorMapDialog extends JDialog implements ActionListener {
         setLocationRelativeTo(null);
         minTextField.requestFocusInWindow();
     }
-    
+
     /**
      * Fires an action when a dialog button is pressed.
-     *
+     * 
      * @param e action event generated by the dialog.
      */
     public void actionPerformed(ActionEvent e) {
@@ -204,55 +209,59 @@ public class ColorMapDialog extends JDialog implements ActionListener {
         // handle "Set" button
         else if (setButton.equals(obj)) {
             try {
-                double minValue = (Double.valueOf(minTextField.getText())).doubleValue();
-                double maxValue = (Double.valueOf(maxTextField.getText())).doubleValue();
+                double minValue = (Double.valueOf(minTextField.getText()))
+                        .doubleValue();
+                double maxValue = (Double.valueOf(maxTextField.getText()))
+                        .doubleValue();
                 // check the boundary values
-                if (minValue > 100000000000.0 || minValue < 0 || minValue >= maxValue || maxValue > 100000000000.0 ) {
+                if (minValue > 100000000000.0 || minValue < 0
+                        || minValue >= maxValue || maxValue > 100000000000.0) {
                     throw new RuntimeException();
                 }
                 // update the process variable
                 if (linButton.isSelected()) {
                     processVariable.setLinearScale();
-                }
-                else {
+                } else {
                     processVariable.setLogarithmicScale();
                 }
                 processVariable.setMin(minValue);
                 processVariable.setMax(maxValue);
-                processVariable.setColorMap((String)colorMapBox.getSelectedItem());
+                processVariable.setColorMap((String) colorMapBox
+                        .getSelectedItem());
                 colorChooser.update(processVariable);
                 ColorMapDialog.dialog.setVisible(false);
-            }
-            catch (RuntimeException exc) {
+            } catch (RuntimeException exc) {
                 errorMess();
             }
         }
     }
-    
+
     /**
-     * Help function - used in the constructor. 
-     *
-     * @param s  one of the predefined color maps.
-     *
+     * Help function - used in the constructor.
+     * 
+     * @param s one of the predefined color maps.
      * @return position of the color scale map in the array of the predefined color maps.
      */
     private int getComboIndex(String s) {
         for (int i = 0; i < ColorMap.COLOR_MAPS.length; i++) {
             if (s.equals(ColorMap.COLOR_MAPS[i])) {
-                return  i;
+                return i;
             }
         }
         return 0;
     }
-    
+
     /**
      * Error message.
      */
     private void errorMess() {
-        Object[] options = {"OK", "Help"}; 
-        StratmasDialog.showOptionDialog(new JFrame("ERROR!!!"), "Invalid input value!", "Error message",
-                                        JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null,
+        Object[] options = { "OK", "Help" };
+        StratmasDialog.showOptionDialog(new JFrame("ERROR!!!"),
+                                        "Invalid input value!",
+                                        "Error message",
+                                        JOptionPane.YES_NO_OPTION,
+                                        JOptionPane.ERROR_MESSAGE, null,
                                         options, options[0]);
     }
-        
+
 }

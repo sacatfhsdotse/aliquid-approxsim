@@ -1,4 +1,4 @@
-//         $Id: PopulationAdapter.java,v 1.14 2006/10/02 12:22:24 dah Exp $
+// $Id: PopulationAdapter.java,v 1.14 2006/10/02 12:22:24 dah Exp $
 /*
  * @(#)PopulationAdapter.java
  */
@@ -28,19 +28,17 @@ import com.jogamp.common.nio.Buffers;
 import java.nio.DoubleBuffer;
 
 /**
- * PopulationAdapter adapts StratmasObjects descendants of Population for
- * viewing on a map window.
- *
+ * PopulationAdapter adapts StratmasObjects descendants of Population for viewing on a map window.
+ * 
  * @version 1, $Date: 2006/10/02 12:22:24 $
- * @author  Daniel Ahlin
-*/
-public class PopulationAdapter extends ElementAdapter
-{
+ * @author Daniel Ahlin
+ */
+public class PopulationAdapter extends ElementAdapter {
     /**
      * The current scale of the population
      */
     private double inhabitantsScale;
-    
+
     /**
      * The total number of inhabitants.
      */
@@ -49,7 +47,7 @@ public class PopulationAdapter extends ElementAdapter
     /**
      * The different scale levels indicating inhabitants.
      */
-    static double[] inhabitantsScaleMarks = {0, 100000, 500000, 1000000};
+    static double[] inhabitantsScaleMarks = { 0, 100000, 500000, 1000000 };
 
     /**
      * The listener used to notify about inhabitants changes
@@ -63,95 +61,94 @@ public class PopulationAdapter extends ElementAdapter
 
     /**
      * Creates a new ElementAdapter.
-     *
+     * 
      * @param element the Element to adapt.
      */
-    protected PopulationAdapter(StratmasObject element)
-    {
+    protected PopulationAdapter(StratmasObject element) {
         super(element);
         resetInhabitantListener();
-        
+
         // Register a listener for the populationgroup list.
         if (element.getChild("ethnicGroups") != null) {
-            element.getChild("ethnicGroups").addEventListener(new StratmasEventListener() 
-                {
-                    public void eventOccured(StratmasEvent event)
-                    {
-                        if (event.isObjectAdded()) {
-                            resetInhabitantListener();
-                        } else if (event.isRemoved()) {
-                            ((StratmasObject) event.getSource()).removeEventListener(this);
-                            resetInhabitantListener();
-                        } else if (event.isReplaced()) {
-                             throw new AssertionError("Replace behavior not implemented");
-                        } 
-                    }
-                });
+            element.getChild("ethnicGroups")
+                    .addEventListener(new StratmasEventListener() {
+                        public void eventOccured(StratmasEvent event) {
+                            if (event.isObjectAdded()) {
+                                resetInhabitantListener();
+                            } else if (event.isRemoved()) {
+                                ((StratmasObject) event.getSource())
+                                        .removeEventListener(this);
+                                resetInhabitantListener();
+                            } else if (event.isReplaced()) {
+                                throw new AssertionError(
+                                        "Replace behavior not implemented");
+                            }
+                        }
+                    });
         }
     }
 
     /**
      * Creates a new ElementAdapter.
-     *
+     * 
      * @param element the Element to adapt.
      * @param renderSelectionName the integer to use as the base for names in RENDER_SELECTION
      */
-    protected PopulationAdapter(StratmasObject element, int renderSelectionName)
-    {
+    protected PopulationAdapter(StratmasObject element, int renderSelectionName) {
         super(element, renderSelectionName);
         resetInhabitantListener();
 
         // Register a listener for the populationgroup list.
         if (element.getChild("ethnicGroups") != null) {
-            element.getChild("ethnicGroups").addEventListener(new StratmasEventListener() 
-                {
-                    public void eventOccured(StratmasEvent event)
-                    {
-                        if (event.isObjectAdded()) {
-                            resetInhabitantListener();
-                        } else if (event.isRemoved()) {
-                            ((StratmasObject) event.getSource()).removeEventListener(this);
-                            resetInhabitantListener();
-                        } else if (event.isReplaced()) {
-                             throw new AssertionError("Replace behavior not implemented");
-                        } 
-                    }
-                });
+            element.getChild("ethnicGroups")
+                    .addEventListener(new StratmasEventListener() {
+                        public void eventOccured(StratmasEvent event) {
+                            if (event.isObjectAdded()) {
+                                resetInhabitantListener();
+                            } else if (event.isRemoved()) {
+                                ((StratmasObject) event.getSource())
+                                        .removeEventListener(this);
+                                resetInhabitantListener();
+                            } else if (event.isReplaced()) {
+                                throw new AssertionError(
+                                        "Replace behavior not implemented");
+                            }
+                        }
+                    });
         }
     }
 
     /**
-     * Called when the Element this adapter adapts changes. Overriden
-     * to handle changes removal and addition of the ethnicGroup list.
-     *
+     * Called when the Element this adapter adapts changes. Overriden to handle changes removal and addition of the ethnicGroup list.
+     * 
      * @param event the event causing the call.
      */
-    public void eventOccured(StratmasEvent event)
-    {
+    public void eventOccured(StratmasEvent event) {
         super.eventOccured(event);
-        if (event.isObjectAdded() && 
-            ((StratmasObject) event.getArgument()).getType().canSubstitute("Element")) {
+        if (event.isObjectAdded()
+                && ((StratmasObject) event.getArgument()).getType()
+                        .canSubstitute("Element")) {
             fireAdapterChildAdded((StratmasObject) event.getArgument());
         }
     }
 
     /**
-     * Updates (recreates) the displayList that draws the symbol of the element
-     * this adapter represents.
+     * Updates (recreates) the displayList that draws the symbol of the element this adapter represents.
+     * 
      * @param proj the projection that maps lat and long into GL coordinates.
      * @param gld the gl drawable targeted.
      */
-    protected void updateSymbolDisplayList(Projection proj, GLAutoDrawable gld)
-    {
+    protected void updateSymbolDisplayList(Projection proj, GLAutoDrawable gld) {
         GL2 gl = (GL2) gld.getGL();
-         displayListsBuf.put(SYMBOL_POS, 
-                            (gl.glIsList(displayListsBuf.get(SYMBOL_POS))) ?
-                            displayListsBuf.get(SYMBOL_POS) : gl.glGenLists(1));
+        displayListsBuf
+                .put(SYMBOL_POS,
+                     (gl.glIsList(displayListsBuf.get(SYMBOL_POS))) ? displayListsBuf
+                             .get(SYMBOL_POS) : gl.glGenLists(1));
 
         // Draw a square proportional to the city size
         // Start list
         gl.glNewList(displayListsBuf.get(SYMBOL_POS), GL2.GL_COMPILE);
-        
+
         // Pushes the name for RenderSelection mode.
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
@@ -161,23 +158,22 @@ public class PopulationAdapter extends ElementAdapter
             gl.glMatrixMode(GL2.GL_PROJECTION);
             DoubleBuffer buf = Buffers.newDirectDoubleBuffer(16);
             gl.glGetDoublev(GL2.GL_PROJECTION_MATRIX, buf);
-            scale = getSymbolScale()*0.000003d/buf.get(0);
+            scale = getSymbolScale() * 0.000003d / buf.get(0);
         }
 
-         gl.glMatrixMode(GL2.GL_MODELVIEW);
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPushMatrix();
         gl.glScaled(scale, scale, 1.0d);
-        
-        gl.glScaled(0.5 * inhabitantsScale, 
-                    0.5 * inhabitantsScale, 
+
+        gl.glScaled(0.5 * inhabitantsScale, 0.5 * inhabitantsScale,
                     0.5 * inhabitantsScale);
         gl.glPushName(getRenderSelectionName() + 1 + SYMBOL_POS);
         gl.glBegin(GL2.GL_QUADS);
         gl.glColor4d(0.0d, 0.0d, 0.0d, getSymbolOpacity());
-         gl.glVertex2d(-horizontalSymbolSize/2, -verticalSymbolSize/2);
-         gl.glVertex2d(-horizontalSymbolSize/2, verticalSymbolSize/2);
-         gl.glVertex2d(horizontalSymbolSize/2, verticalSymbolSize/2);
-         gl.glVertex2d(horizontalSymbolSize/2, -verticalSymbolSize/2);
+        gl.glVertex2d(-horizontalSymbolSize / 2, -verticalSymbolSize / 2);
+        gl.glVertex2d(-horizontalSymbolSize / 2, verticalSymbolSize / 2);
+        gl.glVertex2d(horizontalSymbolSize / 2, verticalSymbolSize / 2);
+        gl.glVertex2d(horizontalSymbolSize / 2, -verticalSymbolSize / 2);
         gl.glEnd();
         gl.glPopMatrix();
         if (drawElementName()) {
@@ -198,11 +194,11 @@ public class PopulationAdapter extends ElementAdapter
             gl.glPushMatrix();
             // Draw below marker at a tenth of the vertical size of the
             // symbol.
-            double textScale = getVerticalSymbolSize()/(5*(119.05 + 33.33));
-            gl.glTranslated(-104.76 * textScale * str.length()/2, 
-                            -(119.05 * textScale + 2 + 0.5 * inhabitantsScale * getVerticalSymbolSize()/ 2) , 
-                            0);
-            gl.glScaled(textScale, textScale , 1.0);
+            double textScale = getVerticalSymbolSize() / (5 * (119.05 + 33.33));
+            gl.glTranslated(-104.76 * textScale * str.length() / 2,
+                            -(119.05 * textScale + 2 + 0.5 * inhabitantsScale
+                                    * getVerticalSymbolSize() / 2), 0);
+            gl.glScaled(textScale, textScale, 1.0);
 
             // Draw in black if unselected, else red.
             if (isSelected()) {
@@ -213,7 +209,7 @@ public class PopulationAdapter extends ElementAdapter
             glut.glutStrokeString(GLUT.STROKE_MONO_ROMAN, str);
 
             gl.glPopMatrix();
-        }    
+        }
         gl.glPopName();
         gl.glPopMatrix();
         gl.glEndList();
@@ -223,19 +219,16 @@ public class PopulationAdapter extends ElementAdapter
     /**
      * Returns true if the name of this population should be drawn along with the symbol.
      */
-    public boolean drawElementName() 
-    {
+    public boolean drawElementName() {
         return this.drawElementName;
     }
 
     /**
-     * Set whether the name of this population should be drawn along
-     * with the symbol.
-     *
+     * Set whether the name of this population should be drawn along with the symbol.
+     * 
      * @param flag true if name should be drawn
      */
-    public void setDrawElementName(boolean flag) 
-    {
+    public void setDrawElementName(boolean flag) {
         if (this.drawElementName() != flag) {
             this.drawElementName = flag;
             isSymbolUpdated = false;
@@ -244,15 +237,12 @@ public class PopulationAdapter extends ElementAdapter
     }
 
     /**
-     * Make adapter changes caused by selection state changes. This is
-     * protected for a reason, DO NOT USE THIS to set the selection
-     * status of the element adapted, use getElement() and make the
-     * changes on the object instead.
-     *
+     * Make adapter changes caused by selection state changes. This is protected for a reason, DO NOT USE THIS to set the selection status
+     * of the element adapted, use getElement() and make the changes on the object instead.
+     * 
      * @param selected true if it's selected.
      */
-    public void setSelected(boolean selected) 
-    {
+    public void setSelected(boolean selected) {
         if (this.selected != selected) {
             this.selected = selected;
             isSelectionMarkerUpdated = false;
@@ -262,21 +252,20 @@ public class PopulationAdapter extends ElementAdapter
     }
 
     /**
-     * Updates (recreates) the displayList that draws the selection
-     * frame if the element this adapter represents is
-     * selected. Overridden to account for differing symbolsize of
-     * PopulationAdapter.
-     *
+     * Updates (recreates) the displayList that draws the selection frame if the element this adapter represents is selected. Overridden to
+     * account for differing symbolsize of PopulationAdapter.
+     * 
      * @param proj the projection that maps lat and long into GL coordinates.
      * @param gld the gl drawable targeted.
      */
-    protected void updateSelectionMarkerDisplayList(Projection proj, GLAutoDrawable gld)
-    {
-         GL2 gl = (GL2) gld.getGL();
-         displayListsBuf.put(SELECTION_MARKER_POS, 
-                            (gl.glIsList(displayListsBuf.get(SELECTION_MARKER_POS))) ?
-                            displayListsBuf.get(SELECTION_MARKER_POS) : gl.glGenLists(1));
-        
+    protected void updateSelectionMarkerDisplayList(Projection proj,
+            GLAutoDrawable gld) {
+        GL2 gl = (GL2) gld.getGL();
+        displayListsBuf
+                .put(SELECTION_MARKER_POS,
+                     (gl.glIsList(displayListsBuf.get(SELECTION_MARKER_POS))) ? displayListsBuf
+                             .get(SELECTION_MARKER_POS) : gl.glGenLists(1));
+
         gl.glNewList(displayListsBuf.get(SELECTION_MARKER_POS), GL2.GL_COMPILE);
         // Pushes the name for RenderSelection mode.
         gl.glPushName(getRenderSelectionName() + 1 + SELECTION_MARKER_POS);
@@ -284,45 +273,45 @@ public class PopulationAdapter extends ElementAdapter
             gl.glMatrixMode(GL2.GL_MODELVIEW);
             gl.glPushMatrix();
             gl.glScaled(getSymbolScale(), getSymbolScale(), getSymbolScale());
-            gl.glScaled(0.5 * inhabitantsScale, 
-                        0.5 * inhabitantsScale, 
+            gl.glScaled(0.5 * inhabitantsScale, 0.5 * inhabitantsScale,
                         0.5 * inhabitantsScale);
             gl.glBegin(GL2.GL_LINE_LOOP);
-            gl.glColor4dv(SELECTION_COLOR, 0); 
-            gl.glVertex2d(-(horizontalSymbolSize/2 + 1), -(verticalSymbolSize/2 + 1));
-            gl.glVertex2d(-(horizontalSymbolSize/2 + 1), (verticalSymbolSize/2 + 1));
-            gl.glVertex2d((horizontalSymbolSize/2 + 1), (verticalSymbolSize/2 + 1));
-            gl.glVertex2d((horizontalSymbolSize/2 + 1), -(verticalSymbolSize/2 + 1));
+            gl.glColor4dv(SELECTION_COLOR, 0);
+            gl.glVertex2d(-(horizontalSymbolSize / 2 + 1),
+                          -(verticalSymbolSize / 2 + 1));
+            gl.glVertex2d(-(horizontalSymbolSize / 2 + 1),
+                          (verticalSymbolSize / 2 + 1));
+            gl.glVertex2d((horizontalSymbolSize / 2 + 1),
+                          (verticalSymbolSize / 2 + 1));
+            gl.glVertex2d((horizontalSymbolSize / 2 + 1),
+                          -(verticalSymbolSize / 2 + 1));
             gl.glEnd();
             gl.glPopMatrix();
         }
         gl.glPopName();
         gl.glEndList();
-         isSelectionMarkerUpdated = true;
+        isSelectionMarkerUpdated = true;
     }
 
     /**
      * Recalculates the inhabitants scale.
      */
-    public void updateInhabitantsScale()
-    {
+    public void updateInhabitantsScale() {
         // Find all inhabitants
-        StratmasObjectFilter filter = new StratmasObjectFilter()
-            {
-                /**
-                 * Returns true for any object called inhabitants that
-                 * are of type Double.
-                 */                
-                public boolean pass(StratmasObject obj) 
-                {
-                    return obj.getIdentifier().equals("inhabitants") &&
-                        obj.getType().canSubstitute("Double");
-                }
-            };
+        StratmasObjectFilter filter = new StratmasObjectFilter() {
+            /**
+             * Returns true for any object called inhabitants that are of type Double.
+             */
+            public boolean pass(StratmasObject obj) {
+                return obj.getIdentifier().equals("inhabitants")
+                        && obj.getType().canSubstitute("Double");
+            }
+        };
 
         // Sum inhabitants
         double total = 0.0;
-        for (Enumeration e = filter.filterTree(getStratmasObject()); e.hasMoreElements();) {
+        for (Enumeration e = filter.filterTree(getStratmasObject()); e
+                .hasMoreElements();) {
             StratmasDecimal dec = (StratmasDecimal) e.nextElement();
             total += dec.getValue();
         }
@@ -331,12 +320,13 @@ public class PopulationAdapter extends ElementAdapter
 
         // Scale to discrete sizes.
         int scale = 0;
-        while (scale < inhabitantsScaleMarks.length && 
-               total > inhabitantsScaleMarks[scale]) {
+        while (scale < inhabitantsScaleMarks.length
+                && total > inhabitantsScaleMarks[scale]) {
             scale++;
         }
 
-        inhabitantsScale = ((double) scale) / ((double) inhabitantsScaleMarks.length);
+        inhabitantsScale = ((double) scale)
+                / ((double) inhabitantsScaleMarks.length);
 
         isSymbolUpdated = false;
         isSelectionMarkerUpdated = false;
@@ -347,118 +337,110 @@ public class PopulationAdapter extends ElementAdapter
     /**
      * Returns the currentTotal of inhabitants.
      */
-    public double getTotalInhabitants()
-    {
+    public double getTotalInhabitants() {
         return this.totalInhabitants;
     }
 
     /**
      * Returns the currentTotal of inhabitants.
      */
-    private void setTotalInhabitants(double totalInhabitants)
-    {
+    private void setTotalInhabitants(double totalInhabitants) {
         this.totalInhabitants = totalInhabitants;
     }
-    
+
     /**
-     * Sets listener on all children of this element that are called
-     * inhabitants and are of type Double.
+     * Sets listener on all children of this element that are called inhabitants and are of type Double.
      */
-    synchronized protected void resetInhabitantListener()
-    {
+    synchronized protected void resetInhabitantListener() {
         if (inhabitantsListener == null) {
             final PopulationAdapter self = this;
-            this.inhabitantsListener = new StratmasEventListener()
-                {
-                    /**
-                     * Called when the Element this adapter adapts changes.
-                     *
-                     * @param event the event causing the call.
-                     */
-                    public void eventOccured(StratmasEvent event)
-                    {
-                        if (event.isValueChanged()) {
-                            self.updateInhabitantsScale();
-                        } else if (event.isRemoved()) {
-                            getObject().removeEventListener(this);
-                            self.updateInhabitantsScale();
-                        } else if (event.isReplaced()) {
-                             throw new AssertionError("Replace behavior not implemented");
-                        } 
-                        
+            this.inhabitantsListener = new StratmasEventListener() {
+                /**
+                 * Called when the Element this adapter adapts changes.
+                 * 
+                 * @param event the event causing the call.
+                 */
+                public void eventOccured(StratmasEvent event) {
+                    if (event.isValueChanged()) {
+                        self.updateInhabitantsScale();
+                    } else if (event.isRemoved()) {
+                        getObject().removeEventListener(this);
+                        self.updateInhabitantsScale();
+                    } else if (event.isReplaced()) {
+                        throw new AssertionError(
+                                "Replace behavior not implemented");
                     }
-                };
+
+                }
+            };
         }
 
         // Find all inhabitants
-        StratmasObjectFilter filter = new StratmasObjectFilter()
-            {
-                /**
-                 * Returns true for any object called inhabitants that
-                 * are of type Double.
-                 */                
-                public boolean pass(StratmasObject obj) 
-                {
-                    return obj.getIdentifier().equals("inhabitants") &&
-                        obj.getType().canSubstitute("Double");
-                }
-            };
-        for (Enumeration e = filter.filterTree(getStratmasObject()); e.hasMoreElements();) {
+        StratmasObjectFilter filter = new StratmasObjectFilter() {
+            /**
+             * Returns true for any object called inhabitants that are of type Double.
+             */
+            public boolean pass(StratmasObject obj) {
+                return obj.getIdentifier().equals("inhabitants")
+                        && obj.getType().canSubstitute("Double");
+            }
+        };
+        for (Enumeration e = filter.filterTree(getStratmasObject()); e
+                .hasMoreElements();) {
             StratmasDecimal dec = (StratmasDecimal) e.nextElement();
             // Lazily making sure we are not alread listening
             dec.removeEventListener(this.inhabitantsListener);
             dec.addEventListener(this.inhabitantsListener);
         }
-        
+
         updateInhabitantsScale();
     }
 
-            /**
+    /**
      * Returns the tessellator callback to use for this ElementAdapter.
-     *
+     * 
      * @param gld the glDrawable context to use.
      */
-    protected GLUtessellatorCallback getLocationTessellatorCallback(GLAutoDrawable gld)
-    {
+    protected GLUtessellatorCallback getLocationTessellatorCallback(
+            GLAutoDrawable gld) {
         final GL2 gl = (GL2) gld.getGL();
-        
-        return new GLUtessellatorCallbackAdapter() 
-            {
-                public void vertex(Object data) 
-                {
-                    double[] p = (double[]) data;
-                    gl.glColor4d(1.0d, 1.0d, 1.0d, 0.0d);
-                    gl.glVertex2dv(p, 0);
-                }
-                public void begin(int type)
-                {
-                    gl.glBegin(type);
-                }
-                public void end() 
-                {
-                    gl.glEnd();
-                }
-            };
+
+        return new GLUtessellatorCallbackAdapter() {
+            public void vertex(Object data) {
+                double[] p = (double[]) data;
+                gl.glColor4d(1.0d, 1.0d, 1.0d, 0.0d);
+                gl.glVertex2dv(p, 0);
+            }
+
+            public void begin(int type) {
+                gl.glBegin(type);
+            }
+
+            public void end() {
+                gl.glEnd();
+            }
+        };
     }
 
     /**
      * Maps inhabitants to a color. Clamps inhabitants to [0, 50000000].
-     *
+     * 
      * @param inhabitants the number of inhabitants
      */
-    public static double[] getLocationColor(double inhabitants)
-    {
+    public static double[] getLocationColor(double inhabitants) {
         double min = 0.0;
         double max = 50000000.0;
-        
+
         inhabitants = inhabitants >= min ? inhabitants : min;
         inhabitants = inhabitants <= max ? inhabitants : max;
-        
+
         // Map interval to 2*pi
-        double mappedValue = inhabitants * (2*Math.PI/(max - min));
-        
-        return new double[] {mappedValue > Math.PI ? Math.cos(mappedValue - Math.PI) : 0,
-                             mappedValue > Math.PI / 2 && mappedValue < 1.5 * Math.PI ? Math.cos(mappedValue - Math.PI / 2) : 0,
-                             mappedValue < Math.PI ? Math.cos(mappedValue) : 0};
+        double mappedValue = inhabitants * (2 * Math.PI / (max - min));
+
+        return new double[] {
+                mappedValue > Math.PI ? Math.cos(mappedValue - Math.PI) : 0,
+                mappedValue > Math.PI / 2 && mappedValue < 1.5 * Math.PI ? Math
+                        .cos(mappedValue - Math.PI / 2) : 0,
+                mappedValue < Math.PI ? Math.cos(mappedValue) : 0 };
     }
 }

@@ -25,14 +25,14 @@ import StratmasClient.Client;
 import StratmasClient.StratmasDialog;
 
 /**
- * The dialog used to import process variables for SubstrateEditor. 
+ * The dialog used to import process variables for SubstrateEditor.
  */
 class ImportPVDialog extends JDialog {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 4376449241852035073L;
-	/**
+    private static final long serialVersionUID = 4376449241852035073L;
+    /**
      * Reference to the client.
      */
     private Client client;
@@ -52,15 +52,15 @@ class ImportPVDialog extends JDialog {
      * The text filed which contains the name of the server.
      */
     final JTextField serverNameTextField = new JTextField(10);
-    
+
     /**
      * Displays the dialog.
      */
     public static void showDialog(SubstrateEditor substrateEditor) {
         dialog = new ImportPVDialog(substrateEditor);
-        dialog.setVisible(true);   
-    }    
-    
+        dialog.setVisible(true);
+    }
+
     /**
      * Creates the dialog.
      */
@@ -68,21 +68,20 @@ class ImportPVDialog extends JDialog {
         super(new JFrame(), "Import shapes and process variables");
         this.substrateEditor = substrateEditor;
         this.client = substrateEditor.getClient();
-        
+
         JPanel importPanel = new JPanel();
         importPanel.setLayout(new BoxLayout(importPanel, BoxLayout.PAGE_AXIS));
         importPanel.add(createProcessVariableImportPanel());
         importPanel.add(createButtonPanel());
         importPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
-        
+
         setContentPane(importPanel);
         setSize(new Dimension(300, 250));
         setLocationRelativeTo(null);
     }
-    
+
     /**
-     * Creates the panel used to select the source for the process variables. The source can be
-     * either a file or a server. 
+     * Creates the panel used to select the source for the process variables. The source can be either a file or a server.
      */
     private JPanel createProcessVariableImportPanel() {
         final JButton choiceButton = new JButton("...");
@@ -90,17 +89,17 @@ class ImportPVDialog extends JDialog {
         final JRadioButton serverButton = new JRadioButton("Server");
         serverButton.setFont(serverButton.getFont().deriveFont(Font.PLAIN));
         serverButton.addActionListener(new AbstractAction() {
-                /**
+            /**
 			 * 
 			 */
-			private static final long serialVersionUID = -2504123397294942884L;
+            private static final long serialVersionUID = -2504123397294942884L;
 
-				public void actionPerformed(ActionEvent e) {
-                    serverNameTextField.setEnabled(true);
-                    pvFileTextField.setEnabled(false);
-                    choiceButton.setEnabled(false);
-                }
-            });
+            public void actionPerformed(ActionEvent e) {
+                serverNameTextField.setEnabled(true);
+                pvFileTextField.setEnabled(false);
+                choiceButton.setEnabled(false);
+            }
+        });
         serverButton.setSelected(true);
         // name of the server
         serverNameTextField.setText("localhost");
@@ -108,41 +107,42 @@ class ImportPVDialog extends JDialog {
         final JRadioButton fileButton = new JRadioButton("File");
         fileButton.setFont(fileButton.getFont().deriveFont(Font.PLAIN));
         fileButton.addActionListener(new AbstractAction() {
-                /**
+            /**
 			 * 
 			 */
-			private static final long serialVersionUID = -618242913512535543L;
+            private static final long serialVersionUID = -618242913512535543L;
 
-				public void actionPerformed(ActionEvent e) {
-                    serverNameTextField.setEnabled(false);
-                    pvFileTextField.setEnabled(true);
-                    choiceButton.setEnabled(true);
-                }
-            });
+            public void actionPerformed(ActionEvent e) {
+                serverNameTextField.setEnabled(false);
+                pvFileTextField.setEnabled(true);
+                choiceButton.setEnabled(true);
+            }
+        });
         // name of the file
-        //pvFileTextField.setText("C:\\Projects\\Stratmas\\development\\StratmasClient\\samples\\processVariables.prv");
-        //pvFileTextField.setText("/afs/nada.kth.se/home/ass/amfi/PDC_part/STRATMAS/client/development/StratmasClient/samples/processVariables.prv");
+        // pvFileTextField.setText("C:\\Projects\\Stratmas\\development\\StratmasClient\\samples\\processVariables.prv");
+        // pvFileTextField.setText("/afs/nada.kth.se/home/ass/amfi/PDC_part/STRATMAS/client/development/StratmasClient/samples/processVariables.prv");
         // choose the file
         choiceButton.addActionListener(new AbstractAction() {
-                /**
+            /**
 			 * 
 			 */
-			private static final long serialVersionUID = 8293902011842438051L;
+            private static final long serialVersionUID = 8293902011842438051L;
 
-				public void actionPerformed(ActionEvent e) {
-                    String filename = Client.getFileNameFromDialog(".prv", JFileChooser.OPEN_DIALOG);
-                    if (filename != null) {
-                        pvFileTextField.setText(filename); 
-                    }
+            public void actionPerformed(ActionEvent e) {
+                String filename = Client
+                        .getFileNameFromDialog(".prv", JFileChooser.OPEN_DIALOG);
+                if (filename != null) {
+                    pvFileTextField.setText(filename);
                 }
-            });
+            }
+        });
         choiceButton.setEnabled(false);
         pvFileTextField.setEnabled(false);
-        
+
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(serverButton);
         buttonGroup.add(fileButton);
-        
+
         // set the panel
         JPanel serverPanel = new JPanel(new BorderLayout(10, 10));
         serverPanel.add(new JLabel("   "), BorderLayout.WEST);
@@ -156,13 +156,17 @@ class ImportPVDialog extends JDialog {
         pvPanel.add(serverPanel);
         pvPanel.add(fileButton);
         pvPanel.add(filePanel);
-        pvPanel.setBorder(BorderFactory.
-                          createCompoundBorder(BorderFactory.createTitledBorder("Select source for process variables"),
-                                               BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-        
+        pvPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                                                                     .createTitledBorder("Select source for process variables"),
+                                                             BorderFactory
+                                                                     .createEmptyBorder(5,
+                                                                                        5,
+                                                                                        5,
+                                                                                        5)));
+
         return pvPanel;
     }
-    
+
     /**
      * Creates the panel which contains the buttons.
      */
@@ -172,33 +176,36 @@ class ImportPVDialog extends JDialog {
         JButton cancelButton = new JButton("Cancel");
         cancelButton.setFont(cancelButton.getFont().deriveFont(Font.PLAIN));
         cancelButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent event) {
-                    SwingUtilities.invokeLater(new Runnable() {
-                            public void run() {
-                                self.setVisible(false);
-                                self.dispose();
-                            }
-                        });
-                }
-            });
+            public void actionPerformed(ActionEvent event) {
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        self.setVisible(false);
+                        self.dispose();
+                    }
+                });
+            }
+        });
         // the approving button
         JButton okButton = new JButton("OK");
         okButton.setFont(okButton.getFont().deriveFont(Font.PLAIN));
         okButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent event) {
-                    final String pvSourceName = (serverNameTextField.isEnabled())? serverNameTextField.getText() : pvFileTextField.getText();
-                    if (pvSourceName.length() > 0) { 
-                        StratmasDialog.showProgressBarDialog(null, "Importing process variables ...");
-                        SwingUtilities.invokeLater(new Runnable() {
-                                public void run() {
-                                    self.setVisible(false);
-                                    self.dispose();
-                                    importProcessVariables(pvSourceName);
-                                }
-                            });
-                    }
+            public void actionPerformed(ActionEvent event) {
+                final String pvSourceName = (serverNameTextField.isEnabled()) ? serverNameTextField
+                        .getText() : pvFileTextField.getText();
+                if (pvSourceName.length() > 0) {
+                    StratmasDialog
+                            .showProgressBarDialog(null,
+                                                   "Importing process variables ...");
+                    SwingUtilities.invokeLater(new Runnable() {
+                        public void run() {
+                            self.setVisible(false);
+                            self.dispose();
+                            importProcessVariables(pvSourceName);
+                        }
+                    });
                 }
-            });
+            }
+        });
         // set the panel
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
@@ -207,44 +214,44 @@ class ImportPVDialog extends JDialog {
         buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
         buttonPanel.add(okButton);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(15, 10, 15, 10));
-        
+
         return buttonPanel;
     }
-    
+
     /**
      * Imports process variables from either a file of the server.
-     *
-     * @param pvSourceName name of the server if the server is the source of the process variables. In
-     *                     other case the name of the file with the process variables.
+     * 
+     * @param pvSourceName name of the server if the server is the source of the process variables. In other case the name of the file with
+     *            the process variables.
      */
     private void importProcessVariables(final String pvSourceName) {
         client.setSubstrateEditorMode(true);
         // get the process variables from the server
         if (serverNameTextField.isEnabled()) {
             Thread worker = new Thread() {
-                    public void run() {
-                        boolean success = client.getProcessVariablesFromServer(pvSourceName);
-                        if (success) {
-                            substrateEditor.importProcessVariablesFromClient();
-                        }
-                        StratmasDialog.quitProgressBarDialog();        
+                public void run() {
+                    boolean success = client
+                            .getProcessVariablesFromServer(pvSourceName);
+                    if (success) {
+                        substrateEditor.importProcessVariablesFromClient();
                     }
-                };
+                    StratmasDialog.quitProgressBarDialog();
+                }
+            };
             worker.start();
         }
         // get the process variables from the file
         else {
             Thread worker = new Thread() {
-                    public void run() {
-                        substrateEditor.importProcessVariablesFromFile(pvSourceName);
-                        StratmasDialog.quitProgressBarDialog();
-                    }
-                };
+                public void run() {
+                    substrateEditor
+                            .importProcessVariablesFromFile(pvSourceName);
+                    StratmasDialog.quitProgressBarDialog();
+                }
+            };
             worker.start();
-                       
+
         }
     }
-    
-    
-}
 
+}

@@ -1,0 +1,59 @@
+CommonScenario < sp.Scenario {
+  ...
+  path: sp.PathGraph
+  graphs*: sp.EffectGraph
+}
+
+NodeReference < sp.Reference <target: string fixed="Node"> {}
+
+abstract Graph < sp.ComplexType {}
+
+EffectGraph < Graph {
+  nodes+: sp.EffectNode
+  edges+: sp.EffectEdge
+  nodeConnected?: sp.Effect
+  nodeDisconnected?: sp.Effect
+  edgeConnected?: sp.Effect
+  edgeDisconnected?: sp.Effect
+}
+
+PathGraph < sp.Graph {
+  nodes+: sp.PathNode
+  edges+: sp.PathEdge
+}
+
+Effect < sp.ComplexType {
+  continuos: bool //not sure if this is a good idea, but it might allow for both triggered effects and continuous
+  radius: float
+  //TODO: represent the changes that can be applied in a useful way
+}
+
+abstract Node < sp.ComplexType {
+  point: sp.Point
+}
+
+EffectNode < sp.Node {
+  power: float //how much is provided. negative for drain.
+  connected?: sp.Effect
+  disconnected?: sp.Effect
+}
+
+PathNode < sp.Node {}
+
+abstract Edge < sp.ComplexType {
+  origin: sp.NodeReference
+  target: sp.NodeReference
+  connected: bool
+}
+
+EffectEdge < sp.Edge {
+  connected: sp.Effect
+  disconnected : sp.Effect
+}
+
+PathEdge < sp.Edge {
+  travelSpeed: float //A factor of original travelspeed perhaps?
+}
+
+-------------------------------------------------
+A simple model that should be easily extendable. It supports redundancy, different effects on different edges/nodes (with defaults), different travel speed per road. Edges can be interpreted as directed or not, and various models for spread of "power" throughout the graph can be implemented through algorithms.

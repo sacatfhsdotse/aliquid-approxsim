@@ -13,10 +13,10 @@
 #include "Type.h"
 #include "TypeFactory.h"
 #include "XMLHelper.h"
+#include "Graph.h"
 
 
 using namespace std;
-
 
 /**
  * \brief Constructor that creates a DataObject in the provided scope
@@ -414,9 +414,14 @@ ostream& ContainerDataObject::bodyXML(ostream& o, string indent) const
 void ContainerDataObject::print(ostream& o, const std::string indent) const
 {
      DataObject::print(o, indent);
-     for (vector<DataObject*>::const_iterator it = mObjects.begin(); it != mObjects.end(); it++) {
+     for (auto& v : mObjects) {
+          //o << endl << indent << kv.first << endl;
           o << endl;
-           (*it)->print(o, indent + INDENT);
+          v->print(o, indent + INDENT);
+     }
+
+     for (auto& v : mObjectMap){
+          o << endl << endl << v.first;
      }
 }
 
@@ -743,6 +748,7 @@ Shape* StratmasShape::getShape() const
      return mValue->clone();
 }
 
+
 /**
  * \brief Sets the Shape to a clone of the provided Shape.
  *
@@ -926,6 +932,34 @@ void SymbolIDCode::print(ostream& o, const std::string indent) const
 }
 
 
+template<class T>
+StratmasGraph<T>::StratmasGraph(const Reference& scope, const DOMElement* n) : DataObject(scope, n)
+{
+     mValue = std::shared_ptr<Graph<T>> (XMLHelper::getGraph<T>(*n, scope));
+}
+
+template<class T>
+DataObject& StratmasGraph<T>::operator= (const DataObject& d)
+{
+     // TODO this.graph = d.graph
+     DataObject::operator=(d);
+     return *this;
+}
+
+template<class T>
+void StratmasGraph<T>::print(ostream& o, const std::string indent) const
+{
+     mValue->print(o);
+}
+
+template<class T>
+std::ostream& StratmasGraph<T>::bodyXML(std::ostream& o, std::string indent) const
+{
+     // TODO
+}
+
+
+
 
 /**
  * \brief Creates a DataObject from the provided DOMElement.
@@ -959,6 +993,9 @@ DataObject* DataObjectFactory::createDataObject(const Reference& scope, const DO
      }
      else if (type.canSubstitute("Shape")) {
           ret = new StratmasShape(scope, n);
+     }
+     else if (type.canSubstitute("PathGraph")) { // TODO other graphs
+          ret = new StratmasGraph<PathData>(scope, n);
      }
      else if (typeStr == "SymbolIDCode") {
           ret = new SymbolIDCode(scope, n);
@@ -1067,3 +1104,6 @@ void DataObjectFactory::addObjectTo(const Reference& parent, DataObject& objToAd
           throw e;
      }
 }
+
+
+// vim: ts=5 sw=5:

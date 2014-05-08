@@ -1,6 +1,6 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-            xmlns:sp="http://pdc.kth.se/stratmasNamespace"
-            targetNamespace="http://pdc.kth.se/stratmasNamespace">
+  xmlns:sp="http://pdc.kth.se/stratmasNamespace"
+  targetNamespace="http://pdc.kth.se/stratmasNamespace">
 
   <xsd:annotation>
     <xsd:documentation xml:lang="en">
@@ -18,7 +18,7 @@
   <xsd:element name="root" type="sp:Root"/>
 
   <!-- Messages -->
-  
+
   <xsd:complexType name="StratmasMessage" abstract="true">
   </xsd:complexType> 
 
@@ -29,7 +29,7 @@
     <xsd:complexContent> 
       <xsd:extension base="sp:StratmasMessage">
         <xsd:sequence>   
-                <xsd:element name="bigEndian" type="xsd:boolean"/>
+          <xsd:element name="bigEndian" type="xsd:boolean"/>
         </xsd:sequence>    
       </xsd:extension>
     </xsd:complexContent> 
@@ -48,40 +48,40 @@
       </xsd:extension>
     </xsd:complexContent> 
   </xsd:complexType> 
-  
+
   <xsd:complexType name="InitializationMessage">
     <xsd:complexContent> 
       <xsd:extension base="sp:StratmasMessage">
         <xsd:sequence>   
-                <xsd:element name="simulation" type="sp:Simulation"/>
+          <xsd:element name="simulation" type="sp:Simulation"/>
           <xsd:element name="pvinitvalues" type="sp:ProcessVariableInitialValues" minOccurs="0" maxOccurs="unbounded"/>        
         </xsd:sequence>    
       </xsd:extension>
     </xsd:complexContent> 
   </xsd:complexType> 
-  
+
   <xsd:complexType name="GetGridMessage">
     <xsd:complexContent> 
       <xsd:extension base="sp:StratmasMessage">
       </xsd:extension>
     </xsd:complexContent> 
   </xsd:complexType> 
-  
+
   <xsd:complexType name="RegisterForUpdatesMessage">
     <xsd:complexContent> 
       <xsd:extension base="sp:StratmasMessage">
         <xsd:sequence>   
-                <xsd:element name="register" type="xsd:boolean"/>        
+          <xsd:element name="register" type="xsd:boolean"/>        
         </xsd:sequence>    
       </xsd:extension>
     </xsd:complexContent> 
   </xsd:complexType> 
-  
+
   <xsd:complexType name="SubscriptionMessage">
     <xsd:complexContent> 
       <xsd:extension base="sp:StratmasMessage">
         <xsd:sequence>   
-                <xsd:element name="subscription" type="sp:Subscription" minOccurs="1" maxOccurs="unbounded"/>        
+          <xsd:element name="subscription" type="sp:Subscription" minOccurs="1" maxOccurs="unbounded"/>        
         </xsd:sequence>    
       </xsd:extension>
     </xsd:complexContent> 
@@ -91,34 +91,34 @@
     <xsd:complexContent> 
       <xsd:extension base="sp:StratmasMessage">
         <xsd:sequence>   
-                <xsd:element name="numberOfTimesteps" type="xsd:nonNegativeInteger"/>        
-                <xsd:element name="detached" type="xsd:boolean" minOccurs="0"/>        
+          <xsd:element name="numberOfTimesteps" type="xsd:nonNegativeInteger"/>        
+          <xsd:element name="detached" type="xsd:boolean" minOccurs="0"/>        
         </xsd:sequence>    
       </xsd:extension>
     </xsd:complexContent> 
   </xsd:complexType> 
-  
+
   <xsd:complexType name="UpdateServerMessage">
     <xsd:complexContent>
       <xsd:extension base="sp:StratmasMessage">
         <xsd:sequence>
-                <xsd:element name="update" type="sp:ServerUpdate" minOccurs="0" maxOccurs="unbounded"/>
+          <xsd:element name="update" type="sp:ServerUpdate" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
-  
+
   <xsd:complexType name="ServerUpdate" abstract="true">
     <xsd:sequence>
       <xsd:element name="reference" type="sp:Reference"/>
     </xsd:sequence>
   </xsd:complexType>
-  
+
   <xsd:complexType name="ServerUpdateAdd">
     <xsd:complexContent>
       <xsd:extension base="sp:ServerUpdate">
         <xsd:sequence>
-                <xsd:element name="identifiable" type="sp:Identifiable"/>
+          <xsd:element name="identifiable" type="sp:Identifiable"/>
         </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
@@ -135,7 +135,7 @@
     <xsd:complexContent>
       <xsd:extension base="sp:ServerUpdate">
         <xsd:sequence>
-                <xsd:element name="newObject" type="sp:Identifiable"/>
+          <xsd:element name="newObject" type="sp:Identifiable"/>
         </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
@@ -158,7 +158,7 @@
       </xsd:extension>
     </xsd:complexContent> 
   </xsd:complexType> 
-  
+
   <xsd:complexType name="SetPropertyMessage">
     <xsd:complexContent> 
       <xsd:extension base="sp:StratmasMessage">
@@ -177,7 +177,7 @@
     <xsd:complexContent> 
       <xsd:extension base="sp:StratmasMessage">
         <xsd:sequence>   
-                <xsd:element name="active" type="xsd:boolean"/>
+          <xsd:element name="active" type="xsd:boolean"/>
         </xsd:sequence>    
       </xsd:extension>
     </xsd:complexContent> 
@@ -187,7 +187,7 @@
     <xsd:complexContent> 
       <xsd:extension base="sp:StratmasMessage">
         <xsd:sequence>   
-                <xsd:element name="gridData" type="sp:Grid"/>
+          <xsd:element name="gridData" type="sp:Grid"/>
         </xsd:sequence>    
       </xsd:extension>
     </xsd:complexContent> 
@@ -197,15 +197,18 @@
     <xsd:sequence>
       <xsd:element name="numberOfRows" type="xsd:integer"/>
       <xsd:element name="numberOfCols" type="xsd:integer"/>
+
       <!-- Base64 encoded array of doubles where the first element is
                  the position of the top left corner of the top left cell and the
                  last element is the bottom right corner of the bottom right
-                 cell. -->
+                 cell.
+                 TODO in rows or columns? -->
       <xsd:element name="positionData" type="xsd:base64Binary"/>
 
       <!-- Base64 encoded array of octets where an octet value of 0 means
                  inactive and 1 active. The first element represents the top left
-                 cell and the last element the bottom right cell. -->
+                 cell and the last element the bottom right cell.
+                 TODO in rows or columns? -->
       <xsd:element name="activeCells" type="xsd:base64Binary"/>
       <xsd:element name="regionData" type="sp:RegionData" minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
@@ -216,7 +219,8 @@
       <xsd:element name="reference" type="sp:Reference"/>
       <!-- Base64 encoded array of 32 bit integers representing
            the indices (in the active cells array) of the cells that
-           the region contains -->
+           the region contains
+           TODO this could be optimized... -->
       <xsd:element name="cells" type="xsd:base64Binary"/>
     </xsd:sequence>    
   </xsd:complexType> 
@@ -225,8 +229,8 @@
     <xsd:complexContent> 
       <xsd:extension base="sp:StratmasMessage">
         <xsd:sequence>   
-                <xsd:element name="type" type="xsd:string"/>        
-                <xsd:element name="error" type="sp:Error" minOccurs="0" maxOccurs="unbounded"/>        
+          <xsd:element name="type" type="xsd:string"/>        
+          <xsd:element name="error" type="sp:Error" minOccurs="0" maxOccurs="unbounded"/>        
         </xsd:sequence>    
       </xsd:extension>
     </xsd:complexContent> 
@@ -244,6 +248,7 @@
       <xsd:enumeration value="warning"/>
       <xsd:enumeration value="general"/>
       <xsd:enumeration value="fatal"/>
+      <!-- TODO change to match log-levels in server? -->
     </xsd:restriction>
   </xsd:simpleType>
 
@@ -251,24 +256,24 @@
     <xsd:complexContent> 
       <xsd:extension base="sp:StratmasMessage">
         <xsd:sequence>   
-                <xsd:element name="processVariables" type="sp:ProcessVariableDescriptionSet"/>
+          <xsd:element name="processVariables" type="sp:ProcessVariableDescriptionSet"/>
         </xsd:sequence>    
       </xsd:extension>
     </xsd:complexContent> 
   </xsd:complexType> 
-  
+
   <xsd:complexType name="UpdateClientMessage">
     <xsd:complexContent> 
       <xsd:extension base="sp:StratmasMessage">
         <xsd:sequence>   
-                <xsd:element name="simulationTime" type="sp:Timestamp"/>        
-                <xsd:element name="update" type="sp:Update" minOccurs="0" maxOccurs="1"/>        
-                <xsd:element name="subscribedData" type="sp:SubscribedData" minOccurs="0" maxOccurs="unbounded"/>        
+          <xsd:element name="simulationTime" type="sp:Timestamp"/>        
+          <xsd:element name="update" type="sp:Update" minOccurs="0" maxOccurs="1"/>        
+          <xsd:element name="subscribedData" type="sp:SubscribedData" minOccurs="0" maxOccurs="unbounded"/>        
         </xsd:sequence>    
       </xsd:extension>
     </xsd:complexContent> 
   </xsd:complexType> 
-  
+
   <xsd:complexType name="Update" abstract="true">
     <xsd:attribute name="identifier" type="sp:Identifier" default=""/>
   </xsd:complexType>
@@ -276,7 +281,7 @@
   <xsd:complexType name="UpdateScope">
     <xsd:complexContent>
       <xsd:extension base="sp:Update">
-               <xsd:sequence>
+        <xsd:sequence>
           <xsd:element name="update" type="sp:Update" minOccurs="1" maxOccurs="unbounded"/>
         </xsd:sequence>
       </xsd:extension>
@@ -303,9 +308,9 @@
     </xsd:annotation>
     <xsd:complexContent>
       <xsd:extension base="sp:Update">
-               <xsd:sequence>
+        <xsd:sequence>
           <xsd:element name="identifiable" type="sp:Identifiable"/>
-               </xsd:sequence>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -318,9 +323,9 @@
     </xsd:annotation>
     <xsd:complexContent>
       <xsd:extension base="sp:Update">
-               <xsd:sequence>
+        <xsd:sequence>
           <xsd:element name="newObject" type="sp:Identifiable"/>
-               </xsd:sequence>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -333,9 +338,9 @@
     </xsd:annotation>
     <xsd:complexContent>
       <xsd:extension base="sp:Update">
-               <xsd:sequence>
+        <xsd:sequence>
           <xsd:element name="newValue" type="sp:ValueType"/>
-               </xsd:sequence>
+        </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -357,12 +362,13 @@
     <xsd:complexContent> 
       <xsd:extension base="sp:StratmasMessage">
         <xsd:sequence>   
-                <xsd:element name="hasActiveClient" type="xsd:boolean"/>
-                <xsd:element name="simulation" type="sp:Identifier" minOccurs="0" maxOccurs="unbounded"/>
+          <xsd:element name="hasActiveClient" type="xsd:boolean"/>
+          <xsd:element name="simulation" type="sp:Identifier" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>    
       </xsd:extension>
     </xsd:complexContent> 
   </xsd:complexType> 
 
-
+  <!-- vim: ts=2 sw=2
+       -->
 </xsd:schema> 

@@ -9,12 +9,12 @@ import javax.swing.JLabel;
 /**
  * Displays the value on the color map pointed by the mouse cursor.
  */
-public class PointedValueLabel extends JLabel{
+public class PointedValueLabel extends JLabel {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 2250385010018148006L;
-	/**
+    private static final long serialVersionUID = 2250385010018148006L;
+    /**
      * The displayed value.
      */
     private String displayedValue;
@@ -25,7 +25,7 @@ public class PointedValueLabel extends JLabel{
 
     /**
      * Sets the value.
-     *
+     * 
      * @param displayedValue the value displayed in the label.
      * @param pos x-coordinate of the value in the label.
      */
@@ -33,7 +33,7 @@ public class PointedValueLabel extends JLabel{
         this.displayedValue = displayedValue;
         valuePosition = pos;
     }
-    
+
     /**
      * Updates this label.
      */
@@ -41,14 +41,14 @@ public class PointedValueLabel extends JLabel{
         validate();
         repaint();
     }
-    
+
     /**
      * Draws the color map label.
      */
     protected void paintComponent(Graphics g) {
-        // let UI delegate paint first 
-        super.paintComponent(g); 
-        
+        // let UI delegate paint first
+        super.paintComponent(g);
+
         // display the value
         if (displayedValue != null) {
             // set color
@@ -57,8 +57,9 @@ public class PointedValueLabel extends JLabel{
             FontMetrics fm = g.getFontMetrics();
             g.setFont(this.getFont().deriveFont(Font.PLAIN));
             // get the position of the value
-            int XBASE = (valuePosition + fm.stringWidth(displayedValue) > this.getWidth())? 
-                this.getWidth() - fm.stringWidth(displayedValue) : valuePosition;
+            int XBASE = (valuePosition + fm.stringWidth(displayedValue) > this
+                    .getWidth()) ? this.getWidth()
+                    - fm.stringWidth(displayedValue) : valuePosition;
             int YBASE = fm.getMaxAscent() + fm.getLeading();
             g.drawString(displayedValue, XBASE, YBASE);
         }

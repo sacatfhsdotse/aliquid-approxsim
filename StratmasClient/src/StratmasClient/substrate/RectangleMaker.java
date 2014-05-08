@@ -15,7 +15,7 @@ import StratmasClient.map.adapter.MapShapeAdapter;
  */
 class RectangleMaker extends ShapeMaker {
     /**
-     * Number of rectangles created. 
+     * Number of rectangles created.
      */
     public static int createdRectangleCounter = 0;
     /**
@@ -38,10 +38,10 @@ class RectangleMaker extends ShapeMaker {
      * The rectangle.
      */
     protected Polygon polygon;
-  
+
     /**
      * Creates new rectangle.
-     *
+     * 
      * @param drawer reference to the drawing area.
      */
     public RectangleMaker(SubstrateMapDrawer drawer) {
@@ -50,40 +50,42 @@ class RectangleMaker extends ShapeMaker {
 
     /**
      * Creates new rectangle.
-     *
+     * 
      * @param drawer reference to the drawing area.
      * @param fixedLon longitude of the point which remains fixed once the rectangle is created.
      * @param fixedLat latitude of the point which remains fixed once the rectangle is created.
      */
-    public RectangleMaker(SubstrateMapDrawer drawer, double fixedLon, double fixedLat) {
+    public RectangleMaker(SubstrateMapDrawer drawer, double fixedLon,
+            double fixedLat) {
         super(drawer);
         createRectangle(fixedLon, fixedLat, fixedLon + 0.1, fixedLat + 0.1);
     }
-    
+
     /**
      * Creates new rectangle.
-     *
+     * 
      * @param drawer reference to the drawing area.
      * @param fixedLon longitude of the point which remains fixed once the rectangle is created.
      * @param fixedLat latitude of the point which remains fixed once the rectangle is created.
      * @param steerLon longitude of the point used to change size of the rectangle sizes.
      * @param steerLat latitude of the point used to change size of the rectangle sizes.
      */
-    public RectangleMaker(SubstrateMapDrawer drawer, double fixedLon, double fixedLat, double steerLon, double steerLat) {
+    public RectangleMaker(SubstrateMapDrawer drawer, double fixedLon,
+            double fixedLat, double steerLon, double steerLat) {
         super(drawer);
         createRectangle(fixedLon, fixedLat, steerLon, steerLat);
     }
-      
+
     /**
      * Creates new rectangle.
-     *
+     * 
      * @param fixedLon longitude of the point which remains fixed once the rectangle is created.
      * @param fixedLat latitude of the point which remains fixed once the rectangle is created.
      */
     protected void createRectangle(double fixedLon, double fixedLat) {
         createRectangle(fixedLon, fixedLat, fixedLon + 0.1, fixedLat + 0.1);
     }
-   
+
     /**
      * Returns true if a rectangle is created.
      */
@@ -93,13 +95,14 @@ class RectangleMaker extends ShapeMaker {
 
     /**
      * Creates new rectangle.
-     *
+     * 
      * @param fixedLon longitude of the point which remains fixed once the rectangle is created.
      * @param fixedLat latitude of the point which remains fixed once the rectangle is created.
      * @param steerLon longitude of the point used to change size of the rectangle sizes.
      * @param steerLat latitude of the point used to change size of the rectangle sizes.
      */
-    protected void createRectangle(double fixedLon, double fixedLat, double steerLon, double steerLat) {
+    protected void createRectangle(double fixedLon, double fixedLat,
+            double steerLon, double steerLat) {
         Point p1 = StratmasObjectFactory.createPoint("p1", fixedLat, fixedLon);
         Point p2 = StratmasObjectFactory.createPoint("p2", fixedLat, steerLon);
         Point p3 = StratmasObjectFactory.createPoint("p1", fixedLat, steerLon);
@@ -108,24 +111,27 @@ class RectangleMaker extends ShapeMaker {
         Point p6 = StratmasObjectFactory.createPoint("p2", steerLat, fixedLon);
         Point p7 = StratmasObjectFactory.createPoint("p1", steerLat, fixedLon);
         Point p8 = StratmasObjectFactory.createPoint("p2", fixedLat, fixedLon);
-        
+
         line1 = StratmasObjectFactory.createLine("0", p1, p2);
         line2 = StratmasObjectFactory.createLine("1", p3, p4);
         line3 = StratmasObjectFactory.createLine("2", p5, p6);
         line4 = StratmasObjectFactory.createLine("3", p7, p8);
-        
+
         Vector lines = new Vector();
         lines.add(line1);
         lines.add(line2);
         lines.add(line3);
         lines.add(line4);
-        
-        polygon = StratmasObjectFactory.createPolygon("rectangle" + String.valueOf(createdRectangleCounter++), lines);        
+
+        polygon = StratmasObjectFactory
+                .createPolygon("rectangle"
+                                       + String.valueOf(createdRectangleCounter++),
+                               lines);
     }
 
     /**
      * Changes the steering point of the rectangle.
-     *
+     * 
      * @param lon the longitude of the steering point.
      * @param lat the latitude of the steering point.
      */
@@ -141,27 +147,28 @@ class RectangleMaker extends ShapeMaker {
             line4.getStartPoint().setLat(lat, this);
         }
     }
-                     
+
     /**
      * Creates new MapShapeAdapter.
      */
-    protected void createMapShapeAdapter(Color color) { 
+    protected void createMapShapeAdapter(Color color) {
         if (polygon != null) {
-            shapeAdapter = (MapShapeAdapter)MapDrawableAdapter.getMapDrawableAdapter(polygon);
+            shapeAdapter = (MapShapeAdapter) MapDrawableAdapter
+                    .getMapDrawableAdapter(polygon);
             shapeAdapter.setShapeAreaColor(color);
             shapeAdapter.setShapeLineWidth(2.0f);
         }
     }
-    
+
     /**
      * Updates the color of the shape.
      */
     protected void updateShapeColor(Color color) {
         if (shapeAdapter != null) {
             shapeAdapter.setShapeAreaColor(color);
-        } 
+        }
     }
-    
+
     /**
      * Removes the shape adapter.
      */
@@ -174,17 +181,17 @@ class RectangleMaker extends ShapeMaker {
         polygon = null;
         drawer.update();
     }
-    
+
     /**
      * Checks if the polygon is simple.
      */
     protected boolean isShapeSimple() {
         return true;
     }
-    
+
     /**
      * Moves the area in the chosen direction.
-     *
+     * 
      * @param lon longitude of the new center of the polygons bounding box.
      * @param lat latitude of the new center of the polygons bounding box.
      */

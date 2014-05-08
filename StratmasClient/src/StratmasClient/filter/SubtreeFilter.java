@@ -10,7 +10,7 @@ public class SubtreeFilter extends StratmasObjectFilter {
      * Root of the subtree.
      */
     private StratmasObject root;
-    
+
     /**
      * Create the filter.
      */
@@ -20,11 +20,11 @@ public class SubtreeFilter extends StratmasObjectFilter {
 
     /**
      * Returns true if root is the ancestor of the provided StratmasObject.
-     *
+     * 
      * @param sObj the object to test
      */
     public boolean pass(StratmasObject sObj) {
         return sObj.equals(root) || sObj.isAncestor(root);
     }
-    
+
 }

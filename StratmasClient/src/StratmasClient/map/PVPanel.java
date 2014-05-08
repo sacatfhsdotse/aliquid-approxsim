@@ -26,21 +26,20 @@ import StratmasClient.communication.Unsubscription;
 import StratmasClient.communication.SubscriptionHandler;
 
 /**
- * This panel contains two <code>JComboBox</code> lists: the process variables and the factions for the actual
- * simulation. The selected process variable and faction are displayed on the map implemented in
- * <code>MapDrawer</code>.
- *
- * @version 1.0 
+ * This panel contains two <code>JComboBox</code> lists: the process variables and the factions for the actual simulation. The selected
+ * process variable and faction are displayed on the map implemented in <code>MapDrawer</code>.
+ * 
+ * @version 1.0
  * @author Amir Filipovic
- *
  * @see <code>MapDrawer</code>
  */
-public class PVPanel extends JPanel implements ActionListener, StratmasEventListener {
+public class PVPanel extends JPanel implements ActionListener,
+        StratmasEventListener {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 5282843262385928351L;
-	/**
+    private static final long serialVersionUID = 5282843262385928351L;
+    /**
      * Combo box for process variables.
      */
     private JComboBox pv_combo;
@@ -76,31 +75,32 @@ public class PVPanel extends JPanel implements ActionListener, StratmasEventList
      * JPanel containing combo box with the factions.
      */
     private JPanel fac_panel;
-     
+
     /**
      * Creates panel with no process variables or factions.
-     *
+     * 
      * @param client reference to the client.
      * @param stratmap reference to the map wrapper.
      */
     public PVPanel(Client client, StratMap stratmap) {
         this(client, stratmap, null, null);
-        // 
+        //
         setEnabled(false);
     }
-    
+
     /**
      * Creates a panel with process variables and factions.
-     *
+     * 
      * @param client reference to the client.
      * @param stratmap reference to the map wrapper.
      * @param pv list of process variables.
      * @param factions list of factions.
      */
-    public PVPanel(Client client, StratMap stratmap, Enumeration pv, Enumeration factions) {
+    public PVPanel(Client client, StratMap stratmap, Enumeration pv,
+            Enumeration factions) {
         this.client = client;
         this.stratmap = stratmap;
-        
+
         // panel for process variables
         pv_panel = new JPanel();
         pv_panel.setLayout(new BoxLayout(pv_panel, BoxLayout.X_AXIS));
@@ -111,15 +111,15 @@ public class PVPanel extends JPanel implements ActionListener, StratmasEventList
         // extract process variable names
         if (pv != null) {
             for (; pv.hasMoreElements();) {
-                pv_combo.addItem((ProcessVariableDescription)pv.nextElement());
+                pv_combo.addItem((ProcessVariableDescription) pv.nextElement());
             }
         }
         pv_combo.addActionListener(this);
         pv_combo.setLightWeightPopupEnabled(false);
         pv_panel.add(pv_combo);
-        pv_panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.
-                                                              createTitledBorder("PV"),
-                                                              BorderFactory.createEmptyBorder(2,2,2,2)));
+        pv_panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                .createTitledBorder("PV"), BorderFactory
+                .createEmptyBorder(2, 2, 2, 2)));
 
         // panel for factions
         fac_panel = new JPanel();
@@ -131,46 +131,45 @@ public class PVPanel extends JPanel implements ActionListener, StratmasEventList
         fac_combo.addItem("All");
         // extract factions
         if (factions != null) {
-            for (;factions.hasMoreElements() ;) {
+            for (; factions.hasMoreElements();) {
                 fac_combo.addItem(factions.nextElement());
             }
         }
         fac_combo.addActionListener(this);
         fac_combo.setLightWeightPopupEnabled(false);
         fac_panel.add(fac_combo);
-        fac_panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.
-                                                               createTitledBorder("Factions"),
-                                                               BorderFactory.createEmptyBorder(2,2,2,2)));
-        // 
+        fac_panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                .createTitledBorder("Factions"), BorderFactory
+                .createEmptyBorder(2, 2, 2, 2)));
+        //
         valid_foreground = pv_combo.getForeground();
     }
-    
+
     /**
-     * Creates the GUI and show it. 
+     * Creates the GUI and show it.
      */
     public void createAndShowGUI() {
         // create and set up the window
         final JFrame frame = new JFrame("Proccess Variables Window");
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        
+
         // set up the content pane
-        setOpaque(true); //content panes must be opaque
+        setOpaque(true); // content panes must be opaque
         frame.setContentPane(this);
-        
+
         // display the window.
         frame.pack();
         frame.setSize(300, 160);
         frame.setResizable(true);
-        
+
         // thread safety recomendation
-        SwingUtilities.invokeLater (
-                                    new Runnable() {
-                                        public void run() {
-                                            frame.setVisible(true);
-                                        }
-                                    });
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                frame.setVisible(true);
+            }
+        });
     }
-    
+
     /**
      * Updates actual process variable and faction.
      */
@@ -180,7 +179,8 @@ public class PVPanel extends JPanel implements ActionListener, StratmasEventList
         if (source.equals(pv_combo)) {
             // if process variable has chosen
             if (pv_combo.getSelectedItem() instanceof ProcessVariableDescription) {
-                ProcessVariableDescription item = (ProcessVariableDescription)pv_combo.getSelectedItem();
+                ProcessVariableDescription item = (ProcessVariableDescription) pv_combo
+                        .getSelectedItem();
                 // show the faction panel
                 fac_panel.setVisible(true);
                 // select "All"
@@ -209,32 +209,38 @@ public class PVPanel extends JPanel implements ActionListener, StratmasEventList
             // if a faction is selected
             if (fac_combo.getSelectedItem() instanceof StratmasObject) {
                 // send new subscription
-                subscribePVLayer((ProcessVariableDescription)pv_combo.getSelectedItem(),
-                                 ((StratmasObject)fac_combo.getSelectedItem()).getReference());
+                subscribePVLayer((ProcessVariableDescription) pv_combo
+                                         .getSelectedItem(),
+                                 ((StratmasObject) fac_combo.getSelectedItem())
+                                         .getReference());
             }
             // if "All" is selected
             else {
                 // send new subscription
-                subscribePVLayer((ProcessVariableDescription)pv_combo.getSelectedItem(), null);
+                subscribePVLayer((ProcessVariableDescription) pv_combo
+                                         .getSelectedItem(),
+                                 null);
             }
         }
     }
-    
+
     /**
-     * Checks if the layer values has been drawn on the map and updates color of the chosen variables.
-     * Red color indicates that the selected values has not been displayed on the map yet.
+     * Checks if the layer values has been drawn on the map and updates color of the chosen variables. Red color indicates that the selected
+     * values has not been displayed on the map yet.
      */
     public void eventOccured(StratmasEvent e) {
         // if the panel is waiting for event and if the event is the right one
         if (waiting && e.getSource() instanceof GridLayer && e.isGridUpdated()) {
             // get the process variable and the faction which have been displayed on the map
-            ProcessVariableDescription pvd = ((GridLayer)e.getSource()).getProcessVariable();
-            Reference fac_ref = ((GridLayer)e.getSource()).getFaction();
-            // if the displayed and the selected pv and factions are equal 
-            if (pvd.equals((ProcessVariableDescription)pv_combo.getSelectedItem()) &&
-                ((fac_ref == null && fac_combo.getSelectedIndex() == 0) || 
-                 (fac_ref != null && fac_ref.equals(((StratmasObject)fac_combo.getSelectedItem()).
-                                                    getReference())))) {
+            ProcessVariableDescription pvd = ((GridLayer) e.getSource())
+                    .getProcessVariable();
+            Reference fac_ref = ((GridLayer) e.getSource()).getFaction();
+            // if the displayed and the selected pv and factions are equal
+            if (pvd.equals((ProcessVariableDescription) pv_combo
+                    .getSelectedItem())
+                    && ((fac_ref == null && fac_combo.getSelectedIndex() == 0) || (fac_ref != null && fac_ref
+                            .equals(((StratmasObject) fac_combo
+                                    .getSelectedItem()).getReference())))) {
                 // indicate that the map has been updated
                 pv_combo.setForeground(valid_foreground);
                 fac_combo.setForeground(valid_foreground);
@@ -243,7 +249,7 @@ public class PVPanel extends JPanel implements ActionListener, StratmasEventList
             }
         }
     }
-    
+
     /**
      * Resets the panel to the initial state.
      */
@@ -255,22 +261,24 @@ public class PVPanel extends JPanel implements ActionListener, StratmasEventList
         fac_combo.setSelectedIndex(0);
         fac_combo.setEnabled(false);
         fac_panel.setVisible(false);
-        // 
+        //
         waiting = false;
         layer_id = -1;
     }
-    
+
     /**
      * Subscribes the new data layer.
-     *
+     * 
      * @param pvd chosen process variable.
      * @param faction if null then aggregate of all factions, otherwise the chosen faction.
      */
-    private void subscribePVLayer(ProcessVariableDescription pvd, Reference faction) {
+    private void subscribePVLayer(ProcessVariableDescription pvd,
+            Reference faction) {
         // unsubscribe first ...
         unsubscribePVLayer();
-        // ... then subscribe 
-        LayerData layer_data = new LayerData(pvd, faction, stratmap.getGridLayer().getCellValues());
+        // ... then subscribe
+        LayerData layer_data = new LayerData(pvd, faction, stratmap
+                .getGridLayer().getCellValues());
         // add listeners
         layer_data.addListener(stratmap.getGridLayer());
         // create subscription
@@ -282,9 +290,9 @@ public class PVPanel extends JPanel implements ActionListener, StratmasEventList
             shandler.regSubscription(layer_sub);
         }
     }
-    
+
     /**
-     * Unsubscribes the data layer of the actual process variable and faction. 
+     * Unsubscribes the data layer of the actual process variable and faction.
      */
     private void unsubscribePVLayer() {
         if (layer_id != -1) {
@@ -297,24 +305,23 @@ public class PVPanel extends JPanel implements ActionListener, StratmasEventList
             layer_id = -1;
         }
     }
-    
+
     /**
-     * Select the process variable and faction initialy displayed on the map. 
+     * Select the process variable and faction initialy displayed on the map.
      */
     public void setInitialView() {
-         if (pv_combo.getItemCount() > 1) {
+        if (pv_combo.getItemCount() > 1) {
             // thread safety recomendation
-            final JComboBox pvCombo = pv_combo; 
-            SwingUtilities.invokeLater (new Runnable() {
-                    public void run() {
-                        pvCombo.setSelectedIndex(1);
-                    }
+            final JComboBox pvCombo = pv_combo;
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    pvCombo.setSelectedIndex(1);
                 }
-                                        );
+            });
         }
-        
+
     }
-    
+
     /**
      * Adds process variable to the list.
      */
@@ -322,45 +329,44 @@ public class PVPanel extends JPanel implements ActionListener, StratmasEventList
         setEnabled(true);
         pv_combo.addItem(pvd);
     }
-    
+
     /**
      * Adds process variables to the list.
      */
     public void addPVs(Vector pv) {
         setEnabled(true);
         for (int i = 0; i < pv.size(); i++) {
-            pv_combo.addItem((ProcessVariableDescription)pv.get(i));
+            pv_combo.addItem((ProcessVariableDescription) pv.get(i));
         }
     }
-    
+
     /**
      * Adds faction to the list.
      */
     public void addFaction(StratmasObject faction) {
         setEnabled(true);
-        fac_combo.addItem(faction);        
+        fac_combo.addItem(faction);
     }
-    
+
     /**
      * Adds factions to the list.
      */
     public void addFactions(Vector factions) {
         setEnabled(true);
         for (int i = 0; i < factions.size(); i++) {
-            fac_combo.addItem(factions.get(i));        
+            fac_combo.addItem(factions.get(i));
         }
     }
-    
+
     /**
      * Returns actual proces variable.
-     *
-     *@return actual process variable as a <code> ProcessVariableDescription </code> object.
+     * 
+     * @return actual process variable as a <code> ProcessVariableDescription </code> object.
      */
     public ProcessVariableDescription getSelectedPV() {
         if (pv_combo.getSelectedItem() instanceof ProcessVariableDescription) {
-            return (ProcessVariableDescription)pv_combo.getSelectedItem();
-        }
-        else {
+            return (ProcessVariableDescription) pv_combo.getSelectedItem();
+        } else {
             return null;
         }
     }
@@ -370,13 +376,12 @@ public class PVPanel extends JPanel implements ActionListener, StratmasEventList
      */
     public StratmasObject getSelectedFaction() {
         if (fac_combo.getSelectedItem() instanceof StratmasObject) {
-            return (StratmasObject)fac_combo.getSelectedItem();
-        }
-        else {
+            return (StratmasObject) fac_combo.getSelectedItem();
+        } else {
             return null;
         }
     }
-    
+
     /**
      * Enables/disables selecting of process variable and faction.
      */
@@ -388,8 +393,8 @@ public class PVPanel extends JPanel implements ActionListener, StratmasEventList
             pvfac_panel.setLayout(new BoxLayout(pvfac_panel, BoxLayout.X_AXIS));
             pvfac_panel.add(pv_panel);
             pvfac_panel.add(fac_panel);
-                
-            // 
+
+            //
             valid_foreground = pv_combo.getForeground();
             // set layout
             setLayout(new BorderLayout());
@@ -405,14 +410,14 @@ public class PVPanel extends JPanel implements ActionListener, StratmasEventList
         pv_combo.setEnabled(enabled);
         fac_combo.setEnabled(enabled);
     }
-    
+
     /**
      * Returns true if process variable can be selected, otherwise false.
      */
     public boolean isEnabled() {
         return pv_combo.isEnabled();
     }
-    
+
     /**
      * Removes all process variables and factions from the panel.
      */

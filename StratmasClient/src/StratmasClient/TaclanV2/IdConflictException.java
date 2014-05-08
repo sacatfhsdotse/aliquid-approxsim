@@ -1,18 +1,17 @@
-//         $Id: IdConflictException.java,v 1.2 2005/05/23 07:50:41 alexius Exp $
+// $Id: IdConflictException.java,v 1.2 2005/05/23 07:50:41 alexius Exp $
 /*
  * @(#)IdConflictException.java
  */
 
 package StratmasClient.TaclanV2;
 
-public class IdConflictException extends SemanticException
-{
+public class IdConflictException extends SemanticException {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 4661812412170444094L;
+    private static final long serialVersionUID = 4661812412170444094L;
 
-	/**
+    /**
      * The first declared identifier.
      */
     ParsedIdentifier first;
@@ -24,18 +23,19 @@ public class IdConflictException extends SemanticException
 
     /**
      * Creates a new IdConflictException
+     * 
      * @param first the first declaration of the identifier.
      * @param second the conflicting declared identifier.
      */
-    public IdConflictException(ParsedIdentifier first, ParsedIdentifier second)
-    {
+    public IdConflictException(ParsedIdentifier first, ParsedIdentifier second) {
         this.first = first;
         this.second = second;
     }
 
-    public String getMessage()
-    {
-        return second.getPos().toString() + ": Declaration of " + second.toString() +
-            " conflicts with previous declaration at " + first.getPos().toString();
-    }    
+    public String getMessage() {
+        return second.getPos().toString() + ": Declaration of "
+                + second.toString()
+                + " conflicts with previous declaration at "
+                + first.getPos().toString();
+    }
 }

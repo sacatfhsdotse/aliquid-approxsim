@@ -1,4 +1,4 @@
-//         $Id: ServerViewFrame.java,v 1.1 2005/09/27 19:08:08 dah Exp $
+// $Id: ServerViewFrame.java,v 1.1 2005/09/27 19:08:08 dah Exp $
 
 /*
  * @(#)ServerViewFrame.java
@@ -14,22 +14,20 @@ import javax.swing.ImageIcon;
 import javax.swing.WindowConstants;
 import java.awt.BorderLayout;
 
-
 /**
  * ServerViewFrame is JFrame adapted to use with a ServerView
- *
+ * 
  * @version 1, $Date: 2005/09/27 19:08:08 $
- * @author  Daniel Ahlin
-*/
-public class ServerViewFrame extends JFrame
-{
+ * @author Daniel Ahlin
+ */
+public class ServerViewFrame extends JFrame {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 8647382839889370552L;
+    private static final long serialVersionUID = 8647382839889370552L;
 
-	/**
-     * The ServerView to frame 
+    /**
+     * The ServerView to frame
      */
     ServerView serverView;
 
@@ -40,16 +38,17 @@ public class ServerViewFrame extends JFrame
 
     /**
      * Creates a frame for the specified ServerView
-     *
+     * 
      * @param serverView the ServerView to visualize
      */
-    public ServerViewFrame(ServerView serverView)
-    {
+    public ServerViewFrame(ServerView serverView) {
         super("Availiable Servers");
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.serverView = serverView;
         getContentPane().add(new JScrollPane(getServerView()));
-        setIconImage(new ImageIcon(ServerViewFrame.class.getResource("images/server.png")).getImage());
+        setIconImage(new ImageIcon(
+                ServerViewFrame.class.getResource("images/server.png"))
+                .getImage());
         updateMenu();
         updateToolBar();
 
@@ -59,8 +58,7 @@ public class ServerViewFrame extends JFrame
     /**
      * Updates the menu of this frame.
      */
-    public void updateMenu()
-    {        
+    public void updateMenu() {
         JMenuBar res = new JMenuBar();
         setJMenuBar(res);
     }
@@ -68,15 +66,14 @@ public class ServerViewFrame extends JFrame
     /**
      * Updates the toolBar of this frame.
      */
-    public void updateToolBar()
-    {
+    public void updateToolBar() {
         if (toolBar == null) {
             toolBar = new JToolBar();
             getContentPane().add(toolBar, BorderLayout.PAGE_START);
         } else {
             toolBar.removeAll();
         }
-        
+
         if (getServerView().getActionMap().get("Refresh") != null) {
             toolBar.add(getServerView().getActionMap().get("Refresh"));
         }
@@ -91,8 +88,7 @@ public class ServerViewFrame extends JFrame
     /**
      * Returns the serverView of this frame
      */
-    public ServerView getServerView()
-    {
+    public ServerView getServerView() {
         return this.serverView;
     }
 }

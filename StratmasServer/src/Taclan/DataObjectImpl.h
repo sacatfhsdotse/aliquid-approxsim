@@ -464,4 +464,50 @@ public:
 };
 
 
+/**
+ * \brief StratmasGraph corresponds to the Graph type in the
+ * Stratmas xml schema.
+ *
+ * \author   Johannes Olegård
+ * \date     $Date: 2014/04/25 19:54:00$
+ */
+template<class T>
+class StratmasGraph : public DataObject {
+private:
+     std::shared_ptr<Graph<T>> mValue;   ///< The value.
+protected:
+     /**
+      * \brief Copy constructor.
+      *
+      * \param c The DataObject to copy.
+      */
+     StratmasGraph(const StratmasGraph& c) : DataObject(c), mValue(c.mValue) {}
+public:
+     StratmasGraph(const Reference& scope, const DOMElement* n);
+
+     /**
+      * \brief Constructor that creates a DataObject of the specified
+      * Type with the provided Reference.
+      *
+      * \param ref The Reference to the DataObject tp be created.
+      * \param type The Type of the DataObject to be created.
+      */
+     StratmasGraph(const Reference& ref, const Type& type) : DataObject(ref, type), mValue(0) {}
+
+     /**
+      * 
+      * \brief Accessor for the actual Graph held by this object.
+      *
+      * \return pointer to the actual Graph held by this object.
+      */
+     Graph<T>& getGraphRef() const { return *mValue; }
+
+     DataObject& operator = (const DataObject& d);
+
+     DataObject* clone() const { return new StratmasGraph<T>(*this); }
+     std::ostream& bodyXML(std::ostream& o, std::string indent) const;
+     void print(std::ostream& o, const std::string indent) const;
+};
+
+
 #endif   // STRATMAS_DATAOBJECTIMPL_H

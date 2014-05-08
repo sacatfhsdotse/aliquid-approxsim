@@ -15,10 +15,10 @@ import StratmasClient.filter.TypeFilter;
 import StratmasClient.filter.CombinedORFilter;
 
 /**
- * Timeline is primarily used to select the times for the simulation data to be delivered and visualized on
- * the client. Besides the timeline is used for visualization and modification of the activities. 
- *
- * @author Amir Filipovic 
+ * Timeline is primarily used to select the times for the simulation data to be delivered and visualized on the client. Besides the timeline
+ * is used for visualization and modification of the activities.
+ * 
+ * @author Amir Filipovic
  */
 public class Timeline implements StratmasEventListener, ActivityAdapterListener {
     /**
@@ -73,10 +73,10 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
      * The panel of the timeline.
      */
     private TimelinePanel timelinePanel;
-     
+
     /**
      * Creates new timeline.
-     *
+     * 
      * @param dt length of the time step in miliseconds.
      * @param startTimestamp simulation start time.
      */
@@ -84,21 +84,21 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
         // get length of the time step
         simulationTimestep = dt;
         simulationTimestep.addEventListener(this);
-        
+
         // start time
         simulationStartTimestamp = startTimestamp;
         simulationStartTimestamp.addEventListener(this);
-        
+
         // update delta t
         deltat = dt.getValue().getMilliSecs();
-        
+
         // create the timeline panel
         timelinePanel = new TimelinePanel(this);
-        
+
         // initialize the timeline with the start time of the simulation
         setSimulationStartTime();
     }
-    
+
     /**
      * Notifies the client.
      */
@@ -107,7 +107,7 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
             client.setNotify();
         }
     }
-        
+
     /**
      * Sets reference to the stratmas client.
      */
@@ -116,54 +116,54 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
         // set the timeline to listen to the client
         client.addEventListener(this);
     }
-    
+
     /**
      * Returns the reference to the stratmas client.
      */
     public Client getClient() {
         return client;
     }
-    
+
     /**
      * Returns the timeline panel.
      */
     public TimelinePanel getTimelinePanel() {
         return timelinePanel;
     }
-    
+
     /**
-     * Used to set up the timeline with all the time steps from the simulation start time
-     * to the given time.
-     *
+     * Used to set up the timeline with all the time steps from the simulation start time to the given time.
+     * 
      * @param endTime actual time in milliseconds - ends the selected time interval.
      */
     public void setUpTimeline(long endTime) {
         // set no times selected
         timelinePanel.selectAllTimes(false);
         // update selected times
-        insert(selectedTimes, new TimeInterval(deltat, 0, endTime-simulationStartTime));
+        insert(selectedTimes, new TimeInterval(deltat, 0, endTime
+                - simulationStartTime));
         // repaint the panel
         timelinePanel.updateScalePanel();
     }
-    
+
     /**
      * Updates the start time of the simulation.
      */
     public void setSimulationStartTime() {
-        simulationStartTime = simulationStartTimestamp.getValue().getMilliSecs();
+        simulationStartTime = simulationStartTimestamp.getValue()
+                .getMilliSecs();
         // update the displayed times in the dialog
         timelinePanel.updateInfoDialog();
     }
-    
+
     /**
      * Updates the size of the time step.
-     *
+     * 
      * @param dt the new time step.
-     * @param refTime the reference time ie. the time when the new time step starts to be
-     *                in effect.
+     * @param refTime the reference time ie. the time when the new time step starts to be in effect.
      */
     public synchronized void setDeltaT(long dt, long refTime) {
-        // update the time step if no times are processed to the server 
+        // update the time step if no times are processed to the server
         if (timesInProcess.isEmpty()) {
             // update time step
             deltat = dt;
@@ -171,11 +171,11 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
             synchronized (selectedTimes) {
                 int counter = 0;
                 while (counter < selectedTimes.size()) {
-                    boolean success = selectedTimes.get(counter).setTimeStep(deltat, refTime);
+                    boolean success = selectedTimes.get(counter)
+                            .setTimeStep(deltat, refTime);
                     if (!success) {
-                        selectedTimes.remove(counter);        
-                    }
-                    else {
+                        selectedTimes.remove(counter);
+                    } else {
                         counter++;
                     }
                 }
@@ -190,10 +190,10 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
             isdtChanged = true;
         }
     }
-    
+
     /**
-     * Updates the current simulation time. 
-     *
+     * Updates the current simulation time.
+     * 
      * @param time current simulation time in milliseconds.
      */
     public synchronized void updateCurrentTime(long time) {
@@ -205,17 +205,20 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
                 if (!timesInProcess.isEmpty()) {
                     // remove the first time
                     TimeInterval ti = timesInProcess.firstElement();
-                    boolean decreasable = ti.decreaseInterval(TimeInterval.LEFT);
+                    boolean decreasable = ti
+                            .decreaseInterval(TimeInterval.LEFT);
                     if (!decreasable) {
-                        timesInProcess.remove(0);        
+                        timesInProcess.remove(0);
                     }
                     // temporary solution
                     if (isdtChanged && timesInProcess.isEmpty()) {
                         // adjust the selected times according to the time step change
-                        delete(selectedTimes, new TimeInterval(deltat, 0, simulationCurrentTime));
+                        delete(selectedTimes, new TimeInterval(deltat, 0,
+                                simulationCurrentTime));
                         isdtChanged = false;
                         // update the time step
-                        setDeltaT(simulationTimestep.getValue().getMilliSecs(), simulationCurrentTime);
+                        setDeltaT(simulationTimestep.getValue().getMilliSecs(),
+                                  simulationCurrentTime);
                         // modify next time
                         nextTime = simulationCurrentTime;
                         notifyClient();
@@ -223,45 +226,45 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
                 }
                 // update the list of executed times
                 if (simulationCurrentTime != 0) {
-                    insert(executedTimes, new TimeInterval(deltat, simulationCurrentTime, simulationCurrentTime));
+                    insert(executedTimes, new TimeInterval(deltat,
+                            simulationCurrentTime, simulationCurrentTime));
                 }
                 // update the timeline panel
                 if (timelinePanel != null) {
                     timelinePanel.updateCurrentTime();
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-    }    
-    
+    }
+
     /**
      * Checks if any selected time step exist.
-     *
+     * 
      * @return true if time step exists.
      */
     public boolean timeStepExists() {
         return !selectedTimes.isEmpty() && !isdtChanged;
     }
-    
+
     /**
      * Returns start time of the simulation im milliseconds.
      */
     public long getSimStartTime() {
         return simulationStartTime;
-    } 
-    
+    }
+
     /**
      * Returns the size of the timestep.
      */
     public long getDT() {
         return deltat;
-    } 
+    }
 
     /**
      * Returns and removes the first time step from the list.
-     *
+     * 
      * @return next time step if available, otherwise -1.
      */
     public int getNextTimeStep() {
@@ -283,27 +286,28 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
                     selectedTimes.remove(0);
                 }
                 // update the list of the times in process
-                insert(timesInProcess, new TimeInterval(deltat, tmpTime, tmpTime));
+                insert(timesInProcess, new TimeInterval(deltat, tmpTime,
+                        tmpTime));
                 // compute the time step
-                int timeStep = (int)Math.ceil((tmpTime-nextTime)*1.0/deltat);
+                int timeStep = (int) Math.ceil((tmpTime - nextTime) * 1.0
+                        / deltat);
                 // update the next time
                 nextTime = tmpTime;
                 // return the time step
                 return timeStep;
             }
-        }
-        else {
+        } else {
             return -1;
         }
     }
-    
+
     /**
      * Returns the list of adapters for the activities.
      */
     public Vector<ActivityAdapter> getActivityAdapters() {
         return activityAdapters;
     }
-    
+
     /**
      * Retuns unexecuted time intervals.
      */
@@ -317,14 +321,14 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
     public Vector<TimeInterval> getExecutedTimes() {
         return executedTimes;
     }
-    
+
     /**
      * Returns processed time intervals.
      */
     public Vector<TimeInterval> getProcessedTimes() {
         return timesInProcess;
     }
-    
+
     /**
      * Returns exact curent time for the simulation.
      */
@@ -345,10 +349,9 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
     public long getNextTime() {
         return nextTime + simulationStartTime;
     }
-    
+
     /**
-     * Returns next chosen time (relative to the simulation start time) which will 
-     * be proceeded to the simulation.
+     * Returns next chosen time (relative to the simulation start time) which will be proceeded to the simulation.
      */
     public long getRelativeNextTime() {
         return nextTime;
@@ -356,7 +359,7 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
 
     /**
      * Resets the timeline.
-     *
+     * 
      * @param dt time step.
      * @param start_time simulation start time.
      */
@@ -366,12 +369,11 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
         simulationTimestep = dt;
         simulationTimestep.addEventListener(this);
         deltat = dt.getValue().getMilliSecs();
-        
+
         // reset timeline panel
         if (timelinePanel == null) {
             timelinePanel = new TimelinePanel(this);
-        }
-        else {
+        } else {
             timelinePanel.reset();
         }
 
@@ -385,10 +387,10 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
         // selected time following the current time
         nextTime = 0;
         // keep the chosen times in the timeline
-        Vector[] vec = {executedTimes, timesInProcess};
+        Vector[] vec = { executedTimes, timesInProcess };
         for (int i = 0; i < vec.length; i++) {
             while (!vec[i].isEmpty()) {
-                TimeInterval ti = (TimeInterval)vec[i].remove(0);
+                TimeInterval ti = (TimeInterval) vec[i].remove(0);
                 boolean success = ti.setTimeStep(deltat, 0);
                 if (success) {
                     insert(selectedTimes, ti);
@@ -397,11 +399,11 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
         }
         // update the information labels
         timelinePanel.updateInfoDialog();
-        
+
         // activities
         activityAdapters = new Vector<ActivityAdapter>();
     }
-    
+
     /**
      * Removes the timeline.
      */
@@ -409,7 +411,7 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
         // release all the objects the timeline listens to
         client.removeEventListener(this);
         client = null;
-        
+
         // remove the panel
         timelinePanel.remove();
 
@@ -419,24 +421,24 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
         executedTimes.removeAllElements();
         timesInProcess.removeAllElements();
     }
-    
+
     /**
      * Updates the timeline.
      */
     public synchronized void eventOccured(StratmasEvent e) {
         // update the current time on the timeline
         if (e.isSubscriptionHandled()) {
-            long msecs = ((Timestamp)e.getArgument()).getMilliSecs();
-            updateCurrentTime(msecs-simulationStartTime);
+            long msecs = ((Timestamp) e.getArgument()).getMilliSecs();
+            updateCurrentTime(msecs - simulationStartTime);
         }
         // update the time step
         else if (e.getSource() == simulationTimestep) {
             if (e.isRemoved()) {
                 simulationTimestep.removeEventListener(this);
                 simulationTimestep = null;
-            }
-            else if (e.isValueChanged()){
-                setDeltaT(simulationTimestep.getValue().getMilliSecs(), simulationCurrentTime);
+            } else if (e.isValueChanged()) {
+                setDeltaT(simulationTimestep.getValue().getMilliSecs(),
+                          simulationCurrentTime);
             }
         }
         // update the start time
@@ -444,28 +446,25 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
             if (e.isRemoved()) {
                 simulationStartTimestamp.removeEventListener(this);
                 simulationStartTimestamp = null;
-            }
-            else if  (e.isValueChanged()) {
+            } else if (e.isValueChanged()) {
                 setSimulationStartTime();
             }
         }
         // add new activity to the timeline or listener to a new element
         else if (e.isObjectAdded() && e.getArgument() instanceof StratmasObject) {
-            StratmasObject arg = (StratmasObject)e.getArgument();
-            if(arg.getType().canSubstitute("Element")) {
+            StratmasObject arg = (StratmasObject) e.getArgument();
+            if (arg.getType().canSubstitute("Element")) {
                 importActivities(arg);
-            }
-            else if(arg.getType().canSubstitute("Activity")) {
+            } else if (arg.getType().canSubstitute("Activity")) {
                 addActivity(arg);
             }
         }
-    }  
-    
+    }
+
     /**
      * The list of the selected times are updated by this procedure.
-     *
-     * @param indicator indicates if the time interval will be added to or deleted from
-     *                  the list of the selected time intervals.
+     * 
+     * @param indicator indicates if the time interval will be added to or deleted from the list of the selected time intervals.
      * @param interval the new time interval.
      */
     public void updatePrenumerations(int indicator, TimeInterval interval) {
@@ -486,10 +485,10 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
             notifyClient();
         }
     }
-    
+
     /**
      * Updates the sorted list of selected time intervals with a new one.
-     *
+     * 
      * @param v list of selected time intervals.
      * @param interval selected time interval which is to be added in the list.
      */
@@ -502,8 +501,7 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
             if (interval.getStartTime() <= ti.getStartTime()) {
                 v.add(counter, interval);
                 inserted = true;
-            }
-            else {
+            } else {
                 counter++;
             }
         }
@@ -511,40 +509,40 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
             v.add(interval);
         }
         // check for intersections
-        // inetrvals on the left 
-        boolean done = false; 
+        // inetrvals on the left
+        boolean done = false;
         while (counter > 0 && !done) {
             TimeInterval ti = v.get(counter);
             TimeInterval tprev = v.get(counter - 1);
-            if ((ti.getStartTime() <= tprev.getEndTime() || ti.getStartTime() - tprev.getEndTime() == ti.getTimeStep())
-                && ti.getTimeStep() == tprev.getTimeStep()) {
+            if ((ti.getStartTime() <= tprev.getEndTime() || ti.getStartTime()
+                    - tprev.getEndTime() == ti.getTimeStep())
+                    && ti.getTimeStep() == tprev.getTimeStep()) {
                 ti.add(tprev);
                 v.remove(counter - 1);
                 counter--;
-            }
-            else {
+            } else {
                 done = true;
             }
         }
         // intervals on the right
-        done = false; 
+        done = false;
         while (counter < v.size() - 1 && !done) {
             TimeInterval ti = v.get(counter);
             TimeInterval tnext = v.get(counter + 1);
-            if ((ti.getEndTime() >= tnext.getStartTime() || tnext.getStartTime() - ti.getEndTime() == ti.getTimeStep())
-                && ti.getTimeStep() == tnext.getTimeStep()) {
+            if ((ti.getEndTime() >= tnext.getStartTime() || tnext
+                    .getStartTime() - ti.getEndTime() == ti.getTimeStep())
+                    && ti.getTimeStep() == tnext.getTimeStep()) {
                 ti.add(tnext);
                 v.remove(counter + 1);
-            }
-            else {
+            } else {
                 done = true;
             }
         }
     }
-    
+
     /**
      * Deletes a time interval form the list of selected time intervals.
-     *
+     * 
      * @param v list of selected time intervals.
      * @param interval selected time interval which is to be deleted from the list.
      */
@@ -554,8 +552,7 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
             TimeInterval ti = v.get(counter);
             if (interval.contains(ti)) {
                 v.remove(counter);
-            }
-            else if (interval.intersects(ti)) {
+            } else if (interval.intersects(ti)) {
                 v.remove(counter);
                 TimeInterval[] intervals = ti.remove(interval);
                 if (intervals != null) {
@@ -564,25 +561,24 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
                         counter++;
                     }
                 }
-            }
-            else {
+            } else {
                 counter++;
             }
         }
     }
-    
+
     /**
-     * Adds a listener to each element of type Element or Activity in a subtree
-     * with the given root node. 
-     *
+     * Adds a listener to each element of type Element or Activity in a subtree with the given root node.
+     * 
      * @param node the root of the subtree.
      */
-    private void addListenerTo(StratmasObject node)
-    {
+    private void addListenerTo(StratmasObject node) {
         // create filter for elements and activities
         CombinedORFilter combFilter = new CombinedORFilter();
-        combFilter.addFilter(new TypeFilter(TypeFactory.getType("Activity"), true));
-        combFilter.addFilter(new TypeFilter(TypeFactory.getType("Element"), true));
+        combFilter.addFilter(new TypeFilter(TypeFactory.getType("Activity"),
+                true));
+        combFilter.addFilter(new TypeFilter(TypeFactory.getType("Element"),
+                true));
         Enumeration eaList = combFilter.filterTree(node);
         for (; eaList.hasMoreElements();) {
             StratmasObject candidate = (StratmasObject) eaList.nextElement();
@@ -590,30 +586,33 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
             candidate.addEventListener(this);
         }
     }
-    
+
     /**
      * Adds the activities to the timeline.
      */
     public void importActivities(StratmasObject node) {
         // add listeners to all the elements
         addListenerTo(node);
-        // add all activities 
-        TypeFilter filter = new TypeFilter(TypeFactory.getType("Activity"), true);
+        // add all activities
+        TypeFilter filter = new TypeFilter(TypeFactory.getType("Activity"),
+                true);
         Enumeration acts = filter.filterTree(node);
-        for (; acts.hasMoreElements(); ) {
-            StratmasObject scom = (StratmasObject)acts.nextElement();
-            if (scom.getType().canSubstitute("Activity") && scom.getChild("start") != null) {
+        for (; acts.hasMoreElements();) {
+            StratmasObject scom = (StratmasObject) acts.nextElement();
+            if (scom.getType().canSubstitute("Activity")
+                    && scom.getChild("start") != null) {
                 ActivityAdapter adapter = new ActivityAdapter(scom);
                 adapter.addActivityAdapterListener(this);
                 activityAdapters.add(adapter);
                 // update the timeline panel
-                timelinePanel.updateActivityList(adapter, TimelineConstants.ADD);
+                timelinePanel
+                        .updateActivityList(adapter, TimelineConstants.ADD);
             }
         }
         // update the panel with the root object
         timelinePanel.updateActivityTable(node);
     }
-    
+
     /**
      * Adds an activity to the timeline.
      */
@@ -626,16 +625,17 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
             timelinePanel.updateActivityList(adapter, TimelineConstants.ADD);
         }
     }
-    
+
     /**
      * Removes an activity from the timeline.
      */
     public void removeActivity(StratmasObject activity) {
-        for (int i = 0; i <  activityAdapters.size(); i++) {
+        for (int i = 0; i < activityAdapters.size(); i++) {
             if (activityAdapters.get(i).getActivity().equals(activity)) {
                 ActivityAdapter adapter = activityAdapters.remove(i);
                 if (timelinePanel != null) {
-                    timelinePanel.updateActivityList(adapter, TimelineConstants.REMOVE);
+                    timelinePanel.updateActivityList(adapter,
+                                                     TimelineConstants.REMOVE);
                 }
             }
         }
@@ -645,27 +645,27 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
      * Checks if an activity is already contained in the timeline.
      */
     public boolean contains(StratmasObject activity) {
-        for (Enumeration<ActivityAdapter> e = activityAdapters.elements(); e.hasMoreElements(); ) {
+        for (Enumeration<ActivityAdapter> e = activityAdapters.elements(); e
+                .hasMoreElements();) {
             if (e.nextElement().getActivity().equals(activity)) {
                 return true;
             }
         }
         return false;
     }
-    
+
     /**
      * Signaled when an ActivityAdapters element is removed.
-     *
-     * @param  activityAdapter the ActivityAdapter whose element is being removed.
+     * 
+     * @param activityAdapter the ActivityAdapter whose element is being removed.
      */
     public void activityAdapterRemoved(ActivityAdapter activityAdapter) {
         removeActivity(activityAdapter.getActivity());
     }
-    
+
     /**
-     * Signaled when displaylists in an ActivityAdapter needs to be
-     * updated.
-     *
+     * Signaled when displaylists in an ActivityAdapter needs to be updated.
+     * 
      * @param activityAdapter the ActivityAdapter that needs to be updated.
      */
     public void activityAdapterUpdated(ActivityAdapter activityAdapter) {
@@ -674,14 +674,14 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
             timelinePanel.updateActivityList();
         }
     }
-    
+
     /**
-     * Signaled when displaylists in an ActivityAdapter needs to be
-     * updated.
-     *
+     * Signaled when displaylists in an ActivityAdapter needs to be updated.
+     * 
      * @param activityAdapter the ActivityAdapter that needs to be updated.
      */
-    public void activityAdapterSelected(ActivityAdapter activityAdapter, boolean selected) {
+    public void activityAdapterSelected(ActivityAdapter activityAdapter,
+            boolean selected) {
         activityAdapter.setSymbolUpdated(false);
         activityAdapter.setSelected(selected);
         if (timelinePanel != null) {
@@ -690,5 +690,3 @@ public class Timeline implements StratmasEventListener, ActivityAdapterListener 
     }
 
 }
-
-

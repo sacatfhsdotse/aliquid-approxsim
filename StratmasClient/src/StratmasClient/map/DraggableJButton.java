@@ -20,8 +20,8 @@ public class DraggableJButton extends JButton implements DragGestureListener {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = -5310281336989140806L;
-	/**
+    private static final long serialVersionUID = -5310281336989140806L;
+    /**
      * Used for the drag action.
      */
     private DragSource source;
@@ -33,10 +33,10 @@ public class DraggableJButton extends JButton implements DragGestureListener {
      * The mouse pointer cursor.
      */
     private Cursor c;
-    
+
     /**
      * Creates menu item which supports drag action in DnD.
-     *
+     * 
      * @param image the image displayed on the button.
      * @param name the name of the button.
      */
@@ -44,24 +44,25 @@ public class DraggableJButton extends JButton implements DragGestureListener {
         super(image);
         this.name = name;
         source = new DragSource();
-        source.createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_REFERENCE, this);
+        source.createDefaultDragGestureRecognizer(this,
+                                                  DnDConstants.ACTION_REFERENCE,
+                                                  this);
         //
         Toolkit tk = Toolkit.getDefaultToolkit();
-        Dimension bestsize = tk.getBestCursorSize(16,16);
+        Dimension bestsize = tk.getBestCursorSize(16, 16);
         if (bestsize.width != 0)
-            c = tk.createCustomCursor(((ImageIcon)this.getIcon()).getImage(), 
+            c = tk.createCustomCursor(((ImageIcon) this.getIcon()).getImage(),
                                       new Point(0, 0), name);
-        else
-            c = Cursor.getDefaultCursor();
+        else c = Cursor.getDefaultCursor();
     }
-    
+
     /*
      * Drag gesture handler.
-     *
      * @param dge the event.
      */
     public void dragGestureRecognized(DragGestureEvent dge) {
-        source.startDrag(dge, c, new StringSelection(name), new DragSourceAdapter(){});
+        source.startDrag(dge, c, new StringSelection(name),
+                         new DragSourceAdapter() {});
     }
-    
+
 }

@@ -8,16 +8,16 @@ import javax.swing.JLabel;
 /**
  * This class is used to paint ticks on the x-axis in the graph.
  */
-public class XTickLabel extends JLabel{
+public class XTickLabel extends JLabel {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 5143756285691641827L;
-	/**
+    private static final long serialVersionUID = 5143756285691641827L;
+    /**
      * The actual color.
      */
     public static final Color COLOR = Color.BLACK;
-    
+
     /**
      * Creates new label.
      */
@@ -29,14 +29,15 @@ public class XTickLabel extends JLabel{
      * Draws the paint ticks.
      */
     protected void paintComponent(Graphics g) {
-        // let UI delegate paint first 
-        super.paintComponent(g); 
+        // let UI delegate paint first
+        super.paintComponent(g);
         // paint the contents next....
         g.setColor(XTickLabel.COLOR);
         // draw horizontal lines
         g.drawLine(0, 0, this.getWidth() - 1, 0);
         // draw vertical lines
-        double tickWidth = this.getWidth() * 1.0 / (ProcessVariableXYGraph.NR_OF_DISPLAYED_TIME_VALUES - 1);
+        double tickWidth = this.getWidth() * 1.0
+                / (ProcessVariableXYGraph.NR_OF_DISPLAYED_TIME_VALUES - 1);
         // draw paint ticks
         g.drawLine(0, 0, 0, this.getHeight());
         int i = 1;
@@ -45,12 +46,13 @@ public class XTickLabel extends JLabel{
             g.drawLine(x, 0, x, this.getHeight());
             i++;
         }
-        g.drawLine(this.getWidth() - 1, 0, this.getWidth() - 1, this.getHeight());
+        g.drawLine(this.getWidth() - 1, 0, this.getWidth() - 1,
+                   this.getHeight());
     }
-    
+
     /**
      * Updates the label.
-     */ 
+     */
     public void update() {
         this.validate();
         this.repaint();

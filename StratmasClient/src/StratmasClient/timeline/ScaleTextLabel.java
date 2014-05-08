@@ -9,12 +9,12 @@ import javax.swing.JLabel;
 /**
  * This class is used to draw scale numbers in the timeline.
  */
-public class ScaleTextLabel extends JLabel{
+public class ScaleTextLabel extends JLabel {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1548321135549416539L;
-	/**
+    private static final long serialVersionUID = 1548321135549416539L;
+    /**
      * The actual color.
      */
     private Color color;
@@ -37,8 +37,8 @@ public class ScaleTextLabel extends JLabel{
     /**
      * Reference to the timeline panel.
      */
-    private TimelinePanel timelinePanel; 
-    
+    private TimelinePanel timelinePanel;
+
     /**
      * Creates the label with defult font.
      */
@@ -47,7 +47,7 @@ public class ScaleTextLabel extends JLabel{
         this.color = color;
         font = this.getFont().deriveFont(Font.PLAIN);
     }
-    
+
     /**
      * Sets the font.
      */
@@ -55,7 +55,7 @@ public class ScaleTextLabel extends JLabel{
         this.font = font.deriveFont(Font.PLAIN);
         this.repaint();
     }
-    
+
     /**
      * Creates strings from the scale numbers.
      */
@@ -67,26 +67,27 @@ public class ScaleTextLabel extends JLabel{
         }
         return values;
     }
-    
+
     /**
      * Creates a string for display.
-     *
-     * @param i  the number converted to string.
+     * 
+     * @param i the number converted to string.
      */
     public String createCompactString(long i) {
         // create a string
         String s = (new Long(i)).toString();
-        String t = timelinePanel.getTimeUnitAsString().substring(0, 1).toLowerCase();
+        String t = timelinePanel.getTimeUnitAsString().substring(0, 1)
+                .toLowerCase();
         s = s.concat(t);
         return s;
     }
-    
+
     /**
      * Draws the scale numbers.
      */
     protected void paintComponent(Graphics g) {
-        // let UI delegate paint first 
-        super.paintComponent(g); 
+        // let UI delegate paint first
+        super.paintComponent(g);
         // paint my contents next....
         String[] stringValues = getValueStrings();
         // set color
@@ -94,7 +95,8 @@ public class ScaleTextLabel extends JLabel{
         // get font characteristics
         g.setFont(font);
         FontMetrics fm = g.getFontMetrics();
-        if (this.getWidth() > fm.stringWidth(stringValues[0]) + fm.stringWidth(stringValues[stringValues.length - 1])) {
+        if (this.getWidth() > fm.stringWidth(stringValues[0])
+                + fm.stringWidth(stringValues[stringValues.length - 1])) {
             int XBASE = 0;
             int YBASE = fm.getMaxAscent() + fm.getLeading();
             // draw the start string
@@ -102,15 +104,15 @@ public class ScaleTextLabel extends JLabel{
             // check if the middle strings will be drawn
             double incr = this.getWidth() * 1.0 / (maxValueNr - 1);
             XBASE = (int) (incr - fm.stringWidth(stringValues[1]) / 2.0);
-            double startValueLength = fm.stringWidth(stringValues[1]) + fm.stringWidth(stringValues[1]) / 4.0;
+            double startValueLength = fm.stringWidth(stringValues[1])
+                    + fm.stringWidth(stringValues[1]) / 4.0;
             if (XBASE > startValueLength) {
                 // draw all the middle strings
                 for (int i = 1; i < stringValues.length - 1; i++) {
                     XBASE = (int) (i * incr - fm.stringWidth(stringValues[i]) / 2.0);
                     g.drawString(stringValues[i], XBASE, YBASE);
                 }
-            }
-            else {
+            } else {
                 // draw only the middle string
                 int i = stringValues.length / 2;
                 XBASE = (int) (i * incr - fm.stringWidth(stringValues[i]) / 2.0);
@@ -119,14 +121,15 @@ public class ScaleTextLabel extends JLabel{
                 }
             }
             // draw the end string
-            XBASE = this.getWidth() - fm.stringWidth(stringValues[stringValues.length - 1]);
+            XBASE = this.getWidth()
+                    - fm.stringWidth(stringValues[stringValues.length - 1]);
             g.drawString(stringValues[stringValues.length - 1], XBASE, YBASE);
         }
     }
-    
+
     /**
      * Updates the label.
-     */ 
+     */
     public void update(long startValue, long endValue) {
         this.startValue = startValue;
         this.endValue = endValue;

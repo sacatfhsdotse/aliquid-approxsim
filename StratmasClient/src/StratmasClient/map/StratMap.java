@@ -11,18 +11,17 @@ import StratmasClient.Client;
 import StratmasClient.object.Shape;
 import StratmasClient.communication.GridData;
 
-
 /**
  * STRATMAS map controller. <br>
  * This class contains references to the main map as well as the panel components which controls display of the map.
- *
+ * 
  * @version 1.0
- * @author Amir Filipovic 
+ * @author Amir Filipovic
  */
 public class StratMap extends BasicMap {
     /**
      * Reference to the color scale map.
-     */ 
+     */
     private ColorMap color_map;
     /**
      * Reference to the position/navigation map.
@@ -46,16 +45,16 @@ public class StratMap extends BasicMap {
     private JPanel main_panel;
     /**
      * The panel of the process variables.
-     */ 
+     */
     private PVPanel pv_panel;
     /**
      * The frame width.
      */
-    private int frame_width = 420;
+    private int frame_width = 460;
     /**
      * The frame height.
      */
-    private int frame_height = 530;
+    private int frame_height = 580;
     /**
      * The grid of cells for actual shape.
      */
@@ -68,57 +67,59 @@ public class StratMap extends BasicMap {
      * The title of the frame.
      */
     private String map_title;
-    
+
     /**
      * Create STRATMAS map controler.
-     *
+     * 
      * @param client reference to the client.
      * @param shape shapes defining geographical region.
-     * @param map_title title of the map. 
+     * @param map_title title of the map.
      */
     public StratMap(Client client, Shape shape, String map_title) {
         super(client, shape);
-        
+
         // title of the map
         this.map_title = map_title;
 
         // create position map
         position_map = new PositionMap(this, region);
-        
+
         // create drawing object
         drawer = new MapDrawer(this, region, position_map);
 
         // create color map
-        color_map = new ColorMap((MapDrawer)drawer);
-        
+        color_map = new ColorMap((MapDrawer) drawer);
+
         // create zoom & scale control window
         zoom = new ZoomAndScale(drawer, JSlider.VERTICAL);
-        
+
         // create panel of process variables
         pv_panel = new PVPanel(client, this);
 
         // create display control
-        display = new DisplayControl(client, (MapDrawer)drawer);
-        
+        display = new DisplayControl(client, (MapDrawer) drawer);
+
         // create control window
         createControlWindow();
-        
+
         // create main panel
         JTabbedPane tabbed_pane = new JTabbedPane();
-        tabbed_pane.setPreferredSize(new Dimension(frame_width-20, frame_height-40));
+        tabbed_pane.setPreferredSize(new Dimension(frame_width - 20,
+                frame_height - 40));
         main_panel = new JPanel();
         main_panel.setLayout(new BorderLayout());
         tabbed_pane.add("Map Control", control_panel);
         tabbed_pane.add("Simulation", display.getSimulationPanel());
         tabbed_pane.add("Topography", display.getTopographyPanel());
-          tabbed_pane.add("Preferences", display.getPreferenceDisplayPanel());
+        tabbed_pane.add("Tools", display.getToolsPanel());
+        tabbed_pane.add("Preferences", display.getPreferenceDisplayPanel());
         main_panel.add(tabbed_pane, BorderLayout.CENTER);
-        
-        // show 
+
+        // show
         show();
         drawer.createAndShowGUI(map_title);
     }
-    
+
     /**
      * Create control panel for the main map manipulaton.
      */
@@ -129,16 +130,16 @@ public class StratMap extends BasicMap {
         button_panel.setLayout(new BorderLayout());
         JButton save_button = new JButton("Save");
         save_button.setFont(save_button.getFont().deriveFont(Font.PLAIN));
-        save_button.setMargin(new Insets(1,5,1,5));
+        save_button.setMargin(new Insets(1, 5, 1, 5));
         save_button.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) 
-                {
-                    self.getMapDrawer().setDoScreenShot();
-                }
-            }); 
+            public void actionPerformed(ActionEvent e) {
+                self.getMapDrawer().setDoScreenShot();
+            }
+        });
         button_panel.add(save_button, BorderLayout.SOUTH);
-        button_panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Mapshot"),
-                                                                  BorderFactory.createEmptyBorder(2,8,2,8)));
+        button_panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                .createTitledBorder("Mapshot"), BorderFactory
+                .createEmptyBorder(2, 8, 2, 8)));
         // put naviagtion map and zoom&scale into a panel
         JPanel up_panel = new JPanel();
         up_panel.setLayout(new BorderLayout());
@@ -154,24 +155,29 @@ public class StratMap extends BasicMap {
         down2_panel.add(button_panel, BorderLayout.EAST);
         down_panel.add(down2_panel, BorderLayout.CENTER);
         down_panel.add(pv_panel, BorderLayout.SOUTH);
-        down_panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.
-                                                                createTitledBorder("Process Variables Display Control"),
-                                                                BorderFactory.createEmptyBorder(2,2,2,2)));
-        
+        down_panel
+                .setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                                                                      .createTitledBorder("Process Variables Display Control"),
+                                                              BorderFactory
+                                                                      .createEmptyBorder(2,
+                                                                                         2,
+                                                                                         2,
+                                                                                         2)));
+
         color_map.getPanel().setPreferredSize(new Dimension(100, 100));
 
         // put all components into a final panel
         control_panel = new JPanel();
-         control_panel.setLayout(new BorderLayout(0,10));
+        control_panel.setLayout(new BorderLayout(0, 10));
         control_panel.add(up_panel, BorderLayout.CENTER);
         control_panel.add(down_panel, BorderLayout.SOUTH);
-        control_panel.setBorder(BorderFactory.createEmptyBorder(3,3,3,3));
+        control_panel.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
     }
 
     /**
      * Creates new grid.
-     *
+     * 
      * @param gridData contains information about the grid.
      */
     public void createGridLayer(GridData gridData) {
@@ -189,7 +195,7 @@ public class StratMap extends BasicMap {
         // update the map with the grid layer
         getMapDrawer().setGridLayer(grid_layer);
     }
-    
+
     /**
      * Removes all objects used in StratMap.
      */
@@ -210,37 +216,37 @@ public class StratMap extends BasicMap {
         if (grid_layer != null) {
             grid_layer.reset();
         }
-        
+
         final JPanel fcontrolPanel = control_panel;
         SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    fcontrolPanel.validate();
-                    fcontrolPanel.repaint();
-                }
-            });
+            public void run() {
+                fcontrolPanel.validate();
+                fcontrolPanel.repaint();
+            }
+        });
     }
-    
+
     /**
      * Returns actual grid layer reference.
      */
     public GridLayer getGridLayer() {
         return grid_layer;
     }
-    
+
     /**
      * Returns reference to the current <code>MapDrawer</code> object.
      */
     public MapDrawer getMapDrawer() {
-        return (MapDrawer)drawer;
+        return (MapDrawer) drawer;
     }
-    
+
     /**
      * Returns reference to the current <code>PVPanel</code> object.
      */
     public PVPanel getPVPanel() {
         return pv_panel;
     }
-    
+
     /**
      * Returns the DisplayControl.
      */
@@ -261,14 +267,14 @@ public class StratMap extends BasicMap {
     public String getTitle() {
         return map_title;
     }
-    
+
     /**
      * Disposes the map window.
      */
     public void doDispose() {
         frame.dispose();
     }
-    
+
     /**
      * Exits the map window
      */
@@ -277,49 +283,50 @@ public class StratMap extends BasicMap {
         drawer.doDispose();
         doDispose();
     }
-    
+
     /**
      * Shows the control panel.
      */
     public void show() {
         final StratMap self = this;
         // create and set up the window
-        frame.setTitle("Stratmas Map Control for "+map_title);
+        frame.setTitle("Stratmas Map Control for " + map_title);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        
+
         // add listener to the frame
         frame.addWindowListener(new WindowAdapter() {
-                public void windowClosing(WindowEvent e) {
-                       if (JOptionPane.showConfirmDialog(self.frame, "Really close map?", "Closing map window...",
-                                                         JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                           Visualizer.removeMap(self);
-                           self.getMapDrawer().doDispose();
-                           self.doDispose();
-                       }
+            public void windowClosing(WindowEvent e) {
+                if (JOptionPane.showConfirmDialog(self.frame,
+                                                  "Really close map?",
+                                                  "Closing map window...",
+                                                  JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    Visualizer.removeMap(self);
+                    self.getMapDrawer().doDispose();
+                    self.doDispose();
                 }
-             });
-        
+            }
+        });
+
         // frame size (test adapted for now on)
         Dimension screen_size = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setSize(frame_width, frame_height); 
-        frame.setLocation(screen_size.width-frame_width, screen_size.height/20);
+        frame.setSize(frame_width, frame_height);
+        frame.setLocation(screen_size.width - frame_width,
+                          screen_size.height / 20);
 
         // set up the content pane
         main_panel.setOpaque(true);
         frame.setContentPane(main_panel);
-        
+
         // display the window
         frame.setResizable(true);
-        
+
         // thread safety recomendation
         final JFrame fframe = frame;
-        SwingUtilities.invokeLater (
-                                    new Runnable() {
-                                        public void run() {
-                                            fframe.setVisible(true);
-                                        }
-                                    }
-                                    );
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                fframe.setVisible(true);
+            }
+        });
     }
-    
+
 }

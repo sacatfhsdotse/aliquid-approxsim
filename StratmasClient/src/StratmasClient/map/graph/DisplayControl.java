@@ -22,26 +22,28 @@ import StratmasClient.timeline.SpringUtilities;
  * This class is used to create various GUI objects used in ProcessVariableXYGraph.
  */
 public class DisplayControl {
-    
+
     /**
      * Returns the panel which displays the title of the graph
      */
-    public static JPanel getTitlePanel(String pvName, String[] factions, Color[] factionColors, String regionId) {
+    public static JPanel getTitlePanel(String pvName, String[] factions,
+            Color[] factionColors, String regionId) {
         JPanel titlePanel = new JPanel(new FlowLayout());
         JLabel pvLabel = new JLabel(pvName);
         titlePanel.add(pvLabel);
         if (factions.length == 1) {
             JLabel firstMiddleLabel = new JLabel(" for faction ");
-            firstMiddleLabel.setFont(firstMiddleLabel.getFont().deriveFont(Font.PLAIN));
+            firstMiddleLabel.setFont(firstMiddleLabel.getFont()
+                    .deriveFont(Font.PLAIN));
             titlePanel.add(firstMiddleLabel);
             JLabel factionLabel = new JLabel(factions[0]);
             factionLabel.setForeground(factionColors[0]);
             titlePanel.add(factionLabel);
             JLabel secondMiddleLabel = new JLabel(" over ");
-            secondMiddleLabel.setFont(secondMiddleLabel.getFont().deriveFont(Font.PLAIN));
+            secondMiddleLabel.setFont(secondMiddleLabel.getFont()
+                    .deriveFont(Font.PLAIN));
             titlePanel.add(secondMiddleLabel);
-        }
-        else {
+        } else {
             JLabel middleLabel = new JLabel(" for all factions over ");
             middleLabel.setFont(middleLabel.getFont().deriveFont(Font.PLAIN));
             titlePanel.add(middleLabel);
@@ -49,10 +51,9 @@ public class DisplayControl {
         JLabel regionLabel = new JLabel(regionId);
         titlePanel.add(regionLabel);
         titlePanel.setBorder(BorderFactory.createEmptyBorder(5, 2, 5, 2));
-        
+
         return titlePanel;
     }
-
 
     /**
      * Returns the panel which displays the region name.
@@ -68,10 +69,10 @@ public class DisplayControl {
         labelPanel.add(reglabel);
         labelPanel.add(regionLabel);
         SpringUtilities.makeCompactGrid(labelPanel, 1, 2, 0, 0, 2, 2);
-        
+
         return labelPanel;
     }
-    
+
     /**
      * Returns the panel which displays the legend for the current simulation run.
      */
@@ -83,19 +84,21 @@ public class DisplayControl {
         String sign = (new Character('\u2014')).toString();
         for (int i = 0; i < factions.length; i++) {
             JLabel facLabel = new JLabel(factions[i]);
-            facLabel.setFont(facLabel.getFont().deriveFont(Font.PLAIN));  
+            facLabel.setFont(facLabel.getFont().deriveFont(Font.PLAIN));
             facLabel.setForeground(factionColors[i]);
             currentPanel.add(facLabel);
             JLabel sigLabel = new JLabel(sign + " ");
             sigLabel.setForeground(factionColors[i]);
             currentPanel.add(sigLabel);
         }
-        SpringUtilities.makeCompactGrid(currentPanel, 1, factions.length * 2, 0, 0, 2, 2);
-        currentPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Current"),
-                                                                  BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+        SpringUtilities.makeCompactGrid(currentPanel, 1, factions.length * 2,
+                                        0, 0, 2, 2);
+        currentPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+                .createTitledBorder("Current"), BorderFactory
+                .createEmptyBorder(2, 2, 2, 2)));
         return currentPanel;
     }
-    
+
     /**
      * Returns the panel which displays the legend for the previous simulation run.
      */
@@ -107,19 +110,22 @@ public class DisplayControl {
         String sign = (new Character('\u002E')).toString();
         for (int i = 0; i < factions.length; i++) {
             JLabel facLabel = new JLabel(factions[i]);
-            facLabel.setFont(facLabel.getFont().deriveFont(Font.PLAIN));  
+            facLabel.setFont(facLabel.getFont().deriveFont(Font.PLAIN));
             facLabel.setForeground(factionColors[i]);
             previousPanel.add(facLabel);
             JLabel sigLabel = new JLabel(sign + sign + sign + " ");
             sigLabel.setForeground(factionColors[i]);
             previousPanel.add(sigLabel);
         }
-        SpringUtilities.makeCompactGrid(previousPanel, 1, factions.length * 2, 0, 0, 2, 2);
-        previousPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder("Previous"),
-                                                                   BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+        SpringUtilities.makeCompactGrid(previousPanel, 1, factions.length * 2,
+                                        0, 0, 2, 2);
+        previousPanel.setBorder(BorderFactory
+                .createCompoundBorder(BorderFactory
+                        .createTitledBorder("Previous"), BorderFactory
+                        .createEmptyBorder(2, 2, 2, 2)));
         return previousPanel;
     }
-    
+
     /**
      * Returns the menu for saving, exporting and exiting the graph.
      */
@@ -128,49 +134,51 @@ public class DisplayControl {
         JMenu fileMenu = new JMenu("File");
         fileMenu.setFont(fileMenu.getFont().deriveFont(Font.PLAIN));
         // save the graph
-        JMenuItem shotMenuItem = new JMenuItem(new AbstractAction("Save image as ...") {
-                /**
+        JMenuItem shotMenuItem = new JMenuItem(new AbstractAction(
+                "Save image as ...") {
+            /**
 			 * 
 			 */
-			private static final long serialVersionUID = 3572435561663461949L;
+            private static final long serialVersionUID = 3572435561663461949L;
 
-				public void actionPerformed(ActionEvent e) {
-                    fgraph.saveImage();  
-                }
-            });
+            public void actionPerformed(ActionEvent e) {
+                fgraph.saveImage();
+            }
+        });
         shotMenuItem.setFont(shotMenuItem.getFont().deriveFont(Font.PLAIN));
         fileMenu.add(shotMenuItem);
         // export the graph
-        JMenuItem exportMenuItem = new JMenuItem(new AbstractAction("Export values as ...") {
-                /**
+        JMenuItem exportMenuItem = new JMenuItem(new AbstractAction(
+                "Export values as ...") {
+            /**
 			 * 
 			 */
-			private static final long serialVersionUID = -8377546636853822853L;
+            private static final long serialVersionUID = -8377546636853822853L;
 
-				public void actionPerformed(ActionEvent e) {
-                    fgraph.exportSeries(); 
-                }
-            });
+            public void actionPerformed(ActionEvent e) {
+                fgraph.exportSeries();
+            }
+        });
         exportMenuItem.setFont(exportMenuItem.getFont().deriveFont(Font.PLAIN));
         fileMenu.add(exportMenuItem);
         fileMenu.addSeparator();
         // exit the graph
         JMenuItem exitMenuItem = new JMenuItem(new AbstractAction("Exit") {
-                /**
+            /**
 			 * 
 			 */
-			private static final long serialVersionUID = 6875215378908409584L;
+            private static final long serialVersionUID = 6875215378908409584L;
 
-				public void actionPerformed(ActionEvent e) {
-                    fgraph.remove();
-                }
-            });
+            public void actionPerformed(ActionEvent e) {
+                fgraph.remove();
+            }
+        });
         exitMenuItem.setFont(exitMenuItem.getFont().deriveFont(Font.PLAIN));
         fileMenu.add(exitMenuItem);
-        
+
         return fileMenu;
-    } 
-    
+    }
+
     /**
      * Returns the menu where the scale (linear or logarithmic) can be selected.
      */
@@ -182,30 +190,32 @@ public class DisplayControl {
         scaleSubmenu.setFont(scaleSubmenu.getFont().deriveFont(Font.PLAIN));
         optionsMenu.add(scaleSubmenu);
         // set linear scale
-        JRadioButtonMenuItem linScaleButton = new JRadioButtonMenuItem(new AbstractAction("Linear") {
-                /**
+        JRadioButtonMenuItem linScaleButton = new JRadioButtonMenuItem(
+                new AbstractAction("Linear") {
+                    /**
 			 * 
 			 */
-			private static final long serialVersionUID = 8902247851790187120L;
+                    private static final long serialVersionUID = 8902247851790187120L;
 
-				public void actionPerformed(ActionEvent e) {
-                    fgraph.setLinearScale();
-                }
-            });
+                    public void actionPerformed(ActionEvent e) {
+                        fgraph.setLinearScale();
+                    }
+                });
         linScaleButton.setFont(linScaleButton.getFont().deriveFont(Font.PLAIN));
         linScaleButton.setSelected(graph.isLinearScale());
         scaleSubmenu.add(linScaleButton);
         // set logarithmic scale
-        JRadioButtonMenuItem logScaleButton = new JRadioButtonMenuItem(new AbstractAction("Logarithmic") {
-                /**
+        JRadioButtonMenuItem logScaleButton = new JRadioButtonMenuItem(
+                new AbstractAction("Logarithmic") {
+                    /**
 			 * 
 			 */
-			private static final long serialVersionUID = -8506357038404098275L;
+                    private static final long serialVersionUID = -8506357038404098275L;
 
-				public void actionPerformed(ActionEvent e) {
-                    fgraph.setLogarithmicScale();
-                }
-            });
+                    public void actionPerformed(ActionEvent e) {
+                        fgraph.setLogarithmicScale();
+                    }
+                });
         logScaleButton.setFont(logScaleButton.getFont().deriveFont(Font.PLAIN));
         logScaleButton.setSelected(graph.isLogarithmicScale());
         logScaleButton.setEnabled(graph.getProcessVariable().getMin() >= 0);
@@ -228,52 +238,58 @@ public class DisplayControl {
         showRunSubmenu.setFont(showRunSubmenu.getFont().deriveFont(Font.PLAIN));
         showMenu.add(showRunSubmenu);
         // show the current simulation run only
-        JRadioButtonMenuItem currentRunButton = new JRadioButtonMenuItem(new AbstractAction("Current Run") {
-                /**
+        JRadioButtonMenuItem currentRunButton = new JRadioButtonMenuItem(
+                new AbstractAction("Current Run") {
+                    /**
 			 * 
 			 */
-			private static final long serialVersionUID = 8207254214714369783L;
+                    private static final long serialVersionUID = 8207254214714369783L;
 
-				public void actionPerformed(ActionEvent e) {
-                    fgraph.setShowPrevious(false);  
-                }
-            });
-        currentRunButton.setFont(currentRunButton.getFont().deriveFont(Font.PLAIN));
+                    public void actionPerformed(ActionEvent e) {
+                        fgraph.setShowPrevious(false);
+                    }
+                });
+        currentRunButton.setFont(currentRunButton.getFont()
+                .deriveFont(Font.PLAIN));
         currentRunButton.setSelected(false);
         showRunSubmenu.add(currentRunButton);
         // show both the current and the previous simulations
-        JRadioButtonMenuItem twoConsRunsButton = new JRadioButtonMenuItem(new AbstractAction("Current and Previous Run") {
-                /**
+        JRadioButtonMenuItem twoConsRunsButton = new JRadioButtonMenuItem(
+                new AbstractAction("Current and Previous Run") {
+                    /**
 			 * 
 			 */
-			private static final long serialVersionUID = 1977979661960302791L;
+                    private static final long serialVersionUID = 1977979661960302791L;
 
-				public void actionPerformed(ActionEvent e) {
-                    fgraph.setShowPrevious(true); 
-                }
-            });
-        twoConsRunsButton.setFont(twoConsRunsButton.getFont().deriveFont(Font.PLAIN));
+                    public void actionPerformed(ActionEvent e) {
+                        fgraph.setShowPrevious(true);
+                    }
+                });
+        twoConsRunsButton.setFont(twoConsRunsButton.getFont()
+                .deriveFont(Font.PLAIN));
         twoConsRunsButton.setSelected(true);
         showRunSubmenu.add(twoConsRunsButton);
         ButtonGroup runButtons = new ButtonGroup();
         runButtons.add(currentRunButton);
         runButtons.add(twoConsRunsButton);
         // show the legend
-        JCheckBoxMenuItem legendMenuItem = new JCheckBoxMenuItem(new AbstractAction("Legend") {
-                /**
+        JCheckBoxMenuItem legendMenuItem = new JCheckBoxMenuItem(
+                new AbstractAction("Legend") {
+                    /**
 			 * 
 			 */
-			private static final long serialVersionUID = -5154454850877198639L;
+                    private static final long serialVersionUID = -5154454850877198639L;
 
-				public void actionPerformed(ActionEvent e) {
-                    JCheckBoxMenuItem thisItem = (JCheckBoxMenuItem)e.getSource();
-                    fgraph.setLegendVisible(thisItem.isSelected());
-                }
-            });
+                    public void actionPerformed(ActionEvent e) {
+                        JCheckBoxMenuItem thisItem = (JCheckBoxMenuItem) e
+                                .getSource();
+                        fgraph.setLegendVisible(thisItem.isSelected());
+                    }
+                });
         legendMenuItem.setFont(legendMenuItem.getFont().deriveFont(Font.PLAIN));
         legendMenuItem.setSelected(true);
         showMenu.add(legendMenuItem);
-        
+
         return showMenu;
     }
 
@@ -286,9 +302,8 @@ public class DisplayControl {
         menuBar.add(createFileMenu(graph));
         menuBar.add(createOptionsMenu(graph));
         menuBar.add(createShowMenu(graph));
-        
-        return menuBar;
-    } 
 
+        return menuBar;
+    }
 
 }

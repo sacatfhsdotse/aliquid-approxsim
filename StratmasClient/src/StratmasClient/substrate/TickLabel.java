@@ -8,12 +8,12 @@ import javax.swing.JLabel;
 /**
  * This class is used to paint ticks on the color map.
  */
-public class TickLabel extends JLabel{
+public class TickLabel extends JLabel {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 4496288227579233513L;
-	/**
+    private static final long serialVersionUID = 4496288227579233513L;
+    /**
      * The actual color.
      */
     public static final Color COLOR = Color.BLACK;
@@ -21,7 +21,7 @@ public class TickLabel extends JLabel{
      * The number of ticks.
      */
     private int tickNumber;
-    
+
     /**
      * Creates new label.
      */
@@ -29,20 +29,20 @@ public class TickLabel extends JLabel{
         tickNumber = tNumber;
         setPreferredSize(new Dimension(this.getWidth(), 10));
     }
-    
+
     /**
-     * Sets the number of displayed ticks. 
+     * Sets the number of displayed ticks.
      */
     public void setTickNumber(int tNumber) {
         tickNumber = tNumber;
     }
-    
+
     /**
      * Draws the paint ticks.
      */
     protected void paintComponent(Graphics g) {
-        // let UI delegate paint first 
-        super.paintComponent(g); 
+        // let UI delegate paint first
+        super.paintComponent(g);
         // paint the contents next....
         g.setColor(TickLabel.COLOR);
         // draw horizontal lines
@@ -57,12 +57,13 @@ public class TickLabel extends JLabel{
             g.drawLine(x, 0, x, this.getHeight() / 3);
             i++;
         }
-        g.drawLine(this.getWidth() - 1, 0, this.getWidth() - 1, this.getHeight());
+        g.drawLine(this.getWidth() - 1, 0, this.getWidth() - 1,
+                   this.getHeight());
     }
-    
+
     /**
      * Updates the label.
-     */ 
+     */
     public void update() {
         this.validate();
         this.repaint();

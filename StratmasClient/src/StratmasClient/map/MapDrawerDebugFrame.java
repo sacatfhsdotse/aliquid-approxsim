@@ -21,46 +21,39 @@ import StratmasClient.map.adapter.MapElementAdapter;
 import StratmasClient.map.adapter.ElementAdapter;
 
 /**
- * Debug frame for the MapDrawer class 
- *
+ * Debug frame for the MapDrawer class
+ * 
  * @version 1.0
  * @author Daniel Ahlin
  */
-public class MapDrawerDebugFrame extends JFrame
-{
+public class MapDrawerDebugFrame extends JFrame {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = -1202973251902467674L;
-	public static int locationLoops = 10;
+    private static final long serialVersionUID = -1202973251902467674L;
+    public static int locationLoops = 10;
     public static int locationSlices = 10;
     public static double locationAlphaAdjust = 0.0d;
 
-
-
     /**
      * Creates a new frame with debug controls for the specified drawer.
-     *
+     * 
      * @param drawer the MapDrawer controlled by the frame
      */
-    public MapDrawerDebugFrame(MapDrawer drawer)
-    {
+    public MapDrawerDebugFrame(MapDrawer drawer) {
         super("MapDrawerDebugFrame");
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        
-        // Add listener that kills the pane if the frame is disposed
-         drawer.frame.addWindowListener(new WindowAdapter() 
-             {
-                 public void windowClosed(WindowEvent e) 
-                {
-                    dispose();
-                    e.getWindow().removeWindowListener(this);
-                 }
-             });
 
+        // Add listener that kills the pane if the frame is disposed
+        drawer.frame.addWindowListener(new WindowAdapter() {
+            public void windowClosed(WindowEvent e) {
+                dispose();
+                e.getWindow().removeWindowListener(this);
+            }
+        });
 
         final MapDrawer mapDrawer = drawer;
-        
+
         // Location drawing
 //         JCheckBox locationCheckBox = new JCheckBox(new AbstractAction("Draw Location") 
 //             {
@@ -90,69 +83,69 @@ public class MapDrawerDebugFrame extends JFrame
 //         locationOutlineCheckBox.setSelected(false);
 //         locationOutlineCheckBox.doClick();
 
-        JPanel locationPanel = new JPanel();        
+        JPanel locationPanel = new JPanel();
 //         locationPanel.add(locationCheckBox);
 //         locationPanel.add(locationOutlineCheckBox);
 
         JSlider locationLoopSlider = new JSlider(1, 100, locationLoops);
-        final JLabel locationLoopLabel = new JLabel(Integer.toString(locationLoops));
-        locationLoopSlider.addChangeListener(new ChangeListener() 
-            {
-                public void stateChanged(ChangeEvent e) 
-                {
-                    JSlider source = (JSlider) e.getSource();
-                    if (!source.getValueIsAdjusting()) {
-                        locationLoops = source.getValue();
-                        locationLoopLabel.setText(Integer.toString(locationLoops));
-                        for (Enumeration adapters = mapDrawer.mapDrawableAdapters.elements(); 
-                             adapters.hasMoreElements();) {
-                            Object o = adapters.nextElement();
-                            if (o  instanceof MapElementAdapter) {
-                                MapElementAdapter adapter = (MapElementAdapter) o;
-                                if(adapter.getDrawLocation()) {
-                                    adapter.setDrawLocation(false);
-                                    adapter.setDrawLocation(true);
-                                }
+        final JLabel locationLoopLabel = new JLabel(
+                Integer.toString(locationLoops));
+        locationLoopSlider.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                JSlider source = (JSlider) e.getSource();
+                if (!source.getValueIsAdjusting()) {
+                    locationLoops = source.getValue();
+                    locationLoopLabel.setText(Integer.toString(locationLoops));
+                    for (Enumeration adapters = mapDrawer.mapDrawableAdapters
+                            .elements(); adapters.hasMoreElements();) {
+                        Object o = adapters.nextElement();
+                        if (o instanceof MapElementAdapter) {
+                            MapElementAdapter adapter = (MapElementAdapter) o;
+                            if (adapter.getDrawLocation()) {
+                                adapter.setDrawLocation(false);
+                                adapter.setDrawLocation(true);
                             }
                         }
                     }
                 }
-            });
+            }
+        });
         JPanel locationLoopPanel = new JPanel();
-        locationLoopPanel.setLayout(new BoxLayout(locationLoopPanel, BoxLayout.Y_AXIS));
+        locationLoopPanel.setLayout(new BoxLayout(locationLoopPanel,
+                BoxLayout.Y_AXIS));
         JLabel locationLoopSliderLabel = new JLabel("Location loops (0 - 100)");
         locationLoopPanel.add(locationLoopSliderLabel);
         locationLoopPanel.add(locationLoopSlider);
         locationLoopPanel.add(locationLoopLabel);
 
-
         JSlider locationSliceSlider = new JSlider(1, 100, locationSlices);
-        final JLabel locationSliceLabel = new JLabel(Integer.toString(locationSlices));
-        locationSliceSlider.addChangeListener(new ChangeListener() 
-            {
-                public void stateChanged(ChangeEvent e) 
-                {
-                    JSlider source = (JSlider) e.getSource();
-                    if (!source.getValueIsAdjusting()) {
-                        locationSlices = source.getValue();
-                        locationSliceLabel.setText(Integer.toString(locationSlices));
-                        for (Enumeration adapters = mapDrawer.mapDrawableAdapters.elements(); 
-                             adapters.hasMoreElements();) {
-                            Object o = adapters.nextElement();
-                            if (o  instanceof MapElementAdapter) {
-                                MapElementAdapter adapter = (MapElementAdapter) o;
-                                if(adapter.getDrawLocation()) {
-                                    adapter.setDrawLocation(false);
-                                    adapter.setDrawLocation(true);
-                                }
+        final JLabel locationSliceLabel = new JLabel(
+                Integer.toString(locationSlices));
+        locationSliceSlider.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                JSlider source = (JSlider) e.getSource();
+                if (!source.getValueIsAdjusting()) {
+                    locationSlices = source.getValue();
+                    locationSliceLabel.setText(Integer.toString(locationSlices));
+                    for (Enumeration adapters = mapDrawer.mapDrawableAdapters
+                            .elements(); adapters.hasMoreElements();) {
+                        Object o = adapters.nextElement();
+                        if (o instanceof MapElementAdapter) {
+                            MapElementAdapter adapter = (MapElementAdapter) o;
+                            if (adapter.getDrawLocation()) {
+                                adapter.setDrawLocation(false);
+                                adapter.setDrawLocation(true);
                             }
                         }
                     }
                 }
-            });
+            }
+        });
         JPanel locationSlicePanel = new JPanel();
-        locationSlicePanel.setLayout(new BoxLayout(locationSlicePanel, BoxLayout.Y_AXIS));
-        JLabel locationSliceSliderLabel = new JLabel("Location slices (0 - 100)");
+        locationSlicePanel.setLayout(new BoxLayout(locationSlicePanel,
+                BoxLayout.Y_AXIS));
+        JLabel locationSliceSliderLabel = new JLabel(
+                "Location slices (0 - 100)");
         locationSlicePanel.add(locationSliceSliderLabel);
         locationSlicePanel.add(locationSliceSlider);
         locationSlicePanel.add(locationSliceLabel);
@@ -188,10 +181,9 @@ public class MapDrawerDebugFrame extends JFrame
 //         locationAlphaAdjustPanel.add(locationAlphaAdjustSlider);
 //         locationAlphaAdjustPanel.add(locationAlphaAdjustLabel);
 
-
         JPanel locationTunePanel = new JPanel();
-        locationTunePanel.setLayout(new BoxLayout(locationTunePanel, 
-                                                  BoxLayout.Y_AXIS));
+        locationTunePanel.setLayout(new BoxLayout(locationTunePanel,
+                BoxLayout.Y_AXIS));
         locationTunePanel.add(locationLoopPanel);
         locationTunePanel.add(locationSlicePanel);
 //         locationTunePanel.add(locationAlphaAdjustPanel);
@@ -204,66 +196,64 @@ public class MapDrawerDebugFrame extends JFrame
         texMinFilterChooser.addItem(new String("GL_NEAREST_MIPMAP_LINEAR"));
         texMinFilterChooser.addItem(new String("GL_LINEAR_MIPMAP_LINEAR"));
         texMinFilterChooser.setSelectedItem("GL_LINEAR_MIPMAP_LINEAR");
-        texMinFilterChooser.addItemListener(new ItemListener() 
-            {
-                public void itemStateChanged(ItemEvent e) 
-                {
-                    String str = (String) e.getItem();
-                    if (str.equals("GL_NEAREST_MIPMAP_NEAREST")) {
-                        SymbolToTextureMapper.textureMinFilter = GL.GL_NEAREST_MIPMAP_NEAREST;
-                    } else if (str.equals("GL_NEAREST_MIPMAP_LINEAR")) {
-                        SymbolToTextureMapper.textureMinFilter = GL.GL_NEAREST_MIPMAP_LINEAR;
-                    }  else if (str.equals("GL_LINEAR_MIPMAP_NEAREST")) {
-                        SymbolToTextureMapper.textureMinFilter = GL.GL_LINEAR_MIPMAP_NEAREST;
-                    } else if (str.equals("GL_LINEAR_MIPMAP_LINEAR")) {
-                        SymbolToTextureMapper.textureMinFilter = GL.GL_LINEAR_MIPMAP_LINEAR;
-                    } else {
-                        throw new AssertionError("Should not be here.");
-                    }
-                    for (Enumeration adapters = mapDrawer.mapDrawableAdapters.elements(); 
-                         adapters.hasMoreElements();) {
-                        ((ElementAdapter) adapters.nextElement()).updateSymbol();
-                    }
-                    mapDrawer.mapDrawableAdapterRecompilation.addAll(mapDrawer.mapDrawableAdapters.values());
-                    mapDrawer.update();
+        texMinFilterChooser.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                String str = (String) e.getItem();
+                if (str.equals("GL_NEAREST_MIPMAP_NEAREST")) {
+                    SymbolToTextureMapper.textureMinFilter = GL.GL_NEAREST_MIPMAP_NEAREST;
+                } else if (str.equals("GL_NEAREST_MIPMAP_LINEAR")) {
+                    SymbolToTextureMapper.textureMinFilter = GL.GL_NEAREST_MIPMAP_LINEAR;
+                } else if (str.equals("GL_LINEAR_MIPMAP_NEAREST")) {
+                    SymbolToTextureMapper.textureMinFilter = GL.GL_LINEAR_MIPMAP_NEAREST;
+                } else if (str.equals("GL_LINEAR_MIPMAP_LINEAR")) {
+                    SymbolToTextureMapper.textureMinFilter = GL.GL_LINEAR_MIPMAP_LINEAR;
+                } else {
+                    throw new AssertionError("Should not be here.");
                 }
-            });
+                for (Enumeration adapters = mapDrawer.mapDrawableAdapters
+                        .elements(); adapters.hasMoreElements();) {
+                    ((ElementAdapter) adapters.nextElement()).updateSymbol();
+                }
+                mapDrawer.mapDrawableAdapterRecompilation
+                        .addAll(mapDrawer.mapDrawableAdapters.values());
+                mapDrawer.update();
+            }
+        });
         // MagFilter
         JComboBox texMagFilterChooser = new JComboBox();
         texMagFilterChooser.addItem(new String("GL_NEAREST"));
         texMagFilterChooser.addItem(new String("GL_LINEAR"));
         texMagFilterChooser.setSelectedItem("GL_LINEAR");
-        texMagFilterChooser.addItemListener(new ItemListener() 
-            {
-                public void itemStateChanged(ItemEvent e) 
-                {
-                    String str = (String) e.getItem();
-                    if (str.equals("GL_NEAREST")) {
-                        SymbolToTextureMapper.textureMagFilter = GL.GL_NEAREST;
-                    } else if (str.equals("GL_LINEAR")) {
-                        SymbolToTextureMapper.textureMagFilter = GL.GL_LINEAR;
-                    } else {
-                        throw new AssertionError("Should not be here.");
-                    }
-                    for (Enumeration adapters = mapDrawer.mapDrawableAdapters.elements(); 
-                         adapters.hasMoreElements();) {
-                        ((ElementAdapter) adapters.nextElement()).updateSymbol();
-                    }
-                    mapDrawer.mapDrawableAdapterRecompilation.addAll(mapDrawer.mapDrawableAdapters.values());
-                    mapDrawer.update();                                        
+        texMagFilterChooser.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                String str = (String) e.getItem();
+                if (str.equals("GL_NEAREST")) {
+                    SymbolToTextureMapper.textureMagFilter = GL.GL_NEAREST;
+                } else if (str.equals("GL_LINEAR")) {
+                    SymbolToTextureMapper.textureMagFilter = GL.GL_LINEAR;
+                } else {
+                    throw new AssertionError("Should not be here.");
                 }
-            });
+                for (Enumeration adapters = mapDrawer.mapDrawableAdapters
+                        .elements(); adapters.hasMoreElements();) {
+                    ((ElementAdapter) adapters.nextElement()).updateSymbol();
+                }
+                mapDrawer.mapDrawableAdapterRecompilation
+                        .addAll(mapDrawer.mapDrawableAdapters.values());
+                mapDrawer.update();
+            }
+        });
         JPanel filterPanel = new JPanel();
         filterPanel.setLayout(new BoxLayout(filterPanel, BoxLayout.X_AXIS));
         filterPanel.add(texMinFilterChooser);
         filterPanel.add(texMagFilterChooser);
-        
+
         // Packaging
         JPanel subpanel = new JPanel();
         subpanel.setLayout(new BoxLayout(subpanel, BoxLayout.Y_AXIS));
-         subpanel.add(locationPanel);
-         subpanel.add(locationTunePanel);
-         subpanel.add(filterPanel);
+        subpanel.add(locationPanel);
+        subpanel.add(locationTunePanel);
+        subpanel.add(filterPanel);
 
         getContentPane().add(subpanel);
     }
@@ -271,16 +261,15 @@ public class MapDrawerDebugFrame extends JFrame
     /**
      * Starts a thread with a debugframe for this mapdrawer.
      */
-    public static void openMapDrawerDebugFrame(MapDrawer drawer)
-    {
+    public static void openMapDrawerDebugFrame(MapDrawer drawer) {
         final MapDrawerDebugFrame frame = new MapDrawerDebugFrame(drawer);
 
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    frame.pack();
-                    frame.setVisible(true);
-                }
-            });
+            public void run() {
+                frame.pack();
+                frame.setVisible(true);
+            }
+        });
     }
 
 }

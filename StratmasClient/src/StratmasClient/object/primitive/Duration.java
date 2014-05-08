@@ -1,4 +1,4 @@
-//         $Id: Duration.java,v 1.2 2006/03/23 17:16:51 alexius Exp $
+// $Id: Duration.java,v 1.2 2006/03/23 17:16:51 alexius Exp $
 /*
  * @(#)Duration.java
  */
@@ -12,14 +12,12 @@ import java.util.regex.Matcher;
 import java.util.Hashtable;
 
 /**
- * A simple duration class where the internal representation is
- * milliseconds
- *
+ * A simple duration class where the internal representation is milliseconds
+ * 
  * @version 1, $Date: 2006/03/23 17:16:51 $
- * @author  Daniel Ahlin
-*/
-public class Duration 
-{
+ * @author Daniel Ahlin
+ */
+public class Duration {
     /**
      * MilliSecs per second
      */
@@ -55,41 +53,38 @@ public class Duration
      */
     static Hashtable<String, Long> unitLookupTable = createUnitLookupTable();
 
-    /** 
+    /**
      * Number of milliseconds
      */
     private long milliSecs;
 
     /**
      * Creates a new duration.
-     *
+     * 
      * @param ms The number of milliseconds.
      */
-    public Duration(long ms) 
-    {
+    public Duration(long ms) {
         milliSecs = ms;
     }
-     
+
     /**
      * Accessor for milliseconds
-     *
+     * 
      * @return The number of milliseconds.
      */
-    public long getMilliSecs()
-    {
+    public long getMilliSecs() {
         return milliSecs;
     }
-    
+
     /**
      * Creates a string representation of this Duration
-     *
+     * 
      * @return A string representation of this Duration.
      */
-    public String toString() 
-    {
+    public String toString() {
         StringBuffer buf = new StringBuffer();
         long remainder = getMilliSecs();
-        if (remainder < 0) {            
+        if (remainder < 0) {
             remainder *= -1;
             buf.append("-");
         }
@@ -133,21 +128,20 @@ public class Duration
         if (remainder > 0) {
             buf.append(remainder + "ms ");
         }
-        
+
         return buf.toString().trim();
     }
 
     /**
      * Creates a Duration by parsing a string.
-     *
-     * @param str  the string to parse.
+     * 
+     * @param str the string to parse.
      */
-    public static Duration parseDuration(String str) throws ParseException
-    {
+    public static Duration parseDuration(String str) throws ParseException {
         long res = 0;
-        boolean negative = false; 
+        boolean negative = false;
 
-        //Check for negative pattern
+        // Check for negative pattern
         if (str.matches("\\A-.*")) {
             negative = true;
             str = str.substring(1);
@@ -155,58 +149,55 @@ public class Duration
 
         // If no unit and only numericals we assume seconds.
         if (str.matches("\\A[0-9]+\\z")) {
-             return new Duration(Long.parseLong(str));
+            return new Duration(Long.parseLong(str));
         }
 
         Pattern splitPattern = Pattern.compile("\\s+");
-        
+
         String[] fields = splitPattern.split(str);
-        
+
         for (int i = 0; i < fields.length; i++) {
             String value;
             String unit;
-            if (fields[i].matches("\\A[0-9]+\\z") &&
-                i < (fields.length - 1)) {
+            if (fields[i].matches("\\A[0-9]+\\z") && i < (fields.length - 1)) {
                 // Check for unit in next field
                 value = fields[i];
                 unit = fields[i + 1];
-                i++;                
+                i++;
             } else if (fields[i].matches("\\A[0-9]+[^0-9]+\\z")) {
                 // Check for unit as tail of field.
-                Matcher matcher = Pattern.compile("[^0-9].*\\z").matcher(fields[i]);
+                Matcher matcher = Pattern.compile("[^0-9].*\\z")
+                        .matcher(fields[i]);
                 matcher.find();
                 int limit = matcher.start();
-                value = fields[i].substring(0,limit);
+                value = fields[i].substring(0, limit);
                 unit = fields[i].substring(limit);
             } else {
                 // Else there is an errror;
-                throw new ParseException("Unable to parse \"" + 
-                                         fields[i] + "\"", -1);
+                throw new ParseException("Unable to parse \"" + fields[i]
+                        + "\"", -1);
             }
 
             // Get multiplier;
             Long multiplier = (Long) unitLookupTable.get(unit.toLowerCase());
             if (multiplier == null) {
-                throw new ParseException("Unable to parse \"" + 
-                                         unit + "\"", -1);
+                throw new ParseException("Unable to parse \"" + unit + "\"", -1);
             } else {
                 res += (Long.parseLong(value) * multiplier.longValue());
-                
+
             }
         }
-                
+
         if (negative) {
             res *= -1;
-        }        
-        return new Duration(res);           
+        }
+        return new Duration(res);
     }
 
     /**
-     * Creates a lookup table matching unit strings to tics
-     * multipliers.
+     * Creates a lookup table matching unit strings to tics multipliers.
      */
-    private static Hashtable<String, Long> createUnitLookupTable()
-    {
+    private static Hashtable<String, Long> createUnitLookupTable() {
         Hashtable<String, Long> res = new Hashtable<String, Long>();
 
         res.put("ms", new Long(1));
@@ -243,8 +234,7 @@ public class Duration
     /**
      * Returns true if this is the same time as other.
      */
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         if (o instanceof Duration) {
             return ((Duration) o).getMilliSecs() == getMilliSecs();
         }
@@ -252,11 +242,9 @@ public class Duration
     }
 
     /**
-     * Returns this objects hashCode. (The same hashCode as for new
-     * Long(getMilliSecs()).hashCode())
+     * Returns this objects hashCode. (The same hashCode as for new Long(getMilliSecs()).hashCode())
      */
-    public int hashCode()
-    {
-        return (int)(this.getMilliSecs()^(this.getMilliSecs()>>>32));
+    public int hashCode() {
+        return (int) (this.getMilliSecs() ^ (this.getMilliSecs() >>> 32));
     }
 }

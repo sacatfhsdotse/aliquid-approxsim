@@ -10,7 +10,7 @@ public class UPSCoordinate {
     private double easting;
     // Northing/Y in meters.
     private double northing;
-    
+
     /**
      * Creates new coordinate.
      */
@@ -26,14 +26,14 @@ public class UPSCoordinate {
     public char getHemisphere() {
         return hemisphere;
     }
-    
+
     /**
      * Returns the easting.
      */
     public double getEasting() {
-        return easting; 
+        return easting;
     }
-    
+
     /**
      * Returns the northing.
      */
@@ -41,4 +41,3 @@ public class UPSCoordinate {
         return northing;
     }
 }
-

@@ -1,4 +1,4 @@
-//         $Id: ESRIInputStream.java,v 1.6 2006/09/18 09:58:02 alexius Exp $
+// $Id: ESRIInputStream.java,v 1.6 2006/09/18 09:58:02 alexius Exp $
 
 package StratmasClient;
 
@@ -20,21 +20,20 @@ import com.linuxense.javadbf.DBFException;
 
 /**
  * ESRI import tools.
- *
+ * 
  * @version 1, $Date: 2006/09/18 09:58:02 $
- * @author  Daniel Ahlin
-*/
-public class ESRIInputStream extends InputStream
-{
+ * @author Daniel Ahlin
+ */
+public class ESRIInputStream extends InputStream {
     /**
      * Root attributes to use.
      */
-    static String rootAttributes = 
-        "xmlns:sp=\"http://pdc.kth.se/stratmasNamespace\" " +
-        "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " +
-        "xmlns:xi=\"http://www.w3.org/2001/XInclude\" " +
-        "xsi:schemaLocation=\"http://pdc.kth.se/stratmasNamespace /schemas/stratmasProtocol.xsd\""; // TODO does file location need to be mention here? See StratmasConstants.java. The reader, not the file, should figure out where imports are...
-    
+    static String rootAttributes = "xmlns:sp=\"http://pdc.kth.se/stratmasNamespace\" "
+            + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
+            + "xmlns:xi=\"http://www.w3.org/2001/XInclude\" "
+            + "xsi:schemaLocation=\"http://pdc.kth.se/stratmasNamespace /schemas/stratmasProtocol.xsd\""; // TODO does file location need to
+// be mention here? See StratmasConstants.java. The reader, not the file, should figure out where imports are...
+
     /**
      * The stream containing the ESRI shapes.
      */
@@ -62,12 +61,11 @@ public class ESRIInputStream extends InputStream
 
     /**
      * Default buffer size.
-     */    
+     */
     static int BUFFER_SIZE = 1024;
 
     /**
-     * The current position in the outBuffer, points to the first
-     * unread point in the buffer.
+     * The current position in the outBuffer, points to the first unread point in the buffer.
      */
     int bufferStart;
 
@@ -108,17 +106,16 @@ public class ESRIInputStream extends InputStream
 
     /**
      * Creates a new ESRIInputStream given the location of the data and the db.
-     *
+     * 
      * @param shapeUrl the url to the shape file.
      * @param dbUrl the url to the db file.
      */
-    public ESRIInputStream(URL shapeUrl, URL dbUrl) throws IOException
-    {
+    public ESRIInputStream(URL shapeUrl, URL dbUrl) throws IOException {
         InputStream dbStream = null;
-        
+
         try {
             this.shapeStream = shapeUrl.openStream();
-            
+
             this.factory = new ESRIShapeFactory(shapeStream);
 
             // Check for content specifications
@@ -132,33 +129,35 @@ public class ESRIInputStream extends InputStream
                     factory.setShape(fields[0]);
                     factory.setPart(fields[1]);
                 } else {
-                    throw new IOException("Unsupported shape selection request: " + 
-                                          shapeUrl.getQuery());
+                    throw new IOException(
+                            "Unsupported shape selection request: "
+                                    + shapeUrl.getQuery());
                 }
             }
-            
+
             // Check for db
-            if (dbUrl != null) {            
+            if (dbUrl != null) {
                 try {
                     dbStream = dbUrl.openStream();
                     factory.setDB(new ESRIDBF(dbStream));
                 } catch (ESRIDBFileException e) {
                     throw new IOException(e.getMessage());
                 }
-            }
-            else {
-                 // Try the same filename but with .dbf as suffix.
-                 String shapeFileName = shapeUrl.getPath();
-                 dbUrl = new URL(shapeUrl.getProtocol() + ":" +
-                                 shapeFileName.substring(0, shapeFileName.toLowerCase().lastIndexOf(".shp")) + ".dbf");
-                 try {
-                      dbStream = dbUrl.openStream();
-                      factory.setDB(new ESRIDBF(dbStream));
-                 } catch (ESRIDBFileException e) {
-                      Debug.err.println(dbUrl.getPath() + " not found");
-                 } catch (FileNotFoundException e) {
-                     Debug.err.println(dbUrl.getPath() + " not found");
-                 }
+            } else {
+                // Try the same filename but with .dbf as suffix.
+                String shapeFileName = shapeUrl.getPath();
+                dbUrl = new URL(shapeUrl.getProtocol()
+                        + ":"
+                        + shapeFileName.substring(0, shapeFileName
+                                .toLowerCase().lastIndexOf(".shp")) + ".dbf");
+                try {
+                    dbStream = dbUrl.openStream();
+                    factory.setDB(new ESRIDBF(dbStream));
+                } catch (ESRIDBFileException e) {
+                    Debug.err.println(dbUrl.getPath() + " not found");
+                } catch (FileNotFoundException e) {
+                    Debug.err.println(dbUrl.getPath() + " not found");
+                }
             }
 
             // Set document header as the first atom.
@@ -172,25 +171,23 @@ public class ESRIInputStream extends InputStream
             this.bufferLength = 0;
         } finally {
             if (dbStream != null) {
-                dbStream.close();                    
+                dbStream.close();
             }
         }
     }
 
     /**
      * Reads and returns the next byte and returns it as an int.
+     * 
      * @return next byte in stream (as an int).
-     * @throws IOException if the underlying shape stream causes an
-     * IOException during the skip, if the data read from the same
-     * does not follow the ESRI specification or if the stream has
-     * been closed.
+     * @throws IOException if the underlying shape stream causes an IOException during the skip, if the data read from the same does not
+     *             follow the ESRI specification or if the stream has been closed.
      */
-    public int read() throws IOException
-    {
+    public int read() throws IOException {
         if (isClosed) {
             throw new IOException("Invalid operation on closed stream.");
         }
-        
+
         int res = -1;
 
         refill(1);
@@ -199,24 +196,21 @@ public class ESRIInputStream extends InputStream
             bufferStart = (bufferStart + 1) % buffer.length;
             bufferLength--;
         }
-        
+
         return res;
     }
 
     /**
-     * Reads at most specified number of bytes to b, begining at
-     * off. Returns number of bytes actually read.
-     *
+     * Reads at most specified number of bytes to b, begining at off. Returns number of bytes actually read.
+     * 
      * @param b buffer to read into.
      * @param off start in b.
      * @param len max number of bytes to read.
      * @return number of bytes read.
-     * @throws IOException if the underlying shape stream causes an
-     * IOException during the skip or if the data read from the same
-     * does not follow the ESRI specification.
+     * @throws IOException if the underlying shape stream causes an IOException during the skip or if the data read from the same does not
+     *             follow the ESRI specification.
      */
-    public int read(byte[] b, int off, int len) throws IOException
-    {
+    public int read(byte[] b, int off, int len) throws IOException {
         // Check fringe cases
         if (isClosed) {
             throw new IOException("Invalid operation on closed stream.");
@@ -251,24 +245,23 @@ public class ESRIInputStream extends InputStream
      * 
      * @param n the number of bytes requested by the causing read.
      */
-    void refill(int n) throws IOException
-    {
-        if (n <= bufferLength ||
-            bufferLength == buffer.length) {
+    void refill(int n) throws IOException {
+        if (n <= bufferLength || bufferLength == buffer.length) {
             // Request fulfilled by data in buffer or buffer filled,
             // return.
             return;
         }
-        
+
         // While free space available and atoms pending.
-        for (int freeSpace = buffer.length - bufferLength;
-             freeSpace > 0 && atom != null;) {
+        for (int freeSpace = buffer.length - bufferLength; freeSpace > 0
+                && atom != null;) {
             // Write min of what is left of current atom and free space.
-            int write = freeSpace < atom.length - atomIndex ?
-                freeSpace : atom.length - atomIndex;
+            int write = freeSpace < atom.length - atomIndex ? freeSpace
+                    : atom.length - atomIndex;
             // Try write.
-            int written = circularWrite(atom, atomIndex, buffer, 
-                                        (bufferStart + bufferLength) % buffer.length, write);
+            int written = circularWrite(atom, atomIndex, buffer,
+                                        (bufferStart + bufferLength)
+                                                % buffer.length, write);
             bufferLength += written;
             atomIndex += written;
             freeSpace -= written;
@@ -279,17 +272,16 @@ public class ESRIInputStream extends InputStream
             }
         }
     }
-    
+
     /**
      * Returns the next atom to process, or null if none.
      */
-    byte[] nextAtom() throws IOException
-    {
+    byte[] nextAtom() throws IOException {
         byte[] res = null;
         if (!shapesDone) {
             res = factory.getNextAtom(shapeStream);
             shapesDone = (res == null);
-            if (shapesDone && !endTagDone) { 
+            if (shapesDone && !endTagDone) {
                 res = getDocumentFooter();
                 endTagDone = true;
             }
@@ -299,78 +291,71 @@ public class ESRIInputStream extends InputStream
     }
 
     /**
-     * Writes provided buffer to the provided circular buffer and
-     * returns the number of bytes written. Writes at most 
-     * min(dest.length, length) bytes.
-     *
+     * Writes provided buffer to the provided circular buffer and returns the number of bytes written. Writes at most min(dest.length,
+     * length) bytes.
+     * 
      * @param src the source buffer.
      * @param srcpos the positition in the source buffer.
      * @param dest the destination buffer.
      * @param destpos the position in the destination buffer.
      * @param length the length in the destination buffer.
      */
-    int circularWrite(byte[] src, int srcpos, byte[] dest, 
-                       int destpos, int length)
-    {
+    int circularWrite(byte[] src, int srcpos, byte[] dest, int destpos,
+            int length) {
         // First write is special.
-        int firstlen = dest.length - destpos < length ?
-            dest.length - destpos : length;
+        int firstlen = dest.length - destpos < length ? dest.length - destpos
+                : length;
         System.arraycopy(src, srcpos, dest, destpos, firstlen);
         int secondlen = 0;
         if (length > firstlen) {
-            secondlen = (destpos - 1) < (length - firstlen) ?
-                (destpos - 1) : (length - firstlen);
-            System.arraycopy(src, srcpos + firstlen, dest, 0, 
-                             secondlen);
+            secondlen = (destpos - 1) < (length - firstlen) ? (destpos - 1)
+                    : (length - firstlen);
+            System.arraycopy(src, srcpos + firstlen, dest, 0, secondlen);
         }
-        
-        return firstlen + secondlen;        
+
+        return firstlen + secondlen;
     }
 
     /**
-     * Writes provided circular buffer src to the provided buffer dest
-     * and returns the number of bytes written. Writes at most
+     * Writes provided circular buffer src to the provided buffer dest and returns the number of bytes written. Writes at most
      * min(src.length, length) bytes.
-     *
+     * 
      * @param src the source buffer.
      * @param srcpos the positition in the source buffer.
      * @param dest the destination buffer.
      * @param destpos the position in the destination buffer.
      * @param length the length in the destination buffer.
      */
-    int circularRead(byte[] src, int srcpos, byte[] dest, 
-                     int destpos, int length)
-    {
+    int circularRead(byte[] src, int srcpos, byte[] dest, int destpos,
+            int length) {
         // First write: min of length and whats left of src.
-        int resLen = length < (src.length - srcpos) ?
-            length : (src.length - srcpos);
+        int resLen = length < (src.length - srcpos) ? length
+                : (src.length - srcpos);
         System.arraycopy(src, srcpos, dest, destpos, resLen);
         // Second write: min of : (length - resLen) and (src.length - resLen).
         if (resLen < length) {
-            int secondLen = (length - resLen) < (src.length - resLen) ?
-                (length - resLen) : (src.length - resLen);
+            int secondLen = (length - resLen) < (src.length - resLen) ? (length - resLen)
+                    : (src.length - resLen);
             System.arraycopy(src, 0, dest, destpos + resLen, secondLen);
             resLen += secondLen;
         }
 
-        return resLen;            
+        return resLen;
     }
-        
+
     /**
      * Returns the number of bytes available without blocking.
      */
-    public int available()
-    {
+    public int available() {
         return bufferLength;
     }
 
     /**
      * Closes this stream.
-     * @throws IOException if the underlying ESRI stream throws an
-     * IOException on close().
+     * 
+     * @throws IOException if the underlying ESRI stream throws an IOException on close().
      */
-    public void close() throws IOException
-    {
+    public void close() throws IOException {
         if (isClosed) {
             throw new IOException("Invalid operation on closed stream.");
         }
@@ -378,21 +363,20 @@ public class ESRIInputStream extends InputStream
             shapeStream.close();
             this.isClosed = true;
         } catch (IOException e) {
-            throw new IOException("Error closing esri stream: " + e.getMessage());
+            throw new IOException("Error closing esri stream: "
+                    + e.getMessage());
         }
     }
 
     /**
      * Skips at most the provided number of bytes of the input.
-     *
+     * 
      * @param n bytes to skip.
      * @return number of bytes skipped.
-     * @throws IOException if the underlying shape stream causes an
-     * IOException during the skip or if the data read from the same
-     * does not follow the ESRI specification.
+     * @throws IOException if the underlying shape stream causes an IOException during the skip or if the data read from the same does not
+     *             follow the ESRI specification.
      */
-    public long skip(long n) throws IOException
-    {
+    public long skip(long n) throws IOException {
         // Check fringe cases
         if (isClosed) {
             throw new IOException("Invalid operation on closed stream.");
@@ -404,17 +388,16 @@ public class ESRIInputStream extends InputStream
         long skipped = 0;
 
         while (skipped < n) {
-            int filler = (n - skipped) < Integer.MAX_VALUE ?
-                (int) (n - skipped) : Integer.MAX_VALUE;
+            int filler = (n - skipped) < Integer.MAX_VALUE ? (int) (n - skipped)
+                    : Integer.MAX_VALUE;
             refill(filler);
-            // Number of positions to move start.            
-            int skippable = available() < filler ?
-                available() : filler;
+            // Number of positions to move start.
+            int skippable = available() < filler ? available() : filler;
             if (skippable == 0) {
                 break;
             }
             bufferStart = (bufferStart + skippable) % buffer.length;
-            bufferLength -= skippable;            
+            bufferLength -= skippable;
 
             skipped += skippable;
         }
@@ -425,53 +408,43 @@ public class ESRIInputStream extends InputStream
     /**
      * Returns the document header as a byte array.
      */
-    byte[] getDocumentHeader()
-        throws IOException
-    {
-        return encode("<?xml version=\"1.0\"?>" +
-                      "<map xsi:type=\"sp:Composite\" " + 
-                      rootAttributes + ">");
+    byte[] getDocumentHeader() throws IOException {
+        return encode("<?xml version=\"1.0\"?>"
+                + "<map xsi:type=\"sp:Composite\" " + rootAttributes + ">");
     }
 
     /**
      * Returns the as a byte array.
      */
-    byte[] getDocumentFooter()
-        throws IOException
-    {
+    byte[] getDocumentFooter() throws IOException {
         return encode("</map>");
     }
 
     /**
      * Encodes the provided String.
-     *
+     * 
      * @param string string to encode.
      */
-    static byte[] encode(String string) throws IOException
-    {
+    static byte[] encode(String string) throws IOException {
         return string.getBytes(encoding);
     }
-        
 
     /**
      * Test main function.
-     *
+     * 
      * @param argv argv[0] = shapeURL, argv[1] = dbUrl
-     */    
-    public static void main(String argv[])
-    {
+     */
+    public static void main(String argv[]) {
         String usage = "Usage: java ESRIInputStream shapeUrl dbUrl";
 
-        if (argv.length < 1 || 
-            argv.length > 2) {
+        if (argv.length < 1 || argv.length > 2) {
             System.err.println(usage);
             System.exit(1);
         }
-        
+
         try {
-            ESRIInputStream xmlStream = new ESRIInputStream(new URL(argv[0]), 
-                                                            argv.length > 1 ? 
-                                                            new URL(argv[1]) : null);
+            ESRIInputStream xmlStream = new ESRIInputStream(new URL(argv[0]),
+                    argv.length > 1 ? new URL(argv[1]) : null);
 
             boolean testSingular = false;
             if (testSingular) {
@@ -479,12 +452,12 @@ public class ESRIInputStream extends InputStream
                     System.out.write(i);
                 }
             }
-            
+
             boolean testMultiple = false;
             if (testMultiple) {
                 java.util.Random random = new java.util.Random();
-                
-                while(true) {
+
+                while (true) {
                     int n = random.nextInt() % 4096;
                     if (n < 0) {
                         n = -n;
@@ -495,15 +468,15 @@ public class ESRIInputStream extends InputStream
                         break;
                     }
                     System.err.println(n + " " + read);
-                    System.out.write(b, 0, read);                
+                    System.out.write(b, 0, read);
                 }
             }
 
             boolean testSkip = false;
             if (testSkip) {
                 java.util.Random random = new java.util.Random();
-                
-                while(true) {
+
+                while (true) {
                     int n = random.nextInt() % 4096;
                     if (n < 0) {
                         n = -n;
@@ -515,21 +488,20 @@ public class ESRIInputStream extends InputStream
                     System.err.println(n + " " + skipped);
                 }
             }
-            
+
             System.out.println();
         } catch (Exception e) {
             System.err.println(e.getMessage());
             e.printStackTrace();
             System.exit(1);
-        }        
+        }
     }
 }
 
 /**
  * Represents the header of an ESRI file
  */
-class ESRIShapefileHeader
-{
+class ESRIShapefileHeader {
     /**
      * Code of the file.
      */
@@ -548,7 +520,7 @@ class ESRIShapefileHeader
     /**
      * Shape type in this file.
      */
-    int shapetype; 
+    int shapetype;
 
     /**
      * X min of bounding box.
@@ -592,20 +564,18 @@ class ESRIShapefileHeader
 
     /**
      * Creates a new header from the provided stream.
-     */    
-    public ESRIShapefileHeader(InputStream stream) throws IOException
-    {
+     */
+    public ESRIShapefileHeader(InputStream stream) throws IOException {
         // Read the header:
-        ByteBuffer buffer = ByteBuffer.wrap(new byte[9*4 + 8*8]);
+        ByteBuffer buffer = ByteBuffer.wrap(new byte[9 * 4 + 8 * 8]);
         ESRIShapeFactory.readStream(stream, buffer);
-
 
         // The first two are bigendian...
         buffer.order(ByteOrder.BIG_ENDIAN);
         code = buffer.getInt();
         // Skip unused values
         buffer.position(buffer.position() + (5 * 4));
-        fileln = buffer.getInt();        
+        fileln = buffer.getInt();
         // ...and the rest of the header is littleendian, yay!
         buffer.order(ByteOrder.LITTLE_ENDIAN);
         version = buffer.getInt();
@@ -617,116 +587,95 @@ class ESRIShapefileHeader
         zmin = buffer.getDouble();
         zmax = buffer.getDouble();
         mmin = buffer.getDouble();
-        mmax = buffer.getDouble();        
+        mmax = buffer.getDouble();
     }
 
     /**
      * Returns the file code.
      */
-    public int getFileCode()
-    {
+    public int getFileCode() {
         return code;
     }
 
     /**
      * Returns the file length.
      */
-    public int getFileLength()
-    {
+    public int getFileLength() {
         return fileln;
     }
 
     /**
      * Returns the ESRI version.
      */
-    public int getVersion()
-    {
+    public int getVersion() {
         return version;
     }
 
     /**
      * Returns the type of shapes stored in the file.
      */
-    public int getShapeType()
-    {
+    public int getShapeType() {
         return shapetype;
     }
 
     /**
-     * Returns the X min of the bounding box of all shapes in this
-     * file.
+     * Returns the X min of the bounding box of all shapes in this file.
      */
-    public double getXmin()
-    {
+    public double getXmin() {
         return xmin;
     }
 
     /**
-     * Returns the X max of the bounding box of all shapes in this
-     * file.
+     * Returns the X max of the bounding box of all shapes in this file.
      */
-    public double getXmax()
-    {
+    public double getXmax() {
         return xmax;
     }
 
     /**
-     * Returns the Y min of the bounding box of all shapes in this
-     * file.
+     * Returns the Y min of the bounding box of all shapes in this file.
      */
-    public double getYmin()
-    {
+    public double getYmin() {
         return ymin;
     }
 
     /**
-     * Returns the Y max of the bounding box of all shapes in this
-     * file.
+     * Returns the Y max of the bounding box of all shapes in this file.
      */
-    public double getYmax()
-    {
+    public double getYmax() {
         return ymax;
     }
 
     /**
-     * Returns the Z min of the bounding box of all shapes in this
-     * file.
+     * Returns the Z min of the bounding box of all shapes in this file.
      */
-    public double getZmin()
-    {
+    public double getZmin() {
         return zmin;
     }
 
     /**
-     * Returns the Z Max of the bounding box of all shapes in this
-     * file.
+     * Returns the Z Max of the bounding box of all shapes in this file.
      */
-    public double getZmax()
-    {
+    public double getZmax() {
         return zmax;
     }
 
     /**
-     * Returns the M min of the bounding box of all shapes in this
-     * file.
+     * Returns the M min of the bounding box of all shapes in this file.
      */
-    public double getMmin()
-    {
+    public double getMmin() {
         return mmin;
     }
 
     /**
-     * Returns the M max of the bounding box of all shapes in this
-     * file.
+     * Returns the M max of the bounding box of all shapes in this file.
      */
-    public double getMmax()
-    {
+    public double getMmax() {
         return mmax;
     }
 }
 
-class ESRIShapeFactory
-{
+class ESRIShapeFactory {
     /**
      * Table containing streamers for different shape types.
      */
@@ -755,10 +704,10 @@ class ESRIShapeFactory
     /**
      * Buffer holding the last read shape record prefix.
      */
-    ByteBuffer inBuffer = ByteBuffer.wrap(new byte[2*4]);
+    ByteBuffer inBuffer = ByteBuffer.wrap(new byte[2 * 4]);
 
     /**
-     * Last shape index read. 
+     * Last shape index read.
      */
     int lastIndex = -1;
 
@@ -774,99 +723,92 @@ class ESRIShapeFactory
 
     /**
      * Creates a new factory
+     * 
      * @param stream stream to read esri from.
      */
-    public ESRIShapeFactory(InputStream stream) throws IOException
-    {
+    public ESRIShapeFactory(InputStream stream) throws IOException {
         streamers = new ESRIRecordStreamer[32];
         registerStreamer(new ESRINullShapeStreamer());
         registerStreamer(new ESRIPolygonStreamer());
-        
+
         ESRIShapefileHeader header = new ESRIShapefileHeader(stream);
         streamer = streamers[header.getShapeType()];
     }
 
     /**
      * Registers a new streamer.
-     *
+     * 
      * @param streamer the new streamer
      */
-    public void registerStreamer(ESRIRecordStreamer streamer)
-    {
+    public void registerStreamer(ESRIRecordStreamer streamer) {
         try {
             streamers[streamer.getType()] = streamer;
         } catch (IndexOutOfBoundsException e) {
-            throw new AssertionError("Unsupported shape type registred: " + streamer.getType());
+            throw new AssertionError("Unsupported shape type registred: "
+                    + streamer.getType());
         }
     }
 
     /**
      * Sets the db of this factory
-     *
+     * 
      * @param db the db to use.
      */
-    public void setDB(ESRIDBF db)
-    {
+    public void setDB(ESRIDBF db) {
         this.db = db;
     }
 
     /**
      * Returns the db of this factory or null if none
      */
-    public ESRIDBF getDB()
-    {
+    public ESRIDBF getDB() {
         return this.db;
     }
 
     /**
      * Sets processing of a specific part.
-     *
+     * 
      * @param part the part to process
      */
-    public void setPart(String part)
-    {
+    public void setPart(String part) {
         this.streamer.setPart(part);
     }
 
     /**
      * Sets processing of a specific shape.
-     *
+     * 
      * @param shape the shape to process
      */
-    public void setShape(String shape)
-    {
-        this.shape = shape;        
+    public void setShape(String shape) {
+        this.shape = shape;
     }
 
     /**
      * Returns the specific part to process or null if none.
      */
-    public String getPart()
-    {
+    public String getPart() {
         return this.part;
     }
 
     /**
      * Returns the specific shape to process or null if none.
      */
-    public String getShape()
-    {
+    public String getShape() {
         return this.shape;
     }
 
     /**
      * Fills provided array-backed buffer with data from stream.
-     *
+     * 
      * @param stream stream to read from.
-     * @param buffer buffer to read from, note that buffer.hasArray()
-     * have to be true.
+     * @param buffer buffer to read from, note that buffer.hasArray() have to be true.
      */
-    static int readStream(InputStream stream, ByteBuffer buffer) 
-        throws IOException
-    {
+    static int readStream(InputStream stream, ByteBuffer buffer)
+            throws IOException {
         int i = 0;
         while (i < buffer.array().length) {
-            int read = stream.read(buffer.array(), i, buffer.array().length - i);
+            int read = stream
+                    .read(buffer.array(), i, buffer.array().length - i);
             if (read == -1) {
                 return read;
             } else {
@@ -879,17 +821,15 @@ class ESRIShapeFactory
 
     /**
      * Fills provided array-backed buffer with data from stream.
-     *
+     * 
      * @param stream stream to read from.
-     * @param buffer buffer to read from, note that buffer.hasArray()
-     * have to be true.
+     * @param buffer buffer to read from, note that buffer.hasArray() have to be true.
      * @param n number of bytes to read
      */
-    static int readStream(InputStream stream, ByteBuffer buffer, int n) 
-        throws IOException
-    {
+    static int readStream(InputStream stream, ByteBuffer buffer, int n)
+            throws IOException {
         int i = 0;
-        while(i < n) {
+        while (i < n) {
             int read = stream.read(buffer.array(), i, n - i);
             if (read == -1) {
                 return read;
@@ -903,21 +843,17 @@ class ESRIShapeFactory
 
     /**
      * Skips requested number of bytes in stream
-     *
+     * 
      * @param stream stream to skip in.
      * @param skip number of bytes to skip.
      */
-    static long skipStream(InputStream stream, long skip) 
-        throws IOException
-    {
+    static long skipStream(InputStream stream, long skip) throws IOException {
         int skipped = 0;
 
-        for(; skipped != skip; skipped += stream.skip(skip - skipped));
+        for (; skipped != skip; skipped += stream.skip(skip - skipped));
 
         return skipped;
     }
-
-
 
 //     int a = 0;
 //     public byte[] getNextAtom(InputStream stream) throws IOException
@@ -929,16 +865,14 @@ class ESRIShapeFactory
 //         }
 //     }
 
-
     /**
      * Returns a byte representation of the next atom.
      * 
      * @param stream the stream to read esri data from.
      */
-    public byte[] getNextAtom(InputStream stream) throws IOException
-    {
+    public byte[] getNextAtom(InputStream stream) throws IOException {
         if (inShape) {
-            byte[] res =  streamer.nextAtom(stream);
+            byte[] res = streamer.nextAtom(stream);
             if (res != null) {
                 return res;
             } else {
@@ -963,21 +897,21 @@ class ESRIShapeFactory
                     // Not full read.
                     throw new IOException("Incomplete ESRI record");
                 }
-                
+
                 // Check count, note that esri count records from 1:
                 if (inBuffer.getInt(0) != (lastIndex + 1) + 1) {
-                    throw new IOException("Error: Non-sequential " + 
-                                          "records found in ESRI input.");
+                    throw new IOException("Error: Non-sequential "
+                            + "records found in ESRI input.");
                 }
                 this.lastIndex = inBuffer.getInt(0) - 1;
 
                 // Create name for this shape, either from db or from sequence number.
-                identifier = db != null ? db.getShapeName(inBuffer.getInt(0) - 1) : 
-                    Integer.toString(inBuffer.getInt(0));
+                identifier = db != null ? db
+                        .getShapeName(inBuffer.getInt(0) - 1) : Integer
+                        .toString(inBuffer.getInt(0));
 
                 // If specific shape set and this is not it, skip it.
-                if (getShape() == null ||
-                    getShape().equals(identifier)) {
+                if (getShape() == null || getShape().equals(identifier)) {
                     break;
                 } else {
                     // Length in 16-bit words.
@@ -998,28 +932,24 @@ class ESRIShapeFactory
 /**
  * Interface specifing capabilities of shapestreamers.
  */
-interface ESRIRecordStreamer
-{
+interface ESRIRecordStreamer {
     /**
      * Prepares streamer for a new shape.
-     *
+     * 
      * @param stream stream to read esri from.
      * @param tag tag to use, or null for default.
      * @param identifier identifier to use, or null for default.
      */
-    public abstract void newShape(InputStream stream, 
-                                    String tag, String identifier) 
-        throws IOException;
+    public abstract void newShape(InputStream stream, String tag,
+            String identifier) throws IOException;
 
     /**
-     * Returns the next atom of the current shape, or null if current
-     * shape is finished.
-     *
+     * Returns the next atom of the current shape, or null if current shape is finished.
+     * 
      * @param stream stream to read esri from.
      */
-    public abstract byte[] nextAtom(InputStream stream)
-        throws  IOException;
-    
+    public abstract byte[] nextAtom(InputStream stream) throws IOException;
+
     /**
      * Returns the type this streamer handles.
      */
@@ -1027,7 +957,7 @@ interface ESRIRecordStreamer
 
     /**
      * Sets the processing of just a specific part of the record.
-     *
+     * 
      * @param part the identifier of the part to process.
      */
     public abstract void setPart(String part);
@@ -1036,8 +966,7 @@ interface ESRIRecordStreamer
 /**
  * Base class for most shapestreamers.
  */
-abstract class DefaultShapeStreamer implements ESRIRecordStreamer
-{
+abstract class DefaultShapeStreamer implements ESRIRecordStreamer {
 
     /**
      * The part to process, or null if none.
@@ -1046,23 +975,20 @@ abstract class DefaultShapeStreamer implements ESRIRecordStreamer
 
     /**
      * Prepares streamer for a new shape.
-     *
+     * 
      * @param stream stream to read esri from.
      * @param tag tag to use, or null for default.
      * @param identifier identifier to use, or null for default.
      */
-    public abstract void newShape(InputStream stream, 
-                                    String tag, String identifier) 
-        throws IOException;
+    public abstract void newShape(InputStream stream, String tag,
+            String identifier) throws IOException;
 
     /**
-     * Returns the next atom of the current shape, or null if current
-     * shape is finished.
-     *
+     * Returns the next atom of the current shape, or null if current shape is finished.
+     * 
      * @param stream stream to read esri from.
      */
-    public abstract byte[] nextAtom(InputStream stream)
-        throws  IOException;
+    public abstract byte[] nextAtom(InputStream stream) throws IOException;
 
     /**
      * Returns the type this streamer handles.
@@ -1076,106 +1002,89 @@ abstract class DefaultShapeStreamer implements ESRIRecordStreamer
 
     /**
      * Returns the header of the xml element to the provided stream.
-     *
+     * 
      * @param tag the tag to use.
      * @param identifier the identifier to use, or null if none.
      */
-    byte[] encodeShapeHeader(String tag, String identifier) 
-        throws IOException
-    {
-        return ESRIInputStream.encode("<" + tag +
-                                      (getXMLType() != null ? " xsi:type=\"" + getXMLType() + "\"" : "") +
-                                      (identifier != null ? " identifier=\"" + identifier + "\"" : "") +
-                                      ">");
+    byte[] encodeShapeHeader(String tag, String identifier) throws IOException {
+        return ESRIInputStream.encode("<"
+                + tag
+                + (getXMLType() != null ? " xsi:type=\"" + getXMLType() + "\""
+                        : "")
+                + (identifier != null ? " identifier=\"" + identifier + "\""
+                        : "") + ">");
     }
 
     /**
      * Sets the processing of just a specific part of the record.
-     *
+     * 
      * @param part the identifier of the part to process.
      */
-    public void setPart(String part)
-    {
+    public void setPart(String part) {
         this.part = part;
     }
 
     /**
-     * Returns the identifier of the part set for processing or null
-     * if none.
+     * Returns the identifier of the part set for processing or null if none.
      */
-    public String getPart()
-    {
+    public String getPart() {
         return this.part;
     }
 
     /**
-     * Returns true if the streamer should process a part with the
-     * supplied identifier.
-     *
+     * Returns true if the streamer should process a part with the supplied identifier.
+     * 
      * @param identifier
      */
-    boolean isPartEnabled(String identifier)
-    {
+    boolean isPartEnabled(String identifier) {
         return getPart() == null || getPart().equals(identifier);
     }
 }
 
-
 /**
  * Methods for the null shape.
  */
-class ESRINullShapeStreamer implements ESRIRecordStreamer
-{
+class ESRINullShapeStreamer implements ESRIRecordStreamer {
     /**
      * The type identifier of the null shape.
      */
     static int type = 0;
- 
+
     /**
      * Creates a new ESRINullShapeStreamer
      */
-    public ESRINullShapeStreamer()
-    {
-    }
+    public ESRINullShapeStreamer() {}
 
     /**
      * Returns the type this streamer handles.
      */
-    public int getType() 
-    {
+    public int getType() {
         return type;
     }
 
     /**
      * Sets the part this streamer handles, does nothing.
-     *
+     * 
      * @param string ignored string.
      */
-    public void setPart(String string) 
-    {
-    }
+    public void setPart(String string) {}
 
     /**
      * Prepares streamer for a new shape.
-     *
+     * 
      * @param stream stream to read esri from.
      * @param tag tag to use, or null for default.
      * @param identifier identifier to use, or null for default.
      */
-    public void newShape(InputStream stream, 
-                         String tag, String identifier) 
-        throws IOException
-    {}
+    public void newShape(InputStream stream, String tag, String identifier)
+            throws IOException {}
 
     /**
-     * Returns the next atom of the current shape, or null if current
-     * shape is finished. Always returns null.
-     *
+     * Returns the next atom of the current shape, or null if current shape is finished. Always returns null.
+     * 
      * @param stream stream to read esri from.
      */
-    public byte[] nextAtom(InputStream stream)
-        throws  IOException
-    {
+    public byte[] nextAtom(InputStream stream) throws IOException {
         return null;
     }
 }
@@ -1183,8 +1092,7 @@ class ESRINullShapeStreamer implements ESRIRecordStreamer
 /**
  * Class containing methods for streaming ESRIPoints
  */
-class ESRIPolygonStreamer extends DefaultShapeStreamer
-{
+class ESRIPolygonStreamer extends DefaultShapeStreamer {
     /**
      * Polygons type identifier.
      */
@@ -1193,7 +1101,7 @@ class ESRIPolygonStreamer extends DefaultShapeStreamer
     /**
      * The array used to read in header data.
      */
-    ByteBuffer buffer = ByteBuffer.wrap(new byte[1*4 + 4*8 + 2*4]);
+    ByteBuffer buffer = ByteBuffer.wrap(new byte[1 * 4 + 4 * 8 + 2 * 4]);
 
     /**
      * Current point index.
@@ -1238,7 +1146,7 @@ class ESRIPolygonStreamer extends DefaultShapeStreamer
     /**
      * Buffer containig the current point.
      */
-    ByteBuffer pointBuffer = ByteBuffer.wrap(new byte[2*8]);
+    ByteBuffer pointBuffer = ByteBuffer.wrap(new byte[2 * 8]);
 
     /**
      * Current parts first x coordinate.
@@ -1283,23 +1191,20 @@ class ESRIPolygonStreamer extends DefaultShapeStreamer
     /**
      * Creates a new ESRIPolygonStreamer.
      */
-    public ESRIPolygonStreamer() throws IOException
-    {
+    public ESRIPolygonStreamer() throws IOException {
         buffer.order(ByteOrder.LITTLE_ENDIAN);
         pointBuffer.order(ByteOrder.LITTLE_ENDIAN);
     }
 
     /**
      * Prepares streamer for a new shape.
-     *
+     * 
      * @param stream stream to read esri from.
      * @param tag tag to use, or null for default.
      * @param identifier identifier to use, or null for default.
      */
-    public void newShape(InputStream stream, 
-                         String tag, String identifier) 
-        throws IOException
-    {
+    public void newShape(InputStream stream, String tag, String identifier)
+            throws IOException {
         this.pointIndex = 0;
         this.partIndex = 0;
         this.identifier = identifier;
@@ -1316,7 +1221,7 @@ class ESRIPolygonStreamer extends DefaultShapeStreamer
         if (buffer.getInt(0) != type) {
             throw new IOException("Malformed Polygon found.");
         }
-        
+
         // Get num part and points.
         this.numParts = buffer.getInt(36);
         this.numPoints = buffer.getInt(40);
@@ -1328,18 +1233,15 @@ class ESRIPolygonStreamer extends DefaultShapeStreamer
         ESRIShapeFactory.readStream(stream, parts, numParts * 4);
         // Put stop index for last part into parts.
         parts.putInt(4 * numParts, numPoints);
-        //System.err.println("Shape: " + identifier + " numParts: " + numParts + " numPoints: " + numPoints);
+        // System.err.println("Shape: " + identifier + " numParts: " + numParts + " numPoints: " + numPoints);
     }
 
     /**
-     * Returns the next atom of the current shape, or null if current
-     * shape is finished. Always returns null.
-     *
+     * Returns the next atom of the current shape, or null if current shape is finished. Always returns null.
+     * 
      * @param stream stream to read esri from.
      */
-    public byte[] nextAtom(InputStream stream)
-        throws  IOException
-    {
+    public byte[] nextAtom(InputStream stream) throws IOException {
         if (!shapeHeaderDone) {
             shapeHeaderDone = true;
             return encodeShapeHeader(tag, identifier);
@@ -1347,19 +1249,22 @@ class ESRIPolygonStreamer extends DefaultShapeStreamer
             // Process parts.
             if (!inPart) {
                 // Skip while parts left and current part not enabled.
-                while (partIndex < numParts && 
-                       !isPartEnabled(Integer.toString(partIndex + 1))) {
-                    currentPoints = parts.getInt((partIndex + 1) * 4) - parts.getInt(partIndex * 4);
+                while (partIndex < numParts
+                        && !isPartEnabled(Integer.toString(partIndex + 1))) {
+                    currentPoints = parts.getInt((partIndex + 1) * 4)
+                            - parts.getInt(partIndex * 4);
                     ESRIShapeFactory.skipStream(stream, currentPoints * 2 * 8);
                     partIndex++;
                 }
-                if (partIndex < numParts &&                     
-                    isPartEnabled(Integer.toString(partIndex + 1))) {
+                if (partIndex < numParts
+                        && isPartEnabled(Integer.toString(partIndex + 1))) {
                     // Header
-                    currentPoints = parts.getInt((partIndex + 1) * 4) - parts.getInt(partIndex * 4);
+                    currentPoints = parts.getInt((partIndex + 1) * 4)
+                            - parts.getInt(partIndex * 4);
                     pointIndex = 0;
                     if (currentPoints < 3) {
-                        throw new IOException("Illegal polygon using less than 3 points found.");
+                        throw new IOException(
+                                "Illegal polygon using less than 3 points found.");
                     }
 
                     inPart = true;
@@ -1372,7 +1277,7 @@ class ESRIPolygonStreamer extends DefaultShapeStreamer
                         return nextAtom(stream);
                     } else {
                         return encodePartHeader(Integer.toString(partIndex + 1));
-                    }                    
+                    }
                 } else {
                     // No matching part found.
                     return null;
@@ -1398,12 +1303,11 @@ class ESRIPolygonStreamer extends DefaultShapeStreamer
                         ESRIShapeFactory.readStream(stream, pointBuffer);
                         x = pointBuffer.getDouble(0);
                         y = pointBuffer.getDouble(8);
-                    } while (pointIndex < currentPoints &&
-                             prevX == x &&
-                             prevY == y);
+                    } while (pointIndex < currentPoints && prevX == x
+                            && prevY == y);
 
                     if (pointIndex < currentPoints) {
-                        byte[] res = encodeLine(Integer.toString(pointIndex - 1), 
+                        byte[] res = encodeLine(Integer.toString(pointIndex - 1),
                                                 prevX, prevY, x, y);
                         prevX = x;
                         prevY = y;
@@ -1412,14 +1316,14 @@ class ESRIPolygonStreamer extends DefaultShapeStreamer
                         // No points left, recursively take care of end of part.
                         return nextAtom(stream);
                     }
-                } else if (pointIndex == currentPoints &&
-                           prevX != firstX &&
-                           prevY != firstY) {
-                    //If the last point was not same as the first, tie polygon together:                    
-                    // Make check condition false.                    
-                    byte res[] = encodeLine(Integer.toString(pointIndex - 1), prevX, prevY, firstX, firstY);
+                } else if (pointIndex == currentPoints && prevX != firstX
+                        && prevY != firstY) {
+                    // If the last point was not same as the first, tie polygon together:
+                    // Make check condition false.
+                    byte res[] = encodeLine(Integer.toString(pointIndex - 1),
+                                            prevX, prevY, firstX, firstY);
                     pointIndex++;
-                    return res;                    
+                    return res;
                 } else {
                     // Finished, mark part as ended and return end tag.
                     partIndex++;
@@ -1443,48 +1347,43 @@ class ESRIPolygonStreamer extends DefaultShapeStreamer
 
     /**
      * Encodes a line from (x1,y1) -> (x2, y2).
-     *
+     * 
      * @param identifier the identifier of the line.
      * @param x1 starting x coordinate
      * @param y1 starting y coordinate
      * @param x2 ending x coordinate
      * @param y2 ending y coordinate
      */
-    byte[] encodeLine(String identifier, double x1, double y1, double x2, double y2) throws IOException
-    {
-          return ESRIInputStream.encode("<curves xsi:type=\"sp:Line\" identifier=\"" + identifier + "\">" +
-                                        "<p1><lat>" + y1 + "</lat><lon>" + x1 + "</lon></p1>" +
-                                        "<p2><lat>" + y2 + "</lat><lon>" + x2 + "</lon></p2>" +
-                                        "</curves>");
+    byte[] encodeLine(String identifier, double x1, double y1, double x2,
+            double y2) throws IOException {
+        return ESRIInputStream
+                .encode("<curves xsi:type=\"sp:Line\" identifier=\""
+                        + identifier + "\">" + "<p1><lat>" + y1 + "</lat><lon>"
+                        + x1 + "</lon></p1>" + "<p2><lat>" + y2 + "</lat><lon>"
+                        + x2 + "</lon></p2>" + "</curves>");
     }
 
     /**
      * Encodes a part header.
-     *
+     * 
      * @param identifier the identifier of the header.
      */
-    byte[] encodePartHeader(String partIdentifier) throws IOException
-    {
-        return ESRIInputStream.encode("<shapes xsi:type=\"sp:Polygon\"" + 
-                                      " identifier=\"" + partIdentifier + 
-                                      "\">");
+    byte[] encodePartHeader(String partIdentifier) throws IOException {
+        return ESRIInputStream.encode("<shapes xsi:type=\"sp:Polygon\""
+                + " identifier=\"" + partIdentifier + "\">");
     }
-
-    
 
     /**
      * Returns the type this streamer handles.
      */
-    public int getType() 
-    {
+    public int getType() {
         return type;
     }
 
     /**
      * Returns the type this streamer handles.
      */
-    public String getXMLType() 
-    {
+    public String getXMLType() {
         if (numParts == 1) {
             return "sp:Polygon";
         } else {
@@ -1494,14 +1393,12 @@ class ESRIPolygonStreamer extends DefaultShapeStreamer
 }
 
 /**
- * A class representing the DBase file specified in the ESRI
- * Specification.
- *
+ * A class representing the DBase file specified in the ESRI Specification.
+ * 
  * @version 1, $Date: 2006/09/18 09:58:02 $
- * @author  Daniel Ahlin
+ * @author Daniel Ahlin
  */
-class ESRIDBF
-{
+class ESRIDBF {
     /**
      * Field regex where we expect to get the name of the shape.
      */
@@ -1524,15 +1421,13 @@ class ESRIDBF
 
     /**
      * Tries to read a ESRIDBFile from the provided stream
-     *
+     * 
      * @param stream
      */
-    ESRIDBF(InputStream stream) throws ESRIDBFileException, 
-                                       IOException
-    {
+    ESRIDBF(InputStream stream) throws ESRIDBFileException, IOException {
         try {
             DBFReader reader = new DBFReader(stream);
-            
+
             // Find and index the name of the fields.
             for (int i = 0; i < reader.getFieldCount(); i++) {
                 DBFField field = reader.getField(i);
@@ -1542,7 +1437,7 @@ class ESRIDBF
             // Read all records at this point. This may be a waste of
             // memory, but on the other hand it allows us to ensure
             // that any error caused by the dbfile itself is triggered
-            // here.  Note that this assumes concordance with the ESRI
+            // here. Note that this assumes concordance with the ESRI
             // Specification stating that records must appear in the
             // same order as the shape features they describe.
             for (int i = 0; i < reader.getRecordCount(); i++) {
@@ -1555,7 +1450,7 @@ class ESRIDBF
             } else {
                 nameField = null;
             }
-            
+
         } catch (DBFException e) {
             throw new ESRIDBFileException("Error reading ESRI database");
         }
@@ -1563,32 +1458,28 @@ class ESRIDBF
 
     /**
      * Returns the specified field of the specified record.
-     *
+     * 
      * @param field the name of the field to get
      * @param recordIndex the index of the record to get
      */
-    public Object getValue(String field, int recordIndex) 
-        throws ESRIDBNoSuchFieldException
-    {
+    public Object getValue(String field, int recordIndex)
+            throws ESRIDBNoSuchFieldException {
         Object[] record = getRecord(recordIndex);
         if (record != null) {
-            return  record[getFieldIndex(field)];
+            return record[getFieldIndex(field)];
         } else {
             return null;
         }
     }
-    
+
     /**
-     * Returns the index of the specified field, or -1 if no such
-     * field exists.
-     *
+     * Returns the index of the specified field, or -1 if no such field exists.
+     * 
      * @param name the name of the field to get.
      */
-    public int getFieldIndex(String name)
-        throws ESRIDBNoSuchFieldException
-    {
+    public int getFieldIndex(String name) throws ESRIDBNoSuchFieldException {
         Integer index = this.fieldNames.get(name);
-        if (index == null) {            
+        if (index == null) {
             throw new ESRIDBNoSuchFieldException();
         } else {
             return index.intValue();
@@ -1597,11 +1488,10 @@ class ESRIDBF
 
     /**
      * Returns the fieldnames matching the provided regular expression.
-     *
+     * 
      * @param regex the regex to match.
      */
-    public Vector<String> getMatchingFieldNames(String regex)
-    {
+    public Vector<String> getMatchingFieldNames(String regex) {
         Vector<String> res = new Vector<String>();
 
         for (Enumeration<String> e = fieldNames.keys(); e.hasMoreElements();) {
@@ -1616,27 +1506,24 @@ class ESRIDBF
 
     /**
      * Fetches a record from the database.
-     *
+     * 
      * @param record, the record to get.
      */
-    public Object[] getRecord(int record)
-    {
+    public Object[] getRecord(int record) {
         if (record < records.size()) {
             return (Object[]) this.records.get(record);
         } else {
             return null;
         }
-    }   
+    }
 
     /**
-     * Creates a name for the specified shape by first looking in the
-     * db-file, if it exists, failing that creates a string
-     * representation of the index.
-     *
+     * Creates a name for the specified shape by first looking in the db-file, if it exists, failing that creates a string representation of
+     * the index.
+     * 
      * @param index the index of the shape.
      */
-    String getShapeName(int index) 
-    {
+    String getShapeName(int index) {
         try {
             // If namefield exist, try to get proper name.
             if (nameField != null) {
@@ -1646,20 +1533,18 @@ class ESRIDBF
                 }
             }
         } catch (ESRIDBNoSuchFieldException e) {
-                // Don't care to much if not succesfull.
-            }       
-        // Failed to return db-filename create fallback name;        
+            // Don't care to much if not succesfull.
+        }
+        // Failed to return db-filename create fallback name;
         return Integer.toString(index);
     }
 
     /**
-     * Washes strings into lexical conformance with Taclan V2
-     * identifiers.
-     *
+     * Washes strings into lexical conformance with Taclan V2 identifiers.
+     * 
      * @param string the string to wash.
      */
-    private String washShapeName(String string)
-    {
+    private String washShapeName(String string) {
         String res = string.replaceAll("'", "\'");
         res = res.replaceAll("\n", "\\n");
         res = res.replaceAll("[^\\p{L}]*\\z", "");
@@ -1669,50 +1554,44 @@ class ESRIDBF
     }
 }
 
-
 /**
  * Represents an error reading an ESRI DBase file.
- *
+ * 
  * @version 1, $Date: 2006/09/18 09:58:02 $
- * @author  Daniel Ahlin
+ * @author Daniel Ahlin
  */
-class ESRIDBFileException extends Exception
-{
+class ESRIDBFileException extends Exception {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = -8995527486325297510L;
+    private static final long serialVersionUID = -8995527486325297510L;
 
-	/**
+    /**
      * Creates a new ESRIDBFileException with the provided message.
-     *
-     * @param message a description of the condition causing the
-     * error.
+     * 
+     * @param message a description of the condition causing the error.
      */
-    ESRIDBFileException(String message)
-    {
+    ESRIDBFileException(String message) {
         super(message);
     }
 }
 
 /**
  * Represents the nonexistance of a field .
- *
+ * 
  * @version 1, $Date: 2006/09/18 09:58:02 $
- * @author  Daniel Ahlin
+ * @author Daniel Ahlin
  */
-class ESRIDBNoSuchFieldException extends Exception
-{
+class ESRIDBNoSuchFieldException extends Exception {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = -2894180699843602170L;
+    private static final long serialVersionUID = -2894180699843602170L;
 
-	/**
+    /**
      * Creates a new ESRIDBNoSuchFieldException
      */
-    ESRIDBNoSuchFieldException()
-    {
+    ESRIDBNoSuchFieldException() {
         super();
     }
 }

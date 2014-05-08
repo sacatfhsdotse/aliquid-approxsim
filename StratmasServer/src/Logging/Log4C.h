@@ -2,6 +2,8 @@
 #define STRATMAS_LOG4C_H
 
 #include <string>
+#include <functional>
+#include <sstream>
 #include <boost/filesystem.hpp>
 #include <log4cxx/logger.h>
 
@@ -17,6 +19,15 @@
 #define LOG_WARN(logger, expression) LOG4CXX_WARN(logger, _LOG_LOCATION << expression)
 #define LOG_ERROR(logger, expression) LOG4CXX_ERROR(logger, _LOG_LOCATION << expression)
 #define LOG_FATAL(logger, expression) LOG4CXX_FATAL(logger, expression)
+
+#define TO_STRING(logger, toprint) \
+    std::stringstream ss; \
+    toprint.print(ss); \
+    LOG_FATAL(logger, ss.str()) 
+    
+#define TO_STRING(logger, toprint, level) \
+    std::stringstream ss; \
+    toprint.print(ss); level(logger, ss.str())
 
 class Log4C {
 public:
@@ -49,6 +60,9 @@ public:
          LOG_INFO(logger, message->getMessage())
      }
 };
+
+void run_n_log (log4cxx::LoggerPtr logger, std::function<void (std::ostream&)> p);
+void run_n_log (log4cxx::LoggerPtr logger, std::function<void (std::ostream&)> p, char level);
 
 extern log4cxx::LoggerPtr agenciesLog, dataManagementLog, debugLog, geoLog, networkLog, 
        pvLog, simulationObjectsLog, taclanLog, stratmasLog;

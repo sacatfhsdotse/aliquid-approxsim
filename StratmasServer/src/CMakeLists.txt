@@ -4,7 +4,7 @@ FILE (GLOB_RECURSE project_SRCS *.cpp *.cxx *.cc *.C *.c)
 FILE (GLOB_RECURSE project_HEADERS *.h *.hpp)
 
 # but remove files to not compile/link with the rest:
-FILE (GLOB_RECURSE glob_remove s_subst.c file2h.cpp GridCellPV.cpp XMLHelper.cpp)
+FILE (GLOB_RECURSE glob_remove s_subst.c file2h.cpp GridCellPV.cpp)
 LIST(REMOVE_ITEM project_SRCS ${glob_remove})
 
 # more vars.

@@ -12,6 +12,7 @@
 // Own
 #include "Time2.h"
 #include "StrX.h"
+#include "Graph.h"
 
 using namespace std;
 
@@ -40,48 +41,50 @@ private:
       * Private default constructor since this class should not be
       * instantiated.
       */
-     inline XMLHelper() {}
+     XMLHelper() {}
 
 public:
-     inline static std::string  nodeTypeToString(int i);
-     inline static std::string& removeNamespace(std::string &s);
-     inline static std::string  encodeSpecialCharacters(const std::string& s);
-     inline static std::string  encodeURLSpecialCharacters(const std::string& s);
-     inline static void         timeToDateTime(std::ostream& o, Time time);
-     inline static Time         dateTimeToTime(const std::string& dateTime);
+     static std::string  nodeTypeToString(int i);
+     static std::string& removeNamespace(std::string &s);
+     static std::string  encodeSpecialCharacters(const std::string& s);
+     static std::string  encodeURLSpecialCharacters(const std::string& s);
+     static void         timeToDateTime(std::ostream& o, Time time);
+     static Time         dateTimeToTime(const std::string& dateTime);
 
-     inline static std::ostream& base64Print(const int8_t* toEncode, int nBytesToEncode, std::ostream& o);
-     template <class T> inline static std::ostream& base64Print(const T* const toEncode, int numElements, bool swapByteOrder, std::ostream& o);
+     static std::ostream& base64Print(const int8_t* toEncode, int nBytesToEncode, std::ostream& o);
+     template <class T> static std::ostream& base64Print(const T* const toEncode, int numElements, bool swapByteOrder, std::ostream& o);
 
-     inline static const XMLCh* getXMLChString(const DOMElement &n, const char* tag);
-     inline static int          getIntAttribute(const DOMElement &n, const char *tag);
-     inline static double       getDoubleAttribute(const DOMElement &n, const char *tag);
-     inline static std::string  getStringAttribute(const DOMElement &n, const char *tag);
-     inline static std::string  getTypeAttribute(const DOMElement &n);
+     static const XMLCh* getXMLChString(const DOMElement &n, const char* tag);
+     static int          getIntAttribute(const DOMElement &n, const char *tag);
+     static double       getDoubleAttribute(const DOMElement &n, const char *tag);
+     static std::string  getStringAttribute(const DOMElement &n, const char *tag);
+     static std::string  getTypeAttribute(const DOMElement &n);
 
-     inline static bool         getBool(const DOMElement &n, const char *tag);
-     inline static double       getDouble(const DOMElement &n, const char *tag);
-     inline static int          getInt(const DOMElement &n, const char *tag);
-     inline static int64_t      getLongInt(const DOMElement &n, const char *tag);
-     inline static Shape*       getShape(const DOMElement &n, const char *tag, const Reference& scope);
-     inline static void         getString(const DOMElement &n, const char *tag, std::string &outStr);
-     inline static Time         getTime(const DOMElement &n, const char *tag);
+     static bool         getBool(const DOMElement &n, const char *tag);
+     static double       getDouble(const DOMElement &n, const char *tag);
+     static int          getInt(const DOMElement &n, const char *tag);
+     static int64_t      getLongInt(const DOMElement &n, const char *tag);
+     static Shape*       getShape(const DOMElement &n, const char *tag, const Reference& scope);
+     static void         getString(const DOMElement &n, const char *tag, std::string &outStr);
+     static Time         getTime(const DOMElement &n, const char *tag);
+     template<class T>
+     static Graph<T>*    getGraph(const DOMElement &n, const Reference& scope);
                                
-     inline static bool         getElementBoolValue(const DOMElement &n, const char *tag);
-     inline static int          getElementIntValue(const DOMElement &n, const char *tag);
-     inline static int64_t      getElementLongIntValue(const DOMElement &n, const char *tag);
-     inline static double       getElementDoubleValue(const DOMElement &n, const char *tag);
-     inline static void         getElementStringValue(const DOMElement &n, const char *tag, std::string &outStr);
-     inline static Time         getElementTimestampValue(const DOMElement &n, const char *tag);
+     static bool         getElementBoolValue(const DOMElement &n, const char *tag);
+     static int          getElementIntValue(const DOMElement &n, const char *tag);
+     static int64_t      getElementLongIntValue(const DOMElement &n, const char *tag);
+     static double       getElementDoubleValue(const DOMElement &n, const char *tag);
+     static void         getElementStringValue(const DOMElement &n, const char *tag, std::string &outStr);
+     static Time         getElementTimestampValue(const DOMElement &n, const char *tag);
                                
-     inline static Shape*       getShape(const DOMElement &n, const Reference& scope);
+     static Shape*       getShape(const DOMElement &n, const Reference& scope);
 
-     inline static DOMElement*  getFirstChildByTag(const DOMElement &n, const char *tag);
-     inline static DOMElement*  getFirstChildByTag(const DOMElement &n, const std::string& tag);
-     inline static void         getChildElementsByTag(const DOMElement &n,
+     static DOMElement*  getFirstChildByTag(const DOMElement &n, const char *tag);
+     static DOMElement*  getFirstChildByTag(const DOMElement &n, const std::string& tag);
+     static void         getChildElementsByTag(const DOMElement &n,
                                                       const char *tag,
                                                       std::vector<DOMElement*> &ioV);
-     inline static void         getChildElementsByTag(const DOMElement &n,
+     static void         getChildElementsByTag(const DOMElement &n,
                                                       const std::string& tag,
                                                       std::vector<DOMElement*> &ioV);
 };
@@ -190,8 +193,5 @@ public:
       */
      const Point& p2() const { return mP2; }
 };
-
-
-#include "XMLHelper.cpp"
 
 #endif   // STRATMAS_XMLHELPER_H

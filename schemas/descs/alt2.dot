@@ -1,0 +1,45 @@
+digraph alt2 {
+  layout=neato
+  overlap=false
+  pack=true
+  sep=0.1
+  splines=true
+  node [shape=record]
+
+  CommonScenario [label="{<c>CommonScenario|<members>...\lpath : PathGraph\lgraphs : EffectGraph}"]
+  PathGraph [label="{<c>PathGraph|<members>nodes : PathNode\ledges : PathEdge}"]
+  EffectGraph [label="{<c>EffectGraph|<members>nodes : EffectNode\ledges : EffectEdge\lconnected : Effect\ldisconnected : Effect}"]
+  Gr [label="{<c>abstract Graph|<members>}"]
+  No [label="{<c>abstract Node|<members>point : Point}"]
+  PathNode [label="{<c>PathNode|<members>}"]
+  EffectNode [label="{<c>EffectNode|<members>connected : Effect\ldisconnected : Effect}"]
+  Ed [label="{<c>abstract Edge|<members>origin : NodeReference\ltarget : NodeReference\lconnected : bool}"]
+  EffectEdge [label="{<c>EffectEdge|<members>connected : Effect\ldisconnected : Effect}"]
+  PathEdge [label="{<c>PathEdge|<members>travelSpeed : float}"]
+  Effect [label="{<c>Effect|<members>continuous : bool\l...}"]
+
+  edge [arrowhead=normal]
+
+  PathGraph:c -> Gr:c
+  EffectGraph:c -> Gr:c
+  PathNode:c -> No:c
+  EffectNode:c -> No:c
+  PathEdge:c -> Ed:c
+  EffectEdge:c -> Ed:c
+
+  edge [arrowhead=ediamond, headlabel="1", taillabel="1"]
+
+  PathGraph:c -> CommonScenario:members
+  EffectGraph:c -> CommonScenario:members [len=1.5,taillabel="0..*"]
+
+  PathNode:c -> PathGraph:members [taillabel="1..*"]
+  PathEdge:c -> PathGraph:members [taillabel="1..*"]
+
+  EffectNode:c -> EffectGraph:members [taillabel="1..*"]
+  EffectEdge:c -> EffectGraph:members [taillabel="1..*"]
+  Effect:c -> EffectGraph:members [taillabel="0..2"]
+
+  Effect:c -> EffectNode:members [taillabel="0..2"]
+
+  Effect:c -> EffectEdge:members [taillabel="0..2"]
+}

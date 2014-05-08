@@ -2,10 +2,9 @@ sp = "http://pdc.kth.se/stratmasNamespace"
 targetNamespace = "http://pdc.kth.se/stratmasNamespace">
 
 
-<!-- Description -->
-      A test schema for subscription functionality in Stratmas
+# A test schema for subscription functionality in Stratmas
 
-  <!-- Subscriptions -->
+<!-- Subscriptions -->
 
 abstract Subscription <id: int>
 
@@ -20,10 +19,10 @@ StratmasObjectSubscription < sp.Subscription {
 LayerSubscription < sp.Subscription {
   layer: string
   faction?: sp.Reference
-           <!-- Base64 encoded array of 32 bit integers representing
-                   the indices of the active cells that the subscription
-                   refers to. If not present - values for all cells will
-                be returned -->
+   <!-- Base64 encoded array of 32 bit integers representing
+        the indices of the active cells that the subscription
+        refers to. If not present - values for all cells will
+        be returned -->
   index?: base64Binary
 }
 RegionSubscription < sp.Subscription {
@@ -32,9 +31,9 @@ RegionSubscription < sp.Subscription {
 
 Unsubscription < sp.Subscription {}
 
-  <!-- Data for subscriptions -->
+<!-- Data for subscriptions -->
 
-abstract SubscripbedData <id: int>
+abstract SubscribedData <id: int>
 
 SubscribedAttributeData < sp.SubscribedData {
   value: sp.ValueType
@@ -45,9 +44,9 @@ SubscribedStratmasObjectData < sp.SubscribedData {
 }
 
 SubscribedLayerData < sp.SubscribedData {
-<!-- Base64 encoded array of doubles where the first element is the
-               top left active cell and the last element is the bottom right
-               active cell. -->
+  <!-- Base64 encoded array of doubles where the first element is the
+       top left active cell and the last element is the bottom right
+       active cell. -->
   layerData: base64Binary
 }
 

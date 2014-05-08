@@ -80,3 +80,34 @@ void Log4C::init(const boost::filesystem::path& config){
 
     atexit(Log4CexitHook);
 }
+
+void run_n_log(log4cxx::LoggerPtr logger, std::function<void (std::ostream&)> p){
+    std::stringstream ss;
+    p(ss);
+    LOG_FATAL(logger, ss.str());
+}
+
+void run_n_log(log4cxx::LoggerPtr logger, std::function<void (std::ostream&)> p, char level){
+    std::stringstream ss;
+    p(ss);
+    switch (level){
+        case 't':
+            LOG_TRACE(logger, ss.str());
+            break;
+        case 'd':
+            LOG_DEBUG(logger, ss.str());
+            break;
+        case 'i':
+            LOG_INFO(logger, ss.str());
+            break;
+        case 'w':
+            LOG_WARN(logger, ss.str());
+            break;
+        case 'e':
+            LOG_ERROR(logger, ss.str());
+            break;
+        case 'f':
+            LOG_FATAL(logger, ss.str());
+            break;
+    }
+}

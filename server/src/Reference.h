@@ -194,26 +194,4 @@ struct lessReferenceP {
      }
 };
 
-/**
- * \brief Function object used to create a hashcode for a
- * Reference. Needed by hash_map.
- *
- * \author   Per Alexius
- * \date     $Date: 2006/05/24 12:32:11 $
- */
-struct hashReferenceP {
-     /**
-      * \brief Produces a hashcode for the Reference pointed to by
-      * key. Since there may onbly be one Reference object for each
-      * reference the address will do.
-      *
-      * \param key Pointer to the Reference for which to create a
-      * hashcode.
-      * \return A hashcode for the specified Reference.
-      */
-     size_t operator()(const Reference *const key) const {
-          return reinterpret_cast<size_t>(key);
-     }
-};
-
 #endif   // _APPROXSIM_REFERENCE_H

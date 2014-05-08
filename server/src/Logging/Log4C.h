@@ -20,15 +20,6 @@
 #define LOG_ERROR(logger, expression) LOG4CXX_ERROR(logger, _LOG_LOCATION << expression)
 #define LOG_FATAL(logger, expression) LOG4CXX_FATAL(logger, expression)
 
-#define TO_STRING(logger, toprint) \
-    std::stringstream ss; \
-    toprint.print(ss); \
-    LOG_FATAL(logger, ss.str()) 
-    
-#define TO_STRING(logger, toprint, level) \
-    std::stringstream ss; \
-    toprint.print(ss); level(logger, ss.str())
-
 class Log4C {
 public:
     static void init(const boost::filesystem::path& config);

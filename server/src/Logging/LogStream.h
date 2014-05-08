@@ -125,7 +125,7 @@ public:
 };
 
 /**
- * \brief This class implements LogSink, suppresing output.
+ * \brief This class implements LogSink, suppressing output.
  *
  * \author   Daniel Ahlin
  * \date     $Date: 2006/07/25 14:52:00 $
@@ -139,7 +139,7 @@ public:
       * \brief Posts the provided message to the log stream
       *
       */
-     virtual void sink(const LogMessage* const message) const {}
+     virtual void sink(const LogMessage* const message) {}
  };
 
 /**

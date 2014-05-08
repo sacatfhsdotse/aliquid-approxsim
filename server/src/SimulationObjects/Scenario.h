@@ -81,9 +81,6 @@ private:
      /// An object containing various model parameters.
      ModelParameters* mModelParameters;
 
-     /// The factory used to create Agencies.
-     AgencyFactory* mAgencyFactory;
-
      /// Time when the Grid should be updated the next time.
      Time mNextGridUpdate;
 

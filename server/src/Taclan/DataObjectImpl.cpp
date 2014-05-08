@@ -956,6 +956,7 @@ template<class T>
 std::ostream& ApproxsimGraph<T>::bodyXML(std::ostream& o, std::string indent) const
 {
      // TODO
+     return o;
 }
 
 

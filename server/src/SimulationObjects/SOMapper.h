@@ -2,11 +2,7 @@
 #define _APPROXSIM_SOMAPPER_H
 
 // System
-#ifdef OS_WIN32
-#include <map>
-#else
-#include <ext/hash_map>
-#endif
+#include <unordered_map>
 #include <iosfwd>
 
 // Own
@@ -16,17 +12,7 @@
 class Buffer;
 class SimulationObject;
 
-#ifndef OS_WIN32
-namespace stdext = ::__gnu_cxx; 
-#endif
-
-
-#ifdef OS_WIN32
-typedef std::map<const Reference*, SimulationObject*, lessReferenceP> SOMap;
-#else
- typedef stdext::hash_map<const Reference*, SimulationObject*, hashReferenceP> SOMap;
-#endif
-
+typedef std::unordered_map<const Reference*, SimulationObject*> SOMap;
 
 /**
  * \brief This class is used to map References to their corresponding

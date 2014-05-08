@@ -3,10 +3,7 @@
 
 // System
 #include <map>
-#ifndef OS_WIN32
-#include <ext/hash_map>
-#endif
-
+#include <unordered_map>
 
 // Own
 #include "DataObject.h"
@@ -14,19 +11,7 @@
 #include "Error.h"
 #include "Reference.h"
 
-// Forward Declarations
-
-#ifndef OS_WIN32
-namespace stdext = ::__gnu_cxx; 
-#endif
-
-
-#ifdef OS_WIN32
-typedef std::map<const Reference*, DataObject*, lessReferenceP> MapType;
-#else
-typedef stdext::hash_map<const Reference*, DataObject*, hashReferenceP> MapType;
-#endif
-
+typedef std::unordered_map<const Reference*, DataObject*> MapType;
 
 /**
  * \brief This class is used to map References to their corresponding

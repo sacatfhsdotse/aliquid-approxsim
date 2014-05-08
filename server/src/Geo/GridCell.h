@@ -313,7 +313,7 @@ struct lessGridCellPtr {
       * false otherwise.
       */
      bool operator()(const GridCell* c1, const GridCell* c2) {
-          return (c1->row() < c2->row() || c1->row() == c2->row() && c1->col() < c2->col());
+          return (c1->row() < c2->row() || (c1->row() == c2->row() && c1->col() < c2->col()));
      }
 };
 

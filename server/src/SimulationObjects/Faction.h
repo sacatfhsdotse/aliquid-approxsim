@@ -2,8 +2,8 @@
 #define APPROXSIM_FACTION_H
 
 // System
-//#include <ext/hash_map>
-//#include <ext/hash_set>
+//#include <unordered_map>
+//#include <unordered_set>
 #include <map>
 #include <set>
 
@@ -16,9 +16,8 @@ class Faction;
 class Reference;
 
 // Type Definitions
-//namespace stdext = ::__gnu_cxx; 
-//typedef stdext::hash_set<const Reference*, hashReferenceP> RefSet;
-//typedef stdext::hash_map<const Reference*, Faction*, hashReferenceP> RefFactionMap;
+//typedef std::unordered_set<const Reference*> RefSet;
+//typedef std::unordered_map<const Reference*, Faction*> RefFactionMap;
 typedef std::set<const Reference*> RefSet;
 typedef std::map<const Reference*, Faction*> RefFactionMap;
 

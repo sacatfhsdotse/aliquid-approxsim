@@ -72,8 +72,9 @@ public:
       * \return True if this object is less than the provided object,
       * false otherwise.
       */
-     bool operator < (const UniqueTime &t) const { return (mTime < t.mTime ||
-                                                                   mTime == t.mTime && mId < t.mId); }
+     bool operator < (const UniqueTime &t) const {
+         return mTime < t.mTime || (mTime == t.mTime && mId < t.mId);
+     }
 };
 
 

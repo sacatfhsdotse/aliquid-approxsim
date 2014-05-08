@@ -79,6 +79,9 @@ public class GraphEdgeAdapter extends MapElementAdapter {
                         .getValue().resolve(element) , element);
         addNodeListener(((ApproxsimReference) element.getChild("target"))
                         .getValue().resolve(element) , element);
+        if(element.getType().canSubstitute("EffectEdge")){
+            lineColor = new Color(0.0f, 0.0f, 0.8f);
+        }
     }
 
     /**

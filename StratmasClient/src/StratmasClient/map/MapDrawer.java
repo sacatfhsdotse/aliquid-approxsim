@@ -348,8 +348,11 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
             if (submenu != null) {
                 menu.add(submenu);
             }
-            // get the submenu for the graph nodes
             submenu = menuCreator.getMenuForGraphNodes();
+            if (submenu != null) {
+                menu.add(submenu);
+            }
+            submenu = menuCreator.getMenuForGraphEdges();
             if (submenu != null) {
                 menu.add(submenu);
             }
@@ -402,9 +405,6 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
                     addMapDrawable(newlyCreatedObjectToBePlaced);
                     newlyCreatedObjectToBePlaced = null;
                 }
-                
-//                orig.getParent().add(clone);
-               
             }
             
             // show information of the pointed element

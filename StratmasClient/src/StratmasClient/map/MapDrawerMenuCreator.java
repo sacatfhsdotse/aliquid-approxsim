@@ -227,14 +227,16 @@ class MapDrawerMenuCreator {
                 true)).filter(drawer.mapElementsUnderCursor());
         
         if (!v.isEmpty()) {
-            submenu = new JMenu("Edit graph : ");
+            submenu = new JMenu("Edit node : ");
             JMenuItem item = new JMenuItem("Connect node");
             item.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
                     StratmasObject orig = v.get(0);
                     StratmasObject edge = StratmasObjectFactory.create(orig.getType().getTypeInformation().getType("PathEdge"));
+                    StratmasObject edges = orig.getParent().getParent().getChild("edges");
+                    
                     edge.setIdentifier("new edge");
-                    while(orig.getParent().getChild(edge.getIdentifier()) != null){
+                    while(edges.getChild(edge.getIdentifier()) != null){
                         int a = 0;
                         try{
                             a =Integer.parseInt(edge.getIdentifier().replace("new edge", ""));
@@ -243,7 +245,7 @@ class MapDrawerMenuCreator {
                     }
                     try {
                         ((StratmasReference) edge.getChild("origin")).valueFromString("nodes:"+orig.getIdentifier(), this);
-                        orig.getParent().add(edge);
+                        edges.add(edge);
                         drawer.placeObject(edge);
                     } catch (ParseException e) {
                         e.printStackTrace();
@@ -271,6 +273,38 @@ class MapDrawerMenuCreator {
                 }
             });
             submenu.add(item2);
+            
+            JMenuItem item3 = new JMenuItem("Delete node");
+            item3.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
+                    v.get(0).remove();
+                }
+            });
+            submenu.add(item3);
+        }
+        return submenu;
+    }
+    
+    /**
+     * Returns the submenu with all the graph edges at the location pointed by the mouse.
+     * 
+     * @return the submenu with the units.
+     */
+    protected JMenu getMenuForGraphEdges() {
+        JMenu submenu = null;
+        
+        final Vector<StratmasObject> v = (new TypeFilter(TypeFactory.getType("Edge"),
+                true)).filter(drawer.mapElementsUnderCursor());
+        
+        if (!v.isEmpty()) {
+            submenu = new JMenu("Edit edge : ");
+            JMenuItem item3 = new JMenuItem("Delete edge");
+            item3.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
+                    v.get(0).remove();
+                }
+            });
+            submenu.add(item3);
         }
         return submenu;
     }

@@ -401,6 +401,7 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
                             }else{
                                 JOptionPane.showMessageDialog(null, "It is invalid to connect nodes of different graphs", "User stupidity error",
                                                               JOptionPane.ERROR_MESSAGE);
+                                newlyCreatedObjectToBePlaced.remove();
                                 newlyCreatedObjectToBePlaced = null;
                             }
                         } catch (ParseException e1) {

@@ -76,7 +76,10 @@ template<class T>
 class Graph
 {
 private:
-    static std::map<std::string, Graph<T>*>& getSavedGraphs();
+    static std::map<std::string, Graph<T>*>& getSavedGraphs() {
+        static std::map<string, Graph<T>*> savedGraphs;
+        return savedGraphs;
+    }
     int numNodes;
     Node<T>* nodes;
     int numEdges;

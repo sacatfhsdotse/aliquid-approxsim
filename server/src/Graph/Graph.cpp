@@ -31,13 +31,6 @@ template<class T>
 Graph<T>* Graph<T>::getGraph(string identifier) {
     return Graph<T>::getSavedGraphs()[identifier];
 }
-
-template<class T>
-std::map<string, Graph<T>*>& Graph<T>::getSavedGraphs() {
-    static std::map<string, Graph<T>*> savedGraphs;
-    return savedGraphs;
-}
-
 template<class T>
 static double weight(const Node<T>& a, const Node<T>& b, double speed) {
     return a.pos.distanceTo(b.pos) / speed;

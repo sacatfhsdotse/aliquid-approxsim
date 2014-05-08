@@ -507,7 +507,7 @@
 						<value>true</value>
 					</isConnected>
 					<travelSpeed xsi:type="sp:Double">
-						<value>1.0</value>
+						<value>2.0</value>
 					</travelSpeed>
 				</edges>
 				<edges identifier="Osquars backe" xsi:type="sp:PathEdge">
@@ -551,7 +551,7 @@
 						<value>true</value>
 					</isConnected>
 					<travelSpeed xsi:type="sp:Double">
-						<value>1.0</value>
+						<value>2.0</value>
 					</travelSpeed>
 				</edges>
 				<edges identifier="Stockholm ??stra" xsi:type="sp:PathEdge">
@@ -595,7 +595,7 @@
 						<value>true</value>
 					</isConnected>
 					<travelSpeed xsi:type="sp:Double">
-						<value>1.0</value>
+						<value>2.0</value>
 					</travelSpeed>
 				</edges>
 				<edges identifier="Brinellv??gen" xsi:type="sp:PathEdge">
@@ -639,7 +639,7 @@
 						<value>true</value>
 					</isConnected>
 					<travelSpeed xsi:type="sp:Double">
-						<value>1.0</value>
+						<value>2.0</value>
 					</travelSpeed>
 				</edges>
 				<edges identifier="Drottningkristinas v??g fort" xsi:type="sp:PathEdge">
@@ -683,7 +683,7 @@
 						<value>true</value>
 					</isConnected>
 					<travelSpeed xsi:type="sp:Double">
-						<value>1.0</value>
+						<value>2.0</value>
 					</travelSpeed>
 				</edges>
 			</path>

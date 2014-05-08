@@ -760,20 +760,20 @@ void Unit::move()
 {
      double toTravelKm = mVelocity * Simulation::timestep().hoursd();
 
-     auto travelTowards = [&toTravelKm, this](LatLng goal) -> bool {
-          double vx = (goal.lng() - center().lng()) * mSqueeze;
-          double vy =  goal.lat() - center().lat();
-          if ((vx != 0.0) || (vy != 0.0)) {
+     auto travelTowards = [&toTravelKm, this](LatLng goal, double speedFactor) -> bool {
+          double dx = (goal.lng() - center().lng()) * mSqueeze;
+          double dy =  (goal.lat() - center().lat());
+          if ((dx != 0.0) || (dy != 0.0)) {
                mMoving = true;
-               double distanceKm = sqrt( vx*vx + vy*vy ) * kKmPerDegreeLat;
-               if (distanceKm > toTravelKm) {
-                    mLocation->move(vx * toTravelKm / distanceKm / mSqueeze, vy * toTravelKm / distanceKm);
+               double distanceKm = sqrt( dx*dx + dy*dy ) * kKmPerDegreeLat;
+               if (distanceKm > toTravelKm*speedFactor) {
+                    mLocation->move(dx * speedFactor * toTravelKm / distanceKm / mSqueeze, dy * speedFactor * toTravelKm / distanceKm);
                     toTravelKm = 0;
                     mSqueeze = cos(center().lat() * kDeg2Rad);
                     return false;
                } else {
-                    mLocation->move(vx * mSqueeze, vy);
-                    toTravelKm -= distanceKm;
+                    mLocation->move(dx * speedFactor * mSqueeze, dy * speedFactor);
+                    toTravelKm -= distanceKm/speedFactor;
                     mSqueeze = cos(center().lat() * kDeg2Rad);
                     return true;
                }
@@ -782,18 +782,18 @@ void Unit::move()
 
      while (toTravelKm > 0) {
           if (mNavPlan.path.size() == 0) {
-               if (travelTowards(mGoal->cenCoord())) {
+               if (travelTowards(mGoal->cenCoord(), 1)) {
                     setLocation(*mGoal);
                     mVelocity = 0;
                }
 
           } else if (mOnGraph) {
-               if (travelTowards(mNavPlan.path.front()->target->pos)) {
+               if (travelTowards(mNavPlan.path.front()->target->pos, mNavPlan.path.front()->content.travelSpeed)) {
                     mNavPlan.path.pop_front();
                }
 
           } else {
-               if (travelTowards(mNavPlan.path.front()->origin->pos)) {
+               if (travelTowards(mNavPlan.path.front()->origin->pos, 1)) {
                     mOnGraph = true;
                }
           }

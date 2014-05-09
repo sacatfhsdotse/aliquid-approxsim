@@ -146,7 +146,7 @@ void XMLHelper::timeToDateTime(ostream& o, Time time)
 #ifdef OS_WIN32
      _gmtime64_s(&ts, &sec);
 #else
-      gmtime_r(&sec, &ts);
+     gmtime_r(&sec, &ts);
 #endif
 
      ts.tm_year += 1900;
@@ -284,7 +284,7 @@ ostream& XMLHelper::base64Print(const int8_t* toEncode, int nBytesToEncode, ostr
      XMLSize_t encodedLength = 0;
      XMLByte* encoded = Base64::encode(reinterpret_cast<const XMLByte*>(toEncode),
                                        (const XMLSize_t)(nBytesToEncode / sizeof(XMLByte)), &encodedLength);
-     
+
      if(!encodedLength) {
           Error e;
           e << "Couldn't encode to base64";
@@ -437,11 +437,16 @@ double XMLHelper::getDouble(const DOMElement &n, const char *tag)
 
 Effect XMLHelper::getEffect(const DOMElement &n, const char *tag)
 {
-    DOMElement* elem = getFirstChildByTag(n, tag);
-    Effect e;
-    e.continuous = getElementBoolValue(*elem, "continuous");
-    e.radius = getElementDoubleValue(*elem, "radius");
-    return e;
+     DOMElement* elem = getFirstChildByTag(n, tag);
+     if (!elem) {
+          Error e;
+          e << "No '" << tag << "' tag in element " << StrX(n.getNodeName()).str();
+          throw e;
+     }
+     Effect e;
+     e.continuous = getElementBoolValue(*elem, "continuous");
+     e.radius = getElementDoubleValue(*elem, "radius");
+     return e;
 }
 
 /**
@@ -791,6 +796,7 @@ struct stringEdge {
 };
 
 template<class T> T getContent(const DOMElement* n);
+
 template<>
 PathData getContent<PathData>(const DOMElement* n)
 {
@@ -799,6 +805,7 @@ PathData getContent<PathData>(const DOMElement* n)
           return PathData {0};
      return PathData {XMLHelper::getDouble(*travelSpeed, "value")};
 }
+
 template<>
 EffectData getContent<EffectData>(const DOMElement* n)
 { 
@@ -816,6 +823,7 @@ template<class T> std::string getIdentifier(const DOMElement& n)
 {
      return XMLHelper::getStringAttribute(n, "identifier");
 }
+
 template<> std::string getIdentifier<PathData>(const DOMElement& n)
 {
      return "";
@@ -964,3 +972,5 @@ Line::Line(const DOMElement& n) : mId(XMLHelper::getStringAttribute(n, "identifi
      mP1.set(XMLHelper::getDouble(*p1, "lon"), XMLHelper::getDouble(*p1, "lat"));
      mP2.set(XMLHelper::getDouble(*p2, "lon"), XMLHelper::getDouble(*p2, "lat"));
 }
+
+// vim: set ts=5 sw=5 expandtab:

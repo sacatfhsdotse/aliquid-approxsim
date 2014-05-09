@@ -536,15 +536,9 @@ DataObjectList::DataObjectList(const Reference& scope, const Declaration& dec, c
 {
      vector<DOMElement*> v;
      XMLHelper::getChildElementsByTag(*n, identifier(), v);
-     if (getType().canSubstitute("ValueType")) {
-          for (vector<DOMElement*>::iterator it = v.begin(); it != v.end(); it++) {
-               add(DataObjectFactory::createDataObject(ref(), *it));
-          }
-     }
-     else {
-          for (vector<DOMElement*>::iterator it = v.begin(); it != v.end(); it++) {
-               add(new ComplexDataObject(ref(), *it));
-          }
+     for (vector<DOMElement*>::iterator it = v.begin(); it != v.end(); it++) {
+          string typeStr = XMLHelper::getTypeAttribute(**it);
+          add(DataObjectFactory::createDataObject(ref(), *it));
      }
 }
 

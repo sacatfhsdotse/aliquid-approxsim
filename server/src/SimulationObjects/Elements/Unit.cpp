@@ -778,8 +778,11 @@ void Unit::move()
                     return true;
                }
           }
+          // XXX missing return!!!
      };
 
+     // XXX This sometimes loops forever, presumably due to floating point
+     // imprecisions. It needs to break when goal is reached.
      while (toTravelKm > 0) {
           if (mNavPlan.path.size() == 0) {
                if (travelTowards(mGoal->cenCoord(), 1)) {

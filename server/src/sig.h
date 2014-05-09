@@ -133,6 +133,7 @@ void init_segv(handler h)
     else
         handler_segv = default_segv;
     INIT_SEGV;
+    INIT_ABRT;
 }
 
 void hook_errors()

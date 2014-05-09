@@ -1831,4 +1831,16 @@ public class MapDrawer extends BasicMapDrawer implements DragGestureListener,
             throw new IllegalStateException("newlyCreatedObjectToBePlaced already in use");
         }
     }
+    
+    @Override
+    public void displayPointedRegion(String regionName) {
+        super.displayPointedRegion(regionName);
+        if(newlyCreatedObjectToBePlaced != null){
+            if(newlyCreatedObjectToBePlaced.getType().canSubstitute("Edge")){
+                regionTextField.setText("Left click node to connect edge. " + regionTextField.getText());
+            }else if(newlyCreatedObjectToBePlaced.getType().canSubstitute("Node")){
+                regionTextField.setText("Left click map to place node. " + regionTextField.getText());
+            }
+        }
+    }
 }

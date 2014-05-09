@@ -762,24 +762,20 @@ void Unit::move()
 
      auto travelTowards = [&toTravelKm, this](LatLng goal, double speedFactor) -> bool {
           double dx = (goal.lng() - center().lng()) * mSqueeze;
-          double dy =  (goal.lat() - center().lat());
-          if ((dx != 0.0) || (dy != 0.0)) {
-               mMoving = true;
-               double distanceKm = sqrt( dx*dx + dy*dy ) * kKmPerDegreeLat;
-               if (distanceKm > toTravelKm*speedFactor) {
-                    mLocation->move(dx * speedFactor * toTravelKm / distanceKm / mSqueeze, dy * speedFactor * toTravelKm / distanceKm);
-                    toTravelKm = 0;
-                    mSqueeze = cos(center().lat() * kDeg2Rad);
-                    return false;
-               } else {
-                    mLocation->move(dx * speedFactor * mSqueeze, dy * speedFactor);
-                    toTravelKm -= distanceKm/speedFactor;
-                    mSqueeze = cos(center().lat() * kDeg2Rad);
-                    return true;
-               }
+          double dy = goal.lat() - center().lat();
+          mMoving = true;
+          double distanceKm = sqrt( dx*dx + dy*dy ) * kKmPerDegreeLat;
+          if (distanceKm > toTravelKm*speedFactor) {
+               mLocation->move(dx * speedFactor * toTravelKm / distanceKm / mSqueeze, dy * speedFactor * toTravelKm / distanceKm);
+               toTravelKm = 0;
+               mSqueeze = cos(center().lat() * kDeg2Rad);
+               return false;
+          } else {
+               mLocation->move(dx * speedFactor * mSqueeze, dy * speedFactor);
+               toTravelKm -= distanceKm/speedFactor;
+               mSqueeze = cos(center().lat() * kDeg2Rad);
+               return true;
           }
-          mMoving = false;
-          return true;
      };
 
      while (toTravelKm > 0) {

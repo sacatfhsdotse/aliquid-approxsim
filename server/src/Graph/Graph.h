@@ -5,6 +5,7 @@
 #include <map>
 #include <string>
 #include <memory>
+#include <vector>
 #include <list>
 #include <LatLng.h>
 #include <iostream>

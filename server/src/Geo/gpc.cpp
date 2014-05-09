@@ -9,7 +9,7 @@ Project:   Generic Polygon Clipper
 File:      gpc.c
 Author:    Alan Murta (email: gpc@cs.man.ac.uk)
 Version:   2.31
-Date:      4th June 1999
+Date:      4th June 1999 (minor modifications by jesajx on 9th May 2014)
 
 Copyright: (C) 1997-1999, Advanced Interfaces Group,
            University of Manchester.
@@ -1127,9 +1127,9 @@ void gpc_polygon_clip(gpc_op op, gpc_polygon *subj, gpc_polygon *clip,
   vertex_node   *vtx, *nv;
   h_state        horiz[2];
   int            in[2], exists[2], parity[2]= {LEFT, LEFT};
-  int            c, v, contributing, search, scanbeam= 0, sbt_entries= 0;
-  int            vclass, bl, br, tl, tr;
-  double        *sbt= NULL, xb, px, yb, yt, dy, ix, iy;
+  int            c, v, contributing= 0, search, scanbeam= 0, sbt_entries= 0;
+  int            vclass, bl= 0, br= 0, tl= 0, tr= 0;
+  double        *sbt= NULL, xb, px, yb, yt= 0.0, dy= 0.0, ix, iy;
 
   /* Test for trivial NULL result cases */
   if (((subj->num_contours == 0) && (clip->num_contours == 0))
@@ -1773,16 +1773,16 @@ void gpc_tristrip_clip(gpc_op op, gpc_polygon *subj, gpc_polygon *clip,
   sb_tree       *sbtree= NULL;
   it_node       *it= NULL, *intersect;
   edge_node     *edge, *prev_edge, *next_edge, *succ_edge, *e0, *e1;
-  edge_node     *aet= NULL, *c_heap= NULL, *s_heap= NULL, *cf;
+  edge_node     *aet= NULL, *c_heap= NULL, *s_heap= NULL, *cf= NULL;
   lmt_node      *lmt= NULL, *local_min;
   polygon_node  *tlist= NULL, *tn, *tnn, *p, *q;
   vertex_node   *lt, *ltn, *rt, *rtn;
   h_state        horiz[2];
-  vertex_type    cft;
+  vertex_type    cft= NUL;
   int            in[2], exists[2], parity[2]= {LEFT, LEFT};
-  int            s, v, contributing, search, scanbeam= 0, sbt_entries= 0;
-  int            vclass, bl, br, tl, tr;
-  double        *sbt= NULL, xb, px, nx, yb, yt, dy, ix, iy;
+  int            s, v, contributing= 0, search, scanbeam= 0, sbt_entries= 0;
+  int            vclass, bl= 0, br= 0, tl= 0.0, tr= 0;
+  double        *sbt= NULL, xb, px, nx, yb, yt= 0.0, dy= 0.0, ix, iy;
 
   /* Test for trivial NULL result cases */
   if (((subj->num_contours == 0) && (clip->num_contours == 0))

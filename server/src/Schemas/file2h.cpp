@@ -23,8 +23,8 @@ int main(int argc, char** argv)
      int i;
      int c;
      int bytecount = 0;
-     char* preamble;
-     char* postamble;
+     const char* preamble;
+     const char* postamble;
 
 
      if (argc > 0) { 

@@ -771,7 +771,7 @@ void Unit::move()
                mSqueeze = cos(center().lat() * kDeg2Rad);
                return false;
           } else {
-               mLocation->move(dx * speedFactor * mSqueeze, dy * speedFactor);
+               mLocation->move(dx * mSqueeze, dy);
                toTravelKm -= distanceKm/speedFactor;
                mSqueeze = cos(center().lat() * kDeg2Rad);
                return true;

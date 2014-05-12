@@ -3,7 +3,7 @@
  1.) Prerequisites
  2.) Building
  3.) Installing
- 4.) Contributing
+ 4.) Common build errors
  
 == 1. PREREQUISITES ==
 
@@ -49,3 +49,6 @@
 == 3. INSTALLING ==
 
  Once the project has been built (see "BUILDING"), execute "sudo make install".
+
+== 4. Common build errors ==
+  apr-1 is named apr-1.[number] in debian systems. Simply symlink /usr/lib/apr-1.[number] to /usr/lib/apr-1

@@ -47,7 +47,7 @@ int main(int argc, char **argv)
 {
      // Note that Environment::initEnvironment(argc, argv); is
      // expected to be called first in main.
-     std::cout << "\n    A P P R O X I M A T E\n    -Crisis Sim\n\n";
+     std::cout << "\n    A P P R O X S I M\n    -Crisis Sim\n\n";
      Environment::initEnvironment(argc, argv);
 
      // Initialize logging

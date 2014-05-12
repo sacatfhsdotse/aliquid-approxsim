@@ -15,7 +15,7 @@ SET (APPLICATION_VENDOR_NAME "Försvarshögskolan")
 SET (APPLICATION_VENDOR_URL "_")
 
 option(TESTS "Enable tests build" OFF)
-option(DEBUG "Enable program extra debug output" ON)
+option(DEBUG "Enable program extra debug output" OFF)
 option(STATIC "Static linking" OFF)
 option(STATIC_FORCED "Force static linking" OFF)
 

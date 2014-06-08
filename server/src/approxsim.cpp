@@ -4,8 +4,6 @@
  * \brief This file contains the main function of the ApproxsimServer.
  */
 
-#include "sig.h"
-
 // System
 #include <fstream>
 #include <iostream>
@@ -52,8 +50,6 @@ int main(int argc, char **argv)
 
      // Initialize logging
      Log4C::init(Environment::getInstallDir() / "/log4.xml");
-
-     segvcatch::hook_errors(); // (sorry)
 
      // Set timezone to UTC (for XMLHelper)
      initTimeZone();
